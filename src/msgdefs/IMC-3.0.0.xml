@@ -1,0 +1,3865 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   + Copyright (C) 2007-2009 Laboratório de Sistemas e Tecnologia Subaquática   +
+   + Departamento de Engenharia Electrotécnica e de Computadores                +
+   + Rua Dr. Roberto Frias, 4200-465 Porto, Portugal                            +
+   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  -->
+
+<messages name="IMC" long-name="Inter Module Communication" version="3.0.0" creation="09/10/2009"
+          author="Ricardo Martins, Paulo Sousa Dias, Eduardo Marques, José Pinto"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="Messages.xsd">
+  
+  <description><![CDATA[
+    <p align="justify">
+      This document describes the communications protocol associated
+      with the USTL software framework. Concepts such
+      as <i>message</i>, <i>field</i> and <i>packet</i> are explained
+      in detail in the subsequent chapters.
+    </p>
+    
+    <p align="justify">
+      Inter module communication is achieved by the exchange of messages
+      that can be recognized and interpreted by all participating modules.
+      A message is a self-contained collection of data fields conveying
+      relevant information about a given subject.  The mean by which the
+      messages are exchanged is not described in this document, but the
+      reader can assume that at least the UDP Internet protocol is
+      available at all ends of the communications channel. 
+    </p>
+
+    <p align="justify">
+      The Neptus Command and Control Unit (CCU), currently being
+      used at USTL, supports mission planning and control, using the
+      described messaging API. This software entity can be used to
+      plan a mission before execution and monitor the mission's
+      execution by presenting an operating console. For further
+      details on this software contact the USTL. 
+    </p>
+    
+    <p align="justify">
+      A CCU exercises authority over a vehicle (real or
+      simulated). Usually this term is applied to software in the
+      class of USTL Neptus, but can also be applied to software
+      modules extending the vehicle core control software.
+    </p>
+    
+    <p align="justify">
+      The USTL reserves itself the right to use message
+      identification numbers up to 1999. Thus if a 3<sup>rd</sup>
+      party needs to extend this API it must use identification
+      numbers starting at 2000. The identification number 65535
+      has a special meaning and must not be used to extend the IMC
+      protocol.
+    </p>
+    ]]></description>
+  <types>
+    <description>
+      Messages and packets can be viewed as a finite collection of
+      fields. The list of valid field types is presented below.
+    </description>
+    <type name="int8_t" size="1">
+      <description>
+        8 bit signed integer.
+      </description>
+    </type>
+    <type name="uint8_t" size="1">
+      <description>
+        8 bit unsigned integer.
+      </description>
+    </type>
+    <type name="int16_t" size="2">
+      <description>
+        16 bit signed integer.
+      </description>
+    </type>
+    <type name="uint16_t" size="2">
+      <description>
+        16 bit unsigned integer.
+      </description>
+    </type>
+    <type name="int32_t" size="4">
+      <description>
+        32 bit signed integer.
+      </description>
+    </type>
+    <type name="uint32_t" size="4">
+      <description>
+        32 bit unsigned integer.
+      </description>
+    </type>
+    <type name="int64_t" size="8">
+      <description>A 64 bit signed integer</description>
+    </type>
+    <type name="fp32_t" size="4">
+      <description>
+        32 bit single precision floating point number in IEEE 754 format.
+      </description>
+    </type>
+    <type name="fp64_t" size="8">
+      <description>
+        64 bit double precision floating point number in IEEE 754 format.
+      </description>
+    </type>
+    <type name="rawdata">
+      <description>
+        Variable length byte stream.
+      </description>
+    </type>
+    <type name="plaintext">
+      <description>
+        Variable length ASCII character stream.
+      </description>
+    </type>
+    <type name="message">
+      <description>
+        An inline message. Useful for encapsulating other messages.
+      </description>
+    </type>
+  </types>
+  <serialization>
+    <description>
+      To ensure accurate transportation some field types may require
+      special treatment on transmission and reception. The operation
+      of preparing a field type for transmission is called
+      serialization, the inverse action is called deserialization. No
+      special serialization is required for types that are not
+      described in the table below, their values should be used as is.
+    </description>
+    <type name="rawdata">
+      <description><![CDATA[
+        A sequence of type <i>rawdata</i> is serialized by prepending
+        a value of type <i>uint16_t</i>, representing the length of
+        the sequence, to the stream of bytes. On deserialization the
+        prepended value is used to retrieve the correct size of data bytes.
+         The <i>rawdata</i> type length is limited only by
+        the communication protocol in use.
+        ]]></description>
+    </type>
+    <type name="plaintext">
+      <description><![CDATA[
+        A sequence of type <i>plaintext</i> is serialized by
+        prepending a value of type <i>uint16_t</i>, representing the
+        length of the sequence, to the stream of ASCII characters. On
+        deserialization the prepended value is used to retrieve the
+        correct ASCII character sequence size. The <i>plaintext</i> type
+        length is limited only by the communication protocol in use.
+        ]]></description>
+    </type>
+    <type name="message">
+      <description><![CDATA[
+        A field of type <i>message</i> is serialized by prepending
+        a value of type <i>uint16_t</i>, representing the
+        identification number of the message, to the serialized
+        message payload. The special identification number 65535 must
+        be used when no message is present. On deserialization the
+        prepended value is used to retrieve the correct message
+        identification number. The <i>message</i> type length is
+        limited only by the communication protocol in use.
+        ]]></description>
+    </type>
+  </serialization>
+  <units>
+    <description>
+      The following table lists the units used in the subsequent
+      chapters.
+    </description>
+    <unit abbrev="byte" name="Byte"/>
+    <unit abbrev="MiB" name="MiByte"/>
+    <unit abbrev="mS/cm" name="Millisiemens per centimeter"/>
+    <unit abbrev="ºC" name="Degree Celsius"/>
+    <unit abbrev="Pa" name="Pascal"/>
+    <unit abbrev="PSU" name="Pratical Salinity Unit"/>
+    <unit abbrev="A" name="Ampere"/>
+    <unit abbrev="V" name="Volt"/>
+    <unit abbrev="º" name="Degree"/>
+    <unit abbrev="rad" name="Radian"/>
+    <unit abbrev="rad/s" name="Radian per second"/>
+    <unit abbrev="m" name="Meter"/>
+    <unit abbrev="m/s" name="Meter per second"/>
+    <unit abbrev="m/s/s" name="Meter per second^2"/>
+    <unit abbrev="s" name="Second"/>
+    <unit abbrev="ms" name="Millisecond"/>
+    <unit abbrev="rpm" name="Rotations per minute"/>
+    <unit abbrev="dB" name="Decibel"/>
+    <unit abbrev="dB/m" name="Decibel per meter"/>
+    <unit abbrev="dBHz" name="Decibel per hertz"/>
+    <unit abbrev="Hz" name="Hertz"/>
+    <unit abbrev="hPa" name="Hectopascal"/>
+    <unit abbrev="%" name="Percent"/>
+    <unit abbrev="Enumerated" name="Enumeration of integer values"/>
+    <unit abbrev="Bitmask" name="Value bitmask"/>
+    <unit abbrev="TupleList" name="List of key/value tuples">
+      <description>
+        This unit is a list of label/value tuples and is only valid in
+        plaintext fields. The label and value portions of a tuple are
+        separated using the equal sign (=) and tuples are separated
+        using the semicolon character (;). These delimiting characters
+        must not be used elsewhere. Leading and trailing semicolons
+        must be removed.
+        Examples: "label1=12;label2=3" or "label1=12" or "label1=test_2".
+      </description>
+    </unit>
+  </units>
+  <flags>
+  	<flag abbrev="periodic" name="Periodic"/>
+  </flags>
+  <header>
+    <description>
+      The packet header contains handling information in the form of
+      supplemental fields, it is always placed at the beginning of a
+      packet.
+    </description>
+    <field name="Synchronization Number" abbrev="sync" type="uint16_t" value="0xB66B" fixed="true">
+      <description><![CDATA[
+        The synchronization number marks the beginning of a
+        packet. It denotes the packet API version and can be used to
+        deduce the byte order of the sending host.<br/> The packet
+        recipient is responsible for the correct interpretation of
+        the synchronization number and byte order conversions.
+        ]]></description>
+    </field>
+    <field name="Message Identification Number" abbrev="mgid" type="uint16_t">
+      <description>
+        The identification number of the message contained in the
+        packet. This field is used for correct message
+        interpretation and deserialization.
+      </description>
+    </field>
+    <field name="Message size" abbrev="size" type="uint16_t" unit="byte">
+      <description>
+        The size of the message data in the packet. The maximum allowed value is 65535.
+      </description>
+    </field>
+    <field name="Time stamp" abbrev="time" type="fp64_t" unit="s" note="Correct interpretation of this field may require synchronization of clocks between sender and recipient">
+      <description>
+        The time when the packet was sent, as seen by the
+        packet dispatcher. The number of seconds is represented in 
+        Universal Coordinated Time (UCT) in seconds since Jan 1, 1970
+        using IEEE double precision floating point numbers.
+      </description>
+    </field>
+    <field name="Source Address" abbrev="src" type="uint16_t">
+      <description>
+        The Source IMC system ID.
+      </description>
+    </field>
+    <field name="Destination Address" abbrev="dst" type="uint16_t">
+      <description>
+        The Destination IMC system ID.
+      </description>
+    </field>
+  </header>
+  <footer>
+    <description>
+      The packet footer contains validation information in the form of
+      supplemental fields, it is always placed at the end of a
+      packet.
+    </description>
+    <field name="Check Sum (CRC-16-IBM)" abbrev="crc16" type="uint16_t">
+      <description>
+        The check sum field is computed using the CRC-16-IBM with
+        polynomial 0x8005 (x^16 + x^15 + x^2 + 1). The data
+        contributing for the CRC includes all preceding header and
+        message bytes.
+      </description>
+    </field>
+  </footer>
+  <groups>
+    <group name="Core Messages" abbrev="CoreMsgs" min="0" max="49"/>
+    <group name="Network Control Messages" abbrev="NetControlMsgs" min="60" max="99"/>
+    <group name="Sensors Messages" abbrev="SensorsMsgs" min="100" max="199"/>
+    <group name="Actuation Messages" abbrev="ActuationMsgs" min="200" max="299"/>
+    <group name="Navigation Messages" abbrev="NavigationMsgs" min="300" max="399"/>
+    <group name="Guidance Messages" abbrev="GuidanceMsgs" min="400" max="499"/>
+    <group name="Maneuvers Messages" abbrev="ManeuversMsgs" min="500" max="599"/>
+    <group name="Vehicle Supervisor Messages" abbrev="VehicleSupervisorMsgs" min="600" max="699"/>
+    <group name="Mission Supervisor Messages" abbrev="MissionSupervisorMsgs" min="700" max="799"/>
+    <group name="Acoustic Networking Messages" abbrev="AcousticNetMsgs" min="800" max="899"/>
+    <group name="DUNE's Internal Messages" abbrev="DUNEInternalMsgs" min="900" max="999"/>
+    <group name="CCU Messages" abbrev="CCUMsgs" min="1000" max="1099"/>
+    <group name="Reserved" abbrev="Reserved" min="1100" max="1900"/>
+    <group name="Temporary and Debugging Messages" abbrev="TemporaryDebuggingMsgs" min="1900" max="1999"/>
+    <group name="Custom" abbrev="CustomMsgs" min="2000" max="65534"/>
+  </groups>
+  <!--
+     Core
+    -->
+  <message id="0" name="Heartbeat" abbrev="Heartbeat" source="vehicle,ccu" used-by="lauv,uav" flags="periodic">
+    <description>
+      The Heartbeat message is used to inform other modules that the
+      sending entity's system is running normally and communications
+      are alive.
+    </description>
+  </message>
+  <message id="1" name="Abort" abbrev="Abort" source="ccu" used-by="lauv,uav">
+    <description>
+      Stops the mission and put the system in a stand by mode.
+    </description>
+    <field type="uint8_t" name="Source" abbrev="source" unit="Enumerated" prefix="ABORT_SRC">
+      <description>The source of the abort request</description>
+      <enum id="0" name="Human (CCU)" abbrev="CCU"/>
+      <enum id="1" name="Human (LBL)" abbrev="LBL"/>
+      <enum id="2" name="Internal Abort" abbrev="INTERNAL"/>
+    </field>
+  </message>
+  <message id="2" name="Joystick" abbrev="Joystick" source="ccu" used-by="lauv,uav" flags="periodic">
+    <description><![CDATA[
+    Message normally used for teleoperation (unconstrained
+    maneuver). This message transmits the state of one (identified)
+    joystick. The next field descriptions are made for a standard
+    joystick but this message can be used by different devices,
+    mapping the message fields differently.
+    <br/>
+    <table align="center">
+      <tr>
+        <td>
+          <center><img src="joystick.jpg"/></center>
+          <hr/>
+          <p><i>Figure 2 - Joystick axis</i></p>
+        </td>
+      </tr>
+    </table>
+    <br/> 
+    ]]></description>
+    <field name="Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the joystick that has generated the message.
+      </description>
+    </field>
+    <field name="Axis 0 x" abbrev="axis0x" type="fp32_t" min="-1" max="1">
+      <description>
+        State of the main "directional analogic button" in the
+        horizontal axis. The values are between -1 (total left) and 1
+        (total right).
+      </description>
+    </field>
+    <field name="Axis 0 y" abbrev="axis0y" type="fp32_t" min="-1" max="1">
+      <description>
+        State of the main "directional analogic button" in the
+        vertical axis. The values are between -1 (total down) and 1
+        (total up).
+      </description>
+    </field>
+    <field name="Axis 1 x" abbrev="axis1x" type="fp32_t" min="-1" max="1">
+      <description>
+        State of the secondary "directional analogic button" in the
+        horizontal axis. The values are between -1 (total left) and 1
+        (total right).
+      </description>
+    </field>
+    <field name="Axis 1 y" abbrev="axis1y" type="fp32_t" min="-1" max="1">
+      <description>
+        State of the secondary "directional analogic button" in the
+        vertical axis. The values are between -1 (total down) and 1
+        (total up). 
+      </description>
+    </field>
+    <field name="Axis 2 Angle" abbrev="axis2angle" type="fp32_t" unit="rad">
+      <description>
+        State of the "digital directional button". If not pressed the
+        value is -1. If pressed the field gives the direction of the
+        button in radians (between 0 and 2PI).
+      </description>
+    </field>
+    <field name="Analog Command" abbrev="analogic_cmd" type="fp32_t" min="-1" max="1">
+      <description>
+        State of the "analogic button". The values are between -1
+        (none power) and 1 (total power), 0 is the middle.
+      </description>
+    </field>
+    <field name="Pressed Buttons" abbrev="buttons" unit="Bitmask" type="uint32_t" prefix="JS">
+      <description>
+        Each bit of this field represents a button, so we can have up
+        to 32. The less significant bit represents the button 1
+        (0x00000001 == button 1 pressed).
+      </description>
+      <bitmask id="0x00000001" abbrev="BTN1" name="Button #1"/>
+      <bitmask id="0x00000002" abbrev="BTN2" name="Button #2"/>
+      <bitmask id="0x00000004" abbrev="BTN3" name="Button #3"/>
+      <bitmask id="0x00000008" abbrev="BTN4" name="Button #4"/>
+      <bitmask id="0x00000010" abbrev="BTN5" name="Button #5"/>
+      <bitmask id="0x00000020" abbrev="BTN6" name="Button #6"/>
+      <bitmask id="0x00000040" abbrev="BTN7" name="Button #7"/>
+      <bitmask id="0x00000080" abbrev="BTN8" name="Button #8"/>
+      <bitmask id="0x00000100" abbrev="BTN9" name="Button #9"/>
+      <bitmask id="0x00000200" abbrev="BTN10" name="Button #10"/>
+      <bitmask id="0x00000400" abbrev="BTN11" name="Button #11"/>
+      <bitmask id="0x00000800" abbrev="BTN12" name="Button #12"/>
+      <bitmask id="0x00001000" abbrev="BTN13" name="Button #13"/>
+      <bitmask id="0x00002000" abbrev="BTN14" name="Button #14"/>
+      <bitmask id="0x00004000" abbrev="BTN15" name="Button #15"/>
+      <bitmask id="0x00008000" abbrev="BTN16" name="Button #16"/>
+      <bitmask id="0x00010000" abbrev="BTN17" name="Button #17"/>
+      <bitmask id="0x00020000" abbrev="BTN18" name="Button #18"/>
+      <bitmask id="0x00040000" abbrev="BTN19" name="Button #19"/>
+      <bitmask id="0x00080000" abbrev="BTN20" name="Button #20"/>
+      <bitmask id="0x00100000" abbrev="BTN21" name="Button #21"/>
+      <bitmask id="0x00200000" abbrev="BTN22" name="Button #22"/>
+      <bitmask id="0x00400000" abbrev="BTN23" name="Button #23"/>
+      <bitmask id="0x00800000" abbrev="BTN24" name="Button #24"/>
+      <bitmask id="0x01000000" abbrev="BTN25" name="Button #25"/>
+      <bitmask id="0x02000000" abbrev="BTN26" name="Button #26"/>
+      <bitmask id="0x04000000" abbrev="BTN27" name="Button #27"/>
+      <bitmask id="0x08000000" abbrev="BTN28" name="Button #28"/>
+      <bitmask id="0x10000000" abbrev="BTN29" name="Button #29"/>
+      <bitmask id="0x20000000" abbrev="BTN30" name="Button #30"/>
+      <bitmask id="0x40000000" abbrev="BTN31" name="Button #31"/>
+      <bitmask id="0x80000000" abbrev="BTN32" name="Button #32"/>
+    </field>
+  </message>
+  <message id="3" name="Estimated State" abbrev="EstimatedState" source="vehicle" used-by="lauv,uav,swordfish" flags="periodic">
+    <description><![CDATA[ This message presents the state of the vehicle.
+        Depending on the Reference Mode value the position may be given as one of the following: <ul>
+        <li>A single absolute Lat/Lon/Depth point</li>
+        <li>North/East/Down offsets from the vehicle's current reference point</li>
+        <li>Both fields, being the offsets computed using the Lat/Lon/Depth sent as the reference point</li>
+      </ul>
+      <br/>
+      The body-fixed reference frame and Euler angles are depicted next:
+
+      <table align="center">
+        <tr>
+          <td>
+            <center><img src="euler-lauv.png"/></center>
+            <hr/>
+            <p><i>Figure 3 - Euler angles</i></p>
+          </td>
+        </tr>
+      </table>
+      <br/><br/>
+      ]]></description>
+    <field name="Reference Mode" abbrev="ref" type="uint8_t" unit="Enumerated" prefix="RM">
+      <description>
+        Reference Mode field indicates which position related fields
+        have meaningful values.
+      </description>
+      <enum id="0" name="NED only" abbrev="NED_ONLY">
+        <description>
+          Only fields x, y, z have meaningful values. The absolute location
+          is computed using the vehicle's home reference point.
+        </description>
+      </enum>
+      <enum id="1" name="Lat/Lon/Depth only" abbrev="LLD_ONLY">
+        <description>
+          Only fields lat, lon, depth have meaningful values. The x, y and z fields are ignored independently of their values.
+        </description>
+      </enum>
+      <enum id="2" name="NED and Lat/Lon/Depth" abbrev="NED_LLD">
+        <description>Fields x, y, z, lat, lon, depth have meaningful values. The final location is computed as a NED offset translation from the Lat/Lon/Depth point.</description>
+      </enum>
+    </field>
+    <field name="Offset north (m)" abbrev="x" type="fp64_t" unit="m">
+      <description>The North offset of the North/East/Down field. If Reference Mode states that this field is not used the value must be ignored.</description>
+    </field>
+    <field name="Offset east (m)" abbrev="y" type="fp64_t" unit="m">
+      <description>The East offset of the North/East/Down field. If Reference Mode states that this field is not used the value must be ignored.</description>
+    </field>
+    <field name="Offset down (m)" abbrev="z" type="fp64_t" unit="m">
+      <description>The Down offset of the North/East/Down field. If Reference Mode states that this field is not used the value must be ignored.</description>
+    </field>
+    <field name="Rotation over x axis" abbrev="phi" type="fp64_t" unit="rad">
+      <description>The phi Euler angle from the vehicle's attitude.</description>
+    </field>
+    <field name="Rotation over y axis" abbrev="theta" type="fp64_t" unit="rad">
+      <description>The theta Euler angle from the vehicle's attitude.</description>
+    </field>
+    <field name="Rotation over z axis" abbrev="psi" type="fp64_t" unit="rad">
+      <description>The psi Euler angle from the vehicle's attitude.</description>
+    </field>
+    <field name="Body-Fixed xx Velocity" abbrev="u" type="fp64_t" unit="m/s">
+      <description>Body-fixed frame xx axis velocity component.</description>
+    </field>
+    <field name="Body-Fixed yy Velocity" abbrev="v" type="fp64_t" unit="m/s">
+      <description>Body-fixed frame yy axis velocity component.</description>
+    </field>
+    <field name="Body-Fixed zz Velocity" abbrev="w" type="fp64_t" unit="m/s">
+      <description>Body-fixed frame zz axis velocity component.</description>
+    </field>
+    <field name="Ground Velocity X (North)" abbrev="vx" type="fp64_t" unit="m/s">
+      <description>Ground Velocity xx axis velocity component.</description>
+    </field>
+    <field name="Ground Velocity Y (East)" abbrev="vy" type="fp64_t" unit="m/s">
+      <description>Ground Velocity yy axis velocity component.</description>
+    </field>
+    <field name="Ground Velocity Z (Down)" abbrev="vz" type="fp64_t" unit="m/s">
+      <description>Ground Velocity zz axis velocity component.</description>
+    </field>
+    <field name="Angular Velocity in x" abbrev="p" type="fp64_t" unit="rad/s">
+      <description>The angular velocity over body-fixed xx axis (roll rate).</description>
+    </field>
+    <field name="Angular Velocity in y" abbrev="q" type="fp64_t" unit="rad/s">
+      <description>The angular velocity over body-fixed yy axis (pitch rate).</description>
+    </field>
+    <field name="Angular Velocity in z" abbrev="r" type="fp64_t" unit="rad/s">
+      <description>The angular velocity over body-fixed zz axis (yaw rate).</description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude.
+      </description>
+    </field>
+    <field name="Depth (m)" abbrev="depth" type="fp64_t" unit="m">
+      <description>
+      WGS-84 Depth. 
+      </description>
+    </field>
+  </message>
+
+  <message id="5" name="Event" abbrev="Event" source="vehicle" used-by="lauv,uav,caltigo">
+    <description>
+      An event reported by a vehicle subsystem.
+    </description>
+    <field type="uint8_t" name="Source" abbrev="source" unit="Enumerated" prefix="EVT_SRC">
+      <description>The source subsystem for the event</description>
+      <enum id="0" name="GPS" abbrev="GPS"/>
+      <enum id="1" name="Internal Temperature" abbrev="INTERNAL_TEMPERATURE"/>
+      <enum id="2" name="Internal Voltage" abbrev="INTERNAL_VOLTAGE"/>
+      <enum id="3" name="Internal Current" abbrev="INTERNAL_CURRENT"/>
+      <enum id="4" name="IMU" abbrev="IMU"/>
+      <enum id="5" name="LBL" abbrev="LBL"/>
+      <enum id="6" name="Thrusters" abbrev="THRUSTERS"/>
+      <enum id="7" name="CTD" abbrev="CTD"/>
+      <enum id="8" name="Leak Sensor" abbrev="LEAK_SENSOR"/>
+      <enum id="9" name="Leak Detection" abbrev="LEAK_DETECTION"/>
+      <enum id="10" name="SMS" abbrev="SMS"/>
+      <enum id="11" name="UAV Autopilot" abbrev="UAV_AUTOPILOT"/>
+      <enum id="12" name="DVL" abbrev="DVL"/>
+      <enum id="13" name="Teleoperation" abbrev="TELEOPERATION"/>
+      <enum id="14" name="Unknown" abbrev="UNKNOWN"/>
+      <enum id="15" name="Navigation" abbrev="NAVIGATION"/>
+      <enum id="16" name="GSM" abbrev="GSM"/>
+    </field>
+    <field type="uint8_t" name="Event Type" abbrev="type" unit="Enumerated" prefix="EVT_TYPE">
+      <description>The type of event</description>
+      <enum id="0" name="Bootstrapping" abbrev="BOOT"/>
+      <enum id="1" name="Normal Operation" abbrev="NORMAL"/>
+      <enum id="2" name="Warning" abbrev="WARNING"/>
+      <enum id="3" name="Timeout" abbrev="TIMEOUT"/>
+      <enum id="4" name="Error" abbrev="ERROR"/>
+      <enum id="5" name="Critical" abbrev="FATAL"/>
+      <enum id="6" name="Notification" abbrev="NOTIFICATION"/>
+      <enum id="7" name="Debug Message" abbrev="DEBUG"/>
+    </field>
+    <field type="uint8_t" name="Device Id" abbrev="device">
+      <description>Identification number of the originating device</description>
+    </field>
+    <field type="plaintext" name="Event description" abbrev="description">
+      <description>An additional event description that will be logged</description>
+    </field>
+  </message>
+
+  <message id="6" name="Simulated Position" abbrev="SimulatedPosition" source="vehicle" used-by="lauv">
+    <description>This message presents the simulated position of the vehicle.</description>
+    <field name="Offset north (m)" abbrev="x" type="fp64_t" unit="m">
+      <description>The North offset of the North/East/Down field.</description>
+    </field>
+    <field name="Offset east (m)" abbrev="y" type="fp64_t" unit="m">
+      <description>The East offset of the North/East/Down field.</description>
+    </field>
+    <field name="Offset down (m)" abbrev="z" type="fp64_t" unit="m">
+      <description>The Down offset of the North/East/Down field.</description>
+    </field>
+  </message>
+
+  <message id="7" name="CPU Usage" abbrev="CpuUsage" source="vehicle" used-by="lauv,uav" flags="periodic">
+    <description>
+      Report of software CPU usage.
+    </description>
+    <field name="Usage Percentage" abbrev="usage" type="fp64_t" min="0" max="100" unit="%">
+      <description>
+        The CPU usage, in percentage, of the sending software.
+      </description>
+    </field>
+  </message>
+
+  <message id="8" name="Storage Usage" abbrev="StorageUsage" source="vehicle" used-by="*" flags="periodic">
+    <description>
+      Report of storage usage.
+    </description>
+    <field name="Available" abbrev="available" type="uint32_t" unit="MiB">
+      <description>
+        The available storage in bytes of the reporting device.
+      </description>
+    </field>
+    <field name="Usage" abbrev="usage" type="uint8_t" min="0" max="100" unit="%">
+      <description>
+        The percentage of storage used by the reporting device.
+      </description>
+    </field>
+  </message>
+
+  <message id="9" name="Cache Control" abbrev="CacheControl" source="vehicle,ccu" used-by="*">
+    <description>Control message caching to persistent storage.</description>
+    <field type="uint8_t" name="Control Operation" abbrev="op" unit="Enumerated" prefix="COP">
+      <description>Operation</description>
+      <enum id="0" name="Store" abbrev="STORE"/>
+      <enum id="1" name="Load" abbrev="LOAD"/>
+      <enum id="2" name="Clear" abbrev="CLEAR"/>
+      <enum id="3" name="Copy Snapshot" abbrev="COPY"/>
+      <enum id="4" name="Snapshot Copy Complete" abbrev="COPY_COMPLETE"/>
+    </field>
+    <field name="Snapshot destination" abbrev="snapshot" type="plaintext">
+      <description>
+	Destination for the cache snapshot file.
+	  </description>
+    </field>
+    <field name="Message" abbrev="message" type="message">
+      <description>
+	Message to store.
+      </description>
+    </field>
+  </message>
+  
+  <message id="10" name="Logging Control" abbrev="LoggingControl" source="vehicle,ccu" used-by="*">
+    <description>Control message logging to persistent storage.</description>
+    <field type="uint8_t" name="Control Operation" abbrev="op" unit="Enumerated" prefix="COP">
+      <description>Control Operation</description>
+      <enum id="0" name="Request Start of Logging" abbrev="REQUEST_START">
+        <description>
+          Request the logging manager to start logging. The logging
+          manager will reply with a STARTED operation. If logging is
+          already in progress the current log will be closed and a new
+          one will be opened (therefore the logging manager will send
+          two messages - STOPPED and STARTED). The field 'name'
+          represents the label that will be appended to the log path.
+        </description>
+      </enum>
+      <enum id="1" name="Logging Started" abbrev="STARTED">
+        <description>
+          The logging manager will send a message with this operation
+          everytime a log is successfully started. The field 'name'
+          contains the complete name of the log.
+        </description>
+      </enum>
+      <enum id="2" name="Request Logging Stop" abbrev="REQUEST_STOP">
+        <description>
+          Request the logging manager to stop logging messages. The
+          logging manager will reply with a STOPPED operation and
+          logging will be suspended until a message with operation
+          START is received. If logging is already stoppped the
+          logging manager will ignore this operation and will not
+          reply with a STOPPED operation. The field 'name' with this
+          operation type has no meaning.
+        </description>
+      </enum>
+      <enum id="3" name="Logging Stopped" abbrev="STOPPED">
+        <description>
+          The logging manager will send a message with this operation
+          when logging is successfully stopped. The field 'name'
+          contains the complete name of the log that was closed.
+        </description>
+      </enum>
+      <enum id="4" name="Request Current Log Name" abbrev="REQUEST_CURRENT_NAME">
+        <description>
+          This operation instructs the logging manager to send a
+          message with operation CURRENT_NAME containing the complete
+          name of the current log in the field 'name'. The field
+          'name' with this operation type has no meaning.
+        </description>
+      </enum>
+      <enum id="5" name="Current Log Name" abbrev="CURRENT_NAME">
+        <description>
+          The logging manager will send a message with this operation
+          when asked via the REQUEST_CURRENT_NAME operation. The field
+          'name' contains the complete name of the log.
+        </description>
+      </enum>
+    </field>
+    <field name="Log Label / Path" abbrev="name" type="plaintext">
+      <description>
+	The meaning of this field depends on the operation and is
+	explained in the operation's description.
+      </description>
+    </field>
+  </message>
+  
+  <message id="11" name="Request Entity Information" abbrev="RequestEntityInfo" source="ccu" used-by="*">
+    <description>
+      This message requests information about an entity. It is useful to resolve device ids.
+    </description>
+    <field type="uint8_t" name="Entity Id" abbrev="id">
+      <description>
+        Id of the entity.
+      </description>
+    </field>
+  </message>
+  
+  <message id="12" name="Entity Information" abbrev="EntityInfo" source="vehicle" used-by="*">
+    <description>
+      This message describes and entity.
+    </description>
+    <field type="uint8_t" name="Entity Id" abbrev="id">
+      <description>
+        Entity id.
+      </description>
+    </field>
+    <field type="plaintext" name="Label" abbrev="label">
+      <description>
+        Entity label or empty if the entity id is not valid.
+      </description>
+    </field>
+  </message>
+  
+  <message id="13" name="System Aliases" abbrev="Aliases" source="vehicle" used-by="*">
+  	<description>This message describes the names of all field ids in the system</description>
+  	<field name="operation" abbrev="op" type="uint8_t" unit="Enumerated" prefix="OP">
+  		<enum abbrev="REPORT" name="Report" id="0"></enum>	
+  		<enum abbrev="QUERY" name="Query" id="1"></enum>
+  	</field>
+  	<field name="aliases" abbrev="aliases" type="plaintext" unit="TupleList">
+  		<description>Example: "battery=11,ctd=3"</description>
+  	</field>
+  </message>
+
+  <message id="52" name="Ignition" abbrev="Ignition" source="ccu,vehicle" used-by="lauv,uav">
+    <description><![CDATA[
+    <p>Ignition request was detected or received.</p>
+    <p>In the context of autonomous maneuver execution, if the vehicle
+      is set up for it, an ignition triggers the execution of the
+      mission previously loaded onto memory or restored from the
+      on-board file system.</p>
+    <p>An ignition may induced by an human (through manual propeller
+      movement or CCU GUI interface) or by a Mission Supervisor
+      module.</p>
+    ]]></description>
+    <field type="uint8_t" name="Source" abbrev="source" unit="Enumerated" prefix="IGNITION_SRC">
+      <description>The source of the ignition request</description>
+      <enum id="0" name="Human (CCU)" abbrev="CCU"/>
+      <enum id="1" name="Human (Propeller)" abbrev="PROPELLER"/>
+      <enum id="2" name="Mission Supervisor" abbrev="MISSION_SUPERVISOR"/>
+    </field>
+  </message>
+  
+  <!--  Network Control Messages -->
+  <message id="60" name="Acknowlegement" abbrev="Acknowledgement" source="*" used-by="*">
+    <description>This message confirms the reception of message with a given sequence id</description>
+    <field name="Sequence Id" abbrev="seqid" type="uint16_t">
+      <description>The sequence id of the message that is being confirmed</description>
+    </field>
+  </message>
+  
+  <message id="61" name="Envelope" abbrev="Envelope" source="*" used-by="*" >
+    <description>This message wraps another message extending the current protocol</description>
+    <field name="Sequence Id" abbrev="seqid" type="uint16_t">
+      <description>The sequence id of the message.</description>
+    </field>
+    <field name="Flags" abbrev="flags" type="uint8_t" unit="Bitmask">
+      <description>This message is to be acknowledged by the receiver</description>
+      <bitmask abbrev="REQ_ACK" name="Request Acknowledgement" id="0x01"/>
+    </field>
+    <field name="Message" abbrev="message" type="message">
+    </field>
+  </message>
+
+  <!--Sensors-->
+  <message id="101" name="Rotations Per Minute" abbrev="Rpm" source="vehicle" used-by="lauv">
+    <description>
+      Number of rotations per minute.
+    </description>
+    <field name="Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Value" abbrev="value" type="uint16_t">
+      <description>
+        Number of rotations per minute.
+      </description>
+    </field>
+  </message>
+  <message id="102" name="Internal Temperature" abbrev="InternalTemperature" source="vehicle" used-by="lauv,uav" flags="periodic">
+    <description>
+      Report of internal temperature.
+    </description>
+    <field name="Sensor Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting internal temperature sensor.
+      </description>
+    </field>
+    <field name="Measured Temperature Value" abbrev="value" type="fp32_t" unit="ºC">
+      <description>
+        The value of the internal temperature as measured by the sensor.
+      </description>
+    </field>
+  </message>
+  <message id="103" name="Internal Voltage" abbrev="InternalVoltage" source="vehicle" used-by="lauv,uav" flags="periodic">
+    <description>
+      Report of internal electrical voltage.
+    </description>
+    <field name="Sensor Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting internal electrical voltage sensor.
+      </description>
+    </field>
+    <field name="Measured Voltage Value" abbrev="value" type="fp32_t" unit="V">
+      <description>
+        The value of the internal electrical voltage as measured by the sensor.
+      </description>
+    </field>
+  </message>
+  <message id="104" name="Internal Current" abbrev="InternalCurrent" source="vehicle" used-by="lauv,uav" flags="periodic">
+    <description>
+      Report of internal electrical current.
+    </description>
+    <field name="Sensor Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting internal electrical current sensor.
+      </description>
+    </field>
+    <field name="Measured Current Value" abbrev="value" type="fp32_t" unit="A">
+      <description>
+        The value of the internal electrical current as measured by the sensor.
+      </description>
+    </field>
+  </message>
+
+  <message id="105" name="GPS Fix" abbrev="GpsFix" source="vehicle" used-by="lauv" flags="periodic">
+    <description>
+      Report of a GPS fix.
+    </description>
+    <field name="Device Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting GPS device.
+      </description>
+    </field>
+    <field name="UTC Time of Fix" abbrev="time" type="uint32_t" unit="s">
+      <description>
+        UTC time of the GPS fix measured in seconds since 00:00:00 (midnight).
+      </description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude coordinate.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude coordinate.
+      </description>
+    </field>
+    <field name="Fix Quality" abbrev="fix_quality" type="uint8_t" unit="Enumerated" prefix="GPS_FIX_Q">
+      <description>
+        Quality of the GPS fix.
+      </description>
+      <enum id="0x00" name="Invalid Fix" abbrev="INVALID">
+        <description>
+          The GPS fix is not valid.
+        </description>
+      </enum>
+      <enum id="0x01" name="Valid Fix" abbrev="VALID">
+        <description>
+          The GPS fix is valid.
+        </description>
+      </enum>
+      <enum id="0x02" name="Valid Differential Fix" abbrev="VALID_DIFF">
+        <description>
+          Valid differential GPS fix.
+        </description>
+      </enum>
+      <enum id="0x03" name="Precise positioning service (PPS) Fix" abbrev="VALID_PPS">
+        <description>
+        </description>
+      </enum>
+      <enum id="0x04" name="Real Time Kinematic" abbrev="RTK">
+        <description>
+        </description>
+      </enum>
+      <enum id="0x05" name="Float RTK" abbrev="FLOAT_RTK">
+        <description>
+        </description>
+      </enum>
+      <enum id="0x06" name="Dead Reckoning" abbrev="DEAD_RECKONING">
+        <description>
+        </description>
+      </enum>
+      <enum id="0x07" name="Manual input mode" abbrev="MANUAL_INPUT_MODE">
+        <description>
+        </description>
+      </enum>
+      <enum id="0x08" name="Simulation mode" abbrev="SIMULATION_MODE">
+        <description>
+        </description>
+      </enum>
+    </field>
+    <field name="Number of Satellites" abbrev="satellites" type="uint8_t">
+      <description>
+        Number of satellites viewed by the GPS device at the time of the fix.
+      </description>
+    </field>
+    <field name="Horizontal Dilution" abbrev="hdilution" type="fp32_t">
+      <description>
+        Horizontal dilution of position.
+      </description>
+    </field>
+    <field name="Altitude" abbrev="altitude" type="fp64_t" unit="m">
+      <description>
+        Altitude above mean sea level.
+      </description>
+    </field>
+  </message>
+  <message id="106" name="GPS Fix Rejection" abbrev="GpsFixRejection" source="vehicle"
+           used-by="lauv">
+    <field name="Device Identification" abbrev="id" type="uint8_t">
+      <description>
+        Identification of the reporting device.
+      </description>
+    </field>
+    <field name="UTC Time of Fix" abbrev="time" type="uint32_t" unit="s">
+      <description>
+        UTC time of the rejected GPS fix measured in seconds since 00:00:00 (midnight).
+      </description>
+    </field>
+    <field name="Reason" abbrev="reason" type="uint8_t" unit="Enumerated" prefix="RR">
+      <description>Reason for rejection</description>
+      <enum id="0" name="Above Threshold" abbrev="ABOVE_THRESHOLD"/>
+      <enum id="1" name="Invalid Fix" abbrev="INVALID"/>
+      <enum id="2" name="Above Maximum HDOP" abbrev="ABOVE_MAX_HDOP"/>
+    </field>
+  </message>
+  <message id="107" name="GPS Fix (RINEX)" abbrev="GpsFixRinex" source="vehicle" used-by="caltigo">
+    <description>
+      This message contains all information needed to be able to generate a RINEX file.
+    </description>
+    <field name="Device Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Satellite Number" abbrev="satellite" type="uint8_t">
+      <description>
+        Satellite Number.
+      </description>
+    </field>
+    <field name="Time of Week" abbrev="itow" type="int32_t" unit="ms">
+      <description>
+        Measurement integer millisecond GPS time of week (Receiver Time).
+      </description>
+    </field>
+    <field name="Week" abbrev="week" type="int16_t">
+      <description>
+        Measurement GPS week number (Receiver Time).
+      </description>
+    </field>
+    <field name="Carrier phase measurement" abbrev="cpmes" type="fp64_t">
+      <description>
+        Carrier phase measurement (L1 cycles). 
+      </description>
+    </field>
+    <field name="Pseudorange measurement" abbrev="prmes" unit="m" type="fp64_t">
+      <description>
+        Pseudorange measurement. 
+      </description>
+    </field>
+    <field name="Doppler measurement" abbrev="domes" unit="Hz" type="fp32_t">
+      <description>
+        Doppler measurement. 
+      </description>
+    </field>
+    <field name="Space Vehicle Number" abbrev="sv" type="uint8_t">
+      <description>
+        Space Vehicle Number. 
+      </description>
+    </field>
+    <field name="Navigation Measurements Quality Indicator" abbrev="mesqui" type="int8_t">
+      <description>
+        Navigation Measurements Quality Indicator. 
+      </description>
+    </field>
+    <field name="Signal Strength" abbrev="cno" type="int8_t" unit="dBHz">
+      <description>
+        Signal Strength. 
+      </description>
+    </field>
+    <field name="Loss of lock indicator" abbrev="lli" type="uint8_t">
+      <description>
+        Loss of lock indicator. 
+      </description>
+    </field>    
+  </message>
+  <message id="109" name="Euler Angles" abbrev="EulerAngles" source="vehicle" used-by="lauv,caltigo" flags="periodic">
+    <description>
+      Report of spatial orientation.
+    </description>
+    <field name="Device Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Device Time" abbrev="time" type="fp64_t" unit="s">
+      <description>
+        The device time.
+      </description>
+    </field>
+    <field name="Roll" abbrev="roll" type="fp64_t" unit="rad" min="0" max="6.283185307179586">
+      <description>
+        Rotation around the vehicle longitudinal axis.
+      </description>
+    </field>
+    <field name="Pitch" abbrev="pitch" type="fp64_t" unit="rad" min="0" max="6.283185307179586">
+      <description>
+        Rotation around the vehicle lateral or transverse axis.
+      </description>
+    </field>
+    <field name="Yaw (True)" abbrev="yaw" type="fp64_t" unit="rad" min="0" max="6.283185307179586">
+      <description>
+        Rotation around the vehicle vertical axis. A value of 0 means
+        the vehicle is oriented towards true north. In cases where the
+        sensor cannot measure the true heading, this field will have
+        the same value as Yaw (Magnetic).
+      </description>
+    </field>
+    <field name="Yaw (Magnetic)" abbrev="yaw_magnetic" type="fp64_t" unit="rad" min="0" max="6.283185307179586">
+      <description>
+        Rotation around the vehicle vertical axis. A value of 0 means
+        the vehicle is oriented towards magnetic north. In cases where the
+        sensor cannot measure the magnetic heading, this field will have
+        the same value as Yaw (True).
+      </description>
+    </field>
+  </message>
+  <message id="110" name="Angular Velocity" abbrev="AngularVelocity" source="vehicle" used-by="lauv,caltigo" flags="periodic">
+    <field name="Device Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Device Time" abbrev="time" type="fp64_t" unit="s">
+      <description>
+        The device time.
+      </description>
+    </field>
+    <field name="Roll" abbrev="roll" type="fp64_t" unit="rad/s">
+      <description>
+        Roll component.
+      </description>
+    </field>
+    <field name="Pitch" abbrev="pitch" type="fp64_t" unit="rad/s">
+      <description>
+        Pitch component.
+      </description>
+    </field>
+    <field name="Yaw" abbrev="yaw" type="fp64_t" unit="rad/s">
+      <description>
+        Yaw component.
+      </description>
+    </field>
+  </message>
+  <message id="111" name="Acceleration" abbrev="Acceleration" source="vehicle" used-by="lauv,uav" flags="periodic">
+    <description>
+      Vector quantifying the direction and magnitude of the measured
+      acceleration that a device is exposed to.
+    </description>
+    <field name="Device Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Device Time" abbrev="time" type="fp64_t" unit="s">
+      <description>
+        The device time.
+      </description>
+    </field>
+    <field name="X" abbrev="x" type="fp64_t" unit="m/s/s">
+      <description>
+        X component.
+      </description>
+    </field>
+    <field name="Y" abbrev="y" type="fp64_t" unit="m/s/s">
+      <description>
+        Y component.
+      </description>
+    </field>
+    <field name="Z" abbrev="z" type="fp64_t" unit="m/s/s">
+      <description>
+        Z component.
+      </description>
+    </field>
+  </message>
+
+  <message id="113" name="LBL Range" abbrev="LblRange" source="vehicle" used-by="lauv" flags="periodic">
+    <description>
+      When the vehicle uses Long Base Line navigation, this message
+      notifies that a new range was received from one of the acoustics
+      transponders. The message fields are used to identify the range
+      value and the transponder name.
+    </description>
+    <field name="Beacon Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        Identification number of the acoustic transponder from which the range
+        information was received.
+      </description>
+    </field>
+    <field name="Range" abbrev="range" type="fp32_t" unit="m">
+      <description>
+        Distance to the acoustic transponder.
+      </description>
+    </field>
+  </message>
+  <message id="114" name="LBL Range Rejection" abbrev="LblRangeRejection" source="vehicle"
+           used-by="lauv" flags="periodic">
+    <field name="Beacon Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        Identification number of the acoustic transponder from which the range
+        information was received.
+      </description>
+    </field>
+    <field name="Range" abbrev="range" type="fp32_t" unit="m">
+      <description>
+        Distance to the acoustic transponder.
+      </description>
+    </field>
+    <field name="Reason" abbrev="reason" type="uint8_t" unit="Enumerated" prefix="RR">
+      <description>Reason for rejection</description>
+      <enum id="0" name="Above Threshold" abbrev="ABOVE_THRESHOLD"/>
+      <enum id="1" name="Singular Point" abbrev="SINGULAR"/>
+      <enum id="2" name="Not Enough Information" abbrev="NO_INFO"/>
+    </field>
+  </message>
+  <message id="115" name="LBL Ping Next" abbrev="LblPingNext" source="vehicle" used-by="lauv">
+    <description>
+    </description>
+  </message>
+  <message id="116" name="LBL Detection" abbrev="LblDetection" source="vehicle" used-by="lauv" flags="periodic">
+    <description>
+      Report of an LBL detection.
+    </description>
+    <field name="Transmission" abbrev="tx" type="uint8_t">
+      <description>True for transmission detections</description>
+    </field>
+    <field name="Channel" abbrev="channel" type="uint8_t">
+      <description>Channel</description>
+    </field>
+    <field name="Timer" abbrev="timer" type="uint16_t">
+      <description>Internal Timer Value</description>
+    </field>
+  </message>
+  <message id="117" name="LBL Beacon Setup" abbrev="LblBeaconSetup" source="ccu, vehicle" used-by="lauv">
+    <description>
+      Set the acoustic beacon position.
+    </description>
+    <field name="Beacon Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        Identification number of the acoustic transponder from which the position
+        information will be sent.
+      </description>
+    </field>
+    <field name="Beacon Name" abbrev="beacon" type="plaintext">
+      <description>
+        Name of the acoustic transponder from which the position
+        information will be sent.
+      </description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude coordinate.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude coordinate.
+      </description>
+    </field>
+    <field name="Depth" abbrev="depth" type="fp32_t" unit="m">
+      <description>
+        The beacon's depth.
+      </description>
+    </field>
+    <field name="Interrogation channel" abbrev="query_channel" type="uint8_t">
+      <description>
+        Interrogation frequency.
+      </description>
+    </field>
+    <field name="Reply channel" abbrev="reply_channel" type="uint8_t">
+      <description>
+        Reply frequency.
+      </description>
+    </field>
+    <field name="Transponder delay" abbrev="transponder_delay" type="uint8_t" unit="ms">
+      <description>
+        Transponder delay.
+      </description>
+    </field>
+  </message>
+  <message id="118" name="Ground Velocity" abbrev="GroundVelocity" source="vehicle" used-by="rov-kos" flags="periodic">
+    <description>
+      Vehicle velocity relative to the ground.
+    </description>
+    <field name="Device Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field type="uint8_t" name="Validity" abbrev="valid" unit="Enumerated" prefix="GVV">
+      <description>Validity of the measurement</description>
+      <enum id="0" name="Invalid" abbrev="INVALID"/>
+      <enum id="1" name="Valid" abbrev="VALID"/>
+    </field>
+    <field name="X" abbrev="x" type="fp64_t" unit="m/s">
+      <description>
+        X component.
+      </description>
+    </field>
+    <field name="Y" abbrev="y" type="fp64_t" unit="m/s">
+      <description>
+        Y component.
+      </description>
+    </field>
+    <field name="Z" abbrev="z" type="fp64_t" unit="m/s">
+      <description>
+        Z component.
+      </description>
+    </field>
+  </message>
+  <message id="119" name="Water Velocity" abbrev="WaterVelocity" source="vehicle" used-by="rov-kos" flags="periodic">
+    <description>
+      Water velocity.
+    </description>
+    <field name="Device Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field type="uint8_t" name="Validity" abbrev="valid" unit="Enumerated" prefix="WVV">
+      <description>Validity of the measurement</description>
+      <enum id="0" name="Invalid" abbrev="INVALID"/>
+      <enum id="1" name="Valid" abbrev="VALID"/>
+    </field>
+    <field name="X" abbrev="x" type="fp64_t" unit="m/s">
+      <description>
+        X component.
+      </description>
+    </field>
+    <field name="Y" abbrev="y" type="fp64_t" unit="m/s">
+      <description>
+        Y component.
+      </description>
+    </field>
+    <field name="Z" abbrev="z" type="fp64_t" unit="m/s">
+      <description>
+        Z component.
+      </description>
+    </field>
+  </message>
+  <message id="120" name="Bottom Range" abbrev="BottomRange" source="vehicle" used-by="rov-kos" flags="periodic">
+    <description>
+      Range to the bottom.
+    </description>
+    <field name="Device Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="X" abbrev="x" type="fp64_t" unit="m">
+      <description>
+        X component.
+      </description>
+    </field>
+    <field name="Y" abbrev="y" type="fp64_t" unit="m">
+      <description>
+        Y component.
+      </description>
+    </field>
+    <field name="Z" abbrev="z" type="fp64_t" unit="m">
+      <description>
+        Z component.
+      </description>
+    </field>
+  </message>
+  <message id="121" name="Temperature" abbrev="Temperature" source="vehicle" used-by="caltigo,lauv" flags="periodic">
+    <description>
+      Report of temperature.
+    </description>
+    <field name="Sensor Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Temperature" abbrev="value" type="fp32_t" unit="ºC">
+      <description>
+        The value of the temperature as measured by the sensor.
+      </description>
+    </field>
+  </message>
+  <message id="122" name="Pressure" abbrev="Pressure" source="vehicle" used-by="caltigo,uav,lauv" flags="periodic">
+    <description>
+      Report of external pressure.
+    </description>
+    <field name="Sensor Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Measured Pressure" abbrev="value" type="fp64_t" unit="hPa">
+      <description>
+        The value of the pressure as measured by the sensor.
+      </description>
+    </field>
+  </message>
+  <message id="123" name="Conductivity" abbrev="Conductivity" source="vehicle" flags="periodic" used-by="lauv">
+    <description>
+      Report of conductivity.
+    </description>
+    <field name="Sensor Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Conductivity" abbrev="value" type="fp32_t" unit="mS/cm">
+      <description>
+        The value of the conductivity as measured by the sensor.
+      </description>
+    </field>
+  </message>
+  <message id="124" name="Salinity" abbrev="Salinity" source="vehicle" flags="periodic" used-by="lauv">
+    <description>
+      Report of salinity.
+    </description>
+    <field name="Sensor Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Measured Salinity" abbrev="value" type="fp32_t" unit="PSU">
+      <description>
+        The value of the salinity as measured by the sensor.
+      </description>
+    </field>
+  </message>
+  
+  <message id="125" name="Chlorophyll" abbrev="Chlorophyll" source="vehicle" used-by="experimental" flags="periodic">
+    <field name="Device Identification" abbrev="id" type="uint8_t"/>
+    <field name="Raw Measurement" abbrev="raw_value" type="fp64_t" unit="V"/>
+  </message>
+
+  <message id="126" name="Request Imagenex Sonar Config" abbrev="RequestImagenexSonarConfig" source="ccu" used-by="rov-kos">
+    <description>
+      A message requesting for the actual config of an imagenex sonar.
+    </description>
+  </message>
+
+ <message id="127" name="Imagenex Sonar Config" abbrev="ImagenexSonarConfig" source="vehicle,ccu" used-by="rov-kos">
+    <description>
+      Parameter values for configuring a Sonar Head manufactured by Imagenex.
+    </description>
+	<field name="Additional Time To Wait Between Steps" abbrev="additional_delay" type="fp32_t" min="0" max="10" unit="s">
+      <description>
+        Additional time to wait between two steps. Use this field for speed control instead of Switch Delay.
+        Supported models: 881a, 852.
+      </description>
+    </field>
+    <field name="Head ID" abbrev="head_id" type="uint8_t" min="16" max="31">
+      <description>
+        A value allowing multiple sonar heads to operate at the same time. When operating 
+        multiple sonar heads, a unique ID can be assigned to each device.
+        Supported models: 881a, 852.
+      </description>
+    </field>
+    <field name="Range" abbrev="range" type="uint8_t" min="1" max="200" unit="m">
+      <description>
+        The scanning range of the sonar head.
+        Supported models: 881a, 852.
+      </description>
+    </field>
+    <field name="Rotation Mode" abbrev="rot_mode" type="uint8_t" prefix="ROT" unit="Enumerated">
+      <description>
+        Starts or stops the rotation of the sonar head.
+        Supported models: 881a.
+      </description>
+      <enum id="0" name="Normal" abbrev="NORMAL">
+        <description>The head rotates continuously</description>
+      </enum>
+      <enum id="1" name="Paused" abbrev="PAUSED">
+        <description>The rotation is paused</description>
+      </enum>
+    </field>
+    <field name="Start Gain" abbrev="start_gain" type="uint8_t" min="0" max="40" unit="dB">
+      <description>
+        The Start Gain.
+        Supported models: 881a, 852.
+      </description>
+    </field>
+    <field name="LOGF" abbrev="logf" type="uint8_t" min="10" max="40" unit="dB">
+      <description>
+        I am not familiar enough with sonar theory to know what is this parameter good for.
+        If you know what is LOGF than please update this description. The resolution of this
+        parameter is 10dB, so only four values are possible: 10, 20, 30 and 40dB.
+        Supported models: 881a, 852.
+      </description>
+    </field>
+    <field name="Absorption" abbrev="absorption" type="fp32_t" min="0" max="2.55" unit="dB/m">
+      <description>
+        The absorption of the scanning sound in the liquid where the sonar is.
+        Supported models: 881a, 852.
+      </description>
+    </field>
+    <field name="Train Angle" abbrev="train_angle" type="fp32_t" min="-3.141592653589793" max="3.141592653589793" unit="rad">
+      <description>
+        The offset of the scanning window in profile mode.
+        Supported models: 881a.
+      </description>
+    </field>
+    <field name="Sector Width" abbrev="sector_width" type="fp32_t" min="0" max="6.28318531" unit="rad">
+      <description>
+        The width of the profile window in profile mode.
+        Supported models: 881a.
+      </description>
+    </field>
+    <field name="Step Size" abbrev="step_size" type="uint8_t" min="0" max="8">
+      <description>
+        Step size (rotation of the head between two steps).
+        Supported models: 881a.
+      </description>
+    </field>
+    <field name="Pulse Length" abbrev="pulse_length" type="fp32_t" min="0.00001" max="0.001" unit="s">
+      <description>
+        The length (in time) of the scanning pulse.
+        Supported models: 881a, 852.
+      </description>
+    </field>
+    <field name="Profile Minimum Range" abbrev="profile_min_range" type="fp32_t" min="0" max="25" unit="m">
+      <description>
+        Minimum range for profile point digitization.
+        Supported models: 881a.
+      </description>
+    </field>
+    <field name="Number Of Data Points" abbrev="data_points" type="uint16_t" min="250" max="500">
+      <description>
+        Number of the echo points in return data. Only two values are possible: 250 and 500.
+        Supported models: 881a.
+      </description>
+    </field>
+    <field name="Data Bits Per Point" abbrev="data_bits" type="uint8_t" min="4" max="16">
+      <description>
+        Number of the data bits per each echo point in return data. Only three values are possible: 
+        4, 8 and 16.
+        Supported models: 881a.
+      </description>
+    </field>
+    <field name="Operation Mode" abbrev="op_mode" type="uint8_t" prefix="MOD" unit="Enumerated">
+      <description>Sonar operation mode</description>
+      <enum id="0" name="Normal" abbrev="NORMAL">
+        <description>Normal operation - rotating continuously. Supported models: 881a, 852.</description>
+      </enum>
+      <enum id="1" name="Change rotation direction" abbrev="CHANGE_DIRECTION">
+        <description>Changes the direction of the rotation. Supported models: 881a.</description>
+      </enum>
+      <enum id="2" name="Calibration" abbrev="CALIBRATION">
+        <description>Turns on the calibration mode (what will calibrate the sonar head). Supported models: 881a.</description>
+      </enum>
+    </field>
+    <field name="Switch Delay" abbrev="switch_delay" type="fp32_t" min="0" max="0.51" unit="s">
+      <description>
+        The head will wait this amount of time before sending its return data. 0 = fastest operation,
+        0.51 = slowest operation.
+        Supported models: 881a, 852.
+      </description>
+    </field>
+    <field name="Frequency" abbrev="frequency" type="uint32_t" min="175000" max="1175000" unit="Hz">
+      <description>
+        The frequency of the scanning sound.
+        Supported models: 881a, 852.
+      </description>
+    </field>
+  </message>
+
+  <message id="128" name="Imagenex Sonar Return Data" abbrev="ImagenexReturnData" source="vehicle" used-by="rov-kos">
+    <description>
+      The result of a scan with an Imagenex sonar.
+    </description>
+    <field name="Angle" abbrev="angle" type="fp32_t" min="-3.141592653589793" max="3.141592653589793" unit="rad">
+      <description>
+        The position of the sonar head.
+		Supported models: 881a.
+      </description>
+    </field>
+    <field name="Number Of Echo Points" abbrev="number_of_echo_points" type="uint16_t" min="0" max="500">
+      <description>
+        The resolution of the scan. Can be 0, 250 and 500.
+		Supported models: 881a, 852.
+      </description>
+    </field>
+    <field name="Bits Per Point" abbrev="bits_per_point" type="uint8_t" min="0" max="16">
+      <description>
+		The "color" depth of the scan (how many bits are belonging to one echo point).
+		Supported models: 881a, 852.
+      </description>
+    </field>
+    <field name="Echo Points" abbrev="echo_points" type="rawdata">
+      <description>
+        The echo data. The first point is the nearest to the head and the last one is the farthest.
+		Supported models: 881a, 852.
+      </description>
+    </field>
+  </message>
+
+  <message id="129" name="Wind Speed" abbrev="WindSpeed" source="vehicle" used-by="caltigo" flags="periodic">
+    <description>
+      Measurement of wind speed.
+    </description>
+    <field name="Device Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Direction" abbrev="direction" type="fp32_t" unit="rad">
+      <description>
+      </description>
+    </field>
+    <field name="Speed" abbrev="speed" type="fp32_t" unit="m/s">
+      <description>
+      </description>
+    </field>
+  </message>
+  
+  <message id="130" name="Relative Humidity" abbrev="RelativeHumidity" source="vehicle" used-by="caltigo" flags="periodic">
+    <description>
+      Measurement of relative humidity.
+    </description>
+    <field name="Device Identification Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the reporting device.
+      </description>
+    </field>
+    <field name="Relative Humidity Value" abbrev="value" type="fp32_t" min="0" max="100">
+      <description>
+      </description>
+    </field>
+  </message>
+
+  <message id="131" name="Device Data (Text)" abbrev="DevDataText" source="vehicle" used-by="caltigo,swordfish">
+    <description>Verbatim representation of device data in plain text format</description>
+
+    <field type="uint8_t" name="Device Identification Number" abbrev="id">
+      <description>Identification number of the source device</description>
+    </field>
+    <field name="Value" abbrev="value" type="plaintext">
+      <description>Plain text data as extracted directly from the device</description>
+    </field>
+  </message>
+
+  <message id="132" name="Device Data (Binary)" abbrev="DevDataBinary" source="vehicle" used-by="caltigo">
+    <description>Verbatim representation of device data in binary format</description>
+    <field type="uint8_t" name="Device Identification Number" abbrev="id">
+      <description>Identification number of the source device</description>
+    </field>
+    <field name="Value" abbrev="value" type="rawdata">
+      <description>Raw binary data as extracted directly from the device</description>
+    </field>
+  </message>
+  
+  <!--
+     Actuation
+    -->
+  <message id="200" name="Actuate Relay" abbrev="ActuateRelay" source="ccu" used-by="rov-kos">
+    <description>
+      Actuates the relay system.
+    </description>
+    <field name="Number" abbrev="id" type="uint8_t">
+      <description>
+        Relay identification number.
+      </description>
+    </field>
+    <field name="Action" abbrev="action" type="int8_t" unit="Enumerated" min="-1" max="1" prefix="CMD_RL">
+      <description>
+        Action to perform.
+      </description>
+      <enum id="-1" name="Toggle" abbrev="TOGGLE">
+        <description>
+          Toggle the relay.
+        </description>
+      </enum>
+      <enum id="0" name="Turn Off" abbrev="TURN_OFF">
+        <description>
+          Turn Off the relay.
+        </description>
+      </enum>
+      <enum id="1" name="Turn On" abbrev="TURN_ON">
+        <description>
+          Turn On the relay.
+        </description>
+      </enum>
+    </field>
+  </message>
+  <message id="201" name="Set Thruster Actuation" abbrev="SetThrusterActuation" source="vehicle" used-by="lauv">
+    <description>
+      Actuate directly on a thruster.
+    </description>
+    <field name="Thruster Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the destination thruster.
+      </description>
+    </field>
+    <field name="Actuation Value" abbrev="value" type="fp32_t" min="-1" max="1">
+      <description>
+        Actuation magnitude.
+      </description>
+    </field>
+  </message>
+  <message id="202" name="Set Fin Position" abbrev="SetFinPosition" source="ccu" used-by="lauv">
+    <description>
+      Actuate directly on a fin.
+    </description>
+    <field name="Fin Number" abbrev="id" type="uint8_t">
+      <description>
+        The identification number of the destination fin.
+      </description>
+    </field>
+    <field name="Desired Position" abbrev="value" type="int8_t" unit="º" min="-45" max="45">
+      <description>
+        Indicates the desired fin position.
+      </description>
+    </field>
+  </message>
+  <message id="204" name="Dimmer Status" abbrev="DimmerStatus" source="vehicle" used-by="rov-kos" deprecated="true">
+    <description>
+      Report of the current dimmer status.
+    </description>
+    <field name="Channel's 0 Current" abbrev="current_ch0" type="fp32_t"/>
+    <field name="Channel's 1 Current" abbrev="current_ch1" type="fp32_t"/>
+    <field name="Channel's 0 Pulse Width Modulation" abbrev="pwm_ch0" type="uint16_t"/>
+    <field name="Channel's 1 Pulse Width Modulation" abbrev="pwm_ch1" type="uint16_t"/>
+  </message>
+  <message id="205" name="Dimmer Command" abbrev="DimmerCommand" source="ccu" used-by="rov-kos">
+    <description>
+      Actuate the dimmer.
+    </description>
+    <field name="Dimmer Light Type" abbrev="id" type="uint8_t" unit="Enumerated" min="0" max="1" prefix="DIM_LT">
+      <description/>
+      <enum id="0" name="Spot" abbrev="SPOT"/>
+      <enum id="1" name="Flood" abbrev="FLOOD"/>
+    </field>
+    <field name="PWM" abbrev="pwm" type="uint8_t"/>
+  </message>
+  <message id="206" name="Robotic Arm Status" abbrev="RoboticArmStatus" source="vehicle" used-by="rov-kos" deprecated="true">
+    <description>
+      Report of the current robotic arm status.
+    </description>
+    <field name="Current X" abbrev="x" type="uint8_t"/>
+    <field name="Current Y" abbrev="y" type="uint8_t"/>
+  </message>
+  <message id="207" name="Set Servo Position" abbrev="SetServoPosition" source="vehicle" used-by="lauv">
+    <description>Set the position of a servo.</description>
+    <field name="Identifier" abbrev="id" type="uint8_t"/>
+    <field name="Position" abbrev="pos" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966"/>
+  </message>
+  <message id="208" name="Set Control Surface Deflection" abbrev="SetControlSurfaceDeflection" source="vehicle" used-by="uav">
+    <description>Set the deflection angle of a control surface.</description>
+    <field name="Identifier" abbrev="id" type="uint8_t"/>
+    <field name="Angle" abbrev="angle" type="fp64_t" unit="rad"/>
+  </message>
+  
+  <message id="209" name="Remote Actions Request" abbrev="RemoteActionsRequest" source="vehicle,ccu" used-by="experimental">
+    <description>
+      This message is used as query to request for the possible remote
+      actions (operation=QUERY and the list is empty in this
+      case). The vehicle responds using the same message type
+      returning the tuplelist with the pairs: Action,Type
+      (operation=REPORT). The type of action can be Axis, Hat or
+      Button.</description>
+    <field name="operation" abbrev="op" type="uint8_t" unit="Enumerated" prefix="OP">
+      <enum abbrev="REPORT" name="Report" id="0"></enum> 
+      <enum abbrev="QUERY" name="Query" id="1"></enum>
+    </field>
+    <field name="Actions" abbrev="actions" type="plaintext" unit="TupleList">
+      <description>Example: "Propulsion=Axis,PanTilt=Hat,Lights=Button"</description>
+    </field>
+  </message>
+  
+  <message id="210" name="Remote Actions" abbrev="RemoteActions" source="ccu" used-by="experimental" flags="periodic">
+    <description>
+      This message is used to send a periodic update of values for
+      each remote action. If the action is not on the list the assumed
+      value is 0.
+    </description>
+    <field name="Actions" abbrev="actions" type="plaintext" unit="TupleList">
+      <description>Example: "Propeler=0.6,PanTilt=0.75,Lights=1"</description>
+    </field>
+  </message>
+  
+  <!-- 
+     Navigation
+    -->
+  <message id="300" name="Home Reference Setting" abbrev="HomeRef" source="ccu" used-by="lauv,uav">
+    <description>
+      Set the vehicle's home reference.
+    </description>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude coordinate.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude coordinate.
+      </description>
+    </field>
+    <field name="Depth" abbrev="depth" type="fp32_t" unit="m">
+      <description>
+        The value of the depth.
+      </description>
+    </field>
+  </message>
+  <message id="301" name="Navigation Startup Point" abbrev="NavigationStartupPoint" source="ccu,vehicle" used-by="lauv,uav">
+    <description>
+      Set the vehicle's navigation start-up point. This is navigation aid, used when the vehicle cannot obtain a GPS Fix when starting a mission.
+    </description>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude coordinate.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude coordinate.
+      </description>
+    </field>
+    <field name="Depth" abbrev="depth" type="fp32_t" unit="m">
+      <description>
+        The value of the depth.
+      </description>
+    </field>
+  </message>
+  <message id="302" name="Estimated Stream Speed" abbrev="EstimatedStreamSpeed" source="vehicle" used-by="lauv,uav,swordfish" flags="periodic">
+    <description>
+      The estimated stream speed, typically for a water or air stream.
+    </description>
+    <field name="X component (North)" abbrev="x" type="fp64_t" unit="m/s">
+      <description>
+        X component (North).
+      </description>
+    </field>
+    <field name="Y component (East)" abbrev="y" type="fp64_t" unit="m/s">
+      <description>
+        Y component (East).
+      </description>
+    </field>
+    <field name="Z component (Down)" abbrev="z" type="fp64_t" unit="m/s">
+      <description>
+        Z component (Down).
+      </description>
+    </field>
+  </message>
+  <message id="303" name="Indicated Velocity" abbrev="IndicatedVelocity" used-by="uav" source="vehicle">
+    <field name="Velocity" abbrev="velocity" unit="m/s" type="fp64_t"/>
+  </message>
+  <message id="304" name="True Velocity" abbrev="TrueVelocity" used-by="uav" source="vehicle">
+    <field name="Velocity" abbrev="velocity" unit="m/s" type="fp64_t"/>
+  </message>
+  
+  <!-- 
+     Guidance
+    -->
+  <message id="400" name="Desired Guidance" abbrev="DesiredGuidance" source="vehicle" used-by="lauv,uav">
+    <description><![CDATA[
+      <p>Message used to specify the desired guidance of the vehicle
+        (heading, depth and velocity).</p>
+      <p>This constitutes the interface for maneuver controllers to interact 
+        with vehicle heading, depth and speed controllers 
+        or other types of guidance controllers.</p>
+      ]]> </description>
+    <field name="Guidance Indicators" abbrev="ind" type="uint8_t" unit="Bitmask" prefix="IND">
+      <description>Defines the type of guidance performed, by 
+        stating which fields have defined information and how they should be interpreted.</description>
+      <bitmask id="0x01" name="Heading Angle" abbrev="HEADING">
+        <description>
+          Heading field is defined and should be interpreted as the absolute
+          heading for guidance.
+        </description> 
+      </bitmask>
+      <bitmask id="0x02" name="Bank Angle" abbrev="BANK">
+        <description>
+        The 'Bank' field is defined.
+        </description> 
+      </bitmask>
+      <bitmask id="0x04" name="Depth" abbrev="DEPTH">
+        <description>
+          The 'Depth' field is defined.
+        </description> 
+      </bitmask>
+      <bitmask id="0x08" name="Velocity" abbrev="VELOCITY">
+        <description>
+          The 'Velocity' and 'Velocity Units' fields are defined.
+        </description> 
+      </bitmask>
+      <bitmask id="0x10" name="Vertical Rate" abbrev="VRATE">
+        <description>
+          The 'Vertical Rate' field is defined.
+        </description> 
+      </bitmask>
+      <bitmask id="0x20" name="Waypoint" abbrev="WAYPOINT">
+        <description>
+          All waypoint related (latitude/longitude/orbit time/orbit radius)
+          and 'Depth' fields are defined.
+        </description> 
+      </bitmask>
+    </field>
+    <field name="Heading" abbrev="heading" type="fp64_t" unit="rad">
+      <description>
+        The value of the desired heading angle, relative to true
+        north, in radians or as heading turn rate.
+      </description>
+    </field>
+    <field name="Bank" abbrev="bank" type="fp64_t" unit="rad">
+      <description>
+        The value of the desired bank angle.
+      </description>
+    </field>
+    <field name="Altitude or Depth" abbrev="depth" type="fp32_t" unit="m">
+      <description>
+        Desired altitude or depth.
+        Use negative values for altitude (UAVs), positive values for depth 
+        (AUVs,ASVs,ROVs).
+      </description>
+    </field>
+    <field name="Velocity" abbrev="velocity" type="fp32_t">
+      <description>
+        The value of the desired velocity. 
+      </description>
+    </field>
+    <field name="Velocity units" abbrev="velocity_units" type="uint8_t" value="0" unit="Enumerated" min="0" max="2" prefix="VUNITS">
+      <description>Indicates the units used for the Velocity field.
+      </description>
+      <enum id="0" name="Meters per second" abbrev="METERS_PS"/>
+      <enum id="1" name="RPM" abbrev="RPM"/>
+      <enum id="2" name="Percentage" abbrev="PERCENTAGE"/>
+    </field>
+    <field name="Vertical Rate" abbrev="vrate" type="fp64_t" unit="m/s">
+      <description>
+        The value of the desired vertical rate.
+      </description>
+    </field>
+    <field name="Waypoint WGS-84 Latitude" abbrev="wlat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude of target waypoint.
+      </description>
+    </field>
+    <field name="Waypoint WGS-84 Longitude" abbrev="wlon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude of target waypoint.
+      </description>
+    </field>
+    <field name="Waypoint Orbit Time" abbrev="wotime" type="fp64_t" unit="s" min="0">
+      <description>
+        Waypoint orbit time (for loiter control).
+      </description>
+    </field>
+    <field name="Waypoint Orbit Radius" abbrev="woradius" type="fp64_t" unit="m" min="0">
+      <description>
+        Waypoint orbit radius (for loiter control).
+      </description>
+    </field>
+    <field name="Waypoint Orbit Direction" abbrev="wodir" type="uint8_t" unit="Enumerated" prefix="WOD" min="0" max="3">
+      <description>
+        Waypoint orbit time (for loiter control).
+      </description>
+      <enum id="0" name="Vehicle Dependent" abbrev="VDEP"/>
+      <enum id="1" name="Clockwise" abbrev="CLOCKW"/>
+      <enum id="2" name="Counter Clockwise" abbrev="CCLOCKW"/>
+      <enum id="3" name="Into the wind/current" abbrev="IWINDCURR"/>
+    </field>
+    <field name="Waypoint Guidance Flags" abbrev="wflags" type="uint8_t" unit="Bitmask" prefix="WFLAGS">
+      <bitmask id="0x01" name="Pre-Turn Control Flag" abbrev="PRETURN">
+        <description>Use a pre-turn control strategy.</description>
+      </bitmask>
+      <bitmask id="0x02" name="Slope Control Flag" abbrev="SLOPE">
+        <description>Use a slope control strategy.</description>
+      </bitmask>
+      <bitmask id="0x04" name="Land Point" abbrev="LANDPOINT">
+        <description>Mark waypoint as landing point.</description>
+      </bitmask>
+    </field>
+  </message>
+
+  <!-- Messages that define an interface with Piccolo autopilot for the purpose of waypoint information
+       (this may later be deprecated or generalized, not sure yet). -->
+    
+  <message id="490" name="Piccolo Waypoint" abbrev="PiccoloWaypoint" used-by="uav">
+    <description>List of waypoints. This is sent upon update
+    by the external device, or in request to a WaypointList message.
+    </description>
+    <field name="Waypoint Index" abbrev="index" type="uint8_t" max="99">
+     <description>Waypoint identifier.</description>
+    </field>
+    <field name="Index of Next Waypoint" abbrev="next" type="uint8_t" max="100">
+     <description>Identifier of waypoint that follows the execution of this waypoint (100 if not defined).</description>
+    </field>
+    <field name="Waypoint WGS-84 Latitude" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>WGS-84 Latitude.</description>
+    </field>
+    <field name="Waypoint WGS-84 Longitude" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>WGS-84 Longitude.</description>
+    </field>
+    <field name="Altitude or Depth" abbrev="depth" type="fp32_t" unit="m">
+      <description>
+        Altitude or depth.
+        Use negative values for altitude (UAVs), positive values for depth 
+        (AUVs,ASVs,ROVs).
+      </description>
+    </field>
+    <field name="Loiter Radius" abbrev="lradius" type="uint16_t" unit="m">
+      <description>
+        Loitering radius. 
+        For waypoints with no loitering, this value is 0.  
+      </description>
+    </field>
+    <field name="Loiter Time" abbrev="ltime" type="uint16_t" unit="s">
+      <description>
+        Loiter duration, if loitering is defined for the waypoint.
+        A value of 0 indicates indefinite loiter time.
+      </description>
+    </field>
+    <field name="Loiter Direction" abbrev="ldirection" type="uint8_t" prefix="LD" unit="Enumerated">
+      <enum id="0" abbrev="CLOCKW" name="Clockwise Loitering"/>
+      <enum id="1" abbrev="CCLOCKW" name="Clockwise Loitering"/>
+    </field>
+  </message>
+
+  <message id="492" name="List Piccolo Waypoints" abbrev="ListPiccoloWaypoints" used-by="uav">
+    <description>Require list of waypoints defined for the external device.</description>
+  </message>
+
+  <message id="493" name="Piccolo Waypoint Deleted" abbrev="PiccoloWaypointDeleted" used-by="uav">
+   <description>Informs that a waypoint has been deleted.</description>
+    <field name="Waypoint Index" abbrev="index" type="uint8_t" max="99">
+     <description>Waypoint index.</description>
+    </field>
+  </message>
+
+  <message id="494" name="Piccolo Tracking State" abbrev="PiccoloTrackingState" used-by="uav" flags="periodic">
+   <description>Indicates the waypoint tracked by the vehicle.</description>
+    <field name="Target Waypoint Identifier" abbrev="to" type="uint8_t" max="99">
+     <description>Target waypoint identifier.</description>
+    </field>
+    <field name="Source Waypoint Identifier" abbrev="from" type="uint8_t" max="100">
+     <description>Optional source waypoint identifier (100 if not defined).</description>
+    </field>
+    <field name="Loitering" abbrev="loiter" type="uint8_t" unit="Enumerated" prefix="LTR">
+      <description>Loiter flag, set if loitering.</description>
+      <enum id="0" name="Not Loitering" abbrev="NO"/>
+      <enum id="1" name="Loitering" abbrev="YES"/>
+    </field>
+    <field name="Estimated Time to Arrival" abbrev="eta" unit="s" type="uint16_t"/>
+    <field name="Along Track Position" abbrev="x" unit="m" type="fp32_t"/>
+    <field name="Cross Track Position" abbrev="y" unit="m" type="fp32_t"/>
+    <field name="Along Track Velocity" abbrev="vx" unit="m/s" type="fp32_t"/>
+    <field name="Cross Track Velocity" abbrev="vy" unit="m/s" type="fp32_t"/>
+  </message>
+  
+  <!-- 
+     Maneuvers
+    -->
+  <message id="500" name="Maneuver Command" abbrev="ManeuverCommand" source="ccu" used-by="lauv,uav">
+    <description><![CDATA[
+      <p>Interface with the  maneuver control supervisor module.</p>
+      <p>Current support includes core commands for starting 
+        and stopping maneuvers.  The senders of this
+        message are typically vehicle or mission supervisor modules.</p>
+      <p>When starting a maneuver, the maneuver to execute is embedded
+        within the <i>maneuver</i> field.</p>]]> 
+    </description>
+    <field name="Command" abbrev="command" type="uint8_t" unit="Enumerated" prefix="MAN" min="0" max="255">
+      <description>
+        Code indicating the control command.
+      </description>
+      <enum id="0" name="Start maneuver" abbrev="START">
+        <description>
+          Start the maneuver as indicated by the maneuver argument.
+          The command is ignored if there is
+          already a maneuver running (the current maneuver
+          must be explicitly stopped or terminate by itself before
+          another maneuver can be started).
+        </description>
+      </enum>
+      <enum id="1" name="Stop maneuver" abbrev="STOP">
+        <description>
+          Force currently executing maneuver to stop.
+          The command is ignored if no maneuver is executing.
+        </description>
+      </enum>
+    </field>
+    <field name="Maneuver" abbrev="maneuver" type="message">
+      <description>Maneuver associated with some commands (currently only START).</description>
+    </field>
+  </message>
+  <message id="501" name="Maneuver State" abbrev="ManeuverState" source="vehicle" used-by="lauv,uav">
+    <description><![CDATA[
+          <p>Report of the current maneuver's execution state.</p>
+          <p>The reported state includes the maneuver status, current waypoint track 
+            and current target reference.</p>
+          <p>The recipients for this message are usually 
+            vehicle or mission supervisor modules. 
+            The message can also be used to monitor maneuver execution by a CCU, 
+            in particular the behaviour of reference generator controllers.</p>
+          ]]></description>
+    <field name="State" abbrev="state" type="uint8_t" unit="Enumerated" prefix="MAN_STATE">
+      <description>
+        Code indicating maneuver state.
+      </description>
+      <enum id="0" name="Maneuver in progress" abbrev="EXEC">
+        <description>
+          Maneuver in progress.
+        </description>
+      </enum>
+      <enum id="1" name="Maneuver completed" abbrev="DONE">
+        <description>
+          Maneuver completed.
+        </description>
+      </enum>
+      <enum id="2" name="Maneuver error" abbrev="ERROR">
+        <description>
+          Maneuver error.
+        </description>
+      </enum>
+      <enum id="3" name="Maneuver timeout" abbrev="TIMEOUT">
+        <description>
+          Maneuver timeout.
+        </description>
+      </enum>
+      <enum id="4" name="Maneuver aborted" abbrev="ABORTED">
+        <description>
+          Maneuver aborted.
+        </description>
+      </enum>
+    </field>
+    <field name="Start Point North Offset" type="fp64_t" abbrev="start_x" unit="m">
+      <description>
+        North coordinate of reference starting point.
+      </description>
+    </field>
+    <field name="Start Point East Offset" type="fp64_t" abbrev="start_y" unit="m">
+      <description>
+        East coordinate of reference starting point.
+      </description>
+    </field>
+    <field name="End Point North Offset" type="fp64_t" abbrev="end_x" unit="m">
+      <description>
+        North coordinate of reference end point.
+      </description>
+    </field>
+    <field name="End Point East Offset" type="fp64_t" abbrev="end_y" unit="m">
+      <description>
+        East coordinate of reference end point.
+      </description>
+    </field>
+    <field name="Desired Point North Offset" type="fp64_t" abbrev="desired_x" unit="m">
+      <description>
+        North coordinate of current desired point, typically derived
+        with a reference generator.
+      </description>
+    </field>
+    <field name="Desired Point East Offset" type="fp64_t" abbrev="desired_y" unit="m">
+      <description>
+        East coordinate of current desired point, typically derived
+        with a reference generator.
+      </description>
+    </field>
+  </message>
+  <message id="510" name="Goto Maneuver" abbrev="Goto" source="ccu" used-by="lauv,uav">
+    <description><![CDATA[
+    <p>A "Goto" is a maneuver specifying a movement of the vehicle 
+      to a target waypoint.  The waypoint is described by 
+      the WGS-84 waypoint coordinate and target depth.</p>
+    <p>Mandatory parameters defined for a "Goto" timeout, 
+      tolerance radius and velocity.</p>
+    <p>Optional parameters be defined for the target Euler Angles  
+      (pitch, yaw and roll) though these parameters 
+      may not be considered by all maneuver controllers in charge of 
+      the execution of this type of maneuver.</p>
+    ]]>
+    </description>
+    <field name="Timeout" abbrev="timeout" type="uint16_t" unit="s">
+      <description>
+        The amount of time the maneuver is allowed to run. 
+      </description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude of target waypoint.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude of target waypoint.
+      </description>
+    </field>
+    <field name="Altitude or Depth" abbrev="z" type="fp32_t" unit="m">
+      <description>
+        Target depth/altitude indicator. 
+        Use negative values for altitude (UAVs), positive values for depth (AUVs,ASVs,ROVs).
+      </description>
+    </field>
+    <field name="Velocity" abbrev="velocity" type="fp32_t">
+      <description>
+        Velocity to be used in this maneuver.
+      </description>
+    </field>
+    <field name="Velocity units" abbrev="velocity_units" type="uint8_t" value="0" unit="Enumerated" min="0" max="2" prefix="VUNITS">
+      <description>
+        Indicates the units used for the Velocity field.
+      </description>
+      <enum id="0" name="Meters per second" abbrev="METERS_PS">
+        <description>
+          Meters per second.
+        </description>
+      </enum>
+      <enum id="1" name="RPM" abbrev="RPM">
+        <description>
+          Rotations per minute.
+        </description>
+      </enum>
+      <enum id="2" name="Percentage" abbrev="PERCENTAGE">
+        <description>
+          Percentage.
+        </description>
+      </enum>
+    </field>
+    <field name="Radius Tolerance" unit="m" abbrev="radius_tolerance" type="fp32_t">
+      <description>
+        This radius tolerance indicates the minimum distance from the
+        target waypoint to consider the maneuver successfully terminated.
+      </description>
+    </field>
+    <field name="Roll" abbrev="roll" type="fp64_t" unit="rad" min="-1" max="6.283185307179586">
+      <description>
+        The the phi Euler angle in which the vehicle should set its
+        attitude. Use '-1' for this field to be
+        unconsidered. Otherwise the value spans from 0 to 2 Pi.
+      </description>
+    </field>
+    <field name="Pitch" abbrev="pitch" type="fp64_t" unit="rad" min="-1" max="6.283185307179586">
+      <description>
+        The theta Euler angle in which the vehicle should set its
+        attitude. Use '-1' for this field to be
+        disconcerted. Otherwise the value spans from 0 to 2 Pi.
+      </description>
+    </field>
+    <field name="Yaw" abbrev="yaw" type="fp64_t" unit="rad" min="-1" max="6.283185307179586">
+      <description>
+        The psi Euler angle in which the vehicle should set its
+        attitude. Use '-1' for this field to be
+        considered. Otherwise the value spans from 0 to 2 Pi.
+      </description>
+    </field>
+    <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
+      <description>
+        Custom settings for maneuver.
+      </description>
+    </field>
+  </message>
+  <message id="511" name="Dive Maneuver" abbrev="Dive" source="ccu" used-by="">
+    <description>
+      The Dive maneuver is intended for underwater vehicles and makes
+      the vehicle dive until a certain depth.
+    </description>
+    <field name="Timeout" abbrev="timeout" type="uint16_t" unit="s">
+      <description>
+        The amount of time the maneuver is allowed to run. If the
+        maneuver is not completed in the amount of time specified an
+        error will be generated.
+      </description>
+    </field>
+    <field name="Depth (m)" abbrev="depth" type="fp64_t">
+      <description>
+        The target desired depth for the maneuver.
+      </description>
+    </field>
+    <field name="Velocity" abbrev="velocity" type="fp32_t">
+      <description>
+        Velocity to be used in this maneuver.
+      </description>
+    </field>
+    <field name="Velocity units" abbrev="velocity_units" type="uint8_t" value="0" unit="Enumerated" min="0" max="2" prefix="VUNITS">
+      <description>
+        Indicates the units used for the Velocity field.
+      </description>
+      <enum id="0" name="Meters per second" abbrev="METERS_PS">
+        <description>
+          Meters per second.
+        </description>
+      </enum>
+      <enum id="1" name="RPM" abbrev="RPM">
+        <description>
+          Rotations per minute.
+        </description>
+      </enum>
+      <enum id="2" name="Percentage" abbrev="PERCENTAGE">
+        <description>
+          Percentage.
+        </description>
+      </enum>
+    </field>
+    <field name="heading" abbrev="heading" type="fp64_t" unit="rad" min="-1" max="6.283185307179586">
+      <description>
+        The heading to be used on the dive. Use '-1' for this field to
+        be unconsidered. Otherwise the value spans from 0 to 2Pi.
+      </description>
+    </field>
+    <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
+      <description>
+        Custom settings for maneuver.
+      </description>
+    </field>
+  </message>
+  <message id="512" name="Popup Maneuver" abbrev="Popup" source="ccu" used-by="lauv">
+    <description>
+      The Pop Up maneuver makes the vehicle come to the surface at a
+      specific waypoint. This is used in underwater vehicles.
+    </description>
+    <field name="Timeout" abbrev="timeout" type="uint16_t" unit="s">
+      <description>
+        The amount of time the maneuver is allowed to run. If the
+        maneuver is not completed in the amount of time specified an
+        error will be generated.
+      </description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude.
+      </description>
+    </field>
+    <field name="Depth (m)" abbrev="depth" type="fp64_t">
+      <description>
+        The target desired depth for the maneuver.
+      </description>
+    </field>
+    <field name="Duration" abbrev="duration" type="uint16_t" unit="s">
+      <description>The duration of this maneuver at surface level. Use '0' for unlimited duration time.</description>
+    </field>
+    <field name="Velocity" abbrev="velocity" type="fp32_t">
+      <description>Velocity to be used in this maneuver.</description>
+    </field>
+    <field name="Velocity units" abbrev="velocity_units" type="uint8_t" value="0" unit="Enumerated" min="0" max="2" prefix="VUNITS">
+      <description>Indicates the units used for the Velocity field.</description>
+      <enum id="0" name="Meters per second" abbrev="METERS_PS"/>
+      <enum id="1" name="RPM" abbrev="RPM"/>
+      <enum id="2" name="Percentage" abbrev="PERCENTAGE"/>
+    </field>
+    <field name="Radius Tolerance" unit="m" abbrev="radius_tolerance" type="fp32_t">
+      <description>
+        This radius tolerance indicates the minimum distance from the
+        popup waypoint to start vehicle popup.
+      </description>
+    </field>
+    <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
+      <description>
+        Custom settings for maneuver.
+      </description>
+    </field>
+  </message>
+  <message id="513" name="Teleoperation Maneuver" abbrev="Teleoperation" source="ccu" used-by="lauv,uav,rov-kos,swordfish">
+    <description><![CDATA[
+        The Teleoperation Maneuver lets the vehicle be controlled 
+        by a human operator interface, usually expressed using <i>Joystick</i>
+    messages.
+    ]]></description>
+    <field name="Timeout" abbrev="timeout" type="uint16_t" unit="s">
+      <description>
+        The amount of time the maneuver is allowed to run. If the
+        maneuver is not completed in the amount of time specified an
+        error will be generated.
+      </description>
+    </field>
+    <field name="Maximum velocity" abbrev="max_velocity" type="fp32_t" min="-1">
+      <description>
+        Velocity to be used in this maneuver. Use '-1' for unlimited
+        value of the velocity.
+      </description>
+    </field>
+    <field name="Velocity units" abbrev="velocity_units" type="uint8_t" value="0" unit="Enumerated" min="0" max="2" prefix="VUNITS">
+      <description>
+        Indicates the units used for the Velocity field.
+      </description>
+      <enum id="0" name="Meters per second" abbrev="METERS_PS">
+        <description>
+          Meters per second.
+        </description>
+      </enum>
+      <enum id="1" name="RPM" abbrev="RPM">
+        <description>
+          Rotations per minute.
+        </description>
+      </enum>
+      <enum id="2" name="Percentage" abbrev="PERCENTAGE">
+        <description>
+          Percentage.
+        </description>
+      </enum>
+    </field>
+    <field name="Minimum Depth/Altitude" abbrev="min_z" type="fp32_t" min="-1">
+      <description>
+        Minimum depth/altitude allowed for teleoperation.
+      </description>
+    </field>
+    <field name="Maximum Depth/Altitude" abbrev="max_z" type="fp32_t" min="-1">
+      <description>
+        Maximum depth/altitude allowed for teleoperation.
+      </description>
+    </field>
+    <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
+      <description>
+        Custom settings for maneuver.
+      </description>
+    </field>
+  </message>
+  <message id="514" name="Loiter Maneuver" abbrev="Loiter" source="ccu" used-by="lauv,uav">
+    <description/>
+    <field name="Timeout" abbrev="timeout" type="uint16_t" unit="s">
+      <description>The timeout indicates the time that an error should occur if exceeded.</description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>WGS-84 Latitude coordinate.</description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>WGS-84 Longitude coordinate.</description>
+    </field>
+    <field name="Altitude or Depth" abbrev="z" type="fp32_t" unit="m">
+      <description>Depth/Altitude indicator. Use negative values for altitude (UAVs), positive values for depth (AUVs,ASVs,ROVs).</description>
+    </field>
+    <field name="Duration" abbrev="duration" type="uint16_t" unit="s">
+      <description>The duration of this maneuver. Use '0' for unlimited duration time.</description>
+    </field>
+    <field name="Velocity" abbrev="velocity" type="fp32_t">
+      <description>Velocity to be used in this maneuver.</description>
+    </field>
+    <field name="Velocity units" abbrev="velocity_units" type="uint8_t" value="0" unit="Enumerated" min="0" max="2" prefix="VUNITS">
+      <description>Indicates the units used for the Velocity field.</description>
+      <enum id="0" name="Meters per second" abbrev="METERS_PS"/>
+      <enum id="1" name="RPM" abbrev="RPM"/>
+      <enum id="2" name="Percentage" abbrev="PERCENTAGE"/>
+    </field>
+    <field name="Loiter Type" abbrev="type" type="uint8_t" unit="Enumerated" prefix="LT" min="0" max="4">
+      <enum id="0" name="Default" abbrev="DEFAULT"/>
+      <enum id="1" name="Circular" abbrev="CIRCULAR"/>
+      <enum id="2" name="Race track" abbrev="RACETRACK"/>
+      <enum id="3" name="Figure 8" abbrev="EIGHT"/>
+      <enum id="4" name="Hover" abbrev="HOVER"/>
+    </field>
+    <field name="Radius" abbrev="radius" type="fp32_t" unit="m" min="1" max="100000"/>
+    <field name="Length" abbrev="length" type="fp32_t" unit="m" min="1" max="100000"/>
+    <field name="Bearing" abbrev="bearing" type="fp64_t" unit="rad" min="0" max="6.283185307179586"/>
+    <field name="Direction" abbrev="direction" type="uint8_t" unit="Enumerated" prefix="LD" min="0" max="3">
+      <enum id="0" name="Vehicle Dependent" abbrev="VDEP"/>
+      <enum id="1" name="Clockwise" abbrev="CLOCKW"/>
+      <enum id="2" name="Counter Clockwise" abbrev="CCLOCKW"/>
+      <enum id="3" name="Into the wind/current" abbrev="IWINDCURR"/>
+    </field>
+    <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
+      <description>Custom settings for maneuver.</description>
+    </field>
+  </message>
+  <message id="515" name="Idle Maneuver" abbrev="IdleManeuver" source="" used-by="lauv,uav">
+    <description>
+      Causes the vehicle to stay idle for some time.
+    </description>
+    <field name="Duration" abbrev="duration" type="uint16_t" unit="s">
+      <description>
+        Optional duration of the Idle maneuver. 
+        Use '0' for unlimited duration time (maneuver will have to be explicitly stopped).
+      </description>
+    </field>
+    <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
+      <description>
+        Custom settings for maneuver.
+      </description>
+    </field>
+  </message>
+  <message id="516" name="Elemental Maneuver" abbrev="ElementalManeuver" source="ccu" used-by="lauv">
+    <description>
+      Elemental Maneuver: it keeps the vehicle heading and/or depth and/or velocity
+      for a specified amount of time. 
+      The 'indicator' field specifies which
+      parameters should be considered for the elemental maneuver.
+      This maneuver specification is appropriate for testing vehicle sanity
+      or low-level fine-grained vehicle control.
+    </description>
+    <field name="Parameter Indicator" abbrev="ind" type="uint8_t" unit="Bitmask" prefix="IND">
+      <description>
+        Parameter indicator bitmask, specifying which 
+        actual parameters should be considered for the elemental
+        maneuver.
+      </description>
+      <bitmask id="0x01" abbrev="HEADING" name="Heading indicator"/>
+      <bitmask id="0x02" abbrev="Z" name="Altitude/Depth indicator"/>
+      <bitmask id="0x04" abbrev="VELOCITY" name="Velocity indicator"/>
+      <!-- TODO: Add roll and pitch indicators and fields in the future. -->
+    </field>
+    <field name="Duration" abbrev="duration" type="uint16_t" unit="s">
+      <description>
+        Duration of the maneuver. Use '0' for unlimited duration time (maneuver
+        will only be stopped on request or due to a high level control switch
+        in this case).
+      </description>
+    </field>
+    <field name="Heading" abbrev="heading" type="fp64_t" unit="rad" min="0" max="6.283185307179586">
+      <description>
+        The value of the desired heading angle, relative to true
+        north, in radians.
+      </description>
+    </field>
+    <field name="Altitude or Depth" abbrev="z" type="fp32_t" unit="m">
+      <description>
+        Depth/Altitude indicator. Use negative values for altitude (UAVs), positive values for depth (AUVs,ASVs,ROVs).
+      </description>
+    </field>
+    <field name="Velocity" abbrev="velocity" type="fp32_t">
+      <description>
+        The value of the desired velocity.
+      </description>
+    </field>
+    <field name="Velocity units" abbrev="velocity_units" type="uint8_t" value="0" unit="Enumerated" min="0" max="2" prefix="VUNITS">
+      <description>Specifies the units used for the Velocity field.</description>
+      <enum id="0" name="Meters per second" abbrev="METERS_PS"/>
+      <enum id="1" name="RPM" abbrev="RPM"/>
+      <enum id="2" name="Percentage" abbrev="PERCENTAGE"/>
+    </field>
+  </message>
+  <message id="517" name="Structure Tracking Maneuver" abbrev="StructureTracking" source="ccu" used-by="uav">
+    <description><![CDATA[
+    <p>.</p>
+    ]]>
+    </description>
+    <field name="Timeout" abbrev="timeout" type="uint16_t" unit="s">
+      <description>
+        The amount of time the maneuver is allowed to run. 
+      </description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude of target waypoint.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude of target waypoint.
+      </description>
+    </field>
+    <field name="Altitude or Depth" abbrev="z" type="fp32_t" unit="m">
+      <description>
+        Target depth/altitude indicator. 
+        Use negative values for altitude (UAVs), positive values for depth (AUVs,ASVs,ROVs).
+      </description>
+    </field>
+    <field name="Velocity" abbrev="velocity" type="fp32_t">
+      <description>
+        Velocity to be used in this maneuver.
+      </description>
+    </field>
+    <field name="Velocity units" abbrev="velocity_units" type="uint8_t" value="0" unit="Enumerated" min="0" max="2" prefix="VUNITS">
+      <description>
+        Indicates the units used for the Velocity field.
+      </description>
+      <enum id="0" name="Meters per second" abbrev="METERS_PS">
+        <description>
+          Meters per second.
+        </description>
+      </enum>
+      <enum id="1" name="RPM" abbrev="RPM">
+        <description>
+          Rotations per minute.
+        </description>
+      </enum>
+      <enum id="2" name="Percentage" abbrev="PERCENTAGE">
+        <description>
+          Percentage.
+        </description>
+      </enum>
+    </field>
+    <field name="Radius Tolerance" unit="m" abbrev="radius_tolerance" type="fp32_t">
+      <description>
+        This radius tolerance indicates the minimum distance from the
+        target waypoint to consider the maneuver successfully terminated.
+      </description>
+    </field>
+    <field name="Search Radius" unit="m" abbrev="search_radius" type="fp32_t">
+      <description>
+        This radius tolerance indicates the minimum distance from the
+        target waypoint to consider the maneuver successfully terminated.
+      </description>
+    </field>   
+    <field name="Track Bearing" abbrev="track_bearing" type="fp64_t" unit="rad" min="0" max="6.283185307179586">
+      <description>
+        
+      </description>
+    </field>
+    <field name="Legs" abbrev="legs" type="uint8_t" />     
+    <field name="Operation Area Latitude WGS-84" abbrev="op_lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude of target waypoint.
+      </description>
+    </field>
+    <field name="Operation Area Longitude WGS-84" abbrev="op_lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude of target waypoint.
+      </description>
+    </field>
+    <field name="Operation Area Radius" unit="m" abbrev="op_radius" type="fp32_t">
+      <description>
+      </description>
+    </field>
+    <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
+      <description>
+        Custom settings for maneuver.
+      </description>
+    </field>
+  </message>
+  <message id="518" name="Rows Maneuver" abbrev="RowManeuver" source="ccu" used-by="lauv,uav">
+   <description>Rows maneuver</description> 
+    <field name="Timeout" abbrev="timeout" type="uint16_t" unit="s">
+      <description>
+        The amount of time the maneuver is allowed to run. 
+      </description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude of target waypoint.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude of target waypoint.
+      </description>
+    </field>
+    <field name="Altitude or Depth" abbrev="z" type="fp32_t" unit="m">
+      <description>
+        Target depth/altitude indicator. 
+        Use negative values for altitude (UAVs), positive values for depth (AUVs,ASVs,ROVs).
+      </description>
+    </field>
+    <field name="Velocity" abbrev="velocity" type="fp32_t">
+      <description>
+        Velocity to be used in this maneuver.
+      </description>
+    </field>
+    <field name="Velocity units" abbrev="velocity_units" type="uint8_t" value="0" unit="Enumerated" min="0" max="2" prefix="VUNITS">
+      <description>
+        Indicates the units used for the Velocity field.
+      </description>
+      <enum id="0" name="Meters per second" abbrev="METERS_PS">
+        <description>
+          Meters per second.
+        </description>
+      </enum>
+      <enum id="1" name="RPM" abbrev="RPM">
+        <description>
+          Rotations per minute.
+        </description>
+      </enum>
+      <enum id="2" name="Percentage" abbrev="PERCENTAGE">
+        <description>
+          Percentage.
+        </description>
+      </enum>
+    </field>
+    <field name="Bearing" abbrev="bearing" type="fp64_t" unit="rad" min="0" max="6.283185307179586"/>
+    <field name="Width" abbrev="width" min="0" type="fp32_t" unit="m"/>
+    <field name="Length" abbrev="length" min="0" type="fp32_t" unit="m"/>
+    <field name="Height" abbrev="height" min="0" value="0" type="fp32_t" unit="m"/>
+    <field name="Horizontal Step" abbrev="hstep" type="fp32_t" unit="m"/>
+    <field name="Vertical Step" abbrev="vstep" value="0" type="fp32_t" unit="m"/>
+  </message>
+  <message id="519" name="Follow Path Maneuver" abbrev="FollowPath" source="ccu" used-by="lauv,uav">
+    <field name="Timeout" abbrev="timeout" type="uint16_t" unit="s">
+      <description>
+        The amount of time the maneuver is allowed to run. 
+      </description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude of target waypoint.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude of target waypoint.
+      </description>
+    </field>
+    <field name="Altitude or Depth" abbrev="z" type="fp32_t" unit="m">
+      <description>
+        Target depth/altitude indicator. 
+        Use negative values for altitude (UAVs), positive values for depth (AUVs,ASVs,ROVs).
+      </description>
+    </field>
+    <field name="Velocity" abbrev="velocity" type="fp32_t">
+      <description>
+        Velocity to be used in this maneuver.
+      </description>
+    </field>
+    <field name="Velocity units" abbrev="velocity_units" type="uint8_t" value="0" unit="Enumerated" min="0" max="2" prefix="VUNITS">
+      <description>
+        Indicates the units used for the Velocity field.
+      </description>
+      <enum id="0" name="Meters per second" abbrev="METERS_PS">
+        <description>
+          Meters per second.
+        </description>
+      </enum>
+      <enum id="1" name="RPM" abbrev="RPM">
+        <description>
+          Rotations per minute.
+        </description>
+      </enum>
+      <enum id="2" name="Percentage" abbrev="PERCENTAGE">
+        <description>
+          Percentage.
+        </description>
+      </enum>
+    </field>
+    <field name="Radius Tolerance" unit="m" abbrev="radius_tolerance" type="fp32_t">
+      <description>
+        This radius tolerance indicates the minimum distance from the
+        target waypoint to consider the maneuver successfully terminated.
+      </description>
+    </field>
+    <field name="Path Points" abbrev="points" type="message">
+     <description>Inline message of type PathPoint, encoding the path points.</description>
+    </field>
+  </message>
+
+  <message id="520" name="Path Point" abbrev="PathPoint" used-by="lauv,uav">
+    <field name="Offset north (m)" abbrev="x" type="fp32_t" unit="m">
+      <description>The North offset of the North/East/Down coordinate of this point in relation to the path start point.</description>
+    </field>
+    <field name="Offset east (m)" abbrev="y" type="fp32_t" unit="m">
+      <description>The East offset of the North/East/Down coordinate of this point in relation to the path start point.</description>
+    </field>
+    <field name="Offset north (m)" abbrev="z" type="fp32_t" unit="m">
+      <description>The Down offset of the North/East/Down coordinate of this point in relation to the path start point.</description>
+    </field>
+    <field name="Next Point" abbrev="point" type="message">
+     <description>Inline message of type PathPoint, encoding the next path point. If not defined, this point is the last point in the path.</description>
+    </field>
+  </message>
+
+  <message id="550" name="Custom Maneuver" abbrev="CustomManeuver" source="ccu" used-by="lauv,uav">
+    <description>
+      The Custom Maneuver message may be used 
+      as specification of a very specific maneuver not covered
+      by the IMC scope. The settings of the maneuver are just
+      its id, timeout and other settings encoded as a tuple list.
+    </description>
+    <field name="Timeout" abbrev="timeout" type="uint16_t" unit="s">
+      <description>
+        The amount of time the maneuver is allowed to run. If the
+        maneuver is not completed in the amount of time specified an
+        error will be generated.
+      </description>
+    </field>
+    <field name="Maneuver Name" abbrev="name" type="plaintext">
+      <description>
+        The maneuver name, used as key by an implementation
+        to bind the maneuver to the corresponding controller.
+      </description>
+    </field>
+    <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
+      <description>
+        Custom settings for maneuver.
+      </description>
+    </field>
+  </message>
+  
+
+  <!-- 
+     Vehicle Supervisor
+    -->
+  <message id="600" name="Vehicle State" abbrev="VehicleState" used-by="lauv,uav" source="vehicle">
+    <description><![CDATA[
+    <p>The Vehicle State message is reported by the Vehicle supervisor 
+      periodically in response to a Vehicle Command message or to report
+      an high level maneuver execution state.</p>
+    <p>The reported state may refer to idleness, an execution error,
+      or maneuver initialization/normal execution/timeout or error.
+    </p>
+    <p>Additional information comprises:</p><ul>
+      <li>A summary of the vehicle's accumulated
+        events is reported
+        in the <i>[warning|timeout|error|fatal]_events</i> field masks. 
+        The value of each bit persists until a 
+        recovering event is detected.</li>
+      <li>Notification events are reported
+        in the <i>notification_events</i> field mask. The information
+        is not persistent across vehicle state reports.</li>
+      <li>A summary of vehicle verified conditions and executed actions
+        is given by the <li>conditions_verified</i> and <i>executed_actions</i> 
+        field.</li></ul>
+    ]]></description>
+    <field type="uint8_t" name="State" abbrev="state" unit="Enumerated" prefix="VS">
+      <description>
+        The current vehicle supervisor operational state
+      </description>
+      <enum id="0" name="Idle" abbrev="IDLE">
+        <description>The Vehicle Supervisor is on Idle state</description>
+      </enum>
+      <enum id="1" name="Initialization" abbrev="INIT">
+        <description>The Vehicle Supervisor is now starting</description>
+      </enum>
+      <enum id="2" name="Error" abbrev="ERROR">
+        <description>The Vehicle Supervisor encountered an error.</description>
+      </enum>
+      <enum id="3" name="Executing Maneuver" abbrev="MAN_EXEC">
+        <description>Vehicle Supervisor is currently executing a maneuver</description>
+      </enum>
+      <enum id="4" name="Maneuver Done" abbrev="MAN_DONE">
+        <description>The maneuver has been successfully completed</description>
+      </enum>
+      <enum id="5" name="Maneuver Error" abbrev="MAN_ERROR">
+        <description>The maneuver controller returned an error</description>
+      </enum>
+      <enum id="6" name="Maneuver Timeout" abbrev="MAN_TIMEOUT">
+        <description>The maneuver timed out.</description>
+      </enum>
+    </field>
+    <field name="Control Mode" abbrev="control_mode" type="uint8_t" prefix="CM" unit="Enumerated">
+      <description>Active Control Mode</description>
+      <enum id="0" name="None" abbrev="NONE">
+        <description>Disable any type of control.</description>
+      </enum>
+      <enum id="1" name="Diagnostic Control" abbrev="DIAGNOSTIC">
+        <description>Diagnostic control mode enabled.</description>
+      </enum>
+      <enum id="2" name="Manual Control" abbrev="MANUAL">
+        <description>Manual control mode enabled.</description>
+      </enum>
+      <enum id="3" name="Automatic Control" abbrev="AUTOMATIC">
+        <description>Automatic Control enabled.</description>
+      </enum>
+    </field>
+    <field type="int64_t" name="Monitored Event Mask" abbrev="event_mask" unit="Bitmask" prefix="EVT_MASK">
+      <description>
+        <![CDATA[  
+      Bitmask indicating event sources (see <i>Event</i> message) 
+      being monitored.
+      Bit <i>b</i> is set if corresponding event source is being monitored.
+      If an event source bit is not enabled in this mask then 
+      the corresponding status for the event source signalled in 
+      <i>fatal/error/warning/timeout/notification_events</i>,
+      should be ignored.
+      ]]>
+      </description>
+      <bitmask id="0x00000001" name="GPS" abbrev="GPS"/>
+      <bitmask id="0x00000002" name="Internal Temperature" abbrev="INTERNAL_TEMPERATURE"/>
+      <bitmask id="0x00000004" name="Internal Voltage" abbrev="INTERNAL_VOLTAGE"/>
+      <bitmask id="0x00000008" name="Internal Current" abbrev="INTERNAL_CURRENT"/>
+      <bitmask id="0x00000010" name="IMU" abbrev="IMU"/>
+      <bitmask id="0x00000020" name="LBL" abbrev="LBL"/>
+      <bitmask id="0x00000040" name="Thrusters" abbrev="THRUSTERS"/>
+      <bitmask id="0x00000080" name="CTD" abbrev="CTD"/>
+      <bitmask id="0x00000100" name="Leak Sensor" abbrev="LEAK_SENSOR"/>
+      <bitmask id="0x00000200" name="Leak Detection" abbrev="LEAK_DETECTION"/>
+      <bitmask id="0x00000400" name="SMS" abbrev="SMS"/>
+      <bitmask id="0x00000800" name="UAV Autopilot" abbrev="UAV_AUTOPILOT"/>
+      <bitmask id="0x00001000" name="DVL" abbrev="DVL"/>
+      <bitmask id="0x00002000" name="Teleoperation" abbrev="TELEOPERATION"/>
+      <bitmask id="0x00004000" name="Unknown" abbrev="UNKNOWN"/>
+      <bitmask id="0x00008000" name="Navigation" abbrev="NAVIGATION"/>
+    </field>
+    <field type="int64_t" name="Critical Event Mask" abbrev="critical_event_mask" unit="Bitmask" prefix="EVT_MASK_CRITICAL">
+      <description>
+        <![CDATA[  
+      Bitmask indicating event sources (see <i>Event</i> message) 
+      being monitored and which will prevent vehicle from operating
+      if an error is detected. The source set is a subset of event 
+      sources specified by the <i>event_mask</i> field.
+     ]]>
+      </description>
+      <bitmask id="0x00000001" name="GPS" abbrev="GPS"/>
+      <bitmask id="0x00000002" name="Internal Temperature" abbrev="INTERNAL_TEMPERATURE"/>
+      <bitmask id="0x00000004" name="Internal Voltage" abbrev="INTERNAL_VOLTAGE"/>
+      <bitmask id="0x00000008" name="Internal Current" abbrev="INTERNAL_CURRENT"/>
+      <bitmask id="0x00000010" name="IMU" abbrev="IMU"/>
+      <bitmask id="0x00000020" name="LBL" abbrev="LBL"/>
+      <bitmask id="0x00000040" name="Thrusters" abbrev="THRUSTERS"/>
+      <bitmask id="0x00000080" name="CTD" abbrev="CTD"/>
+      <bitmask id="0x00000100" name="Leak Sensor" abbrev="LEAK_SENSOR"/>
+      <bitmask id="0x00000200" name="Leak Detection" abbrev="LEAK_DETECTION"/>
+      <bitmask id="0x00000400" name="SMS" abbrev="SMS"/>
+      <bitmask id="0x00000800" name="UAV Autopilot" abbrev="UAV_AUTOPILOT"/>
+      <bitmask id="0x00001000" name="DVL" abbrev="DVL"/>
+      <bitmask id="0x00002000" name="Teleoperation" abbrev="TELEOPERATION"/>
+      <bitmask id="0x00004000" name="Unknown" abbrev="UNKNOWN"/>
+      <bitmask id="0x00008000" name="Navigation" abbrev="NAVIGATION"/>
+    </field>
+    <field type="int64_t" name="Boot Events" abbrev="boot_events" unit="Bitmask" prefix="EVT_BOOT">
+      <description>
+        <![CDATA[  
+      Bitmask indicating event sources (see <i>Event</i> message) with boot
+      condition status. 
+      Bit <i>b</i> is set if corresponding event source is in bool condition 
+      status and persists until another operation status is reported.
+     ]]>
+      </description>
+      <bitmask id="0x00000001" name="GPS" abbrev="GPS"/>
+      <bitmask id="0x00000002" name="Internal Temperature" abbrev="INTERNAL_TEMPERATURE"/>
+      <bitmask id="0x00000004" name="Internal Voltage" abbrev="INTERNAL_VOLTAGE"/>
+      <bitmask id="0x00000008" name="Internal Current" abbrev="INTERNAL_CURRENT"/>
+      <bitmask id="0x00000010" name="IMU" abbrev="IMU"/>
+      <bitmask id="0x00000020" name="LBL" abbrev="LBL"/>
+      <bitmask id="0x00000040" name="Thrusters" abbrev="THRUSTERS"/>
+      <bitmask id="0x00000080" name="CTD" abbrev="CTD"/>
+      <bitmask id="0x00000100" name="Leak Sensor" abbrev="LEAK_SENSOR"/>
+      <bitmask id="0x00000200" name="Leak Detection" abbrev="LEAK_DETECTION"/>
+      <bitmask id="0x00000400" name="SMS" abbrev="SMS"/>
+      <bitmask id="0x00000800" name="UAV Autopilot" abbrev="UAV_AUTOPILOT"/>
+      <bitmask id="0x00001000" name="DVL" abbrev="DVL"/>
+      <bitmask id="0x00002000" name="Teleoperation" abbrev="TELEOPERATION"/>
+      <bitmask id="0x00004000" name="Unknown" abbrev="UNKNOWN"/>
+      <bitmask id="0x00008000" name="Navigation" abbrev="NAVIGATION"/>
+    </field>
+    <field type="int64_t" name="Fatal Events" abbrev="fatal_events" unit="Bitmask" prefix="EVT_FATAL">
+      <description>
+        <![CDATA[  
+      Bitmask indicating event sources (see <i>Event</i> message) with fatal 
+      condition status. 
+      Bit <i>b</i> is set if corresponding event source is in fatal condition 
+      status and persists until another operation status is reported.
+     ]]>
+      </description>
+      <bitmask id="0x00000001" name="GPS" abbrev="GPS"/>
+      <bitmask id="0x00000002" name="Internal Temperature" abbrev="INTERNAL_TEMPERATURE"/>
+      <bitmask id="0x00000004" name="Internal Voltage" abbrev="INTERNAL_VOLTAGE"/>
+      <bitmask id="0x00000008" name="Internal Current" abbrev="INTERNAL_CURRENT"/>
+      <bitmask id="0x00000010" name="IMU" abbrev="IMU"/>
+      <bitmask id="0x00000020" name="LBL" abbrev="LBL"/>
+      <bitmask id="0x00000040" name="Thrusters" abbrev="THRUSTERS"/>
+      <bitmask id="0x00000080" name="CTD" abbrev="CTD"/>
+      <bitmask id="0x00000100" name="Leak Sensor" abbrev="LEAK_SENSOR"/>
+      <bitmask id="0x00000200" name="Leak Detection" abbrev="LEAK_DETECTION"/>
+      <bitmask id="0x00000400" name="SMS" abbrev="SMS"/>
+      <bitmask id="0x00000800" name="UAV Autopilot" abbrev="UAV_AUTOPILOT"/>
+      <bitmask id="0x00001000" name="DVL" abbrev="DVL"/>
+      <bitmask id="0x00002000" name="Teleoperation" abbrev="TELEOPERATION"/>
+      <bitmask id="0x00004000" name="Unknown" abbrev="UNKNOWN"/>
+      <bitmask id="0x00008000" name="Navigation" abbrev="NAVIGATION"/>
+    </field>
+    <field type="int64_t" name="Error Events" abbrev="error_events" unit="Bitmask" prefix="EVT_ERROR">
+      <description>
+        <![CDATA[  
+      Bitmask indicating event sources (see <i>Event</i> message) with error
+      condition status. 
+      Bit <i>b</i> is set if corresponding event source is in error condition 
+      status and persists until another operation status is reported.
+     ]]>
+      </description>
+      <bitmask id="0x00000001" name="GPS" abbrev="GPS"/>
+      <bitmask id="0x00000002" name="Internal Temperature" abbrev="INTERNAL_TEMPERATURE"/>
+      <bitmask id="0x00000004" name="Internal Voltage" abbrev="INTERNAL_VOLTAGE"/>
+      <bitmask id="0x00000008" name="Internal Current" abbrev="INTERNAL_CURRENT"/>
+      <bitmask id="0x00000010" name="IMU" abbrev="IMU"/>
+      <bitmask id="0x00000020" name="LBL" abbrev="LBL"/>
+      <bitmask id="0x00000040" name="Thrusters" abbrev="THRUSTERS"/>
+      <bitmask id="0x00000080" name="CTD" abbrev="CTD"/>
+      <bitmask id="0x00000100" name="Leak Sensor" abbrev="LEAK_SENSOR"/>
+      <bitmask id="0x00000200" name="Leak Detection" abbrev="LEAK_DETECTION"/>
+      <bitmask id="0x00000400" name="SMS" abbrev="SMS"/>
+      <bitmask id="0x00000800" name="UAV Autopilot" abbrev="UAV_AUTOPILOT"/>
+      <bitmask id="0x00001000" name="DVL" abbrev="DVL"/>
+      <bitmask id="0x00002000" name="Teleoperation" abbrev="TELEOPERATION"/>
+      <bitmask id="0x00004000" name="Unknown" abbrev="UNKNOWN"/>
+      <bitmask id="0x00008000" name="Navigation" abbrev="NAVIGATION"/>
+    </field>
+    <field type="int64_t" name="Timeout Events" abbrev="timeout_events" unit="Bitmask" prefix="EVT_TIMEOUT">
+      <description>
+        <![CDATA[  
+      Bitmask indicating event sources (see <i>Event</i> message) with timeout
+      condition status. 
+      Bit <i>b</i> is set if corresponding event source is in timeout condition 
+      status and persists until another operation status is reported.
+     ]]>
+      </description>
+      <bitmask id="0x00000001" name="GPS" abbrev="GPS"/>
+      <bitmask id="0x00000002" name="Internal Temperature" abbrev="INTERNAL_TEMPERATURE"/>
+      <bitmask id="0x00000004" name="Internal Voltage" abbrev="INTERNAL_VOLTAGE"/>
+      <bitmask id="0x00000008" name="Internal Current" abbrev="INTERNAL_CURRENT"/>
+      <bitmask id="0x00000010" name="IMU" abbrev="IMU"/>
+      <bitmask id="0x00000020" name="LBL" abbrev="LBL"/>
+      <bitmask id="0x00000040" name="Thrusters" abbrev="THRUSTERS"/>
+      <bitmask id="0x00000080" name="CTD" abbrev="CTD"/>
+      <bitmask id="0x00000100" name="Leak Sensor" abbrev="LEAK_SENSOR"/>
+      <bitmask id="0x00000200" name="Leak Detection" abbrev="LEAK_DETECTION"/>
+      <bitmask id="0x00000400" name="SMS" abbrev="SMS"/>
+      <bitmask id="0x00000800" name="UAV Autopilot" abbrev="UAV_AUTOPILOT"/>
+      <bitmask id="0x00001000" name="DVL" abbrev="DVL"/>
+      <bitmask id="0x00002000" name="Teleoperation" abbrev="TELEOPERATION"/>
+      <bitmask id="0x00004000" name="Unknown" abbrev="UNKNOWN"/>
+      <bitmask id="0x00008000" name="Navigation" abbrev="NAVIGATION"/>
+    </field>
+    <field type="int64_t" name="Warning Events" abbrev="warning_events" unit="Bitmask" prefix="EVT_WARNING">
+      <description>
+        <![CDATA[  
+      Bitmask indicating event sources (see <i>Event</i> message) with warning
+      condition status. 
+      Bit <i>b</i> is set if corresponding event source is in warning condition 
+      status and persists until another operation status is reported.
+     ]]>
+      </description>
+      <bitmask id="0x00000001" name="GPS" abbrev="GPS"/>
+      <bitmask id="0x00000002" name="Internal Temperature" abbrev="INTERNAL_TEMPERATURE"/>
+      <bitmask id="0x00000004" name="Internal Voltage" abbrev="INTERNAL_VOLTAGE"/>
+      <bitmask id="0x00000008" name="Internal Current" abbrev="INTERNAL_CURRENT"/>
+      <bitmask id="0x00000010" name="IMU" abbrev="IMU"/>
+      <bitmask id="0x00000020" name="LBL" abbrev="LBL"/>
+      <bitmask id="0x00000040" name="Thrusters" abbrev="THRUSTERS"/>
+      <bitmask id="0x00000080" name="CTD" abbrev="CTD"/>
+      <bitmask id="0x00000100" name="Leak Sensor" abbrev="LEAK_SENSOR"/>
+      <bitmask id="0x00000200" name="Leak Detection" abbrev="LEAK_DETECTION"/>
+      <bitmask id="0x00000400" name="SMS" abbrev="SMS"/>
+      <bitmask id="0x00000800" name="UAV Autopilot" abbrev="UAV_AUTOPILOT"/>
+      <bitmask id="0x00001000" name="DVL" abbrev="DVL"/>
+      <bitmask id="0x00002000" name="Teleoperation" abbrev="TELEOPERATION"/>
+      <bitmask id="0x00004000" name="Unknown" abbrev="UNKNOWN"/>
+      <bitmask id="0x00008000" name="Navigation" abbrev="NAVIGATION"/>
+    </field>
+    <field type="int64_t" name="Notification Events" abbrev="notification_events" unit="Bitmask" prefix="EVT_NOTIFICATION">
+      <description>
+        <![CDATA[  
+      Bitmask indicating event sources (see <i>Event</i> message) that issed 
+      notification events.
+      Bit <i>b</i> is set if corresponding event source 
+      just sent a notification.
+      The status <u>does not persist</u> and is indenpendent of all other status conditions.
+     ]]>
+      </description>
+      <bitmask id="0x00000001" name="GPS" abbrev="GPS"/>
+      <bitmask id="0x00000002" name="Internal Temperature" abbrev="INTERNAL_TEMPERATURE"/>
+      <bitmask id="0x00000004" name="Internal Voltage" abbrev="INTERNAL_VOLTAGE"/>
+      <bitmask id="0x00000008" name="Internal Current" abbrev="INTERNAL_CURRENT"/>
+      <bitmask id="0x00000010" name="IMU" abbrev="IMU"/>
+      <bitmask id="0x00000020" name="LBL" abbrev="LBL"/>
+      <bitmask id="0x00000040" name="Thrusters" abbrev="THRUSTERS"/>
+      <bitmask id="0x00000080" name="CTD" abbrev="CTD"/>
+      <bitmask id="0x00000100" name="Leak Sensor" abbrev="LEAK_SENSOR"/>
+      <bitmask id="0x00000200" name="Leak Detection" abbrev="LEAK_DETECTION"/>
+      <bitmask id="0x00000400" name="SMS" abbrev="SMS"/>
+      <bitmask id="0x00000800" name="UAV Autopilot" abbrev="UAV_AUTOPILOT"/>
+      <bitmask id="0x00001000" name="DVL" abbrev="DVL"/>
+      <bitmask id="0x00002000" name="Teleoperation" abbrev="TELEOPERATION"/>
+      <bitmask id="0x00004000" name="Unknown" abbrev="UNKNOWN"/>
+      <bitmask id="0x00008000" name="Navigation" abbrev="NAVIGATION"/>
+    </field>
+    <field type="plaintext" name="Verified Conditions" abbrev="verified_conditions">
+      <description><![CDATA[<p>
+                The conditions verified. Coma separated list of conditions ids.
+            ]]></description>
+    </field>
+    <field type="plaintext" name="Executed Actions" abbrev="executed_actions">
+      <description><![CDATA[<p>
+                The executed actions. Coma separated list of actions ids.
+            ]]></description>
+    </field>
+  </message>
+  <message id="601" name="Vehicle Command" abbrev="VehicleCommand" source="ccu,vehicle" used-by="lauv,uav">
+    <description><![CDATA[
+    <p>A command sent to the vehicle supervisor.</p>
+    <p>Current support includes commands to:</p>
+    <ul><li>Initialising the vehicle for autonomous maneuver execution.</li>
+      <li>Starting a new maneuver, after initialisation.</li>
+      <li>Stopping autonomous maneuver execution</li>
+    </ul>
+    ]]></description>
+    <field type="uint8_t" name="Command" abbrev="command" unit="Enumerated" prefix="VC">
+      <description>The type of command/action to be performed</description>
+      <!--
+         ***************************************************************************
+         edrdo: Disabled temporarily for IMC 2.1. Do not delete this though.
+         ***************************************************************************
+         <enum id="0" name="Set Transition" abbrev="SET_TRANSITION">
+           <description>Add a transition to the list of active transitions, with ID='transition_id', condition='condition_list' and action='action_list'
+           </description>
+         </enum>
+         <enum id="1" name="Remove Transition" abbrev="REMOVE_TRANSITION">
+           <description>Remove the  transition  with ID='transition_id', ceasing this transition to be active.  
+           </description>
+         </enum>
+         <enum id="2" name="Execute Action" abbrev="EXEC_ACTION">
+           <description>Execute the action(s) in the field 'action_list' immediately.</description>
+         </enum>
+         -->
+      <enum id="3" name="Execute Maneuver" abbrev="EXEC_MANEUVER">
+        <description>Execute the maneuver passed on field 'maneuver'</description>
+          </enum>
+          <enum id="4" name="Stop Maneuver" abbrev="STOP_MANEUVER">
+            <description>Stop 'maneuver' being executed.</description>
+          </enum>
+          <!--
+             ***************************************************************************
+             edrdo: Disabled temporarily for IMC 2.1. Do not delete this though.
+             ***************************************************************************
+
+             <enum id="5" name="Get Vehicle State Report" abbrev="GET_STATE">
+               <description>Ask for a message of type "Vehicle State"</description>
+             </enum>
+             <enum id="6" name="Change configuration" abbrev="CHANGE_CONFIG">
+               <description>Ask for a message of type "Vehicle State"</description>
+             </enum>
+             -->
+          <enum id="7" name="Initialize" abbrev="INIT">
+            <description>Initialize the vehicle supervisor to be prepared for maneuver execution.</description>
+          </enum>
+          <!--
+             ***************************************************************************
+             edrdo: Disabled temporarily for IMC 2.1. Do not delete this though.
+             ***************************************************************************
+             <enum id="8" name="Initialize" abbrev="SHUTDOWN">
+               <description>Shut down vehicle, forcing it to go back to Idle state.</description>
+             </enum>
+             -->
+        </field>
+        <field type="plaintext" name="Transition Identifier" abbrev="transition_id">
+          <description>Transition identifier (used for commands SET_TRANSITION and REMOVE_TRANSITION)</description>
+        </field>
+        <field type="plaintext" name="Action List" abbrev="action_list">
+          <description>List of actions to be executed (only used for commands SET_TRANSITION and EXEC_ACTION)</description>
+        </field>
+        <field type="plaintext" name="Condition List" abbrev="condition_list">
+          <description>List of conditions to be tested in the transition (command SET_TRANSITION only)</description>
+        </field>
+        <field type="message" name="Maneuver" abbrev="maneuver">
+          <description>Maneuver to be executed (for command EXEC_MANEUVER)</description>
+        </field>
+      </message>
+  <message id="602" name="Vehicle Configuration" abbrev="VehicleConfiguration" source="vehicle">
+	<description><![CDATA[
+	<p>Reports the possible and enabled sets for conditions and actions that can be used for maneuver transitions  and are supported by the vehicle supervisor.</p>
+	<p>The order of the transitions in the 'all_conditions' field, determines the bit associated with each condition in the field 'verified conditions' on message 'vehicle_status'.</p>]]></description>
+	<field name="All transition conditions" abbrev="all_conditions" type="plaintext">
+	  <description> 
+		Comma separated list of all possible maneuver transition conditions.
+	  </description>
+	</field>
+	<field name="Enabled transition conditions" abbrev="enabled_conditions" type="plaintext">
+	  <description> The coma separated list of active conditions.</description>
+	</field>
+	<field name="All transition actions" abbrev="all_actions" type="plaintext">
+	  <description> 
+		Comma separated list of all possible maneuver transition actions.
+	  </description>
+	</field>
+	<field name="Enabled transition actions" abbrev="enabled_actions" type="plaintext">
+	  <description> 
+		Comma separated list of all possible maneuver transition actions.
+	  </description>
+	</field>
+  </message>
+  <message id="603" name="Vehicle Action" abbrev="VehicleAction" used-by="lauv,uav" source="vehicle,ccu">
+	<description>Request action to be performed by the vehicle,
+	  other than maneuver control.</description>
+	<field name="Action" abbrev="action" type="plaintext">
+	  <description>Action name.</description> 
+	</field>
+	<field name="Timeout" abbrev="timeout" unit="s" type="uint16_t">
+	  <description>Action timeout.</description> 
+	</field>
+	<field name="Device ID" abbrev="device" type="uint8_t">
+	  <description>Optional action dependent target device id, 
+		if necessary for the operation.</description> 
+	</field>
+	<field name="Argument" abbrev="argument" type="message">
+	  <description>Optional action argument.</description>
+	</field>
+  </message>
+  <message id="604" name="Request Control Mode" abbrev="RequestControlMode" used-by="lauv,uav" source="ccu">
+	<description><![CDATA[Request control mode of the vehicle to be set. 
+If request is valid, vehicle will issue a <i>SetControlMode</i> message
+internally. 
+The control modes are: 
+	<ul>
+	  <li><i>None</i>: when set, the vehicle will 
+		rest in an idle state, in particular  maneuver/guidance/actuation 
+		components necessary for maneuvering will be disabled.</li>
+	  <li><i>Diagnostic control</i>: when set, the vehicle will be set up 
+		to perform diagnostic tests.</li>
+	  <li><i>Manual operation</i>: when set, 
+		the vehicle will allow tele-operation by an human operator.
+		The necessary components for this control mode  will be activated 
+		in a vehicle-dependent fashion.</li>
+	  <li><i>Automatic control</i>: when set, the vehicle will have 
+		all necessary modules for autonomous maneuver execution enabled, 
+		including maneuver/guidance/actuation components. </li>
+	</ul>]]></description>
+	<field name="State" abbrev="state" type="uint8_t" prefix="CM" unit="Enumerated">
+	  <description>Control Mode</description>
+	  <enum id="0" name="None" abbrev="NONE">
+		<description>Request any type of control to be disabled.</description>
+	  </enum>
+	  <enum id="1" name="Diagnostic Control" abbrev="DIAGNOSTIC">
+		<description>Request Diagnostic control.</description>
+	  </enum>
+	  <enum id="2" name="Manual Control" abbrev="MANUAL">
+		<description>Request Manual control.</description>
+	  </enum>
+	  <enum id="3" name="Automatic Control" abbrev="AUTOMATIC">
+		<description>Request Automatic Control.</description>
+	  </enum>
+	</field>
+  </message>
+  <message id="605" name="Set Control Mode" abbrev="SetControlMode" used-by="lauv,uav" source="vehicle">
+	<description><![CDATA[Set vehicle control mode. The control modes are: 
+	<ul>
+	  <li><i>None</i>: when set, the vehicle will 
+		rest in an idle state, in particular  maneuver/guidance/actuation 
+		components necessary for maneuvering will be disabled.</li>
+	  <li><i>Diagnostic control</i>: when set, the vehicle will be set up 
+		to perform diagnostic tests.</li>
+	  <li><i>Manual operation</i>: when set, 
+		the vehicle will allow tele-operation by an human operator.
+		The necessary components for this control mode  will be activated 
+		in a vehicle-dependent fashion.</li>
+	  <li><i>Automatic control</i>: when set, the vehicle will have 
+		all necessary modules for autonomous maneuver execution enabled, 
+		including maneuver/guidance/actuation components. </li>
+	</ul>]]></description>
+	<field name="State" abbrev="state" type="uint8_t" prefix="CM" unit="Enumerated">
+	  <description>Control Mode</description>
+	  <enum id="0" name="None" abbrev="NONE">
+		<description>Disable any type of control.</description>
+	  </enum>
+	  <enum id="1" name="Diagnostic Control" abbrev="DIAGNOSTIC">
+		<description>Enable Diagnostic control.</description>
+	  </enum>
+	  <enum id="2" name="Manual Control" abbrev="MANUAL">
+		<description>Enable Manual control.</description>
+	  </enum>
+	  <enum id="3" name="Automatic Control" abbrev="AUTOMATIC">
+		<description>Enable Automatic control.</description>
+	  </enum>
+	</field>
+  </message>
+  
+<!-- 
+	 Mission Supervisor
+	-->
+  <message id="700" name="Mission Command" abbrev="MissionCommand" used-by="lauv,uav" source="ccu">
+	<description>
+	  <![CDATA[
+<p>The Mission Command message is used to control the mission execution by an autonomous vehicle.</p>
+<p>An acknowledgement of the received messages is sent every time a message of this type is received using the Mission State message.</p>
+<p>Mission commands include:</p><ul>
+  <li>Loading a mission from a Mission Specification message or saved mission file.</li>
+  <li>Unloading the currently loaded mission.</li>
+  <li>Saving currently loaded mission to the on-board file system, so it can 
+	later be restored.</li>
+  <li>Starting a mission.</li>
+  <li>Stopping a mission.</li>
+</ul>]]></description>
+	<field type="uint32_t" name="Command" abbrev="command" unit="Enumerated" prefix="MC">
+	  <description>
+		The command to be executed by the Mission Supervisor.
+	  </description>
+	  <enum id="0" name="Load Mission" abbrev="LOAD">
+		<description>
+		  Load mission as specified by the 'argument' field, 
+		  which must contain a MissionSpecification message.
+		</description>
+	  </enum>
+	  <enum id="1" name="Load Mission from File" abbrev="LOAD_FROM_FILE">
+		<description>
+		  Load mission from file. The 'mission_id' field is the key for the mission load (cannot be empty).
+		</description>
+	  </enum>
+	  <enum id="2" name="Save Mission" abbrev="SAVE_TO_FILE">
+		<description>
+		  Save current mission to file. The mission can later 
+		  be restored using the 'LOAD_MISSION_FROM_FILE' command.
+		</description>
+	  </enum>
+	  <enum id="3" name="Unload Mission" abbrev="UNLOAD">
+		<description>
+		  Unloads mission as specified by the 'argument' field, 
+		  which must contain a MissionSpecification message.
+		</description>
+	  </enum>
+	  <enum id="4" name="Start Mission Execution" abbrev="START">
+		<description>
+		  Start executing the given mission. The 'argument' field should contain a 'MissionSpecification' 
+		  message. 
+		</description>
+	  </enum>
+	  <enum id="5" name="Stop Mission Execution" abbrev="STOP">
+		<description>Stop mission execution.</description>
+	  </enum>
+	</field>
+	<field name="Mission ID" abbrev="mission_id" type="plaintext">
+	  <description>
+		The mission name the command relates to, if the command requires a mission name.
+		(eg. for Load Mission command).
+	  </description>
+	</field>
+	<field name="Maneuver ID" abbrev="maneuver_id" type="plaintext">
+	  <description>
+		The maneuver the command relates to, if the command needs a maneuver name
+		(eg. for Skip and Force commands).
+	  </description>
+	</field>
+	<field name="Command Argument" abbrev="argument" type="message">
+	  <description>
+		A command argument, if the command requires one (eg. for Start Mission command).
+	  </description>
+	</field>
+  </message>
+  <message id="701" name="Mission State" abbrev="MissionState" source="vehicle" used-by="lauv,uav">
+	<description>
+	  <![CDATA[
+<p>Report of the mission execution state, which happens 
+  for every Mission Command request or maneuver 
+  transition. Specifically the mission state is reported when:</p><ul>
+  <li>A mission is loaded/unloaded/saved.</li>
+  <li>A mission is started/stopped/completed.</li>
+  <li>A maneuver is started.</li></ul>
+]]>
+	</description>
+	<field type="uint8_t" abbrev="state" name="Mission state" unit="Enumerated" prefix="MS">
+	  <description>State of the mission</description>
+	  <enum id="0" abbrev="IDLE" name="Idle State">
+		<description>No mission is loaded nor executing.</description>
+	  </enum>
+	  <enum id="1" abbrev="LOADED" name="Mission Loaded">
+		<description>Mission has been loaded.</description>
+	  </enum>
+	  <enum id="2" abbrev="SAVED" name="Mission Saved">
+		<description>Mission has been saved.</description>
+	  </enum>
+	  <enum id="3" abbrev="INITIALIZING" name="Initializing">
+		<description>Initializing mission execution.</description>
+	  </enum>
+	  <enum id="4" abbrev="EXECUTING" name="Mission Executing">
+		<description>Mission is running.</description>
+	  </enum>
+	  <enum id="5" abbrev="COMPLETED" name="Mission Completed">
+		<description>Mission has completed.</description>
+	  </enum>
+	  <enum id="6" abbrev="STOPPED" name="Mission Stopped">
+		<description>Mission has been stopped.</description>
+	  </enum>
+	  <enum id="7" abbrev="EXECUTION_ERROR" name="Execution Error">
+		<description>Error during mission execution.</description>
+	  </enum>
+	  <enum id="8" abbrev="SPECIFICATION_ERROR" name="Specification Error">
+		<description>Error in mission specification.</description>
+	  </enum>
+	</field>
+	<field name="Mission ID" abbrev="mission_id" type="plaintext">
+	  <description>The mission this message is related to.</description>
+	</field>
+	<field name="Maneuver ID" abbrev="maneuver_id" type="plaintext">
+	  <description>
+		The current active maneuver name. It is empty if no maneuver is active.
+	  </description>
+	</field>
+	<field name="Description" abbrev="description" type="plaintext">
+	  <description>
+		Complementary description of state. 
+	  </description>
+	</field>
+  </message>
+  <message id="702" name="Mission Specification" abbrev="MissionSpecification" source="ccu" used-by="lauv,uav">
+	<description><![CDATA[
+ <p>Identity and description of a mission's general parameters, associated 
+   with mission loading (i.e. load mission command in <i>MissionCommand</i>).</p>
+ <p>A mission specification is defined by a mission identifier, a set of 
+   maneuver specifications  and a start maneuver from that set.</p>
+ <p> See the <i>ManeuverSpecification</i> message 
+   for details on maneuver specification.</p>]]>
+	</description>
+	<field name="Mission ID" abbrev="mission_id" type="plaintext">
+	  <description> The mission's identifier.  </description>
+	</field>
+	<field name="Mission Description" abbrev="description" type="plaintext">
+	  <description>Verbose text description of mission. </description>
+	</field>
+	<field name="Starting maneuver" abbrev="start_man_id" type="plaintext">
+	  <description>Indicates the id of the starting maneuver for this mission.</description>
+	</field>
+	<field name="Number of Maneuvers" abbrev="num_maneuvers" type="uint16_t">
+	  <description>
+		Indicates the number of maneuvers in this mission. This counter should be equal 
+		to the number of maneuvers encoded in the maneuvers field.
+	  </description>
+	</field>
+	<field name="Maneuvers" abbrev="maneuvers" type="message">
+	  <description>
+		Maneuvers for this mission, defined by a linked list of Maneuver Specification messages.
+	  </description>
+	</field>
+  </message>
+  <message id="703" name="Maneuver Specification" abbrev="ManeuverSpecification" used-by="lauv,uav" source="ccu">
+	<description><![CDATA[
+ <p>Describe a maneuver in the context of a mission specification.</p>
+ <p>The maneuver specification is described by an actual concrete maneuver to execute (for example a  "Goto" maneuver) plus associated transitions in the context of a mission.</p>
+ <p>See the <i>ManeuverTransition</i> message for details on maneuver transitions.</p>]]>
+	</description>
+	<field name="Maneuver ID" abbrev="maneuver_id" type="plaintext">
+	  <description>
+		The maneuver name. 
+	  </description>
+	</field>
+	<field name="Maneuver Description Data" abbrev="data" type="message">
+	  <description>
+		The core maneuver message (eg. Goto, Dive, etc).
+	  </description>
+	</field>
+	<field name="Number of Transitions" abbrev="num_transitions" type="uint16_t">
+	  <description>
+		Indicates the number of transitions in this mission. This counter should be equal 
+		to the number of transitions encoded in the maneuvers field.
+	  </description>
+	</field>
+	<field name="Maneuver Transitions" abbrev="transitions" type="message">
+	  <description>
+		The maneuver transition list. It consists of a linked list of messages of type ManeuverTransition.
+	  </description>
+	</field>
+	<field name="Next Maneuver Specification" abbrev="next" type="message">
+	  <description>
+		Specification of next maneuver in the maneuver list.
+	  </description>
+	</field>
+  </message>
+  <message id="704" name="Maneuver Transition" abbrev="ManeuverTransition" used-by="lauv,uav" source="ccu">
+	<description>
+	  Describes a maneuver transition within a mission specification. 
+	  A transition states the vehicle conditions that must be met to signal
+	  the transition, the maneuver that should be started as a result,
+	  and an optional set of actions triggered by the transition.
+	</description>
+	<field name="Destination Maneuver Name" abbrev="dest_man" type="plaintext">
+	  <description> 
+		Target maneuver name.
+		If it equals the special value '_done_' then mission should terminate with a success status.
+		If it equals the special value '_error_' then the mission should terminate with an error status.
+	  </description>
+	</field>
+	<field name="Transition conditions" abbrev="conditions" type="plaintext">
+	  <description>
+		Comma separated list of conditions for transition.
+		Each condition identifier corresponds to a known predicate which is interpreted and tested
+		internally by the vehicle.
+	  </description>
+	</field>
+	<field name="Transition actions" abbrev="actions" type="plaintext">
+	  <description> 
+		Comma separated list of actions to execute upon transition, if all conditions for transition
+		are matched.
+		Each action identifier corresponds to a known procedure which is interpreted and executed
+		internally by the vehicle.
+	  </description>
+	</field>
+	<field name="Next Maneuver Transition" abbrev="next" type="message">
+	  <description>
+		Specification of next transition in transition list.
+	  </description>
+	</field>
+  </message>
+
+  <!-- Acoustic Networking-->
+  <message id="800" name="Acoustic Range" abbrev="AcousticRange" source="vehicle" used-by="experimental">
+	<description>Issue an acoustic range command.</description>
+	<field name="Target Modem Address" abbrev="address" type="uint8_t">
+	  <description>Target modem address.</description>
+	</field>
+  </message>
+  <message id="801" name="Acoustic Range Reply" abbrev="AcousticRangeReply" source="vehicle" used-by="experimental">
+	<description>Acoustic range measure in response to a range command.</description>
+	<field name="Target Modem Address" abbrev="address" type="uint8_t">
+	  <description>Target modem address.</description>
+	</field>
+	<field name="Status" abbrev="status" type="uint8_t" unit="Enumerated" prefix="RNG">
+	  <description>Status indicating reply to range request.</description>
+	  <enum id="0" name="Range obtained" abbrev="OK"/>
+	  <enum id="1" name="Range not obtained" abbrev="NO_RESPONSE"/>
+	  <enum id="2" name="Error occurred in operation" abbrev="ERROR"/>
+	</field>
+	<field name="Range" abbrev="range" type="fp32_t" unit="m">
+	  <description>Range measure obtained. Usable if status indicates successful reply.</description>
+	</field>
+  </message>
+  <message id="802" name="Acoustic Message" abbrev="AcousticMessage" source="vehicle" used-by="experimental">
+	<description>Send an acoustic message.</description>
+	<field name="Message to send" abbrev="message" type="message">
+	  <description>Message to send</description>
+	</field>
+  </message>
+  <message id="803" name="Acoustic Diagnostic" abbrev="AcousticDiagnostic" used-by="experimental">
+	<description>Enable/Disable Acoustic Diagnostic</description>
+	<field name="Enable" abbrev="enable" type="uint8_t" prefix="DIAG">
+          <description>Enable/Disable diagnostic</description>
+	  <enum id="0" name="Disable" abbrev="DISABLE"/>
+	  <enum id="1" name="Enable" abbrev="ENABLE"/>
+	</field>
+  </message>
+  <message id="804" name="Acoustic Noise" abbrev="AcousticNoise" used-by="experimental">
+	<description>
+	  Report on the conditions of the underwater medium, for when
+	  acoustic diagnostics are enabled.
+	</description> 
+	<field name="Summary" abbrev="summary" type="uint8_t" prefix="NOISE" unit="Enumerated">
+          <description>Noise level characterization</description>
+	  <enum id="0" abbrev="NORMAL" name="Normal Conditions"/>
+	  <enum id="1" abbrev="LOW" name="Some Background Noise"/>
+	  <enum id="2" abbrev="HIGH" name="Too Much Background Noise"/>
+	  <enum id="3" abbrev="NO_SIGNAL" name="No Signal"/>
+	</field>  
+	<field name="Noise Level" abbrev="level" unit="dB" type="uint8_t"> 
+          <description>Noise level value</description>
+        </field>
+  </message>
+  <message id="805" name="Acoustic Ping" abbrev="AcousticPing" used-by="experimental">
+	<description>Ping remote modem.</description>
+  </message>
+  <message id="806" name="Acoustic Ping Reply" abbrev="AcousticPingReply" used-by="experimental">
+	<description>Acoust Ping Reply.</description>
+  </message>
+ 
+  <!--DUNE's Internal Messages-->
+  <message id="902" name="LBL Set Trimmer" abbrev="LblSetTrimmer" used-by="lauv">
+	<description>
+	  Set a trimmer value of the vehicle acoustics.
+	</description>
+	<field name="Trimmer" abbrev="id" type="uint8_t">
+	  <description>Trimmer identification</description>
+	</field>
+	<field name="Value" abbrev="value" type="int8_t">
+	  <description>Trimmer value</description>
+	</field>
+  </message>
+  <message id="903" name="LBL Get Trimmer" abbrev="LblGetTrimmer" used-by="lauv">
+	<description>
+	  Get a trimmer value from the vehicle acoustics.
+	</description>
+	<field name="Trimmer" abbrev="id" type="uint8_t">
+	  <description>Trimmer identification</description>
+	</field>
+  </message>
+  <message id="904" name="Set Raw Fin Position" abbrev="SetRawFinPosition" source="ccu" used-by="lauv">
+	<description>
+	  Actuate directly on a fin, using a raw value.
+	</description>
+	<field name="Fin Number" abbrev="id" type="uint8_t">
+	  <description>
+		The identification number of the destination fin.
+	  </description>
+	</field>
+	<field name="Value" abbrev="value" type="uint16_t">
+	  <description>
+		The raw value for the fin.
+	  </description>
+	</field>
+  </message>
+  <message id="905" name="Load Configuration" abbrev="LoadConfig" used-by="lauv">
+	<description>
+	  Load a configuration file.
+	</description>
+	<field name="Configuration File" abbrev="config" type="plaintext">
+	  <description>
+		Configuration file name.
+	  </description>
+	</field>
+  </message>
+
+  <message id="906" name="Send SMS" abbrev="SendSMS" source="vehicle" used-by="lauv">
+	<description>Send a SMS message.</description>
+	<field name="Number" abbrev="number" type="plaintext">
+	  <description>Target mobile device number.</description>
+	</field>
+        <field name="Timeout" abbrev="timeout" type="uint16_t"> 
+          <description>Timeout for sending message</description>
+        </field>
+	<field name="Contents" abbrev="contents" type="plaintext"> 
+	  <description>Message contents</description>
+	</field>
+  </message>
+
+  <message id="907" name="CameraZoom" abbrev="CameraZoom" source="vehicle" used-by="rov-kos">
+	<description>Camera Zoom.</description>
+	<field name="Camera Number" abbrev="id" type="uint8_t">
+	  <description>
+		The identification number of the destination camera.
+	  </description>
+	</field>
+	<field type="uint8_t" name="Action" abbrev="action" unit="Enumerated" prefix="ACTION">
+	  <description>The zoom action to perform</description>
+	  <enum id="0" name="Reset Zoom" abbrev="ZOOM_RESET"/>
+	  <enum id="1" name="Zoom In" abbrev="ZOOM_IN"/>
+	  <enum id="2" name="Zoom Out" abbrev="ZOOM_OUT"/>
+	  <enum id="3" name="Stop Zooming" abbrev="ZOOM_STOP"/>
+	</field>
+  </message>
+
+  <message id="908" name="Receive Signal Strength Information" abbrev="RSSI" source="vehicle" used-by="dune-internal">
+    <description>
+      Measure of the RSSI by a networking device.  Note that the RSSI
+      unit and range of values are device vendor-dependent and its
+      units are arbitrary.
+    </description> 
+    <field name="Device Identification" abbrev="id" type="uint8_t">
+      <description>
+        Identification of the networking device.
+      </description>
+    </field> 
+    <field name="Value" abbrev="value" type="uint8_t" max="100" unit="%">
+      <description>
+        RSSI measurement.
+      </description>
+    </field>
+  </message> 
+  
+  <message id="909" name="Voltage Standing Wave Ratio" abbrev="VSWR" source="vehicle" used-by="dune-internal">
+    <field name="Device Identification" abbrev="id" type="uint8_t">
+      <description>
+        Identification of the networking device.
+      </description>
+    </field> 
+    <field name="Value" abbrev="value" type="fp32_t">
+      <description>
+        VSWR measurement.
+      </description>
+    </field> 
+  </message>
+  
+  <!-- CCU Messages (Internal and between CCUs) -->   
+  <message id="1001" name="Logbook Entry" abbrev="LogEntry" source="ccu" used-by="ccu">
+	<description>
+		A piece of text that has been entered by an operator during mission execution
+	</description>
+	<field name="Operator" abbrev="op" type="plaintext">
+		<description>
+			The operator name / identifier
+		</description>
+	</field>
+	<field name="Entry Text" abbrev="text" type="plaintext">
+		<description>
+			The logbook entry text that is to be recorded
+		</description>
+	</field>
+  </message>
+  
+	<message id="1002" name="Reported State" abbrev="ReportedState" source="vehicle,ccu" used-by="ccu">
+		<description>
+			A vehicle state that is reported to other consoles (including PDAConsole). Source can be acoustic tracker, SMS, Wi-Fi, etc...
+		</description>
+		<field name="Latitude" abbrev="lat" type="fp64_t" unit="rad" />
+		<field name="Longitude" abbrev="lon" type="fp64_t" unit="rad" />
+		<field name="Depth" abbrev="depth" type="fp64_t" unit="m">
+			<description>
+				The reported depth. In the case of not knowing the depth 0 will be reported. 
+				Airplanes usually have negative values (por positive altitude).
+			</description>
+		</field>
+		
+		<field name="Roll" abbrev="roll" type="fp64_t" unit="rad">
+			<description>The phi Euler angle from the vehicle's attitude.</description>
+		</field>
+		<field name="Pitch" abbrev="pitch" type="fp64_t" unit="rad">
+			<description>The theta Euler angle from the vehicle's attitude.</description>
+		</field>
+		<field name="Yaw" abbrev="yaw" type="fp64_t" unit="rad">
+			<description>The psi Euler angle from the vehicle's attitude.</description>
+		</field>
+		
+		<field name="Reception Time" abbrev="rcpTime" type="fp64_t" unit="s" note="Correct interpretation of this field may require synchronization of clocks between sender and recipient">
+			<description>
+				The time when the packet was sent, as seen by the
+				packet dispatcher. The number of seconds is represented in 
+				Universal Coordinated Time (UCT) in seconds since Jan 1, 1970
+				using IEEE double precision floating point numbers.
+			</description>
+		</field>
+			
+		<field name="System Identifier" abbrev="sid" type="plaintext">
+			<description>
+				The id of the system whose position is being reported (it can be a vehicle's id, a boat name, etc)
+			</description>
+		</field>		
+		<field name="Source Type" abbrev="s_type" type="uint8_t" unit="Enumerated" prefix="STYPE">
+		  <description>How the position was received/calculated</description>
+		  <enum id="0" name="Wi-Fi" abbrev="WI_FI"/>
+		  <enum id="1" name="Tracker" abbrev="TRACKER"/>
+		  <enum id="2" name="SMS" abbrev="SMS"/>
+		  <enum id="3" name="Acoustic Modem" abbrev="ACOUSTIC_MODEM"/>	 
+		  <enum id="254" name="Unknown source" abbrev="UNKNOWN"/>
+		</field>		
+	</message>
+
+	<message id="1003" name="Remote Sensor Info" abbrev="RemoteSensorInfo" source="ccu" used-by="ccu">
+		<description>
+	  Whenever the CUCS receives a message from one of the existing sensors (through SMS, ZigBee, Acoustic Comms, ...) it disseminates that info recurring to this message.
+	</description>
+		<field name="Id" abbrev="id" type="plaintext">
+			<description>An unique string that identifies the sensor. Used mostly for logging/presentation.</description>
+		</field>
+		<field name="Class" abbrev="sensor_class" type="plaintext">
+			<description>The class of a sensor tells the type of sensor originating this message. It will determine how the sensor is to be shown and (optionally) how the custom data (tuplelist) is to be interpreted.</description>
+		</field>
+		<field name="Latitude" abbrev="lat" type="fp64_t" unit="rad" />
+		<field name="Longitude" abbrev="lon" type="fp64_t" unit="rad" />
+		<field name="Altitude" abbrev="alt" type="fp32_t" unit="m" />
+		<field name="Heading" abbrev="heading" type="fp32_t" unit="rad" />
+		<field name="Custom Data" abbrev="data" type="plaintext" unit="TupleList" />
+	</message>
+	
+	<message id="1004" name="Map" abbrev="Map" source="ccu" used-by="ccu">
+	   <description>This message represents a simple map that is transferred between CCU consoles and (possibly) vehicles</description>
+	   <field name="Id" abbrev="id" type="plaintext">
+	       <description>The id of the map which will can also be used for a filename</description>	       
+	   </field>
+	   <field name="Features" abbrev="features" type="message">
+	       <description>A 'list' of map features (for now only MapShapes available) that are contained in this map.</description>
+	   </field>
+	</message>
+	
+	<message id="1005" name="MapShape" abbrev="MapShape" source="ccu" used-by="ccu">
+	   <description>A map shape is a polygon (closed polyline) with a type.</description>
+	   <field name="ShapeType" abbrev="shapetype" type="uint8_t">
+            <description>A type of shape (to be used in the future) like obstacle, cement, sand, secured area, etc</description>
+	   </field>
+	   <field name="Points" abbrev="points" type="message">
+	       <description>Points are encoded as a 'list' of messages of type MapPoint</description>
+	   </field>
+	   <field name="NextShape" abbrev="nextshape" type="message">
+	       <description>The next shape in the map (empty message if this is the last shape)</description>
+	   </field>
+	</message>
+	
+	<message id="1006" name="MapPoint" abbrev="MapPoint" source="ccu" used-by="ccu">
+	   <description>This message represents a point in the world as part of a list of other points</description>
+	   <field name="Latitude" abbrev="lat" type="fp64_t" unit="rad" />
+	   <field name="Longitude" abbrev="lon" type="fp64_t" unit="rad" />
+	   <field name="Altitude" abbrev="alt" type="fp32_t" unit="m" />
+	   <field name="NextPoint" abbrev="nextpt" type="message">
+	       <description>Holds the next point in this list or empty in the case of the list reaching the end</description>
+	   </field>
+	</message>
+	
+	<message id="1007" name="IMC Communications Test" abbrev="CommsTest" source="ccu,lauv" used-by="ccu,lauv">
+			
+		<description>This message is used to start and report tests for IMC communications</description>
+		
+		<field name="Test Mode" abbrev="mode" type="uint8_t" unit="Enumerated" prefix="TEST_MODE">
+			<description>Depending on the mode, this message serves different purposes</description>
+			<enum id="1" abbrev="TEST_START" name="Test Start"/>
+			<enum id="2" abbrev="TEST_STOP" name="Test Stop"/>
+			<enum id="3" abbrev="TEST_REQUEST" name="Test Request"/>
+			<enum id="4" abbrev="REPORT_REQUEST" name="Report Request"/>
+			<enum id="5" abbrev="TEST_REPORT" name="Test Report"/>
+			<enum id="6" abbrev="TEST_MESSAGE" name="Test Message"/>
+		</field>
+				
+		<field name="Good Reception Count" abbrev="receivedCount" type="uint16_t">
+			<description>This field is used only on the report and is ignored otherwise. Used only in TEST_REPORT mode.</description>
+		</field>
+		
+		<field name="Message Frequency" abbrev="msgFrequency" type="uint16_t" unit="Hz">
+			<description>The number of messages to send (per second). Used only in TEST_REQUEST mode.</description>
+		</field>
+		
+		<field name="Payload Size" abbrev="payloadSize" type="uint16_t">
+			<description>The number of bytes to be sent in the message payload. Used only in TEST_REQUEST mode.</description>
+		</field>
+			
+		<field name="Dummy Payload" abbrev="dummyPayload" type="rawdata">
+			<description>This field is used only on the test messages and is ignored otherwise. Used only in TEST_MESSAGE mode.</description>
+		</field>
+				
+	</message>
+	
+  <!--Temporary and Debugging-->
+  <message id="1900" name="CAN Data" abbrev="CanData" source="ccu, vehicle" used-by="rov-kos">
+	<description/>
+	<field name="Identification Number" abbrev="id" type="uint32_t"/>
+	<field name="Data" abbrev="data" type="rawdata"/>
+  </message>
+  
+  <message id="1901" name="CAN Cleanup" abbrev="CanCleanup" source="ccu, vehicle" used-by="rov-kos">
+	<description/>
+	<field name="Transmission Id" abbrev="txid" type="uint32_t"/>
+	<field name="Data" abbrev="data" type="rawdata"/>
+  </message>
+  
+  <!-- Currently used by David's PDA Console (needs to be moved to a more suitable place) -->
+  <message id="1902" name="PDA Console Command" abbrev="PDACommand">
+	<description>
+	  Temporary message for sending commands to PDA console and debugging.
+	</description>
+	<field name="Command" abbrev="cmd" type="plaintext">
+	  <description>
+		Command.
+	  </description>
+	</field>
+	<field name="Argument" abbrev="arg" type="plaintext">
+	  <description>
+		Command argument.
+	  </description>
+	</field>
+  </message>
+
+  <!-- Preliminary messages requested by J. Correia -->
+  <message id="1903" name="Start Video Search" abbrev="StartVideoSearch" used-by="experimental">
+    <description>Start video search</description>
+    <field name="Object Type" abbrev="type" type="uint8_t">
+     <description>Type of Object to Search</description>
+    </field>
+  </message>
+
+  <message id="1904" name="Stop Video Search" abbrev="StopVideoSearch" used-by="experimental">
+    <description>Stop video search</description>
+  </message>
+ 
+
+	<message id="1905" name="Query Coordinates" abbrev="QueryCoords" used-by="experimental">
+		<description>Ask interpolator to estimate value at the given coordinates.</description>
+
+		<field name="x" abbrev="x" type="fp32_t" unit="m">
+			<description>X coordinate of query</description>
+		</field>
+		<field name="y" abbrev="y" type="fp32_t" unit="m">
+			<description>Y coordinate of query</description>
+		</field>
+		<field name="z" abbrev="z" type="fp32_t" unit="m">
+			<description>Z coordinate of query</description>
+		</field>
+
+		<field name="layer" abbrev="layer" type="uint8_t" unit="Enumerated" prefix="LAYER">
+			<description>Layer of data being interpolated. This can be used to identify several interpolators.</description>
+			<enum id="0" name="Temperature" abbrev="TEMPERATURE"/>
+		</field>
+	</message>
+
+	<message id="1906" name="Query Coordinates Response" abbrev="QueryCoordsResponse" used-by="experimental">
+		<description>Estimated value at the given coordinates.</description>
+
+		<field name="x" abbrev="x" type="fp32_t" unit="m">
+			<description>X coordinate of query</description>
+		</field>
+		<field name="y" abbrev="y" type="fp32_t" unit="m">
+			<description>Y coordinate of query</description>
+		</field>
+		<field name="z" abbrev="z" type="fp32_t" unit="m">
+			<description>Z coordinate of query</description>
+		</field>
+
+		<field name="value" abbrev="val" type="fp32_t" unit="m">
+			<description>Estimated value</description>
+		</field>
+
+		<field name="layer" abbrev="layer" type="uint8_t" unit="Enumerated">
+			<description>Layer of data being interpolated. This can be used to identify several interpolators.</description>
+			<enum id="0" name="Temperature" abbrev="TEMPERATURE"/>
+		</field>
+	</message>
+
+	<message id="1907" name="Query Range Coordinates" abbrev="QueryRangeCoords" used-by="experimental">
+		<description>Ask interpolator to estimate value at the given coordinates.</description>
+
+		<field name="x0" abbrev="x0" type="fp32_t" unit="m">
+			<description>Initial X coordinate of query range</description>
+		</field>
+		<field name="x1" abbrev="x1" type="fp32_t" unit="m">
+			<description>End X coordinate of query range</description>
+		</field>
+		<field name="X Resolution" abbrev="xres" type="fp32_t" unit="byte">
+			<description>Resolution on X axis</description>
+		</field>
+		<field name="y0" abbrev="y0" type="fp32_t" unit="m">
+			<description>Initial Y coordinate of query range</description>
+		</field>
+		<field name="y1" abbrev="y1" type="fp32_t" unit="m">
+			<description>End Y coordinate of query range</description>
+		</field>
+		<field name="Y Resolution" abbrev="yres" type="uint8_t" unit="byte">
+			<description>Resolution on Y axis</description>
+		</field>
+
+		<field name="layer" abbrev="layer" type="uint8_t" unit="Enumerated">
+			<description>Layer of data being interpolated. This can be used to identify several interpolators.</description>
+			<enum id="0" name="Temperature" abbrev="TEMPERATURE"/>
+		</field>
+	</message>
+
+	<message id="1908" name="Query Coordinates Range Response" abbrev="QueryRangeCoordsResponse" used-by="experimental">
+		<description>Estimated value at the given coordinates.</description>
+
+		<field name="x0" abbrev="x0" type="fp32_t" unit="m">
+			<description>Initial X coordinate of query range</description>
+		</field>
+		<field name="x1" abbrev="x1" type="fp32_t" unit="m">
+			<description>End X coordinate of query range</description>
+		</field>
+		<field name="X Resolution" abbrev="xres" type="fp32_t" unit="byte">
+			<description>Resolution on X axis</description>
+		</field>
+		<field name="y0" abbrev="y0" type="fp32_t" unit="m">
+			<description>Initial Y coordinate of query range</description>
+		</field>
+		<field name="y1" abbrev="y1" type="fp32_t" unit="m">
+			<description>End Y coordinate of query range</description>
+		</field>
+		<field name="Y Resolution" abbrev="yres" type="uint8_t" unit="byte">
+			<description>Resolution on Y axis</description>
+		</field>
+
+		<field name="layer" abbrev="layer" type="uint8_t" unit="Enumerated">
+			<description>Layer of data being interpolated. This can be used to identify several interpolators.</description>
+			<enum id="0" name="Temperature" abbrev="TEMPERATURE"/>
+		</field>
+
+		<field name="value" abbrev="data" type="rawdata" unit="m">
+			<description>Array of xres by yres of the estimed values over a grid defined by [Xmin-Xmax]x[Ymin-Ymax]</description>
+		</field>
+
+	</message>
+	
+	<message id="1911" name="Report Measure" abbrev="MeasureCoords" used-by="experimental">
+		<description>Reports a measured value, used to feed data into the interpolator.</description>
+
+		<field name="x" abbrev="x" type="fp32_t" unit="m">
+			<description>X coordinate of query</description>
+		</field>
+		<field name="y" abbrev="y" type="fp32_t" unit="m">
+			<description>Y coordinate of query</description>
+		</field>
+		<field name="z" abbrev="z" type="fp32_t" unit="m">
+			<description>Z coordinate of query</description>
+		</field>
+
+		<field name="value" abbrev="val" type="fp32_t" unit="m">
+			<description>Value measured</description>
+		</field>
+
+		<field name="layer" abbrev="layer" type="uint8_t" unit="Enumerated">
+			<description>Layer of data being interpolated. This can be used to identify several interpolators.</description>
+			<enum id="0" name="Temperature" abbrev="TEMPERATURE"/>
+		</field>
+	</message>
+
+  <message id="1909" name="Thrust Command" abbrev="ThrustCommand" source="ccu,vehicle" used-by="swordfish">
+    <field name="Thrust #0" abbrev="thrust0" type="fp32_t"/>
+    <field name="Thrust #1" abbrev="thrust1" type="fp32_t"/>
+    <field name="Duration" abbrev="duration" type="uint16_t" unit="s"/>
+  </message>
+
+    <!--Experimental Video Message-->
+  <message id="1910" name="Video Data" abbrev="VideoData" source="ccu, vehicle" used-by="experimental">
+	<description/>
+	<field name="Identification Number" abbrev="id" type="uint8_t"/>
+	<field name="Width Size" abbrev="width" type="uint16_t"/>
+	<field name="Height Size" abbrev="height" type="uint16_t"/>
+	<field name="Width Step" abbrev="widthstep" type="uint16_t"/>
+	<field name="Number of Channels" abbrev="channels" type="uint8_t"/>
+	<field name="Pixel Depth" abbrev="depth" type="uint8_t"/>
+	<field name="Final Data" abbrev="finaldata" type="uint8_t"/>
+	<field name="Data" abbrev="data" type="rawdata"/>
+  </message>
+
+</messages>
