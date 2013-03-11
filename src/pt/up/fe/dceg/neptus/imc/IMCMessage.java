@@ -26,7 +26,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *  
- * $Id:: IMCMessage.java 392 2013-02-28 17:26:14Z zepinto@gmail.com            $:
+ * $Id:: IMCMessage.java 393 2013-03-03 10:40:48Z zepinto@gmail.com            $:
  */
 package pt.up.fe.dceg.neptus.imc;
 
@@ -439,8 +439,8 @@ public class IMCMessage implements IMessage , Comparable<IMCMessage> {
             return this;
         }
         
-        if (getMessageType().getFieldType(field) == null && header.type.getFieldType(field) != null) {
             header.setValue(field, value);
+            if (getMessageType().getFieldType(field) == null && header.type.getFieldType(field) != null) {
             return this;
         }
         
@@ -907,7 +907,7 @@ public class IMCMessage implements IMessage , Comparable<IMCMessage> {
             if (m.getClass().isInstance(clazz))
                 ret.add((T)m);
             else
-                ret.add(clazz.getConstructor(IMCMessage.class).newInstance(m));
+                ret.add((T)clazz.getMethod("clone", IMCMessage.class).invoke(null, m));
         }
 
         return ret;
