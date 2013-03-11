@@ -66,11 +66,11 @@ public class SerializationTest {
             ByteArrayOutputStream baos1 = new ByteArrayOutputStream(), baos2 = new ByteArrayOutputStream();
             defs.serialize(m, baos1);
             byte[] data1 = baos1.toByteArray();            
-            IMCUtil.dumpAsHex(m, 40);
+            //IMCUtil.dumpAsHex(m, 40);
             IMCMessage unser = defs.nextMessage(new IMCInputStream(new ByteArrayInputStream(data1)));            
             defs.serialize(unser, baos2);
             byte[] data2 = baos2.toByteArray();
-            IMCUtil.dumpAsHex(unser, 40);
+            //IMCUtil.dumpAsHex(unser, 40);
             Assert.assertArrayEquals(data1, data2);            
         }
     }

@@ -1,5 +1,33 @@
 <project name="IMCJava" default="dist">
+  
+  <property name="test-dir" location="src-junit" />
+  <path id="classpath.base">
+  </path>
+  <path id="classpath.test">
+    <pathelement location="${test.dir}" />
+    <pathelement location="build" />
+    <pathelement location="lib/junit-4.10.jar" />
+    <pathelement location="lib/commons-io-2.0.1.jar" />
+    <path refid="classpath.base" />
+  </path>
+  
+  <target name="compile-test" depends="compile-all">
+		<javac encoding="UTF-8" srcdir="src-junit" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">     
+      		<classpath refid="classpath.test"/>
+		</javac>
+	</target>
 	
+  <target name="test" depends="compile-test">
+    <junit>
+      <classpath refid="classpath.test" />
+      <formatter type="brief" usefile="false" />
+      <test name="pt.up.fe.dceg.neptus.imc.junit.ImcStringDefsTest" />
+      <test name="pt.up.fe.dceg.neptus.imc.junit.MessageCreationTest" />
+      <test name="pt.up.fe.dceg.neptus.imc.junit.SerializationTest" />
+    </junit>
+  </target>
+  
+  
 	<target name="all" depends="update-msg-defs,generated,dist" />
 
 	<target name="scminfo" depends="gitinfo"/>
@@ -32,8 +60,8 @@
 		    <equals arg1="${git.tagstring}" arg2="fatal: No names found, cannot describe anything."/>
 		</condition>
 		
-	  </target>		
-		
+	  </target>
+			
 	<target name="compile">
 		<mkdir dir="build"/>
 		<delete dir="build"/>

@@ -50,7 +50,6 @@ public class MessageCreationTest {
         for (String msg : def.getMessageNames()) {
             
             IMCMessage m = def.create(msg, "src", 1234, "src_ent", 255);
-            m.dump(System.out);
             if (!m.getAbbrev().equals("Envelope")) {
                 assertEquals(1234, m.getSrc());
                 assertEquals(255, m.getSrcEnt());

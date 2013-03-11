@@ -32,9 +32,12 @@ package pt.up.fe.dceg.neptus.imc.junit;
 
 import java.io.ByteArrayInputStream;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 
 import pt.up.fe.dceg.neptus.imc.IMCDefinition;
+import pt.up.fe.dceg.neptus.imc.IMCMessage;
 import pt.up.fe.dceg.neptus.imc.ImcStringDefs;
 
 public class ImcStringDefsTest {
@@ -43,6 +46,9 @@ public class ImcStringDefsTest {
     public void test() {
         IMCDefinition imcdefs = IMCDefinition.getInstance(
                 new ByteArrayInputStream(ImcStringDefs.getDefinitions().getBytes()));
-        System.out.println(imcdefs.create("EstimatedState", "lat", -1));
+        IMCMessage m = imcdefs.create("EstimatedState", "lat", -1);
+        Assert.assertNotNull(m);
+        Assert.assertEquals(m.getAbbrev(), "EstimatedState");
+        Assert.assertEquals(m.getDouble("lat"), -1.0);
     }
 }

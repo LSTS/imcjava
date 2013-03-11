@@ -325,7 +325,7 @@ public class IMCUtil {
                     break;
                 case TYPE_PLAINTEXT:
                     msg.setValue(field, "Random text");                    
-                    if (msg.getMessageType().getFieldUnits(field).equalsIgnoreCase("Tuplelist"))
+                    if (msg.getMessageType().getFieldUnits(field) != null && msg.getMessageType().getFieldUnits(field).equalsIgnoreCase("Tuplelist"))
                         msg.setValue(field, "foo=bar;bar=foo;");
                     break;
                 case TYPE_RAWDATA:
@@ -344,7 +344,7 @@ public class IMCUtil {
                     msg.setValue(field, rnd.nextLong());
                     break;
                 case TYPE_UINT32:
-                    msg.setValue(field, rnd.nextInt((1 << 32) - 1));
+                    msg.setValue(field, rnd.nextInt(Integer.MAX_VALUE));
                     break;
                 case TYPE_MESSAGELIST:
                     Vector<IMCMessage> messages = new Vector<IMCMessage>();
