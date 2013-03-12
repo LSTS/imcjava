@@ -156,18 +156,48 @@
 		</copy>
 	</target>
 
+	<target name="scminfo.txt">
+		
+		<echo file="build/git.info.txt" append="false">GIT Tag:		
+		</echo>
+		
+		 <exec executable="git" output="build/git.info.txt" append="true">
+			<arg value="describe"/>			
+		</exec>
+		
+		<echo file="build/git.info.txt" append="true">
+			
+GIT Hash:
+		</echo>				
+		
+		<exec executable="git" output="build/git.info.txt" append="true">
+			<arg value="rev-parse"/>
+			<arg value="HEAD"/>
+		</exec>
+		
+		<echo file="build/git.info.txt" append="true">
+
+GIT Status:
+		</echo>
+		
+		 <exec executable="git" output="build/git.info.txt" append="true">
+			<arg value="status"/>			
+		</exec>
+				
+		
+	</target>
 	
-	<target name="jar-stripped" depends="scminfo,compile,copylicense">
+	<target name="jar-stripped" depends="scminfo,compile,copylicense,scminfo.txt">
 		<jar destfile="dist/imc-${scm.tag}.jar" basedir="build" index="true" />				   
 		<echo message="The file 'dist/imc-${scm.tag}.jar' was generated"/>
 	</target>
 	
-	<target name="jar-source" depends="scminfo,compile,copysrc,copylicense,copygenerated">
+	<target name="jar-source" depends="scminfo,compile,copysrc,copylicense,scminfo.txt,copygenerated">
 		<jar destfile="dist/imc-src-${scm.tag}.jar" basedir="build" index="true" />				   
 		<echo message="The file 'dist/imc-src-${scm.tag}.jar' was generated"/>
 	</target>
 	
-	<target name="jar-full" depends="scminfo,compile-all,copysrc,copylicense,copygenerated">
+	<target name="jar-full" depends="scminfo,compile-all,copysrc,copylicense,scminfo.txt,copygenerated">
 		<unjar src="lib/jchart2d-3.2.0.jar" dest="build"/>
 		<unjar src="lib/js.jar" dest="build"/>
 		<unjar src="lib/guava-13.0.1.jar" dest="build"/>

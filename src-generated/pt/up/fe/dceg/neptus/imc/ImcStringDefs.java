@@ -2843,6 +2843,11 @@ public class ImcStringDefs {
 		sb.append("    <description>\n");
 		sb.append("      This message allows controlling power channels.\n");
 		sb.append("    </description>\n");
+		sb.append("    <field name=\"Channel Name\" abbrev=\"name\" type=\"plaintext\">\n");
+		sb.append("      <description>\n");
+		sb.append("        The name of the power channel.\n");
+		sb.append("      </description>\n");
+		sb.append("    </field>\n");
 		sb.append("    <field name=\"Operation\" abbrev=\"op\" type=\"uint8_t\" unit=\"Enumerated\" min=\"0\" max=\"6\" prefix=\"PCC_OP\">\n");
 		sb.append("      <description>\n");
 		sb.append("        Operation to perform.\n");
@@ -2907,11 +2912,6 @@ public class ImcStringDefs {
 		sb.append("    <field name=\"Name\" abbrev=\"name\" type=\"plaintext\">\n");
 		sb.append("      <description>\n");
 		sb.append("        Power Channel Name.\n");
-		sb.append("      </description>\n");
-		sb.append("    </field>\n");
-		sb.append("    <field name=\"Label\" abbrev=\"label\" type=\"plaintext\">\n");
-		sb.append("      <description>\n");
-		sb.append("        Power Channel Label.\n");
 		sb.append("      </description>\n");
 		sb.append("    </field>\n");
 		sb.append("    <field name=\"State\" abbrev=\"state\" type=\"uint8_t\" unit=\"Enumerated\" prefix=\"PCS\">\n");

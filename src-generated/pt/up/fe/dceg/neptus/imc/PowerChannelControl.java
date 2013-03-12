@@ -93,10 +93,19 @@ public class PowerChannelControl extends IMCMessage {
 		return m;
 	}
 
-	public PowerChannelControl(short op, double sched_time) {
+	public PowerChannelControl(String name, short op, double sched_time) {
 		super(ID_STATIC);
+		if (name != null)
+			setName(name);
 		setOp(op);
 		setSchedTime(sched_time);
+	}
+
+	/**
+	 *  @return Channel Name - plaintext
+	 */
+	public String getName() {
+		return getString("name");
 	}
 
 	/**
@@ -118,6 +127,13 @@ public class PowerChannelControl extends IMCMessage {
 	 */
 	public double getSchedTime() {
 		return getDouble("sched_time");
+	}
+
+	/**
+	 *  @param name Channel Name
+	 */
+	public void setName(String name) {
+		values.put("name", name);
 	}
 
 	/**

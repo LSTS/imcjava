@@ -88,12 +88,10 @@ public class PowerChannelState extends IMCMessage {
 		return m;
 	}
 
-	public PowerChannelState(String name, String label, short state) {
+	public PowerChannelState(String name, short state) {
 		super(ID_STATIC);
 		if (name != null)
 			setName(name);
-		if (label != null)
-			setLabel(label);
 		setState(state);
 	}
 
@@ -102,13 +100,6 @@ public class PowerChannelState extends IMCMessage {
 	 */
 	public String getName() {
 		return getString("name");
-	}
-
-	/**
-	 *  @return Label - plaintext
-	 */
-	public String getLabel() {
-		return getString("label");
 	}
 
 	/**
@@ -130,13 +121,6 @@ public class PowerChannelState extends IMCMessage {
 	 */
 	public void setName(String name) {
 		values.put("name", name);
-	}
-
-	/**
-	 *  @param label Label
-	 */
-	public void setLabel(String label) {
-		values.put("label", label);
 	}
 
 	/**
