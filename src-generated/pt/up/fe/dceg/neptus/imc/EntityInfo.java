@@ -73,13 +73,15 @@ public class EntityInfo extends IMCMessage {
 		return m;
 	}
 
-	public EntityInfo(short id, String label, String component) {
+	public EntityInfo(short id, String label, String component, int act_time, int deact_time) {
 		super(ID_STATIC);
 		setId(id);
 		if (label != null)
 			setLabel(label);
 		if (component != null)
 			setComponent(component);
+		setActTime(act_time);
+		setDeactTime(deact_time);
 	}
 
 	/**
@@ -104,6 +106,20 @@ public class EntityInfo extends IMCMessage {
 	}
 
 	/**
+	 *  @return Activation Time (s) - uint16_t
+	 */
+	public int getActTime() {
+		return getInteger("act_time");
+	}
+
+	/**
+	 *  @return Deactivation Time (s) - uint16_t
+	 */
+	public int getDeactTime() {
+		return getInteger("deact_time");
+	}
+
+	/**
 	 *  @param id Entity Identifier
 	 */
 	public void setId(short id) {
@@ -122,6 +138,20 @@ public class EntityInfo extends IMCMessage {
 	 */
 	public void setComponent(String component) {
 		values.put("component", component);
+	}
+
+	/**
+	 *  @param act_time Activation Time (s)
+	 */
+	public void setActTime(int act_time) {
+		values.put("act_time", act_time);
+	}
+
+	/**
+	 *  @param deact_time Deactivation Time (s)
+	 */
+	public void setDeactTime(int deact_time) {
+		values.put("deact_time", deact_time);
 	}
 
 }

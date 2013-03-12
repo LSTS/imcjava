@@ -33,33 +33,51 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Create Session (806)<br/>
- *  Request creating a new session with this remote peer. Example<br/>
- *  session sequence is shown in the following diagram.<br/>
+ *  IMC Message SMS State (159)<br/>
  */
 
-public class CreateSession extends IMCMessage {
+public class SmsState extends IMCMessage {
 
-	public static final int ID_STATIC = 806;
+	public static final int ID_STATIC = 159;
 
-	public CreateSession() {
+	public enum STATE {
+		ACCEPTED(0),
+		REJECTED(1),
+		INTERRUPTED(2),
+		COMPLETED(3),
+		IDLE(4),
+		TRANSMITTING(5),
+		RECEIVING(6);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		STATE(long value) {
+			this.value = value;
+		}
+	}
+
+	public SmsState() {
 		super(ID_STATIC);
 	}
 
-	public CreateSession(IMCDefinition defs) {
+	public SmsState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static CreateSession create(Object... values) {
-		CreateSession m = new CreateSession();
+	public static SmsState create(Object... values) {
+		SmsState m = new SmsState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static CreateSession clone(IMCMessage msg) throws Exception {
+	public static SmsState clone(IMCMessage msg) throws Exception {
 
-		CreateSession m = new CreateSession();
+		SmsState m = new SmsState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -74,23 +92,75 @@ public class CreateSession extends IMCMessage {
 		return m;
 	}
 
-	public CreateSession(long timeout) {
+	public SmsState(long seq, short state, String error) {
 		super(ID_STATIC);
-		setTimeout(timeout);
+		setSeq(seq);
+		setState(state);
+		if (error != null)
+			setError(error);
 	}
 
 	/**
-	 *  @return Session Timeout - uint32_t
+	 *  @return Sequence Number - uint32_t
 	 */
-	public long getTimeout() {
-		return getLong("timeout");
+	public long getSeq() {
+		return getLong("seq");
 	}
 
 	/**
-	 *  @param timeout Session Timeout
+	 *  Current state of an SMS transaction.<br/>
+	 *  @return State (enumerated) - uint8_t
 	 */
-	public void setTimeout(long timeout) {
-		values.put("timeout", timeout);
+	public STATE getState() {
+		try {
+			STATE o = STATE.valueOf(getMessageType().getFieldPossibleValues("state").get(getLong("state")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 *  @return Error Message - plaintext
+	 */
+	public String getError() {
+		return getString("error");
+	}
+
+	/**
+	 *  @param seq Sequence Number
+	 */
+	public void setSeq(long seq) {
+		values.put("seq", seq);
+	}
+
+	/**
+	 *  @param state State (enumerated)
+	 */
+	public void setState(STATE state) {
+		values.put("state", state.value());
+	}
+
+	/**
+	 *  @param state State (as a String)
+	 */
+	public void setState(String state) {
+		setValue("state", state);
+	}
+
+	/**
+	 *  @param state State (integer value)
+	 */
+	public void setState(short state) {
+		setValue("state", state);
+	}
+
+	/**
+	 *  @param error Error Message
+	 */
+	public void setError(String error) {
+		values.put("error", error);
 	}
 
 }

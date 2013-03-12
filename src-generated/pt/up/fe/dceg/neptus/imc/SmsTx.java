@@ -33,33 +33,32 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Create Session (806)<br/>
- *  Request creating a new session with this remote peer. Example<br/>
- *  session sequence is shown in the following diagram.<br/>
+ *  IMC Message SMS Transmit (157)<br/>
+ *  Request to send SMS.<br/>
  */
 
-public class CreateSession extends IMCMessage {
+public class SmsTx extends IMCMessage {
 
-	public static final int ID_STATIC = 806;
+	public static final int ID_STATIC = 157;
 
-	public CreateSession() {
+	public SmsTx() {
 		super(ID_STATIC);
 	}
 
-	public CreateSession(IMCDefinition defs) {
+	public SmsTx(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static CreateSession create(Object... values) {
-		CreateSession m = new CreateSession();
+	public static SmsTx create(Object... values) {
+		SmsTx m = new SmsTx();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static CreateSession clone(IMCMessage msg) throws Exception {
+	public static SmsTx clone(IMCMessage msg) throws Exception {
 
-		CreateSession m = new CreateSession();
+		SmsTx m = new SmsTx();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -74,23 +73,70 @@ public class CreateSession extends IMCMessage {
 		return m;
 	}
 
-	public CreateSession(long timeout) {
+	public SmsTx(long seq, String destination, int timeout, byte[] data) {
 		super(ID_STATIC);
+		setSeq(seq);
+		if (destination != null)
+			setDestination(destination);
 		setTimeout(timeout);
+		if (data != null)
+			setData(data);
 	}
 
 	/**
-	 *  @return Session Timeout - uint32_t
+	 *  @return Sequence Number - uint32_t
 	 */
-	public long getTimeout() {
-		return getLong("timeout");
+	public long getSeq() {
+		return getLong("seq");
 	}
 
 	/**
-	 *  @param timeout Session Timeout
+	 *  @return Destination - plaintext
 	 */
-	public void setTimeout(long timeout) {
+	public String getDestination() {
+		return getString("destination");
+	}
+
+	/**
+	 *  @return Timeout (s) - uint16_t
+	 */
+	public int getTimeout() {
+		return getInteger("timeout");
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
+	}
+
+	/**
+	 *  @param seq Sequence Number
+	 */
+	public void setSeq(long seq) {
+		values.put("seq", seq);
+	}
+
+	/**
+	 *  @param destination Destination
+	 */
+	public void setDestination(String destination) {
+		values.put("destination", destination);
+	}
+
+	/**
+	 *  @param timeout Timeout (s)
+	 */
+	public void setTimeout(int timeout) {
 		values.put("timeout", timeout);
+	}
+
+	/**
+	 *  @param data Data
+	 */
+	public void setData(byte[] data) {
+		values.put("data", data);
 	}
 
 }

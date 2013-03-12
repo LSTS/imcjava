@@ -350,7 +350,10 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
             version = root.getAttributes().getNamedItem("version").getTextContent();
             name = root.getAttributes().getNamedItem("name").getTextContent();
             longName = root.getAttributes().getNamedItem("long-name").getTextContent();
-            creation = root.getAttributes().getNamedItem("creation").getTextContent();
+            if (root.getAttributes().getNamedItem("creation") != null)
+            	creation = root.getAttributes().getNamedItem("creation").getTextContent();
+            else
+            	creation = "unknown date";
 
             Node header = root.getElementsByTagName("header").item(0);
 

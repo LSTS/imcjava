@@ -93,18 +93,10 @@ public class PowerChannelControl extends IMCMessage {
 		return m;
 	}
 
-	public PowerChannelControl(short id, short op, double sched_time) {
+	public PowerChannelControl(short op, double sched_time) {
 		super(ID_STATIC);
-		setId(id);
 		setOp(op);
 		setSchedTime(sched_time);
-	}
-
-	/**
-	 *  @return Channel - uint8_t
-	 */
-	public short getId() {
-		return (short) getInteger("id");
 	}
 
 	/**
@@ -126,13 +118,6 @@ public class PowerChannelControl extends IMCMessage {
 	 */
 	public double getSchedTime() {
 		return getDouble("sched_time");
-	}
-
-	/**
-	 *  @param id Channel
-	 */
-	public void setId(short id) {
-		values.put("id", id);
 	}
 
 	/**

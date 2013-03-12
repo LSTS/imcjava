@@ -33,17 +33,24 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Power Channel State (311)<br/>
- *  Message conveying the state of a power channel.<br/>
+ *  IMC Message Follow Reference State (480)<br/>
  */
 
-public class PowerChannelState extends IMCMessage {
+public class FollowRefState extends IMCMessage {
 
-	public static final int ID_STATIC = 311;
+	public static final int ID_STATIC = 480;
+
+	public static final short PROX_FAR = 0x01;
+	public static final short PROX_XY_NEAR = 0x02;
+	public static final short PROX_Z_NEAR = 0x04;
 
 	public enum STATE {
-		OFF(0),
-		ON(1);
+		WAIT(1),
+		GOTO(2),
+		LOITER(3),
+		HOVER(4),
+		ELEVATOR(5),
+		TIMEOUT(6);
 
 		protected long value;
 
@@ -56,24 +63,24 @@ public class PowerChannelState extends IMCMessage {
 		}
 	}
 
-	public PowerChannelState() {
+	public FollowRefState() {
 		super(ID_STATIC);
 	}
 
-	public PowerChannelState(IMCDefinition defs) {
+	public FollowRefState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static PowerChannelState create(Object... values) {
-		PowerChannelState m = new PowerChannelState();
+	public static FollowRefState create(Object... values) {
+		FollowRefState m = new FollowRefState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static PowerChannelState clone(IMCMessage msg) throws Exception {
+	public static FollowRefState clone(IMCMessage msg) throws Exception {
 
-		PowerChannelState m = new PowerChannelState();
+		FollowRefState m = new FollowRefState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -88,31 +95,48 @@ public class PowerChannelState extends IMCMessage {
 		return m;
 	}
 
-	public PowerChannelState(String name, String label, short state) {
+	public FollowRefState(int control_src, short control_ent, Reference reference, short state, short proximity) {
 		super(ID_STATIC);
-		if (name != null)
-			setName(name);
-		if (label != null)
-			setLabel(label);
+		setControlSrc(control_src);
+		setControlEnt(control_ent);
+		if (reference != null)
+			setReference(reference);
 		setState(state);
+		setProximity(proximity);
 	}
 
 	/**
-	 *  @return Name - plaintext
+	 *  @return Controlling Source - uint16_t
 	 */
-	public String getName() {
-		return getString("name");
+	public int getControlSrc() {
+		return getInteger("control_src");
 	}
 
 	/**
-	 *  @return Label - plaintext
+	 *  @return Controlling Entity - uint8_t
 	 */
-	public String getLabel() {
-		return getString("label");
+	public short getControlEnt() {
+		return (short) getInteger("control_ent");
 	}
 
 	/**
-	 *  State of the Power Channel.<br/>
+	 *  @return Reference - message
+	 */
+	public Reference getReference() {
+		try {
+			IMCMessage obj = getMessage("reference");
+			if (obj instanceof Reference)
+				return (Reference) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
 	 *  @return State (enumerated) - uint8_t
 	 */
 	public STATE getState() {
@@ -126,17 +150,31 @@ public class PowerChannelState extends IMCMessage {
 	}
 
 	/**
-	 *  @param name Name
+	 *  @return Proximity (bitfield) - uint8_t
 	 */
-	public void setName(String name) {
-		values.put("name", name);
+	public short getProximity() {
+		return (short) getInteger("proximity");
 	}
 
 	/**
-	 *  @param label Label
+	 *  @param control_src Controlling Source
 	 */
-	public void setLabel(String label) {
-		values.put("label", label);
+	public void setControlSrc(int control_src) {
+		values.put("control_src", control_src);
+	}
+
+	/**
+	 *  @param control_ent Controlling Entity
+	 */
+	public void setControlEnt(short control_ent) {
+		values.put("control_ent", control_ent);
+	}
+
+	/**
+	 *  @param reference Reference
+	 */
+	public void setReference(Reference reference) {
+		values.put("reference", reference);
 	}
 
 	/**
@@ -158,6 +196,13 @@ public class PowerChannelState extends IMCMessage {
 	 */
 	public void setState(short state) {
 		setValue("state", state);
+	}
+
+	/**
+	 *  @param proximity Proximity (bitfield)
+	 */
+	public void setProximity(short proximity) {
+		values.put("proximity", proximity);
 	}
 
 }

@@ -33,33 +33,53 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Create Session (806)<br/>
- *  Request creating a new session with this remote peer. Example<br/>
- *  session sequence is shown in the following diagram.<br/>
+ *  IMC Message Entity Activation State (14)<br/>
+ *  State of entity activation/deactivation.<br/>
  */
 
-public class CreateSession extends IMCMessage {
+public class EntityActivationState extends IMCMessage {
 
-	public static final int ID_STATIC = 806;
+	public static final int ID_STATIC = 14;
 
-	public CreateSession() {
+	public enum STATE {
+		INACTIVE(0),
+		ACTIVE(1),
+		ACT_IP(2),
+		ACT_DONE(3),
+		ACT_FAIL(4),
+		DEACT_IP(5),
+		DEACT_DONE(6),
+		DEACT_FAIL(7);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		STATE(long value) {
+			this.value = value;
+		}
+	}
+
+	public EntityActivationState() {
 		super(ID_STATIC);
 	}
 
-	public CreateSession(IMCDefinition defs) {
+	public EntityActivationState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static CreateSession create(Object... values) {
-		CreateSession m = new CreateSession();
+	public static EntityActivationState create(Object... values) {
+		EntityActivationState m = new EntityActivationState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static CreateSession clone(IMCMessage msg) throws Exception {
+	public static EntityActivationState clone(IMCMessage msg) throws Exception {
 
-		CreateSession m = new CreateSession();
+		EntityActivationState m = new EntityActivationState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -74,23 +94,60 @@ public class CreateSession extends IMCMessage {
 		return m;
 	}
 
-	public CreateSession(long timeout) {
+	public EntityActivationState(short state, String error) {
 		super(ID_STATIC);
-		setTimeout(timeout);
+		setState(state);
+		if (error != null)
+			setError(error);
 	}
 
 	/**
-	 *  @return Session Timeout - uint32_t
+	 *  Current state.<br/>
+	 *  @return State (enumerated) - uint8_t
 	 */
-	public long getTimeout() {
-		return getLong("timeout");
+	public STATE getState() {
+		try {
+			STATE o = STATE.valueOf(getMessageType().getFieldPossibleValues("state").get(getLong("state")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
-	 *  @param timeout Session Timeout
+	 *  @return Error - plaintext
 	 */
-	public void setTimeout(long timeout) {
-		values.put("timeout", timeout);
+	public String getError() {
+		return getString("error");
+	}
+
+	/**
+	 *  @param state State (enumerated)
+	 */
+	public void setState(STATE state) {
+		values.put("state", state.value());
+	}
+
+	/**
+	 *  @param state State (as a String)
+	 */
+	public void setState(String state) {
+		setValue("state", state);
+	}
+
+	/**
+	 *  @param state State (integer value)
+	 */
+	public void setState(short state) {
+		setValue("state", state);
+	}
+
+	/**
+	 *  @param error Error
+	 */
+	public void setError(String error) {
+		values.put("error", error);
 	}
 
 }

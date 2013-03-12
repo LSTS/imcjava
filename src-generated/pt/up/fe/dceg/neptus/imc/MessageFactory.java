@@ -80,6 +80,8 @@ public class MessageFactory {
 				return new DevCalibrationControl(defs);
 			case DevCalibrationState.ID_STATIC:
 				return new DevCalibrationState(defs);
+			case EntityActivationState.ID_STATIC:
+				return new EntityActivationState(defs);
 			case SimulatedState.ID_STATIC:
 				return new SimulatedState(defs);
 			case LeakSimulation.ID_STATIC:
@@ -114,6 +116,12 @@ public class MessageFactory {
 				return new LinkLevel(defs);
 			case Sms.ID_STATIC:
 				return new Sms(defs);
+			case SmsTx.ID_STATIC:
+				return new SmsTx(defs);
+			case SmsRx.ID_STATIC:
+				return new SmsRx(defs);
+			case SmsState.ID_STATIC:
+				return new SmsState(defs);
 			case LblRange.ID_STATIC:
 				return new LblRange(defs);
 			case LblDetection.ID_STATIC:
@@ -342,6 +350,8 @@ public class MessageFactory {
 				return new FollowReference(defs);
 			case Reference.ID_STATIC:
 				return new Reference(defs);
+			case FollowRefState.ID_STATIC:
+				return new FollowRefState(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
@@ -360,6 +370,8 @@ public class MessageFactory {
 				return new ControlLoops(defs);
 			case VehicleMedium.ID_STATIC:
 				return new VehicleMedium(defs);
+			case Collision.ID_STATIC:
+				return new Collision(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:

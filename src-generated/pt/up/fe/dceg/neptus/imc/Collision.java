@@ -33,33 +33,37 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Create Session (806)<br/>
- *  Request creating a new session with this remote peer. Example<br/>
- *  session sequence is shown in the following diagram.<br/>
+ *  IMC Message Collision (509)<br/>
+ *  Detected collision.<br/>
  */
 
-public class CreateSession extends IMCMessage {
+public class Collision extends IMCMessage {
 
-	public static final int ID_STATIC = 806;
+	public static final int ID_STATIC = 509;
 
-	public CreateSession() {
+	public static final short CD_X = 0x01;
+	public static final short CD_Y = 0x02;
+	public static final short CD_Z = 0x04;
+	public static final short CD_IMPACT = 0x08;
+
+	public Collision() {
 		super(ID_STATIC);
 	}
 
-	public CreateSession(IMCDefinition defs) {
+	public Collision(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static CreateSession create(Object... values) {
-		CreateSession m = new CreateSession();
+	public static Collision create(Object... values) {
+		Collision m = new Collision();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static CreateSession clone(IMCMessage msg) throws Exception {
+	public static Collision clone(IMCMessage msg) throws Exception {
 
-		CreateSession m = new CreateSession();
+		Collision m = new Collision();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -74,23 +78,39 @@ public class CreateSession extends IMCMessage {
 		return m;
 	}
 
-	public CreateSession(long timeout) {
+	public Collision(float value, short type) {
 		super(ID_STATIC);
-		setTimeout(timeout);
+		setValue(value);
+		setType(type);
 	}
 
 	/**
-	 *  @return Session Timeout - uint32_t
+	 *  @return Collision value (m/s/s) - fp32_t
 	 */
-	public long getTimeout() {
-		return getLong("timeout");
+	public double getValue() {
+		return getDouble("value");
 	}
 
 	/**
-	 *  @param timeout Session Timeout
+	 *  Collision flags.<br/>
+	 *  @return Type (bitfield) - uint8_t
 	 */
-	public void setTimeout(long timeout) {
-		values.put("timeout", timeout);
+	public short getType() {
+		return (short) getInteger("type");
+	}
+
+	/**
+	 *  @param value Collision value (m/s/s)
+	 */
+	public void setValue(double value) {
+		values.put("value", value);
+	}
+
+	/**
+	 *  @param type Type (bitfield)
+	 */
+	public void setType(short type) {
+		values.put("type", type);
 	}
 
 }
