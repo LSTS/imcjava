@@ -187,12 +187,24 @@ GIT Status:
 		
 	</target>
 	
+	<target name="lsf2llf" depends="scminfo,compile,copylicense,scminfo.txt">
+		<description>Create lsf2llf jar</description>
+		<jar destfile="dist/lsf2llf.jar" basedir="build" index="true">
+			<manifest>
+			  <attribute name="Main-Class" value="pt.up.fe.dceg.neptus.imc.llf.LSF2LLF" />
+			</manifest>
+		</jar>
+		<echo message="The file 'dist/lsf2llf.jar' was generated"/>
+	</target>
+	
 	<target name="jar-stripped" depends="scminfo,compile,copylicense,scminfo.txt">
+		<description>Create library jar (no source).</description>
 		<jar destfile="dist/imc-${scm.tag}.jar" basedir="build" index="true" />				   
 		<echo message="The file 'dist/imc-${scm.tag}.jar' was generated"/>
 	</target>
 	
 	<target name="jar-source" depends="scminfo,compile,copysrc,copylicense,scminfo.txt,copygenerated">
+		<description>Create library jar with source code embedded.</description>
 		<jar destfile="dist/imc-src-${scm.tag}.jar" basedir="build" index="true" />				   
 		<echo message="The file 'dist/imc-src-${scm.tag}.jar' was generated"/>
 	</target>
