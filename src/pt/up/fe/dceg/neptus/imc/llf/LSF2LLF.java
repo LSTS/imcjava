@@ -162,16 +162,15 @@ public class LSF2LLF {
         boolean isBufferOrStream = true;
         MappedByteBuffer buff = null;
 
-        try {
+        if (lsfIS instanceof FileInputStream) {
             FileInputStream is = (FileInputStream) lsfIS;
             FileChannel channel = is.getChannel();
             buff = channel.map(MapMode.READ_ONLY, 0, size);
             isBufferOrStream = true;
         }
-        catch (ClassCastException e) {
-            e.printStackTrace();
-            isBufferOrStream = false;
-        }
+        else {
+        	isBufferOrStream = false;
+        }        
 
         IMCMessage message = null;
 
