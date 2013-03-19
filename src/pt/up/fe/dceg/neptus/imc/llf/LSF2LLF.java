@@ -83,8 +83,19 @@ public class LSF2LLF {
             String filename = f.getName().toLowerCase();
             if (filename.endsWith(".lsf")) {
                 data_lsf = f;
+                break;
             }
         }
+        if (data_lsf == null) {
+        	for (File f : dir.listFiles()) {
+                String filename = f.getName().toLowerCase();
+                if (filename.endsWith(".lsf.gz")) {
+                    data_lsf = f;
+                    break;
+                }
+            }
+        }
+        
         if (data_lsf != null) {
             if (new File(data_lsf.getParent(), "IMC.xml").canRead())
                 convert(new File(data_lsf.getParent(), "IMC.xml"), data_lsf);            
@@ -328,6 +339,11 @@ public class LSF2LLF {
                 return;
             }
             File data_lsf = new File(args[0]).getAbsoluteFile();
+            if (data_lsf.isDirectory()) {
+            	converter.convert(data_lsf);
+            	return;
+            }
+            
             // data_lsf = testIfZipAndUnzipIt(data_lsf, null);
             if (new File(data_lsf.getParentFile(), "IMC.xml").canRead()) {
                 System.out.println("Loading IMC definitions in "
