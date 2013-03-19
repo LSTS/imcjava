@@ -41,7 +41,7 @@ public class ImcStringDefs {
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		sb.append("<!--\n");
 		sb.append("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-		sb.append("+ Copyright (C) 2007-2012 Laborat\u00F3rio de Sistemas e Tecnologia Subaqu\u00E1tica   +\n");
+		sb.append("+ Copyright (C) 2007-2013 Laborat\u00F3rio de Sistemas e Tecnologia Subaqu\u00E1tica   +\n");
 		sb.append("+ Departamento de Engenharia Electrot\u00E9cnica e de Computadores                +\n");
 		sb.append("+ Rua Dr. Roberto Frias, 4200-465 Porto, Portugal                            +\n");
 		sb.append("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
