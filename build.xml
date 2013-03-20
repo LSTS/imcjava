@@ -24,10 +24,12 @@
       <test name="pt.up.fe.dceg.neptus.imc.junit.ImcStringDefsTest" />
       <test name="pt.up.fe.dceg.neptus.imc.junit.MessageCreationTest" />
       <test name="pt.up.fe.dceg.neptus.imc.junit.SerializationTest" />
+      <test name="pt.up.fe.dceg.neptus.imc.junit.ImcSynchTest" />
     </junit>
   </target>
   
-  
+	
+	
 	<target name="all" depends="update-msg-defs,generated,dist" />
 
 	<target name="scminfo" depends="gitinfo"/>
@@ -84,6 +86,12 @@
 			<fileset dir="src" includes="**/*.png"/>			
 		</copy>
 	</target>
+	
+	<target name="compile-generator" depends="compile">
+			<mkdir dir="build"/>
+			<javac encoding="UTF-8" srcdir="src-generator" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/commons-lang3-3.1.jar">      
+			</javac>
+		</target>
 	
 	<target name="compile-sniffer" depends="compile">
 		<mkdir dir="build"/>
@@ -222,34 +230,12 @@ GIT Status:
 	<target name="dist" depends="jar-stripped,jar-source,jar-full"
 		description="Compile and create jar packages (default target)" />
 	
-	<target name="update-msg-defs" description="Update message definitions from SVN">
-		
-		<input 
-			message="Select source SVN repository" 
-			validargs="dune/trunk/etc/xml,messages/trunk,messages/tags/IMC-v5.1.0-rc1"
-			defaultvalue="dune/trunk/etc/xml"
-			addproperty="svn.repo">
-		</input>
-		
-		<exec executable="svn" dir="./src/msgdefs">
-			<arg value="export"/>
-			<arg value="--non-interactive"/>
-			<arg value="--force"/>
-			<arg value="https://whale.fe.up.pt/svn/${svn.repo}/IMC.xml"/>		
-		</exec>
-		
-		<exec executable="svn" dir="./src/msgdefs">
-			<arg value="export"/>
-			<arg value="--non-interactive"/>
-			<arg value="--force"/>
-			<arg value="https://whale.fe.up.pt/svn/messages/trunk/IMC_Addresses.xml"/>
-		</exec>
-
-		<exec executable="svn">
-			<arg value="info"/>
-			<arg value="--non-interactive"/>
-			<arg value="https://whale.fe.up.pt/svn/${svn.repo}/"/>
-		</exec>
+	<target name="update-msg-defs" depends="compile-generator" description="Update message definitions from github.com/LSTS/imc">
+	<java classname="pt.up.fe.dceg.neptus.imc.generator.UpdateMessageDefinitions">
+		         <classpath>
+		           <pathelement location="build"/>		           
+		         </classpath>
+		       </java>
 		
 	</target>
 	
