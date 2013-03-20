@@ -79,14 +79,14 @@ public class Temperature extends IMCMessage {
 	}
 
 	/**
-	 *  @return Measured Temperature (ºc) - fp32_t
+	 *  @return Measured Temperature (°c) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Measured Temperature (ºc)
+	 *  @param value Measured Temperature (°c)
 	 */
 	public void setValue(double value) {
 		values.put("value", value);
