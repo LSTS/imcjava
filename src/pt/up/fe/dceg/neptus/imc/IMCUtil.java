@@ -409,7 +409,7 @@ public class IMCUtil {
 	            value += "</tr></table>";
 	        }
 	        
-	        ret += "<tr><td align=center>"+fieldName+"</td><td>"+value+"</td></tr>";
+	        ret += "<tr><td align=center width=225>"+fieldName+"</td><td width=225>"+value+"</td></tr>";
 	    }	    
 	    return ret+"</table>";
 	}
