@@ -242,8 +242,12 @@ public class MessageFactory {
 				return new QueryPowerChannelState(defs);
 			case PowerChannelState.ID_STATIC:
 				return new PowerChannelState(defs);
-			case LedControl.ID_STATIC:
-				return new LedControl(defs);
+			case LedBrightness.ID_STATIC:
+				return new LedBrightness(defs);
+			case QueryLedBrightness.ID_STATIC:
+				return new QueryLedBrightness(defs);
+			case SetLedBrightness.ID_STATIC:
+				return new SetLedBrightness(defs);
 			case EstimatedState.ID_STATIC:
 				return new EstimatedState(defs);
 			case EstimatedStreamVelocity.ID_STATIC:
@@ -448,6 +452,10 @@ public class MessageFactory {
 				return new SessionKeepAlive(defs);
 			case SessionStatus.ID_STATIC:
 				return new SessionStatus(defs);
+			case PushEntityParameters.ID_STATIC:
+				return new PushEntityParameters(defs);
+			case PopEntityParameters.ID_STATIC:
+				return new PopEntityParameters(defs);
 			default:
 				return new IMCMessage(defs);
 		}

@@ -61,7 +61,8 @@ public class VehicleCommand extends IMCMessage {
 	public enum COMMAND {
 		EXEC_MANEUVER(0),
 		STOP_MANEUVER(1),
-		CALIBRATE(2);
+		START_CALIBRATION(2),
+		STOP_CALIBRATION(3);
 
 		protected long value;
 
@@ -106,13 +107,14 @@ public class VehicleCommand extends IMCMessage {
 		return m;
 	}
 
-	public VehicleCommand(short type, int request_id, short command, Maneuver maneuver, String info) {
+	public VehicleCommand(short type, int request_id, short command, Maneuver maneuver, int calib_time, String info) {
 		super(ID_STATIC);
 		setType(type);
 		setRequestId(request_id);
 		setCommand(command);
 		if (maneuver != null)
 			setManeuver(maneuver);
+		setCalibTime(calib_time);
 		if (info != null)
 			setInfo(info);
 	}
@@ -166,6 +168,13 @@ public class VehicleCommand extends IMCMessage {
 			return null;
 		}
 
+	}
+
+	/**
+	 *  @return Calibration Time (s) - uint16_t
+	 */
+	public int getCalibTime() {
+		return getInteger("calib_time");
 	}
 
 	/**
@@ -229,6 +238,13 @@ public class VehicleCommand extends IMCMessage {
 	 */
 	public void setManeuver(Maneuver maneuver) {
 		values.put("maneuver", maneuver);
+	}
+
+	/**
+	 *  @param calib_time Calibration Time (s)
+	 */
+	public void setCalibTime(int calib_time) {
+		values.put("calib_time", calib_time);
 	}
 
 	/**
