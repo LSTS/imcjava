@@ -53,6 +53,7 @@ package pt.up.fe.dceg.neptus.imc;
  *  <li>{@link CompassCalibration}</li>
  *  <li>{@link CoverArea}</li>
  *  <li>{@link FollowReference}</li>
+ *  <li>{@link CommsRelay}</li>
  *  </ul>
  */
 public class Maneuver extends IMCMessage {

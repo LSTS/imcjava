@@ -38,7 +38,7 @@ package pt.up.fe.dceg.neptus.imc;
  *  systems (a, b) in order to be used as a communications relay.<br/>
  */
 
-public class CommsRelay extends IMCMessage {
+public class CommsRelay extends Maneuver {
 
 	public static final int ID_STATIC = 472;
 
