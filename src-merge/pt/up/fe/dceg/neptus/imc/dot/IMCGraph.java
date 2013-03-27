@@ -32,7 +32,6 @@ package pt.up.fe.dceg.neptus.imc.dot;
 
 import java.awt.Color;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -561,7 +560,7 @@ public class IMCGraph {
             InFile2 = new File(chooser.getSelectedFile(), "IMC.xml").getAbsolutePath();
         }
 
-        LsfIndex index = new LsfIndex(new File(InFile1), new IMCDefinition(new FileInputStream(new File(InFile2))));
+        LsfIndex index = new LsfIndex(new File(InFile1), new IMCDefinition(new File(InFile2)));
 
         IMCGraph p = new IMCGraph(index);
         // GraphViz g = p.generateInterface("Autonomy.TREX");

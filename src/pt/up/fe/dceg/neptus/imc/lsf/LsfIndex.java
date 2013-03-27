@@ -73,7 +73,7 @@ public class LsfIndex {
      * disposal of the buffer object itself breaks the mapping.
      */
 
-    protected static final String FILENAME = "lsf.index";
+    protected static final String FILENAME = "mra/lsf.index";
 
     protected IMCDefinition defs;
 
@@ -147,10 +147,10 @@ public class LsfIndex {
         }
         if (defs == null) {
             if (new File(lsfFile.getParent(), "IMC.xml.gz").canRead()) {
-                defs = new IMCDefinition(new MultiMemberGZIPInputStream(new FileInputStream(new File(lsfFile.getParent(), "IMC.xml.gz"))));
+                defs = new IMCDefinition(new File(lsfFile.getParent(), "IMC.xml.gz"));
             }
             else if (new File(lsfFile.getParent(), "IMC.xml").canRead()) {
-                defs = new IMCDefinition(new FileInputStream(new File(lsfFile.getParent(), "IMC.xml")));
+                defs = new IMCDefinition(new File(lsfFile.getParent(), "IMC.xml"));
             }
             else {
                 defs = IMCDefinition.getInstance();
@@ -175,7 +175,6 @@ public class LsfIndex {
                         System.arraycopy(extra, 0, extra1, 0, ret);
                         outStream.write(extra1);
                         outStream.flush();
-                        // pos =+ret;
                     }
                     else {
                         break;
@@ -244,6 +243,8 @@ public class LsfIndex {
 
     protected void loadIndex() throws Exception {
         checkIndex();
+        new File(lsfFile.getParent(), "mra").mkdirs();
+        
         indexInputStream = new FileInputStream(new File(lsfFile.getParent(), FILENAME));
         indexSize = new File(lsfFile.getParent(), FILENAME).length();
         indexChannel = indexInputStream.getChannel();
@@ -448,9 +449,10 @@ public class LsfIndex {
 
     protected void createIndex() throws Exception {
         if (listener != null)
-            listener.updateStatus("Creating lsf.index...");
+            listener.updateStatus("Creating mra/lsf.index...");
 
         buffer.position(0);
+        new File(lsfFile.getParent(), "mra").mkdirs();
         new File(lsfFile.getParent(), FILENAME).delete();
         long progress = 0;
         DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(new File(
@@ -554,7 +556,7 @@ public class LsfIndex {
     }
 
     protected void checkIndex() throws Exception {
-        if (!new File(lsfFile.getParent(), "lsf.index").canRead())
+        if (!new File(lsfFile.getParent(), FILENAME).canRead())
             createIndex();
         else {
             if (listener != null)

@@ -1021,7 +1021,7 @@ public class ClassGenerator {
     public static void main(String[] args) throws Exception {
         long start = System.currentTimeMillis();
         if (args.length > 0) {
-            IMCDefinition defs = new IMCDefinition(new FileInputStream(new File(args[0])));
+            IMCDefinition defs = new IMCDefinition(new File(args[0]));
 
             generateClasses("pt.up.fe.dceg.neptus.imc", new File("src-generated"), defs);
             generateStringDefinitions("pt.up.fe.dceg.neptus.imc", new File("src-generated"), new FileInputStream(

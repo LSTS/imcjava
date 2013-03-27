@@ -58,6 +58,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import pt.up.fe.dceg.neptus.imc.gz.MultiMemberGZIPInputStream;
 import pt.up.fe.dceg.neptus.messages.IMessageProtocol;
 
 /**
@@ -89,6 +90,24 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
     protected LinkedHashMap<String, Vector<String>> subtypeGroups = new LinkedHashMap<String, Vector<String>>();
     protected LinkedHashMap<String, String> subTypeNames = new LinkedHashMap<String, String>();
 
+    
+    /**
+     * Create a new IMCDefinition, loading the definitions from <b>f</b>
+     * @param f The file from where to read the definitions.
+     * @throws Exception In case there are problems reading the file.
+     */
+    public IMCDefinition(File f) throws Exception {
+    	InputStream is;
+    	if (!f.canRead())
+    		is = null;
+    	else if (f.getName().endsWith(".gz"))
+    		is = new MultiMemberGZIPInputStream(new FileInputStream(f));
+    	else
+    		is = new FileInputStream(f);
+    		
+    	readDefs(is);
+    }
+        
     /**
      * Create a new IMCDefinition, loading the XML definitions from the given {@link InputStream}
      * @param is
