@@ -78,7 +78,7 @@ public class IMCAddressResolver {
 
     public String resolve(int imcId) {
         String name = addresses.get(imcId);
-        return name;
+        return (name != null)? name : "unknown ("+imcId+")";
     }
 
 
