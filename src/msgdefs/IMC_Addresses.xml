@@ -7,7 +7,7 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -->
 
-<addresses revision="$Rev: 1704 $">
+<addresses>
   <address id="0x0000" name="announce"/>
   <address id="0x0001" name="isurus"/>
   <address id="0x0002" name="nauv"/>
@@ -39,6 +39,7 @@
   <address id="0x8042" name="piccolo-gs3"/>
   <address id="0x0c01" name="lusitania"/>
   <address id="0x0c02" name="sedona"/>
+  <address id="0x0c03" name="x8-00"/>
   <address id="0x0c22" name="alfa-02"/>
   <address id="0x0c23" name="alfa-03"/>
   <address id="0x0c24" name="alfa-04"/>
