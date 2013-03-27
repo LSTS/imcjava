@@ -146,7 +146,10 @@ public class LsfIndex {
             throw new Exception("The file is not lsf!");
         }
         if (defs == null) {
-            if (new File(lsfFile.getParent(), "IMC.xml").canRead()) {
+            if (new File(lsfFile.getParent(), "IMC.xml.gz").canRead()) {
+                defs = new IMCDefinition(new MultiMemberGZIPInputStream(new FileInputStream(new File(lsfFile.getParent(), "IMC.xml.gz"))));
+            }
+            else if (new File(lsfFile.getParent(), "IMC.xml").canRead()) {
                 defs = new IMCDefinition(new FileInputStream(new File(lsfFile.getParent(), "IMC.xml")));
             }
             else {
