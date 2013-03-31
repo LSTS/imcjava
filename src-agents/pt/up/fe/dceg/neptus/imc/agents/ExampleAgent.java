@@ -30,8 +30,12 @@
  */
 package pt.up.fe.dceg.neptus.imc.agents;
 
+import java.io.ByteArrayOutputStream;
+
+import pt.up.fe.dceg.neptus.imc.Abort;
 import pt.up.fe.dceg.neptus.imc.AgentContext;
 import pt.up.fe.dceg.neptus.imc.EstimatedState;
+import pt.up.fe.dceg.neptus.imc.IMCOutputStream;
 import pt.up.fe.dceg.neptus.imc.ImcAgent;
 import pt.up.fe.dceg.neptus.imc.annotations.Agent;
 import pt.up.fe.dceg.neptus.imc.annotations.Periodic;
@@ -43,6 +47,8 @@ public class ExampleAgent implements ImcAgent {
 
     private AgentContext ctx;
     
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    IMCOutputStream out = new IMCOutputStream(baos);
     public String getName() {
         return "Example Agent";
     }
@@ -58,19 +64,24 @@ public class ExampleAgent implements ImcAgent {
     
     @Subscribe
     public void on(EstimatedState state) {
-        System.out.println("onEvent: "+Thread.currentThread());        
+       System.out.println("GOT ESTIMATED STATE!");
     }
     
-    @Periodic(millisBetweenUpdates=15)
-    public void onMai2n() {
-        System.out.println(System.currentTimeMillis()+" Periodic2: "+Thread.currentThread());
-        ctx.send(new EstimatedState());
+    @Periodic(millisBetweenUpdates=10000)
+    public void sendAbort() {
+    	ctx.send(new Abort());
     }
     
-    @Periodic(millisBetweenUpdates=10)
-    public void onMain() {
-        System.out.println(System.currentTimeMillis()+" Periodic: "+Thread.currentThread());
-        ctx.send(new EstimatedState());
-    }
+//    @Periodic(millisBetweenUpdates=150)
+//    public void onMai2n() {
+//        System.out.println(System.currentTimeMillis()+" Periodic2: "+Thread.currentThread());
+//        ctx.send(new EstimatedState());
+//    }
+//    
+//    @Periodic(millisBetweenUpdates=100)
+//    public void onMain() {
+//        System.out.println(System.currentTimeMillis()+" Periodic: "+Thread.currentThread());
+//        ctx.send(new EstimatedState());
+//    }
 
 }

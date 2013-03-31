@@ -111,6 +111,18 @@
 		<javac encoding="UTF-8" srcdir="src-agents" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/js.jar;lib/guava-13.0.1.jar">      
 		</javac>
 	</target>
+	
+	<target name="agents-jar" depends="compile-agents">
+		<delete file="dist/kraken.jar"/>
+		<unjar src="lib/js.jar" dest="build"/>
+		<unjar src="lib/guava-13.0.1.jar" dest="build"/>
+		<jar destfile="dist/kraken.jar" basedir="build" index="true">
+			<manifest>
+				<attribute name="Main-Class" value="pt.up.fe.dceg.neptus.imc.AgentContext"/>
+			</manifest>
+		</jar>
+		<echo message="The file 'dist/kraken.jar' was generated"/>
+	</target>
 		
 
 	<target name="sniffer-jar" depends="compile-sniffer">
