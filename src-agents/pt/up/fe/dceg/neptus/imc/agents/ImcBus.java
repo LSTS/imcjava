@@ -30,13 +30,16 @@ public class ImcBus implements ImcAgent, MessageListener<MessageInfo, IMCMessage
 	}
 	
 	@Override
-	public void onMessage(MessageInfo info, IMCMessage msg) {
+	public void onMessage(MessageInfo info, IMCMessage msg) {		
+		msg.setDst(-1);
 		ctx.send(msg);
 	}
 	
 	@Subscribe
-	public void on(IMCMessage msg) {
-		transport.sendMessage(remote_host, remote_port, msg);
+	public void on(final IMCMessage msg) {
+		if (msg.getDst() != -1) {
+			transport.sendMessage(remote_host, remote_port, msg);
+		}
 	}
 
 	@Override
