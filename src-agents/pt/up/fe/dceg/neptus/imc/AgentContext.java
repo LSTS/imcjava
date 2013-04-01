@@ -39,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 import pt.up.fe.dceg.neptus.imc.agents.ExampleAgent;
 import pt.up.fe.dceg.neptus.imc.agents.ExecuteTrajectory;
 import pt.up.fe.dceg.neptus.imc.agents.ImcBus;
+import pt.up.fe.dceg.neptus.imc.agents.WebServerAgent;
 import pt.up.fe.dceg.neptus.imc.annotations.Periodic;
 import pt.up.fe.dceg.neptus.imc.annotations.Property;
 
@@ -113,6 +114,7 @@ public class AgentContext {
         //framework.installAgent(new ExampleAgent());        
         framework.installAgent(new ImcBus(6006, "127.0.0.1", 6002));
         framework.installAgent(new ExecuteTrajectory());
+        framework.installAgent(new WebServerAgent());
     }
 
 }

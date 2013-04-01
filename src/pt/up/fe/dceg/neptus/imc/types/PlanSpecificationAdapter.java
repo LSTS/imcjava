@@ -36,7 +36,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import pt.up.fe.dceg.neptus.imc.DesiredSpeed.SPEED_UNITS;
 import pt.up.fe.dceg.neptus.imc.Goto;
 import pt.up.fe.dceg.neptus.imc.Goto.Z_UNITS;
 import pt.up.fe.dceg.neptus.imc.IMCDefinition;
@@ -453,16 +452,16 @@ public class PlanSpecificationAdapter implements IMessageAdapter {
                 new Goto(1000, 
                 Math.toRadians(41), 
                 Math.toRadians(-8), 
-                2f, (short)Z_UNITS.DEPTH.ordinal(),
-                1f, (short)SPEED_UNITS.METERS_PS.ordinal(),
+                2f, Z_UNITS.DEPTH,
+                1f, pt.up.fe.dceg.neptus.imc.Goto.SPEED_UNITS.METERS_PS,
                 0d,0d,0d, ""
                 ));
         plan.addManeuver("Goto2", 
                 new Goto(1000, 
                 Math.toRadians(41), 
                 Math.toRadians(-8), 
-                5f, (short)Z_UNITS.DEPTH.ordinal(),
-                1f, (short)SPEED_UNITS.METERS_PS.ordinal(),
+                5f, Z_UNITS.DEPTH,
+                1f, pt.up.fe.dceg.neptus.imc.Goto.SPEED_UNITS.METERS_PS,
                 0d,0d,0d, ""
                 ));
         plan.addTransition("Goto1", "Goto2", "ManeuverIsDone", null);

@@ -237,7 +237,7 @@ public class ClassGenerator {
         sb.append(" * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT \n");
         sb.append(" * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n");
         sb.append(" *  \n");
-        sb.append(" * $Id:: ClassGenerator.java 393 2013-03-03 10:40:48Z zepinto@gmail.com        $:\n");
+        sb.append(" *                                                                             $:\n");
         sb.append(" */\n\n");
 
         return sb.toString();
@@ -404,6 +404,10 @@ public class ClassGenerator {
 
     protected static String imcTypeToJava(IMCMessageType type, String field) {
         IMCFieldType imcType = type.getFieldType(field);
+        
+        if ("enumerated".equals(type.getFieldUnits(field)))
+        	return field.toUpperCase();        
+        
         switch (imcType) {
             case TYPE_INT8:
                 return "byte";

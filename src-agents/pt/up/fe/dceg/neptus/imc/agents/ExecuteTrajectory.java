@@ -71,8 +71,8 @@ public class ExecuteTrajectory implements ImcAgent {
 	public void sendReference() {
 		Reference ref = new Reference(
 				(short)(Reference.FLAG_LOCATION | Reference.FLAG_SPEED | Reference.FLAG_Z),
-				new DesiredSpeed(1, (short)SPEED_UNITS.METERS_PS.ordinal()),
-				new DesiredZ(depths[curDest], (short)DesiredZ.Z_UNITS.DEPTH.ordinal()),
+				new DesiredSpeed(1, SPEED_UNITS.METERS_PS),
+				new DesiredZ(depths[curDest], DesiredZ.Z_UNITS.DEPTH),
 				Math.toRadians(lats[curDest]),
 				Math.toRadians(lons[curDest])
 				);
