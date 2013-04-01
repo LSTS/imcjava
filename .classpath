@@ -18,5 +18,7 @@
 	<classpathentry kind="lib" path="lib/jchart2d-3.2.0.jar"/>
 	<classpathentry kind="lib" path="lib/js.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-all-9.0.0.v20130308.jar"/>
+	<classpathentry kind="lib" path="lib/javax.servlet-3.0.0.v201112011016.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
