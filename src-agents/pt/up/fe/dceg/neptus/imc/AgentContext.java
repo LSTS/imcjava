@@ -94,8 +94,7 @@ public class AgentContext {
         
         for (Field f : agent.getClass().getFields()) {
             Property p = f.getAnnotation(Property.class);
-            //TODO
-            System.out.println("To process... "+p);
+            //FIXME
         }
         
         agent.onStart(this);
@@ -111,7 +110,7 @@ public class AgentContext {
     	IMCDefinition.getInstance();
     	
         AgentContext framework = new AgentContext();
-        //framework.installAgent(new ExampleAgent());        
+        framework.installAgent(new ExampleAgent());        
         framework.installAgent(new ImcBus(6006, "127.0.0.1", 6002));
         framework.installAgent(new ExecuteTrajectory());
         framework.installAgent(new WebServerAgent());

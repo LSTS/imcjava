@@ -108,7 +108,8 @@
 	</target>
 	
 	<target name="compile-agents" depends="compile">
-		<javac encoding="UTF-8" srcdir="src-agents" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/js.jar;lib/guava-13.0.1.jar">      
+		<javac encoding="UTF-8" srcdir="src-agents" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" 
+		classpath="lib/js.jar;lib/guava-13.0.1.jar;lib/jetty-all-9.0.0.v20130308.jar;lib/javax.servlet-3.0.0.v201112011016.jar">      
 		</javac>
 	</target>
 	
@@ -116,6 +117,17 @@
 		<delete file="dist/kraken.jar"/>
 		<unjar src="lib/js.jar" dest="build"/>
 		<unjar src="lib/guava-13.0.1.jar" dest="build"/>
+		<unjar src="lib/jetty-all-9.0.0.v20130308.jar" dest="build"/>
+
+		<unjar src="lib/javax.servlet-3.0.0.v201112011016.jar" dest="build">
+            <patternset>
+                <include name="**"/>
+                <exclude name="META-INF/*.SF"/>
+                <exclude name="META-INF/*.DSA"/>
+                <exclude name="META-INF/*.RSA"/>
+            </patternset>		   
+		</unjar>
+			
 		<jar destfile="dist/kraken.jar" basedir="build" index="true">
 			<manifest>
 				<attribute name="Main-Class" value="pt.up.fe.dceg.neptus.imc.AgentContext"/>
