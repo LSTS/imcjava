@@ -48,6 +48,7 @@ import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -528,7 +529,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
             sb.append("  Version : " + getVersion() + "\n");
             sb.append(" Creation : " + getCreation() + "\n");
             sb.append("      MD5 : " + getMd5String() + "\n");
-            System.out.println(sb.toString());
+            Logger.getGlobal().info(sb.toString());
         }
         catch (Exception e) {
             e.printStackTrace();

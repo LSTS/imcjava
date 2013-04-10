@@ -104,10 +104,11 @@ public class ControlLoops extends IMCMessage {
 		return m;
 	}
 
-	public ControlLoops(ENABLE enable, long mask) {
+	public ControlLoops(ENABLE enable, long mask, float scope_ref) {
 		super(ID_STATIC);
 		setEnable(enable);
 		setMask(mask);
+		setScopeRef(scope_ref);
 	}
 
 	/**
@@ -129,6 +130,13 @@ public class ControlLoops extends IMCMessage {
 	 */
 	public long getMask() {
 		return getLong("mask");
+	}
+
+	/**
+	 *  @return Scope Time Reference (s) - fp32_t
+	 */
+	public double getScopeRef() {
+		return getDouble("scope_ref");
 	}
 
 	/**
@@ -157,6 +165,13 @@ public class ControlLoops extends IMCMessage {
 	 */
 	public void setMask(long mask) {
 		values.put("mask", mask);
+	}
+
+	/**
+	 *  @param scope_ref Scope Time Reference (s)
+	 */
+	public void setScopeRef(double scope_ref) {
+		values.put("scope_ref", scope_ref);
 	}
 
 }

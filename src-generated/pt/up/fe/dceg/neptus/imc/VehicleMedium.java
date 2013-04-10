@@ -45,7 +45,8 @@ public class VehicleMedium extends IMCMessage {
 		GROUND(0),
 		AIR(1),
 		WATER(2),
-		UNDERWATER(3);
+		UNDERWATER(3),
+		UNKNOWN(4);
 
 		protected long value;
 
