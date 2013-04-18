@@ -462,7 +462,9 @@ public class LsfIndex {
         long pos, newPos;
         int mgid, size, sync;
         int counter = 0;
-
+        
+        long len = lsfFile.length();
+        
         while (buffer.getBuffer().remaining() > defs.headerLength()) {
             pos = buffer.position();
             if (pos == 0) {
@@ -489,12 +491,12 @@ public class LsfIndex {
 
             counter++;
             newPos = buffer.position() + (defs.headerLength() - 12) + size;
-            if (newPos > lsfFile.length())
+            if (newPos > len)
                 break;
             else
                 buffer.position(newPos);
 
-            long prog = (long)(pos * 100.0 / lsfFile.length());
+            long prog = (long)(pos * 100.0 / len);
             if (prog != progress) {
                 if (listener != null)
                     listener.updateStatus("Creating lsf.index... " + prog + "%");
