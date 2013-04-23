@@ -420,6 +420,14 @@ public class MessageFactory {
 				return new TrexObservation(defs);
 			case TrexCommand.ID_STATIC:
 				return new TrexCommand(defs);
+			case TrexOperation.ID_STATIC:
+				return new TrexOperation(defs);
+			case TrexAttribute.ID_STATIC:
+				return new TrexAttribute(defs);
+			case TrexToken.ID_STATIC:
+				return new TrexToken(defs);
+			case TrexPlan.ID_STATIC:
+				return new TrexPlan(defs);
 			case VideoData.ID_STATIC:
 				return new VideoData(defs);
 			case RawImage.ID_STATIC:
