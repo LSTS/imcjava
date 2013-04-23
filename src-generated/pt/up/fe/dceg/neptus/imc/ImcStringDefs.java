@@ -6385,6 +6385,11 @@ public class ImcStringDefs {
 		sb.append("  </message>\n");
 		sb.append("  \n");
 		sb.append("  <message id=\"656\" abbrev=\"TrexAttribute\" name=\"TREX Attribute\" source=\"vehicle,ccu\">\n");
+		sb.append("   \n");
+		sb.append("   <field name=\"Attribute Name\" abbrev=\"name\" type=\"plaintext\">\n");
+		sb.append("      <description>Name of this attribute.</description>\n");
+		sb.append("    </field>\n");
+		sb.append("    \n");
 		sb.append("    <field name=\"Attribute type\" abbrev=\"attr_type\" type=\"uint8_t\" unit=\"Enumerated\" prefix=\"TYPE\">\n");
 		sb.append("   \t  <value abbrev=\"BOOL\" name=\"Boolean Domain\" id=\"1\"/>\n");
 		sb.append("      <value abbrev=\"INT\" name=\"Integer Domain\" id=\"2\"/>\n");

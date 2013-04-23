@@ -90,13 +90,22 @@ public class TrexAttribute extends IMCMessage {
 		return m;
 	}
 
-	public TrexAttribute(ATTR_TYPE attr_type, String min, String max) {
+	public TrexAttribute(String name, ATTR_TYPE attr_type, String min, String max) {
 		super(ID_STATIC);
+		if (name != null)
+			setName(name);
 		setAttrType(attr_type);
 		if (min != null)
 			setMin(min);
 		if (max != null)
 			setMax(max);
+	}
+
+	/**
+	 *  @return Attribute Name - plaintext
+	 */
+	public String getName() {
+		return getString("name");
 	}
 
 	/**
@@ -124,6 +133,13 @@ public class TrexAttribute extends IMCMessage {
 	 */
 	public String getMax() {
 		return getString("max");
+	}
+
+	/**
+	 *  @param name Attribute Name
+	 */
+	public void setName(String name) {
+		values.put("name", name);
 	}
 
 	/**
