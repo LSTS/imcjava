@@ -210,8 +210,8 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
      * @return a new header compatible with these definitions
      */
     public Header createHeader() {
-        Header h = new Header();
-        h.definitions = this;
+        Header h = new Header(this);
+        
         return h;
     }
     
