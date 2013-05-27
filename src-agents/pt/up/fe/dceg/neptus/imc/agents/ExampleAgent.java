@@ -53,14 +53,31 @@ public class ExampleAgent implements ImcAgent {
         return "Example Agent";
     }
 
+    // Called when the agent becomes active
     public void onStart(AgentContext ctx) {
         this.ctx = ctx;
-        System.out.println("onStart()");
+        System.out.println("Agent is now running in "+ctx);
     }
-
+    
+    // Called when an agent is stopping
     public void onStop() {
         System.out.println("onStop()");
     }
+    
+    public void onMigrationSuccessLocal(String destination) {
+    	System.out.println("Agent migrated successfully to "+destination);
+    	ctx.removeAgent(this);
+    }
+    
+    public void onMigrationSuccessDestination(AgentContext newCtx) {
+    	System.out.println("Agent migrated successfully to "+newCtx);
+    }
+    
+    public void onMigrationError(String destination, Exception e) {
+    	System.out.println("Agent failed to migrate to "+destination+" because of a "+e.getClass().getSimpleName());
+    }
+
+    
     
     @Subscribe
     public void on(EstimatedState state) {
@@ -69,19 +86,6 @@ public class ExampleAgent implements ImcAgent {
     
     @Periodic(millisBetweenUpdates=10000)
     public void sendAbort() {
-    	ctx.send(new Abort());
+    	//ctx.send(new Abort());
     }
-    
-//    @Periodic(millisBetweenUpdates=150)
-//    public void onMai2n() {
-//        System.out.println(System.currentTimeMillis()+" Periodic2: "+Thread.currentThread());
-//        ctx.send(new EstimatedState());
-//    }
-//    
-//    @Periodic(millisBetweenUpdates=100)
-//    public void onMain() {
-//        System.out.println(System.currentTimeMillis()+" Periodic: "+Thread.currentThread());
-//        ctx.send(new EstimatedState());
-//    }
-
 }

@@ -40,6 +40,7 @@ import pt.up.fe.dceg.neptus.imc.agents.ExampleAgent;
 import pt.up.fe.dceg.neptus.imc.agents.ExecuteTrajectory;
 import pt.up.fe.dceg.neptus.imc.agents.ImcBus;
 import pt.up.fe.dceg.neptus.imc.agents.WebServerAgent;
+import pt.up.fe.dceg.neptus.imc.agents.YoYoTrajectoryTest;
 import pt.up.fe.dceg.neptus.imc.annotations.Periodic;
 import pt.up.fe.dceg.neptus.imc.annotations.Property;
 
@@ -64,6 +65,14 @@ public class AgentContext {
                     a.onStop();                
             }
         });
+    }
+    
+    public boolean removeAgent(ImcAgent agent) {
+    	if (!agents.contains(agent))
+    		return false;
+    	agent.onStop();
+    	agents.remove(agent);
+    	return true;
     }
     
     protected boolean installAgent(ImcAgent agent) {
@@ -110,10 +119,10 @@ public class AgentContext {
     	IMCDefinition.getInstance();
     	
         AgentContext framework = new AgentContext();
-        framework.installAgent(new ExampleAgent());        
-        framework.installAgent(new ImcBus(6006, "127.0.0.1", 6002));
-        framework.installAgent(new ExecuteTrajectory());
-        framework.installAgent(new WebServerAgent());
+        //framework.installAgent(new ExampleAgent());        
+        framework.installAgent(new ImcBus(6969, "127.0.0.1", 6002));
+        framework.installAgent(new YoYoTrajectoryTest());
+        //framework.installAgent(new WebServerAgent());
     }
 
 }
