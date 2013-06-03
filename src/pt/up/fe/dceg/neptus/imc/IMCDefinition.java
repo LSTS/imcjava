@@ -529,7 +529,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
             sb.append("  Version : " + getVersion() + "\n");
             sb.append(" Creation : " + getCreation() + "\n");
             sb.append("      MD5 : " + getMd5String() + "\n");
-            Logger.getGlobal().info(sb.toString());
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info(sb.toString());
         }
         catch (Exception e) {
             e.printStackTrace();
