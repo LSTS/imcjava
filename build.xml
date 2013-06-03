@@ -109,7 +109,7 @@
 	
 	<target name="compile-agents" depends="compile">
 		<javac encoding="UTF-8" srcdir="src-agents" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" 
-		classpath="lib/js.jar;lib/guava-13.0.1.jar;lib/jetty-all-9.0.0.v20130308.jar;lib/javax.servlet-3.0.0.v201112011016.jar">      
+		classpath="lib/js.jar;lib/guava-13.0.1.jar;lib/jetty-all-9.0.0.v20130308.jar;lib/javax.servlet-3.0.0.v201112011016.jar;lib/commons-io-2.0.1.jar">      
 		</javac>
 	</target>
 	
