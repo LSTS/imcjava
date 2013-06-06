@@ -91,7 +91,7 @@ public class YoYoTrajectoryTest implements ImcAgent {
 				new DesiredSpeed(1, SPEED_UNITS.METERS_PS),
 				new DesiredZ(yoyoZ[curZ], DesiredZ.Z_UNITS.DEPTH),
 				Math.toRadians(lats[curDest]),
-				Math.toRadians(lons[curDest])
+				Math.toRadians(lons[curDest]),0f
 				);
 		ctx.send(ref);
 		ref.dump(System.err);

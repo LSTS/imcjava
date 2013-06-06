@@ -33,31 +33,31 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Raw Image (701)<br/>
+ *  IMC Message Transmit Iridium Message (171)<br/>
  */
 
-public class RawImage extends IMCMessage {
+public class IridiumMsgTx extends IMCMessage {
 
-	public static final int ID_STATIC = 701;
+	public static final int ID_STATIC = 171;
 
-	public RawImage() {
+	public IridiumMsgTx() {
 		super(ID_STATIC);
 	}
 
-	public RawImage(IMCDefinition defs) {
+	public IridiumMsgTx(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static RawImage create(Object... values) {
-		RawImage m = new RawImage();
+	public static IridiumMsgTx create(Object... values) {
+		IridiumMsgTx m = new IridiumMsgTx();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static RawImage clone(IMCMessage msg) throws Exception {
+	public static IridiumMsgTx clone(IMCMessage msg) throws Exception {
 
-		RawImage m = new RawImage();
+		IridiumMsgTx m = new IridiumMsgTx();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -72,42 +72,27 @@ public class RawImage extends IMCMessage {
 		return m;
 	}
 
-	public RawImage(int width, int height, short channels, short depth, byte[] data) {
+	public IridiumMsgTx(int req_id, String destination, byte[] data) {
 		super(ID_STATIC);
-		setWidth(width);
-		setHeight(height);
-		setChannels(channels);
-		setDepth(depth);
+		setReqId(req_id);
+		if (destination != null)
+			setDestination(destination);
 		if (data != null)
 			setData(data);
 	}
 
 	/**
-	 *  @return Width - uint16_t
+	 *  @return Request Identifier - uint16_t
 	 */
-	public int getWidth() {
-		return getInteger("width");
+	public int getReqId() {
+		return getInteger("req_id");
 	}
 
 	/**
-	 *  @return Height - uint16_t
+	 *  @return Destination Identifier - plaintext
 	 */
-	public int getHeight() {
-		return getInteger("height");
-	}
-
-	/**
-	 *  @return Channels - uint8_t
-	 */
-	public short getChannels() {
-		return (short) getInteger("channels");
-	}
-
-	/**
-	 *  @return Pixel Depth - uint8_t
-	 */
-	public short getDepth() {
-		return (short) getInteger("depth");
+	public String getDestination() {
+		return getString("destination");
 	}
 
 	/**
@@ -118,31 +103,17 @@ public class RawImage extends IMCMessage {
 	}
 
 	/**
-	 *  @param width Width
+	 *  @param req_id Request Identifier
 	 */
-	public void setWidth(int width) {
-		values.put("width", width);
+	public void setReqId(int req_id) {
+		values.put("req_id", req_id);
 	}
 
 	/**
-	 *  @param height Height
+	 *  @param destination Destination Identifier
 	 */
-	public void setHeight(int height) {
-		values.put("height", height);
-	}
-
-	/**
-	 *  @param channels Channels
-	 */
-	public void setChannels(short channels) {
-		values.put("channels", channels);
-	}
-
-	/**
-	 *  @param depth Pixel Depth
-	 */
-	public void setDepth(short depth) {
-		values.put("depth", depth);
+	public void setDestination(String destination) {
+		values.put("destination", destination);
 	}
 
 	/**

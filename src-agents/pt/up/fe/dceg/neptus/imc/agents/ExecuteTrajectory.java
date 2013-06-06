@@ -74,7 +74,7 @@ public class ExecuteTrajectory implements ImcAgent {
 				new DesiredSpeed(1, SPEED_UNITS.METERS_PS),
 				new DesiredZ(depths[curDest], DesiredZ.Z_UNITS.DEPTH),
 				Math.toRadians(lats[curDest]),
-				Math.toRadians(lons[curDest])
+				Math.toRadians(lons[curDest]),0f
 				);
 		ctx.send(ref);
 	}

@@ -122,6 +122,12 @@ public class MessageFactory {
 				return new SmsRx(defs);
 			case SmsState.ID_STATIC:
 				return new SmsState(defs);
+			case IridiumMsgRx.ID_STATIC:
+				return new IridiumMsgRx(defs);
+			case IridiumMsgTx.ID_STATIC:
+				return new IridiumMsgTx(defs);
+			case IridiumTxStatus.ID_STATIC:
+				return new IridiumTxStatus(defs);
 			case LblRange.ID_STATIC:
 				return new LblRange(defs);
 			case LblDetection.ID_STATIC:

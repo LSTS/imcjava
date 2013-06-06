@@ -33,31 +33,48 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Raw Image (701)<br/>
+ *  IMC Message Iridium Transmission Status (172)<br/>
  */
 
-public class RawImage extends IMCMessage {
+public class IridiumTxStatus extends IMCMessage {
 
-	public static final int ID_STATIC = 701;
+	public static final int ID_STATIC = 172;
 
-	public RawImage() {
+	public enum STATUS {
+		OK(1),
+		ERROR(2),
+		QUEUED(3),
+		TRANSMIT(4);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		STATUS(long value) {
+			this.value = value;
+		}
+	}
+
+	public IridiumTxStatus() {
 		super(ID_STATIC);
 	}
 
-	public RawImage(IMCDefinition defs) {
+	public IridiumTxStatus(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static RawImage create(Object... values) {
-		RawImage m = new RawImage();
+	public static IridiumTxStatus create(Object... values) {
+		IridiumTxStatus m = new IridiumTxStatus();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static RawImage clone(IMCMessage msg) throws Exception {
+	public static IridiumTxStatus clone(IMCMessage msg) throws Exception {
 
-		RawImage m = new RawImage();
+		IridiumTxStatus m = new IridiumTxStatus();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -72,84 +89,74 @@ public class RawImage extends IMCMessage {
 		return m;
 	}
 
-	public RawImage(int width, int height, short channels, short depth, byte[] data) {
+	public IridiumTxStatus(int req_id, STATUS status, String text) {
 		super(ID_STATIC);
-		setWidth(width);
-		setHeight(height);
-		setChannels(channels);
-		setDepth(depth);
-		if (data != null)
-			setData(data);
+		setReqId(req_id);
+		setStatus(status);
+		if (text != null)
+			setText(text);
 	}
 
 	/**
-	 *  @return Width - uint16_t
+	 *  @return Request Identifier - uint16_t
 	 */
-	public int getWidth() {
-		return getInteger("width");
+	public int getReqId() {
+		return getInteger("req_id");
 	}
 
 	/**
-	 *  @return Height - uint16_t
+	 *  @return Status Code (enumerated) - uint8_t
 	 */
-	public int getHeight() {
-		return getInteger("height");
+	public STATUS getStatus() {
+		try {
+			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
-	 *  @return Channels - uint8_t
+	 *  @return Status Text - plaintext
 	 */
-	public short getChannels() {
-		return (short) getInteger("channels");
+	public String getText() {
+		return getString("text");
 	}
 
 	/**
-	 *  @return Pixel Depth - uint8_t
+	 *  @param req_id Request Identifier
 	 */
-	public short getDepth() {
-		return (short) getInteger("depth");
+	public void setReqId(int req_id) {
+		values.put("req_id", req_id);
 	}
 
 	/**
-	 *  @return Data - rawdata
+	 *  @param status Status Code (enumerated)
 	 */
-	public byte[] getData() {
-		return getRawData("data");
+	public void setStatus(STATUS status) {
+		values.put("status", status.value());
 	}
 
 	/**
-	 *  @param width Width
+	 *  @param status Status Code (as a String)
 	 */
-	public void setWidth(int width) {
-		values.put("width", width);
+	public void setStatus(String status) {
+		setValue("status", status);
 	}
 
 	/**
-	 *  @param height Height
+	 *  @param status Status Code (integer value)
 	 */
-	public void setHeight(int height) {
-		values.put("height", height);
+	public void setStatus(short status) {
+		setValue("status", status);
 	}
 
 	/**
-	 *  @param channels Channels
+	 *  @param text Status Text
 	 */
-	public void setChannels(short channels) {
-		values.put("channels", channels);
-	}
-
-	/**
-	 *  @param depth Pixel Depth
-	 */
-	public void setDepth(short depth) {
-		values.put("depth", depth);
-	}
-
-	/**
-	 *  @param data Data
-	 */
-	public void setData(byte[] data) {
-		values.put("data", data);
+	public void setText(String text) {
+		values.put("text", text);
 	}
 
 }

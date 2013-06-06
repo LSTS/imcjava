@@ -33,31 +33,31 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Raw Image (701)<br/>
+ *  IMC Message Received Iridium Message (170)<br/>
  */
 
-public class RawImage extends IMCMessage {
+public class IridiumMsgRx extends IMCMessage {
 
-	public static final int ID_STATIC = 701;
+	public static final int ID_STATIC = 170;
 
-	public RawImage() {
+	public IridiumMsgRx() {
 		super(ID_STATIC);
 	}
 
-	public RawImage(IMCDefinition defs) {
+	public IridiumMsgRx(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static RawImage create(Object... values) {
-		RawImage m = new RawImage();
+	public static IridiumMsgRx create(Object... values) {
+		IridiumMsgRx m = new IridiumMsgRx();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static RawImage clone(IMCMessage msg) throws Exception {
+	public static IridiumMsgRx clone(IMCMessage msg) throws Exception {
 
-		RawImage m = new RawImage();
+		IridiumMsgRx m = new IridiumMsgRx();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -72,42 +72,43 @@ public class RawImage extends IMCMessage {
 		return m;
 	}
 
-	public RawImage(int width, int height, short channels, short depth, byte[] data) {
+	public IridiumMsgRx(String origin, double htime, double lat, double lon, byte[] data) {
 		super(ID_STATIC);
-		setWidth(width);
-		setHeight(height);
-		setChannels(channels);
-		setDepth(depth);
+		if (origin != null)
+			setOrigin(origin);
+		setHtime(htime);
+		setLat(lat);
+		setLon(lon);
 		if (data != null)
 			setData(data);
 	}
 
 	/**
-	 *  @return Width - uint16_t
+	 *  @return Origin Identifier - plaintext
 	 */
-	public int getWidth() {
-		return getInteger("width");
+	public String getOrigin() {
+		return getString("origin");
 	}
 
 	/**
-	 *  @return Height - uint16_t
+	 *  @return Timestamp (s) - fp64_t
 	 */
-	public int getHeight() {
-		return getInteger("height");
+	public double getHtime() {
+		return getDouble("htime");
 	}
 
 	/**
-	 *  @return Channels - uint8_t
+	 *  @return Latitude Reference (rad) - fp64_t
 	 */
-	public short getChannels() {
-		return (short) getInteger("channels");
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
-	 *  @return Pixel Depth - uint8_t
+	 *  @return Longitude Reference (rad) - fp64_t
 	 */
-	public short getDepth() {
-		return (short) getInteger("depth");
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -118,31 +119,31 @@ public class RawImage extends IMCMessage {
 	}
 
 	/**
-	 *  @param width Width
+	 *  @param origin Origin Identifier
 	 */
-	public void setWidth(int width) {
-		values.put("width", width);
+	public void setOrigin(String origin) {
+		values.put("origin", origin);
 	}
 
 	/**
-	 *  @param height Height
+	 *  @param htime Timestamp (s)
 	 */
-	public void setHeight(int height) {
-		values.put("height", height);
+	public void setHtime(double htime) {
+		values.put("htime", htime);
 	}
 
 	/**
-	 *  @param channels Channels
+	 *  @param lat Latitude Reference (rad)
 	 */
-	public void setChannels(short channels) {
-		values.put("channels", channels);
+	public void setLat(double lat) {
+		values.put("lat", lat);
 	}
 
 	/**
-	 *  @param depth Pixel Depth
+	 *  @param lon Longitude Reference (rad)
 	 */
-	public void setDepth(short depth) {
-		values.put("depth", depth);
+	public void setLon(double lon) {
+		values.put("lon", lon);
 	}
 
 	/**
