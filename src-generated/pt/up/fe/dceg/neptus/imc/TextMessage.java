@@ -33,31 +33,32 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Transmit Iridium Message (171)<br/>
+ *  IMC Message Text Message (160)<br/>
+ *  A text message has been received.<br/>
  */
 
-public class IridiumMsgTx extends IMCMessage {
+public class TextMessage extends IMCMessage {
 
-	public static final int ID_STATIC = 171;
+	public static final int ID_STATIC = 160;
 
-	public IridiumMsgTx() {
+	public TextMessage() {
 		super(ID_STATIC);
 	}
 
-	public IridiumMsgTx(IMCDefinition defs) {
+	public TextMessage(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static IridiumMsgTx create(Object... values) {
-		IridiumMsgTx m = new IridiumMsgTx();
+	public static TextMessage create(Object... values) {
+		TextMessage m = new TextMessage();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static IridiumMsgTx clone(IMCMessage msg) throws Exception {
+	public static TextMessage clone(IMCMessage msg) throws Exception {
 
-		IridiumMsgTx m = new IridiumMsgTx();
+		TextMessage m = new TextMessage();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -72,70 +73,40 @@ public class IridiumMsgTx extends IMCMessage {
 		return m;
 	}
 
-	public IridiumMsgTx(int req_id, int ttl, String destination, byte[] data) {
+	public TextMessage(String origin, String text) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setTtl(ttl);
-		if (destination != null)
-			setDestination(destination);
-		if (data != null)
-			setData(data);
+		if (origin != null)
+			setOrigin(origin);
+		if (text != null)
+			setText(text);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  @return Origin - plaintext
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
+	public String getOrigin() {
+		return getString("origin");
 	}
 
 	/**
-	 *  @return Time to live (s) - uint16_t
+	 *  @return Text - plaintext
 	 */
-	public int getTtl() {
-		return getInteger("ttl");
+	public String getText() {
+		return getString("text");
 	}
 
 	/**
-	 *  @return Destination Identifier - plaintext
+	 *  @param origin Origin
 	 */
-	public String getDestination() {
-		return getString("destination");
+	public void setOrigin(String origin) {
+		values.put("origin", origin);
 	}
 
 	/**
-	 *  @return Data - rawdata
+	 *  @param text Text
 	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
-	 *  @param req_id Request Identifier
-	 */
-	public void setReqId(int req_id) {
-		values.put("req_id", req_id);
-	}
-
-	/**
-	 *  @param ttl Time to live (s)
-	 */
-	public void setTtl(int ttl) {
-		values.put("ttl", ttl);
-	}
-
-	/**
-	 *  @param destination Destination Identifier
-	 */
-	public void setDestination(String destination) {
-		values.put("destination", destination);
-	}
-
-	/**
-	 *  @param data Data
-	 */
-	public void setData(byte[] data) {
-		values.put("data", data);
+	public void setText(String text) {
+		values.put("text", text);
 	}
 
 }

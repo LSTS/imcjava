@@ -33,31 +33,47 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Transmit Iridium Message (171)<br/>
+ *  IMC Message Data Sanity (284)<br/>
+ *  Report sanity or lack of it in the data output by a sensor.<br/>
  */
 
-public class IridiumMsgTx extends IMCMessage {
+public class DataSanity extends IMCMessage {
 
-	public static final int ID_STATIC = 171;
+	public static final int ID_STATIC = 284;
 
-	public IridiumMsgTx() {
+	public enum SANE {
+		SANE(0),
+		NOT_SANE(1);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		SANE(long value) {
+			this.value = value;
+		}
+	}
+
+	public DataSanity() {
 		super(ID_STATIC);
 	}
 
-	public IridiumMsgTx(IMCDefinition defs) {
+	public DataSanity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static IridiumMsgTx create(Object... values) {
-		IridiumMsgTx m = new IridiumMsgTx();
+	public static DataSanity create(Object... values) {
+		DataSanity m = new DataSanity();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static IridiumMsgTx clone(IMCMessage msg) throws Exception {
+	public static DataSanity clone(IMCMessage msg) throws Exception {
 
-		IridiumMsgTx m = new IridiumMsgTx();
+		DataSanity m = new DataSanity();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -72,70 +88,44 @@ public class IridiumMsgTx extends IMCMessage {
 		return m;
 	}
 
-	public IridiumMsgTx(int req_id, int ttl, String destination, byte[] data) {
+	public DataSanity(SANE sane) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setTtl(ttl);
-		if (destination != null)
-			setDestination(destination);
-		if (data != null)
-			setData(data);
+		setSane(sane);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  Whether the data is sane or not sane.<br/>
+	 *  @return Sanity (enumerated) - uint8_t
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
+	public SANE getSane() {
+		try {
+			SANE o = SANE.valueOf(getMessageType().getFieldPossibleValues("sane").get(getLong("sane")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
-	 *  @return Time to live (s) - uint16_t
+	 *  @param sane Sanity (enumerated)
 	 */
-	public int getTtl() {
-		return getInteger("ttl");
+	public void setSane(SANE sane) {
+		values.put("sane", sane.value());
 	}
 
 	/**
-	 *  @return Destination Identifier - plaintext
+	 *  @param sane Sanity (as a String)
 	 */
-	public String getDestination() {
-		return getString("destination");
+	public void setSane(String sane) {
+		setValue("sane", sane);
 	}
 
 	/**
-	 *  @return Data - rawdata
+	 *  @param sane Sanity (integer value)
 	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
-	 *  @param req_id Request Identifier
-	 */
-	public void setReqId(int req_id) {
-		values.put("req_id", req_id);
-	}
-
-	/**
-	 *  @param ttl Time to live (s)
-	 */
-	public void setTtl(int ttl) {
-		values.put("ttl", ttl);
-	}
-
-	/**
-	 *  @param destination Destination Identifier
-	 */
-	public void setDestination(String destination) {
-		values.put("destination", destination);
-	}
-
-	/**
-	 *  @param data Data
-	 */
-	public void setData(byte[] data) {
-		values.put("data", data);
+	public void setSane(short sane) {
+		setValue("sane", sane);
 	}
 
 }

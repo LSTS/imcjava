@@ -122,6 +122,8 @@ public class MessageFactory {
 				return new SmsRx(defs);
 			case SmsState.ID_STATIC:
 				return new SmsState(defs);
+			case TextMessage.ID_STATIC:
+				return new TextMessage(defs);
 			case IridiumMsgRx.ID_STATIC:
 				return new IridiumMsgRx(defs);
 			case IridiumMsgTx.ID_STATIC:
@@ -224,6 +226,8 @@ public class MessageFactory {
 				return new DeviceState(defs);
 			case BeamConfig.ID_STATIC:
 				return new BeamConfig(defs);
+			case DataSanity.ID_STATIC:
+				return new DataSanity(defs);
 			case CameraZoom.ID_STATIC:
 				return new CameraZoom(defs);
 			case SetThrusterActuation.ID_STATIC:
@@ -276,6 +280,8 @@ public class MessageFactory {
 				return new NavigationReset(defs);
 			case LblEstimate.ID_STATIC:
 				return new LblEstimate(defs);
+			case AlignmentState.ID_STATIC:
+				return new AlignmentState(defs);
 			case DesiredHeading.ID_STATIC:
 				return new DesiredHeading(defs);
 			case DesiredZ.ID_STATIC:

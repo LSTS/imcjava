@@ -33,31 +33,48 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Transmit Iridium Message (171)<br/>
+ *  IMC Message Alignment State (361)<br/>
+ *  This message notifies the vehicle is ready for dead-reckoning missions.<br/>
  */
 
-public class IridiumMsgTx extends IMCMessage {
+public class AlignmentState extends IMCMessage {
 
-	public static final int ID_STATIC = 171;
+	public static final int ID_STATIC = 361;
 
-	public IridiumMsgTx() {
+	public enum STATE {
+		NOT_ALIGNED(0),
+		ALIGNED(1),
+		NOT_SUPPORTED(2);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		STATE(long value) {
+			this.value = value;
+		}
+	}
+
+	public AlignmentState() {
 		super(ID_STATIC);
 	}
 
-	public IridiumMsgTx(IMCDefinition defs) {
+	public AlignmentState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static IridiumMsgTx create(Object... values) {
-		IridiumMsgTx m = new IridiumMsgTx();
+	public static AlignmentState create(Object... values) {
+		AlignmentState m = new AlignmentState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static IridiumMsgTx clone(IMCMessage msg) throws Exception {
+	public static AlignmentState clone(IMCMessage msg) throws Exception {
 
-		IridiumMsgTx m = new IridiumMsgTx();
+		AlignmentState m = new AlignmentState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -72,70 +89,44 @@ public class IridiumMsgTx extends IMCMessage {
 		return m;
 	}
 
-	public IridiumMsgTx(int req_id, int ttl, String destination, byte[] data) {
+	public AlignmentState(STATE state) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setTtl(ttl);
-		if (destination != null)
-			setDestination(destination);
-		if (data != null)
-			setData(data);
+		setState(state);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  Alignment State.<br/>
+	 *  @return State (enumerated) - uint8_t
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
+	public STATE getState() {
+		try {
+			STATE o = STATE.valueOf(getMessageType().getFieldPossibleValues("state").get(getLong("state")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
-	 *  @return Time to live (s) - uint16_t
+	 *  @param state State (enumerated)
 	 */
-	public int getTtl() {
-		return getInteger("ttl");
+	public void setState(STATE state) {
+		values.put("state", state.value());
 	}
 
 	/**
-	 *  @return Destination Identifier - plaintext
+	 *  @param state State (as a String)
 	 */
-	public String getDestination() {
-		return getString("destination");
+	public void setState(String state) {
+		setValue("state", state);
 	}
 
 	/**
-	 *  @return Data - rawdata
+	 *  @param state State (integer value)
 	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
-	 *  @param req_id Request Identifier
-	 */
-	public void setReqId(int req_id) {
-		values.put("req_id", req_id);
-	}
-
-	/**
-	 *  @param ttl Time to live (s)
-	 */
-	public void setTtl(int ttl) {
-		values.put("ttl", ttl);
-	}
-
-	/**
-	 *  @param destination Destination Identifier
-	 */
-	public void setDestination(String destination) {
-		values.put("destination", destination);
-	}
-
-	/**
-	 *  @param data Data
-	 */
-	public void setData(byte[] data) {
-		values.put("data", data);
+	public void setState(short state) {
+		setValue("state", state);
 	}
 
 }
