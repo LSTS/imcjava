@@ -82,6 +82,8 @@ public class MessageFactory {
 				return new DevCalibrationState(defs);
 			case EntityActivationState.ID_STATIC:
 				return new EntityActivationState(defs);
+			case QueryEntityActivationState.ID_STATIC:
+				return new QueryEntityActivationState(defs);
 			case SimulatedState.ID_STATIC:
 				return new SimulatedState(defs);
 			case LeakSimulation.ID_STATIC:
