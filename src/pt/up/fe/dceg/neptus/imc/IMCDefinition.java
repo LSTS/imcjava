@@ -947,7 +947,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
         return null;
     }
 
-    void deserializeFields(IMCMessage message, DataInput in) throws IOException {
+    public void deserializeFields(IMCMessage message, DataInput in) throws IOException {
         for (String field : message.getMessageType().getFieldNames()) {
             Object o = deserialize(message.getMessageType().getFieldType(field),in, message.getAbbrev()+"."+field);
             if (o instanceof IMCMessage) {
