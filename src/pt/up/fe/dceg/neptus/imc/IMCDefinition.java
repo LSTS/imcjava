@@ -1113,7 +1113,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
         return 0;
     }
 
-    int serializeFields(IMCMessage message, IMCOutputStream out) throws IOException {
+    public int serializeFields(IMCMessage message, IMCOutputStream out) throws IOException {
         int count = 0;
         for (String field : message.getMessageType().getFieldNames()) {
             count += serialize(message.getValue(field), message.getMessageType().getFieldType(field), out);
