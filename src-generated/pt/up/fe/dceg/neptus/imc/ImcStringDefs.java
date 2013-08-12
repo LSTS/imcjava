@@ -50,7 +50,7 @@ public class ImcStringDefs {
 		sb.append("          xsi:noNamespaceSchemaLocation=\"IMC.xsd\"\n");
 		sb.append("          name=\"IMC\"\n");
 		sb.append("          long-name=\"Inter Module Communication\"\n");
-		sb.append("          version=\"5.2.0\">\n");
+		sb.append("          version=\"5.3.x\">\n");
 		sb.append("\n");
 		sb.append("  <description>\n");
 		sb.append("    This document describes the communications protocol associated\n");
@@ -376,7 +376,7 @@ public class ImcStringDefs {
 		sb.append("      supplemental fields, it is always placed at the beginning of a\n");
 		sb.append("      packet.\n");
 		sb.append("    </description>\n");
-		sb.append("    <field name=\"Synchronization Number\" abbrev=\"sync\" type=\"uint16_t\" value=\"0xFE51\" fixed=\"true\">\n");
+		sb.append("    <field name=\"Synchronization Number\" abbrev=\"sync\" type=\"uint16_t\" value=\"0xFE53\" fixed=\"true\">\n");
 		sb.append("      <description>\n");
 		sb.append("        The synchronization number marks the beginning of a packet.\n");
 		sb.append("\n");
@@ -6727,6 +6727,23 @@ public class ImcStringDefs {
 		sb.append("    <field name=\"Entity Name\" abbrev=\"name\" type=\"plaintext\"/>\n");
 		sb.append("  </message>\n");
 		sb.append("\n");
+		sb.append("  <message id=\"813\" name=\"I/O Event\" abbrev=\"IoEvent\" source=\"ccu,vehicle\">\n");
+		sb.append("    <description>\n");
+		sb.append("      Notification of an I/O event.\n");
+		sb.append("    </description>\n");
+		sb.append("    <field name=\"Type\" abbrev=\"type\" type=\"uint8_t\" unit=\"Enumerated\" prefix=\"IOV_TYPE\">\n");
+		sb.append("      <description>\n");
+		sb.append("        Event type.\n");
+		sb.append("      </description>\n");
+		sb.append("      <value abbrev=\"INPUT\" name=\"Input Available\" id=\"1\"/>\n");
+		sb.append("      <value abbrev=\"INPUT_ERROR\" name=\"Input Error\" id=\"2\"/>\n");
+		sb.append("    </field>\n");
+		sb.append("    <field name=\"Error Message\" abbrev=\"error\" type=\"plaintext\">\n");
+		sb.append("      <description>\n");
+		sb.append("        Human-readable error message.\n");
+		sb.append("      </description>\n");
+		sb.append("    </field>\n");
+		sb.append("  </message>\n");
 		sb.append("</messages>\n");
 		return sb.toString();
 	}

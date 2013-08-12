@@ -33,18 +33,17 @@
 package pt.up.fe.dceg.neptus.imc;
 
 /**
- *  IMC Message Entity List (5)<br/>
- *  This message describes the names and identification numbers of<br/>
- *  all entities in the system.<br/>
+ *  IMC Message I/O Event (813)<br/>
+ *  Notification of an I/O event.<br/>
  */
 
-public class EntityList extends IMCMessage {
+public class IoEvent extends IMCMessage {
 
-	public static final int ID_STATIC = 5;
+	public static final int ID_STATIC = 813;
 
-	public enum OP {
-		REPORT(0),
-		QUERY(1);
+	public enum TYPE {
+		INPUT(1),
+		INPUT_ERROR(2);
 
 		protected long value;
 
@@ -52,29 +51,29 @@ public class EntityList extends IMCMessage {
 			return value;
 		}
 
-		OP(long value) {
+		TYPE(long value) {
 			this.value = value;
 		}
 	}
 
-	public EntityList() {
+	public IoEvent() {
 		super(ID_STATIC);
 	}
 
-	public EntityList(IMCDefinition defs) {
+	public IoEvent(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static EntityList create(Object... values) {
-		EntityList m = new EntityList();
+	public static IoEvent create(Object... values) {
+		IoEvent m = new IoEvent();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static EntityList clone(IMCMessage msg) throws Exception {
+	public static IoEvent clone(IMCMessage msg) throws Exception {
 
-		EntityList m = new EntityList();
+		IoEvent m = new IoEvent();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -89,20 +88,20 @@ public class EntityList extends IMCMessage {
 		return m;
 	}
 
-	public EntityList(OP op, String list) {
+	public IoEvent(TYPE type, String error) {
 		super(ID_STATIC);
-		setOp(op);
-		if (list != null)
-			setList(list);
+		setType(type);
+		if (error != null)
+			setError(error);
 	}
 
 	/**
-	 *  Operation to perform.<br/>
-	 *  @return operation (enumerated) - uint8_t
+	 *  Event type.<br/>
+	 *  @return Type (enumerated) - uint8_t
 	 */
-	public OP getOp() {
+	public TYPE getType() {
 		try {
-			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			TYPE o = TYPE.valueOf(getMessageType().getFieldPossibleValues("type").get(getLong("type")));
 			return o;
 		}
 		catch (Exception e) {
@@ -111,43 +110,38 @@ public class EntityList extends IMCMessage {
 	}
 
 	/**
-	 *  @return list (tuplelist) - plaintext
+	 *  @return Error Message - plaintext
 	 */
-	public java.util.LinkedHashMap<String, String> getList() {
-		return getTupleList("list");
+	public String getError() {
+		return getString("error");
 	}
 
 	/**
-	 *  @param op operation (enumerated)
+	 *  @param type Type (enumerated)
 	 */
-	public void setOp(OP op) {
-		values.put("op", op.value());
+	public void setType(TYPE type) {
+		values.put("type", type.value());
 	}
 
 	/**
-	 *  @param op operation (as a String)
+	 *  @param type Type (as a String)
 	 */
-	public void setOp(String op) {
-		setValue("op", op);
+	public void setType(String type) {
+		setValue("type", type);
 	}
 
 	/**
-	 *  @param op operation (integer value)
+	 *  @param type Type (integer value)
 	 */
-	public void setOp(short op) {
-		setValue("op", op);
+	public void setType(short type) {
+		setValue("type", type);
 	}
 
 	/**
-	 *  @param list list (tuplelist)
+	 *  @param error Error Message
 	 */
-	public void setList(java.util.LinkedHashMap<String, ?> list) {
-		String val = encodeTupleList(list);
-		values.put("list", val);
-	}
-
-	public void setList(String list) {
-		values.put("list", list);
+	public void setError(String error) {
+		values.put("error", error);
 	}
 
 }
