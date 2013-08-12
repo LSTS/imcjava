@@ -775,7 +775,7 @@ public class IMCMessage implements IMessage , Comparable<IMCMessage> {
             return (byte[])o;
         if (o instanceof String) {
             try {
-                return o.toString().getBytes("ISO-8859-1");
+                return o.toString().getBytes("UTF-8");
             }
             catch (Exception e) {
                 e.printStackTrace();

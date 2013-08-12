@@ -238,7 +238,7 @@ public class IMCOutputStream implements DataOutput {
 	}
 	
 	public void writePlaintext(String t) throws IOException {
-		writeRawdata(t.getBytes("ISO-8859-1"));		
+		writeRawdata(t.getBytes("UTF-8"));		
 	}
 	
 	public void writeInlineMessage(IMCMessage message) throws IOException {

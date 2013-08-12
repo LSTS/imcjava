@@ -857,7 +857,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
                 int l = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in, context);
                 byte[] d = new byte[l];			
                 in.readFully(d);
-                return new String(d, "ISO-8859-1");
+                return new String(d, "UTF-8");
             case TYPE_MESSAGE:
                 int t = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in, context);
                 if (t == 65535)
@@ -919,7 +919,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
                 int l = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in);
                 byte[] d = new byte[l];
                 in.get(d);
-                return new String(d, "ISO-8859-1");
+                return new String(d, "UTF-8");
             case TYPE_MESSAGE:
                 int t = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in);
                 if (t == 65535)
@@ -1026,7 +1026,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
             case TYPE_RAWDATA:
                 try {
                     if (value instanceof String)
-                        value = value.toString().getBytes("ISO-8859-1");
+                        value = value.toString().getBytes("UTF-8");
 
                     if (value instanceof byte[]) {
                         byte[] d = (byte[])value;					

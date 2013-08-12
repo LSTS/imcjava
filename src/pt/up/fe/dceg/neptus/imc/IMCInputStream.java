@@ -284,7 +284,7 @@ public class IMCInputStream extends FilterInputStream implements DataInput {
 	
 	public String readPlaintext() throws IOException {
 		byte[] data = readRawdata();
-		return new String(data, "ISO-8859-1");
+		return new String(data, "UTF-8");
 	}
 	
 	public IMCMessage readInlineMessage() throws IOException {
