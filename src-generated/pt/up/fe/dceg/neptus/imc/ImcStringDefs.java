@@ -41,8 +41,8 @@ public class ImcStringDefs {
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		sb.append("<!--\n");
 		sb.append("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
-		sb.append("+ Copyright (C) 2007-2013 Laborat\u00F3rio de Sistemas e Tecnologia Subaqu\u00E1tica   +\n");
-		sb.append("+ Departamento de Engenharia Electrot\u00E9cnica e de Computadores                +\n");
+		sb.append("+ Copyright (C) 2007-2013 Laborat\u00C3\u00B3rio de Sistemas e Tecnologia Subaqu\u00C3\u00A1tica   +\n");
+		sb.append("+ Departamento de Engenharia Electrot\u00C3\u00A9cnica e de Computadores                +\n");
 		sb.append("+ Rua Dr. Roberto Frias, 4200-465 Porto, Portugal                            +\n");
 		sb.append("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 		sb.append("-->\n");
@@ -50,7 +50,7 @@ public class ImcStringDefs {
 		sb.append("          xsi:noNamespaceSchemaLocation=\"IMC.xsd\"\n");
 		sb.append("          name=\"IMC\"\n");
 		sb.append("          long-name=\"Inter Module Communication\"\n");
-		sb.append("          version=\"5.3.x\">\n");
+		sb.append("          version=\"5.2.0\">\n");
 		sb.append("\n");
 		sb.append("  <description>\n");
 		sb.append("    This document describes the communications protocol associated\n");
@@ -222,8 +222,8 @@ public class ImcStringDefs {
 		sb.append("    <unit abbrev=\"dB\" name=\"Decibel\"/>\n");
 		sb.append("    <unit abbrev=\"dB/m\" name=\"Decibel per meter\"/>\n");
 		sb.append("    <unit abbrev=\"dBHz\" name=\"Decibel hertz\"/>\n");
-		sb.append("    <unit abbrev=\"\u00B0\" name=\"Degree\"/>\n");
-		sb.append("    <unit abbrev=\"\u00B0C\" name=\"Degree Celsius\"/>\n");
+		sb.append("    <unit abbrev=\"\u00C2\u00B0\" name=\"Degree\"/>\n");
+		sb.append("    <unit abbrev=\"\u00C2\u00B0C\" name=\"Degree Celsius\"/>\n");
 		sb.append("    <unit abbrev=\"G\" name=\"Gauss\"/>\n");
 		sb.append("    <unit abbrev=\"hPa\" name=\"Hectopascal\"/>\n");
 		sb.append("    <unit abbrev=\"Hz\" name=\"Hertz\"/>\n");
@@ -376,7 +376,7 @@ public class ImcStringDefs {
 		sb.append("      supplemental fields, it is always placed at the beginning of a\n");
 		sb.append("      packet.\n");
 		sb.append("    </description>\n");
-		sb.append("    <field name=\"Synchronization Number\" abbrev=\"sync\" type=\"uint16_t\" value=\"0xFE53\" fixed=\"true\">\n");
+		sb.append("    <field name=\"Synchronization Number\" abbrev=\"sync\" type=\"uint16_t\" value=\"0xFE52\" fixed=\"true\">\n");
 		sb.append("      <description>\n");
 		sb.append("        The synchronization number marks the beginning of a packet.\n");
 		sb.append("\n");
@@ -2299,7 +2299,7 @@ public class ImcStringDefs {
 		sb.append("    <description>\n");
 		sb.append("      Report of temperature.\n");
 		sb.append("    </description>\n");
-		sb.append("    <field name=\"Measured Temperature\" abbrev=\"value\" type=\"fp32_t\" unit=\"\u00B0C\">\n");
+		sb.append("    <field name=\"Measured Temperature\" abbrev=\"value\" type=\"fp32_t\" unit=\"\u00C2\u00B0C\">\n");
 		sb.append("      <description>\n");
 		sb.append("        The value of the temperature as measured by the sensor.\n");
 		sb.append("      </description>\n");
