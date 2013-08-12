@@ -478,6 +478,8 @@ public class MessageFactory {
 				return new PushEntityParameters(defs);
 			case PopEntityParameters.ID_STATIC:
 				return new PopEntityParameters(defs);
+			case IoEvent.ID_STATIC:
+				return new IoEvent(defs);
 			default:
 				return new IMCMessage(defs);
 		}
