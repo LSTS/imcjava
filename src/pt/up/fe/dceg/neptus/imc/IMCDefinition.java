@@ -528,6 +528,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
             sb.append("Loaded IMC Message Definitions\n");
             sb.append("  Version : " + getVersion() + "\n");
             sb.append(" Creation : " + getCreation() + "\n");
+            sb.append("  Synch   : " + getSyncWord() + "\n");
             sb.append("      MD5 : " + getMd5String() + "\n");
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info(sb.toString());
         }
@@ -751,7 +752,10 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
         else if (sync == syncWord)
             header.setValue("sync", syncWord);
         else {
-            System.out.println("Invalid sync: "+sync);
+        	System.err.printf("Found a message with invalid sync (%X) was skipped\n", sync);
+        	byte[] tmp = new byte[header.getInteger("size")+2];
+            buff.get(tmp);
+            return nextMessage(buff);
         }
 
         deserializeAllFieldsBut(header, buff, "sync");

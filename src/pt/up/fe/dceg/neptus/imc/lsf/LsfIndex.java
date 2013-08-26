@@ -491,7 +491,7 @@ public class LsfIndex {
 
             counter++;
             newPos = buffer.position() + (defs.headerLength() - 12) + size;
-            if (newPos > len)
+            if (newPos > len-HEADER_SIZE)
                 break;
             else
                 buffer.position(newPos);
