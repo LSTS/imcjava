@@ -5428,6 +5428,11 @@ public class ImcStringDefs {
 		sb.append("          External control is active.\n");
 		sb.append("        </description>\n");
 		sb.append("      </value>\n");
+		sb.append("      <value id=\"5\" name=\"Boot\" abbrev=\"BOOT\">\n");
+		sb.append("        <description>\n");
+		sb.append("          Booting system.\n");
+		sb.append("        </description>\n");
+		sb.append("      </value>\n");
 		sb.append("    </field>\n");
 		sb.append("    <field name=\"Errors -- Count\" abbrev=\"error_count\" type=\"uint8_t\">\n");
 		sb.append("      <description>\n");

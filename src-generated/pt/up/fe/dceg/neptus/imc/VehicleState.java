@@ -69,7 +69,8 @@ public class VehicleState extends IMCMessage {
 		CALIBRATION(1),
 		ERROR(2),
 		MANEUVER(3),
-		EXTERNAL(4);
+		EXTERNAL(4),
+		BOOT(5);
 
 		protected long value;
 
