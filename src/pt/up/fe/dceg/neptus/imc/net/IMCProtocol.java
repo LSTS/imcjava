@@ -232,6 +232,52 @@ public class IMCProtocol implements IMessageBus {
             }
         }
     };
+    
+    public static void announce(String sysname, int sysid, SYS_TYPE type, UDPTransport transport) {
+    	final Announce announce = new Announce();
+        announce.setSysType(type);
+        announce.setSysName(sysname);
+        announce.setSrc(sysid);
+
+        String services = "";
+
+        for (String itf : getNetworkInterfaces(true)) {
+            services += "imc+udp://" + itf + ":" + transport.getBindPort() + "/;";
+        }
+        if (services.length() > 0)
+            services = services.substring(0, services.length() - 1);
+
+        announce.setServices(services);
+
+        for (int p = 30100; p < 30105; p++)
+        	transport.sendMessage("224.0.75.69", p, announce);
+        
+        System.out.println(announce);
+    }
+    
+    public static Thread heartBeatThread(final String host, final int port, final UDPTransport transport) {
+    	Thread heartbeater = new Thread("Heartbeater to "+host) {
+    		public void run() {
+    			while (true) {
+    				
+    				System.out.println("beat to "+host+":"+port);
+    				Heartbeat beat = new Heartbeat();
+    				//beat.setSrc(src);
+    				
+    				transport.sendMessage(host, port, beat);
+    				
+    				try {
+    					Thread.sleep(1000);
+    					System.out.println(beat);
+    				}
+    				catch (InterruptedException e) {
+    					return;
+    				}
+    			}
+    		};
+    	};
+    	return heartbeater;
+    }
 
     /**
      * Retrieve time elapsed since last announce of given system name

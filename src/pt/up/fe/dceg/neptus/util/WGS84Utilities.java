@@ -186,4 +186,9 @@ public class WGS84Utilities {
             lld[2] = depth;
         return lld;
     }
+    
+    public static double distance(double latDegrees1, double lonDegrees1, double latDegrees2, double lonDegrees2) {
+    	double[] offsets = WGS84displacement(latDegrees1, lonDegrees1, 0, latDegrees2, lonDegrees2, 0);
+    	return Math.sqrt(offsets[0]*offsets[0] + offsets[1]*offsets[1]);
+    }
 }

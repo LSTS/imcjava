@@ -87,7 +87,14 @@ public class UDPTransport {
     private boolean isOnBindError = false;
     private boolean isMessageInfoNeeded = true;
     private int receptionCount = 0;
-
+    
+    private static int localId = 0x4201;
+    private static int getLocalId() {
+    	return localId++;
+    }
+    
+    private int imc_id = getLocalId();
+    
     protected IMCDefinition definition;
 
     public IMCDefinition getDefinition() {
@@ -644,6 +651,8 @@ public class UDPTransport {
                         req = sendmessageList.take();
                         try {
                             ByteArrayOutputStream buff = new ByteArrayOutputStream();
+                            //if (req.message.getSrc() == 0)
+                            	req.message.setSrc(imc_id);
                             getDefinition().serialize(req.message, new IMCOutputStream(getDefinition(), buff));
                             byte[] data = buff.toByteArray();
                             dgram = new DatagramPacket(data, data.length, req.destination, req.port);
@@ -772,7 +781,14 @@ public class UDPTransport {
         anonymousSocket.send(dgram);
     }
 
-    public static void main(String[] args) throws Exception {
+    /**
+	 * @return the imc_id
+	 */
+	public int getImcId() {
+		return imc_id;
+	}
+
+	public static void main(String[] args) throws Exception {
         UDPTransport transport = new UDPTransport(6002, 1);
         transport.addMessageListener(new MessageListener<MessageInfo, IMCMessage>() {			
             @Override

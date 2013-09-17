@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry excluding="pt/up/fe/dceg/neptus/imc/net/MessageListener.java" kind="src" path="src"/>
+	<classpathentry kind="src" path="src-controllers"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="src" path="src-generated"/>
 	<classpathentry kind="src" path="src-generator"/>
