@@ -649,10 +649,9 @@ public class UDPTransport {
                 try {
                     while (!(purging && sendmessageList.isEmpty())) {
                         req = sendmessageList.take();
+                        
                         try {
                             ByteArrayOutputStream buff = new ByteArrayOutputStream();
-                            //if (req.message.getSrc() == 0)
-                            	req.message.setSrc(imc_id);
                             getDefinition().serialize(req.message, new IMCOutputStream(getDefinition(), buff));
                             byte[] data = buff.toByteArray();
                             dgram = new DatagramPacket(data, data.length, req.destination, req.port);
@@ -686,7 +685,8 @@ public class UDPTransport {
      *          false if it was not put on the send queue.
      */
     public boolean sendMessage(String destination, int port, IMCMessage message) {
-        if (purging) {
+    	message.setSrc(imc_id);
+    	if (purging) {
             System.err.println("Not accepting any more messages. Terminating");
             return false;
         }        

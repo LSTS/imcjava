@@ -97,7 +97,9 @@ public abstract class ControllerAgent implements MessageListener<MessageInfo, IM
 			
 			@Override
 			public void run() {
-				transport.sendMessage(host, port, guide());				
+				IMCMessage guidance = guide();
+				if (guidance != null)
+					transport.sendMessage(host, port, guidance);				
 			}
 		}, 0, 2500);
         

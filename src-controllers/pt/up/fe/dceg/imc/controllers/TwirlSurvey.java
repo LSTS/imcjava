@@ -15,27 +15,18 @@ public class TwirlSurvey extends ControllerAgent {
 	private DesiredZ z = new DesiredZ(0, Z_UNITS.DEPTH);
 	private double latDegrees, lonDegrees, minZ, maxZ;
 	private boolean descend = true;
-	private double[] drifterVelocity = {0.25, 0.25};
+	private double[] drifterVelocity = {0.1, -0.16};
 	private long start = System.currentTimeMillis();
-	int path_index = -1;
-	double[][] path;
-	double[] destination = null;
+	private double radius;
 	
-	public TwirlSurvey(double latDegrees, double lonDegrees, double minz, double maxz, double speed, double width) {
+	public TwirlSurvey(double latDegrees, double lonDegrees, double minz, double maxz, double speed, double radius) {
 		this.latDegrees = latDegrees;
 		this.lonDegrees = lonDegrees;
 		this.minZ = minz;
 		this.maxZ = maxz;
+		this.radius = radius;
 		this.speed.setValue(speed);
 		this.z.setValue(maxz);
-		
-		path = new double[][] {
-				{width/2, -width/2},
-				{width/2, width/2},
-				{-width/2, width/2},
-				{-width/2, -width/2},
-				{width/2, -width/2}
-		};
 	}
 	
 	@Override
@@ -51,35 +42,26 @@ public class TwirlSurvey extends ControllerAgent {
 		
 		double ellapsedTime = (System.currentTimeMillis() - start)/1000.0;		
 		
-		double[] mypos = WGS84Utilities.WGS84displace(
-				Math.toDegrees(estimatedState.getLat()),
-				Math.toDegrees(estimatedState.getLon()), 
-				estimatedState.getDepth(), estimatedState.getX(), estimatedState.getY(), 0);
-		
-		if (destination == null || WGS84Utilities.distance(destination[0], destination[1], mypos[0], mypos[1]) < 10) {
-			path_index++;
-			destination = WGS84Utilities.WGS84displace(latDegrees, lonDegrees, 0, drifterVelocity[0]*ellapsedTime + path[path_index][0], drifterVelocity[1] * ellapsedTime + path[path_index][1], 0);	
-		}
-		
-		
+		double[] dest = WGS84Utilities.WGS84displace(latDegrees, lonDegrees, 0, drifterVelocity[0]*ellapsedTime, drifterVelocity[1] * ellapsedTime, 0);
 		
 		Reference ref = new Reference();
 		
-		if (estimatedState.getDepth() > maxZ && descend) {
+		boolean nearBottom = estimatedState.getAlt() != -1 && estimatedState.getAlt() < 3;
+		
+		if (descend && (estimatedState.getDepth() > maxZ || nearBottom)) {
 			descend = false;
 			z.setValue(minZ);
 		}
-		
-		if (estimatedState.getDepth() < minZ && !descend) {
+		else if (!descend && estimatedState.getDepth() < minZ) {
 			descend = true;
 			z.setValue(maxZ);
 		}
 		
-		ref.setLat(Math.toRadians(destination[0]));
-		ref.setLon(Math.toRadians(destination[1]));
+		ref.setLat(Math.toRadians(dest[0]));
+		ref.setLon(Math.toRadians(dest[1]));
 		ref.setZ(z);
 		ref.setSpeed(speed);		
-		ref.setRadius(0);
+		ref.setRadius(radius);
 
 		return ref;
 	}
@@ -89,7 +71,7 @@ public class TwirlSurvey extends ControllerAgent {
 	}
 
 	public static void main(String[] args) throws Exception {
-		TwirlSurvey survey = new TwirlSurvey(41.183713, -8.703822, 2, 10, 1.25, 120);
+		TwirlSurvey survey = new TwirlSurvey(41.180606, -8.706406, 2, 5, 1.3, 150);
 		survey.connect("127.0.0.1", 6002);
 		Thread.sleep(5000);
 		survey.startControlling();		
