@@ -7,8 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import pt.up.fe.dceg.neptus.imc.Announce.SYS_TYPE;
 import pt.up.fe.dceg.neptus.imc.Abort;
+import pt.up.fe.dceg.neptus.imc.Announce.SYS_TYPE;
 import pt.up.fe.dceg.neptus.imc.FollowReference;
 import pt.up.fe.dceg.neptus.imc.IMCMessage;
 import pt.up.fe.dceg.neptus.imc.IMCOutputStream;
@@ -103,14 +103,19 @@ public abstract class ControllerAgent implements MessageListener<MessageInfo, IM
 			}
 		}, 0, 2500);
         
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+        	@Override
+        	public void run() {
+        		stopControlling();
+        	}
+        });
+        
 	}
 	
 	public void stopControlling() {
-		PlanControl stopPlan = new PlanControl();
-		stopPlan.setPlanId(getEntityName()+"_plan");
-		stopPlan.setType(PlanControl.TYPE.REQUEST);
-		stopPlan.setOp(OP.STOP);
-		transport.sendMessage(host, port, stopPlan);      
+		
+		Reference ref = new Reference(Reference.FLAG_MANDONE, null, null, 0, 0, 0);
+		send(ref);
 		controlTimer.cancel();
 		controlTimer = null;
 	}
