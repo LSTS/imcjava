@@ -118,10 +118,53 @@ public class TwirlSurvey extends ControllerAgent {
 	}
 
 	public static void main(String[] args) throws Exception {
-		if (args.length > 0)
-			System.out.println(args[0]);
+		
+		
+			
+		if (args.length < 8)
+		{
+			System.err.println("Usage: ./twirl <lat_degs> <lon_degs> <radius> <min_z> <max_z> <speed_mps> <dv_n> <dv_e>");
+			System.err.println("\t<lat_degs>: Latitude, in degrees of the center of the survey");
+			System.err.println("\t<lon_degs>: Longitude, in degrees of the center of the survey");
+			System.err.println("\t<radius>: Radius in meters of the circunference around the drifter");
+			System.err.println("\t<min_z>: The minimum depth, in meters, to use in the yoyo pattern");
+			System.err.println("\t<max_z>: The maximum depth, in meters, to use in the yoyo pattern");
+			System.err.println("\t<speed_mps>: The desired vehicle speed");
+			System.err.println("\t<dv_n>: Drifter x velocity component (towards North)");
+			System.err.println("\t<dv_e>: Drifter y velocity component (towards East)");
+			return;
+		}
+		
+		double lat_deg = Double.parseDouble(args[0]);
+		double lon_deg = Double.parseDouble(args[1]);
+		double radius = Double.parseDouble(args[2]);
+		double min_z = Double.parseDouble(args[3]);
+		double max_z = Double.parseDouble(args[4]);
+		double speed = Double.parseDouble(args[5]);
+		double dv_n = Double.parseDouble(args[6]);
+		double dv_e = Double.parseDouble(args[7]);
+		
+		if (args.length < 9 || !args[8].equals("-y")) {
+			System.out.println("Parameters: ");
+			System.out.println("\tlat_deg: "+lat_deg);
+			System.out.println("\tlon_deg: "+lon_deg);
+			System.out.println("\tradius: "+radius);
+			System.out.println("\tmin_z: "+min_z);
+			System.out.println("\tmax_z: "+max_z);
+			System.out.println("\tspeed: "+speed);
+			System.out.println("\tdv_n: "+dv_n);
+			System.out.println("\tdv_e: "+dv_e);
+			
+			System.out.print("Proceed (Y/N)? ");
+			int read = System.in.read();
+			if (read != 89 && read != 121) {
+				System.out.println("Cancelled by the user ("+read+")");
+				return;
+			}
+		}
+			
 		TwirlSurvey survey = new TwirlSurvey(41.180606, -8.706406, 2, 5, 1.25, 50);
-		survey.connect("10.0.2.30", 6002);
+		survey.connect("127.0.0.1", 6002);
 		Thread.sleep(5000);
 		survey.startControlling();				
 	}
