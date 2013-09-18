@@ -170,6 +170,12 @@
 		</javac>
 	</target>
 	
+	<target name="compile-controllers" depends="compile">
+		<mkdir dir="build"/>
+		<javac encoding="UTF-8" debug="true" srcdir="src-controllers" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">      
+		</javac>
+	</target>
+		
 	<target name="copysrc" depends="compile">
 		<copy todir="build">
 			<fileset dir="src" includes="**/*.java"/>
@@ -227,6 +233,14 @@ GIT Status:
 			</manifest>
 		</jar>
 		<echo message="The file 'dist/lsf2llf.jar' was generated"/>
+	</target>
+	
+	<target name="jar-twirl" depends="compile-controllers">
+		<jar destfile="dist/twirl.jar" basedir="build" index="true">
+			<manifest>
+				<attribute name="Main-Class" value="pt.up.fe.dceg.imc.controllers.TwirlSurvey" />
+			</manifest>
+		</jar>
 	</target>
 	
 	<target name="jar-stripped" depends="scminfo,compile,copylicense,scminfo.txt">
