@@ -43,7 +43,7 @@ public class TwirlSurvey extends ControllerAgent {
 	@Parameter
 	public double vY;
 	
-	public TwirlSurvey(double latDegrees, double lonDegrees, double minz, double maxz, double speed, double radius) {
+	public TwirlSurvey(double latDegrees, double lonDegrees, double minz, double maxz, double speed, double radius, double dvn, double dve) {
 		this.latDegrees = latDegrees;
 		this.lonDegrees = lonDegrees;
 		this.minZ = minz;
@@ -52,6 +52,8 @@ public class TwirlSurvey extends ControllerAgent {
 		this.speed = speed;
 		this.desiredSpeed.setValue(speed);
 		this.z.setValue(maxz);
+		drifterVelocity[0] = dvn;
+		drifterVelocity[1] = dve;
 	}
 	
 	public void initController() {
@@ -163,7 +165,7 @@ public class TwirlSurvey extends ControllerAgent {
 			}
 		}
 			
-		TwirlSurvey survey = new TwirlSurvey(41.180606, -8.706406, 2, 5, 1.25, 50);
+		TwirlSurvey survey = new TwirlSurvey(lat_deg, lon_deg, min_z, max_z, speed, radius, dv_n, dv_e);
 		survey.connect("127.0.0.1", 6002);
 		Thread.sleep(5000);
 		survey.startControlling();				
