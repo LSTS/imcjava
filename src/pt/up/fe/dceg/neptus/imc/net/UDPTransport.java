@@ -89,7 +89,8 @@ public class UDPTransport {
     private int receptionCount = 0;
     
     private static int localId = 0x4201;
-    private static int getLocalId() {
+    
+	private static int getLocalId() {
     	return localId++;
     }
     
@@ -786,6 +787,10 @@ public class UDPTransport {
 	 */
 	public int getImcId() {
 		return imc_id;
+	}
+
+	public void setImcId(int imc_id) {
+		this.imc_id = imc_id;
 	}
 
 	public static void main(String[] args) throws Exception {
