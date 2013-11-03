@@ -480,6 +480,16 @@ public class MessageFactory {
 				return new PopEntityParameters(defs);
 			case IoEvent.ID_STATIC:
 				return new IoEvent(defs);
+			case UamTxFrame.ID_STATIC:
+				return new UamTxFrame(defs);
+			case UamRxFrame.ID_STATIC:
+				return new UamRxFrame(defs);
+			case UamTxStatus.ID_STATIC:
+				return new UamTxStatus(defs);
+			case UamRxRange.ID_STATIC:
+				return new UamRxRange(defs);
+			case AbortAcked.ID_STATIC:
+				return new AbortAcked(defs);
 			default:
 				return new IMCMessage(defs);
 		}

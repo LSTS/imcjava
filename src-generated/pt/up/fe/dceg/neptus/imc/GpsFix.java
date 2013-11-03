@@ -101,7 +101,7 @@ public class GpsFix extends IMCMessage {
 		return m;
 	}
 
-	public GpsFix(int validity, TYPE type, int utc_year, short utc_month, short utc_day, float utc_time, double lat, double lon, double height, short satellites, float cog, float sog, float hdop, float vdop, float hacc, float vacc) {
+	public GpsFix(int validity, TYPE type, int utc_year, short utc_month, short utc_day, float utc_time, double lat, double lon, float height, short satellites, float cog, float sog, float hdop, float vdop, float hacc, float vacc) {
 		super(ID_STATIC);
 		setValidity(validity);
 		setType(type);
@@ -186,7 +186,7 @@ public class GpsFix extends IMCMessage {
 	}
 
 	/**
-	 *  @return Height above WGS-84 ellipsoid (m) - fp64_t
+	 *  @return Height above WGS-84 ellipsoid (m) - fp32_t
 	 */
 	public double getHeight() {
 		return getDouble("height");
