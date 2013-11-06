@@ -21,10 +21,10 @@
     <junit>
       <classpath refid="classpath.test" />
       <formatter type="brief" usefile="false" />
-      <test name="pt.up.fe.dceg.neptus.imc.junit.ImcStringDefsTest" />
-      <test name="pt.up.fe.dceg.neptus.imc.junit.MessageCreationTest" />
-      <test name="pt.up.fe.dceg.neptus.imc.junit.SerializationTest" />
-      <test name="pt.up.fe.dceg.neptus.imc.junit.ImcSynchTest" />
+      <test name="pt.lsts.imc.junit.ImcStringDefsTest" />
+      <test name="pt.lsts.imc.junit.MessageCreationTest" />
+      <test name="pt.lsts.imc.junit.SerializationTest" />
+      <test name="pt.lsts.imc.junit.ImcSynchTest" />
     </junit>
   </target>
   
@@ -142,7 +142,7 @@
 		<unjar src="lib/jchart2d-3.2.0.jar" dest="build"/>
 		<jar destfile="dist/sniffer.jar" basedir="build" index="true">
 			<manifest>
-				<attribute name="Main-Class" value="pt.up.fe.dceg.neptus.imc.sniffer.IMCMessageSniffer"/>
+				<attribute name="Main-Class" value="pt.lsts.imc.sniffer.IMCMessageSniffer"/>
 			</manifest>
 		</jar>
 		<echo message="The file 'dist/sniffer.jar' was generated"/>
@@ -152,7 +152,7 @@
 		<delete file="dist/teleop.jar"/>
 		<jar destfile="dist/teleop.jar" basedir="build" index="true">
 			<manifest>
-				<attribute name="Main-Class" value="pt.up.fe.dceg.neptus.teleop.TeleoperationApp"/>
+				<attribute name="Main-Class" value="pt.lsts.imc.teleop.TeleoperationApp"/>
 			</manifest>
 		</jar>
 		<echo message="The file 'dist/teleop.jar' was generated"/>
@@ -229,7 +229,7 @@ GIT Status:
 		<description>Create lsf2llf jar</description>
 		<jar destfile="dist/lsf2llf.jar" basedir="build" index="true">
 			<manifest>
-			  <attribute name="Main-Class" value="pt.up.fe.dceg.neptus.imc.llf.LSF2LLF" />
+			  <attribute name="Main-Class" value="pt.lsts.imc.llf.LSF2LLF" />
 			</manifest>
 		</jar>
 		<echo message="The file 'dist/lsf2llf.jar' was generated"/>
@@ -238,7 +238,7 @@ GIT Status:
 	<target name="jar-twirl" depends="compile-controllers">
 		<jar destfile="dist/twirl.jar" basedir="build" index="true">
 			<manifest>
-				<attribute name="Main-Class" value="pt.up.fe.dceg.imc.controllers.TwirlSurvey" />
+				<attribute name="Main-Class" value="pt.lsts.imc.controllers.TwirlSurvey" />
 			</manifest>
 		</jar>
 	</target>
@@ -269,7 +269,7 @@ GIT Status:
 		description="Compile and create jar packages (default target)" />
 	
 	<target name="update-msg-defs" depends="compile-generator" description="Update message definitions from github.com/LSTS/imc">
-	<java classname="pt.up.fe.dceg.neptus.imc.generator.UpdateMessageDefinitions">
+	<java classname="pt.lsts.imc.generator.UpdateMessageDefinitions">
 		         <classpath>
 		           <pathelement location="build"/>		           
 		         </classpath>
@@ -312,11 +312,11 @@ GIT Status:
 		<antcall target="compile"/>
 		<javac encoding="UTF-8" classpath="lib/commons-lang3-3.1.jar" srcdir="src-generator"  destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" />
 		<delete>
-			<fileset dir="src-generated/pt/up/fe/dceg/neptus/imc/">
+			<fileset dir="src-generated/pt/lsts/imc/">
 				<include name="*.java"/>
 			</fileset>
 		</delete>
-		<java classname="pt.up.fe.dceg.neptus.imc.generator.ClassGenerator" args="src/msgdefs/IMC.xml" classpath="build;lib/commons-lang3-3.1.jar" />
+		<java classname="pt.lsts.imc.generator.ClassGenerator" args="src/msgdefs/IMC.xml" classpath="build;lib/commons-lang3-3.1.jar" />
 	</target>
 	
     <target name="javadoc" description="Create javadoc documentation">
