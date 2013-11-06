@@ -130,7 +130,7 @@
 			
 		<jar destfile="dist/kraken.jar" basedir="build" index="true">
 			<manifest>
-				<attribute name="Main-Class" value="pt.up.fe.dceg.neptus.imc.AgentContext"/>
+				<attribute name="Main-Class" value="pt.lsts.imc.AgentContext"/>
 			</manifest>
 		</jar>
 		<echo message="The file 'dist/kraken.jar' was generated"/>
@@ -320,7 +320,7 @@ GIT Status:
 	</target>
 	
     <target name="javadoc" description="Create javadoc documentation">
-	    <javadoc charset="UTF-8" encoding="UTF-8" access="public" author="true" classpath="lib/guava-13.0.1.jar:lib/commons-lang3-3.1.jar:lib/js.jar:lib/jchart2d-3.2.0.jar:lib/commons-lang3-3.1.jar:lib/commons-io-2.0.1.jar" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.up.fe.dceg.neptus.imc,pt.up.fe.dceg.neptus.colormap,pt.up.fe.dceg.neptus.messages,pt.up.fe.dceg.neptus.imc.llf,pt.up.fe.dceg.neptus.imc.merge,pt.up.fe.dceg.neptus.imc.generator,pt.up.fe.dceg.neptus.imc.scripting,pt.up.fe.dceg.neptus.imc.gz,pt.up.fe.dceg.neptus.imc.state,pt.up.fe.dceg.neptus.imc.net,pt.up.fe.dceg.neptus.imc.dot,pt.up.fe.dceg.neptus.imc.examples,pt.up.fe.dceg.neptus.imc.inspector,pt.up.fe.dceg.neptus.imc.lsf,pt.up.fe.dceg.neptus.imc.sniffer,pt.up.fe.dceg.neptus.imc.preview,pt.up.fe.dceg.neptus.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
+	    <javadoc charset="UTF-8" encoding="UTF-8" access="public" author="true" classpath="lib/guava-13.0.1.jar:lib/commons-lang3-3.1.jar:lib/js.jar:lib/jchart2d-3.2.0.jar:lib/commons-lang3-3.1.jar:lib/commons-io-2.0.1.jar" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
 	</target>    
 	
 
