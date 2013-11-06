@@ -53,6 +53,7 @@
 	<target name="gitinfo" >
 	    <exec executable="git" outputproperty="git.tagstring" failonerror="false">
 	      <arg value="describe"/>
+	      <arg value="--abbrev=0"/>
 	    </exec>
 	    <exec executable="git" outputproperty="scm.revision">
 	      <arg value="rev-parse"/>
