@@ -356,7 +356,6 @@ public class LSF2LLF {
         }
         else if (args.length == 2) {
             File data_lsf = new File(args[0]).getAbsoluteFile();
-            // data_lsf = testIfZipAndUnzipIt(data_lsf, null);
             File imc_xml = new File(args[1]).getAbsoluteFile();
             converter.convert(new FileInputStream(imc_xml), data_lsf);
         }

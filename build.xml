@@ -226,24 +226,6 @@ GIT Status:
 		
 	</target>
 	
-	<target name="lsf2llf" depends="scminfo,compile,copylicense,scminfo.txt">
-		<description>Create lsf2llf jar</description>
-		<jar destfile="dist/lsf2llf.jar" basedir="build" index="true">
-			<manifest>
-			  <attribute name="Main-Class" value="pt.lsts.imc.llf.LSF2LLF" />
-			</manifest>
-		</jar>
-		<echo message="The file 'dist/lsf2llf.jar' was generated"/>
-	</target>
-	
-	<target name="jar-twirl" depends="compile-controllers">
-		<jar destfile="dist/twirl.jar" basedir="build" index="true">
-			<manifest>
-				<attribute name="Main-Class" value="pt.lsts.imc.controllers.TwirlSurvey" />
-			</manifest>
-		</jar>
-	</target>
-	
 	<target name="jar-stripped" depends="scminfo,compile,copylicense,scminfo.txt">
 		<description>Create library jar (no source).</description>
 		<jar destfile="dist/imc-${scm.tag}.jar" basedir="build" index="true" />				   
@@ -341,4 +323,33 @@ GIT Status:
 		<delete file="dist/lsfcat.jar"/>
 	</target>
 	
+	
+	<target name="lsfmerge" description="Create a program for extracting and simplifying lsf files" depends="compile">
+		<jar destfile="dist/lsfmerge.jar" basedir="build" index="true">
+			<manifest>
+				<attribute name="Main-Class" value="pt.lsts.imc.lsf.LsfMerge"/>
+			</manifest>
+		</jar>
+		
+		<exec executable="lib/jar2sh.sh" >
+			<arg value="dist/lsfmerge"/>
+			<arg value="dist/lsfmerge.jar"/>
+		</exec>
+		
+		<delete file="dist/lsfmerge.jar"/>
+	</target>
+	
+	<target name="lsf2llf" description="Create a program for extracting and simplifying lsf files" depends="compile">
+		<jar destfile="dist/lsf2llf.jar" basedir="build" index="true">
+			<manifest>
+				<attribute name="Main-Class" value="pt.lsts.imc.llf.LSF2LLF"/>
+			</manifest>
+		</jar>
+		
+		<exec executable="lib/jar2sh.sh" >
+			<arg value="dist/lsf2llf"/>
+			<arg value="dist/lsf2llf.jar"/>
+		</exec>
+	</target>
+
 </project>

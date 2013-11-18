@@ -9,8 +9,7 @@ public class UnserializedMessage {
 
 	private byte[] data;
 	private boolean bigEndian = false;
-	private IMCDefinition defs = null;
-
+	
 	public static UnserializedMessage readMessage(IMCDefinition defs, DataInput in) throws IOException {
 		int sync = in.readUnsignedShort() & 0xFFFF;
 		int origSize, size = defs.getHeaderType().getComputedLength();
@@ -44,11 +43,10 @@ public class UnserializedMessage {
 		data[4] = (byte)((origSize & 0xFF00) >> 8);
 		data[5] = (byte)((origSize & 0x00FF));
 
-		return new UnserializedMessage(defs, be, data);
+		return new UnserializedMessage(be, data);
 	}
 
-	public UnserializedMessage(IMCDefinition defs, boolean bigEndian, byte[] message) {
-		this.defs = defs;
+	public UnserializedMessage(boolean bigEndian, byte[] message) {
 		this.data = message;
 		this.bigEndian = bigEndian;
 	}
