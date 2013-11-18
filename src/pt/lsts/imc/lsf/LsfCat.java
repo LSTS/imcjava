@@ -67,19 +67,16 @@ public class LsfCat {
 					if (lastMessageTimestamps.containsKey(hash) && defs.getType(msg.getMgId()).hasFlag("periodic")) {
 						double diff = time - lastMessageTimestamps.get(hash);
 						if (diff >= 0 && diff < minSeparation) {
-							//System.out.println((long)(msg.getTimestamp()*1000)+" Dropping "+defs.getType(msg.getMgId()).getFullName());
 							dropCount++;
 							continue;
 						}
 					}
 					writeCount++;
 					lastMessageTimestamps.put(hash, time);
-					//System.out.println((long)(msg.getTimestamp()*1000)+" writing "+defs.getType(msg.getMgId()).getFullName());
 					fos.write(msg.getData());					
 				}
 
 				catch (Exception e) {
-					e.printStackTrace();
 					break;
 				}
 			}
