@@ -325,4 +325,20 @@ GIT Status:
 	</target>    
 	
 
+	
+	<target name="lsfcat" description="Create a program for extracting and simplifying lsf files" depends="compile">
+		<jar destfile="dist/lsfcat.jar" basedir="build" index="true">
+			<manifest>
+				<attribute name="Main-Class" value="pt.lsts.imc.lsf.LsfCat"/>
+			</manifest>
+		</jar>
+		
+		<exec executable="lib/jar2sh.sh" >
+			<arg value="dist/lsfcat"/>
+			<arg value="dist/lsfcat.jar"/>
+		</exec>
+		
+		<delete file="dist/lsfcat.jar"/>
+	</target>
+	
 </project>

@@ -48,7 +48,7 @@ import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Vector;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -183,7 +183,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
                     instance = new IMCDefinition(new FileInputStream(new File(pathToDefaults)));
                 }
                 else {
-                    System.out.println("Loading default IMC definitions");
+                    //System.out.println("Loading default IMC definitions");
                     InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("msgdefs/IMC.xml");
                     if (is == null) {
                         System.out.println("Failed to load default IMC definitions. Using string constant definitions.");
@@ -526,7 +526,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             md5String = computeMD5String(bais);
-
+/*
             StringBuilder sb = new StringBuilder();
             sb.append("Loaded IMC Message Definitions\n");
             sb.append("  Version : " + getVersion() + "\n");
@@ -534,6 +534,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
             sb.append("  Synch   : " + getSyncWord() + "\n");
             sb.append("      MD5 : " + getMd5String() + "\n");
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info(sb.toString());
+            */
         }
         catch (Exception e) {
             e.printStackTrace();

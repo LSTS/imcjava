@@ -65,9 +65,12 @@ public class IMCMessageType {
     private LinkedHashMap<String, String> subtypes = new LinkedHashMap<String, String>();
     private Vector<String> superTypes = new Vector<String>();
     
-    
     public Vector<String> getFlags() {
         return flags;
+    }
+    
+    public boolean hasFlag(String flag) {
+    	return getFlags().contains(flag);
     }
     
     public Object getDefaultValue(String field) {
