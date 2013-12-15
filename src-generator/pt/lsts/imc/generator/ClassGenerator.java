@@ -954,9 +954,11 @@ public class ClassGenerator {
                 bw.write("\tpublic enum " + field.toUpperCase() + " {\n");
                 boolean first = true;
                 for (String name : enum_vals.keySet()) {
-                    if (generatedEnumDefs.contains(name))
-                        continue;
-                    generatedEnumDefs.add(name);
+                    //if (generatedEnumDefs.contains(name)) {
+                    //	System.out.println("Message "+msgName+": "+name);
+                    //    continue;
+                    //}
+                    //generatedEnumDefs.add(name);
                     if (!first)
                         bw.write(",\n");
                     bw.write("\t\t" + name.toUpperCase() + "(" + enum_vals.get(name) + ")");

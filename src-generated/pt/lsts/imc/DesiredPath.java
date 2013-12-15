@@ -86,7 +86,10 @@ public class DesiredPath extends ControlCommand {
 	}
 
 	public enum END_Z_UNITS {
-;
+		NONE(0),
+		DEPTH(1),
+		ALTITUDE(2),
+		HEIGHT(3);
 
 		protected long value;
 
