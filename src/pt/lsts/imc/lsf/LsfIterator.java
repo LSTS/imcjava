@@ -50,13 +50,15 @@ public class LsfIterator<T> implements Iterator<T>, Iterable<T>{
     protected LsfIndex index;
     protected double secondsBetweenMessages;
     protected LinkedHashMap<Integer, Double> entityTimeStamps = new LinkedHashMap<Integer, Double>();    
+    protected int curIndex;
     
     public LsfIterator(LsfIndex index, Class<T> clazz, int fromIndex, long millisBetweenMessages) {
-        this.index = index;
+    	this.index = index;
         this.clazz = clazz;
         this.secondsBetweenMessages = millisBetweenMessages / 1000.0;
         this.msgName = clazz.getSimpleName();
         this.nextIndex = index.getNextMessageOfType(msgName, fromIndex);
+        this.curIndex = fromIndex;        		
     }
     
     public LsfIterator(LsfIndex index, Class<T> clazz, long millisBetweenMessages) {
@@ -82,7 +84,7 @@ public class LsfIterator<T> implements Iterator<T>, Iterable<T>{
             return null;
         try {
             T o = index.getMessage(nextIndex, clazz);
-            
+            curIndex = nextIndex;
             if (secondsBetweenMessages == 0) {
                 nextIndex = index.getNextMessageOfType(msgName, nextIndex);
             }
@@ -116,7 +118,11 @@ public class LsfIterator<T> implements Iterator<T>, Iterable<T>{
         throw new UnsupportedOperationException();
     }
 
-    public static void main(String[] args) throws Exception {
+    public int getCurrentIndex() {
+		return curIndex;
+	}
+
+	public static void main(String[] args) throws Exception {
         LsfIndex index = new LsfIndex(new File("/home/zp/Desktop/log-imc5/Data.lsf"),
                 IMCDefinition.getInstance());
 
