@@ -1,6 +1,8 @@
 <project name="IMCJava" default="dist">
   
   <property name="test-dir" location="src-junit" />
+  <property name="version" value="5.2" />
+  
   <path id="classpath.base">
   </path>
   <path id="classpath.test">
@@ -46,8 +48,9 @@
 		
 		<xmlproperty file="svninfo.xml" collapseattributes="true" />	
 		
-		<property name="scm.revision" value="${info.entry.commit.revision}" />
-		<property name="scm.tag" value="${scm.revision}" />
+		<!-- <property name="scm.revision" value="${info.entry.commit.revision}" /> -->
+		
+		<property name="version" value="${scm.revision}" />
 	</target>
 	
 	<target name="gitinfo" >
@@ -59,7 +62,7 @@
 	      <arg value="rev-parse"/>
 	      <arg value="HEAD"/>
 	    </exec>
-		<condition property="scm.tag" value="${scm.revision}" else="${git.tagstring}">
+		<condition property="version" value="${scm.revision}" else="${git.tagstring}">
 		    <equals arg1="${git.tagstring}" arg2="fatal: No names found, cannot describe anything."/>
 		</condition>
 		
@@ -226,26 +229,26 @@ GIT Status:
 		
 	</target>
 	
-	<target name="jar-stripped" depends="scminfo,compile,copylicense,scminfo.txt">
+	<target name="jar-stripped" depends="compile,copylicense">
 		<description>Create library jar (no source).</description>
-		<jar destfile="dist/imc-${scm.tag}.jar" basedir="build" index="true" />				   
-		<echo message="The file 'dist/imc-${scm.tag}.jar' was generated"/>
+		<jar destfile="dist/imc-${version}.jar" basedir="build" index="true" />				   
+		<echo message="The file 'dist/imc-${version}.jar' was generated"/>
 	</target>
 	
-	<target name="jar-source" depends="scminfo,compile,copysrc,copylicense,scminfo.txt,copygenerated">
+	<target name="jar-source" depends="compile,copysrc,copylicense,copygenerated">
 		<description>Create library jar with source code embedded.</description>
-		<jar destfile="dist/imc-src-${scm.tag}.jar" basedir="build" index="true" />				   
-		<echo message="The file 'dist/imc-src-${scm.tag}.jar' was generated"/>
+		<jar destfile="dist/imc-src-${version}.jar" basedir="build" index="true" />				   
+		<echo message="The file 'dist/imc-src-${version}.jar' was generated"/>
 	</target>
 	
-	<target name="jar-full" depends="scminfo,compile-all,copysrc,copylicense,scminfo.txt,copygenerated">
+	<target name="jar-full" depends="compile-all,copysrc,copylicense,copygenerated">
 		<unjar src="lib/jchart2d-3.2.0.jar" dest="build"/>
 		<unjar src="lib/js.jar" dest="build"/>
 		<unjar src="lib/guava-13.0.1.jar" dest="build"/>
 		<unjar src="lib/commons-io-2.0.1.jar" dest="build"/>
 		<unjar src="lib/commons-lang3-3.1.jar" dest="build"/>
-		<jar destfile="dist/imc-full-${scm.tag}.jar" basedir="build" index="true" />				   
-		<echo message="The file 'dist/imc-full-${scm.tag}.jar' was generated"/>
+		<jar destfile="dist/imc-full-${version}.jar" basedir="build" index="true" />				   
+		<echo message="The file 'dist/imc-full-${version}.jar' was generated"/>
 	</target>
 		
 	<target name="dist" depends="jar-stripped,jar-source,jar-full"
