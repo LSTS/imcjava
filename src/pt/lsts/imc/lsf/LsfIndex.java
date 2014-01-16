@@ -49,6 +49,8 @@ import java.util.LinkedHashMap;
 import java.util.TimeZone;
 import java.util.Vector;
 
+import javax.swing.JFileChooser;
+
 import pt.lsts.imc.Announce;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCFieldType;
@@ -239,6 +241,15 @@ public class LsfIndex {
         this.lsfFile = lsfFile;
 
         load(lsfFile, defs);
+    }
+    
+    public static LsfIndex OpenLsfDialog() throws Exception {
+    	JFileChooser chooser = new JFileChooser();
+    	int op = chooser.showOpenDialog(null);
+    	if (op != JFileChooser.APPROVE_OPTION)
+    		return null;
+    	System.out.println(chooser.getSelectedFile());
+    	return new LsfIndex(chooser.getSelectedFile());
     }
 
     protected void loadIndex() throws Exception {
@@ -753,8 +764,12 @@ public class LsfIndex {
     public String getEntityName(int entityId) {
         if (systemEntityNames == null)
             loadEntities();
-        if (!systemEntityNames.isEmpty())
-            return systemEntityNames.values().iterator().next().get(entityId);
+        
+        for (LinkedHashMap<Integer, String> ents : systemEntityNames.values()) {
+        	if (ents.containsKey(entityId))
+        		return ents.get(entityId);
+        }
+        
         return "" + entityId;
     }
 
@@ -762,9 +777,10 @@ public class LsfIndex {
         if (systemEntityIds == null)
             loadEntities();
 
-        Integer ret = systemEntityIds.values().iterator().next().get(entityName);
-        if (ret != null)
-            return ret;
+        for (LinkedHashMap<String, Integer> ents : systemEntityIds.values()) {
+        	if (ents.containsKey(entityName))
+        		return ents.get(entityName);
+        }
         return 255;
     }
 
@@ -979,7 +995,25 @@ public class LsfIndex {
         
         return finderPos;
         
+	}
+    
+    private int binarySearch(double targetTime, int startIndex, int endIndex) {
+    	if (endIndex <= startIndex)
+    		return startIndex;
+    	
+    	int pivot = (endIndex - startIndex) / 2 + startIndex;
+    	
+    	if (timeOf(pivot) < targetTime)
+    		return binarySearch(targetTime, pivot+1, endIndex);
+    	else if (timeOf(pivot) >= targetTime)
+    		return binarySearch(targetTime, startIndex, pivot-1);
+    	else
+    		return pivot;
     }
+
+	public int getFirstMessageAtOrAfter(double timestamp) {
+		return binarySearch(timestamp, 0, getNumberOfMessages()-1);
+	}
 
     public IMCMessage getMessageAt(String type, double timestamp) {
        
@@ -989,7 +1023,20 @@ public class LsfIndex {
         
         return getMessage(idx);
     }
-
+    
+    public <T extends IMCMessage> T nextMessageOfType(Class<T> type, int startIndex) {
+    	int i = getNextMessageOfType(type.getSimpleName(), startIndex);
+    	if (i == -1)
+    		return null;
+    	try {
+    		return getMessage(i, type);
+    	}
+    	catch (Exception e) {
+    		e.printStackTrace();
+    		return null;
+    	}
+    }
+    
     public IMCMessage getMessageAtOrAfter(String type, int startIndex, double timestamp) {
         return getMessageAtOrAfter(type, startIndex, 0xFF, timestamp);
     }
