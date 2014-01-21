@@ -33,33 +33,18 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Control Loops (507)<br/>
- *  Enable or disable control loops.<br/>
+ *  IMC Message Formation Control Parameters (820)<br/>
+ *  Formation controller paramenters, as: trajectory gains, control boundary layer thickness, and formation shape gains.<br/>
  */
 
-public class ControlLoops extends IMCMessage {
+public class FormCtrlParam extends IMCMessage {
 
-	public static final int ID_STATIC = 507;
+	public static final int ID_STATIC = 820;
 
-	public static final long CL_NONE = 0x00000000;
-	public static final long CL_PATH = 0x00000001;
-	public static final long CL_TELEOPERATION = 0x00000002;
-	public static final long CL_ALTITUDE = 0x00000004;
-	public static final long CL_DEPTH = 0x00000008;
-	public static final long CL_ROLL = 0x00000010;
-	public static final long CL_PITCH = 0x00000020;
-	public static final long CL_YAW = 0x00000040;
-	public static final long CL_SPEED = 0x00000080;
-	public static final long CL_YAW_RATE = 0x00000100;
-	public static final long CL_VERTICAL_RATE = 0x00000200;
-	public static final long CL_TORQUE = 0x00000400;
-	public static final long CL_EXTERNAL = 0x40000000;
-	public static final long CL_NO_OVERRIDE = 0x80000000;
-	public static final long CL_ALL = 0xFFFFFFFF;
-
-	public enum ENABLE {
-		DISABLE(0),
-		ENABLE(1);
+	public enum ACTION {
+		REQ(0),
+		SET(1),
+		REP(2);
 
 		protected long value;
 
@@ -67,29 +52,29 @@ public class ControlLoops extends IMCMessage {
 			return value;
 		}
 
-		ENABLE(long value) {
+		ACTION(long value) {
 			this.value = value;
 		}
 	}
 
-	public ControlLoops() {
+	public FormCtrlParam() {
 		super(ID_STATIC);
 	}
 
-	public ControlLoops(IMCDefinition defs) {
+	public FormCtrlParam(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ControlLoops create(Object... values) {
-		ControlLoops m = new ControlLoops();
+	public static FormCtrlParam create(Object... values) {
+		FormCtrlParam m = new FormCtrlParam();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ControlLoops clone(IMCMessage msg) throws Exception {
+	public static FormCtrlParam clone(IMCMessage msg) throws Exception {
 
-		ControlLoops m = new ControlLoops();
+		FormCtrlParam m = new FormCtrlParam();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -104,19 +89,23 @@ public class ControlLoops extends IMCMessage {
 		return m;
 	}
 
-	public ControlLoops(ENABLE enable, long mask, long scope_ref) {
+	public FormCtrlParam(ACTION Action, long LonGain, long LatGain, long BondThick, long LeadGain, long DeconflGain) {
 		super(ID_STATIC);
-		setEnable(enable);
-		setMask(mask);
-		setScopeRef(scope_ref);
+		setAction(Action);
+		setLonGain(LonGain);
+		setLatGain(LatGain);
+		setBondThick(BondThick);
+		setLeadGain(LeadGain);
+		setDeconflGain(DeconflGain);
 	}
 
 	/**
-	 *  @return Enable (enumerated) - uint8_t
+	 *  Action on the vehicle formation control parameters.<br/>
+	 *  @return Action (enumerated) - uint8_t
 	 */
-	public ENABLE getEnable() {
+	public ACTION getAction() {
 		try {
-			ENABLE o = ENABLE.valueOf(getMessageType().getFieldPossibleValues("enable").get(getLong("enable")));
+			ACTION o = ACTION.valueOf(getMessageType().getFieldPossibleValues("Action").get(getLong("Action")));
 			return o;
 		}
 		catch (Exception e) {
@@ -125,53 +114,94 @@ public class ControlLoops extends IMCMessage {
 	}
 
 	/**
-	 *  Control loop mask.<br/>
-	 *  @return Control Loop Mask (bitfield) - uint32_t
+	 *  @return Longitudinal Gain - uint32_t
 	 */
-	public long getMask() {
-		return getLong("mask");
+	public long getLonGain() {
+		return getLong("LonGain");
 	}
 
 	/**
-	 *  @return Scope Time Reference - uint32_t
+	 *  @return Lateral Gain - uint32_t
 	 */
-	public long getScopeRef() {
-		return getLong("scope_ref");
+	public long getLatGain() {
+		return getLong("LatGain");
 	}
 
 	/**
-	 *  @param enable Enable (enumerated)
+	 *  @return Boundary Layer Thickness - uint32_t
 	 */
-	public void setEnable(ENABLE enable) {
-		values.put("enable", enable.value());
+	public long getBondThick() {
+		return getLong("BondThick");
 	}
 
 	/**
-	 *  @param enable Enable (as a String)
+	 *  @return Leader Gain - uint32_t
 	 */
-	public void setEnable(String enable) {
-		setValue("enable", enable);
+	public long getLeadGain() {
+		return getLong("LeadGain");
 	}
 
 	/**
-	 *  @param enable Enable (integer value)
+	 *  @return Deconfliction Gain - uint32_t
 	 */
-	public void setEnable(short enable) {
-		setValue("enable", enable);
+	public long getDeconflGain() {
+		return getLong("DeconflGain");
 	}
 
 	/**
-	 *  @param mask Control Loop Mask (bitfield)
+	 *  @param Action Action (enumerated)
 	 */
-	public void setMask(long mask) {
-		values.put("mask", mask);
+	public void setAction(ACTION Action) {
+		values.put("Action", Action.value());
 	}
 
 	/**
-	 *  @param scope_ref Scope Time Reference
+	 *  @param Action Action (as a String)
 	 */
-	public void setScopeRef(long scope_ref) {
-		values.put("scope_ref", scope_ref);
+	public void setAction(String Action) {
+		setValue("Action", Action);
+	}
+
+	/**
+	 *  @param Action Action (integer value)
+	 */
+	public void setAction(short Action) {
+		setValue("Action", Action);
+	}
+
+	/**
+	 *  @param LonGain Longitudinal Gain
+	 */
+	public void setLonGain(long LonGain) {
+		values.put("LonGain", LonGain);
+	}
+
+	/**
+	 *  @param LatGain Lateral Gain
+	 */
+	public void setLatGain(long LatGain) {
+		values.put("LatGain", LatGain);
+	}
+
+	/**
+	 *  @param BondThick Boundary Layer Thickness
+	 */
+	public void setBondThick(long BondThick) {
+		values.put("BondThick", BondThick);
+	}
+
+	/**
+	 *  @param LeadGain Leader Gain
+	 */
+	public void setLeadGain(long LeadGain) {
+		values.put("LeadGain", LeadGain);
+	}
+
+	/**
+	 *  @param DeconflGain Deconfliction Gain
+	 */
+	public void setDeconflGain(long DeconflGain) {
+		values.put("DeconflGain", DeconflGain);
 	}
 
 }

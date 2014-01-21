@@ -33,33 +33,18 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Control Loops (507)<br/>
- *  Enable or disable control loops.<br/>
+ *  IMC Message Dynamics Simulation Parameters (53)<br/>
+ *  Vehicle dynamics parameters for 3DOF, 4DOF or 5DOF simulations.<br/>
  */
 
-public class ControlLoops extends IMCMessage {
+public class DynamicsSimParam extends IMCMessage {
 
-	public static final int ID_STATIC = 507;
+	public static final int ID_STATIC = 53;
 
-	public static final long CL_NONE = 0x00000000;
-	public static final long CL_PATH = 0x00000001;
-	public static final long CL_TELEOPERATION = 0x00000002;
-	public static final long CL_ALTITUDE = 0x00000004;
-	public static final long CL_DEPTH = 0x00000008;
-	public static final long CL_ROLL = 0x00000010;
-	public static final long CL_PITCH = 0x00000020;
-	public static final long CL_YAW = 0x00000040;
-	public static final long CL_SPEED = 0x00000080;
-	public static final long CL_YAW_RATE = 0x00000100;
-	public static final long CL_VERTICAL_RATE = 0x00000200;
-	public static final long CL_TORQUE = 0x00000400;
-	public static final long CL_EXTERNAL = 0x40000000;
-	public static final long CL_NO_OVERRIDE = 0x80000000;
-	public static final long CL_ALL = 0xFFFFFFFF;
-
-	public enum ENABLE {
-		DISABLE(0),
-		ENABLE(1);
+	public enum OP {
+		REQUEST(0),
+		SET(1),
+		REPORT(2);
 
 		protected long value;
 
@@ -67,29 +52,29 @@ public class ControlLoops extends IMCMessage {
 			return value;
 		}
 
-		ENABLE(long value) {
+		OP(long value) {
 			this.value = value;
 		}
 	}
 
-	public ControlLoops() {
+	public DynamicsSimParam() {
 		super(ID_STATIC);
 	}
 
-	public ControlLoops(IMCDefinition defs) {
+	public DynamicsSimParam(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ControlLoops create(Object... values) {
-		ControlLoops m = new ControlLoops();
+	public static DynamicsSimParam create(Object... values) {
+		DynamicsSimParam m = new DynamicsSimParam();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ControlLoops clone(IMCMessage msg) throws Exception {
+	public static DynamicsSimParam clone(IMCMessage msg) throws Exception {
 
-		ControlLoops m = new ControlLoops();
+		DynamicsSimParam m = new DynamicsSimParam();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -104,19 +89,20 @@ public class ControlLoops extends IMCMessage {
 		return m;
 	}
 
-	public ControlLoops(ENABLE enable, long mask, long scope_ref) {
+	public DynamicsSimParam(OP op, float tas2acc_pgain, float bank2p_pgain) {
 		super(ID_STATIC);
-		setEnable(enable);
-		setMask(mask);
-		setScopeRef(scope_ref);
+		setOp(op);
+		setTas2accPgain(tas2acc_pgain);
+		setBank2pPgain(bank2p_pgain);
 	}
 
 	/**
-	 *  @return Enable (enumerated) - uint8_t
+	 *  Action on the vehicle simulation parameters for the formation control<br/>
+	 *  @return Action on the Vehicle Simulation Parameters (enumerated) - uint8_t
 	 */
-	public ENABLE getEnable() {
+	public OP getOp() {
 		try {
-			ENABLE o = ENABLE.valueOf(getMessageType().getFieldPossibleValues("enable").get(getLong("enable")));
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
 			return o;
 		}
 		catch (Exception e) {
@@ -125,53 +111,52 @@ public class ControlLoops extends IMCMessage {
 	}
 
 	/**
-	 *  Control loop mask.<br/>
-	 *  @return Control Loop Mask (bitfield) - uint32_t
+	 *  @return TAS to Longitudinal Acceleration Gain - fp32_t
 	 */
-	public long getMask() {
-		return getLong("mask");
+	public double getTas2accPgain() {
+		return getDouble("tas2acc_pgain");
 	}
 
 	/**
-	 *  @return Scope Time Reference - uint32_t
+	 *  @return Bank to Bank Rate Gain - fp32_t
 	 */
-	public long getScopeRef() {
-		return getLong("scope_ref");
+	public double getBank2pPgain() {
+		return getDouble("bank2p_pgain");
 	}
 
 	/**
-	 *  @param enable Enable (enumerated)
+	 *  @param op Action on the Vehicle Simulation Parameters (enumerated)
 	 */
-	public void setEnable(ENABLE enable) {
-		values.put("enable", enable.value());
+	public void setOp(OP op) {
+		values.put("op", op.value());
 	}
 
 	/**
-	 *  @param enable Enable (as a String)
+	 *  @param op Action on the Vehicle Simulation Parameters (as a String)
 	 */
-	public void setEnable(String enable) {
-		setValue("enable", enable);
+	public void setOp(String op) {
+		setValue("op", op);
 	}
 
 	/**
-	 *  @param enable Enable (integer value)
+	 *  @param op Action on the Vehicle Simulation Parameters (integer value)
 	 */
-	public void setEnable(short enable) {
-		setValue("enable", enable);
+	public void setOp(short op) {
+		setValue("op", op);
 	}
 
 	/**
-	 *  @param mask Control Loop Mask (bitfield)
+	 *  @param tas2acc_pgain TAS to Longitudinal Acceleration Gain
 	 */
-	public void setMask(long mask) {
-		values.put("mask", mask);
+	public void setTas2accPgain(double tas2acc_pgain) {
+		values.put("tas2acc_pgain", tas2acc_pgain);
 	}
 
 	/**
-	 *  @param scope_ref Scope Time Reference
+	 *  @param bank2p_pgain Bank to Bank Rate Gain
 	 */
-	public void setScopeRef(long scope_ref) {
-		values.put("scope_ref", scope_ref);
+	public void setBank2pPgain(double bank2p_pgain) {
+		values.put("bank2p_pgain", bank2p_pgain);
 	}
 
 }

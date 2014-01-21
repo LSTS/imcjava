@@ -84,12 +84,16 @@ public class MessageFactory {
 				return new EntityActivationState(defs);
 			case QueryEntityActivationState.ID_STATIC:
 				return new QueryEntityActivationState(defs);
+			case VehicleOperationalLimits.ID_STATIC:
+				return new VehicleOperationalLimits(defs);
 			case SimulatedState.ID_STATIC:
 				return new SimulatedState(defs);
 			case LeakSimulation.ID_STATIC:
 				return new LeakSimulation(defs);
 			case UASimulation.ID_STATIC:
 				return new UASimulation(defs);
+			case DynamicsSimParam.ID_STATIC:
+				return new DynamicsSimParam(defs);
 			case StorageUsage.ID_STATIC:
 				return new StorageUsage(defs);
 			case CacheControl.ID_STATIC:
@@ -132,6 +136,10 @@ public class MessageFactory {
 				return new IridiumMsgTx(defs);
 			case IridiumTxStatus.ID_STATIC:
 				return new IridiumTxStatus(defs);
+			case GroupMembershipState.ID_STATIC:
+				return new GroupMembershipState(defs);
+			case SystemGroup.ID_STATIC:
+				return new SystemGroup(defs);
 			case LblRange.ID_STATIC:
 				return new LblRange(defs);
 			case LblDetection.ID_STATIC:
@@ -284,6 +292,8 @@ public class MessageFactory {
 				return new LblEstimate(defs);
 			case AlignmentState.ID_STATIC:
 				return new AlignmentState(defs);
+			case GroupStreamVelocity.ID_STATIC:
+				return new GroupStreamVelocity(defs);
 			case DesiredHeading.ID_STATIC:
 				return new DesiredHeading(defs);
 			case DesiredZ.ID_STATIC:
@@ -364,6 +374,10 @@ public class MessageFactory {
 				return new PolygonVertex(defs);
 			case CompassCalibration.ID_STATIC:
 				return new CompassCalibration(defs);
+			case FormationParameters.ID_STATIC:
+				return new FormationParameters(defs);
+			case FormationPlanExecution.ID_STATIC:
+				return new FormationPlanExecution(defs);
 			case FollowReference.ID_STATIC:
 				return new FollowReference(defs);
 			case Reference.ID_STATIC:
@@ -390,6 +404,8 @@ public class MessageFactory {
 				return new VehicleMedium(defs);
 			case Collision.ID_STATIC:
 				return new Collision(defs);
+			case FormState.ID_STATIC:
+				return new FormState(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
@@ -416,6 +432,8 @@ public class MessageFactory {
 				return new PlanVariable(defs);
 			case PlanGeneration.ID_STATIC:
 				return new PlanGeneration(defs);
+			case LeaderState.ID_STATIC:
+				return new LeaderState(defs);
 			case ReportedState.ID_STATIC:
 				return new ReportedState(defs);
 			case RemoteSensorInfo.ID_STATIC:
@@ -490,6 +508,8 @@ public class MessageFactory {
 				return new UamRxRange(defs);
 			case AbortAcked.ID_STATIC:
 				return new AbortAcked(defs);
+			case FormCtrlParam.ID_STATIC:
+				return new FormCtrlParam(defs);
 			default:
 				return new IMCMessage(defs);
 		}

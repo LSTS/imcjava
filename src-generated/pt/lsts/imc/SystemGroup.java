@@ -33,33 +33,21 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Control Loops (507)<br/>
- *  Enable or disable control loops.<br/>
+ *  IMC Message System Group (181)<br/>
+ *  Group of systems configuration.<br/>
  */
 
-public class ControlLoops extends IMCMessage {
+public class SystemGroup extends IMCMessage {
 
-	public static final int ID_STATIC = 507;
+	public static final int ID_STATIC = 181;
 
-	public static final long CL_NONE = 0x00000000;
-	public static final long CL_PATH = 0x00000001;
-	public static final long CL_TELEOPERATION = 0x00000002;
-	public static final long CL_ALTITUDE = 0x00000004;
-	public static final long CL_DEPTH = 0x00000008;
-	public static final long CL_ROLL = 0x00000010;
-	public static final long CL_PITCH = 0x00000020;
-	public static final long CL_YAW = 0x00000040;
-	public static final long CL_SPEED = 0x00000080;
-	public static final long CL_YAW_RATE = 0x00000100;
-	public static final long CL_VERTICAL_RATE = 0x00000200;
-	public static final long CL_TORQUE = 0x00000400;
-	public static final long CL_EXTERNAL = 0x40000000;
-	public static final long CL_NO_OVERRIDE = 0x80000000;
-	public static final long CL_ALL = 0xFFFFFFFF;
-
-	public enum ENABLE {
-		DISABLE(0),
-		ENABLE(1);
+	public enum ACTION {
+		DIS(0),
+		SET(1),
+		REQ(2),
+		CHG(3),
+		REP(4),
+		FRC(5);
 
 		protected long value;
 
@@ -67,29 +55,29 @@ public class ControlLoops extends IMCMessage {
 			return value;
 		}
 
-		ENABLE(long value) {
+		ACTION(long value) {
 			this.value = value;
 		}
 	}
 
-	public ControlLoops() {
+	public SystemGroup() {
 		super(ID_STATIC);
 	}
 
-	public ControlLoops(IMCDefinition defs) {
+	public SystemGroup(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ControlLoops create(Object... values) {
-		ControlLoops m = new ControlLoops();
+	public static SystemGroup create(Object... values) {
+		SystemGroup m = new SystemGroup();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ControlLoops clone(IMCMessage msg) throws Exception {
+	public static SystemGroup clone(IMCMessage msg) throws Exception {
 
-		ControlLoops m = new ControlLoops();
+		SystemGroup m = new SystemGroup();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -104,19 +92,29 @@ public class ControlLoops extends IMCMessage {
 		return m;
 	}
 
-	public ControlLoops(ENABLE enable, long mask, long scope_ref) {
+	public SystemGroup(String GroupName, ACTION Action, String GroupList) {
 		super(ID_STATIC);
-		setEnable(enable);
-		setMask(mask);
-		setScopeRef(scope_ref);
+		if (GroupName != null)
+			setGroupName(GroupName);
+		setAction(Action);
+		if (GroupList != null)
+			setGroupList(GroupList);
 	}
 
 	/**
-	 *  @return Enable (enumerated) - uint8_t
+	 *  @return Group Name - plaintext
 	 */
-	public ENABLE getEnable() {
+	public String getGroupName() {
+		return getString("GroupName");
+	}
+
+	/**
+	 *  Actions on the group list.<br/>
+	 *  @return Group List Action (enumerated) - uint8_t
+	 */
+	public ACTION getAction() {
 		try {
-			ENABLE o = ENABLE.valueOf(getMessageType().getFieldPossibleValues("enable").get(getLong("enable")));
+			ACTION o = ACTION.valueOf(getMessageType().getFieldPossibleValues("Action").get(getLong("Action")));
 			return o;
 		}
 		catch (Exception e) {
@@ -125,53 +123,45 @@ public class ControlLoops extends IMCMessage {
 	}
 
 	/**
-	 *  Control loop mask.<br/>
-	 *  @return Control Loop Mask (bitfield) - uint32_t
+	 *  @return Systems Name List - plaintext
 	 */
-	public long getMask() {
-		return getLong("mask");
+	public String getGroupList() {
+		return getString("GroupList");
 	}
 
 	/**
-	 *  @return Scope Time Reference - uint32_t
+	 *  @param GroupName Group Name
 	 */
-	public long getScopeRef() {
-		return getLong("scope_ref");
+	public void setGroupName(String GroupName) {
+		values.put("GroupName", GroupName);
 	}
 
 	/**
-	 *  @param enable Enable (enumerated)
+	 *  @param Action Group List Action (enumerated)
 	 */
-	public void setEnable(ENABLE enable) {
-		values.put("enable", enable.value());
+	public void setAction(ACTION Action) {
+		values.put("Action", Action.value());
 	}
 
 	/**
-	 *  @param enable Enable (as a String)
+	 *  @param Action Group List Action (as a String)
 	 */
-	public void setEnable(String enable) {
-		setValue("enable", enable);
+	public void setAction(String Action) {
+		setValue("Action", Action);
 	}
 
 	/**
-	 *  @param enable Enable (integer value)
+	 *  @param Action Group List Action (integer value)
 	 */
-	public void setEnable(short enable) {
-		setValue("enable", enable);
+	public void setAction(short Action) {
+		setValue("Action", Action);
 	}
 
 	/**
-	 *  @param mask Control Loop Mask (bitfield)
+	 *  @param GroupList Systems Name List
 	 */
-	public void setMask(long mask) {
-		values.put("mask", mask);
-	}
-
-	/**
-	 *  @param scope_ref Scope Time Reference
-	 */
-	public void setScopeRef(long scope_ref) {
-		values.put("scope_ref", scope_ref);
+	public void setGroupList(String GroupList) {
+		values.put("GroupList", GroupList);
 	}
 
 }
