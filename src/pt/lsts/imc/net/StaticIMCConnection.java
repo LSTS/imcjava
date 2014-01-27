@@ -31,10 +31,13 @@
 package pt.lsts.imc.net;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 
+import pt.lsts.imc.EntityList;
+import pt.lsts.imc.EntityList.OP;
 import pt.lsts.imc.Heartbeat;
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.state.ImcSysState;
+import pt.lsts.imc.state.ImcSystemState;
 import pt.lsts.neptus.messages.listener.MessageInfo;
 import pt.lsts.neptus.messages.listener.MessageListener;
 
@@ -65,15 +68,14 @@ public class StaticIMCConnection {
 
 	private String remoteHost;
 	private int remotePort;
-
-	private LinkedHashMap<Integer, IMCMessage> lastMessagesByType = new LinkedHashMap<Integer, IMCMessage>();
 	private UDPTransport trans;
 	private boolean polling = false;
-
+	private ImcSysState state;
+	
 	private MessageListener<MessageInfo, IMCMessage> pollingListener = new MessageListener<MessageInfo, IMCMessage>() {
 		@Override
 		public void onMessage(MessageInfo info, IMCMessage msg) {
-			lastMessagesByType.put(msg.getMgid(), msg);
+			state.setMessage(msg);
 		}
 	};
 
@@ -92,9 +94,10 @@ public class StaticIMCConnection {
 
 		this.remoteHost = remoteHost;
 		this.remotePort = remotePort;
-
+		this.state = new ImcSysState();
 		trans = new UDPTransport(localPort, 1);
 		trans.sendMessage(remoteHost, remotePort, new Heartbeat());
+		trans.sendMessage(remoteHost, remotePort, new EntityList(OP.QUERY, null));
 	}
 
 	/**
@@ -130,7 +133,7 @@ public class StaticIMCConnection {
 	public void setPolling(boolean polling) {
 		boolean before = this.polling;
 		this.polling = polling;
-		lastMessagesByType.clear();
+		state.clear();
 
 		if (polling && !before) {
 			trans.addMessageListener(pollingListener);
@@ -199,18 +202,7 @@ public class StaticIMCConnection {
 		if (!polling)
 			setPolling(true);
 
-		int id = trans.getDefinition().getMessageId(abbrev);
-		if (id == -1)
-			return null;
-
-		IMCMessage msg = lastMessagesByType.get(id);
-		if (msg == null)
-			return null;
-		try {
-			return msg;
-		} catch (Exception e) {
-			return msg;
-		}
+		return state.get(abbrev);
 	}
 
 	/**
@@ -263,6 +255,23 @@ public class StaticIMCConnection {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	/**
+	 * Retrieve the state of this connection
+	 * @return the state
+	 * @see ImcSystemState
+	 */
+	public ImcSysState state() {
+		return state;
+	}
+
+	public static void main(String[] args) throws Exception {
+		IMCProtocol proto = new IMCProtocol(6006);
+		while(true) {
+			System.out.println(proto.state("lauv-xtreme-2").lastEstimatedState());			
+			Thread.sleep(3000);
 		}
 	}
 }

@@ -88,13 +88,7 @@ public class UDPTransport {
     private boolean isMessageInfoNeeded = true;
     private int receptionCount = 0;
     
-    private static int localId = 0x4201;
-    
-	private static int getLocalId() {
-    	return localId++;
-    }
-    
-    private int imc_id = getLocalId();
+    private int imc_id = (short)System.getProperty("user.name").hashCode();
     
     protected IMCDefinition definition;
 
@@ -187,17 +181,6 @@ public class UDPTransport {
         this.isOnBindError = isOnBindError;
     }
 
-    //	/**
-    //	 * For now tests is the receiver thread is alive and 
-    //	 * this transport is {@link #isRunnning()}.
-    //	 * Can serve for binding error.
-    //	 * @return
-    //	 */
-    //	public boolean isReceiverConnected() {
-    //		if (dispacherThread == null)
-    //			return false;
-    //		return isRunnning() && dispacherThread.isAlive();
-    //	}
 
     /**
      * @return

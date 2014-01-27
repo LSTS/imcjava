@@ -70,7 +70,7 @@ public class IMCProtocol implements IMessageBus {
     protected LinkedHashMap<Integer, IMCNode> announces = new LinkedHashMap<Integer, IMCNode>();
     protected int bindPort = 7001;
     protected int announceId = Announce.ID_STATIC;
-    protected int localId = (int) System.currentTimeMillis() % 65535;
+    protected short localId = (short)System.getProperty("user.name").hashCode();
     protected LinkedHashMap<String, ImcSysState> sysStates = new LinkedHashMap<String, ImcSysState>();
     protected LinkedHashMap<Integer, String> sysNames = new LinkedHashMap<Integer, String>();
     protected LinkedHashMap<String, Integer> sysIds = new LinkedHashMap<String, Integer>();    
@@ -128,7 +128,7 @@ public class IMCProtocol implements IMessageBus {
     }
 
 
-    protected MessageListener<MessageInfo, IMCMessage> messageListener = new MessageListener<MessageInfo, IMCMessage>() {
+    private MessageListener<MessageInfo, IMCMessage> messageListener = new MessageListener<MessageInfo, IMCMessage>() {
         @Override
         public void onMessage(MessageInfo info, IMCMessage msg) {
             if (msg.getMgid() == announceId) {
@@ -143,7 +143,7 @@ public class IMCProtocol implements IMessageBus {
         }
     };
 
-    protected static Collection<String> getNetworkInterfaces(boolean includeLoopback) {
+    private static Collection<String> getNetworkInterfaces(boolean includeLoopback) {
         Vector<String> itfs = new Vector<String>();
         try {
             Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
@@ -176,7 +176,7 @@ public class IMCProtocol implements IMessageBus {
         return localName;
     }
 
-    protected Thread discoveryThread = new Thread() {
+    private Thread discoveryThread = new Thread() {
 
         public void run() {
 
@@ -185,6 +185,7 @@ public class IMCProtocol implements IMessageBus {
             while (true) {
                 // System.out.println("[IMCTransport] Trying to bind to port " + port + "...");
                 discovery = new UDPTransport(port, 1);
+                discovery.setImcId(localId);
                 if (discovery.isOnBindError()) {
                     port++;
                     if (port > 30104)
@@ -214,7 +215,6 @@ public class IMCProtocol implements IMessageBus {
 
             long lastSent = System.currentTimeMillis();
             while (true) {
-                //announce.dump(System.err);
                 for (int p = 30100; p < 30105; p++)
                     discovery.sendMessage("224.0.75.69", p, announce);
 
@@ -226,9 +226,6 @@ public class IMCProtocol implements IMessageBus {
                 catch (InterruptedException e) {
                     break;
                 }
-
-
-
             }
         }
     };
@@ -250,9 +247,7 @@ public class IMCProtocol implements IMessageBus {
         announce.setServices(services);
 
         for (int p = 30100; p < 30105; p++)
-        	transport.sendMessage("224.0.75.69", p, announce);
-        
-        System.out.println(announce);
+        	transport.sendMessage("224.0.75.69", p, announce);                
     }
     
     public static Thread heartBeatThread(final String host, final int port, final UDPTransport transport) {
@@ -260,9 +255,7 @@ public class IMCProtocol implements IMessageBus {
     		public void run() {
     			while (true) {
     				
-    				System.out.println("beat to "+host+":"+port);
     				Heartbeat beat = new Heartbeat();
-    				//beat.setSrc(src);
     				
     				transport.sendMessage(host, port, beat);
     				
@@ -302,7 +295,7 @@ public class IMCProtocol implements IMessageBus {
         return null;
     }
 
-    boolean sendHeartbeat(String remoteSystem) {
+    public boolean sendHeartbeat(String remoteSystem) {
         IMCNode node = getNode(remoteSystem);
         if (node == null || node.getAddress() == null)
             return false;
@@ -351,6 +344,7 @@ public class IMCProtocol implements IMessageBus {
     public boolean sendMessage(String sysName, IMCMessage msg) {
         msg.setValue("src", localId);
         msg.setTimestamp(System.currentTimeMillis() / 1000.0);
+        msg.setValue("dst", IMCDefinition.getInstance().getResolver().resolve(sysName));
         for (IMCNode nd : announces.values()) {
             if (nd.sys_name.equals(sysName)) {
                 if (nd.address != null) {
