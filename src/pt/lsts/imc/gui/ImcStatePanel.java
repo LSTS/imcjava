@@ -48,6 +48,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToggleButton;
+import javax.swing.JViewport;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -149,23 +150,23 @@ public class ImcStatePanel extends JPanel {
                 IMCMessage m;
                 if (entity.equals("*") || entity.equals("0")) {
                     m = state.get(msg);
-//                    System.out.println(msg);
                 }
                 else {
                     m = state.get(msg+"."+entity, IMCMessage.class);
-//                    System.out.println(msg+"."+entity);
                 }
-//                System.out.println(m);
-                
-//                System.out.println("Message " + msg + "  " + (m != lastMsg) + " " + (m != null));
                 if (m != lastMsg && m != null) {
-                    JLabel html = new JLabel(IMCUtil.getAsHtml(m));
-                    html.setHorizontalAlignment(JLabel.CENTER);
-                    html.setBackground(Color.white);
-                    html.setOpaque(true);
-                    if (tabs.getSelectedIndex() != -1)
-                        tabs.setComponentAt(tabs.getSelectedIndex(), new JScrollPane(html));
-                    
+                	
+                	if (tabs.getSelectedIndex() != -1) {
+                		try {
+                			JScrollPane pane = (JScrollPane) tabs.getComponentAt(tabs.getSelectedIndex());
+                			JViewport viewPort = (JViewport) pane.getComponent(0);
+                			JLabel lbl = (JLabel) viewPort.getComponent(0);
+                			lbl.setText(IMCUtil.getAsHtml(m));
+                		}
+                		catch (Exception e) {
+                			e.printStackTrace();
+                		}
+                	}
                     lastMsg = m;   
                 }
             }            
@@ -173,8 +174,8 @@ public class ImcStatePanel extends JPanel {
         catch (Exception e) {
             System.err.println("RefreshTab: "+e.getMessage());
         }
-        this.invalidate();
-        this.revalidate();
+        //this.invalidate();
+        //this.revalidate();
         this.repaint(50);
     }
     
@@ -303,6 +304,7 @@ public class ImcStatePanel extends JPanel {
             Thread.sleep(100);
             hb.setTimestamp(System.currentTimeMillis() / 1E3);
             hb.setX(i);
+            
             hb.setSrcEnt(ent++);
             ent = ent > 5 ? 0 : ent;
             IMCMessage m = hb.cloneMessage();
