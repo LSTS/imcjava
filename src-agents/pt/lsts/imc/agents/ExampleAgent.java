@@ -32,7 +32,6 @@ package pt.lsts.imc.agents;
 
 import java.io.ByteArrayOutputStream;
 
-import pt.lsts.imc.Abort;
 import pt.lsts.imc.AgentContext;
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.IMCOutputStream;

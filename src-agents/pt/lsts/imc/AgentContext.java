@@ -30,20 +30,14 @@
  */
 package pt.lsts.imc;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Vector;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import pt.lsts.imc.IMCDefinition;
-import pt.lsts.imc.agents.ExampleAgent;
-import pt.lsts.imc.agents.ExecuteTrajectory;
 import pt.lsts.imc.agents.ImcBus;
-import pt.lsts.imc.agents.WebServerAgent;
 import pt.lsts.imc.agents.YoYoTrajectoryTest;
 import pt.lsts.imc.annotations.Periodic;
-import pt.lsts.imc.annotations.Property;
 
 import com.google.common.eventbus.EventBus;
 
@@ -102,10 +96,10 @@ public class AgentContext {
             }
         }
         
-        for (Field f : agent.getClass().getFields()) {
-            Property p = f.getAnnotation(Property.class);
-            //FIXME
-        }
+//        for (Field f : agent.getClass().getFields()) {
+//            Property p = f.getAnnotation(Property.class);
+//            //FIXME
+//        }
         
         agent.onStart(this);
         
