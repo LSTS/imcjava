@@ -169,6 +169,7 @@ public class LSF2LLF {
 		InputStream is = fis;
 		if (lsf.getName().toLowerCase().endsWith("lsf.gz")) {
 			is = new MultiMemberGZIPInputStream(is);
+			size = -1;
 		}
 		convert(defs, is, size, lsf.getParent());
 	}
@@ -196,15 +197,11 @@ public class LSF2LLF {
 
 		abortRqst = false;
 		try {
-			while (/* buff.remaining() > 0 && !abortRqst */true) {
+			while (true) {
 				if (isBufferOrStream) {
 					if (!(buff.remaining() > 0 && !abortRqst))
 						break;
 				}
-				// else {
-				// if (!(lsfIS.available() > 0 && !abortRqst))
-				// break;
-				// }
 				if (isBufferOrStream)
 					message = defs.nextMessage(buff);
 				else
@@ -213,11 +210,19 @@ public class LSF2LLF {
 				if (message != null) {
 					pos += message.getLong("size") + defs.headerLength() + 2;
 					msgcount += logger.logMessage(message);
-					long p =  Math.min(100, pos / perc_parts);
-					if (p != percent) {
-						for (IConverterListener l : listeners)
-							l.update(size, pos, msgcount);
-						percent = p;
+					if (size > 0) {
+						long p =  Math.min(100, pos / perc_parts);
+						if (p != percent) {
+							for (IConverterListener l : listeners)
+								l.update(size, pos, msgcount);
+							percent = p;
+						}
+					}
+					else {
+						if (msgcount % 2500 == 0) {
+							for (IConverterListener l : listeners)
+								l.update(-1, pos, msgcount);
+						}
 					}
 				}
 			}
@@ -248,81 +253,6 @@ public class LSF2LLF {
 		convert(new FileInputStream(imc_xml), data_lsf);
 	}
 
-	// @Deprecated
-	// private static File testIfZipAndUnzipIt(File data_lsf, ProgressMonitor
-	// monitor) {
-	// if (data_lsf.getName().toLowerCase().endsWith("lsf.gz")) {
-	// FileInputStream fxInStream = null;
-	// FileOutputStream fos = null;
-	// try {
-	// System.out.println("Unzipping " + data_lsf.getName() + "...");
-	// if (monitor != null) {
-	// monitor.setNote("Unzipping " + data_lsf.getName() + "...");
-	// monitor.setProgress(10);
-	// }
-	// fxInStream = new FileInputStream(data_lsf);
-	// GZIPInputStream gzDataLog = new MultiMemberGZIPInputStream(fxInStream);
-	// File outFile = new File(data_lsf.getParentFile(),
-	// data_lsf.getName()+".tmplsf");
-	// outFile.deleteOnExit();
-	// fos = new FileOutputStream(outFile);
-	// copyStreamToStream(gzDataLog, fos);
-	// if (monitor != null) {
-	// monitor.setNote("Output to " + outFile.getName());
-	// monitor.setProgress(100);
-	// }
-	// return outFile;
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// return data_lsf;
-	// }
-	// finally {
-	// try { fos.close(); } catch (Exception e) { }
-	// try { fxInStream.close(); } catch (Exception e) { }
-	// }
-	// }
-	// else
-	// return data_lsf;
-	// }
-
-	// private static boolean copyStreamToStream (InputStream inStream,
-	// OutputStream outStream) {
-	// try {
-	// byte[] extra = new byte[50000];
-	//
-	// int ret = 0;
-	// @SuppressWarnings("unused")
-	// int pos = 0;
-	//
-	// for (;;) {
-	// ret = inStream.read(extra);
-	// if (ret != -1) {
-	// byte[] extra1 = new byte[ret];
-	// System.arraycopy (extra, 0 , extra1, 0 , ret);
-	// outStream.write (extra1);
-	// outStream.flush();
-	// pos =+ret;
-	// }
-	// else {
-	// break;
-	// }
-	// }
-	// // outStream.close(); //pdias - Tacking back again because some
-	// operations that use this don't want the stream
-	// closed
-	// return true;
-	// }
-	// catch (IOException e) {
-	// // try {
-	// // outStream.close(); //pdias - Tacking back again because some
-	// operations that use this don't want the stream
-	// closed
-	// // } catch (IOException e1) {
-	// // }
-	// return false;
-	// }
-	// }
-
 	static void printOptions() {
 		System.out.println(getOptions());
 	}
@@ -341,13 +271,23 @@ public class LSF2LLF {
 		converter.addListener(new IConverterListener() {
 			public void update(long filesize, long curPosition,
 					long messageCount) {
-				System.out.print("\rProcessed "
-						+ String.format("%3d", curPosition * 100 / filesize)
-						+ "% ("
-						+ messageCount
-						+ " msgs, "
-						+ LSF2LLFGui.parseToEngineeringRadix2Notation(
-								curPosition, 1) + "B)           ");
+				
+				if (filesize > 0) {
+					System.out.print("\rProcessed "
+							+ String.format("%3d", curPosition * 100 / filesize)
+							+ "% ("
+							+ messageCount
+							+ " msgs, "
+							+ LSF2LLFGui.parseToEngineeringRadix2Notation(
+									curPosition, 1) + "B)           ");
+				}
+				else {
+					System.out.print("\rProcessed "
+							+ messageCount
+							+ " msgs, "
+							+ LSF2LLFGui.parseToEngineeringRadix2Notation(
+									curPosition, 1) + "B           ");
+				}
 			}
 		});
 
@@ -366,7 +306,6 @@ public class LSF2LLF {
 			}
 
 			if (new File(data_lsf.getParentFile(), "IMC.xml").canRead()) {
-				System.out.println("1");
 				System.out.println("Loading IMC definitions in "
 						+ new File(data_lsf.getParentFile(), "IMC.xml")
 								.getCanonicalPath());
@@ -374,13 +313,11 @@ public class LSF2LLF {
 						new FileInputStream(new File(data_lsf.getParentFile(),
 								"IMC.xml")), data_lsf);
 			} else if (new File(data_lsf.getParent(), "IMC.xml.gz").canRead()) {
-				System.out.println("2");
 				InputStream is = new MultiMemberGZIPInputStream(
 						new FileInputStream(new File(data_lsf.getParent(),
 								"IMC.xml.gz")));
 				converter.convert(IMCDefinition.getInstance(is), data_lsf);
 			} else {
-				System.out.println("3");
 				converter.convert(IMCDefinition.getInstance(), data_lsf);
 			}
 
