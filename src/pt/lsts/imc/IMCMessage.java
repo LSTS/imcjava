@@ -299,6 +299,16 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	}
 
 	/**
+	 * Returns all the values in this message. The returned map may not be
+	 * modified, otherwise a {@link UnsupportedOperationException} will be
+	 * thrown
+	 * @return All the values in this message
+	 */
+	public Map<String, Object> getValues() {
+		return Collections.unmodifiableMap(this.values);
+	}
+
+	/**
 	 * Change the type of the message. Bear in mind that values are preserved
 	 * but may not match the new type's fields
 	 * 
