@@ -50,7 +50,7 @@ public class ImcStringDefs {
 		sb.append("          xsi:noNamespaceSchemaLocation=\"IMC.xsd\"\n");
 		sb.append("          name=\"IMC\"\n");
 		sb.append("          long-name=\"Inter Module Communication\"\n");
-		sb.append("          version=\"5.3.0\">\n");
+		sb.append("          version=\"5.4.x\">\n");
 		sb.append("\n");
 		sb.append("  <description>\n");
 		sb.append("    This document describes the communications protocol associated\n");
@@ -378,7 +378,7 @@ public class ImcStringDefs {
 		sb.append("      supplemental fields, it is always placed at the beginning of a\n");
 		sb.append("      packet.\n");
 		sb.append("    </description>\n");
-		sb.append("    <field name=\"Synchronization Number\" abbrev=\"sync\" type=\"uint16_t\" value=\"0xFE53\" fixed=\"true\">\n");
+		sb.append("    <field name=\"Synchronization Number\" abbrev=\"sync\" type=\"uint16_t\" value=\"0xFE54\" fixed=\"true\">\n");
 		sb.append("      <description>\n");
 		sb.append("        The synchronization number marks the beginning of a packet.\n");
 		sb.append("\n");
