@@ -1,7 +1,7 @@
 <project name="IMCJava" default="dist">
   
   <property name="test-dir" location="src-junit" />
-  <property name="version" value="5.3" />
+  <property file="imc.properties"/>
   
   <path id="classpath.base">
   </path>
