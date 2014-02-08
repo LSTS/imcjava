@@ -310,6 +310,8 @@ public class IMCUtil {
         Random rnd = new Random(System.currentTimeMillis());
         
         for (String field : msg.getMessageType().getFieldNames()) {
+        	if(rnd.nextInt(100) < 10)
+        		continue;
             switch (msg.getMessageType().getFieldType(field)) {
                 case TYPE_FP32:
                     msg.setValue(field, rnd.nextFloat() * 3-1.5);

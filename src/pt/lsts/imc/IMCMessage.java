@@ -1436,7 +1436,8 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 					sb.append("\n" + msg.asXml(true));
 				break;
 			case TYPE_RAWDATA:
-				sb.append(Base64.encode(getRawData(fieldName)));
+				if (getRawData(fieldName) != null) 
+					sb.append(Base64.encode(getRawData(fieldName)));
 				break;
 			case TYPE_MESSAGELIST:
 				sb.append("\n");
