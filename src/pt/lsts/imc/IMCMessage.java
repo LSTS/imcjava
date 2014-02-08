@@ -1547,7 +1547,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 					msg.setValue(field, el.getTextContent());
 					break;
 				case TYPE_RAWDATA:
-					msg.setValue(field, Base64.decode(el.getTextContent()));
+					msg.setValue(field, Base64.decode(el.getTextContent().replaceAll("\n", "")));
 					break;
 				case TYPE_MESSAGE:
 					NodeList inner = el.getChildNodes();
