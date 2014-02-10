@@ -510,6 +510,16 @@ public class MessageFactory {
 				return new AbortAcked(defs);
 			case FormCtrlParam.ID_STATIC:
 				return new FormCtrlParam(defs);
+			case DeviceUpdates.ID_STATIC:
+				return new DeviceUpdates(defs);
+			case DeviceUpdate.ID_STATIC:
+				return new DeviceUpdate(defs);
+			case IridiumSubscription.ID_STATIC:
+				return new IridiumSubscription(defs);
+			case AssetPosition.ID_STATIC:
+				return new AssetPosition(defs);
+			case MessagePart.ID_STATIC:
+				return new MessagePart(defs);
 			default:
 				return new IMCMessage(defs);
 		}
