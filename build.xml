@@ -27,6 +27,7 @@
       <test name="pt.lsts.imc.junit.MessageCreationTest" />
       <test name="pt.lsts.imc.junit.SerializationTest" />
       <test name="pt.lsts.imc.junit.ImcSynchTest" />
+      <test name="pt.lsts.imc.junit.ImcFragmentsTest" />
     </junit>
   </target>
   

@@ -806,7 +806,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
         else 
             throw new IOException("Unrecognized Sync word: "+String.format("%02X", sync));
 
-        header.setValue("sync", sync);
+        header.setValue("sync", syncWord);
 
         deserializeAllFieldsBut(header, input, "sync");         
         int msgid = header.getInteger("mgid");
