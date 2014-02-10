@@ -299,6 +299,16 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	}
 
 	/**
+	 * Returns all the values in this message. The returned map may not be
+	 * modified, otherwise a {@link UnsupportedOperationException} will be
+	 * thrown
+	 * @return All the values in this message
+	 */
+	public Map<String, Object> getValues() {
+		return Collections.unmodifiableMap(this.values);
+	}
+
+	/**
 	 * Change the type of the message. Bear in mind that values are preserved
 	 * but may not match the new type's fields
 	 * 
@@ -1426,7 +1436,8 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 					sb.append("\n" + msg.asXml(true));
 				break;
 			case TYPE_RAWDATA:
-				sb.append(Base64.encode(getRawData(fieldName)));
+				if (getRawData(fieldName) != null) 
+					sb.append(Base64.encode(getRawData(fieldName)));
 				break;
 			case TYPE_MESSAGELIST:
 				sb.append("\n");
@@ -1537,7 +1548,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 					msg.setValue(field, el.getTextContent());
 					break;
 				case TYPE_RAWDATA:
-					msg.setValue(field, Base64.decode(el.getTextContent()));
+					msg.setValue(field, Base64.decode(el.getTextContent().replaceAll("\n", "")));
 					break;
 				case TYPE_MESSAGE:
 					NodeList inner = el.getChildNodes();

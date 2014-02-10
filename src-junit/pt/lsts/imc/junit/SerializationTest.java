@@ -54,8 +54,6 @@ public class SerializationTest {
         }
     }
     
-   
-    
     @Test
     public void testLsfSerialization() throws Exception {
         IMCDefinition defs = IMCDefinition.getInstance();
@@ -79,23 +77,24 @@ public class SerializationTest {
         new SerializationTest().testLsfSerialization();
     }
     
-//    @Test
-//    public void testXmlSerialization() throws Exception {
-//        IMCDefinition defs = IMCDefinition.getInstance();
-//        
-//        for (String abbrev: defs.getMessageNames()) {
-//            IMCMessage m = defs.create(abbrev);
-//            fillWithRandomData(m);
-//            String xml = m.asXml(false);
-//            try {
-//                IMCMessage unser = IMCMessage.parseXml(xml);
-//                Assert.assertEquals(xml, unser.asXml(false));
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            
-//            
-//        }
-//    }
+    @Test
+    public void testXmlSerialization() throws Exception {
+        IMCDefinition defs = IMCDefinition.getInstance();
+        
+        for (String abbrev: defs.getMessageNames()) {
+            IMCMessage m = defs.create(abbrev);
+            IMCUtil.fillWithRandomData(m);
+            String xml = m.asXml(false);
+            try {
+                IMCMessage unser = IMCMessage.parseXml(xml);
+                Assert.assertEquals(xml, unser.asXml(false));
+                
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            
+        }
+    }
 }
