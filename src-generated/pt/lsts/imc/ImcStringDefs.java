@@ -942,6 +942,10 @@ public class ImcStringDefs {
 		sb.append("      </description>\n");
 		sb.append("    </field>\n");
 		sb.append("  </message>\n");
+		sb.append("  \n");
+		sb.append("  <message id=\"20\" name=\"Message List\" abbrev=\"MessageList\" >\n");
+		sb.append("  \t<field name=\"Messages\" abbrev=\"msgs\" type=\"message-list\"/>\n");
+		sb.append("  </message>\n");
 		sb.append("\n");
 		sb.append("  <!-- Simulation -->\n");
 		sb.append("  <message id=\"50\" name=\"Simulated State\" abbrev=\"SimulatedState\" source=\"vehicle\">\n");
@@ -2570,6 +2574,11 @@ public class ImcStringDefs {
 		sb.append("    <field name=\"Speed\" abbrev=\"speed\" type=\"fp32_t\" unit=\"m/s\">\n");
 		sb.append("      <description>\n");
 		sb.append("        The value of the wind speed as measured by the sensor.\n");
+		sb.append("      </description>\n");
+		sb.append("    </field>\n");
+		sb.append("    <field name=\"Turbulence\" abbrev=\"turbulence\" type=\"fp32_t\" unit=\"m/s\">\n");
+		sb.append("      <description>\n");
+		sb.append("        Wind turbulence intensity.\n");
 		sb.append("      </description>\n");
 		sb.append("    </field>\n");
 		sb.append("  </message>\n");

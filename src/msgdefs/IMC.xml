@@ -902,6 +902,10 @@
       </description>
     </field>
   </message>
+  
+  <message id="20" name="Message List" abbrev="MessageList" >
+  	<field name="Messages" abbrev="msgs" type="message-list"/>
+  </message>
 
   <!-- Simulation -->
   <message id="50" name="Simulated State" abbrev="SimulatedState" source="vehicle">
@@ -2530,6 +2534,11 @@
     <field name="Speed" abbrev="speed" type="fp32_t" unit="m/s">
       <description>
         The value of the wind speed as measured by the sensor.
+      </description>
+    </field>
+    <field name="Turbulence" abbrev="turbulence" type="fp32_t" unit="m/s">
+      <description>
+        Wind turbulence intensity.
       </description>
     </field>
   </message>

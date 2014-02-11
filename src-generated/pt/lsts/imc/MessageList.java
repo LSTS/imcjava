@@ -33,32 +33,31 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Wind Speed (271)<br/>
- *  Measurement of wind speed.<br/>
+ *  IMC Message Message List (20)<br/>
  */
 
-public class WindSpeed extends IMCMessage {
+public class MessageList extends IMCMessage {
 
-	public static final int ID_STATIC = 271;
+	public static final int ID_STATIC = 20;
 
-	public WindSpeed() {
+	public MessageList() {
 		super(ID_STATIC);
 	}
 
-	public WindSpeed(IMCDefinition defs) {
+	public MessageList(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static WindSpeed create(Object... values) {
-		WindSpeed m = new WindSpeed();
+	public static MessageList create(Object... values) {
+		MessageList m = new MessageList();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static WindSpeed clone(IMCMessage msg) throws Exception {
+	public static MessageList clone(IMCMessage msg) throws Exception {
 
-		WindSpeed m = new WindSpeed();
+		MessageList m = new MessageList();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -73,53 +72,24 @@ public class WindSpeed extends IMCMessage {
 		return m;
 	}
 
-	public WindSpeed(float direction, float speed, float turbulence) {
+	public MessageList(java.util.Collection<IMCMessage> msgs) {
 		super(ID_STATIC);
-		setDirection(direction);
-		setSpeed(speed);
-		setTurbulence(turbulence);
+		if (msgs != null)
+			setMsgs(msgs);
 	}
 
 	/**
-	 *  @return Direction (rad) - fp32_t
+	 *  @return Messages - message-list
 	 */
-	public double getDirection() {
-		return getDouble("direction");
+	public java.util.Vector<IMCMessage> getMsgs() {
+		return getMessageList("msgs");
 	}
 
 	/**
-	 *  @return Speed (m/s) - fp32_t
+	 *  @param msgs Messages
 	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  @return Turbulence (m/s) - fp32_t
-	 */
-	public double getTurbulence() {
-		return getDouble("turbulence");
-	}
-
-	/**
-	 *  @param direction Direction (rad)
-	 */
-	public void setDirection(double direction) {
-		values.put("direction", direction);
-	}
-
-	/**
-	 *  @param speed Speed (m/s)
-	 */
-	public void setSpeed(double speed) {
-		values.put("speed", speed);
-	}
-
-	/**
-	 *  @param turbulence Turbulence (m/s)
-	 */
-	public void setTurbulence(double turbulence) {
-		values.put("turbulence", turbulence);
+	public void setMsgs(java.util.Collection<IMCMessage> msgs) {
+		values.put("msgs", msgs);
 	}
 
 }
