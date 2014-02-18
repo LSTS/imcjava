@@ -104,7 +104,7 @@ public class PlanSpecificationAdapter implements IMessageAdapter {
                 }
                 maneuvers.put(manId, m.getMessage("data"));
                 Vector<IMCMessage> startActions = m.getMessageList("start_actions");
-                Vector<IMCMessage> endActions = m.getMessageList("start_actions");
+                Vector<IMCMessage> endActions = m.getMessageList("end_actions");
                 if (startActions != null && !startActions.isEmpty())
                     maneuverStartActions.put(manId, startActions);
                 if (endActions != null && !endActions.isEmpty())
@@ -123,7 +123,7 @@ public class PlanSpecificationAdapter implements IMessageAdapter {
                 IMCMessage m = (IMCMessage) ob;
                 String manId = m.getString("maneuver_id");
                 Vector<IMCMessage> startActions = m.getMessageList("start_actions");
-                Vector<IMCMessage> endActions = m.getMessageList("start_actions");
+                Vector<IMCMessage> endActions = m.getMessageList("end_actions");
                 if (startActions != null && !startActions.isEmpty())
                     maneuverStartActions.put(manId, startActions);
                 if (endActions != null && !endActions.isEmpty())
