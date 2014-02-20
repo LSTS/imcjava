@@ -270,6 +270,10 @@ public class MessageFactory {
 				return new QueryLedBrightness(defs);
 			case SetLedBrightness.ID_STATIC:
 				return new SetLedBrightness(defs);
+			case SetPWM.ID_STATIC:
+				return new SetPWM(defs);
+			case PWM.ID_STATIC:
+				return new PWM(defs);
 			case EstimatedState.ID_STATIC:
 				return new EstimatedState(defs);
 			case EstimatedStreamVelocity.ID_STATIC:
