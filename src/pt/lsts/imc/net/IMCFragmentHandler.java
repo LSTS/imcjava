@@ -53,7 +53,12 @@ public class IMCFragmentHandler {
 
 	private static int uid = (int) (Math.random() * 255);
 	private LinkedHashMap<Integer, Vector<MessagePart>> incoming = new LinkedHashMap<Integer, Vector<MessagePart>>();
-
+	private IMCDefinition definitions;		
+	
+	public IMCFragmentHandler(IMCDefinition definitions) {
+		this.definitions = definitions;
+		
+	}
 	/**
 	 * Add an incoming fragment
 	 * 
@@ -107,7 +112,7 @@ public class IMCFragmentHandler {
 			pos += p.getData().length;
 		}
 
-		return IMCDefinition.getInstance().nextMessage(
+		return definitions.nextMessage(
 				new ByteArrayInputStream(res));
 	}
 
@@ -122,7 +127,7 @@ public class IMCFragmentHandler {
 			throws Exception {
 		int id = uid = (uid + 1) % 255;
 		int dataFragLength = maxFragLength
-				- IMCDefinition.getInstance().headerLength() - 5;
+				- definitions.headerLength() - 5;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		message.serialize(new IMCOutputStream(baos));
 		byte[] data = baos.toByteArray();

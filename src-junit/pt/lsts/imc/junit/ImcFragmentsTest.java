@@ -17,7 +17,7 @@ public class ImcFragmentsTest {
 	 	@Test
 	    public void test() throws Exception {
 	 		IMCDefinition defs = IMCDefinition.getInstance();
-	 		IMCFragmentHandler handler = new IMCFragmentHandler();
+	 		IMCFragmentHandler handler = new IMCFragmentHandler(IMCDefinition.getInstance());
 	 		
 	        for (String abbrev: defs.getMessageNames()) {
 	            IMCMessage m = defs.create(abbrev);
