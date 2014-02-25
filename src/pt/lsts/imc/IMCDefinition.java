@@ -1121,44 +1121,46 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		return 0;
 	}
 
-	public void dumpPayload(IMCMessage message, int numTabs) throws IOException {
+	public String dumpPayload(IMCMessage message, int numTabs) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		IMCOutputStream ios = new IMCOutputStream(baos);
 		LinkedHashMap<String, Integer> fieldSizes = new LinkedHashMap<String, Integer>();
-
+		StringBuilder sb = new StringBuilder();
+		
 		for (String field : message.getMessageType().getFieldNames()) {
 			fieldSizes.put(field, serialize(message.getValue(field), message.getMessageType().getFieldType(field),ios));
 		}
-
+	
 		int pos = 0;
 		byte[] data = baos.toByteArray();
-		System.out.println("Message "+message.getAbbrev()+":");
+		sb.append("Message "+message.getAbbrev()+":\n");
 		for (String key : fieldSizes.keySet()) {
 			for (int i = 0; i < numTabs; i++)    
-				System.out.print("\t");
+				sb.append("\t");
 			if (message.getTypeOf(key).equals("message")) {
-				dumpPayload(message.getMessage(key), numTabs+1);
+				sb.append(dumpPayload(message.getMessage(key), numTabs+1));
 			}
 			else if (message.getTypeOf(key).equals("message-list")) {
-				System.out.println(key+": [");
+				sb.append(key+": [");
 				
 				for (IMCMessage m : message.getMessageList(key)) {
 					for (int i = 0; i < numTabs; i++)    
-						System.out.print("\t");
-					dumpPayload(m, numTabs+1);
+						sb.append("\t");
+					sb.append(dumpPayload(m, numTabs+1));
 				}
 				for (int i = 0; i < numTabs; i++)    
-					System.out.print("\t");
-				System.out.println("]");
+					sb.append("\t");
+				sb.append("]\n");
 			}
-			else {    						
-				System.out.printf("%s: %s (", key, message.getString(key));
+			else {    			
+				sb.append(String.format("%s: %s (", key, message.getString(key)));
 				for (int i = 0; i < fieldSizes.get(key); i++) {
-					System.out.printf("%02X ", data[pos++]);
+					sb.append(String.format("%02X ", data[pos++]));
 				}
-				System.out.println(")");
+				sb.append(")\n");
 			}
 		}
+		return sb.toString();
 	}
 
 	public int serializeFields(IMCMessage message, IMCOutputStream out) throws IOException {
