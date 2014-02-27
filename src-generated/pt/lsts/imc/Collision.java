@@ -50,6 +50,16 @@ public class Collision extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Collision(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Collision(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -102,15 +112,17 @@ public class Collision extends IMCMessage {
 	/**
 	 *  @param value Collision value (m/s/s)
 	 */
-	public void setValue(double value) {
+	public Collision setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (bitfield)
 	 */
-	public void setType(short type) {
+	public Collision setType(short type) {
 		values.put("type", type);
+		return this;
 	}
 
 }

@@ -114,6 +114,16 @@ public class Loiter extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public Loiter(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Loiter(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -290,160 +300,183 @@ public class Loiter extends Maneuver {
 	/**
 	 *  @param timeout Timeout (s)
 	 */
-	public void setTimeout(int timeout) {
+	public Loiter setTimeout(int timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public Loiter setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public Loiter setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param z Z Reference (m)
 	 */
-	public void setZ(double z) {
+	public Loiter setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public void setZUnits(Z_UNITS z_units) {
+	public Loiter setZUnits(Z_UNITS z_units) {
 		values.put("z_units", z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public void setZUnits(String z_units) {
+	public Loiter setZUnits(String z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public void setZUnits(short z_units) {
+	public Loiter setZUnits(short z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param duration Duration (s)
 	 */
-	public void setDuration(int duration) {
+	public Loiter setDuration(int duration) {
 		values.put("duration", duration);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed
 	 */
-	public void setSpeed(double speed) {
+	public Loiter setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public Loiter setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public Loiter setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public Loiter setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param type Loiter Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public Loiter setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Loiter Type (as a String)
 	 */
-	public void setType(String type) {
+	public Loiter setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Loiter Type (integer value)
 	 */
-	public void setType(short type) {
+	public Loiter setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param radius Radius (m)
 	 */
-	public void setRadius(double radius) {
+	public Loiter setRadius(double radius) {
 		values.put("radius", radius);
+		return this;
 	}
 
 	/**
 	 *  @param length Length (m)
 	 */
-	public void setLength(double length) {
+	public Loiter setLength(double length) {
 		values.put("length", length);
+		return this;
 	}
 
 	/**
 	 *  @param bearing Bearing (rad)
 	 */
-	public void setBearing(double bearing) {
+	public Loiter setBearing(double bearing) {
 		values.put("bearing", bearing);
+		return this;
 	}
 
 	/**
 	 *  @param direction Direction (enumerated)
 	 */
-	public void setDirection(DIRECTION direction) {
+	public Loiter setDirection(DIRECTION direction) {
 		values.put("direction", direction.value());
+		return this;
 	}
 
 	/**
 	 *  @param direction Direction (as a String)
 	 */
-	public void setDirection(String direction) {
+	public Loiter setDirection(String direction) {
 		setValue("direction", direction);
+		return this;
 	}
 
 	/**
 	 *  @param direction Direction (integer value)
 	 */
-	public void setDirection(short direction) {
+	public Loiter setDirection(short direction) {
 		setValue("direction", direction);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public Loiter setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public Loiter setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

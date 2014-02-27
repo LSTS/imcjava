@@ -62,6 +62,16 @@ public class SonarData extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SonarData(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SonarData(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -176,71 +186,81 @@ public class SonarData extends IMCMessage {
 	/**
 	 *  @param type Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public SonarData setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public void setType(String type) {
+	public SonarData setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public void setType(short type) {
+	public SonarData setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param frequency Frequency (hz)
 	 */
-	public void setFrequency(long frequency) {
+	public SonarData setFrequency(long frequency) {
 		values.put("frequency", frequency);
+		return this;
 	}
 
 	/**
 	 *  @param min_range Minimum Range (m)
 	 */
-	public void setMinRange(int min_range) {
+	public SonarData setMinRange(int min_range) {
 		values.put("min_range", min_range);
+		return this;
 	}
 
 	/**
 	 *  @param max_range Maximum Range (m)
 	 */
-	public void setMaxRange(int max_range) {
+	public SonarData setMaxRange(int max_range) {
 		values.put("max_range", max_range);
+		return this;
 	}
 
 	/**
 	 *  @param bits_per_point Bits Per Data Point (bit)
 	 */
-	public void setBitsPerPoint(short bits_per_point) {
+	public SonarData setBitsPerPoint(short bits_per_point) {
 		values.put("bits_per_point", bits_per_point);
+		return this;
 	}
 
 	/**
 	 *  @param scale_factor Scaling Factor
 	 */
-	public void setScaleFactor(double scale_factor) {
+	public SonarData setScaleFactor(double scale_factor) {
 		values.put("scale_factor", scale_factor);
+		return this;
 	}
 
 	/**
 	 *  @param beam_config Beam Configuration
 	 */
-	public void setBeamConfig(java.util.Collection<BeamConfig> beam_config) {
+	public SonarData setBeamConfig(java.util.Collection<BeamConfig> beam_config) {
 		values.put("beam_config", beam_config);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public SonarData setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

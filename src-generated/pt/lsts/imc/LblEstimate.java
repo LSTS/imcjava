@@ -45,6 +45,16 @@ public class LblEstimate extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LblEstimate(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LblEstimate(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -139,43 +149,49 @@ public class LblEstimate extends IMCMessage {
 	/**
 	 *  @param beacon LBL Beacon Configuration
 	 */
-	public void setBeacon(LblBeacon beacon) {
+	public LblEstimate setBeacon(LblBeacon beacon) {
 		values.put("beacon", beacon);
+		return this;
 	}
 
 	/**
 	 *  @param x North position (m)
 	 */
-	public void setX(double x) {
+	public LblEstimate setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y East position (m)
 	 */
-	public void setY(double y) {
+	public LblEstimate setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param var_x North position variance (m)
 	 */
-	public void setVarX(double var_x) {
+	public LblEstimate setVarX(double var_x) {
 		values.put("var_x", var_x);
+		return this;
 	}
 
 	/**
 	 *  @param var_y East position variance (m)
 	 */
-	public void setVarY(double var_y) {
+	public LblEstimate setVarY(double var_y) {
 		values.put("var_y", var_y);
+		return this;
 	}
 
 	/**
 	 *  @param distance Distance (m)
 	 */
-	public void setDistance(double distance) {
+	public LblEstimate setDistance(double distance) {
 		values.put("distance", distance);
+		return this;
 	}
 
 }

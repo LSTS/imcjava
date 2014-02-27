@@ -81,6 +81,16 @@ public class Rows extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public Rows(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Rows(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -260,146 +270,167 @@ public class Rows extends Maneuver {
 	/**
 	 *  @param timeout Timeout (s)
 	 */
-	public void setTimeout(int timeout) {
+	public Rows setTimeout(int timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public Rows setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public Rows setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param z Z Reference (m)
 	 */
-	public void setZ(double z) {
+	public Rows setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public void setZUnits(Z_UNITS z_units) {
+	public Rows setZUnits(Z_UNITS z_units) {
 		values.put("z_units", z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public void setZUnits(String z_units) {
+	public Rows setZUnits(String z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public void setZUnits(short z_units) {
+	public Rows setZUnits(short z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed
 	 */
-	public void setSpeed(double speed) {
+	public Rows setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public Rows setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public Rows setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public Rows setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param bearing Bearing (rad)
 	 */
-	public void setBearing(double bearing) {
+	public Rows setBearing(double bearing) {
 		values.put("bearing", bearing);
+		return this;
 	}
 
 	/**
 	 *  @param cross_angle Cross Angle (rad)
 	 */
-	public void setCrossAngle(double cross_angle) {
+	public Rows setCrossAngle(double cross_angle) {
 		values.put("cross_angle", cross_angle);
+		return this;
 	}
 
 	/**
 	 *  @param width Width (m)
 	 */
-	public void setWidth(double width) {
+	public Rows setWidth(double width) {
 		values.put("width", width);
+		return this;
 	}
 
 	/**
 	 *  @param length Length (m)
 	 */
-	public void setLength(double length) {
+	public Rows setLength(double length) {
 		values.put("length", length);
+		return this;
 	}
 
 	/**
 	 *  @param hstep Horizontal Step (m)
 	 */
-	public void setHstep(double hstep) {
+	public Rows setHstep(double hstep) {
 		values.put("hstep", hstep);
+		return this;
 	}
 
 	/**
 	 *  @param coff Curve Offset (m)
 	 */
-	public void setCoff(short coff) {
+	public Rows setCoff(short coff) {
 		values.put("coff", coff);
+		return this;
 	}
 
 	/**
 	 *  @param alternation Alternation Parameter (%)
 	 */
-	public void setAlternation(short alternation) {
+	public Rows setAlternation(short alternation) {
 		values.put("alternation", alternation);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public Rows setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public Rows setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public Rows setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

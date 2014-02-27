@@ -49,6 +49,16 @@ public class PlanTransition extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PlanTransition(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PlanTransition(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -120,29 +130,33 @@ public class PlanTransition extends IMCMessage {
 	/**
 	 *  @param source_man Source
 	 */
-	public void setSourceMan(String source_man) {
+	public PlanTransition setSourceMan(String source_man) {
 		values.put("source_man", source_man);
+		return this;
 	}
 
 	/**
 	 *  @param dest_man Destination Maneuver Name
 	 */
-	public void setDestMan(String dest_man) {
+	public PlanTransition setDestMan(String dest_man) {
 		values.put("dest_man", dest_man);
+		return this;
 	}
 
 	/**
 	 *  @param conditions Transition conditions
 	 */
-	public void setConditions(String conditions) {
+	public PlanTransition setConditions(String conditions) {
 		values.put("conditions", conditions);
+		return this;
 	}
 
 	/**
 	 *  @param actions Transition actions
 	 */
-	public void setActions(java.util.Collection<IMCMessage> actions) {
+	public PlanTransition setActions(java.util.Collection<IMCMessage> actions) {
 		values.put("actions", actions);
+		return this;
 	}
 
 }

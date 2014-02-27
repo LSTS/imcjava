@@ -46,6 +46,16 @@ public class EstimatedStreamVelocity extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EstimatedStreamVelocity(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EstimatedStreamVelocity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -105,22 +115,25 @@ public class EstimatedStreamVelocity extends IMCMessage {
 	/**
 	 *  @param x X component (North) (m/s)
 	 */
-	public void setX(double x) {
+	public EstimatedStreamVelocity setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Y component (East) (m/s)
 	 */
-	public void setY(double y) {
+	public EstimatedStreamVelocity setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Z component (Down) (m/s)
 	 */
-	public void setZ(double z) {
+	public EstimatedStreamVelocity setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 }

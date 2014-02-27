@@ -45,6 +45,16 @@ public class TrueSpeed extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TrueSpeed(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TrueSpeed(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class TrueSpeed extends IMCMessage {
 	/**
 	 *  @param value Estimated value (m/s)
 	 */
-	public void setValue(double value) {
+	public TrueSpeed setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

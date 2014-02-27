@@ -45,6 +45,16 @@ public class GetOperationalLimits extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public GetOperationalLimits(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public GetOperationalLimits(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

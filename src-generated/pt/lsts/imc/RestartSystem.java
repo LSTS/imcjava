@@ -45,6 +45,16 @@ public class RestartSystem extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public RestartSystem(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public RestartSystem(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

@@ -44,6 +44,16 @@ public class SaveEntityParameters extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SaveEntityParameters(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SaveEntityParameters(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class SaveEntityParameters extends IMCMessage {
 	/**
 	 *  @param name Entity Name
 	 */
-	public void setName(String name) {
+	public SaveEntityParameters setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 }

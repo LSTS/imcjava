@@ -45,6 +45,16 @@ public class WaterDensity extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public WaterDensity(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public WaterDensity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class WaterDensity extends IMCMessage {
 	/**
 	 *  @param value Computed Water Density (kg/m/m/m)
 	 */
-	public void setValue(double value) {
+	public WaterDensity setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

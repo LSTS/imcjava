@@ -45,6 +45,16 @@ public class Sms extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Sms(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Sms(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -106,22 +116,25 @@ public class Sms extends IMCMessage {
 	/**
 	 *  @param number Number
 	 */
-	public void setNumber(String number) {
+	public Sms setNumber(String number) {
 		values.put("number", number);
+		return this;
 	}
 
 	/**
 	 *  @param timeout Timeout
 	 */
-	public void setTimeout(int timeout) {
+	public Sms setTimeout(int timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
 	 *  @param contents Contents
 	 */
-	public void setContents(String contents) {
+	public Sms setContents(String contents) {
 		values.put("contents", contents);
+		return this;
 	}
 
 }

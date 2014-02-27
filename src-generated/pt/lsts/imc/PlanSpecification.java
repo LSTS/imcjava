@@ -51,6 +51,16 @@ public class PlanSpecification extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PlanSpecification(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PlanSpecification(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -185,64 +195,73 @@ public class PlanSpecification extends IMCMessage {
 	/**
 	 *  @param plan_id Plan ID
 	 */
-	public void setPlanId(String plan_id) {
+	public PlanSpecification setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
+		return this;
 	}
 
 	/**
 	 *  @param description Plan Description
 	 */
-	public void setDescription(String description) {
+	public PlanSpecification setDescription(String description) {
 		values.put("description", description);
+		return this;
 	}
 
 	/**
 	 *  @param vnamespace Namespace
 	 */
-	public void setVnamespace(String vnamespace) {
+	public PlanSpecification setVnamespace(String vnamespace) {
 		values.put("vnamespace", vnamespace);
+		return this;
 	}
 
 	/**
 	 *  @param variables Plan Variables
 	 */
-	public void setVariables(java.util.Collection<PlanVariable> variables) {
+	public PlanSpecification setVariables(java.util.Collection<PlanVariable> variables) {
 		values.put("variables", variables);
+		return this;
 	}
 
 	/**
 	 *  @param start_man_id Starting maneuver
 	 */
-	public void setStartManId(String start_man_id) {
+	public PlanSpecification setStartManId(String start_man_id) {
 		values.put("start_man_id", start_man_id);
+		return this;
 	}
 
 	/**
 	 *  @param maneuvers Maneuvers
 	 */
-	public void setManeuvers(java.util.Collection<PlanManeuver> maneuvers) {
+	public PlanSpecification setManeuvers(java.util.Collection<PlanManeuver> maneuvers) {
 		values.put("maneuvers", maneuvers);
+		return this;
 	}
 
 	/**
 	 *  @param transitions Transitions
 	 */
-	public void setTransitions(java.util.Collection<PlanTransition> transitions) {
+	public PlanSpecification setTransitions(java.util.Collection<PlanTransition> transitions) {
 		values.put("transitions", transitions);
+		return this;
 	}
 
 	/**
 	 *  @param start_actions Start Actions
 	 */
-	public void setStartActions(java.util.Collection<IMCMessage> start_actions) {
+	public PlanSpecification setStartActions(java.util.Collection<IMCMessage> start_actions) {
 		values.put("start_actions", start_actions);
+		return this;
 	}
 
 	/**
 	 *  @param end_actions End Actions
 	 */
-	public void setEndActions(java.util.Collection<IMCMessage> end_actions) {
+	public PlanSpecification setEndActions(java.util.Collection<IMCMessage> end_actions) {
 		values.put("end_actions", end_actions);
+		return this;
 	}
 
 }

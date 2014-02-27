@@ -45,6 +45,16 @@ public class Parameter extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Parameter(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Parameter(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -107,22 +117,25 @@ public class Parameter extends IMCMessage {
 	/**
 	 *  @param section Section Name
 	 */
-	public void setSection(String section) {
+	public Parameter setSection(String section) {
 		values.put("section", section);
+		return this;
 	}
 
 	/**
 	 *  @param param Parameter Name
 	 */
-	public void setParam(String param) {
+	public Parameter setParam(String param) {
 		values.put("param", param);
+		return this;
 	}
 
 	/**
 	 *  @param value Value
 	 */
-	public void setValue(String value) {
+	public Parameter setValue(String value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

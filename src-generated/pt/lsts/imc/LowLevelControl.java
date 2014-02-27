@@ -47,6 +47,16 @@ public class LowLevelControl extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public LowLevelControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LowLevelControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -118,27 +128,31 @@ public class LowLevelControl extends Maneuver {
 	/**
 	 *  @param control Control
 	 */
-	public void setControl(ControlCommand control) {
+	public LowLevelControl setControl(ControlCommand control) {
 		values.put("control", control);
+		return this;
 	}
 
 	/**
 	 *  @param duration Duration (s)
 	 */
-	public void setDuration(int duration) {
+	public LowLevelControl setDuration(int duration) {
 		values.put("duration", duration);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public LowLevelControl setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public LowLevelControl setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

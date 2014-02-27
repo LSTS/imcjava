@@ -77,6 +77,16 @@ public class PlanGeneration extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PlanGeneration(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PlanGeneration(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -158,62 +168,71 @@ public class PlanGeneration extends IMCMessage {
 	/**
 	 *  @param cmd Command (enumerated)
 	 */
-	public void setCmd(CMD cmd) {
+	public PlanGeneration setCmd(CMD cmd) {
 		values.put("cmd", cmd.value());
+		return this;
 	}
 
 	/**
 	 *  @param cmd Command (as a String)
 	 */
-	public void setCmd(String cmd) {
+	public PlanGeneration setCmd(String cmd) {
 		setValue("cmd", cmd);
+		return this;
 	}
 
 	/**
 	 *  @param cmd Command (integer value)
 	 */
-	public void setCmd(short cmd) {
+	public PlanGeneration setCmd(short cmd) {
 		setValue("cmd", cmd);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public PlanGeneration setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public PlanGeneration setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public PlanGeneration setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param plan_id Plan Identifier
 	 */
-	public void setPlanId(String plan_id) {
+	public PlanGeneration setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
+		return this;
 	}
 
 	/**
 	 *  @param params Parameters (tuplelist)
 	 */
-	public void setParams(java.util.LinkedHashMap<String, ?> params) {
+	public PlanGeneration setParams(java.util.LinkedHashMap<String, ?> params) {
 		String val = encodeTupleList(params);
 		values.put("params", val);
+		return this;
 	}
 
-	public void setParams(String params) {
+	public PlanGeneration setParams(String params) {
 		values.put("params", params);
+		return this;
 	}
 
 }

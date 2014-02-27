@@ -45,6 +45,16 @@ public class CloseSession extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public CloseSession(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public CloseSession(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class CloseSession extends IMCMessage {
 	/**
 	 *  @param sessid Session Identifier
 	 */
-	public void setSessid(long sessid) {
+	public CloseSession setSessid(long sessid) {
 		values.put("sessid", sessid);
+		return this;
 	}
 
 }

@@ -46,6 +46,16 @@ public class QueryEntityState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public QueryEntityState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public QueryEntityState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

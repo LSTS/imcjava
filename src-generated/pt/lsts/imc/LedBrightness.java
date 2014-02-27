@@ -45,6 +45,16 @@ public class LedBrightness extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LedBrightness(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LedBrightness(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -97,15 +107,17 @@ public class LedBrightness extends IMCMessage {
 	/**
 	 *  @param name Name
 	 */
-	public void setName(String name) {
+	public LedBrightness setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 	/**
 	 *  @param value Value
 	 */
-	public void setValue(short value) {
+	public LedBrightness setValue(short value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

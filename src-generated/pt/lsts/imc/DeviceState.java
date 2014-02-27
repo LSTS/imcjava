@@ -45,6 +45,16 @@ public class DeviceState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DeviceState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DeviceState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -128,43 +138,49 @@ public class DeviceState extends IMCMessage {
 	/**
 	 *  @param x Device Position - X (m)
 	 */
-	public void setX(double x) {
+	public DeviceState setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Device Position - Y (m)
 	 */
-	public void setY(double y) {
+	public DeviceState setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Device Position - Z (m)
 	 */
-	public void setZ(double z) {
+	public DeviceState setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param phi Device Rotation - X (rad)
 	 */
-	public void setPhi(double phi) {
+	public DeviceState setPhi(double phi) {
 		values.put("phi", phi);
+		return this;
 	}
 
 	/**
 	 *  @param theta Device Rotation - Y (rad)
 	 */
-	public void setTheta(double theta) {
+	public DeviceState setTheta(double theta) {
 		values.put("theta", theta);
+		return this;
 	}
 
 	/**
 	 *  @param psi Device Rotation - Z (rad)
 	 */
-	public void setPsi(double psi) {
+	public DeviceState setPsi(double psi) {
 		values.put("psi", psi);
+		return this;
 	}
 
 }

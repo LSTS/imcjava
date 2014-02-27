@@ -63,6 +63,16 @@ public class ReportedState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public ReportedState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ReportedState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -178,78 +188,89 @@ public class ReportedState extends IMCMessage {
 	/**
 	 *  @param lat Latitude (rad)
 	 */
-	public void setLat(double lat) {
+	public ReportedState setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude (rad)
 	 */
-	public void setLon(double lon) {
+	public ReportedState setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param depth Depth (m)
 	 */
-	public void setDepth(double depth) {
+	public ReportedState setDepth(double depth) {
 		values.put("depth", depth);
+		return this;
 	}
 
 	/**
 	 *  @param roll Roll (rad)
 	 */
-	public void setRoll(double roll) {
+	public ReportedState setRoll(double roll) {
 		values.put("roll", roll);
+		return this;
 	}
 
 	/**
 	 *  @param pitch Pitch (rad)
 	 */
-	public void setPitch(double pitch) {
+	public ReportedState setPitch(double pitch) {
 		values.put("pitch", pitch);
+		return this;
 	}
 
 	/**
 	 *  @param yaw Yaw (rad)
 	 */
-	public void setYaw(double yaw) {
+	public ReportedState setYaw(double yaw) {
 		values.put("yaw", yaw);
+		return this;
 	}
 
 	/**
 	 *  @param rcp_time Reception Time (s)
 	 */
-	public void setRcpTime(double rcp_time) {
+	public ReportedState setRcpTime(double rcp_time) {
 		values.put("rcp_time", rcp_time);
+		return this;
 	}
 
 	/**
 	 *  @param sid System Identifier
 	 */
-	public void setSid(String sid) {
+	public ReportedState setSid(String sid) {
 		values.put("sid", sid);
+		return this;
 	}
 
 	/**
 	 *  @param s_type Source Type (enumerated)
 	 */
-	public void setSType(S_TYPE s_type) {
+	public ReportedState setSType(S_TYPE s_type) {
 		values.put("s_type", s_type.value());
+		return this;
 	}
 
 	/**
 	 *  @param s_type Source Type (as a String)
 	 */
-	public void setSType(String s_type) {
+	public ReportedState setSType(String s_type) {
 		setValue("s_type", s_type);
+		return this;
 	}
 
 	/**
 	 *  @param s_type Source Type (integer value)
 	 */
-	public void setSType(short s_type) {
+	public ReportedState setSType(short s_type) {
 		setValue("s_type", s_type);
+		return this;
 	}
 
 }

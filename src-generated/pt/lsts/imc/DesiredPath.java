@@ -122,6 +122,16 @@ public class DesiredPath extends ControlCommand {
 		super(ID_STATIC);
 	}
 
+	public DesiredPath(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DesiredPath(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -275,127 +285,145 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @param start_lat Start Point -- Latitude WGS-84 (rad)
 	 */
-	public void setStartLat(double start_lat) {
+	public DesiredPath setStartLat(double start_lat) {
 		values.put("start_lat", start_lat);
+		return this;
 	}
 
 	/**
 	 *  @param start_lon Start Point -- WGS-84 Longitude (rad)
 	 */
-	public void setStartLon(double start_lon) {
+	public DesiredPath setStartLon(double start_lon) {
 		values.put("start_lon", start_lon);
+		return this;
 	}
 
 	/**
 	 *  @param start_z Start Point -- Z Reference (m)
 	 */
-	public void setStartZ(double start_z) {
+	public DesiredPath setStartZ(double start_z) {
 		values.put("start_z", start_z);
+		return this;
 	}
 
 	/**
 	 *  @param start_z_units Start Point -- Z Units (enumerated)
 	 */
-	public void setStartZUnits(START_Z_UNITS start_z_units) {
+	public DesiredPath setStartZUnits(START_Z_UNITS start_z_units) {
 		values.put("start_z_units", start_z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param start_z_units Start Point -- Z Units (as a String)
 	 */
-	public void setStartZUnits(String start_z_units) {
+	public DesiredPath setStartZUnits(String start_z_units) {
 		setValue("start_z_units", start_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param start_z_units Start Point -- Z Units (integer value)
 	 */
-	public void setStartZUnits(short start_z_units) {
+	public DesiredPath setStartZUnits(short start_z_units) {
 		setValue("start_z_units", start_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param end_lat End Point -- WGS84 Latitude (rad)
 	 */
-	public void setEndLat(double end_lat) {
+	public DesiredPath setEndLat(double end_lat) {
 		values.put("end_lat", end_lat);
+		return this;
 	}
 
 	/**
 	 *  @param end_lon End Point -- WGS-84 Longitude (rad)
 	 */
-	public void setEndLon(double end_lon) {
+	public DesiredPath setEndLon(double end_lon) {
 		values.put("end_lon", end_lon);
+		return this;
 	}
 
 	/**
 	 *  @param end_z End Point -- Z Reference (m)
 	 */
-	public void setEndZ(double end_z) {
+	public DesiredPath setEndZ(double end_z) {
 		values.put("end_z", end_z);
+		return this;
 	}
 
 	/**
 	 *  @param end_z_units End Point -- Z Units (enumerated)
 	 */
-	public void setEndZUnits(END_Z_UNITS end_z_units) {
+	public DesiredPath setEndZUnits(END_Z_UNITS end_z_units) {
 		values.put("end_z_units", end_z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param end_z_units End Point -- Z Units (as a String)
 	 */
-	public void setEndZUnits(String end_z_units) {
+	public DesiredPath setEndZUnits(String end_z_units) {
 		setValue("end_z_units", end_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param end_z_units End Point -- Z Units (integer value)
 	 */
-	public void setEndZUnits(short end_z_units) {
+	public DesiredPath setEndZUnits(short end_z_units) {
 		setValue("end_z_units", end_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed
 	 */
-	public void setSpeed(double speed) {
+	public DesiredPath setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public DesiredPath setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public DesiredPath setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public DesiredPath setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param lradius Loiter -- Radius (m)
 	 */
-	public void setLradius(double lradius) {
+	public DesiredPath setLradius(double lradius) {
 		values.put("lradius", lradius);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public DesiredPath setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 }

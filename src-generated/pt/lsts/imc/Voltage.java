@@ -45,6 +45,16 @@ public class Voltage extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Voltage(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Voltage(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class Voltage extends IMCMessage {
 	/**
 	 *  @param value Measured Voltage Value (v)
 	 */
-	public void setValue(double value) {
+	public Voltage setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

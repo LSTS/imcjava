@@ -45,6 +45,16 @@ public class PlanDBState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PlanDBState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PlanDBState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -145,50 +155,57 @@ public class PlanDBState extends IMCMessage {
 	/**
 	 *  @param plan_count Plan -- Count
 	 */
-	public void setPlanCount(int plan_count) {
+	public PlanDBState setPlanCount(int plan_count) {
 		values.put("plan_count", plan_count);
+		return this;
 	}
 
 	/**
 	 *  @param plan_size Plan -- Size of all plans
 	 */
-	public void setPlanSize(long plan_size) {
+	public PlanDBState setPlanSize(long plan_size) {
 		values.put("plan_size", plan_size);
+		return this;
 	}
 
 	/**
 	 *  @param change_time Last Change -- Time (s)
 	 */
-	public void setChangeTime(double change_time) {
+	public PlanDBState setChangeTime(double change_time) {
 		values.put("change_time", change_time);
+		return this;
 	}
 
 	/**
 	 *  @param change_sid Last Change -- Source Address
 	 */
-	public void setChangeSid(int change_sid) {
+	public PlanDBState setChangeSid(int change_sid) {
 		values.put("change_sid", change_sid);
+		return this;
 	}
 
 	/**
 	 *  @param change_sname Last Change -- Source Name
 	 */
-	public void setChangeSname(String change_sname) {
+	public PlanDBState setChangeSname(String change_sname) {
 		values.put("change_sname", change_sname);
+		return this;
 	}
 
 	/**
 	 *  @param md5 MD5
 	 */
-	public void setMd5(byte[] md5) {
+	public PlanDBState setMd5(byte[] md5) {
 		values.put("md5", md5);
+		return this;
 	}
 
 	/**
 	 *  @param plans_info Plan info
 	 */
-	public void setPlansInfo(java.util.Collection<PlanDBInformation> plans_info) {
+	public PlanDBState setPlansInfo(java.util.Collection<PlanDBInformation> plans_info) {
 		values.put("plans_info", plans_info);
+		return this;
 	}
 
 }

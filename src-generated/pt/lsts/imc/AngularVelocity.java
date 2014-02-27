@@ -46,6 +46,16 @@ public class AngularVelocity extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AngularVelocity(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AngularVelocity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -113,29 +123,33 @@ public class AngularVelocity extends IMCMessage {
 	/**
 	 *  @param time Device Time (s)
 	 */
-	public void setTime(double time) {
+	public AngularVelocity setTime(double time) {
 		values.put("time", time);
+		return this;
 	}
 
 	/**
 	 *  @param x X (rad/s)
 	 */
-	public void setX(double x) {
+	public AngularVelocity setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Y (rad/s)
 	 */
-	public void setY(double y) {
+	public AngularVelocity setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Z (rad/s)
 	 */
-	public void setZ(double z) {
+	public AngularVelocity setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 }

@@ -62,6 +62,16 @@ public class CameraZoom extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public CameraZoom(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public CameraZoom(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -128,36 +138,41 @@ public class CameraZoom extends IMCMessage {
 	/**
 	 *  @param id Camera Number
 	 */
-	public void setId(short id) {
+	public CameraZoom setId(short id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param zoom Absolute Zoom Level
 	 */
-	public void setZoom(short zoom) {
+	public CameraZoom setZoom(short zoom) {
 		values.put("zoom", zoom);
+		return this;
 	}
 
 	/**
 	 *  @param action Action (enumerated)
 	 */
-	public void setAction(ACTION action) {
+	public CameraZoom setAction(ACTION action) {
 		values.put("action", action.value());
+		return this;
 	}
 
 	/**
 	 *  @param action Action (as a String)
 	 */
-	public void setAction(String action) {
+	public CameraZoom setAction(String action) {
 		setValue("action", action);
+		return this;
 	}
 
 	/**
 	 *  @param action Action (integer value)
 	 */
-	public void setAction(short action) {
+	public CameraZoom setAction(short action) {
 		setValue("action", action);
+		return this;
 	}
 
 }

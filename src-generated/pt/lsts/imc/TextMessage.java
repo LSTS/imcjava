@@ -45,6 +45,16 @@ public class TextMessage extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TextMessage(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TextMessage(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -98,15 +108,17 @@ public class TextMessage extends IMCMessage {
 	/**
 	 *  @param origin Origin
 	 */
-	public void setOrigin(String origin) {
+	public TextMessage setOrigin(String origin) {
 		values.put("origin", origin);
+		return this;
 	}
 
 	/**
 	 *  @param text Text
 	 */
-	public void setText(String text) {
+	public TextMessage setText(String text) {
 		values.put("text", text);
+		return this;
 	}
 
 }

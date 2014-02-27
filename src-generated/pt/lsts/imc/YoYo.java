@@ -80,6 +80,16 @@ public class YoYo extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public YoYo(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public YoYo(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -210,104 +220,119 @@ public class YoYo extends Maneuver {
 	/**
 	 *  @param timeout Timeout (s)
 	 */
-	public void setTimeout(int timeout) {
+	public YoYo setTimeout(int timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public YoYo setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public YoYo setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param z Z Reference (m)
 	 */
-	public void setZ(double z) {
+	public YoYo setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public void setZUnits(Z_UNITS z_units) {
+	public YoYo setZUnits(Z_UNITS z_units) {
 		values.put("z_units", z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public void setZUnits(String z_units) {
+	public YoYo setZUnits(String z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public void setZUnits(short z_units) {
+	public YoYo setZUnits(short z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param amplitude Amplitude (m)
 	 */
-	public void setAmplitude(double amplitude) {
+	public YoYo setAmplitude(double amplitude) {
 		values.put("amplitude", amplitude);
+		return this;
 	}
 
 	/**
 	 *  @param pitch Pitch Angle (rad)
 	 */
-	public void setPitch(double pitch) {
+	public YoYo setPitch(double pitch) {
 		values.put("pitch", pitch);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed
 	 */
-	public void setSpeed(double speed) {
+	public YoYo setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public YoYo setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public YoYo setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public YoYo setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public YoYo setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public YoYo setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

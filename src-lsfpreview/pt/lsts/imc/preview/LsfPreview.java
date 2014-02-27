@@ -56,7 +56,7 @@ public class LsfPreview {
             if (index.timeOf(i) - lastTime >= timeStep) {
                 try {
                     EstimatedState state = new EstimatedState();
-                    state.setMessage(index.getMessage(i));
+                    state.copyFrom(index.getMessage(i));
                     states.add(state);
                     lastTime = index.timeOf(i);
                 }
@@ -70,7 +70,7 @@ public class LsfPreview {
                 "LogBookEntry", i)) {
             try {
                 LogBookEntry entry = new LogBookEntry();
-                entry.setMessage(index.getMessage(i));
+                entry.copyFrom(index.getMessage(i));
                 logbook.add(entry);
             }
             catch (Exception e) {

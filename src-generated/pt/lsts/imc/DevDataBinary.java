@@ -45,6 +45,16 @@ public class DevDataBinary extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DevDataBinary(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DevDataBinary(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -89,8 +99,9 @@ public class DevDataBinary extends IMCMessage {
 	/**
 	 *  @param value Value
 	 */
-	public void setValue(byte[] value) {
+	public DevDataBinary setValue(byte[] value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

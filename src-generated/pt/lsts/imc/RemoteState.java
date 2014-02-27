@@ -45,6 +45,16 @@ public class RemoteState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public RemoteState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public RemoteState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -120,36 +130,41 @@ public class RemoteState extends IMCMessage {
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public RemoteState setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public RemoteState setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param depth Depth (m)
 	 */
-	public void setDepth(short depth) {
+	public RemoteState setDepth(short depth) {
 		values.put("depth", depth);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed (m/s)
 	 */
-	public void setSpeed(double speed) {
+	public RemoteState setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param psi Heading (rad)
 	 */
-	public void setPsi(double psi) {
+	public RemoteState setPsi(double psi) {
 		values.put("psi", psi);
+		return this;
 	}
 
 }

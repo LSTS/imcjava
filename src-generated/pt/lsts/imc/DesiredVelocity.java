@@ -52,6 +52,16 @@ public class DesiredVelocity extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DesiredVelocity(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DesiredVelocity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -144,50 +154,57 @@ public class DesiredVelocity extends IMCMessage {
 	/**
 	 *  @param u Desired Linear Speed in xx (m/s)
 	 */
-	public void setU(double u) {
+	public DesiredVelocity setU(double u) {
 		values.put("u", u);
+		return this;
 	}
 
 	/**
 	 *  @param v Desired Linear Speed in yy (m/s)
 	 */
-	public void setV(double v) {
+	public DesiredVelocity setV(double v) {
 		values.put("v", v);
+		return this;
 	}
 
 	/**
 	 *  @param w Desired Linear Speed in zz (m/s)
 	 */
-	public void setW(double w) {
+	public DesiredVelocity setW(double w) {
 		values.put("w", w);
+		return this;
 	}
 
 	/**
 	 *  @param p Desired Angular Speed in xx (m/s)
 	 */
-	public void setP(double p) {
+	public DesiredVelocity setP(double p) {
 		values.put("p", p);
+		return this;
 	}
 
 	/**
 	 *  @param q Desired Angular Speed in yy (m/s)
 	 */
-	public void setQ(double q) {
+	public DesiredVelocity setQ(double q) {
 		values.put("q", q);
+		return this;
 	}
 
 	/**
 	 *  @param r Desired Angular Speed in zz (m/s)
 	 */
-	public void setR(double r) {
+	public DesiredVelocity setR(double r) {
 		values.put("r", r);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public DesiredVelocity setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 }

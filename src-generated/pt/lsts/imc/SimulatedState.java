@@ -47,6 +47,16 @@ public class SimulatedState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SimulatedState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SimulatedState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -226,127 +236,145 @@ public class SimulatedState extends IMCMessage {
 	/**
 	 *  @param lat Latitude (WGS-84) (rad)
 	 */
-	public void setLat(double lat) {
+	public SimulatedState setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude (WGS-84) (rad)
 	 */
-	public void setLon(double lon) {
+	public SimulatedState setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param height Height (WGS-84) (m)
 	 */
-	public void setHeight(double height) {
+	public SimulatedState setHeight(double height) {
 		values.put("height", height);
+		return this;
 	}
 
 	/**
 	 *  @param x Offset north (m) (m)
 	 */
-	public void setX(double x) {
+	public SimulatedState setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Offset east (m) (m)
 	 */
-	public void setY(double y) {
+	public SimulatedState setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Offset down (m) (m)
 	 */
-	public void setZ(double z) {
+	public SimulatedState setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param phi Rotation over x axis (rad)
 	 */
-	public void setPhi(double phi) {
+	public SimulatedState setPhi(double phi) {
 		values.put("phi", phi);
+		return this;
 	}
 
 	/**
 	 *  @param theta Rotation over y axis (rad)
 	 */
-	public void setTheta(double theta) {
+	public SimulatedState setTheta(double theta) {
 		values.put("theta", theta);
+		return this;
 	}
 
 	/**
 	 *  @param psi Rotation over z axis (rad)
 	 */
-	public void setPsi(double psi) {
+	public SimulatedState setPsi(double psi) {
 		values.put("psi", psi);
+		return this;
 	}
 
 	/**
 	 *  @param u Body-Fixed xx Linear Velocity (m/s)
 	 */
-	public void setU(double u) {
+	public SimulatedState setU(double u) {
 		values.put("u", u);
+		return this;
 	}
 
 	/**
 	 *  @param v Body-Fixed yy Linear Velocity (m/s)
 	 */
-	public void setV(double v) {
+	public SimulatedState setV(double v) {
 		values.put("v", v);
+		return this;
 	}
 
 	/**
 	 *  @param w Body-Fixed zz Linear Velocity (m/s)
 	 */
-	public void setW(double w) {
+	public SimulatedState setW(double w) {
 		values.put("w", w);
+		return this;
 	}
 
 	/**
 	 *  @param p Angular Velocity in x (rad/s)
 	 */
-	public void setP(double p) {
+	public SimulatedState setP(double p) {
 		values.put("p", p);
+		return this;
 	}
 
 	/**
 	 *  @param q Angular Velocity in y (rad/s)
 	 */
-	public void setQ(double q) {
+	public SimulatedState setQ(double q) {
 		values.put("q", q);
+		return this;
 	}
 
 	/**
 	 *  @param r Angular Velocity in z (rad/s)
 	 */
-	public void setR(double r) {
+	public SimulatedState setR(double r) {
 		values.put("r", r);
+		return this;
 	}
 
 	/**
 	 *  @param svx Stream Velocity X (North) (m/s)
 	 */
-	public void setSvx(double svx) {
+	public SimulatedState setSvx(double svx) {
 		values.put("svx", svx);
+		return this;
 	}
 
 	/**
 	 *  @param svy Stream Velocity Y (East) (m/s)
 	 */
-	public void setSvy(double svy) {
+	public SimulatedState setSvy(double svy) {
 		values.put("svy", svy);
+		return this;
 	}
 
 	/**
 	 *  @param svz Stream Velocity Z (Down) (m/s)
 	 */
-	public void setSvz(double svz) {
+	public SimulatedState setSvz(double svz) {
 		values.put("svz", svz);
+		return this;
 	}
 
 }

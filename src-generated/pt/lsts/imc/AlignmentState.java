@@ -61,6 +61,16 @@ public class AlignmentState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AlignmentState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AlignmentState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -111,22 +121,25 @@ public class AlignmentState extends IMCMessage {
 	/**
 	 *  @param state State (enumerated)
 	 */
-	public void setState(STATE state) {
+	public AlignmentState setState(STATE state) {
 		values.put("state", state.value());
+		return this;
 	}
 
 	/**
 	 *  @param state State (as a String)
 	 */
-	public void setState(String state) {
+	public AlignmentState setState(String state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param state State (integer value)
 	 */
-	public void setState(short state) {
+	public AlignmentState setState(short state) {
 		setValue("state", state);
+		return this;
 	}
 
 }

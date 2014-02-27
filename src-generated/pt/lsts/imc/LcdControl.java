@@ -63,6 +63,16 @@ public class LcdControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LcdControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LcdControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -122,29 +132,33 @@ public class LcdControl extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public LcdControl setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public LcdControl setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public LcdControl setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param text Text
 	 */
-	public void setText(String text) {
+	public LcdControl setText(String text) {
 		values.put("text", text);
+		return this;
 	}
 
 }

@@ -62,6 +62,16 @@ public class LogBookControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LogBookControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LogBookControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -135,36 +145,41 @@ public class LogBookControl extends IMCMessage {
 	/**
 	 *  @param command Command (enumerated)
 	 */
-	public void setCommand(COMMAND command) {
+	public LogBookControl setCommand(COMMAND command) {
 		values.put("command", command.value());
+		return this;
 	}
 
 	/**
 	 *  @param command Command (as a String)
 	 */
-	public void setCommand(String command) {
+	public LogBookControl setCommand(String command) {
 		setValue("command", command);
+		return this;
 	}
 
 	/**
 	 *  @param command Command (integer value)
 	 */
-	public void setCommand(short command) {
+	public LogBookControl setCommand(short command) {
 		setValue("command", command);
+		return this;
 	}
 
 	/**
 	 *  @param htime Timestamp (s)
 	 */
-	public void setHtime(double htime) {
+	public LogBookControl setHtime(double htime) {
 		values.put("htime", htime);
+		return this;
 	}
 
 	/**
 	 *  @param msg Messages
 	 */
-	public void setMsg(java.util.Collection<LogBookEntry> msg) {
+	public LogBookControl setMsg(java.util.Collection<LogBookEntry> msg) {
 		values.put("msg", msg);
+		return this;
 	}
 
 }

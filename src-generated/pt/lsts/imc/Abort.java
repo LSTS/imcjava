@@ -45,6 +45,16 @@ public class Abort extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Abort(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Abort(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

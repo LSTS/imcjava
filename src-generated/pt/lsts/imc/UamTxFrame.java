@@ -46,6 +46,16 @@ public class UamTxFrame extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public UamTxFrame(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public UamTxFrame(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -115,29 +125,33 @@ public class UamTxFrame extends IMCMessage {
 	/**
 	 *  @param seq Sequence Id
 	 */
-	public void setSeq(int seq) {
+	public UamTxFrame setSeq(int seq) {
 		values.put("seq", seq);
+		return this;
 	}
 
 	/**
 	 *  @param sys_dst Destination System
 	 */
-	public void setSysDst(String sys_dst) {
+	public UamTxFrame setSysDst(String sys_dst) {
 		values.put("sys_dst", sys_dst);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public UamTxFrame setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public UamTxFrame setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

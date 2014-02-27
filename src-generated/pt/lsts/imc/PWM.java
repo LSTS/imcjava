@@ -45,6 +45,16 @@ public class PWM extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PWM(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PWM(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -104,22 +114,25 @@ public class PWM extends IMCMessage {
 	/**
 	 *  @param id Channel Identifier
 	 */
-	public void setId(short id) {
+	public PWM setId(short id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param period Period (µs)
 	 */
-	public void setPeriod(long period) {
+	public PWM setPeriod(long period) {
 		values.put("period", period);
+		return this;
 	}
 
 	/**
 	 *  @param duty_cycle Duty Cycle (µs)
 	 */
-	public void setDutyCycle(long duty_cycle) {
+	public PWM setDutyCycle(long duty_cycle) {
 		values.put("duty_cycle", duty_cycle);
+		return this;
 	}
 
 }

@@ -47,6 +47,16 @@ public class AcousticSystemsQuery extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AcousticSystemsQuery(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AcousticSystemsQuery(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

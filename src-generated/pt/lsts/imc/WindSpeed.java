@@ -45,6 +45,16 @@ public class WindSpeed extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public WindSpeed(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public WindSpeed(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -104,22 +114,25 @@ public class WindSpeed extends IMCMessage {
 	/**
 	 *  @param direction Direction (rad)
 	 */
-	public void setDirection(double direction) {
+	public WindSpeed setDirection(double direction) {
 		values.put("direction", direction);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed (m/s)
 	 */
-	public void setSpeed(double speed) {
+	public WindSpeed setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param turbulence Turbulence (m/s)
 	 */
-	public void setTurbulence(double turbulence) {
+	public WindSpeed setTurbulence(double turbulence) {
 		values.put("turbulence", turbulence);
+		return this;
 	}
 
 }

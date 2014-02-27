@@ -47,6 +47,16 @@ public class RemoteActions extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public RemoteActions(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public RemoteActions(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -91,13 +101,15 @@ public class RemoteActions extends IMCMessage {
 	/**
 	 *  @param actions Actions (tuplelist)
 	 */
-	public void setActions(java.util.LinkedHashMap<String, ?> actions) {
+	public RemoteActions setActions(java.util.LinkedHashMap<String, ?> actions) {
 		String val = encodeTupleList(actions);
 		values.put("actions", val);
+		return this;
 	}
 
-	public void setActions(String actions) {
+	public RemoteActions setActions(String actions) {
 		values.put("actions", actions);
+		return this;
 	}
 
 }

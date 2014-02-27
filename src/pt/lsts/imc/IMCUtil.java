@@ -291,7 +291,7 @@ public class IMCUtil {
             case PlanSpecification.ID_STATIC:
                 PlanSpecificationAdapter plan = new PlanSpecificationAdapter(msg);
                 try {
-                    msg.setMessage(plan.getData(target));
+                    msg.copyFrom(plan.getData(target));
                 }
                 catch (Exception e) {
                     e.printStackTrace();

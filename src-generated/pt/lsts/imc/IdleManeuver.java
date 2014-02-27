@@ -45,6 +45,16 @@ public class IdleManeuver extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public IdleManeuver(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public IdleManeuver(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -97,20 +107,23 @@ public class IdleManeuver extends Maneuver {
 	/**
 	 *  @param duration Duration (s)
 	 */
-	public void setDuration(int duration) {
+	public IdleManeuver setDuration(int duration) {
 		values.put("duration", duration);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public IdleManeuver setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public IdleManeuver setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

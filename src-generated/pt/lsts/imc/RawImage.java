@@ -44,6 +44,16 @@ public class RawImage extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public RawImage(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public RawImage(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -120,36 +130,41 @@ public class RawImage extends IMCMessage {
 	/**
 	 *  @param width Width
 	 */
-	public void setWidth(int width) {
+	public RawImage setWidth(int width) {
 		values.put("width", width);
+		return this;
 	}
 
 	/**
 	 *  @param height Height
 	 */
-	public void setHeight(int height) {
+	public RawImage setHeight(int height) {
 		values.put("height", height);
+		return this;
 	}
 
 	/**
 	 *  @param channels Channels
 	 */
-	public void setChannels(short channels) {
+	public RawImage setChannels(short channels) {
 		values.put("channels", channels);
+		return this;
 	}
 
 	/**
 	 *  @param depth Pixel Depth
 	 */
-	public void setDepth(short depth) {
+	public RawImage setDepth(short depth) {
 		values.put("depth", depth);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public RawImage setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

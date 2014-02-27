@@ -45,6 +45,16 @@ public class FuelLevel extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public FuelLevel(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public FuelLevel(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -105,27 +115,31 @@ public class FuelLevel extends IMCMessage {
 	/**
 	 *  @param value Value (%)
 	 */
-	public void setValue(double value) {
+	public FuelLevel setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 	/**
 	 *  @param confidence Confidence Level (%)
 	 */
-	public void setConfidence(double confidence) {
+	public FuelLevel setConfidence(double confidence) {
 		values.put("confidence", confidence);
+		return this;
 	}
 
 	/**
 	 *  @param opmodes Operation Modes (tuplelist)
 	 */
-	public void setOpmodes(java.util.LinkedHashMap<String, ?> opmodes) {
+	public FuelLevel setOpmodes(java.util.LinkedHashMap<String, ?> opmodes) {
 		String val = encodeTupleList(opmodes);
 		values.put("opmodes", val);
+		return this;
 	}
 
-	public void setOpmodes(String opmodes) {
+	public FuelLevel setOpmodes(String opmodes) {
 		values.put("opmodes", opmodes);
+		return this;
 	}
 
 }

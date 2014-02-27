@@ -63,6 +63,16 @@ public class AcousticNoise extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AcousticNoise(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AcousticNoise(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -121,29 +131,33 @@ public class AcousticNoise extends IMCMessage {
 	/**
 	 *  @param summary Summary (enumerated)
 	 */
-	public void setSummary(SUMMARY summary) {
+	public AcousticNoise setSummary(SUMMARY summary) {
 		values.put("summary", summary.value());
+		return this;
 	}
 
 	/**
 	 *  @param summary Summary (as a String)
 	 */
-	public void setSummary(String summary) {
+	public AcousticNoise setSummary(String summary) {
 		setValue("summary", summary);
+		return this;
 	}
 
 	/**
 	 *  @param summary Summary (integer value)
 	 */
-	public void setSummary(short summary) {
+	public AcousticNoise setSummary(short summary) {
 		setValue("summary", summary);
+		return this;
 	}
 
 	/**
 	 *  @param level Noise Level (db)
 	 */
-	public void setLevel(short level) {
+	public AcousticNoise setLevel(short level) {
 		values.put("level", level);
+		return this;
 	}
 
 }

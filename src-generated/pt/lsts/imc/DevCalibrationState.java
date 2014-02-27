@@ -51,6 +51,16 @@ public class DevCalibrationState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DevCalibrationState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DevCalibrationState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -120,29 +130,33 @@ public class DevCalibrationState extends IMCMessage {
 	/**
 	 *  @param total_steps Total Steps
 	 */
-	public void setTotalSteps(short total_steps) {
+	public DevCalibrationState setTotalSteps(short total_steps) {
 		values.put("total_steps", total_steps);
+		return this;
 	}
 
 	/**
 	 *  @param step_number Current Step Number
 	 */
-	public void setStepNumber(short step_number) {
+	public DevCalibrationState setStepNumber(short step_number) {
 		values.put("step_number", step_number);
+		return this;
 	}
 
 	/**
 	 *  @param step Description
 	 */
-	public void setStep(String step) {
+	public DevCalibrationState setStep(String step) {
 		values.put("step", step);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public DevCalibrationState setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 }

@@ -47,6 +47,16 @@ public class NavigationUncertainty extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public NavigationUncertainty(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public NavigationUncertainty(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -194,99 +204,113 @@ public class NavigationUncertainty extends IMCMessage {
 	/**
 	 *  @param x Variance - x Position (m)
 	 */
-	public void setX(double x) {
+	public NavigationUncertainty setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Variance - y Position (m)
 	 */
-	public void setY(double y) {
+	public NavigationUncertainty setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Variance - z Position (m)
 	 */
-	public void setZ(double z) {
+	public NavigationUncertainty setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param phi Variance - Roll (rad)
 	 */
-	public void setPhi(double phi) {
+	public NavigationUncertainty setPhi(double phi) {
 		values.put("phi", phi);
+		return this;
 	}
 
 	/**
 	 *  @param theta Variance - Pitch (rad)
 	 */
-	public void setTheta(double theta) {
+	public NavigationUncertainty setTheta(double theta) {
 		values.put("theta", theta);
+		return this;
 	}
 
 	/**
 	 *  @param psi Variance - Yaw (rad)
 	 */
-	public void setPsi(double psi) {
+	public NavigationUncertainty setPsi(double psi) {
 		values.put("psi", psi);
+		return this;
 	}
 
 	/**
 	 *  @param p Variance - Gyro. Roll Rate (rad/s)
 	 */
-	public void setP(double p) {
+	public NavigationUncertainty setP(double p) {
 		values.put("p", p);
+		return this;
 	}
 
 	/**
 	 *  @param q Variance - Gyro. Pitch Rate (rad/s)
 	 */
-	public void setQ(double q) {
+	public NavigationUncertainty setQ(double q) {
 		values.put("q", q);
+		return this;
 	}
 
 	/**
 	 *  @param r Variance - Gyro. Yaw Rate (rad/s)
 	 */
-	public void setR(double r) {
+	public NavigationUncertainty setR(double r) {
 		values.put("r", r);
+		return this;
 	}
 
 	/**
 	 *  @param u Variance - Body-Fixed xx Velocity (m/s)
 	 */
-	public void setU(double u) {
+	public NavigationUncertainty setU(double u) {
 		values.put("u", u);
+		return this;
 	}
 
 	/**
 	 *  @param v Variance - Body-Fixed yy Velocity (m/s)
 	 */
-	public void setV(double v) {
+	public NavigationUncertainty setV(double v) {
 		values.put("v", v);
+		return this;
 	}
 
 	/**
 	 *  @param w Variance - Body-Fixed ww Velocity (m/s)
 	 */
-	public void setW(double w) {
+	public NavigationUncertainty setW(double w) {
 		values.put("w", w);
+		return this;
 	}
 
 	/**
 	 *  @param bias_psi Variance - Yaw Bias (rad)
 	 */
-	public void setBiasPsi(double bias_psi) {
+	public NavigationUncertainty setBiasPsi(double bias_psi) {
 		values.put("bias_psi", bias_psi);
+		return this;
 	}
 
 	/**
 	 *  @param bias_r Variance - Gyro. Yaw Rate Bias (rad/s)
 	 */
-	public void setBiasR(double bias_r) {
+	public NavigationUncertainty setBiasR(double bias_r) {
 		values.put("bias_r", bias_r);
+		return this;
 	}
 
 }

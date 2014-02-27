@@ -46,6 +46,16 @@ public class QueryLedBrightness extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public QueryLedBrightness(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public QueryLedBrightness(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -90,8 +100,9 @@ public class QueryLedBrightness extends IMCMessage {
 	/**
 	 *  @param name Name
 	 */
-	public void setName(String name) {
+	public QueryLedBrightness setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 }

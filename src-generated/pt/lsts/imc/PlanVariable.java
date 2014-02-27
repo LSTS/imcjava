@@ -78,6 +78,16 @@ public class PlanVariable extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PlanVariable(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PlanVariable(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -159,57 +169,65 @@ public class PlanVariable extends IMCMessage {
 	/**
 	 *  @param name Name
 	 */
-	public void setName(String name) {
+	public PlanVariable setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 	/**
 	 *  @param value Value
 	 */
-	public void setValue(String value) {
+	public PlanVariable setValue(String value) {
 		values.put("value", value);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public PlanVariable setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public void setType(String type) {
+	public PlanVariable setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public void setType(short type) {
+	public PlanVariable setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param access Access Type (enumerated)
 	 */
-	public void setAccess(ACCESS access) {
+	public PlanVariable setAccess(ACCESS access) {
 		values.put("access", access.value());
+		return this;
 	}
 
 	/**
 	 *  @param access Access Type (as a String)
 	 */
-	public void setAccess(String access) {
+	public PlanVariable setAccess(String access) {
 		setValue("access", access);
+		return this;
 	}
 
 	/**
 	 *  @param access Access Type (integer value)
 	 */
-	public void setAccess(short access) {
+	public PlanVariable setAccess(short access) {
 		setValue("access", access);
+		return this;
 	}
 
 }

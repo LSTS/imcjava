@@ -44,6 +44,16 @@ public class DeviceUpdate extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DeviceUpdate(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DeviceUpdate(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -111,29 +121,33 @@ public class DeviceUpdate extends IMCMessage {
 	/**
 	 *  @param imc_id IMC Identifier
 	 */
-	public void setImcId(int imc_id) {
+	public DeviceUpdate setImcId(int imc_id) {
 		values.put("imc_id", imc_id);
+		return this;
 	}
 
 	/**
 	 *  @param unix_time Unix Time
 	 */
-	public void setUnixTime(long unix_time) {
+	public DeviceUpdate setUnixTime(long unix_time) {
 		values.put("unix_time", unix_time);
+		return this;
 	}
 
 	/**
 	 *  @param latitude Latitude
 	 */
-	public void setLatitude(int latitude) {
+	public DeviceUpdate setLatitude(int latitude) {
 		values.put("latitude", latitude);
+		return this;
 	}
 
 	/**
 	 *  @param longitude Longitude
 	 */
-	public void setLongitude(int longitude) {
+	public DeviceUpdate setLongitude(int longitude) {
 		values.put("longitude", longitude);
+		return this;
 	}
 
 }

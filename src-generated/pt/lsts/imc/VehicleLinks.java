@@ -45,6 +45,16 @@ public class VehicleLinks extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public VehicleLinks(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VehicleLinks(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -104,15 +114,17 @@ public class VehicleLinks extends IMCMessage {
 	/**
 	 *  @param localname Local Name
 	 */
-	public void setLocalname(String localname) {
+	public VehicleLinks setLocalname(String localname) {
 		values.put("localname", localname);
+		return this;
 	}
 
 	/**
 	 *  @param links Active Links
 	 */
-	public void setLinks(java.util.Collection<Announce> links) {
+	public VehicleLinks setLinks(java.util.Collection<Announce> links) {
 		values.put("links", links);
+		return this;
 	}
 
 }

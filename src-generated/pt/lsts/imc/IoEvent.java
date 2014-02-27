@@ -60,6 +60,16 @@ public class IoEvent extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public IoEvent(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public IoEvent(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -119,29 +129,33 @@ public class IoEvent extends IMCMessage {
 	/**
 	 *  @param type Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public IoEvent setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public void setType(String type) {
+	public IoEvent setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public void setType(short type) {
+	public IoEvent setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param error Error Message
 	 */
-	public void setError(String error) {
+	public IoEvent setError(String error) {
 		values.put("error", error);
+		return this;
 	}
 
 }

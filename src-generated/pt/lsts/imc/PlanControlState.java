@@ -78,6 +78,16 @@ public class PlanControlState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PlanControlState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PlanControlState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -193,85 +203,97 @@ public class PlanControlState extends IMCMessage {
 	/**
 	 *  @param state State (enumerated)
 	 */
-	public void setState(STATE state) {
+	public PlanControlState setState(STATE state) {
 		values.put("state", state.value());
+		return this;
 	}
 
 	/**
 	 *  @param state State (as a String)
 	 */
-	public void setState(String state) {
+	public PlanControlState setState(String state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param state State (integer value)
 	 */
-	public void setState(short state) {
+	public PlanControlState setState(short state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param plan_id Plan -- ID
 	 */
-	public void setPlanId(String plan_id) {
+	public PlanControlState setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
+		return this;
 	}
 
 	/**
 	 *  @param plan_eta Plan -- ETA (s)
 	 */
-	public void setPlanEta(int plan_eta) {
+	public PlanControlState setPlanEta(int plan_eta) {
 		values.put("plan_eta", plan_eta);
+		return this;
 	}
 
 	/**
 	 *  @param plan_progress Plan -- Progress (%)
 	 */
-	public void setPlanProgress(double plan_progress) {
+	public PlanControlState setPlanProgress(double plan_progress) {
 		values.put("plan_progress", plan_progress);
+		return this;
 	}
 
 	/**
 	 *  @param man_id Maneuver -- ID
 	 */
-	public void setManId(String man_id) {
+	public PlanControlState setManId(String man_id) {
 		values.put("man_id", man_id);
+		return this;
 	}
 
 	/**
 	 *  @param man_type Maneuver -- Type
 	 */
-	public void setManType(int man_type) {
+	public PlanControlState setManType(int man_type) {
 		values.put("man_type", man_type);
+		return this;
 	}
 
 	/**
 	 *  @param man_eta Maneuver -- ETA (s)
 	 */
-	public void setManEta(int man_eta) {
+	public PlanControlState setManEta(int man_eta) {
 		values.put("man_eta", man_eta);
+		return this;
 	}
 
 	/**
 	 *  @param last_outcome Last Plan Outcome (enumerated)
 	 */
-	public void setLastOutcome(LAST_OUTCOME last_outcome) {
+	public PlanControlState setLastOutcome(LAST_OUTCOME last_outcome) {
 		values.put("last_outcome", last_outcome.value());
+		return this;
 	}
 
 	/**
 	 *  @param last_outcome Last Plan Outcome (as a String)
 	 */
-	public void setLastOutcome(String last_outcome) {
+	public PlanControlState setLastOutcome(String last_outcome) {
 		setValue("last_outcome", last_outcome);
+		return this;
 	}
 
 	/**
 	 *  @param last_outcome Last Plan Outcome (integer value)
 	 */
-	public void setLastOutcome(short last_outcome) {
+	public PlanControlState setLastOutcome(short last_outcome) {
 		setValue("last_outcome", last_outcome);
+		return this;
 	}
 
 }

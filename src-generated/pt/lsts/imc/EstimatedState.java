@@ -57,6 +57,16 @@ public class EstimatedState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EstimatedState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EstimatedState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -252,141 +262,161 @@ public class EstimatedState extends IMCMessage {
 	/**
 	 *  @param lat Latitude (WGS-84) (rad)
 	 */
-	public void setLat(double lat) {
+	public EstimatedState setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude (WGS-84) (rad)
 	 */
-	public void setLon(double lon) {
+	public EstimatedState setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param height Height (WGS-84) (m)
 	 */
-	public void setHeight(double height) {
+	public EstimatedState setHeight(double height) {
 		values.put("height", height);
+		return this;
 	}
 
 	/**
 	 *  @param x Offset north (m)
 	 */
-	public void setX(double x) {
+	public EstimatedState setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Offset east (m)
 	 */
-	public void setY(double y) {
+	public EstimatedState setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Offset down (m)
 	 */
-	public void setZ(double z) {
+	public EstimatedState setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param phi Rotation over x axis (rad)
 	 */
-	public void setPhi(double phi) {
+	public EstimatedState setPhi(double phi) {
 		values.put("phi", phi);
+		return this;
 	}
 
 	/**
 	 *  @param theta Rotation over y axis (rad)
 	 */
-	public void setTheta(double theta) {
+	public EstimatedState setTheta(double theta) {
 		values.put("theta", theta);
+		return this;
 	}
 
 	/**
 	 *  @param psi Rotation over z axis (rad)
 	 */
-	public void setPsi(double psi) {
+	public EstimatedState setPsi(double psi) {
 		values.put("psi", psi);
+		return this;
 	}
 
 	/**
 	 *  @param u Body-Fixed xx Velocity (m/s)
 	 */
-	public void setU(double u) {
+	public EstimatedState setU(double u) {
 		values.put("u", u);
+		return this;
 	}
 
 	/**
 	 *  @param v Body-Fixed yy Velocity (m/s)
 	 */
-	public void setV(double v) {
+	public EstimatedState setV(double v) {
 		values.put("v", v);
+		return this;
 	}
 
 	/**
 	 *  @param w Body-Fixed zz Velocity (m/s)
 	 */
-	public void setW(double w) {
+	public EstimatedState setW(double w) {
 		values.put("w", w);
+		return this;
 	}
 
 	/**
 	 *  @param vx Ground Velocity X (North) (m/s)
 	 */
-	public void setVx(double vx) {
+	public EstimatedState setVx(double vx) {
 		values.put("vx", vx);
+		return this;
 	}
 
 	/**
 	 *  @param vy Ground Velocity Y (East) (m/s)
 	 */
-	public void setVy(double vy) {
+	public EstimatedState setVy(double vy) {
 		values.put("vy", vy);
+		return this;
 	}
 
 	/**
 	 *  @param vz Ground Velocity Z (Down) (m/s)
 	 */
-	public void setVz(double vz) {
+	public EstimatedState setVz(double vz) {
 		values.put("vz", vz);
+		return this;
 	}
 
 	/**
 	 *  @param p Angular Velocity in x (rad/s)
 	 */
-	public void setP(double p) {
+	public EstimatedState setP(double p) {
 		values.put("p", p);
+		return this;
 	}
 
 	/**
 	 *  @param q Angular Velocity in y (rad/s)
 	 */
-	public void setQ(double q) {
+	public EstimatedState setQ(double q) {
 		values.put("q", q);
+		return this;
 	}
 
 	/**
 	 *  @param r Angular Velocity in z (rad/s)
 	 */
-	public void setR(double r) {
+	public EstimatedState setR(double r) {
 		values.put("r", r);
+		return this;
 	}
 
 	/**
 	 *  @param depth Depth (m)
 	 */
-	public void setDepth(double depth) {
+	public EstimatedState setDepth(double depth) {
 		values.put("depth", depth);
+		return this;
 	}
 
 	/**
 	 *  @param alt Altitude (m)
 	 */
-	public void setAlt(double alt) {
+	public EstimatedState setAlt(double alt) {
 		values.put("alt", alt);
+		return this;
 	}
 
 }

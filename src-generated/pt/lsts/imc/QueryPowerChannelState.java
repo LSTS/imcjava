@@ -45,6 +45,16 @@ public class QueryPowerChannelState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public QueryPowerChannelState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public QueryPowerChannelState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

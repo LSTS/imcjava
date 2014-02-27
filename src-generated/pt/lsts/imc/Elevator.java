@@ -100,6 +100,16 @@ public class Elevator extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public Elevator(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Elevator(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -254,132 +264,151 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @param timeout Timeout (s)
 	 */
-	public void setTimeout(int timeout) {
+	public Elevator setTimeout(int timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public Elevator setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public Elevator setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public Elevator setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param start_z Start Point -- Z Reference (m)
 	 */
-	public void setStartZ(double start_z) {
+	public Elevator setStartZ(double start_z) {
 		values.put("start_z", start_z);
+		return this;
 	}
 
 	/**
 	 *  @param start_z_units Start Point -- Z Units (enumerated)
 	 */
-	public void setStartZUnits(START_Z_UNITS start_z_units) {
+	public Elevator setStartZUnits(START_Z_UNITS start_z_units) {
 		values.put("start_z_units", start_z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param start_z_units Start Point -- Z Units (as a String)
 	 */
-	public void setStartZUnits(String start_z_units) {
+	public Elevator setStartZUnits(String start_z_units) {
 		setValue("start_z_units", start_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param start_z_units Start Point -- Z Units (integer value)
 	 */
-	public void setStartZUnits(short start_z_units) {
+	public Elevator setStartZUnits(short start_z_units) {
 		setValue("start_z_units", start_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param end_z End Point -- Z Reference (m)
 	 */
-	public void setEndZ(double end_z) {
+	public Elevator setEndZ(double end_z) {
 		values.put("end_z", end_z);
+		return this;
 	}
 
 	/**
 	 *  @param end_z_units End Point -- Z Units (enumerated)
 	 */
-	public void setEndZUnits(END_Z_UNITS end_z_units) {
+	public Elevator setEndZUnits(END_Z_UNITS end_z_units) {
 		values.put("end_z_units", end_z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param end_z_units End Point -- Z Units (as a String)
 	 */
-	public void setEndZUnits(String end_z_units) {
+	public Elevator setEndZUnits(String end_z_units) {
 		setValue("end_z_units", end_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param end_z_units End Point -- Z Units (integer value)
 	 */
-	public void setEndZUnits(short end_z_units) {
+	public Elevator setEndZUnits(short end_z_units) {
 		setValue("end_z_units", end_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param radius Radius (m)
 	 */
-	public void setRadius(double radius) {
+	public Elevator setRadius(double radius) {
 		values.put("radius", radius);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed
 	 */
-	public void setSpeed(double speed) {
+	public Elevator setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public Elevator setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public Elevator setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public Elevator setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public Elevator setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public Elevator setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

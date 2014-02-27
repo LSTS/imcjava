@@ -46,6 +46,16 @@ public class SonarConfig extends Payload {
 		super(ID_STATIC);
 	}
 
+	public SonarConfig(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SonarConfig(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -105,22 +115,25 @@ public class SonarConfig extends Payload {
 	/**
 	 *  @param frequency Frequency (hz)
 	 */
-	public void setFrequency(long frequency) {
+	public SonarConfig setFrequency(long frequency) {
 		values.put("frequency", frequency);
+		return this;
 	}
 
 	/**
 	 *  @param min_range Minimum Range (m)
 	 */
-	public void setMinRange(int min_range) {
+	public SonarConfig setMinRange(int min_range) {
 		values.put("min_range", min_range);
+		return this;
 	}
 
 	/**
 	 *  @param max_range Maximum Range (m)
 	 */
-	public void setMaxRange(int max_range) {
+	public SonarConfig setMaxRange(int max_range) {
 		values.put("max_range", max_range);
+		return this;
 	}
 
 }

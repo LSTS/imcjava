@@ -46,6 +46,16 @@ public class CreateSession extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public CreateSession(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public CreateSession(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -89,8 +99,9 @@ public class CreateSession extends IMCMessage {
 	/**
 	 *  @param timeout Session Timeout
 	 */
-	public void setTimeout(long timeout) {
+	public CreateSession setTimeout(long timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 }

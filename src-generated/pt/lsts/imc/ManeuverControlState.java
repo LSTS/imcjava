@@ -61,6 +61,16 @@ public class ManeuverControlState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public ManeuverControlState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ManeuverControlState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -128,36 +138,41 @@ public class ManeuverControlState extends IMCMessage {
 	/**
 	 *  @param state State (enumerated)
 	 */
-	public void setState(STATE state) {
+	public ManeuverControlState setState(STATE state) {
 		values.put("state", state.value());
+		return this;
 	}
 
 	/**
 	 *  @param state State (as a String)
 	 */
-	public void setState(String state) {
+	public ManeuverControlState setState(String state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param state State (integer value)
 	 */
-	public void setState(short state) {
+	public ManeuverControlState setState(short state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param eta Completion Time (s)
 	 */
-	public void setEta(int eta) {
+	public ManeuverControlState setEta(int eta) {
 		values.put("eta", eta);
+		return this;
 	}
 
 	/**
 	 *  @param info Info
 	 */
-	public void setInfo(String info) {
+	public ManeuverControlState setInfo(String info) {
 		values.put("info", info);
+		return this;
 	}
 
 }

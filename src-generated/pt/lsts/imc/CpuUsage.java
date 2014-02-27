@@ -45,6 +45,16 @@ public class CpuUsage extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public CpuUsage(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public CpuUsage(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class CpuUsage extends IMCMessage {
 	/**
 	 *  @param value Usage percentage (%)
 	 */
-	public void setValue(short value) {
+	public CpuUsage setValue(short value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

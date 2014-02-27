@@ -45,6 +45,16 @@ public class AcousticMessage extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AcousticMessage(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AcousticMessage(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -87,8 +97,9 @@ public class AcousticMessage extends IMCMessage {
 	/**
 	 *  @param message Message to send
 	 */
-	public void setMessage(IMCMessage message) {
+	public AcousticMessage setMessage(IMCMessage message) {
 		values.put("message", message);
+		return this;
 	}
 
 }

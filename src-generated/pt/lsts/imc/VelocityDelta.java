@@ -45,6 +45,16 @@ public class VelocityDelta extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public VelocityDelta(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VelocityDelta(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -112,29 +122,33 @@ public class VelocityDelta extends IMCMessage {
 	/**
 	 *  @param time Device Time (s)
 	 */
-	public void setTime(double time) {
+	public VelocityDelta setTime(double time) {
 		values.put("time", time);
+		return this;
 	}
 
 	/**
 	 *  @param x X (m/s)
 	 */
-	public void setX(double x) {
+	public VelocityDelta setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Y (m/s)
 	 */
-	public void setY(double y) {
+	public VelocityDelta setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Z (m/s)
 	 */
-	public void setZ(double z) {
+	public VelocityDelta setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 }

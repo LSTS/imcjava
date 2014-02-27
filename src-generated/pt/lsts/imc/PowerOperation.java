@@ -65,6 +65,16 @@ public class PowerOperation extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PowerOperation(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PowerOperation(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -131,36 +141,41 @@ public class PowerOperation extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public PowerOperation setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public PowerOperation setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public PowerOperation setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param time_remain Time Remaining (s)
 	 */
-	public void setTimeRemain(double time_remain) {
+	public PowerOperation setTimeRemain(double time_remain) {
 		values.put("time_remain", time_remain);
+		return this;
 	}
 
 	/**
 	 *  @param sched_time Scheduled Time (s)
 	 */
-	public void setSchedTime(double sched_time) {
+	public PowerOperation setSchedTime(double sched_time) {
 		values.put("sched_time", sched_time);
+		return this;
 	}
 
 }

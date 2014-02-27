@@ -44,6 +44,16 @@ public class ImageTxSettings extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public ImageTxSettings(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ImageTxSettings(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -111,29 +121,33 @@ public class ImageTxSettings extends IMCMessage {
 	/**
 	 *  @param fps Frames Per Second
 	 */
-	public void setFps(short fps) {
+	public ImageTxSettings setFps(short fps) {
 		values.put("fps", fps);
+		return this;
 	}
 
 	/**
 	 *  @param quality Quality
 	 */
-	public void setQuality(short quality) {
+	public ImageTxSettings setQuality(short quality) {
 		values.put("quality", quality);
+		return this;
 	}
 
 	/**
 	 *  @param reps Repetitions
 	 */
-	public void setReps(short reps) {
+	public ImageTxSettings setReps(short reps) {
 		values.put("reps", reps);
+		return this;
 	}
 
 	/**
 	 *  @param tsize Target Size
 	 */
-	public void setTsize(short tsize) {
+	public ImageTxSettings setTsize(short tsize) {
 		values.put("tsize", tsize);
+		return this;
 	}
 
 }

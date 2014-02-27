@@ -63,6 +63,16 @@ public class EmergencyControlState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EmergencyControlState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EmergencyControlState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -129,36 +139,41 @@ public class EmergencyControlState extends IMCMessage {
 	/**
 	 *  @param state State (enumerated)
 	 */
-	public void setState(STATE state) {
+	public EmergencyControlState setState(STATE state) {
 		values.put("state", state.value());
+		return this;
 	}
 
 	/**
 	 *  @param state State (as a String)
 	 */
-	public void setState(String state) {
+	public EmergencyControlState setState(String state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param state State (integer value)
 	 */
-	public void setState(short state) {
+	public EmergencyControlState setState(short state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param plan_id Plan Id
 	 */
-	public void setPlanId(String plan_id) {
+	public EmergencyControlState setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
+		return this;
 	}
 
 	/**
 	 *  @param comm_level Communications Level (%)
 	 */
-	public void setCommLevel(short comm_level) {
+	public EmergencyControlState setCommLevel(short comm_level) {
 		values.put("comm_level", comm_level);
+		return this;
 	}
 
 }

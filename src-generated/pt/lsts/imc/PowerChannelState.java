@@ -60,6 +60,16 @@ public class PowerChannelState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PowerChannelState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PowerChannelState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -119,29 +129,33 @@ public class PowerChannelState extends IMCMessage {
 	/**
 	 *  @param name Name
 	 */
-	public void setName(String name) {
+	public PowerChannelState setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 	/**
 	 *  @param state State (enumerated)
 	 */
-	public void setState(STATE state) {
+	public PowerChannelState setState(STATE state) {
 		values.put("state", state.value());
+		return this;
 	}
 
 	/**
 	 *  @param state State (as a String)
 	 */
-	public void setState(String state) {
+	public PowerChannelState setState(String state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param state State (integer value)
 	 */
-	public void setState(short state) {
+	public PowerChannelState setState(short state) {
 		setValue("state", state);
+		return this;
 	}
 
 }

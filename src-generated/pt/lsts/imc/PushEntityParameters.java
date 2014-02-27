@@ -44,6 +44,16 @@ public class PushEntityParameters extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PushEntityParameters(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PushEntityParameters(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class PushEntityParameters extends IMCMessage {
 	/**
 	 *  @param name Entity Name
 	 */
-	public void setName(String name) {
+	public PushEntityParameters setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 }

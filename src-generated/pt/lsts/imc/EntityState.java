@@ -66,6 +66,16 @@ public class EntityState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EntityState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EntityState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -134,36 +144,41 @@ public class EntityState extends IMCMessage {
 	/**
 	 *  @param state State (enumerated)
 	 */
-	public void setState(STATE state) {
+	public EntityState setState(STATE state) {
 		values.put("state", state.value());
+		return this;
 	}
 
 	/**
 	 *  @param state State (as a String)
 	 */
-	public void setState(String state) {
+	public EntityState setState(String state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param state State (integer value)
 	 */
-	public void setState(short state) {
+	public EntityState setState(short state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public EntityState setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 	/**
 	 *  @param description Complementary description
 	 */
-	public void setDescription(String description) {
+	public EntityState setDescription(String description) {
 		values.put("description", description);
+		return this;
 	}
 
 }

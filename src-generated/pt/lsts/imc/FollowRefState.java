@@ -67,6 +67,16 @@ public class FollowRefState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public FollowRefState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public FollowRefState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -159,50 +169,57 @@ public class FollowRefState extends IMCMessage {
 	/**
 	 *  @param control_src Controlling Source
 	 */
-	public void setControlSrc(int control_src) {
+	public FollowRefState setControlSrc(int control_src) {
 		values.put("control_src", control_src);
+		return this;
 	}
 
 	/**
 	 *  @param control_ent Controlling Entity
 	 */
-	public void setControlEnt(short control_ent) {
+	public FollowRefState setControlEnt(short control_ent) {
 		values.put("control_ent", control_ent);
+		return this;
 	}
 
 	/**
 	 *  @param reference Reference
 	 */
-	public void setReference(Reference reference) {
+	public FollowRefState setReference(Reference reference) {
 		values.put("reference", reference);
+		return this;
 	}
 
 	/**
 	 *  @param state State (enumerated)
 	 */
-	public void setState(STATE state) {
+	public FollowRefState setState(STATE state) {
 		values.put("state", state.value());
+		return this;
 	}
 
 	/**
 	 *  @param state State (as a String)
 	 */
-	public void setState(String state) {
+	public FollowRefState setState(String state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param state State (integer value)
 	 */
-	public void setState(short state) {
+	public FollowRefState setState(short state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param proximity Proximity (bitfield)
 	 */
-	public void setProximity(short proximity) {
+	public FollowRefState setProximity(short proximity) {
 		values.put("proximity", proximity);
+		return this;
 	}
 
 }

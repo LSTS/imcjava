@@ -47,6 +47,16 @@ public class LinkLevel extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LinkLevel(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LinkLevel(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -90,8 +100,9 @@ public class LinkLevel extends IMCMessage {
 	/**
 	 *  @param value Value
 	 */
-	public void setValue(double value) {
+	public LinkLevel setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

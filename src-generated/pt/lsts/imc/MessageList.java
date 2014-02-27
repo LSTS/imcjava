@@ -44,6 +44,16 @@ public class MessageList extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public MessageList(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public MessageList(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class MessageList extends IMCMessage {
 	/**
 	 *  @param msgs Messages
 	 */
-	public void setMsgs(java.util.Collection<IMCMessage> msgs) {
+	public MessageList setMsgs(java.util.Collection<IMCMessage> msgs) {
 		values.put("msgs", msgs);
+		return this;
 	}
 
 }

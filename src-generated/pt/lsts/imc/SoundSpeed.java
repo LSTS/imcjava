@@ -45,6 +45,16 @@ public class SoundSpeed extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SoundSpeed(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SoundSpeed(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class SoundSpeed extends IMCMessage {
 	/**
 	 *  @param value Computed Sound Speed (m/s)
 	 */
-	public void setValue(double value) {
+	public SoundSpeed setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

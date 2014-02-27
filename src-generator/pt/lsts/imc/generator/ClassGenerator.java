@@ -134,7 +134,7 @@ public class ClassGenerator {
 			bw.write("\t\tif (m != null)\n");
 			bw.write("\t\t\ttry {\n");
 			bw.write("\t\t\t\t"+msg+" ms = new " + msg + "();\n");
-			bw.write("\t\t\t\tms.setMessage(m);\n");
+			bw.write("\t\t\t\tms.copyFrom(m);\n");
 			bw.write("\t\t\t\treturn ms;\n");
 			bw.write("\t\t\t}\n");
 			bw.write("\t\t\tcatch (Exception e) { }\n");
@@ -154,7 +154,7 @@ public class ClassGenerator {
 			bw.write("\t\tif (m != null)\n");
 			bw.write("\t\t\ttry {\n");
 			bw.write("\t\t\t\t"+msg+" ms = new " + msg + "();\n");
-			bw.write("\t\t\t\tms.setMessage(m);\n");
+			bw.write("\t\t\t\tms.copyFrom(m);\n");
 			bw.write("\t\t\t\treturn ms;\n");
 			bw.write("\t\t\t}\n");
 			bw.write("\t\t\tcatch (Exception e) { }\n");
@@ -173,7 +173,7 @@ public class ClassGenerator {
 			bw.write("\t\tif (m != null)\n");
 			bw.write("\t\t\ttry {\n");
 			bw.write("\t\t\t\t"+msg+" ms = new " + msg + "();\n");
-			bw.write("\t\t\t\tms.setMessage(m);\n");
+			bw.write("\t\t\t\tms.copyFrom(m);\n");
 			bw.write("\t\t\t\treturn ms;\n");
 			bw.write("\t\t\t}\n");
 			bw.write("\t\t\tcatch (Exception e) { }\n");
@@ -194,7 +194,7 @@ public class ClassGenerator {
 			bw.write("\t\tif (m != null)\n");
 			bw.write("\t\t\ttry {\n");
 			bw.write("\t\t\t\t"+msg+" ms = new " + msg + "();\n");
-			bw.write("\t\t\t\tms.setMessage(m);\n");
+			bw.write("\t\t\t\tms.copyFrom(m);\n");
 			bw.write("\t\t\t\treturn ms;\n");
 			bw.write("\t\t\t}\n");
 			bw.write("\t\t\tcatch (Exception e) { }\n");
@@ -475,25 +475,29 @@ public class ClassGenerator {
 		case TYPE_INT8:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
 				String capField = field.toUpperCase();
-				sb.append("\tpublic void set" + capitalizedField + "(" + capField + " " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(" + capField + " " + field + ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ".value());\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 
 				sb.append("\t/**\n\t *  @param " + field + " " + type.getFullFieldName(field)
 						+ " (as a String)\n\t */\n");
-				sb.append("\tpublic void set" + capitalizedField + "(String " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(String " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 
 				sb.append("\t/**\n\t *  @param " + field + " " + type.getFullFieldName(field)
 						+ " (integer value)\n\t */\n");
-				sb.append("\tpublic void set" + capitalizedField + "(byte " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(byte " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			else {
-				sb.append("\tpublic void set" + capitalizedField + "(byte " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(byte " + field + ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			break;
@@ -501,25 +505,29 @@ public class ClassGenerator {
 		case TYPE_INT16:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
 				String capField = field.toUpperCase();
-				sb.append("\tpublic void set" + capitalizedField + "(" + capField + " " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(" + capField + " " + field + ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ".value());\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 
 				sb.append("\t/**\n\t *  @param " + field + " " + type.getFullFieldName(field)
 						+ " (as a String)\n\t */\n");
-				sb.append("\tpublic void set" + capitalizedField + "(String " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(String " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 
 				sb.append("\t/**\n\t *  @param " + field + " " + type.getFullFieldName(field)
 						+ " (integer value)\n\t */\n");
-				sb.append("\tpublic void set" + capitalizedField + "(short " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(short " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			else {
-				sb.append("\tpublic void set" + capitalizedField + "(short " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(short " + field + ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			break;
@@ -527,25 +535,29 @@ public class ClassGenerator {
 		case TYPE_INT32:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
 				String capField = field.toUpperCase();
-				sb.append("\tpublic void set" + capitalizedField + "(" + capField + " " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(" + capField + " " + field + ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ".value());\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 
 				sb.append("\t/**\n\t *  @param " + field + " " + type.getFullFieldName(field)
 						+ " (as a String)\n\t */\n");
-				sb.append("\tpublic void set" + capitalizedField + "(String " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(String " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 
 				sb.append("\t/**\n\t *  @param " + field + " " + type.getFullFieldName(field)
 						+ " (integer value)\n\t */\n");
-				sb.append("\tpublic void set" + capitalizedField + "(int " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(int " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			else {
-				sb.append("\tpublic void set" + capitalizedField + "(int " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(int " + field + ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			break;
@@ -553,75 +565,87 @@ public class ClassGenerator {
 		case TYPE_INT64:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
 				String capField = field.toUpperCase();
-				sb.append("\tpublic void set" + capitalizedField + "(" + capField + " " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(" + capField + " " + field + ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ".value());\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 
 				sb.append("\t/**\n\t *  @param " + field + " " + type.getFullFieldName(field)
 						+ " (as a String)\n\t */\n");
-				sb.append("\tpublic void set" + capitalizedField + "(String " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(String " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 
 				sb.append("\t/**\n\t *  @param " + field + " " + type.getFullFieldName(field)
 						+ " (integer value)\n\t */\n");
-				sb.append("\tpublic void set" + capitalizedField + "(long " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(long " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			else {
-				sb.append("\tpublic void set" + capitalizedField + "(long " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(long " + field + ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			break;
 		case TYPE_FP32:
 		case TYPE_FP64:
-			sb.append("\tpublic void set" + capitalizedField + "(double " + field + ") {\n");
+			sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(double " + field + ") {\n");
 			sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+			sb.append("\t\treturn this;\n");
 			sb.append("\t}\n\n");
 			break;
 		case TYPE_PLAINTEXT:
 			if (("" + type.getFieldUnits(field)).equalsIgnoreCase("tuplelist")) {
-				sb.append("\tpublic void set" + capitalizedField + "(java.util.LinkedHashMap<String, ?> " + field
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(java.util.LinkedHashMap<String, ?> " + field
 						+ ") {\n");
 				sb.append("\t\tString val = encodeTupleList(" + field + ");\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", val);\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
-			sb.append("\tpublic void set" + capitalizedField + "(String " + field + ") {\n");
+			sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(String " + field + ") {\n");
 			sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+			sb.append("\t\treturn this;\n");
 			sb.append("\t}\n\n");
 			break;
 		case TYPE_RAWDATA:
-			sb.append("\tpublic void set" + capitalizedField + "(byte[] " + field + ") {\n");
+			sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(byte[] " + field + ") {\n");
 			sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+			sb.append("\t\treturn this;\n");
 			sb.append("\t}\n\n");
 			break;
 		case TYPE_MESSAGE:
 			if (type.getFieldSubtype(field) != null) {
-				sb.append("\tpublic void set" + capitalizedField + "(" + type.getFieldSubtype(field) + " " + field
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(" + type.getFieldSubtype(field) + " " + field
 						+ ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			else {
-				sb.append("\tpublic void set" + capitalizedField + "(IMCMessage " + field + ") {\n");
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(IMCMessage " + field + ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			break;
 		case TYPE_MESSAGELIST:
 			if (type.getFieldSubtype(field) != null) {
-				sb.append("\tpublic void set" + capitalizedField + "(java.util.Collection<"
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(java.util.Collection<"
 						+ type.getFieldSubtype(field) + "> " + field + ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			else {
-				sb.append("\tpublic void set" + capitalizedField + "(java.util.Collection<IMCMessage> " + field
+				sb.append("\tpublic "+type.getShortName()+" set" + capitalizedField + "(java.util.Collection<IMCMessage> " + field
 						+ ") {\n");
 				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
 			}
 			break;
@@ -972,6 +996,15 @@ public class ClassGenerator {
 		}
 
 		bw.write("\tpublic " + msgName + "() {\n\t\tsuper(ID_STATIC);\n\t}\n\n");
+		bw.write("\tpublic " + msgName + "(IMCMessage msg) {\n");
+		bw.write("\t\tsuper(ID_STATIC);\n");
+		bw.write("\t\ttry{\n");
+		bw.write("\t\t\tcopyFrom(msg);\n");
+		bw.write("\t\t}\n");
+		bw.write("\t\tcatch (Exception e) {\n");
+		bw.write("\t\t\te.printStackTrace();\n");
+		bw.write("\t\t}\n");
+		bw.write("\t}\n\n");
 		bw.write("\tpublic " + msgName + "(IMCDefinition defs) {\n\t\tsuper(defs, ID_STATIC);\n\t}\n\n");
 
 		bw.write("\tpublic static " + msgName + " create(Object... values) {\n");

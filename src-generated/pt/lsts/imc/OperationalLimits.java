@@ -53,6 +53,16 @@ public class OperationalLimits extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public OperationalLimits(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public OperationalLimits(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -184,85 +194,97 @@ public class OperationalLimits extends IMCMessage {
 	/**
 	 *  @param mask Field Indicator Mask (bitfield)
 	 */
-	public void setMask(short mask) {
+	public OperationalLimits setMask(short mask) {
 		values.put("mask", mask);
+		return this;
 	}
 
 	/**
 	 *  @param max_depth Maximum Depth (m)
 	 */
-	public void setMaxDepth(double max_depth) {
+	public OperationalLimits setMaxDepth(double max_depth) {
 		values.put("max_depth", max_depth);
+		return this;
 	}
 
 	/**
 	 *  @param min_altitude Minimum Altitude (m)
 	 */
-	public void setMinAltitude(double min_altitude) {
+	public OperationalLimits setMinAltitude(double min_altitude) {
 		values.put("min_altitude", min_altitude);
+		return this;
 	}
 
 	/**
 	 *  @param max_altitude Maximum Altitude (m)
 	 */
-	public void setMaxAltitude(double max_altitude) {
+	public OperationalLimits setMaxAltitude(double max_altitude) {
 		values.put("max_altitude", max_altitude);
+		return this;
 	}
 
 	/**
 	 *  @param min_speed Minimum Speed (m/s)
 	 */
-	public void setMinSpeed(double min_speed) {
+	public OperationalLimits setMinSpeed(double min_speed) {
 		values.put("min_speed", min_speed);
+		return this;
 	}
 
 	/**
 	 *  @param max_speed Maximum Speed (m/s)
 	 */
-	public void setMaxSpeed(double max_speed) {
+	public OperationalLimits setMaxSpeed(double max_speed) {
 		values.put("max_speed", max_speed);
+		return this;
 	}
 
 	/**
 	 *  @param max_vrate Maximum Vertical Rate (m/s)
 	 */
-	public void setMaxVrate(double max_vrate) {
+	public OperationalLimits setMaxVrate(double max_vrate) {
 		values.put("max_vrate", max_vrate);
+		return this;
 	}
 
 	/**
 	 *  @param lat Area -- WGS-84 Latitude (rad)
 	 */
-	public void setLat(double lat) {
+	public OperationalLimits setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Area -- WGS-84 Longitude (rad)
 	 */
-	public void setLon(double lon) {
+	public OperationalLimits setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param orientation Area -- Orientation (rad)
 	 */
-	public void setOrientation(double orientation) {
+	public OperationalLimits setOrientation(double orientation) {
 		values.put("orientation", orientation);
+		return this;
 	}
 
 	/**
 	 *  @param width Area -- Width (m)
 	 */
-	public void setWidth(double width) {
+	public OperationalLimits setWidth(double width) {
 		values.put("width", width);
+		return this;
 	}
 
 	/**
 	 *  @param length Area -- Length (m)
 	 */
-	public void setLength(double length) {
+	public OperationalLimits setLength(double length) {
 		values.put("length", length);
+		return this;
 	}
 
 }

@@ -45,6 +45,16 @@ public class AcousticPingReply extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AcousticPingReply(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AcousticPingReply(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

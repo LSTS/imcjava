@@ -46,6 +46,16 @@ public class Teleoperation extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public Teleoperation(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Teleoperation(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -90,13 +100,15 @@ public class Teleoperation extends Maneuver {
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public Teleoperation setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public Teleoperation setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

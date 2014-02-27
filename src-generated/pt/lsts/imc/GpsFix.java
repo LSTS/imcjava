@@ -73,6 +73,16 @@ public class GpsFix extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public GpsFix(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public GpsFix(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -244,127 +254,145 @@ public class GpsFix extends IMCMessage {
 	/**
 	 *  @param validity Validity (bitfield)
 	 */
-	public void setValidity(int validity) {
+	public GpsFix setValidity(int validity) {
 		values.put("validity", validity);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public GpsFix setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public void setType(String type) {
+	public GpsFix setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public void setType(short type) {
+	public GpsFix setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param utc_year UTC Year
 	 */
-	public void setUtcYear(int utc_year) {
+	public GpsFix setUtcYear(int utc_year) {
 		values.put("utc_year", utc_year);
+		return this;
 	}
 
 	/**
 	 *  @param utc_month UTC Month
 	 */
-	public void setUtcMonth(short utc_month) {
+	public GpsFix setUtcMonth(short utc_month) {
 		values.put("utc_month", utc_month);
+		return this;
 	}
 
 	/**
 	 *  @param utc_day UTC Day
 	 */
-	public void setUtcDay(short utc_day) {
+	public GpsFix setUtcDay(short utc_day) {
 		values.put("utc_day", utc_day);
+		return this;
 	}
 
 	/**
 	 *  @param utc_time UTC Time of Fix (s)
 	 */
-	public void setUtcTime(double utc_time) {
+	public GpsFix setUtcTime(double utc_time) {
 		values.put("utc_time", utc_time);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public GpsFix setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public GpsFix setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param height Height above WGS-84 ellipsoid (m)
 	 */
-	public void setHeight(double height) {
+	public GpsFix setHeight(double height) {
 		values.put("height", height);
+		return this;
 	}
 
 	/**
 	 *  @param satellites Number of Satellites
 	 */
-	public void setSatellites(short satellites) {
+	public GpsFix setSatellites(short satellites) {
 		values.put("satellites", satellites);
+		return this;
 	}
 
 	/**
 	 *  @param cog Course Over Ground (rad)
 	 */
-	public void setCog(double cog) {
+	public GpsFix setCog(double cog) {
 		values.put("cog", cog);
+		return this;
 	}
 
 	/**
 	 *  @param sog Speed Over Ground (m/s)
 	 */
-	public void setSog(double sog) {
+	public GpsFix setSog(double sog) {
 		values.put("sog", sog);
+		return this;
 	}
 
 	/**
 	 *  @param hdop Horizontal Dilution of Precision
 	 */
-	public void setHdop(double hdop) {
+	public GpsFix setHdop(double hdop) {
 		values.put("hdop", hdop);
+		return this;
 	}
 
 	/**
 	 *  @param vdop Vertical Dilution of Precision
 	 */
-	public void setVdop(double vdop) {
+	public GpsFix setVdop(double vdop) {
 		values.put("vdop", vdop);
+		return this;
 	}
 
 	/**
 	 *  @param hacc Horizontal Accuracy Estimate (m)
 	 */
-	public void setHacc(double hacc) {
+	public GpsFix setHacc(double hacc) {
 		values.put("hacc", hacc);
+		return this;
 	}
 
 	/**
 	 *  @param vacc Vertical Accuracy Estimate (m)
 	 */
-	public void setVacc(double vacc) {
+	public GpsFix setVacc(double vacc) {
 		values.put("vacc", vacc);
+		return this;
 	}
 
 }

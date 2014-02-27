@@ -45,6 +45,16 @@ public class TeleoperationDone extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TeleoperationDone(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TeleoperationDone(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

@@ -45,6 +45,16 @@ public class LblDetection extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LblDetection(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LblDetection(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -104,22 +114,25 @@ public class LblDetection extends IMCMessage {
 	/**
 	 *  @param tx Transmission
 	 */
-	public void setTx(short tx) {
+	public LblDetection setTx(short tx) {
 		values.put("tx", tx);
+		return this;
 	}
 
 	/**
 	 *  @param channel Channel
 	 */
-	public void setChannel(short channel) {
+	public LblDetection setChannel(short channel) {
 		values.put("channel", channel);
+		return this;
 	}
 
 	/**
 	 *  @param timer Timer
 	 */
-	public void setTimer(int timer) {
+	public LblDetection setTimer(int timer) {
 		values.put("timer", timer);
+		return this;
 	}
 
 }

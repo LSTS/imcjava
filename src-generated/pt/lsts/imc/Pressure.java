@@ -45,6 +45,16 @@ public class Pressure extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Pressure(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Pressure(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class Pressure extends IMCMessage {
 	/**
 	 *  @param value Measured Pressure (hpa)
 	 */
-	public void setValue(double value) {
+	public Pressure setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

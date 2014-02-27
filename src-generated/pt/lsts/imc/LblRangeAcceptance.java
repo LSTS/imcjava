@@ -68,6 +68,16 @@ public class LblRangeAcceptance extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LblRangeAcceptance(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LblRangeAcceptance(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -134,36 +144,41 @@ public class LblRangeAcceptance extends IMCMessage {
 	/**
 	 *  @param id Beacon Identification Number
 	 */
-	public void setId(short id) {
+	public LblRangeAcceptance setId(short id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param range Range (m)
 	 */
-	public void setRange(double range) {
+	public LblRangeAcceptance setRange(double range) {
 		values.put("range", range);
+		return this;
 	}
 
 	/**
 	 *  @param acceptance Acceptance (enumerated)
 	 */
-	public void setAcceptance(ACCEPTANCE acceptance) {
+	public LblRangeAcceptance setAcceptance(ACCEPTANCE acceptance) {
 		values.put("acceptance", acceptance.value());
+		return this;
 	}
 
 	/**
 	 *  @param acceptance Acceptance (as a String)
 	 */
-	public void setAcceptance(String acceptance) {
+	public LblRangeAcceptance setAcceptance(String acceptance) {
 		setValue("acceptance", acceptance);
+		return this;
 	}
 
 	/**
 	 *  @param acceptance Acceptance (integer value)
 	 */
-	public void setAcceptance(short acceptance) {
+	public LblRangeAcceptance setAcceptance(short acceptance) {
 		setValue("acceptance", acceptance);
+		return this;
 	}
 
 }

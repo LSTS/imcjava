@@ -45,6 +45,16 @@ public class Current extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Current(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Current(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class Current extends IMCMessage {
 	/**
 	 *  @param value Measured Current Value (a)
 	 */
-	public void setValue(double value) {
+	public Current setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

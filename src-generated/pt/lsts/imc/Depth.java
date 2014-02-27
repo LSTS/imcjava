@@ -45,6 +45,16 @@ public class Depth extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Depth(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Depth(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class Depth extends IMCMessage {
 	/**
 	 *  @param value Measured Depth (m)
 	 */
-	public void setValue(double value) {
+	public Depth setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

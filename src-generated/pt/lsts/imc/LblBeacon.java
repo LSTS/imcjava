@@ -45,6 +45,16 @@ public class LblBeacon extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LblBeacon(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LblBeacon(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -137,50 +147,57 @@ public class LblBeacon extends IMCMessage {
 	/**
 	 *  @param beacon Beacon Name
 	 */
-	public void setBeacon(String beacon) {
+	public LblBeacon setBeacon(String beacon) {
 		values.put("beacon", beacon);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public LblBeacon setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public LblBeacon setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param depth Depth (m)
 	 */
-	public void setDepth(double depth) {
+	public LblBeacon setDepth(double depth) {
 		values.put("depth", depth);
+		return this;
 	}
 
 	/**
 	 *  @param query_channel Interrogation channel
 	 */
-	public void setQueryChannel(short query_channel) {
+	public LblBeacon setQueryChannel(short query_channel) {
 		values.put("query_channel", query_channel);
+		return this;
 	}
 
 	/**
 	 *  @param reply_channel Reply channel
 	 */
-	public void setReplyChannel(short reply_channel) {
+	public LblBeacon setReplyChannel(short reply_channel) {
 		values.put("reply_channel", reply_channel);
+		return this;
 	}
 
 	/**
 	 *  @param transponder_delay Transponder delay (ms)
 	 */
-	public void setTransponderDelay(short transponder_delay) {
+	public LblBeacon setTransponderDelay(short transponder_delay) {
 		values.put("transponder_delay", transponder_delay);
+		return this;
 	}
 
 }

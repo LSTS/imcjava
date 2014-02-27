@@ -45,6 +45,16 @@ public class VehicleFormationParticipant extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public VehicleFormationParticipant(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VehicleFormationParticipant(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -112,29 +122,33 @@ public class VehicleFormationParticipant extends IMCMessage {
 	/**
 	 *  @param vid ID (IMC address)
 	 */
-	public void setVid(int vid) {
+	public VehicleFormationParticipant setVid(int vid) {
 		values.put("vid", vid);
+		return this;
 	}
 
 	/**
 	 *  @param off_x Formation offset -- Along-track (m)
 	 */
-	public void setOffX(double off_x) {
+	public VehicleFormationParticipant setOffX(double off_x) {
 		values.put("off_x", off_x);
+		return this;
 	}
 
 	/**
 	 *  @param off_y Formation offset -- Cross-track (m)
 	 */
-	public void setOffY(double off_y) {
+	public VehicleFormationParticipant setOffY(double off_y) {
 		values.put("off_y", off_y);
+		return this;
 	}
 
 	/**
 	 *  @param off_z Formation offset -- Depth/Altitude (m)
 	 */
-	public void setOffZ(double off_z) {
+	public VehicleFormationParticipant setOffZ(double off_z) {
 		values.put("off_z", off_z);
+		return this;
 	}
 
 }

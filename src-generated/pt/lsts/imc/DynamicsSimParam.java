@@ -61,6 +61,16 @@ public class DynamicsSimParam extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DynamicsSimParam(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DynamicsSimParam(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -127,36 +137,41 @@ public class DynamicsSimParam extends IMCMessage {
 	/**
 	 *  @param op Action on the Vehicle Simulation Parameters (enumerated)
 	 */
-	public void setOp(OP op) {
+	public DynamicsSimParam setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Action on the Vehicle Simulation Parameters (as a String)
 	 */
-	public void setOp(String op) {
+	public DynamicsSimParam setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Action on the Vehicle Simulation Parameters (integer value)
 	 */
-	public void setOp(short op) {
+	public DynamicsSimParam setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param tas2acc_pgain TAS to Longitudinal Acceleration Gain
 	 */
-	public void setTas2accPgain(double tas2acc_pgain) {
+	public DynamicsSimParam setTas2accPgain(double tas2acc_pgain) {
 		values.put("tas2acc_pgain", tas2acc_pgain);
+		return this;
 	}
 
 	/**
 	 *  @param bank2p_pgain Bank to Bank Rate Gain
 	 */
-	public void setBank2pPgain(double bank2p_pgain) {
+	public DynamicsSimParam setBank2pPgain(double bank2p_pgain) {
 		values.put("bank2p_pgain", bank2p_pgain);
+		return this;
 	}
 
 }

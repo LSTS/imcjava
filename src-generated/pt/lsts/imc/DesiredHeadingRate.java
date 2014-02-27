@@ -45,6 +45,16 @@ public class DesiredHeadingRate extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DesiredHeadingRate(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DesiredHeadingRate(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class DesiredHeadingRate extends IMCMessage {
 	/**
 	 *  @param value Value (rad/s)
 	 */
-	public void setValue(double value) {
+	public DesiredHeadingRate setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

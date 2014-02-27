@@ -61,6 +61,16 @@ public class UASimulation extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public UASimulation(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public UASimulation(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -128,36 +138,41 @@ public class UASimulation extends IMCMessage {
 	/**
 	 *  @param type Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public UASimulation setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public void setType(String type) {
+	public UASimulation setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public void setType(short type) {
+	public UASimulation setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param speed Transmission Speed (bps)
 	 */
-	public void setSpeed(int speed) {
+	public UASimulation setSpeed(int speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public UASimulation setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

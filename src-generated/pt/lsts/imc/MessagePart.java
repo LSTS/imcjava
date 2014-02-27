@@ -44,6 +44,16 @@ public class MessagePart extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public MessagePart(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public MessagePart(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -112,29 +122,33 @@ public class MessagePart extends IMCMessage {
 	/**
 	 *  @param uid Transmission Unique Id
 	 */
-	public void setUid(short uid) {
+	public MessagePart setUid(short uid) {
 		values.put("uid", uid);
+		return this;
 	}
 
 	/**
 	 *  @param frag_number Fragment Number
 	 */
-	public void setFragNumber(short frag_number) {
+	public MessagePart setFragNumber(short frag_number) {
 		values.put("frag_number", frag_number);
+		return this;
 	}
 
 	/**
 	 *  @param num_frags Total Number of fragments
 	 */
-	public void setNumFrags(short num_frags) {
+	public MessagePart setNumFrags(short num_frags) {
 		values.put("num_frags", num_frags);
+		return this;
 	}
 
 	/**
 	 *  @param data Fragment Data
 	 */
-	public void setData(byte[] data) {
+	public MessagePart setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

@@ -65,6 +65,16 @@ public class RemoteActionsRequest extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public RemoteActionsRequest(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public RemoteActionsRequest(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -124,34 +134,39 @@ public class RemoteActionsRequest extends IMCMessage {
 	/**
 	 *  @param op operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public RemoteActionsRequest setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op operation (as a String)
 	 */
-	public void setOp(String op) {
+	public RemoteActionsRequest setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op operation (integer value)
 	 */
-	public void setOp(short op) {
+	public RemoteActionsRequest setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param actions Actions (tuplelist)
 	 */
-	public void setActions(java.util.LinkedHashMap<String, ?> actions) {
+	public RemoteActionsRequest setActions(java.util.LinkedHashMap<String, ?> actions) {
 		String val = encodeTupleList(actions);
 		values.put("actions", val);
+		return this;
 	}
 
-	public void setActions(String actions) {
+	public RemoteActionsRequest setActions(String actions) {
 		values.put("actions", actions);
+		return this;
 	}
 
 }

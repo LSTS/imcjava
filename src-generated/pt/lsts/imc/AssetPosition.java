@@ -59,6 +59,16 @@ public class AssetPosition extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AssetPosition(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AssetPosition(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -108,22 +118,25 @@ public class AssetPosition extends IMCMessage {
 	/**
 	 *  @param pos_type Position Type (enumerated)
 	 */
-	public void setPosType(POS_TYPE pos_type) {
+	public AssetPosition setPosType(POS_TYPE pos_type) {
 		values.put("pos_type", pos_type.value());
+		return this;
 	}
 
 	/**
 	 *  @param pos_type Position Type (as a String)
 	 */
-	public void setPosType(String pos_type) {
+	public AssetPosition setPosType(String pos_type) {
 		setValue("pos_type", pos_type);
+		return this;
 	}
 
 	/**
 	 *  @param pos_type Position Type (integer value)
 	 */
-	public void setPosType(short pos_type) {
+	public AssetPosition setPosType(short pos_type) {
 		setValue("pos_type", pos_type);
+		return this;
 	}
 
 }

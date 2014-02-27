@@ -50,6 +50,16 @@ public class Reference extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Reference(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Reference(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -155,43 +165,49 @@ public class Reference extends IMCMessage {
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public Reference setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed Reference
 	 */
-	public void setSpeed(DesiredSpeed speed) {
+	public Reference setSpeed(DesiredSpeed speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param z Z Reference
 	 */
-	public void setZ(DesiredZ z) {
+	public Reference setZ(DesiredZ z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude Reference
 	 */
-	public void setLat(double lat) {
+	public Reference setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude Reference
 	 */
-	public void setLon(double lon) {
+	public Reference setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param radius Radius
 	 */
-	public void setRadius(double radius) {
+	public Reference setRadius(double radius) {
 		values.put("radius", radius);
+		return this;
 	}
 
 }

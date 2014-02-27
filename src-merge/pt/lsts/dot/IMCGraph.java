@@ -187,7 +187,7 @@ public class IMCGraph {
             
             try {
                 TransportBindings msg = new TransportBindings();
-                msg.setMessage(index.getMessage(i));
+                msg.copyFrom(index.getMessage(i));
                 
                 if (msg.getConsumer().equalsIgnoreCase("Transports.UDP")) {
                     messagesSentToUDP.add(index.getDefinitions().getMessageName((int)msg.getMessageId()));

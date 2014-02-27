@@ -85,6 +85,16 @@ public class PathControlState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PathControlState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PathControlState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -279,155 +289,177 @@ public class PathControlState extends IMCMessage {
 	/**
 	 *  @param start_lat Start Point -- Latitude WGS-84 (rad)
 	 */
-	public void setStartLat(double start_lat) {
+	public PathControlState setStartLat(double start_lat) {
 		values.put("start_lat", start_lat);
+		return this;
 	}
 
 	/**
 	 *  @param start_lon Start Point -- WGS-84 Longitude (rad)
 	 */
-	public void setStartLon(double start_lon) {
+	public PathControlState setStartLon(double start_lon) {
 		values.put("start_lon", start_lon);
+		return this;
 	}
 
 	/**
 	 *  @param start_z Start Point -- Z Reference (m)
 	 */
-	public void setStartZ(double start_z) {
+	public PathControlState setStartZ(double start_z) {
 		values.put("start_z", start_z);
+		return this;
 	}
 
 	/**
 	 *  @param start_z_units Start Point -- Z Units (enumerated)
 	 */
-	public void setStartZUnits(START_Z_UNITS start_z_units) {
+	public PathControlState setStartZUnits(START_Z_UNITS start_z_units) {
 		values.put("start_z_units", start_z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param start_z_units Start Point -- Z Units (as a String)
 	 */
-	public void setStartZUnits(String start_z_units) {
+	public PathControlState setStartZUnits(String start_z_units) {
 		setValue("start_z_units", start_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param start_z_units Start Point -- Z Units (integer value)
 	 */
-	public void setStartZUnits(short start_z_units) {
+	public PathControlState setStartZUnits(short start_z_units) {
 		setValue("start_z_units", start_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param end_lat End Point -- Latitude WGS-84 (rad)
 	 */
-	public void setEndLat(double end_lat) {
+	public PathControlState setEndLat(double end_lat) {
 		values.put("end_lat", end_lat);
+		return this;
 	}
 
 	/**
 	 *  @param end_lon End Point -- WGS-84 Longitude (rad)
 	 */
-	public void setEndLon(double end_lon) {
+	public PathControlState setEndLon(double end_lon) {
 		values.put("end_lon", end_lon);
+		return this;
 	}
 
 	/**
 	 *  @param end_z End Point -- Z Reference (m)
 	 */
-	public void setEndZ(double end_z) {
+	public PathControlState setEndZ(double end_z) {
 		values.put("end_z", end_z);
+		return this;
 	}
 
 	/**
 	 *  @param end_z_units End Point -- Z Units (enumerated)
 	 */
-	public void setEndZUnits(END_Z_UNITS end_z_units) {
+	public PathControlState setEndZUnits(END_Z_UNITS end_z_units) {
 		values.put("end_z_units", end_z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param end_z_units End Point -- Z Units (as a String)
 	 */
-	public void setEndZUnits(String end_z_units) {
+	public PathControlState setEndZUnits(String end_z_units) {
 		setValue("end_z_units", end_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param end_z_units End Point -- Z Units (integer value)
 	 */
-	public void setEndZUnits(short end_z_units) {
+	public PathControlState setEndZUnits(short end_z_units) {
 		setValue("end_z_units", end_z_units);
+		return this;
 	}
 
 	/**
 	 *  @param lradius Loiter -- Radius (m)
 	 */
-	public void setLradius(double lradius) {
+	public PathControlState setLradius(double lradius) {
 		values.put("lradius", lradius);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public PathControlState setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 	/**
 	 *  @param x Along Track Position (m)
 	 */
-	public void setX(double x) {
+	public PathControlState setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Cross Track Position (m)
 	 */
-	public void setY(double y) {
+	public PathControlState setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Vertical Track Position (m)
 	 */
-	public void setZ(double z) {
+	public PathControlState setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param vx Along Track Velocity (m/s)
 	 */
-	public void setVx(double vx) {
+	public PathControlState setVx(double vx) {
 		values.put("vx", vx);
+		return this;
 	}
 
 	/**
 	 *  @param vy Cross Track Velocity (m/s)
 	 */
-	public void setVy(double vy) {
+	public PathControlState setVy(double vy) {
 		values.put("vy", vy);
+		return this;
 	}
 
 	/**
 	 *  @param vz Vertical Track Velocity (m/s)
 	 */
-	public void setVz(double vz) {
+	public PathControlState setVz(double vz) {
 		values.put("vz", vz);
+		return this;
 	}
 
 	/**
 	 *  @param course_error Course Error (rad)
 	 */
-	public void setCourseError(double course_error) {
+	public PathControlState setCourseError(double course_error) {
 		values.put("course_error", course_error);
+		return this;
 	}
 
 	/**
 	 *  @param eta Estimated Time to Arrival (ETA) (s)
 	 */
-	public void setEta(int eta) {
+	public PathControlState setEta(int eta) {
 		values.put("eta", eta);
+		return this;
 	}
 
 }

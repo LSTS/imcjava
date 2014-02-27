@@ -73,6 +73,16 @@ public class FormationParameters extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public FormationParameters(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public FormationParameters(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -156,48 +166,55 @@ public class FormationParameters extends Maneuver {
 	/**
 	 *  @param formation_name Formation Name
 	 */
-	public void setFormationName(String formation_name) {
+	public FormationParameters setFormationName(String formation_name) {
 		values.put("formation_name", formation_name);
+		return this;
 	}
 
 	/**
 	 *  @param reference_frame Formation Reference Frame (enumerated)
 	 */
-	public void setReferenceFrame(REFERENCE_FRAME reference_frame) {
+	public FormationParameters setReferenceFrame(REFERENCE_FRAME reference_frame) {
 		values.put("reference_frame", reference_frame.value());
+		return this;
 	}
 
 	/**
 	 *  @param reference_frame Formation Reference Frame (as a String)
 	 */
-	public void setReferenceFrame(String reference_frame) {
+	public FormationParameters setReferenceFrame(String reference_frame) {
 		setValue("reference_frame", reference_frame);
+		return this;
 	}
 
 	/**
 	 *  @param reference_frame Formation Reference Frame (integer value)
 	 */
-	public void setReferenceFrame(short reference_frame) {
+	public FormationParameters setReferenceFrame(short reference_frame) {
 		setValue("reference_frame", reference_frame);
+		return this;
 	}
 
 	/**
 	 *  @param participants Formation Participants
 	 */
-	public void setParticipants(java.util.Collection<VehicleFormationParticipant> participants) {
+	public FormationParameters setParticipants(java.util.Collection<VehicleFormationParticipant> participants) {
 		values.put("participants", participants);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for formation (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public FormationParameters setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public FormationParameters setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

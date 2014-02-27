@@ -87,6 +87,16 @@ public class VehicleState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public VehicleState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VehicleState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -212,85 +222,97 @@ public class VehicleState extends IMCMessage {
 	/**
 	 *  @param op_mode Operation Mode (enumerated)
 	 */
-	public void setOpMode(OP_MODE op_mode) {
+	public VehicleState setOpMode(OP_MODE op_mode) {
 		values.put("op_mode", op_mode.value());
+		return this;
 	}
 
 	/**
 	 *  @param op_mode Operation Mode (as a String)
 	 */
-	public void setOpMode(String op_mode) {
+	public VehicleState setOpMode(String op_mode) {
 		setValue("op_mode", op_mode);
+		return this;
 	}
 
 	/**
 	 *  @param op_mode Operation Mode (integer value)
 	 */
-	public void setOpMode(short op_mode) {
+	public VehicleState setOpMode(short op_mode) {
 		setValue("op_mode", op_mode);
+		return this;
 	}
 
 	/**
 	 *  @param error_count Errors -- Count
 	 */
-	public void setErrorCount(short error_count) {
+	public VehicleState setErrorCount(short error_count) {
 		values.put("error_count", error_count);
+		return this;
 	}
 
 	/**
 	 *  @param error_ents Errors -- Entities
 	 */
-	public void setErrorEnts(String error_ents) {
+	public VehicleState setErrorEnts(String error_ents) {
 		values.put("error_ents", error_ents);
+		return this;
 	}
 
 	/**
 	 *  @param maneuver_type Maneuver -- Type
 	 */
-	public void setManeuverType(int maneuver_type) {
+	public VehicleState setManeuverType(int maneuver_type) {
 		values.put("maneuver_type", maneuver_type);
+		return this;
 	}
 
 	/**
 	 *  @param maneuver_stime Maneuver -- Start Time (s)
 	 */
-	public void setManeuverStime(double maneuver_stime) {
+	public VehicleState setManeuverStime(double maneuver_stime) {
 		values.put("maneuver_stime", maneuver_stime);
+		return this;
 	}
 
 	/**
 	 *  @param maneuver_eta Maneuver -- ETA (s)
 	 */
-	public void setManeuverEta(int maneuver_eta) {
+	public VehicleState setManeuverEta(int maneuver_eta) {
 		values.put("maneuver_eta", maneuver_eta);
+		return this;
 	}
 
 	/**
 	 *  @param control_loops Control Loops (bitfield)
 	 */
-	public void setControlLoops(long control_loops) {
+	public VehicleState setControlLoops(long control_loops) {
 		values.put("control_loops", control_loops);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public VehicleState setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 	/**
 	 *  @param last_error Last Error -- Description
 	 */
-	public void setLastError(String last_error) {
+	public VehicleState setLastError(String last_error) {
 		values.put("last_error", last_error);
+		return this;
 	}
 
 	/**
 	 *  @param last_error_time Last Error -- Time (s)
 	 */
-	public void setLastErrorTime(double last_error_time) {
+	public VehicleState setLastErrorTime(double last_error_time) {
 		values.put("last_error_time", last_error_time);
+		return this;
 	}
 
 }

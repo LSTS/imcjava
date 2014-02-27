@@ -50,7 +50,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityState ms = new EntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -67,7 +67,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityState ms = new EntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -84,7 +84,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityState ms = new EntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -102,7 +102,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityState ms = new EntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -118,7 +118,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityState ms = new QueryEntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -135,7 +135,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityState ms = new QueryEntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -152,7 +152,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityState ms = new QueryEntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -170,7 +170,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityState ms = new QueryEntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -186,7 +186,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityInfo ms = new EntityInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -203,7 +203,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityInfo ms = new EntityInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -220,7 +220,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityInfo ms = new EntityInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -238,7 +238,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityInfo ms = new EntityInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -254,7 +254,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityInfo ms = new QueryEntityInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -271,7 +271,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityInfo ms = new QueryEntityInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -288,7 +288,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityInfo ms = new QueryEntityInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -306,7 +306,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityInfo ms = new QueryEntityInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -322,7 +322,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityList ms = new EntityList();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -339,7 +339,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityList ms = new EntityList();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -356,7 +356,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityList ms = new EntityList();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -374,7 +374,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityList ms = new EntityList();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -390,7 +390,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityControl ms = new EntityControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -407,7 +407,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityControl ms = new EntityControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -424,7 +424,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityControl ms = new EntityControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -442,7 +442,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityControl ms = new EntityControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -458,7 +458,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CpuUsage ms = new CpuUsage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -475,7 +475,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CpuUsage ms = new CpuUsage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -492,7 +492,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CpuUsage ms = new CpuUsage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -510,7 +510,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CpuUsage ms = new CpuUsage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -526,7 +526,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TransportBindings ms = new TransportBindings();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -543,7 +543,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TransportBindings ms = new TransportBindings();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -560,7 +560,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TransportBindings ms = new TransportBindings();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -578,7 +578,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TransportBindings ms = new TransportBindings();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -594,7 +594,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RestartSystem ms = new RestartSystem();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -611,7 +611,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RestartSystem ms = new RestartSystem();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -628,7 +628,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RestartSystem ms = new RestartSystem();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -646,7 +646,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RestartSystem ms = new RestartSystem();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -662,7 +662,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Parameter ms = new Parameter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -679,7 +679,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Parameter ms = new Parameter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -696,7 +696,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Parameter ms = new Parameter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -714,7 +714,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Parameter ms = new Parameter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -730,7 +730,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ParameterControl ms = new ParameterControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -747,7 +747,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ParameterControl ms = new ParameterControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -764,7 +764,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ParameterControl ms = new ParameterControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -782,7 +782,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ParameterControl ms = new ParameterControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -798,7 +798,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevCalibrationControl ms = new DevCalibrationControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -815,7 +815,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevCalibrationControl ms = new DevCalibrationControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -832,7 +832,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevCalibrationControl ms = new DevCalibrationControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -850,7 +850,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevCalibrationControl ms = new DevCalibrationControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -866,7 +866,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevCalibrationState ms = new DevCalibrationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -883,7 +883,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevCalibrationState ms = new DevCalibrationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -900,7 +900,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevCalibrationState ms = new DevCalibrationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -918,7 +918,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevCalibrationState ms = new DevCalibrationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -934,7 +934,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityActivationState ms = new EntityActivationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -951,7 +951,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityActivationState ms = new EntityActivationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -968,7 +968,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityActivationState ms = new EntityActivationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -986,7 +986,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityActivationState ms = new EntityActivationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1002,7 +1002,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityActivationState ms = new QueryEntityActivationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1019,7 +1019,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityActivationState ms = new QueryEntityActivationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1036,7 +1036,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityActivationState ms = new QueryEntityActivationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1054,7 +1054,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityActivationState ms = new QueryEntityActivationState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1070,7 +1070,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleOperationalLimits ms = new VehicleOperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1087,7 +1087,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleOperationalLimits ms = new VehicleOperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1104,7 +1104,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleOperationalLimits ms = new VehicleOperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1122,7 +1122,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleOperationalLimits ms = new VehicleOperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1138,7 +1138,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MessageList ms = new MessageList();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1155,7 +1155,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MessageList ms = new MessageList();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1172,7 +1172,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MessageList ms = new MessageList();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1190,7 +1190,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MessageList ms = new MessageList();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1206,7 +1206,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SimulatedState ms = new SimulatedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1223,7 +1223,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SimulatedState ms = new SimulatedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1240,7 +1240,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SimulatedState ms = new SimulatedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1258,7 +1258,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SimulatedState ms = new SimulatedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1274,7 +1274,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LeakSimulation ms = new LeakSimulation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1291,7 +1291,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LeakSimulation ms = new LeakSimulation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1308,7 +1308,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LeakSimulation ms = new LeakSimulation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1326,7 +1326,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LeakSimulation ms = new LeakSimulation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1342,7 +1342,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UASimulation ms = new UASimulation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1359,7 +1359,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UASimulation ms = new UASimulation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1376,7 +1376,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UASimulation ms = new UASimulation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1394,7 +1394,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UASimulation ms = new UASimulation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1410,7 +1410,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DynamicsSimParam ms = new DynamicsSimParam();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1427,7 +1427,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DynamicsSimParam ms = new DynamicsSimParam();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1444,7 +1444,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DynamicsSimParam ms = new DynamicsSimParam();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1462,7 +1462,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DynamicsSimParam ms = new DynamicsSimParam();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1478,7 +1478,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StorageUsage ms = new StorageUsage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1495,7 +1495,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StorageUsage ms = new StorageUsage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1512,7 +1512,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StorageUsage ms = new StorageUsage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1530,7 +1530,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StorageUsage ms = new StorageUsage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1546,7 +1546,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CacheControl ms = new CacheControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1563,7 +1563,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CacheControl ms = new CacheControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1580,7 +1580,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CacheControl ms = new CacheControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1598,7 +1598,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CacheControl ms = new CacheControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1614,7 +1614,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LoggingControl ms = new LoggingControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1631,7 +1631,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LoggingControl ms = new LoggingControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1648,7 +1648,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LoggingControl ms = new LoggingControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1666,7 +1666,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LoggingControl ms = new LoggingControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1682,7 +1682,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LogBookEntry ms = new LogBookEntry();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1699,7 +1699,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LogBookEntry ms = new LogBookEntry();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1716,7 +1716,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LogBookEntry ms = new LogBookEntry();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1734,7 +1734,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LogBookEntry ms = new LogBookEntry();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1750,7 +1750,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LogBookControl ms = new LogBookControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1767,7 +1767,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LogBookControl ms = new LogBookControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1784,7 +1784,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LogBookControl ms = new LogBookControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1802,7 +1802,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LogBookControl ms = new LogBookControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1818,7 +1818,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ReplayControl ms = new ReplayControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1835,7 +1835,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ReplayControl ms = new ReplayControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1852,7 +1852,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ReplayControl ms = new ReplayControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1870,7 +1870,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ReplayControl ms = new ReplayControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1886,7 +1886,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ClockControl ms = new ClockControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1903,7 +1903,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ClockControl ms = new ClockControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1920,7 +1920,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ClockControl ms = new ClockControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1938,7 +1938,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ClockControl ms = new ClockControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1954,7 +1954,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Heartbeat ms = new Heartbeat();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1971,7 +1971,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Heartbeat ms = new Heartbeat();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -1988,7 +1988,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Heartbeat ms = new Heartbeat();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2006,7 +2006,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Heartbeat ms = new Heartbeat();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2022,7 +2022,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Announce ms = new Announce();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2039,7 +2039,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Announce ms = new Announce();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2056,7 +2056,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Announce ms = new Announce();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2074,7 +2074,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Announce ms = new Announce();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2090,7 +2090,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AnnounceService ms = new AnnounceService();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2107,7 +2107,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AnnounceService ms = new AnnounceService();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2124,7 +2124,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AnnounceService ms = new AnnounceService();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2142,7 +2142,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AnnounceService ms = new AnnounceService();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2158,7 +2158,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RSSI ms = new RSSI();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2175,7 +2175,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RSSI ms = new RSSI();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2192,7 +2192,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RSSI ms = new RSSI();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2210,7 +2210,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RSSI ms = new RSSI();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2226,7 +2226,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VSWR ms = new VSWR();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2243,7 +2243,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VSWR ms = new VSWR();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2260,7 +2260,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VSWR ms = new VSWR();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2278,7 +2278,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VSWR ms = new VSWR();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2294,7 +2294,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LinkLevel ms = new LinkLevel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2311,7 +2311,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LinkLevel ms = new LinkLevel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2328,7 +2328,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LinkLevel ms = new LinkLevel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2346,7 +2346,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LinkLevel ms = new LinkLevel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2362,7 +2362,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Sms ms = new Sms();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2379,7 +2379,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Sms ms = new Sms();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2396,7 +2396,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Sms ms = new Sms();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2414,7 +2414,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Sms ms = new Sms();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2430,7 +2430,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsTx ms = new SmsTx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2447,7 +2447,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsTx ms = new SmsTx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2464,7 +2464,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsTx ms = new SmsTx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2482,7 +2482,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsTx ms = new SmsTx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2498,7 +2498,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsRx ms = new SmsRx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2515,7 +2515,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsRx ms = new SmsRx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2532,7 +2532,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsRx ms = new SmsRx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2550,7 +2550,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsRx ms = new SmsRx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2566,7 +2566,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsState ms = new SmsState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2583,7 +2583,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsState ms = new SmsState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2600,7 +2600,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsState ms = new SmsState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2618,7 +2618,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SmsState ms = new SmsState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2634,7 +2634,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TextMessage ms = new TextMessage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2651,7 +2651,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TextMessage ms = new TextMessage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2668,7 +2668,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TextMessage ms = new TextMessage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2686,7 +2686,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TextMessage ms = new TextMessage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2702,7 +2702,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumMsgRx ms = new IridiumMsgRx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2719,7 +2719,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumMsgRx ms = new IridiumMsgRx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2736,7 +2736,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumMsgRx ms = new IridiumMsgRx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2754,7 +2754,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumMsgRx ms = new IridiumMsgRx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2770,7 +2770,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumMsgTx ms = new IridiumMsgTx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2787,7 +2787,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumMsgTx ms = new IridiumMsgTx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2804,7 +2804,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumMsgTx ms = new IridiumMsgTx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2822,7 +2822,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumMsgTx ms = new IridiumMsgTx();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2838,7 +2838,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumTxStatus ms = new IridiumTxStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2855,7 +2855,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumTxStatus ms = new IridiumTxStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2872,7 +2872,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumTxStatus ms = new IridiumTxStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2890,7 +2890,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumTxStatus ms = new IridiumTxStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2906,7 +2906,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroupMembershipState ms = new GroupMembershipState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2923,7 +2923,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroupMembershipState ms = new GroupMembershipState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2940,7 +2940,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroupMembershipState ms = new GroupMembershipState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2958,7 +2958,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroupMembershipState ms = new GroupMembershipState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2974,7 +2974,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SystemGroup ms = new SystemGroup();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -2991,7 +2991,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SystemGroup ms = new SystemGroup();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3008,7 +3008,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SystemGroup ms = new SystemGroup();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3026,7 +3026,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SystemGroup ms = new SystemGroup();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3042,7 +3042,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblRange ms = new LblRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3059,7 +3059,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblRange ms = new LblRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3076,7 +3076,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblRange ms = new LblRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3094,7 +3094,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblRange ms = new LblRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3110,7 +3110,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblDetection ms = new LblDetection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3127,7 +3127,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblDetection ms = new LblDetection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3144,7 +3144,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblDetection ms = new LblDetection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3162,7 +3162,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblDetection ms = new LblDetection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3178,7 +3178,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblBeacon ms = new LblBeacon();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3195,7 +3195,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblBeacon ms = new LblBeacon();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3212,7 +3212,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblBeacon ms = new LblBeacon();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3230,7 +3230,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblBeacon ms = new LblBeacon();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3246,7 +3246,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblConfig ms = new LblConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3263,7 +3263,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblConfig ms = new LblConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3280,7 +3280,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblConfig ms = new LblConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3298,7 +3298,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblConfig ms = new LblConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3314,7 +3314,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticRange ms = new AcousticRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3331,7 +3331,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticRange ms = new AcousticRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3348,7 +3348,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticRange ms = new AcousticRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3366,7 +3366,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticRange ms = new AcousticRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3382,7 +3382,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticRangeReply ms = new AcousticRangeReply();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3399,7 +3399,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticRangeReply ms = new AcousticRangeReply();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3416,7 +3416,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticRangeReply ms = new AcousticRangeReply();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3434,7 +3434,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticRangeReply ms = new AcousticRangeReply();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3450,7 +3450,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticMessage ms = new AcousticMessage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3467,7 +3467,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticMessage ms = new AcousticMessage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3484,7 +3484,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticMessage ms = new AcousticMessage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3502,7 +3502,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticMessage ms = new AcousticMessage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3518,7 +3518,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticDiagnostic ms = new AcousticDiagnostic();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3535,7 +3535,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticDiagnostic ms = new AcousticDiagnostic();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3552,7 +3552,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticDiagnostic ms = new AcousticDiagnostic();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3570,7 +3570,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticDiagnostic ms = new AcousticDiagnostic();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3586,7 +3586,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticNoise ms = new AcousticNoise();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3603,7 +3603,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticNoise ms = new AcousticNoise();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3620,7 +3620,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticNoise ms = new AcousticNoise();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3638,7 +3638,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticNoise ms = new AcousticNoise();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3654,7 +3654,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticPing ms = new AcousticPing();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3671,7 +3671,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticPing ms = new AcousticPing();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3688,7 +3688,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticPing ms = new AcousticPing();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3706,7 +3706,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticPing ms = new AcousticPing();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3722,7 +3722,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticPingReply ms = new AcousticPingReply();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3739,7 +3739,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticPingReply ms = new AcousticPingReply();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3756,7 +3756,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticPingReply ms = new AcousticPingReply();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3774,7 +3774,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticPingReply ms = new AcousticPingReply();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3790,7 +3790,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticOperation ms = new AcousticOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3807,7 +3807,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticOperation ms = new AcousticOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3824,7 +3824,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticOperation ms = new AcousticOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3842,7 +3842,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticOperation ms = new AcousticOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3858,7 +3858,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticSystemsQuery ms = new AcousticSystemsQuery();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3875,7 +3875,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticSystemsQuery ms = new AcousticSystemsQuery();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3892,7 +3892,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticSystemsQuery ms = new AcousticSystemsQuery();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3910,7 +3910,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticSystemsQuery ms = new AcousticSystemsQuery();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3926,7 +3926,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticSystems ms = new AcousticSystems();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3943,7 +3943,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticSystems ms = new AcousticSystems();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3960,7 +3960,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticSystems ms = new AcousticSystems();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3978,7 +3978,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AcousticSystems ms = new AcousticSystems();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -3994,7 +3994,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Rpm ms = new Rpm();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4011,7 +4011,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Rpm ms = new Rpm();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4028,7 +4028,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Rpm ms = new Rpm();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4046,7 +4046,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Rpm ms = new Rpm();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4062,7 +4062,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Voltage ms = new Voltage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4079,7 +4079,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Voltage ms = new Voltage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4096,7 +4096,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Voltage ms = new Voltage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4114,7 +4114,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Voltage ms = new Voltage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4130,7 +4130,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Current ms = new Current();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4147,7 +4147,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Current ms = new Current();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4164,7 +4164,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Current ms = new Current();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4182,7 +4182,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Current ms = new Current();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4198,7 +4198,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsFix ms = new GpsFix();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4215,7 +4215,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsFix ms = new GpsFix();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4232,7 +4232,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsFix ms = new GpsFix();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4250,7 +4250,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsFix ms = new GpsFix();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4266,7 +4266,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EulerAngles ms = new EulerAngles();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4283,7 +4283,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EulerAngles ms = new EulerAngles();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4300,7 +4300,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EulerAngles ms = new EulerAngles();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4318,7 +4318,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EulerAngles ms = new EulerAngles();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4334,7 +4334,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EulerAnglesDelta ms = new EulerAnglesDelta();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4351,7 +4351,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EulerAnglesDelta ms = new EulerAnglesDelta();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4368,7 +4368,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EulerAnglesDelta ms = new EulerAnglesDelta();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4386,7 +4386,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EulerAnglesDelta ms = new EulerAnglesDelta();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4402,7 +4402,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AngularVelocity ms = new AngularVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4419,7 +4419,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AngularVelocity ms = new AngularVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4436,7 +4436,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AngularVelocity ms = new AngularVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4454,7 +4454,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AngularVelocity ms = new AngularVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4470,7 +4470,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Acceleration ms = new Acceleration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4487,7 +4487,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Acceleration ms = new Acceleration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4504,7 +4504,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Acceleration ms = new Acceleration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4522,7 +4522,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Acceleration ms = new Acceleration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4538,7 +4538,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MagneticField ms = new MagneticField();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4555,7 +4555,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MagneticField ms = new MagneticField();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4572,7 +4572,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MagneticField ms = new MagneticField();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4590,7 +4590,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MagneticField ms = new MagneticField();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4606,7 +4606,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroundVelocity ms = new GroundVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4623,7 +4623,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroundVelocity ms = new GroundVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4640,7 +4640,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroundVelocity ms = new GroundVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4658,7 +4658,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroundVelocity ms = new GroundVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4674,7 +4674,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WaterVelocity ms = new WaterVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4691,7 +4691,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WaterVelocity ms = new WaterVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4708,7 +4708,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WaterVelocity ms = new WaterVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4726,7 +4726,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WaterVelocity ms = new WaterVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4742,7 +4742,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VelocityDelta ms = new VelocityDelta();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4759,7 +4759,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VelocityDelta ms = new VelocityDelta();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4776,7 +4776,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VelocityDelta ms = new VelocityDelta();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4794,7 +4794,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VelocityDelta ms = new VelocityDelta();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4810,7 +4810,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Distance ms = new Distance();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4827,7 +4827,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Distance ms = new Distance();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4844,7 +4844,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Distance ms = new Distance();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4862,7 +4862,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Distance ms = new Distance();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4878,7 +4878,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Temperature ms = new Temperature();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4895,7 +4895,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Temperature ms = new Temperature();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4912,7 +4912,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Temperature ms = new Temperature();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4930,7 +4930,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Temperature ms = new Temperature();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4946,7 +4946,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Pressure ms = new Pressure();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4963,7 +4963,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Pressure ms = new Pressure();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4980,7 +4980,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Pressure ms = new Pressure();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -4998,7 +4998,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Pressure ms = new Pressure();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5014,7 +5014,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Depth ms = new Depth();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5031,7 +5031,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Depth ms = new Depth();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5048,7 +5048,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Depth ms = new Depth();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5066,7 +5066,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Depth ms = new Depth();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5082,7 +5082,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DepthOffset ms = new DepthOffset();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5099,7 +5099,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DepthOffset ms = new DepthOffset();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5116,7 +5116,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DepthOffset ms = new DepthOffset();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5134,7 +5134,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DepthOffset ms = new DepthOffset();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5150,7 +5150,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SoundSpeed ms = new SoundSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5167,7 +5167,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SoundSpeed ms = new SoundSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5184,7 +5184,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SoundSpeed ms = new SoundSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5202,7 +5202,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SoundSpeed ms = new SoundSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5218,7 +5218,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WaterDensity ms = new WaterDensity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5235,7 +5235,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WaterDensity ms = new WaterDensity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5252,7 +5252,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WaterDensity ms = new WaterDensity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5270,7 +5270,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WaterDensity ms = new WaterDensity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5286,7 +5286,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Conductivity ms = new Conductivity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5303,7 +5303,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Conductivity ms = new Conductivity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5320,7 +5320,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Conductivity ms = new Conductivity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5338,7 +5338,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Conductivity ms = new Conductivity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5354,7 +5354,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Salinity ms = new Salinity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5371,7 +5371,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Salinity ms = new Salinity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5388,7 +5388,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Salinity ms = new Salinity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5406,7 +5406,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Salinity ms = new Salinity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5422,7 +5422,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WindSpeed ms = new WindSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5439,7 +5439,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WindSpeed ms = new WindSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5456,7 +5456,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WindSpeed ms = new WindSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5474,7 +5474,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				WindSpeed ms = new WindSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5490,7 +5490,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RelativeHumidity ms = new RelativeHumidity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5507,7 +5507,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RelativeHumidity ms = new RelativeHumidity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5524,7 +5524,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RelativeHumidity ms = new RelativeHumidity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5542,7 +5542,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RelativeHumidity ms = new RelativeHumidity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5558,7 +5558,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevDataText ms = new DevDataText();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5575,7 +5575,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevDataText ms = new DevDataText();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5592,7 +5592,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevDataText ms = new DevDataText();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5610,7 +5610,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevDataText ms = new DevDataText();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5626,7 +5626,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevDataBinary ms = new DevDataBinary();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5643,7 +5643,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevDataBinary ms = new DevDataBinary();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5660,7 +5660,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevDataBinary ms = new DevDataBinary();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5678,7 +5678,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DevDataBinary ms = new DevDataBinary();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5694,7 +5694,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SonarConfig ms = new SonarConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5711,7 +5711,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SonarConfig ms = new SonarConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5728,7 +5728,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SonarConfig ms = new SonarConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5746,7 +5746,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SonarConfig ms = new SonarConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5762,7 +5762,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SonarData ms = new SonarData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5779,7 +5779,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SonarData ms = new SonarData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5796,7 +5796,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SonarData ms = new SonarData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5814,7 +5814,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SonarData ms = new SonarData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5830,7 +5830,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Pulse ms = new Pulse();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5847,7 +5847,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Pulse ms = new Pulse();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5864,7 +5864,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Pulse ms = new Pulse();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5882,7 +5882,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Pulse ms = new Pulse();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5898,7 +5898,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PulseDetectionControl ms = new PulseDetectionControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5915,7 +5915,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PulseDetectionControl ms = new PulseDetectionControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5932,7 +5932,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PulseDetectionControl ms = new PulseDetectionControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5950,7 +5950,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PulseDetectionControl ms = new PulseDetectionControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5966,7 +5966,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FuelLevel ms = new FuelLevel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -5983,7 +5983,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FuelLevel ms = new FuelLevel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6000,7 +6000,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FuelLevel ms = new FuelLevel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6018,7 +6018,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FuelLevel ms = new FuelLevel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6034,7 +6034,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsNavData ms = new GpsNavData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6051,7 +6051,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsNavData ms = new GpsNavData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6068,7 +6068,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsNavData ms = new GpsNavData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6086,7 +6086,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsNavData ms = new GpsNavData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6102,7 +6102,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ServoPosition ms = new ServoPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6119,7 +6119,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ServoPosition ms = new ServoPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6136,7 +6136,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ServoPosition ms = new ServoPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6154,7 +6154,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ServoPosition ms = new ServoPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6170,7 +6170,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceState ms = new DeviceState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6187,7 +6187,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceState ms = new DeviceState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6204,7 +6204,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceState ms = new DeviceState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6222,7 +6222,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceState ms = new DeviceState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6238,7 +6238,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				BeamConfig ms = new BeamConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6255,7 +6255,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				BeamConfig ms = new BeamConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6272,7 +6272,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				BeamConfig ms = new BeamConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6290,7 +6290,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				BeamConfig ms = new BeamConfig();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6306,7 +6306,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DataSanity ms = new DataSanity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6323,7 +6323,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DataSanity ms = new DataSanity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6340,7 +6340,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DataSanity ms = new DataSanity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6358,7 +6358,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DataSanity ms = new DataSanity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6374,7 +6374,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CameraZoom ms = new CameraZoom();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6391,7 +6391,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CameraZoom ms = new CameraZoom();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6408,7 +6408,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CameraZoom ms = new CameraZoom();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6426,7 +6426,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CameraZoom ms = new CameraZoom();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6442,7 +6442,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetThrusterActuation ms = new SetThrusterActuation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6459,7 +6459,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetThrusterActuation ms = new SetThrusterActuation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6476,7 +6476,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetThrusterActuation ms = new SetThrusterActuation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6494,7 +6494,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetThrusterActuation ms = new SetThrusterActuation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6510,7 +6510,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetServoPosition ms = new SetServoPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6527,7 +6527,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetServoPosition ms = new SetServoPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6544,7 +6544,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetServoPosition ms = new SetServoPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6562,7 +6562,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetServoPosition ms = new SetServoPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6578,7 +6578,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetControlSurfaceDeflection ms = new SetControlSurfaceDeflection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6595,7 +6595,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetControlSurfaceDeflection ms = new SetControlSurfaceDeflection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6612,7 +6612,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetControlSurfaceDeflection ms = new SetControlSurfaceDeflection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6630,7 +6630,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetControlSurfaceDeflection ms = new SetControlSurfaceDeflection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6646,7 +6646,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteActionsRequest ms = new RemoteActionsRequest();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6663,7 +6663,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteActionsRequest ms = new RemoteActionsRequest();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6680,7 +6680,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteActionsRequest ms = new RemoteActionsRequest();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6698,7 +6698,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteActionsRequest ms = new RemoteActionsRequest();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6714,7 +6714,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteActions ms = new RemoteActions();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6731,7 +6731,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteActions ms = new RemoteActions();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6748,7 +6748,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteActions ms = new RemoteActions();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6766,7 +6766,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteActions ms = new RemoteActions();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6782,7 +6782,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ButtonEvent ms = new ButtonEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6799,7 +6799,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ButtonEvent ms = new ButtonEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6816,7 +6816,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ButtonEvent ms = new ButtonEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6834,7 +6834,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ButtonEvent ms = new ButtonEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6850,7 +6850,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LcdControl ms = new LcdControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6867,7 +6867,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LcdControl ms = new LcdControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6884,7 +6884,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LcdControl ms = new LcdControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6902,7 +6902,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LcdControl ms = new LcdControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6918,7 +6918,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerOperation ms = new PowerOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6935,7 +6935,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerOperation ms = new PowerOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6952,7 +6952,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerOperation ms = new PowerOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6970,7 +6970,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerOperation ms = new PowerOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -6986,7 +6986,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerChannelControl ms = new PowerChannelControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7003,7 +7003,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerChannelControl ms = new PowerChannelControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7020,7 +7020,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerChannelControl ms = new PowerChannelControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7038,7 +7038,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerChannelControl ms = new PowerChannelControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7054,7 +7054,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryPowerChannelState ms = new QueryPowerChannelState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7071,7 +7071,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryPowerChannelState ms = new QueryPowerChannelState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7088,7 +7088,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryPowerChannelState ms = new QueryPowerChannelState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7106,7 +7106,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryPowerChannelState ms = new QueryPowerChannelState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7122,7 +7122,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerChannelState ms = new PowerChannelState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7139,7 +7139,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerChannelState ms = new PowerChannelState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7156,7 +7156,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerChannelState ms = new PowerChannelState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7174,7 +7174,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PowerChannelState ms = new PowerChannelState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7190,7 +7190,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LedBrightness ms = new LedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7207,7 +7207,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LedBrightness ms = new LedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7224,7 +7224,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LedBrightness ms = new LedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7242,7 +7242,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LedBrightness ms = new LedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7258,7 +7258,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryLedBrightness ms = new QueryLedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7275,7 +7275,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryLedBrightness ms = new QueryLedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7292,7 +7292,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryLedBrightness ms = new QueryLedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7310,7 +7310,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryLedBrightness ms = new QueryLedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7326,7 +7326,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetLedBrightness ms = new SetLedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7343,7 +7343,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetLedBrightness ms = new SetLedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7360,7 +7360,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetLedBrightness ms = new SetLedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7378,7 +7378,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetLedBrightness ms = new SetLedBrightness();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7394,7 +7394,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetPWM ms = new SetPWM();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7411,7 +7411,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetPWM ms = new SetPWM();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7428,7 +7428,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetPWM ms = new SetPWM();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7446,7 +7446,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetPWM ms = new SetPWM();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7462,7 +7462,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PWM ms = new PWM();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7479,7 +7479,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PWM ms = new PWM();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7496,7 +7496,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PWM ms = new PWM();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7514,7 +7514,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PWM ms = new PWM();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7530,7 +7530,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EstimatedState ms = new EstimatedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7547,7 +7547,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EstimatedState ms = new EstimatedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7564,7 +7564,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EstimatedState ms = new EstimatedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7582,7 +7582,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EstimatedState ms = new EstimatedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7598,7 +7598,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EstimatedStreamVelocity ms = new EstimatedStreamVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7615,7 +7615,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EstimatedStreamVelocity ms = new EstimatedStreamVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7632,7 +7632,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EstimatedStreamVelocity ms = new EstimatedStreamVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7650,7 +7650,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EstimatedStreamVelocity ms = new EstimatedStreamVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7666,7 +7666,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IndicatedSpeed ms = new IndicatedSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7683,7 +7683,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IndicatedSpeed ms = new IndicatedSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7700,7 +7700,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IndicatedSpeed ms = new IndicatedSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7718,7 +7718,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IndicatedSpeed ms = new IndicatedSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7734,7 +7734,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrueSpeed ms = new TrueSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7751,7 +7751,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrueSpeed ms = new TrueSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7768,7 +7768,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrueSpeed ms = new TrueSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7786,7 +7786,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrueSpeed ms = new TrueSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7802,7 +7802,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationUncertainty ms = new NavigationUncertainty();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7819,7 +7819,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationUncertainty ms = new NavigationUncertainty();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7836,7 +7836,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationUncertainty ms = new NavigationUncertainty();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7854,7 +7854,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationUncertainty ms = new NavigationUncertainty();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7870,7 +7870,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationData ms = new NavigationData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7887,7 +7887,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationData ms = new NavigationData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7904,7 +7904,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationData ms = new NavigationData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7922,7 +7922,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationData ms = new NavigationData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7938,7 +7938,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsFixRejection ms = new GpsFixRejection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7955,7 +7955,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsFixRejection ms = new GpsFixRejection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7972,7 +7972,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsFixRejection ms = new GpsFixRejection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -7990,7 +7990,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GpsFixRejection ms = new GpsFixRejection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8006,7 +8006,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblRangeAcceptance ms = new LblRangeAcceptance();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8023,7 +8023,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblRangeAcceptance ms = new LblRangeAcceptance();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8040,7 +8040,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblRangeAcceptance ms = new LblRangeAcceptance();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8058,7 +8058,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblRangeAcceptance ms = new LblRangeAcceptance();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8074,7 +8074,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DvlRejection ms = new DvlRejection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8091,7 +8091,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DvlRejection ms = new DvlRejection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8108,7 +8108,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DvlRejection ms = new DvlRejection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8126,7 +8126,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DvlRejection ms = new DvlRejection();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8142,7 +8142,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationReset ms = new NavigationReset();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8159,7 +8159,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationReset ms = new NavigationReset();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8176,7 +8176,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationReset ms = new NavigationReset();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8194,7 +8194,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				NavigationReset ms = new NavigationReset();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8210,7 +8210,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblEstimate ms = new LblEstimate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8227,7 +8227,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblEstimate ms = new LblEstimate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8244,7 +8244,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblEstimate ms = new LblEstimate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8262,7 +8262,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LblEstimate ms = new LblEstimate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8278,7 +8278,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AlignmentState ms = new AlignmentState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8295,7 +8295,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AlignmentState ms = new AlignmentState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8312,7 +8312,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AlignmentState ms = new AlignmentState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8330,7 +8330,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AlignmentState ms = new AlignmentState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8346,7 +8346,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroupStreamVelocity ms = new GroupStreamVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8363,7 +8363,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroupStreamVelocity ms = new GroupStreamVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8380,7 +8380,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroupStreamVelocity ms = new GroupStreamVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8398,7 +8398,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GroupStreamVelocity ms = new GroupStreamVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8414,7 +8414,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredHeading ms = new DesiredHeading();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8431,7 +8431,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredHeading ms = new DesiredHeading();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8448,7 +8448,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredHeading ms = new DesiredHeading();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8466,7 +8466,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredHeading ms = new DesiredHeading();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8482,7 +8482,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredZ ms = new DesiredZ();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8499,7 +8499,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredZ ms = new DesiredZ();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8516,7 +8516,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredZ ms = new DesiredZ();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8534,7 +8534,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredZ ms = new DesiredZ();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8550,7 +8550,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredSpeed ms = new DesiredSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8567,7 +8567,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredSpeed ms = new DesiredSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8584,7 +8584,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredSpeed ms = new DesiredSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8602,7 +8602,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredSpeed ms = new DesiredSpeed();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8618,7 +8618,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredRoll ms = new DesiredRoll();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8635,7 +8635,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredRoll ms = new DesiredRoll();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8652,7 +8652,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredRoll ms = new DesiredRoll();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8670,7 +8670,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredRoll ms = new DesiredRoll();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8686,7 +8686,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredPitch ms = new DesiredPitch();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8703,7 +8703,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredPitch ms = new DesiredPitch();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8720,7 +8720,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredPitch ms = new DesiredPitch();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8738,7 +8738,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredPitch ms = new DesiredPitch();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8754,7 +8754,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredVerticalRate ms = new DesiredVerticalRate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8771,7 +8771,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredVerticalRate ms = new DesiredVerticalRate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8788,7 +8788,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredVerticalRate ms = new DesiredVerticalRate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8806,7 +8806,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredVerticalRate ms = new DesiredVerticalRate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8822,7 +8822,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredPath ms = new DesiredPath();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8839,7 +8839,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredPath ms = new DesiredPath();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8856,7 +8856,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredPath ms = new DesiredPath();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8874,7 +8874,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredPath ms = new DesiredPath();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8890,7 +8890,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredControl ms = new DesiredControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8907,7 +8907,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredControl ms = new DesiredControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8924,7 +8924,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredControl ms = new DesiredControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8942,7 +8942,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredControl ms = new DesiredControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8958,7 +8958,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredHeadingRate ms = new DesiredHeadingRate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8975,7 +8975,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredHeadingRate ms = new DesiredHeadingRate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -8992,7 +8992,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredHeadingRate ms = new DesiredHeadingRate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9010,7 +9010,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredHeadingRate ms = new DesiredHeadingRate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9026,7 +9026,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredVelocity ms = new DesiredVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9043,7 +9043,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredVelocity ms = new DesiredVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9060,7 +9060,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredVelocity ms = new DesiredVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9078,7 +9078,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DesiredVelocity ms = new DesiredVelocity();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9094,7 +9094,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PathControlState ms = new PathControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9111,7 +9111,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PathControlState ms = new PathControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9128,7 +9128,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PathControlState ms = new PathControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9146,7 +9146,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PathControlState ms = new PathControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9162,7 +9162,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AllocatedControlTorques ms = new AllocatedControlTorques();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9179,7 +9179,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AllocatedControlTorques ms = new AllocatedControlTorques();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9196,7 +9196,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AllocatedControlTorques ms = new AllocatedControlTorques();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9214,7 +9214,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AllocatedControlTorques ms = new AllocatedControlTorques();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9230,7 +9230,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ControlParcel ms = new ControlParcel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9247,7 +9247,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ControlParcel ms = new ControlParcel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9264,7 +9264,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ControlParcel ms = new ControlParcel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9282,7 +9282,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ControlParcel ms = new ControlParcel();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9298,7 +9298,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Brake ms = new Brake();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9315,7 +9315,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Brake ms = new Brake();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9332,7 +9332,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Brake ms = new Brake();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9350,7 +9350,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Brake ms = new Brake();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9366,7 +9366,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Goto ms = new Goto();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9383,7 +9383,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Goto ms = new Goto();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9400,7 +9400,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Goto ms = new Goto();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9418,7 +9418,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Goto ms = new Goto();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9434,7 +9434,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PopUp ms = new PopUp();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9451,7 +9451,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PopUp ms = new PopUp();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9468,7 +9468,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PopUp ms = new PopUp();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9486,7 +9486,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PopUp ms = new PopUp();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9502,7 +9502,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Teleoperation ms = new Teleoperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9519,7 +9519,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Teleoperation ms = new Teleoperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9536,7 +9536,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Teleoperation ms = new Teleoperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9554,7 +9554,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Teleoperation ms = new Teleoperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9570,7 +9570,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Loiter ms = new Loiter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9587,7 +9587,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Loiter ms = new Loiter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9604,7 +9604,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Loiter ms = new Loiter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9622,7 +9622,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Loiter ms = new Loiter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9638,7 +9638,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IdleManeuver ms = new IdleManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9655,7 +9655,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IdleManeuver ms = new IdleManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9672,7 +9672,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IdleManeuver ms = new IdleManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9690,7 +9690,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IdleManeuver ms = new IdleManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9706,7 +9706,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LowLevelControl ms = new LowLevelControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9723,7 +9723,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LowLevelControl ms = new LowLevelControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9740,7 +9740,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LowLevelControl ms = new LowLevelControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9758,7 +9758,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LowLevelControl ms = new LowLevelControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9774,7 +9774,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Rows ms = new Rows();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9791,7 +9791,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Rows ms = new Rows();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9808,7 +9808,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Rows ms = new Rows();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9826,7 +9826,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Rows ms = new Rows();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9842,7 +9842,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowPath ms = new FollowPath();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9859,7 +9859,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowPath ms = new FollowPath();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9876,7 +9876,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowPath ms = new FollowPath();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9894,7 +9894,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowPath ms = new FollowPath();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9910,7 +9910,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PathPoint ms = new PathPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9927,7 +9927,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PathPoint ms = new PathPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9944,7 +9944,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PathPoint ms = new PathPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9962,7 +9962,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PathPoint ms = new PathPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9978,7 +9978,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				YoYo ms = new YoYo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -9995,7 +9995,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				YoYo ms = new YoYo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10012,7 +10012,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				YoYo ms = new YoYo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10030,7 +10030,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				YoYo ms = new YoYo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10046,7 +10046,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TeleoperationDone ms = new TeleoperationDone();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10063,7 +10063,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TeleoperationDone ms = new TeleoperationDone();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10080,7 +10080,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TeleoperationDone ms = new TeleoperationDone();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10098,7 +10098,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TeleoperationDone ms = new TeleoperationDone();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10114,7 +10114,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StationKeeping ms = new StationKeeping();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10131,7 +10131,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StationKeeping ms = new StationKeeping();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10148,7 +10148,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StationKeeping ms = new StationKeeping();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10166,7 +10166,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StationKeeping ms = new StationKeeping();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10182,7 +10182,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Elevator ms = new Elevator();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10199,7 +10199,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Elevator ms = new Elevator();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10216,7 +10216,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Elevator ms = new Elevator();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10234,7 +10234,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Elevator ms = new Elevator();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10250,7 +10250,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowTrajectory ms = new FollowTrajectory();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10267,7 +10267,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowTrajectory ms = new FollowTrajectory();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10284,7 +10284,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowTrajectory ms = new FollowTrajectory();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10302,7 +10302,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowTrajectory ms = new FollowTrajectory();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10318,7 +10318,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrajectoryPoint ms = new TrajectoryPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10335,7 +10335,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrajectoryPoint ms = new TrajectoryPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10352,7 +10352,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrajectoryPoint ms = new TrajectoryPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10370,7 +10370,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrajectoryPoint ms = new TrajectoryPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10386,7 +10386,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CustomManeuver ms = new CustomManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10403,7 +10403,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CustomManeuver ms = new CustomManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10420,7 +10420,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CustomManeuver ms = new CustomManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10438,7 +10438,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CustomManeuver ms = new CustomManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10454,7 +10454,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleFormation ms = new VehicleFormation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10471,7 +10471,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleFormation ms = new VehicleFormation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10488,7 +10488,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleFormation ms = new VehicleFormation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10506,7 +10506,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleFormation ms = new VehicleFormation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10522,7 +10522,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleFormationParticipant ms = new VehicleFormationParticipant();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10539,7 +10539,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleFormationParticipant ms = new VehicleFormationParticipant();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10556,7 +10556,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleFormationParticipant ms = new VehicleFormationParticipant();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10574,7 +10574,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleFormationParticipant ms = new VehicleFormationParticipant();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10590,7 +10590,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StopManeuver ms = new StopManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10607,7 +10607,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StopManeuver ms = new StopManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10624,7 +10624,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StopManeuver ms = new StopManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10642,7 +10642,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				StopManeuver ms = new StopManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10658,7 +10658,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RegisterManeuver ms = new RegisterManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10675,7 +10675,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RegisterManeuver ms = new RegisterManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10692,7 +10692,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RegisterManeuver ms = new RegisterManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10710,7 +10710,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RegisterManeuver ms = new RegisterManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10726,7 +10726,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ManeuverControlState ms = new ManeuverControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10743,7 +10743,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ManeuverControlState ms = new ManeuverControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10760,7 +10760,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ManeuverControlState ms = new ManeuverControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10778,7 +10778,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ManeuverControlState ms = new ManeuverControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10794,7 +10794,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowSystem ms = new FollowSystem();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10811,7 +10811,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowSystem ms = new FollowSystem();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10828,7 +10828,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowSystem ms = new FollowSystem();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10846,7 +10846,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowSystem ms = new FollowSystem();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10862,7 +10862,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CommsRelay ms = new CommsRelay();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10879,7 +10879,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CommsRelay ms = new CommsRelay();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10896,7 +10896,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CommsRelay ms = new CommsRelay();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10914,7 +10914,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CommsRelay ms = new CommsRelay();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10930,7 +10930,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CoverArea ms = new CoverArea();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10947,7 +10947,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CoverArea ms = new CoverArea();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10964,7 +10964,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CoverArea ms = new CoverArea();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10982,7 +10982,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CoverArea ms = new CoverArea();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -10998,7 +10998,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PolygonVertex ms = new PolygonVertex();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11015,7 +11015,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PolygonVertex ms = new PolygonVertex();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11032,7 +11032,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PolygonVertex ms = new PolygonVertex();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11050,7 +11050,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PolygonVertex ms = new PolygonVertex();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11066,7 +11066,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CompassCalibration ms = new CompassCalibration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11083,7 +11083,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CompassCalibration ms = new CompassCalibration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11100,7 +11100,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CompassCalibration ms = new CompassCalibration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11118,7 +11118,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CompassCalibration ms = new CompassCalibration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11134,7 +11134,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormationParameters ms = new FormationParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11151,7 +11151,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormationParameters ms = new FormationParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11168,7 +11168,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormationParameters ms = new FormationParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11186,7 +11186,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormationParameters ms = new FormationParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11202,7 +11202,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormationPlanExecution ms = new FormationPlanExecution();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11219,7 +11219,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormationPlanExecution ms = new FormationPlanExecution();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11236,7 +11236,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormationPlanExecution ms = new FormationPlanExecution();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11254,7 +11254,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormationPlanExecution ms = new FormationPlanExecution();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11270,7 +11270,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowReference ms = new FollowReference();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11287,7 +11287,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowReference ms = new FollowReference();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11304,7 +11304,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowReference ms = new FollowReference();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11322,7 +11322,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowReference ms = new FollowReference();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11338,7 +11338,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Reference ms = new Reference();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11355,7 +11355,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Reference ms = new Reference();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11372,7 +11372,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Reference ms = new Reference();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11390,7 +11390,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Reference ms = new Reference();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11406,7 +11406,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowRefState ms = new FollowRefState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11423,7 +11423,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowRefState ms = new FollowRefState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11440,7 +11440,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowRefState ms = new FollowRefState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11458,7 +11458,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FollowRefState ms = new FollowRefState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11474,7 +11474,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleState ms = new VehicleState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11491,7 +11491,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleState ms = new VehicleState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11508,7 +11508,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleState ms = new VehicleState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11526,7 +11526,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleState ms = new VehicleState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11542,7 +11542,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleCommand ms = new VehicleCommand();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11559,7 +11559,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleCommand ms = new VehicleCommand();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11576,7 +11576,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleCommand ms = new VehicleCommand();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11594,7 +11594,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleCommand ms = new VehicleCommand();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11610,7 +11610,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MonitorEntityState ms = new MonitorEntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11627,7 +11627,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MonitorEntityState ms = new MonitorEntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11644,7 +11644,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MonitorEntityState ms = new MonitorEntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11662,7 +11662,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MonitorEntityState ms = new MonitorEntityState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11678,7 +11678,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityMonitoringState ms = new EntityMonitoringState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11695,7 +11695,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityMonitoringState ms = new EntityMonitoringState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11712,7 +11712,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityMonitoringState ms = new EntityMonitoringState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11730,7 +11730,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityMonitoringState ms = new EntityMonitoringState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11746,7 +11746,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				OperationalLimits ms = new OperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11763,7 +11763,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				OperationalLimits ms = new OperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11780,7 +11780,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				OperationalLimits ms = new OperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11798,7 +11798,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				OperationalLimits ms = new OperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11814,7 +11814,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GetOperationalLimits ms = new GetOperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11831,7 +11831,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GetOperationalLimits ms = new GetOperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11848,7 +11848,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GetOperationalLimits ms = new GetOperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11866,7 +11866,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				GetOperationalLimits ms = new GetOperationalLimits();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11882,7 +11882,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Calibration ms = new Calibration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11899,7 +11899,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Calibration ms = new Calibration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11916,7 +11916,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Calibration ms = new Calibration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11934,7 +11934,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Calibration ms = new Calibration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11950,7 +11950,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ControlLoops ms = new ControlLoops();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11967,7 +11967,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ControlLoops ms = new ControlLoops();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -11984,7 +11984,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ControlLoops ms = new ControlLoops();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12002,7 +12002,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ControlLoops ms = new ControlLoops();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12018,7 +12018,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleMedium ms = new VehicleMedium();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12035,7 +12035,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleMedium ms = new VehicleMedium();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12052,7 +12052,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleMedium ms = new VehicleMedium();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12070,7 +12070,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleMedium ms = new VehicleMedium();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12086,7 +12086,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Collision ms = new Collision();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12103,7 +12103,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Collision ms = new Collision();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12120,7 +12120,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Collision ms = new Collision();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12138,7 +12138,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Collision ms = new Collision();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12154,7 +12154,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormState ms = new FormState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12171,7 +12171,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormState ms = new FormState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12188,7 +12188,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormState ms = new FormState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12206,7 +12206,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormState ms = new FormState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12222,7 +12222,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Abort ms = new Abort();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12239,7 +12239,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Abort ms = new Abort();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12256,7 +12256,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Abort ms = new Abort();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12274,7 +12274,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Abort ms = new Abort();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12290,7 +12290,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanSpecification ms = new PlanSpecification();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12307,7 +12307,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanSpecification ms = new PlanSpecification();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12324,7 +12324,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanSpecification ms = new PlanSpecification();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12342,7 +12342,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanSpecification ms = new PlanSpecification();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12358,7 +12358,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanManeuver ms = new PlanManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12375,7 +12375,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanManeuver ms = new PlanManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12392,7 +12392,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanManeuver ms = new PlanManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12410,7 +12410,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanManeuver ms = new PlanManeuver();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12426,7 +12426,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanTransition ms = new PlanTransition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12443,7 +12443,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanTransition ms = new PlanTransition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12460,7 +12460,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanTransition ms = new PlanTransition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12478,7 +12478,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanTransition ms = new PlanTransition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12494,7 +12494,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EmergencyControl ms = new EmergencyControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12511,7 +12511,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EmergencyControl ms = new EmergencyControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12528,7 +12528,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EmergencyControl ms = new EmergencyControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12546,7 +12546,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EmergencyControl ms = new EmergencyControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12562,7 +12562,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EmergencyControlState ms = new EmergencyControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12579,7 +12579,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EmergencyControlState ms = new EmergencyControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12596,7 +12596,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EmergencyControlState ms = new EmergencyControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12614,7 +12614,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EmergencyControlState ms = new EmergencyControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12630,7 +12630,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDB ms = new PlanDB();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12647,7 +12647,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDB ms = new PlanDB();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12664,7 +12664,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDB ms = new PlanDB();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12682,7 +12682,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDB ms = new PlanDB();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12698,7 +12698,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDBState ms = new PlanDBState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12715,7 +12715,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDBState ms = new PlanDBState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12732,7 +12732,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDBState ms = new PlanDBState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12750,7 +12750,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDBState ms = new PlanDBState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12766,7 +12766,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDBInformation ms = new PlanDBInformation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12783,7 +12783,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDBInformation ms = new PlanDBInformation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12800,7 +12800,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDBInformation ms = new PlanDBInformation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12818,7 +12818,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanDBInformation ms = new PlanDBInformation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12834,7 +12834,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanControl ms = new PlanControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12851,7 +12851,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanControl ms = new PlanControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12868,7 +12868,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanControl ms = new PlanControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12886,7 +12886,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanControl ms = new PlanControl();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12902,7 +12902,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanControlState ms = new PlanControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12919,7 +12919,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanControlState ms = new PlanControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12936,7 +12936,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanControlState ms = new PlanControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12954,7 +12954,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanControlState ms = new PlanControlState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12970,7 +12970,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanVariable ms = new PlanVariable();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -12987,7 +12987,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanVariable ms = new PlanVariable();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13004,7 +13004,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanVariable ms = new PlanVariable();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13022,7 +13022,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanVariable ms = new PlanVariable();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13038,7 +13038,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanGeneration ms = new PlanGeneration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13055,7 +13055,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanGeneration ms = new PlanGeneration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13072,7 +13072,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanGeneration ms = new PlanGeneration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13090,7 +13090,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PlanGeneration ms = new PlanGeneration();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13106,7 +13106,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LeaderState ms = new LeaderState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13123,7 +13123,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LeaderState ms = new LeaderState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13140,7 +13140,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LeaderState ms = new LeaderState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13158,7 +13158,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				LeaderState ms = new LeaderState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13174,7 +13174,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ReportedState ms = new ReportedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13191,7 +13191,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ReportedState ms = new ReportedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13208,7 +13208,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ReportedState ms = new ReportedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13226,7 +13226,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ReportedState ms = new ReportedState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13242,7 +13242,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteSensorInfo ms = new RemoteSensorInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13259,7 +13259,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteSensorInfo ms = new RemoteSensorInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13276,7 +13276,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteSensorInfo ms = new RemoteSensorInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13294,7 +13294,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteSensorInfo ms = new RemoteSensorInfo();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13310,7 +13310,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Map ms = new Map();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13327,7 +13327,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Map ms = new Map();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13344,7 +13344,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Map ms = new Map();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13362,7 +13362,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Map ms = new Map();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13378,7 +13378,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MapFeature ms = new MapFeature();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13395,7 +13395,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MapFeature ms = new MapFeature();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13412,7 +13412,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MapFeature ms = new MapFeature();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13430,7 +13430,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MapFeature ms = new MapFeature();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13446,7 +13446,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MapPoint ms = new MapPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13463,7 +13463,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MapPoint ms = new MapPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13480,7 +13480,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MapPoint ms = new MapPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13498,7 +13498,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MapPoint ms = new MapPoint();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13514,7 +13514,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CcuEvent ms = new CcuEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13531,7 +13531,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CcuEvent ms = new CcuEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13548,7 +13548,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CcuEvent ms = new CcuEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13566,7 +13566,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CcuEvent ms = new CcuEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13582,7 +13582,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleLinks ms = new VehicleLinks();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13599,7 +13599,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleLinks ms = new VehicleLinks();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13616,7 +13616,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleLinks ms = new VehicleLinks();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13634,7 +13634,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VehicleLinks ms = new VehicleLinks();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13650,7 +13650,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexObservation ms = new TrexObservation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13667,7 +13667,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexObservation ms = new TrexObservation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13684,7 +13684,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexObservation ms = new TrexObservation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13702,7 +13702,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexObservation ms = new TrexObservation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13718,7 +13718,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexCommand ms = new TrexCommand();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13735,7 +13735,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexCommand ms = new TrexCommand();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13752,7 +13752,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexCommand ms = new TrexCommand();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13770,7 +13770,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexCommand ms = new TrexCommand();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13786,7 +13786,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexOperation ms = new TrexOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13803,7 +13803,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexOperation ms = new TrexOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13820,7 +13820,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexOperation ms = new TrexOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13838,7 +13838,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexOperation ms = new TrexOperation();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13854,7 +13854,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexAttribute ms = new TrexAttribute();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13871,7 +13871,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexAttribute ms = new TrexAttribute();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13888,7 +13888,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexAttribute ms = new TrexAttribute();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13906,7 +13906,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexAttribute ms = new TrexAttribute();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13922,7 +13922,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexToken ms = new TrexToken();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13939,7 +13939,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexToken ms = new TrexToken();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13956,7 +13956,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexToken ms = new TrexToken();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13974,7 +13974,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexToken ms = new TrexToken();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -13990,7 +13990,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexPlan ms = new TrexPlan();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14007,7 +14007,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexPlan ms = new TrexPlan();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14024,7 +14024,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexPlan ms = new TrexPlan();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14042,7 +14042,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				TrexPlan ms = new TrexPlan();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14058,7 +14058,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VideoData ms = new VideoData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14075,7 +14075,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VideoData ms = new VideoData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14092,7 +14092,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VideoData ms = new VideoData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14110,7 +14110,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				VideoData ms = new VideoData();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14126,7 +14126,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RawImage ms = new RawImage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14143,7 +14143,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RawImage ms = new RawImage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14160,7 +14160,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RawImage ms = new RawImage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14178,7 +14178,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RawImage ms = new RawImage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14194,7 +14194,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CompressedImage ms = new CompressedImage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14211,7 +14211,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CompressedImage ms = new CompressedImage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14228,7 +14228,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CompressedImage ms = new CompressedImage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14246,7 +14246,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CompressedImage ms = new CompressedImage();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14262,7 +14262,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ImageTxSettings ms = new ImageTxSettings();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14279,7 +14279,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ImageTxSettings ms = new ImageTxSettings();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14296,7 +14296,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ImageTxSettings ms = new ImageTxSettings();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14314,7 +14314,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				ImageTxSettings ms = new ImageTxSettings();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14330,7 +14330,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteState ms = new RemoteState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14347,7 +14347,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteState ms = new RemoteState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14364,7 +14364,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteState ms = new RemoteState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14382,7 +14382,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				RemoteState ms = new RemoteState();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14398,7 +14398,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Target ms = new Target();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14415,7 +14415,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Target ms = new Target();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14432,7 +14432,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Target ms = new Target();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14450,7 +14450,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				Target ms = new Target();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14466,7 +14466,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityParameter ms = new EntityParameter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14483,7 +14483,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityParameter ms = new EntityParameter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14500,7 +14500,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityParameter ms = new EntityParameter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14518,7 +14518,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityParameter ms = new EntityParameter();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14534,7 +14534,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityParameters ms = new EntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14551,7 +14551,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityParameters ms = new EntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14568,7 +14568,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityParameters ms = new EntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14586,7 +14586,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				EntityParameters ms = new EntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14602,7 +14602,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityParameters ms = new QueryEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14619,7 +14619,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityParameters ms = new QueryEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14636,7 +14636,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityParameters ms = new QueryEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14654,7 +14654,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				QueryEntityParameters ms = new QueryEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14670,7 +14670,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetEntityParameters ms = new SetEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14687,7 +14687,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetEntityParameters ms = new SetEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14704,7 +14704,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetEntityParameters ms = new SetEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14722,7 +14722,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SetEntityParameters ms = new SetEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14738,7 +14738,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SaveEntityParameters ms = new SaveEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14755,7 +14755,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SaveEntityParameters ms = new SaveEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14772,7 +14772,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SaveEntityParameters ms = new SaveEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14790,7 +14790,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SaveEntityParameters ms = new SaveEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14806,7 +14806,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CreateSession ms = new CreateSession();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14823,7 +14823,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CreateSession ms = new CreateSession();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14840,7 +14840,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CreateSession ms = new CreateSession();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14858,7 +14858,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CreateSession ms = new CreateSession();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14874,7 +14874,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CloseSession ms = new CloseSession();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14891,7 +14891,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CloseSession ms = new CloseSession();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14908,7 +14908,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CloseSession ms = new CloseSession();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14926,7 +14926,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				CloseSession ms = new CloseSession();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14942,7 +14942,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionSubscription ms = new SessionSubscription();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14959,7 +14959,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionSubscription ms = new SessionSubscription();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14976,7 +14976,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionSubscription ms = new SessionSubscription();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -14994,7 +14994,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionSubscription ms = new SessionSubscription();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15010,7 +15010,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionKeepAlive ms = new SessionKeepAlive();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15027,7 +15027,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionKeepAlive ms = new SessionKeepAlive();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15044,7 +15044,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionKeepAlive ms = new SessionKeepAlive();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15062,7 +15062,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionKeepAlive ms = new SessionKeepAlive();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15078,7 +15078,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionStatus ms = new SessionStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15095,7 +15095,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionStatus ms = new SessionStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15112,7 +15112,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionStatus ms = new SessionStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15130,7 +15130,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				SessionStatus ms = new SessionStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15146,7 +15146,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PushEntityParameters ms = new PushEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15163,7 +15163,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PushEntityParameters ms = new PushEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15180,7 +15180,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PushEntityParameters ms = new PushEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15198,7 +15198,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PushEntityParameters ms = new PushEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15214,7 +15214,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PopEntityParameters ms = new PopEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15231,7 +15231,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PopEntityParameters ms = new PopEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15248,7 +15248,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PopEntityParameters ms = new PopEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15266,7 +15266,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				PopEntityParameters ms = new PopEntityParameters();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15282,7 +15282,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IoEvent ms = new IoEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15299,7 +15299,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IoEvent ms = new IoEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15316,7 +15316,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IoEvent ms = new IoEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15334,7 +15334,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IoEvent ms = new IoEvent();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15350,7 +15350,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamTxFrame ms = new UamTxFrame();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15367,7 +15367,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamTxFrame ms = new UamTxFrame();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15384,7 +15384,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamTxFrame ms = new UamTxFrame();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15402,7 +15402,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamTxFrame ms = new UamTxFrame();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15418,7 +15418,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamRxFrame ms = new UamRxFrame();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15435,7 +15435,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamRxFrame ms = new UamRxFrame();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15452,7 +15452,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamRxFrame ms = new UamRxFrame();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15470,7 +15470,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamRxFrame ms = new UamRxFrame();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15486,7 +15486,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamTxStatus ms = new UamTxStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15503,7 +15503,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamTxStatus ms = new UamTxStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15520,7 +15520,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamTxStatus ms = new UamTxStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15538,7 +15538,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamTxStatus ms = new UamTxStatus();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15554,7 +15554,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamRxRange ms = new UamRxRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15571,7 +15571,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamRxRange ms = new UamRxRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15588,7 +15588,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamRxRange ms = new UamRxRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15606,7 +15606,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				UamRxRange ms = new UamRxRange();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15622,7 +15622,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AbortAcked ms = new AbortAcked();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15639,7 +15639,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AbortAcked ms = new AbortAcked();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15656,7 +15656,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AbortAcked ms = new AbortAcked();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15674,7 +15674,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AbortAcked ms = new AbortAcked();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15690,7 +15690,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormCtrlParam ms = new FormCtrlParam();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15707,7 +15707,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormCtrlParam ms = new FormCtrlParam();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15724,7 +15724,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormCtrlParam ms = new FormCtrlParam();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15742,7 +15742,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				FormCtrlParam ms = new FormCtrlParam();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15758,7 +15758,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceUpdates ms = new DeviceUpdates();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15775,7 +15775,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceUpdates ms = new DeviceUpdates();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15792,7 +15792,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceUpdates ms = new DeviceUpdates();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15810,7 +15810,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceUpdates ms = new DeviceUpdates();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15826,7 +15826,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceUpdate ms = new DeviceUpdate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15843,7 +15843,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceUpdate ms = new DeviceUpdate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15860,7 +15860,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceUpdate ms = new DeviceUpdate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15878,7 +15878,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				DeviceUpdate ms = new DeviceUpdate();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15894,7 +15894,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumSubscription ms = new IridiumSubscription();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15911,7 +15911,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumSubscription ms = new IridiumSubscription();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15928,7 +15928,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumSubscription ms = new IridiumSubscription();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15946,7 +15946,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				IridiumSubscription ms = new IridiumSubscription();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15962,7 +15962,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AssetPosition ms = new AssetPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15979,7 +15979,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AssetPosition ms = new AssetPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -15996,7 +15996,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AssetPosition ms = new AssetPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -16014,7 +16014,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				AssetPosition ms = new AssetPosition();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -16030,7 +16030,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MessagePart ms = new MessagePart();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -16047,7 +16047,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MessagePart ms = new MessagePart();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -16064,7 +16064,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MessagePart ms = new MessagePart();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }
@@ -16082,7 +16082,7 @@ public class ImcSysState extends ImcSystemState {
 		if (m != null)
 			try {
 				MessagePart ms = new MessagePart();
-				ms.setMessage(m);
+				ms.copyFrom(m);
 				return ms;
 			}
 			catch (Exception e) { }

@@ -44,6 +44,16 @@ public class DeviceUpdates extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DeviceUpdates(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DeviceUpdates(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -94,8 +104,9 @@ public class DeviceUpdates extends IMCMessage {
 	/**
 	 *  @param positions Positions
 	 */
-	public void setPositions(java.util.Collection<DeviceUpdate> positions) {
+	public DeviceUpdates setPositions(java.util.Collection<DeviceUpdate> positions) {
 		values.put("positions", positions);
+		return this;
 	}
 
 }

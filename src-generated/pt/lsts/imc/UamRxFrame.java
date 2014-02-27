@@ -46,6 +46,16 @@ public class UamRxFrame extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public UamRxFrame(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public UamRxFrame(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -116,29 +126,33 @@ public class UamRxFrame extends IMCMessage {
 	/**
 	 *  @param sys_src Source System
 	 */
-	public void setSysSrc(String sys_src) {
+	public UamRxFrame setSysSrc(String sys_src) {
 		values.put("sys_src", sys_src);
+		return this;
 	}
 
 	/**
 	 *  @param sys_dst Destination System
 	 */
-	public void setSysDst(String sys_dst) {
+	public UamRxFrame setSysDst(String sys_dst) {
 		values.put("sys_dst", sys_dst);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public UamRxFrame setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public UamRxFrame setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

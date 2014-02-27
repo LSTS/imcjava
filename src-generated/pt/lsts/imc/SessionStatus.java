@@ -60,6 +60,16 @@ public class SessionStatus extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SessionStatus(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SessionStatus(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -117,29 +127,33 @@ public class SessionStatus extends IMCMessage {
 	/**
 	 *  @param sessid Session Identifier
 	 */
-	public void setSessid(long sessid) {
+	public SessionStatus setSessid(long sessid) {
 		values.put("sessid", sessid);
+		return this;
 	}
 
 	/**
 	 *  @param status Status (enumerated)
 	 */
-	public void setStatus(STATUS status) {
+	public SessionStatus setStatus(STATUS status) {
 		values.put("status", status.value());
+		return this;
 	}
 
 	/**
 	 *  @param status Status (as a String)
 	 */
-	public void setStatus(String status) {
+	public SessionStatus setStatus(String status) {
 		setValue("status", status);
+		return this;
 	}
 
 	/**
 	 *  @param status Status (integer value)
 	 */
-	public void setStatus(short status) {
+	public SessionStatus setStatus(short status) {
 		setValue("status", status);
+		return this;
 	}
 
 }

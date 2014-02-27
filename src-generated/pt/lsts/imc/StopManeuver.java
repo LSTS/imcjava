@@ -45,6 +45,16 @@ public class StopManeuver extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public StopManeuver(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public StopManeuver(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

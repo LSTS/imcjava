@@ -44,6 +44,16 @@ public class EntityMonitoringState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EntityMonitoringState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EntityMonitoringState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -147,57 +157,65 @@ public class EntityMonitoringState extends IMCMessage {
 	/**
 	 *  @param mcount Entities monitored - Count
 	 */
-	public void setMcount(short mcount) {
+	public EntityMonitoringState setMcount(short mcount) {
 		values.put("mcount", mcount);
+		return this;
 	}
 
 	/**
 	 *  @param mnames Entities monitored - Names
 	 */
-	public void setMnames(String mnames) {
+	public EntityMonitoringState setMnames(String mnames) {
 		values.put("mnames", mnames);
+		return this;
 	}
 
 	/**
 	 *  @param ecount Entities with errors - Count
 	 */
-	public void setEcount(short ecount) {
+	public EntityMonitoringState setEcount(short ecount) {
 		values.put("ecount", ecount);
+		return this;
 	}
 
 	/**
 	 *  @param enames Entities with errors - Names
 	 */
-	public void setEnames(String enames) {
+	public EntityMonitoringState setEnames(String enames) {
 		values.put("enames", enames);
+		return this;
 	}
 
 	/**
 	 *  @param ccount Entities with critical errors - Count
 	 */
-	public void setCcount(short ccount) {
+	public EntityMonitoringState setCcount(short ccount) {
 		values.put("ccount", ccount);
+		return this;
 	}
 
 	/**
 	 *  @param cnames Entities with critical errors - Names
 	 */
-	public void setCnames(String cnames) {
+	public EntityMonitoringState setCnames(String cnames) {
 		values.put("cnames", cnames);
+		return this;
 	}
 
 	/**
 	 *  @param last_error Last Error -- Description
 	 */
-	public void setLastError(String last_error) {
+	public EntityMonitoringState setLastError(String last_error) {
 		values.put("last_error", last_error);
+		return this;
 	}
 
 	/**
 	 *  @param last_error_time Last Error -- Time (s)
 	 */
-	public void setLastErrorTime(double last_error_time) {
+	public EntityMonitoringState setLastErrorTime(double last_error_time) {
 		values.put("last_error_time", last_error_time);
+		return this;
 	}
 
 }

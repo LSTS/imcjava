@@ -48,6 +48,16 @@ public class CustomManeuver extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public CustomManeuver(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public CustomManeuver(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -109,27 +119,31 @@ public class CustomManeuver extends Maneuver {
 	/**
 	 *  @param timeout Timeout (s)
 	 */
-	public void setTimeout(int timeout) {
+	public CustomManeuver setTimeout(int timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
 	 *  @param name Maneuver Name
 	 */
-	public void setName(String name) {
+	public CustomManeuver setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public CustomManeuver setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public CustomManeuver setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

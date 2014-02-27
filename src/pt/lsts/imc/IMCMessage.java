@@ -277,7 +277,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	 * @throws Exception
 	 *             In case the types of the messages do not match
 	 */
-	public void setMessage(IMCMessage otherMessage) throws Exception {
+	public IMCMessage copyFrom(IMCMessage otherMessage) throws Exception {
 		if (otherMessage.getMessageType().getId() != getMessageType().getId()) {
 			throw new Exception("Types of messages do not match: "
 					+ getMessageType().getShortName() + " vs "
@@ -286,6 +286,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 
 		getHeader().setValues(otherMessage.getHeader().values);
 		setValues(otherMessage.values);
+		return this;
 	}
 
 	/**

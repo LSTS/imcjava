@@ -45,6 +45,16 @@ public class VSWR extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public VSWR(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VSWR(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class VSWR extends IMCMessage {
 	/**
 	 *  @param value Value
 	 */
-	public void setValue(double value) {
+	public VSWR setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

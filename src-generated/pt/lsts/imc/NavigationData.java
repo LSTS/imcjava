@@ -48,6 +48,16 @@ public class NavigationData extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public NavigationData(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public NavigationData(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -155,64 +165,73 @@ public class NavigationData extends IMCMessage {
 	/**
 	 *  @param bias_psi Yaw Bias (rad)
 	 */
-	public void setBiasPsi(double bias_psi) {
+	public NavigationData setBiasPsi(double bias_psi) {
 		values.put("bias_psi", bias_psi);
+		return this;
 	}
 
 	/**
 	 *  @param bias_r Gyro. Yaw Rate Bias (rad/s)
 	 */
-	public void setBiasR(double bias_r) {
+	public NavigationData setBiasR(double bias_r) {
 		values.put("bias_r", bias_r);
+		return this;
 	}
 
 	/**
 	 *  @param cog Course Over Ground (rad)
 	 */
-	public void setCog(double cog) {
+	public NavigationData setCog(double cog) {
 		values.put("cog", cog);
+		return this;
 	}
 
 	/**
 	 *  @param cyaw Continuous Yaw (rad)
 	 */
-	public void setCyaw(double cyaw) {
+	public NavigationData setCyaw(double cyaw) {
 		values.put("cyaw", cyaw);
+		return this;
 	}
 
 	/**
 	 *  @param lbl_rej_level GPS Rejection Filter Level
 	 */
-	public void setLblRejLevel(double lbl_rej_level) {
+	public NavigationData setLblRejLevel(double lbl_rej_level) {
 		values.put("lbl_rej_level", lbl_rej_level);
+		return this;
 	}
 
 	/**
 	 *  @param gps_rej_level LBL Rejection Filter Level
 	 */
-	public void setGpsRejLevel(double gps_rej_level) {
+	public NavigationData setGpsRejLevel(double gps_rej_level) {
 		values.put("gps_rej_level", gps_rej_level);
+		return this;
 	}
 
 	/**
 	 *  @param custom_x Variance - Custom Variable X
 	 */
-	public void setCustomX(double custom_x) {
+	public NavigationData setCustomX(double custom_x) {
 		values.put("custom_x", custom_x);
+		return this;
 	}
 
 	/**
 	 *  @param custom_y Variance - Custom Variable Y
 	 */
-	public void setCustomY(double custom_y) {
+	public NavigationData setCustomY(double custom_y) {
 		values.put("custom_y", custom_y);
+		return this;
 	}
 
 	/**
 	 *  @param custom_z Variance - Custom Variable Z
 	 */
-	public void setCustomZ(double custom_z) {
+	public NavigationData setCustomZ(double custom_z) {
 		values.put("custom_z", custom_z);
+		return this;
 	}
 
 }

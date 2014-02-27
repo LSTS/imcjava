@@ -63,6 +63,16 @@ public class CacheControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public CacheControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public CacheControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -135,36 +145,41 @@ public class CacheControl extends IMCMessage {
 	/**
 	 *  @param op Control Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public CacheControl setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Control Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public CacheControl setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Control Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public CacheControl setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param snapshot Snapshot destination
 	 */
-	public void setSnapshot(String snapshot) {
+	public CacheControl setSnapshot(String snapshot) {
 		values.put("snapshot", snapshot);
+		return this;
 	}
 
 	/**
 	 *  @param message Message
 	 */
-	public void setMessage(IMCMessage message) {
+	public CacheControl setMessage(IMCMessage message) {
 		values.put("message", message);
+		return this;
 	}
 
 }

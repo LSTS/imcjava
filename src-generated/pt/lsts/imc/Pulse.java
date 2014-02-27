@@ -45,6 +45,16 @@ public class Pulse extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Pulse(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Pulse(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

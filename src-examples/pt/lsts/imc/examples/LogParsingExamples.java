@@ -61,7 +61,7 @@ public class LogParsingExamples {
             try {
                 // Retrieve a message at given index, converting it for expected type
                 EstimatedStreamVelocity vel = new EstimatedStreamVelocity();
-                vel.setMessage(ss);
+                vel.copyFrom(ss);
                 // calculates speed (vector norm)
                 double speed = Math.sqrt(vel.getX() * vel.getX() + vel.getY()*vel.getY()+vel.getZ()*vel.getZ());
                 sum += speed;
@@ -131,7 +131,7 @@ public class LogParsingExamples {
         try {
             // retrieve the deepest estimated state
             EstimatedState estate = new EstimatedState();
-            estate.setMessage(deepest);
+            estate.copyFrom(deepest);
            
             double northing = estate.getX();
             double easting = estate.getY();

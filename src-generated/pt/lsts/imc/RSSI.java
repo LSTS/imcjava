@@ -45,6 +45,16 @@ public class RSSI extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public RSSI(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public RSSI(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class RSSI extends IMCMessage {
 	/**
 	 *  @param value Value (%)
 	 */
-	public void setValue(double value) {
+	public RSSI setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

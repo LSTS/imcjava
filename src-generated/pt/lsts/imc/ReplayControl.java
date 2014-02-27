@@ -62,6 +62,16 @@ public class ReplayControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public ReplayControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ReplayControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -121,29 +131,33 @@ public class ReplayControl extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public ReplayControl setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public ReplayControl setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public ReplayControl setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param file File To Replay
 	 */
-	public void setFile(String file) {
+	public ReplayControl setFile(String file) {
 		values.put("file", file);
+		return this;
 	}
 
 }

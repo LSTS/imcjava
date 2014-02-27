@@ -62,6 +62,16 @@ public class VehicleOperationalLimits extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public VehicleOperationalLimits(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VehicleOperationalLimits(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -248,141 +258,161 @@ public class VehicleOperationalLimits extends IMCMessage {
 	/**
 	 *  @param op Action on the vehicle operational limits (enumerated)
 	 */
-	public void setOp(OP op) {
+	public VehicleOperationalLimits setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Action on the vehicle operational limits (as a String)
 	 */
-	public void setOp(String op) {
+	public VehicleOperationalLimits setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Action on the vehicle operational limits (integer value)
 	 */
-	public void setOp(short op) {
+	public VehicleOperationalLimits setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param speed_min Minimum speed (m/s)
 	 */
-	public void setSpeedMin(double speed_min) {
+	public VehicleOperationalLimits setSpeedMin(double speed_min) {
 		values.put("speed_min", speed_min);
+		return this;
 	}
 
 	/**
 	 *  @param speed_max Maximum speed (m/s)
 	 */
-	public void setSpeedMax(double speed_max) {
+	public VehicleOperationalLimits setSpeedMax(double speed_max) {
 		values.put("speed_max", speed_max);
+		return this;
 	}
 
 	/**
 	 *  @param long_accel Longitudinal maximum acceleration (m/s/s)
 	 */
-	public void setLongAccel(double long_accel) {
+	public VehicleOperationalLimits setLongAccel(double long_accel) {
 		values.put("long_accel", long_accel);
+		return this;
 	}
 
 	/**
 	 *  @param alt_max_msl Maximum MSL altitude (m)
 	 */
-	public void setAltMaxMsl(double alt_max_msl) {
+	public VehicleOperationalLimits setAltMaxMsl(double alt_max_msl) {
 		values.put("alt_max_msl", alt_max_msl);
+		return this;
 	}
 
 	/**
 	 *  @param dive_fraction_max Maximum Dive Rate Speed Fraction
 	 */
-	public void setDiveFractionMax(double dive_fraction_max) {
+	public VehicleOperationalLimits setDiveFractionMax(double dive_fraction_max) {
 		values.put("dive_fraction_max", dive_fraction_max);
+		return this;
 	}
 
 	/**
 	 *  @param climb_fraction_max Maximum Climb Rate Speed Fraction
 	 */
-	public void setClimbFractionMax(double climb_fraction_max) {
+	public VehicleOperationalLimits setClimbFractionMax(double climb_fraction_max) {
 		values.put("climb_fraction_max", climb_fraction_max);
+		return this;
 	}
 
 	/**
 	 *  @param bank_max Bank limit (rad)
 	 */
-	public void setBankMax(double bank_max) {
+	public VehicleOperationalLimits setBankMax(double bank_max) {
 		values.put("bank_max", bank_max);
+		return this;
 	}
 
 	/**
 	 *  @param p_max Bank rate limit (rad/s)
 	 */
-	public void setPMax(double p_max) {
+	public VehicleOperationalLimits setPMax(double p_max) {
 		values.put("p_max", p_max);
+		return this;
 	}
 
 	/**
 	 *  @param pitch_min Minimum pitch angle (rad)
 	 */
-	public void setPitchMin(double pitch_min) {
+	public VehicleOperationalLimits setPitchMin(double pitch_min) {
 		values.put("pitch_min", pitch_min);
+		return this;
 	}
 
 	/**
 	 *  @param pitch_max Maximum pitch angle (rad)
 	 */
-	public void setPitchMax(double pitch_max) {
+	public VehicleOperationalLimits setPitchMax(double pitch_max) {
 		values.put("pitch_max", pitch_max);
+		return this;
 	}
 
 	/**
 	 *  @param q_max Maximum pitch rate (rad/s)
 	 */
-	public void setQMax(double q_max) {
+	public VehicleOperationalLimits setQMax(double q_max) {
 		values.put("q_max", q_max);
+		return this;
 	}
 
 	/**
 	 *  @param g_min Minimum load factor (g)
 	 */
-	public void setGMin(double g_min) {
+	public VehicleOperationalLimits setGMin(double g_min) {
 		values.put("g_min", g_min);
+		return this;
 	}
 
 	/**
 	 *  @param g_max Maximum load factor (g)
 	 */
-	public void setGMax(double g_max) {
+	public VehicleOperationalLimits setGMax(double g_max) {
 		values.put("g_max", g_max);
+		return this;
 	}
 
 	/**
 	 *  @param g_lat_max Maximum lateral load factor (g)
 	 */
-	public void setGLatMax(double g_lat_max) {
+	public VehicleOperationalLimits setGLatMax(double g_lat_max) {
 		values.put("g_lat_max", g_lat_max);
+		return this;
 	}
 
 	/**
 	 *  @param rpm_min Minimum RPMs (rpm)
 	 */
-	public void setRpmMin(double rpm_min) {
+	public VehicleOperationalLimits setRpmMin(double rpm_min) {
 		values.put("rpm_min", rpm_min);
+		return this;
 	}
 
 	/**
 	 *  @param rpm_max Maximum RPMs (rpm)
 	 */
-	public void setRpmMax(double rpm_max) {
+	public VehicleOperationalLimits setRpmMax(double rpm_max) {
 		values.put("rpm_max", rpm_max);
+		return this;
 	}
 
 	/**
 	 *  @param rpm_rate_max Maximum RPM rate (rpm/s)
 	 */
-	public void setRpmRateMax(double rpm_rate_max) {
+	public VehicleOperationalLimits setRpmRateMax(double rpm_rate_max) {
 		values.put("rpm_rate_max", rpm_rate_max);
+		return this;
 	}
 
 }

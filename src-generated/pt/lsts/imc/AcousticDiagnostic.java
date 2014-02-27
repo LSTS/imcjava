@@ -45,6 +45,16 @@ public class AcousticDiagnostic extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AcousticDiagnostic(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AcousticDiagnostic(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class AcousticDiagnostic extends IMCMessage {
 	/**
 	 *  @param enable Enable
 	 */
-	public void setEnable(short enable) {
+	public AcousticDiagnostic setEnable(short enable) {
 		values.put("enable", enable);
+		return this;
 	}
 
 }

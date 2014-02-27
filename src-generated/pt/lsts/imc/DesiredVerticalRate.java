@@ -45,6 +45,16 @@ public class DesiredVerticalRate extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DesiredVerticalRate(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DesiredVerticalRate(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class DesiredVerticalRate extends IMCMessage {
 	/**
 	 *  @param value Value (m/s)
 	 */
-	public void setValue(double value) {
+	public DesiredVerticalRate setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

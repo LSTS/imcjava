@@ -44,6 +44,16 @@ public class QueryEntityParameters extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public QueryEntityParameters(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public QueryEntityParameters(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -106,22 +116,25 @@ public class QueryEntityParameters extends IMCMessage {
 	/**
 	 *  @param name Entity Name
 	 */
-	public void setName(String name) {
+	public QueryEntityParameters setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 	/**
 	 *  @param visibility Visibility
 	 */
-	public void setVisibility(String visibility) {
+	public QueryEntityParameters setVisibility(String visibility) {
 		values.put("visibility", visibility);
+		return this;
 	}
 
 	/**
 	 *  @param scope Scope
 	 */
-	public void setScope(String scope) {
+	public QueryEntityParameters setScope(String scope) {
 		values.put("scope", scope);
+		return this;
 	}
 
 }

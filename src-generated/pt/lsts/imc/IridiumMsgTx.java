@@ -44,6 +44,16 @@ public class IridiumMsgTx extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public IridiumMsgTx(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public IridiumMsgTx(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -113,29 +123,33 @@ public class IridiumMsgTx extends IMCMessage {
 	/**
 	 *  @param req_id Request Identifier
 	 */
-	public void setReqId(int req_id) {
+	public IridiumMsgTx setReqId(int req_id) {
 		values.put("req_id", req_id);
+		return this;
 	}
 
 	/**
 	 *  @param ttl Time to live (s)
 	 */
-	public void setTtl(int ttl) {
+	public IridiumMsgTx setTtl(int ttl) {
 		values.put("ttl", ttl);
+		return this;
 	}
 
 	/**
 	 *  @param destination Destination Identifier
 	 */
-	public void setDestination(String destination) {
+	public IridiumMsgTx setDestination(String destination) {
 		values.put("destination", destination);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public IridiumMsgTx setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

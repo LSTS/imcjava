@@ -78,6 +78,16 @@ public class FollowSystem extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public FollowSystem(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public FollowSystem(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -191,85 +201,97 @@ public class FollowSystem extends IMCMessage {
 	/**
 	 *  @param system System To Follow
 	 */
-	public void setSystem(int system) {
+	public FollowSystem setSystem(int system) {
 		values.put("system", system);
+		return this;
 	}
 
 	/**
 	 *  @param duration Duration (s)
 	 */
-	public void setDuration(int duration) {
+	public FollowSystem setDuration(int duration) {
 		values.put("duration", duration);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed
 	 */
-	public void setSpeed(double speed) {
+	public FollowSystem setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public FollowSystem setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public FollowSystem setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public FollowSystem setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param x Offset -- X
 	 */
-	public void setX(double x) {
+	public FollowSystem setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Offset -- Y
 	 */
-	public void setY(double y) {
+	public FollowSystem setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Coordinate -- Z
 	 */
-	public void setZ(double z) {
+	public FollowSystem setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public void setZUnits(Z_UNITS z_units) {
+	public FollowSystem setZUnits(Z_UNITS z_units) {
 		values.put("z_units", z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public void setZUnits(String z_units) {
+	public FollowSystem setZUnits(String z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public void setZUnits(short z_units) {
+	public FollowSystem setZUnits(short z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 }

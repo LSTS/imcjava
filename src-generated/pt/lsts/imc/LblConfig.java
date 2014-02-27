@@ -61,6 +61,16 @@ public class LblConfig extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LblConfig(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LblConfig(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -126,29 +136,33 @@ public class LblConfig extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public LblConfig setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public LblConfig setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public LblConfig setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param beacons Beacons
 	 */
-	public void setBeacons(java.util.Collection<LblBeacon> beacons) {
+	public LblConfig setBeacons(java.util.Collection<LblBeacon> beacons) {
 		values.put("beacons", beacons);
+		return this;
 	}
 
 }

@@ -67,6 +67,16 @@ public class DvlRejection extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DvlRejection(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DvlRejection(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -148,43 +158,49 @@ public class DvlRejection extends IMCMessage {
 	/**
 	 *  @param type Type of velocity (bitfield)
 	 */
-	public void setType(short type) {
+	public DvlRejection setType(short type) {
 		values.put("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param reason Reason (enumerated)
 	 */
-	public void setReason(REASON reason) {
+	public DvlRejection setReason(REASON reason) {
 		values.put("reason", reason.value());
+		return this;
 	}
 
 	/**
 	 *  @param reason Reason (as a String)
 	 */
-	public void setReason(String reason) {
+	public DvlRejection setReason(String reason) {
 		setValue("reason", reason);
+		return this;
 	}
 
 	/**
 	 *  @param reason Reason (integer value)
 	 */
-	public void setReason(short reason) {
+	public DvlRejection setReason(short reason) {
 		setValue("reason", reason);
+		return this;
 	}
 
 	/**
 	 *  @param value Value (m/s)
 	 */
-	public void setValue(double value) {
+	public DvlRejection setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 	/**
 	 *  @param timestep Timestep (s)
 	 */
-	public void setTimestep(double timestep) {
+	public DvlRejection setTimestep(double timestep) {
 		values.put("timestep", timestep);
+		return this;
 	}
 
 }

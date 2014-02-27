@@ -45,6 +45,16 @@ public class GpsNavData extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public GpsNavData(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public GpsNavData(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -200,106 +210,121 @@ public class GpsNavData extends IMCMessage {
 	/**
 	 *  @param itow GPS Millisecond Time of Week (ms)
 	 */
-	public void setItow(long itow) {
+	public GpsNavData setItow(long itow) {
 		values.put("itow", itow);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude (rad)
 	 */
-	public void setLat(double lat) {
+	public GpsNavData setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude (rad)
 	 */
-	public void setLon(double lon) {
+	public GpsNavData setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param height_ell Height above ellipsoid (m)
 	 */
-	public void setHeightEll(double height_ell) {
+	public GpsNavData setHeightEll(double height_ell) {
 		values.put("height_ell", height_ell);
+		return this;
 	}
 
 	/**
 	 *  @param height_sea Height above sea level (m)
 	 */
-	public void setHeightSea(double height_sea) {
+	public GpsNavData setHeightSea(double height_sea) {
 		values.put("height_sea", height_sea);
+		return this;
 	}
 
 	/**
 	 *  @param hacc Horizontal Accuracy Estimate (m)
 	 */
-	public void setHacc(double hacc) {
+	public GpsNavData setHacc(double hacc) {
 		values.put("hacc", hacc);
+		return this;
 	}
 
 	/**
 	 *  @param vacc Vertical Accuracy Estimate (m)
 	 */
-	public void setVacc(double vacc) {
+	public GpsNavData setVacc(double vacc) {
 		values.put("vacc", vacc);
+		return this;
 	}
 
 	/**
 	 *  @param vel_n NED North Velocity (m/s)
 	 */
-	public void setVelN(double vel_n) {
+	public GpsNavData setVelN(double vel_n) {
 		values.put("vel_n", vel_n);
+		return this;
 	}
 
 	/**
 	 *  @param vel_e NED East Velocity (m/s)
 	 */
-	public void setVelE(double vel_e) {
+	public GpsNavData setVelE(double vel_e) {
 		values.put("vel_e", vel_e);
+		return this;
 	}
 
 	/**
 	 *  @param vel_d NED Down Velocity (m/s)
 	 */
-	public void setVelD(double vel_d) {
+	public GpsNavData setVelD(double vel_d) {
 		values.put("vel_d", vel_d);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed (3D) (m/s)
 	 */
-	public void setSpeed(double speed) {
+	public GpsNavData setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param gspeed Ground Speed (2D) (m/s)
 	 */
-	public void setGspeed(double gspeed) {
+	public GpsNavData setGspeed(double gspeed) {
 		values.put("gspeed", gspeed);
+		return this;
 	}
 
 	/**
 	 *  @param heading Heading (2D) (rad)
 	 */
-	public void setHeading(double heading) {
+	public GpsNavData setHeading(double heading) {
 		values.put("heading", heading);
+		return this;
 	}
 
 	/**
 	 *  @param sacc Speed Accuracy Estimate (m/s)
 	 */
-	public void setSacc(double sacc) {
+	public GpsNavData setSacc(double sacc) {
 		values.put("sacc", sacc);
+		return this;
 	}
 
 	/**
 	 *  @param cacc Course / Heading Accuracy Estimate (rad)
 	 */
-	public void setCacc(double cacc) {
+	public GpsNavData setCacc(double cacc) {
 		values.put("cacc", cacc);
+		return this;
 	}
 
 }

@@ -79,6 +79,16 @@ public class VehicleCommand extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public VehicleCommand(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VehicleCommand(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -187,71 +197,81 @@ public class VehicleCommand extends IMCMessage {
 	/**
 	 *  @param type Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public VehicleCommand setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public void setType(String type) {
+	public VehicleCommand setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public void setType(short type) {
+	public VehicleCommand setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param request_id Request ID
 	 */
-	public void setRequestId(int request_id) {
+	public VehicleCommand setRequestId(int request_id) {
 		values.put("request_id", request_id);
+		return this;
 	}
 
 	/**
 	 *  @param command Command (enumerated)
 	 */
-	public void setCommand(COMMAND command) {
+	public VehicleCommand setCommand(COMMAND command) {
 		values.put("command", command.value());
+		return this;
 	}
 
 	/**
 	 *  @param command Command (as a String)
 	 */
-	public void setCommand(String command) {
+	public VehicleCommand setCommand(String command) {
 		setValue("command", command);
+		return this;
 	}
 
 	/**
 	 *  @param command Command (integer value)
 	 */
-	public void setCommand(short command) {
+	public VehicleCommand setCommand(short command) {
 		setValue("command", command);
+		return this;
 	}
 
 	/**
 	 *  @param maneuver Maneuver
 	 */
-	public void setManeuver(Maneuver maneuver) {
+	public VehicleCommand setManeuver(Maneuver maneuver) {
 		values.put("maneuver", maneuver);
+		return this;
 	}
 
 	/**
 	 *  @param calib_time Calibration Time (s)
 	 */
-	public void setCalibTime(int calib_time) {
+	public VehicleCommand setCalibTime(int calib_time) {
 		values.put("calib_time", calib_time);
+		return this;
 	}
 
 	/**
 	 *  @param info Info
 	 */
-	public void setInfo(String info) {
+	public VehicleCommand setInfo(String info) {
 		values.put("info", info);
+		return this;
 	}
 
 }

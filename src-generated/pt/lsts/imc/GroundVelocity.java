@@ -50,6 +50,16 @@ public class GroundVelocity extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public GroundVelocity(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public GroundVelocity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -119,29 +129,33 @@ public class GroundVelocity extends IMCMessage {
 	/**
 	 *  @param validity Validity (bitfield)
 	 */
-	public void setValidity(short validity) {
+	public GroundVelocity setValidity(short validity) {
 		values.put("validity", validity);
+		return this;
 	}
 
 	/**
 	 *  @param x X (m/s)
 	 */
-	public void setX(double x) {
+	public GroundVelocity setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Y (m/s)
 	 */
-	public void setY(double y) {
+	public GroundVelocity setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Z (m/s)
 	 */
-	public void setZ(double z) {
+	public GroundVelocity setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 }

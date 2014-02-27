@@ -45,6 +45,16 @@ public class RelativeHumidity extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public RelativeHumidity(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public RelativeHumidity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class RelativeHumidity extends IMCMessage {
 	/**
 	 *  @param value Relative Humidity Value
 	 */
-	public void setValue(double value) {
+	public RelativeHumidity setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

@@ -65,6 +65,16 @@ public class MapFeature extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public MapFeature(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public MapFeature(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -163,57 +173,65 @@ public class MapFeature extends IMCMessage {
 	/**
 	 *  @param id Identifier
 	 */
-	public void setId(String id) {
+	public MapFeature setId(String id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param feature_type FeatureType (enumerated)
 	 */
-	public void setFeatureType(FEATURE_TYPE feature_type) {
+	public MapFeature setFeatureType(FEATURE_TYPE feature_type) {
 		values.put("feature_type", feature_type.value());
+		return this;
 	}
 
 	/**
 	 *  @param feature_type FeatureType (as a String)
 	 */
-	public void setFeatureType(String feature_type) {
+	public MapFeature setFeatureType(String feature_type) {
 		setValue("feature_type", feature_type);
+		return this;
 	}
 
 	/**
 	 *  @param feature_type FeatureType (integer value)
 	 */
-	public void setFeatureType(short feature_type) {
+	public MapFeature setFeatureType(short feature_type) {
 		setValue("feature_type", feature_type);
+		return this;
 	}
 
 	/**
 	 *  @param rgb_red RedComponent
 	 */
-	public void setRgbRed(short rgb_red) {
+	public MapFeature setRgbRed(short rgb_red) {
 		values.put("rgb_red", rgb_red);
+		return this;
 	}
 
 	/**
 	 *  @param rgb_green GreenComponent
 	 */
-	public void setRgbGreen(short rgb_green) {
+	public MapFeature setRgbGreen(short rgb_green) {
 		values.put("rgb_green", rgb_green);
+		return this;
 	}
 
 	/**
 	 *  @param rgb_blue BlueComponent
 	 */
-	public void setRgbBlue(short rgb_blue) {
+	public MapFeature setRgbBlue(short rgb_blue) {
 		values.put("rgb_blue", rgb_blue);
+		return this;
 	}
 
 	/**
 	 *  @param feature Feature
 	 */
-	public void setFeature(java.util.Collection<MapPoint> feature) {
+	public MapFeature setFeature(java.util.Collection<MapPoint> feature) {
 		values.put("feature", feature);
+		return this;
 	}
 
 }

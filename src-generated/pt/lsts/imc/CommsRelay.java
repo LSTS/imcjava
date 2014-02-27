@@ -62,6 +62,16 @@ public class CommsRelay extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public CommsRelay(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public CommsRelay(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -168,71 +178,81 @@ public class CommsRelay extends Maneuver {
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public CommsRelay setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public CommsRelay setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed
 	 */
-	public void setSpeed(double speed) {
+	public CommsRelay setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public CommsRelay setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public CommsRelay setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public CommsRelay setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param duration Duration (s)
 	 */
-	public void setDuration(int duration) {
+	public CommsRelay setDuration(int duration) {
 		values.put("duration", duration);
+		return this;
 	}
 
 	/**
 	 *  @param sys_a System A
 	 */
-	public void setSysA(int sys_a) {
+	public CommsRelay setSysA(int sys_a) {
 		values.put("sys_a", sys_a);
+		return this;
 	}
 
 	/**
 	 *  @param sys_b System B
 	 */
-	public void setSysB(int sys_b) {
+	public CommsRelay setSysB(int sys_b) {
 		values.put("sys_b", sys_b);
+		return this;
 	}
 
 	/**
 	 *  @param move_threshold Move threshold (m)
 	 */
-	public void setMoveThreshold(double move_threshold) {
+	public CommsRelay setMoveThreshold(double move_threshold) {
 		values.put("move_threshold", move_threshold);
+		return this;
 	}
 
 }

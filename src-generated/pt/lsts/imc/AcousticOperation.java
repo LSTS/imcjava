@@ -75,6 +75,16 @@ public class AcousticOperation extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AcousticOperation(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AcousticOperation(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -155,43 +165,49 @@ public class AcousticOperation extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public AcousticOperation setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public AcousticOperation setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public AcousticOperation setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param system System
 	 */
-	public void setSystem(String system) {
+	public AcousticOperation setSystem(String system) {
 		values.put("system", system);
+		return this;
 	}
 
 	/**
 	 *  @param range Range (m)
 	 */
-	public void setRange(double range) {
+	public AcousticOperation setRange(double range) {
 		values.put("range", range);
+		return this;
 	}
 
 	/**
 	 *  @param msg Message To Send
 	 */
-	public void setMsg(IMCMessage msg) {
+	public AcousticOperation setMsg(IMCMessage msg) {
 		values.put("msg", msg);
+		return this;
 	}
 
 }

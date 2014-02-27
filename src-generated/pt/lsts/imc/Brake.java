@@ -60,6 +60,16 @@ public class Brake extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Brake(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Brake(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -110,22 +120,25 @@ public class Brake extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public Brake setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public Brake setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public Brake setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 }

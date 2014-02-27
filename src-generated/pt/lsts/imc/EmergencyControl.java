@@ -63,6 +63,16 @@ public class EmergencyControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EmergencyControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EmergencyControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -131,29 +141,33 @@ public class EmergencyControl extends IMCMessage {
 	/**
 	 *  @param command Command (enumerated)
 	 */
-	public void setCommand(COMMAND command) {
+	public EmergencyControl setCommand(COMMAND command) {
 		values.put("command", command.value());
+		return this;
 	}
 
 	/**
 	 *  @param command Command (as a String)
 	 */
-	public void setCommand(String command) {
+	public EmergencyControl setCommand(String command) {
 		setValue("command", command);
+		return this;
 	}
 
 	/**
 	 *  @param command Command (integer value)
 	 */
-	public void setCommand(short command) {
+	public EmergencyControl setCommand(short command) {
 		setValue("command", command);
+		return this;
 	}
 
 	/**
 	 *  @param plan Plan Specification
 	 */
-	public void setPlan(PlanSpecification plan) {
+	public EmergencyControl setPlan(PlanSpecification plan) {
 		values.put("plan", plan);
+		return this;
 	}
 
 }

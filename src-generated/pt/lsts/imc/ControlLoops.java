@@ -76,6 +76,16 @@ public class ControlLoops extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public ControlLoops(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ControlLoops(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -142,36 +152,41 @@ public class ControlLoops extends IMCMessage {
 	/**
 	 *  @param enable Enable (enumerated)
 	 */
-	public void setEnable(ENABLE enable) {
+	public ControlLoops setEnable(ENABLE enable) {
 		values.put("enable", enable.value());
+		return this;
 	}
 
 	/**
 	 *  @param enable Enable (as a String)
 	 */
-	public void setEnable(String enable) {
+	public ControlLoops setEnable(String enable) {
 		setValue("enable", enable);
+		return this;
 	}
 
 	/**
 	 *  @param enable Enable (integer value)
 	 */
-	public void setEnable(short enable) {
+	public ControlLoops setEnable(short enable) {
 		setValue("enable", enable);
+		return this;
 	}
 
 	/**
 	 *  @param mask Control Loop Mask (bitfield)
 	 */
-	public void setMask(long mask) {
+	public ControlLoops setMask(long mask) {
 		values.put("mask", mask);
+		return this;
 	}
 
 	/**
 	 *  @param scope_ref Scope Time Reference
 	 */
-	public void setScopeRef(long scope_ref) {
+	public ControlLoops setScopeRef(long scope_ref) {
 		values.put("scope_ref", scope_ref);
+		return this;
 	}
 
 }

@@ -45,6 +45,16 @@ public class Calibration extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Calibration(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Calibration(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class Calibration extends IMCMessage {
 	/**
 	 *  @param duration Duration (s)
 	 */
-	public void setDuration(int duration) {
+	public Calibration setDuration(int duration) {
 		values.put("duration", duration);
+		return this;
 	}
 
 }

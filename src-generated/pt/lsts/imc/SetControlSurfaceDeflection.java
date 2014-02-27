@@ -45,6 +45,16 @@ public class SetControlSurfaceDeflection extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SetControlSurfaceDeflection(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SetControlSurfaceDeflection(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -96,15 +106,17 @@ public class SetControlSurfaceDeflection extends IMCMessage {
 	/**
 	 *  @param id Identifier
 	 */
-	public void setId(short id) {
+	public SetControlSurfaceDeflection setId(short id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param angle Angle (rad)
 	 */
-	public void setAngle(double angle) {
+	public SetControlSurfaceDeflection setAngle(double angle) {
 		values.put("angle", angle);
+		return this;
 	}
 
 }

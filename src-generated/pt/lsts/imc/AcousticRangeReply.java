@@ -61,6 +61,16 @@ public class AcousticRangeReply extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AcousticRangeReply(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AcousticRangeReply(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -127,36 +137,41 @@ public class AcousticRangeReply extends IMCMessage {
 	/**
 	 *  @param address Target Modem Address
 	 */
-	public void setAddress(short address) {
+	public AcousticRangeReply setAddress(short address) {
 		values.put("address", address);
+		return this;
 	}
 
 	/**
 	 *  @param status Status (enumerated)
 	 */
-	public void setStatus(STATUS status) {
+	public AcousticRangeReply setStatus(STATUS status) {
 		values.put("status", status.value());
+		return this;
 	}
 
 	/**
 	 *  @param status Status (as a String)
 	 */
-	public void setStatus(String status) {
+	public AcousticRangeReply setStatus(String status) {
 		setValue("status", status);
+		return this;
 	}
 
 	/**
 	 *  @param status Status (integer value)
 	 */
-	public void setStatus(short status) {
+	public AcousticRangeReply setStatus(short status) {
 		setValue("status", status);
+		return this;
 	}
 
 	/**
 	 *  @param range Range (m)
 	 */
-	public void setRange(double range) {
+	public AcousticRangeReply setRange(double range) {
 		values.put("range", range);
+		return this;
 	}
 
 }

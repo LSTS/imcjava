@@ -86,6 +86,16 @@ public class Goto extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public Goto(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Goto(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -224,111 +234,127 @@ public class Goto extends Maneuver {
 	/**
 	 *  @param timeout Timeout (s)
 	 */
-	public void setTimeout(int timeout) {
+	public Goto setTimeout(int timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public Goto setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public Goto setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param z Z Reference (m)
 	 */
-	public void setZ(double z) {
+	public Goto setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public void setZUnits(Z_UNITS z_units) {
+	public Goto setZUnits(Z_UNITS z_units) {
 		values.put("z_units", z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public void setZUnits(String z_units) {
+	public Goto setZUnits(String z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public void setZUnits(short z_units) {
+	public Goto setZUnits(short z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed
 	 */
-	public void setSpeed(double speed) {
+	public Goto setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public Goto setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public Goto setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public Goto setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param roll Roll (rad)
 	 */
-	public void setRoll(double roll) {
+	public Goto setRoll(double roll) {
 		values.put("roll", roll);
+		return this;
 	}
 
 	/**
 	 *  @param pitch Pitch (rad)
 	 */
-	public void setPitch(double pitch) {
+	public Goto setPitch(double pitch) {
 		values.put("pitch", pitch);
+		return this;
 	}
 
 	/**
 	 *  @param yaw Yaw (rad)
 	 */
-	public void setYaw(double yaw) {
+	public Goto setYaw(double yaw) {
 		values.put("yaw", yaw);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public Goto setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public Goto setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

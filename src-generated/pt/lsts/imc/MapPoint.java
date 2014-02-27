@@ -45,6 +45,16 @@ public class MapPoint extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public MapPoint(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public MapPoint(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -104,22 +114,25 @@ public class MapPoint extends IMCMessage {
 	/**
 	 *  @param lat Latitude (rad)
 	 */
-	public void setLat(double lat) {
+	public MapPoint setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude (rad)
 	 */
-	public void setLon(double lon) {
+	public MapPoint setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param alt Altitude (m)
 	 */
-	public void setAlt(double alt) {
+	public MapPoint setAlt(double alt) {
 		values.put("alt", alt);
+		return this;
 	}
 
 }

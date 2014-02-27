@@ -105,57 +105,65 @@ public class Header extends IMCMessage {
 	/**
 	 *  @param sync Synchronization Number
 	 */
-	public void set_sync(int sync) {
+	public Header set_sync(int sync) {
 		values.put("sync", sync);
+		return this;
 	}
 
 	/**
 	 *  @param mgid Message Identification Number
 	 */
-	public void set_mgid(int mgid) {
+	public Header set_mgid(int mgid) {
 		values.put("mgid", mgid);
+		return this;
 	}
 
 	/**
 	 *  @param size Message size (byte)
 	 */
-	public void set_size(int size) {
+	public Header set_size(int size) {
 		values.put("size", size);
+		return this;
 	}
 
 	/**
 	 *  @param timestamp Time stamp (s)
 	 */
-	public void set_timestamp(double timestamp) {
+	public Header set_timestamp(double timestamp) {
 		values.put("timestamp", timestamp);
+		return this;
 	}
 
 	/**
 	 *  @param src Source Address
 	 */
-	public void set_src(int src) {
+	public Header set_src(int src) {
 		values.put("src", src);
+		return this;
 	}
 
 	/**
 	 *  @param src_ent Source Entity
 	 */
-	public void set_src_ent(short src_ent) {
+	public Header set_src_ent(short src_ent) {
 		values.put("src_ent", src_ent);
+		return this;
 	}
 
 	/**
 	 *  @param dst Destination Address
 	 */
-	public void set_dst(int dst) {
+	public Header set_dst(int dst) {
 		values.put("dst", dst);
+		return this;
 	}
 
 	/**
 	 *  @param dst_ent Destination Entity
 	 */
-	public void set_dst_ent(short dst_ent) {
+	public Header set_dst_ent(short dst_ent) {
 		values.put("dst_ent", dst_ent);
+		return this;
 	}
 
 }

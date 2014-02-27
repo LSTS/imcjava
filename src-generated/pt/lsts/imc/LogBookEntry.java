@@ -63,6 +63,16 @@ public class LogBookEntry extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LogBookEntry(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LogBookEntry(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -139,43 +149,49 @@ public class LogBookEntry extends IMCMessage {
 	/**
 	 *  @param type Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public LogBookEntry setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public void setType(String type) {
+	public LogBookEntry setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public void setType(short type) {
+	public LogBookEntry setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param htime Timestamp (s)
 	 */
-	public void setHtime(double htime) {
+	public LogBookEntry setHtime(double htime) {
 		values.put("htime", htime);
+		return this;
 	}
 
 	/**
 	 *  @param context Context
 	 */
-	public void setContext(String context) {
+	public LogBookEntry setContext(String context) {
 		values.put("context", context);
+		return this;
 	}
 
 	/**
 	 *  @param text Text
 	 */
-	public void setText(String text) {
+	public LogBookEntry setText(String text) {
 		values.put("text", text);
+		return this;
 	}
 
 }

@@ -67,6 +67,16 @@ public class Announce extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Announce(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Announce(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -167,64 +177,73 @@ public class Announce extends IMCMessage {
 	/**
 	 *  @param sys_name System Name
 	 */
-	public void setSysName(String sys_name) {
+	public Announce setSysName(String sys_name) {
 		values.put("sys_name", sys_name);
+		return this;
 	}
 
 	/**
 	 *  @param sys_type System Type (enumerated)
 	 */
-	public void setSysType(SYS_TYPE sys_type) {
+	public Announce setSysType(SYS_TYPE sys_type) {
 		values.put("sys_type", sys_type.value());
+		return this;
 	}
 
 	/**
 	 *  @param sys_type System Type (as a String)
 	 */
-	public void setSysType(String sys_type) {
+	public Announce setSysType(String sys_type) {
 		setValue("sys_type", sys_type);
+		return this;
 	}
 
 	/**
 	 *  @param sys_type System Type (integer value)
 	 */
-	public void setSysType(short sys_type) {
+	public Announce setSysType(short sys_type) {
 		setValue("sys_type", sys_type);
+		return this;
 	}
 
 	/**
 	 *  @param owner Control Owner
 	 */
-	public void setOwner(int owner) {
+	public Announce setOwner(int owner) {
 		values.put("owner", owner);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public Announce setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public Announce setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param height Height WGS-84 (m)
 	 */
-	public void setHeight(double height) {
+	public Announce setHeight(double height) {
 		values.put("height", height);
+		return this;
 	}
 
 	/**
 	 *  @param services Services
 	 */
-	public void setServices(String services) {
+	public Announce setServices(String services) {
 		values.put("services", services);
+		return this;
 	}
 
 }

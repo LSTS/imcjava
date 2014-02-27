@@ -63,6 +63,16 @@ public class UamTxStatus extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public UamTxStatus(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public UamTxStatus(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -129,36 +139,41 @@ public class UamTxStatus extends IMCMessage {
 	/**
 	 *  @param seq Sequence Id
 	 */
-	public void setSeq(int seq) {
+	public UamTxStatus setSeq(int seq) {
 		values.put("seq", seq);
+		return this;
 	}
 
 	/**
 	 *  @param value Value (enumerated)
 	 */
-	public void setValue(VALUE value) {
+	public UamTxStatus setValue(VALUE value) {
 		values.put("value", value.value());
+		return this;
 	}
 
 	/**
 	 *  @param value Value (as a String)
 	 */
-	public void setValue(String value) {
+	public UamTxStatus setValue(String value) {
 		setValue("value", value);
+		return this;
 	}
 
 	/**
 	 *  @param value Value (integer value)
 	 */
-	public void setValue(short value) {
+	public UamTxStatus setValue(short value) {
 		setValue("value", value);
+		return this;
 	}
 
 	/**
 	 *  @param error Error Message
 	 */
-	public void setError(String error) {
+	public UamTxStatus setError(String error) {
 		values.put("error", error);
+		return this;
 	}
 
 }

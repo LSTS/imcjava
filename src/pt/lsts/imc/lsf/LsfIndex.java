@@ -402,7 +402,7 @@ public class LsfIndex {
         if (m.getClass() == clazz)
             return (T) m;
         T n = clazz.getConstructor(IMCDefinition.class).newInstance(getDefinitions());
-        ((IMCMessage) n).setMessage(m);
+        ((IMCMessage) n).copyFrom(m);
         return n;
     }
 
@@ -891,7 +891,7 @@ public class LsfIndex {
         for (int i = getFirstMessageOfType(announce_id); i != -1; i = getNextMessageOfType(announce_id, i)) {
             try {
                 Announce an = new Announce();
-                an.setMessage(getMessage(i));
+                an.copyFrom(getMessage(i));
                 announces.put(an.getSysName(), an);
             }
             catch (Exception e) {

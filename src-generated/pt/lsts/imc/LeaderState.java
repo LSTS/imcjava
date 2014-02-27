@@ -73,6 +73,16 @@ public class LeaderState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LeaderState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LeaderState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -276,155 +286,177 @@ public class LeaderState extends IMCMessage {
 	/**
 	 *  @param group_name Group Name
 	 */
-	public void setGroupName(String group_name) {
+	public LeaderState setGroupName(String group_name) {
 		values.put("group_name", group_name);
+		return this;
 	}
 
 	/**
 	 *  @param op Action on the leader state (enumerated)
 	 */
-	public void setOp(OP op) {
+	public LeaderState setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Action on the leader state (as a String)
 	 */
-	public void setOp(String op) {
+	public LeaderState setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Action on the leader state (integer value)
 	 */
-	public void setOp(short op) {
+	public LeaderState setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude (WGS-84) (rad)
 	 */
-	public void setLat(double lat) {
+	public LeaderState setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude (WGS-84) (rad)
 	 */
-	public void setLon(double lon) {
+	public LeaderState setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param height Height (WGS-84) (m)
 	 */
-	public void setHeight(double height) {
+	public LeaderState setHeight(double height) {
 		values.put("height", height);
+		return this;
 	}
 
 	/**
 	 *  @param x Offset north (m)
 	 */
-	public void setX(double x) {
+	public LeaderState setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Offset east (m)
 	 */
-	public void setY(double y) {
+	public LeaderState setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Offset down (m)
 	 */
-	public void setZ(double z) {
+	public LeaderState setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param phi Rotation over x axis (rad)
 	 */
-	public void setPhi(double phi) {
+	public LeaderState setPhi(double phi) {
 		values.put("phi", phi);
+		return this;
 	}
 
 	/**
 	 *  @param theta Rotation over y axis (rad)
 	 */
-	public void setTheta(double theta) {
+	public LeaderState setTheta(double theta) {
 		values.put("theta", theta);
+		return this;
 	}
 
 	/**
 	 *  @param psi Rotation over z axis (rad)
 	 */
-	public void setPsi(double psi) {
+	public LeaderState setPsi(double psi) {
 		values.put("psi", psi);
+		return this;
 	}
 
 	/**
 	 *  @param vx Ground Velocity X (North) (m/s)
 	 */
-	public void setVx(double vx) {
+	public LeaderState setVx(double vx) {
 		values.put("vx", vx);
+		return this;
 	}
 
 	/**
 	 *  @param vy Ground Velocity Y (East) (m/s)
 	 */
-	public void setVy(double vy) {
+	public LeaderState setVy(double vy) {
 		values.put("vy", vy);
+		return this;
 	}
 
 	/**
 	 *  @param vz Ground Velocity Z (Down) (m/s)
 	 */
-	public void setVz(double vz) {
+	public LeaderState setVz(double vz) {
 		values.put("vz", vz);
+		return this;
 	}
 
 	/**
 	 *  @param p Angular Velocity in x (rad/s)
 	 */
-	public void setP(double p) {
+	public LeaderState setP(double p) {
 		values.put("p", p);
+		return this;
 	}
 
 	/**
 	 *  @param q Angular Velocity in y (rad/s)
 	 */
-	public void setQ(double q) {
+	public LeaderState setQ(double q) {
 		values.put("q", q);
+		return this;
 	}
 
 	/**
 	 *  @param r Angular Velocity in z (rad/s)
 	 */
-	public void setR(double r) {
+	public LeaderState setR(double r) {
 		values.put("r", r);
+		return this;
 	}
 
 	/**
 	 *  @param svx Stream Velocity X (North) (m/s)
 	 */
-	public void setSvx(double svx) {
+	public LeaderState setSvx(double svx) {
 		values.put("svx", svx);
+		return this;
 	}
 
 	/**
 	 *  @param svy Stream Velocity Y (East) (m/s)
 	 */
-	public void setSvy(double svy) {
+	public LeaderState setSvy(double svy) {
 		values.put("svy", svy);
+		return this;
 	}
 
 	/**
 	 *  @param svz Stream Velocity Z (Down) (m/s)
 	 */
-	public void setSvz(double svz) {
+	public LeaderState setSvz(double svz) {
 		values.put("svz", svz);
+		return this;
 	}
 
 }

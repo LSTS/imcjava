@@ -64,6 +64,16 @@ public class SystemGroup extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SystemGroup(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SystemGroup(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -132,36 +142,41 @@ public class SystemGroup extends IMCMessage {
 	/**
 	 *  @param GroupName Group Name
 	 */
-	public void setGroupName(String GroupName) {
+	public SystemGroup setGroupName(String GroupName) {
 		values.put("GroupName", GroupName);
+		return this;
 	}
 
 	/**
 	 *  @param Action Group List Action (enumerated)
 	 */
-	public void setAction(ACTION Action) {
+	public SystemGroup setAction(ACTION Action) {
 		values.put("Action", Action.value());
+		return this;
 	}
 
 	/**
 	 *  @param Action Group List Action (as a String)
 	 */
-	public void setAction(String Action) {
+	public SystemGroup setAction(String Action) {
 		setValue("Action", Action);
+		return this;
 	}
 
 	/**
 	 *  @param Action Group List Action (integer value)
 	 */
-	public void setAction(short Action) {
+	public SystemGroup setAction(short Action) {
 		setValue("Action", Action);
+		return this;
 	}
 
 	/**
 	 *  @param GroupList Systems Name List
 	 */
-	public void setGroupList(String GroupList) {
+	public SystemGroup setGroupList(String GroupList) {
 		values.put("GroupList", GroupList);
+		return this;
 	}
 
 }

@@ -45,6 +45,16 @@ public class DepthOffset extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DepthOffset(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DepthOffset(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class DepthOffset extends IMCMessage {
 	/**
 	 *  @param value Measured Offset (m)
 	 */
-	public void setValue(double value) {
+	public DepthOffset setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

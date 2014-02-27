@@ -45,6 +45,16 @@ public class GroupMembershipState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public GroupMembershipState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public GroupMembershipState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -97,15 +107,17 @@ public class GroupMembershipState extends IMCMessage {
 	/**
 	 *  @param group_name Group Name
 	 */
-	public void setGroupName(String group_name) {
+	public GroupMembershipState setGroupName(String group_name) {
 		values.put("group_name", group_name);
+		return this;
 	}
 
 	/**
 	 *  @param links Communication Links Assertion
 	 */
-	public void setLinks(long links) {
+	public GroupMembershipState setLinks(long links) {
 		values.put("links", links);
+		return this;
 	}
 
 }

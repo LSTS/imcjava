@@ -45,6 +45,16 @@ public class Salinity extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Salinity(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Salinity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class Salinity extends IMCMessage {
 	/**
 	 *  @param value Measured Salinity (psu)
 	 */
-	public void setValue(double value) {
+	public Salinity setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

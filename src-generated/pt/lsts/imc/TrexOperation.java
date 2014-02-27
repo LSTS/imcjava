@@ -63,6 +63,16 @@ public class TrexOperation extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TrexOperation(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TrexOperation(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -140,36 +150,41 @@ public class TrexOperation extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public TrexOperation setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public TrexOperation setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public TrexOperation setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param goal_id Goal Id
 	 */
-	public void setGoalId(String goal_id) {
+	public TrexOperation setGoalId(String goal_id) {
 		values.put("goal_id", goal_id);
+		return this;
 	}
 
 	/**
 	 *  @param token Token
 	 */
-	public void setToken(TrexToken token) {
+	public TrexOperation setToken(TrexToken token) {
 		values.put("token", token);
+		return this;
 	}
 
 }

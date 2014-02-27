@@ -45,6 +45,16 @@ public class Rpm extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Rpm(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Rpm(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class Rpm extends IMCMessage {
 	/**
 	 *  @param value Value (rpm)
 	 */
-	public void setValue(short value) {
+	public Rpm setValue(short value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

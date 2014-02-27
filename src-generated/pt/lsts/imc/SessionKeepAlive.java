@@ -45,6 +45,16 @@ public class SessionKeepAlive extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SessionKeepAlive(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SessionKeepAlive(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class SessionKeepAlive extends IMCMessage {
 	/**
 	 *  @param sessid Session Identifier
 	 */
-	public void setSessid(long sessid) {
+	public SessionKeepAlive setSessid(long sessid) {
 		values.put("sessid", sessid);
+		return this;
 	}
 
 }

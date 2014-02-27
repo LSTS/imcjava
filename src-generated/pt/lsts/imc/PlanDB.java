@@ -83,6 +83,16 @@ public class PlanDB extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PlanDB(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PlanDB(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -195,71 +205,81 @@ public class PlanDB extends IMCMessage {
 	/**
 	 *  @param type Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public PlanDB setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public void setType(String type) {
+	public PlanDB setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public void setType(short type) {
+	public PlanDB setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public PlanDB setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public PlanDB setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public PlanDB setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param request_id Request ID
 	 */
-	public void setRequestId(int request_id) {
+	public PlanDB setRequestId(int request_id) {
 		values.put("request_id", request_id);
+		return this;
 	}
 
 	/**
 	 *  @param plan_id Plan ID
 	 */
-	public void setPlanId(String plan_id) {
+	public PlanDB setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
+		return this;
 	}
 
 	/**
 	 *  @param arg Argument
 	 */
-	public void setArg(IMCMessage arg) {
+	public PlanDB setArg(IMCMessage arg) {
 		values.put("arg", arg);
+		return this;
 	}
 
 	/**
 	 *  @param info Complementary Information
 	 */
-	public void setInfo(String info) {
+	public PlanDB setInfo(String info) {
 		values.put("info", info);
+		return this;
 	}
 
 }

@@ -65,6 +65,16 @@ public class PowerChannelControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PowerChannelControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PowerChannelControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -132,36 +142,41 @@ public class PowerChannelControl extends IMCMessage {
 	/**
 	 *  @param name Channel Name
 	 */
-	public void setName(String name) {
+	public PowerChannelControl setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public PowerChannelControl setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public PowerChannelControl setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public PowerChannelControl setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param sched_time Scheduled Time (s)
 	 */
-	public void setSchedTime(double sched_time) {
+	public PowerChannelControl setSchedTime(double sched_time) {
 		values.put("sched_time", sched_time);
+		return this;
 	}
 
 }

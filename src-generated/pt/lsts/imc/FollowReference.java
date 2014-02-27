@@ -45,6 +45,16 @@ public class FollowReference extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public FollowReference(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public FollowReference(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -120,36 +130,41 @@ public class FollowReference extends Maneuver {
 	/**
 	 *  @param control_src Controlling Source
 	 */
-	public void setControlSrc(int control_src) {
+	public FollowReference setControlSrc(int control_src) {
 		values.put("control_src", control_src);
+		return this;
 	}
 
 	/**
 	 *  @param control_ent Controlling Entity
 	 */
-	public void setControlEnt(short control_ent) {
+	public FollowReference setControlEnt(short control_ent) {
 		values.put("control_ent", control_ent);
+		return this;
 	}
 
 	/**
 	 *  @param timeout Reference Update Timeout
 	 */
-	public void setTimeout(double timeout) {
+	public FollowReference setTimeout(double timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
 	 *  @param loiter_radius Loiter Radius
 	 */
-	public void setLoiterRadius(double loiter_radius) {
+	public FollowReference setLoiterRadius(double loiter_radius) {
 		values.put("loiter_radius", loiter_radius);
+		return this;
 	}
 
 	/**
 	 *  @param altitude_interval Altitude Interval
 	 */
-	public void setAltitudeInterval(double altitude_interval) {
+	public FollowReference setAltitudeInterval(double altitude_interval) {
 		values.put("altitude_interval", altitude_interval);
+		return this;
 	}
 
 }

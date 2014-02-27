@@ -67,6 +67,16 @@ public class CcuEvent extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public CcuEvent(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public CcuEvent(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -138,36 +148,41 @@ public class CcuEvent extends IMCMessage {
 	/**
 	 *  @param type Event Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public CcuEvent setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Event Type (as a String)
 	 */
-	public void setType(String type) {
+	public CcuEvent setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Event Type (integer value)
 	 */
-	public void setType(short type) {
+	public CcuEvent setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param id Identifier
 	 */
-	public void setId(String id) {
+	public CcuEvent setId(String id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param arg Additional Data
 	 */
-	public void setArg(IMCMessage arg) {
+	public CcuEvent setArg(IMCMessage arg) {
 		values.put("arg", arg);
+		return this;
 	}
 
 }

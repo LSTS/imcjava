@@ -45,6 +45,16 @@ public class SmsTx extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SmsTx(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SmsTx(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -114,29 +124,33 @@ public class SmsTx extends IMCMessage {
 	/**
 	 *  @param seq Sequence Number
 	 */
-	public void setSeq(long seq) {
+	public SmsTx setSeq(long seq) {
 		values.put("seq", seq);
+		return this;
 	}
 
 	/**
 	 *  @param destination Destination
 	 */
-	public void setDestination(String destination) {
+	public SmsTx setDestination(String destination) {
 		values.put("destination", destination);
+		return this;
 	}
 
 	/**
 	 *  @param timeout Timeout (s)
 	 */
-	public void setTimeout(int timeout) {
+	public SmsTx setTimeout(int timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public SmsTx setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

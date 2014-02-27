@@ -46,6 +46,16 @@ public class Acceleration extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Acceleration(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Acceleration(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -113,29 +123,33 @@ public class Acceleration extends IMCMessage {
 	/**
 	 *  @param time Device Time (s)
 	 */
-	public void setTime(double time) {
+	public Acceleration setTime(double time) {
 		values.put("time", time);
+		return this;
 	}
 
 	/**
 	 *  @param x X (m/s/s)
 	 */
-	public void setX(double x) {
+	public Acceleration setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Y (m/s/s)
 	 */
-	public void setY(double y) {
+	public Acceleration setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Z (m/s/s)
 	 */
-	public void setZ(double z) {
+	public Acceleration setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 }

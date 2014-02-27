@@ -62,6 +62,16 @@ public class DesiredZ extends ControlCommand {
 		super(ID_STATIC);
 	}
 
+	public DesiredZ(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DesiredZ(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -120,29 +130,33 @@ public class DesiredZ extends ControlCommand {
 	/**
 	 *  @param value Value (m)
 	 */
-	public void setValue(double value) {
+	public DesiredZ setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public void setZUnits(Z_UNITS z_units) {
+	public DesiredZ setZUnits(Z_UNITS z_units) {
 		values.put("z_units", z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public void setZUnits(String z_units) {
+	public DesiredZ setZUnits(String z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public void setZUnits(short z_units) {
+	public DesiredZ setZUnits(short z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 }

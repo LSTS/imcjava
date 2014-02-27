@@ -61,7 +61,7 @@ public class FieldsRenamedAdapter implements IMessageAdapter {
         boolean preIMC5 = definitions.getVersion().compareTo("5.0.0") < 0;
         IMCMessage msg = definitions.create(msgName);
         try {
-            msg.setMessage(original);
+            msg.copyFrom(original);
         }
         catch (Exception e) {
             e.printStackTrace();

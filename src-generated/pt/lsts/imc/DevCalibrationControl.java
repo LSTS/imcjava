@@ -64,6 +64,16 @@ public class DevCalibrationControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DevCalibrationControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DevCalibrationControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -114,22 +124,25 @@ public class DevCalibrationControl extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public DevCalibrationControl setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public DevCalibrationControl setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public DevCalibrationControl setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 }

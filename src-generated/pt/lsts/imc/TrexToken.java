@@ -44,6 +44,16 @@ public class TrexToken extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TrexToken(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TrexToken(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -112,22 +122,25 @@ public class TrexToken extends IMCMessage {
 	/**
 	 *  @param timeline Timeline
 	 */
-	public void setTimeline(String timeline) {
+	public TrexToken setTimeline(String timeline) {
 		values.put("timeline", timeline);
+		return this;
 	}
 
 	/**
 	 *  @param predicate Predicate
 	 */
-	public void setPredicate(String predicate) {
+	public TrexToken setPredicate(String predicate) {
 		values.put("predicate", predicate);
+		return this;
 	}
 
 	/**
 	 *  @param attributes Attributes
 	 */
-	public void setAttributes(java.util.Collection<TrexAttribute> attributes) {
+	public TrexToken setAttributes(java.util.Collection<TrexAttribute> attributes) {
 		values.put("attributes", attributes);
+		return this;
 	}
 
 }

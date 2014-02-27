@@ -60,6 +60,16 @@ public class EntityControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EntityControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EntityControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -110,22 +120,25 @@ public class EntityControl extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public EntityControl setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public EntityControl setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public EntityControl setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 }

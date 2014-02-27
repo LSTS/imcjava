@@ -45,6 +45,16 @@ public class EntityParameters extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EntityParameters(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EntityParameters(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -104,15 +114,17 @@ public class EntityParameters extends IMCMessage {
 	/**
 	 *  @param name Entity Name
 	 */
-	public void setName(String name) {
+	public EntityParameters setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 	/**
 	 *  @param params Parameters
 	 */
-	public void setParams(java.util.Collection<EntityParameter> params) {
+	public EntityParameters setParams(java.util.Collection<EntityParameter> params) {
 		values.put("params", params);
+		return this;
 	}
 
 }

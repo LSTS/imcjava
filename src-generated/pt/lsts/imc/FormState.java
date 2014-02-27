@@ -91,6 +91,16 @@ public class FormState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public FormState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public FormState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -195,85 +205,97 @@ public class FormState extends IMCMessage {
 	/**
 	 *  @param PosSimErr Position Mismatch (m)
 	 */
-	public void setPosSimErr(double PosSimErr) {
+	public FormState setPosSimErr(double PosSimErr) {
 		values.put("PosSimErr", PosSimErr);
+		return this;
 	}
 
 	/**
 	 *  @param Converg Convergence (m)
 	 */
-	public void setConverg(double Converg) {
+	public FormState setConverg(double Converg) {
 		values.put("Converg", Converg);
+		return this;
 	}
 
 	/**
 	 *  @param Turbulence Stream Turbulence (m/s/s)
 	 */
-	public void setTurbulence(double Turbulence) {
+	public FormState setTurbulence(double Turbulence) {
 		values.put("Turbulence", Turbulence);
+		return this;
 	}
 
 	/**
 	 *  @param PosSimMon Position Mismatch Monitor (enumerated)
 	 */
-	public void setPosSimMon(POSSIMMON PosSimMon) {
+	public FormState setPosSimMon(POSSIMMON PosSimMon) {
 		values.put("PosSimMon", PosSimMon.value());
+		return this;
 	}
 
 	/**
 	 *  @param PosSimMon Position Mismatch Monitor (as a String)
 	 */
-	public void setPosSimMon(String PosSimMon) {
+	public FormState setPosSimMon(String PosSimMon) {
 		setValue("PosSimMon", PosSimMon);
+		return this;
 	}
 
 	/**
 	 *  @param PosSimMon Position Mismatch Monitor (integer value)
 	 */
-	public void setPosSimMon(short PosSimMon) {
+	public FormState setPosSimMon(short PosSimMon) {
 		setValue("PosSimMon", PosSimMon);
+		return this;
 	}
 
 	/**
 	 *  @param CommMon Communications Monitor (enumerated)
 	 */
-	public void setCommMon(COMMMON CommMon) {
+	public FormState setCommMon(COMMMON CommMon) {
 		values.put("CommMon", CommMon.value());
+		return this;
 	}
 
 	/**
 	 *  @param CommMon Communications Monitor (as a String)
 	 */
-	public void setCommMon(String CommMon) {
+	public FormState setCommMon(String CommMon) {
 		setValue("CommMon", CommMon);
+		return this;
 	}
 
 	/**
 	 *  @param CommMon Communications Monitor (integer value)
 	 */
-	public void setCommMon(short CommMon) {
+	public FormState setCommMon(short CommMon) {
 		setValue("CommMon", CommMon);
+		return this;
 	}
 
 	/**
 	 *  @param ConvergMon Convergence (enumerated)
 	 */
-	public void setConvergMon(CONVERGMON ConvergMon) {
+	public FormState setConvergMon(CONVERGMON ConvergMon) {
 		values.put("ConvergMon", ConvergMon.value());
+		return this;
 	}
 
 	/**
 	 *  @param ConvergMon Convergence (as a String)
 	 */
-	public void setConvergMon(String ConvergMon) {
+	public FormState setConvergMon(String ConvergMon) {
 		setValue("ConvergMon", ConvergMon);
+		return this;
 	}
 
 	/**
 	 *  @param ConvergMon Convergence (integer value)
 	 */
-	public void setConvergMon(short ConvergMon) {
+	public FormState setConvergMon(short ConvergMon) {
 		setValue("ConvergMon", ConvergMon);
+		return this;
 	}
 
 }

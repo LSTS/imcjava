@@ -45,6 +45,16 @@ public class DesiredHeading extends ControlCommand {
 		super(ID_STATIC);
 	}
 
+	public DesiredHeading(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DesiredHeading(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class DesiredHeading extends ControlCommand {
 	/**
 	 *  @param value Value (rad)
 	 */
-	public void setValue(double value) {
+	public DesiredHeading setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

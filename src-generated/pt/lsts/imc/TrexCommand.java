@@ -64,6 +64,16 @@ public class TrexCommand extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TrexCommand(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TrexCommand(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -131,36 +141,41 @@ public class TrexCommand extends IMCMessage {
 	/**
 	 *  @param command Command (enumerated)
 	 */
-	public void setCommand(COMMAND command) {
+	public TrexCommand setCommand(COMMAND command) {
 		values.put("command", command.value());
+		return this;
 	}
 
 	/**
 	 *  @param command Command (as a String)
 	 */
-	public void setCommand(String command) {
+	public TrexCommand setCommand(String command) {
 		setValue("command", command);
+		return this;
 	}
 
 	/**
 	 *  @param command Command (integer value)
 	 */
-	public void setCommand(short command) {
+	public TrexCommand setCommand(short command) {
 		setValue("command", command);
+		return this;
 	}
 
 	/**
 	 *  @param goal_id Goal Id
 	 */
-	public void setGoalId(String goal_id) {
+	public TrexCommand setGoalId(String goal_id) {
 		values.put("goal_id", goal_id);
+		return this;
 	}
 
 	/**
 	 *  @param goal_xml Goal XML
 	 */
-	public void setGoalXml(String goal_xml) {
+	public TrexCommand setGoalXml(String goal_xml) {
 		values.put("goal_xml", goal_xml);
+		return this;
 	}
 
 }

@@ -61,6 +61,16 @@ public class EntityList extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EntityList(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EntityList(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -120,34 +130,39 @@ public class EntityList extends IMCMessage {
 	/**
 	 *  @param op operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public EntityList setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op operation (as a String)
 	 */
-	public void setOp(String op) {
+	public EntityList setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op operation (integer value)
 	 */
-	public void setOp(short op) {
+	public EntityList setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param list list (tuplelist)
 	 */
-	public void setList(java.util.LinkedHashMap<String, ?> list) {
+	public EntityList setList(java.util.LinkedHashMap<String, ?> list) {
 		String val = encodeTupleList(list);
 		values.put("list", val);
+		return this;
 	}
 
-	public void setList(String list) {
+	public EntityList setList(String list) {
 		values.put("list", list);
+		return this;
 	}
 
 }

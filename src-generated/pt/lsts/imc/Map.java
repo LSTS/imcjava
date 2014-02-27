@@ -45,6 +45,16 @@ public class Map extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Map(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Map(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -104,15 +114,17 @@ public class Map extends IMCMessage {
 	/**
 	 *  @param id Identifier
 	 */
-	public void setId(String id) {
+	public Map setId(String id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param features Features
 	 */
-	public void setFeatures(java.util.Collection<MapFeature> features) {
+	public Map setFeatures(java.util.Collection<MapFeature> features) {
 		values.put("features", features);
+		return this;
 	}
 
 }

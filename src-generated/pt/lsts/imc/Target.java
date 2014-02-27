@@ -62,6 +62,16 @@ public class Target extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Target(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Target(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -161,64 +171,73 @@ public class Target extends IMCMessage {
 	/**
 	 *  @param label Label
 	 */
-	public void setLabel(String label) {
+	public Target setLabel(String label) {
 		values.put("label", label);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public Target setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public Target setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param z Z Reference (m)
 	 */
-	public void setZ(double z) {
+	public Target setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public void setZUnits(Z_UNITS z_units) {
+	public Target setZUnits(Z_UNITS z_units) {
 		values.put("z_units", z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public void setZUnits(String z_units) {
+	public Target setZUnits(String z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public void setZUnits(short z_units) {
+	public Target setZUnits(short z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param cog Course Over Ground (rad)
 	 */
-	public void setCog(double cog) {
+	public Target setCog(double cog) {
 		values.put("cog", cog);
+		return this;
 	}
 
 	/**
 	 *  @param sog Speed Over Ground (m/s)
 	 */
-	public void setSog(double sog) {
+	public Target setSog(double sog) {
 		values.put("sog", sog);
+		return this;
 	}
 
 }

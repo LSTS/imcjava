@@ -44,6 +44,16 @@ public class CompressedImage extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public CompressedImage(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public CompressedImage(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -96,15 +106,17 @@ public class CompressedImage extends IMCMessage {
 	/**
 	 *  @param frameid Frame Id
 	 */
-	public void setFrameid(short frameid) {
+	public CompressedImage setFrameid(short frameid) {
 		values.put("frameid", frameid);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public CompressedImage setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

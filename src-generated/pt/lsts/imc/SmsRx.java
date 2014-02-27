@@ -45,6 +45,16 @@ public class SmsRx extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SmsRx(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SmsRx(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -98,15 +108,17 @@ public class SmsRx extends IMCMessage {
 	/**
 	 *  @param source Source
 	 */
-	public void setSource(String source) {
+	public SmsRx setSource(String source) {
 		values.put("source", source);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public SmsRx setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

@@ -78,6 +78,16 @@ public class VehicleFormation extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public VehicleFormation(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VehicleFormation(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -222,104 +232,119 @@ public class VehicleFormation extends Maneuver {
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public VehicleFormation setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public VehicleFormation setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param z Z Reference (m)
 	 */
-	public void setZ(double z) {
+	public VehicleFormation setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public void setZUnits(Z_UNITS z_units) {
+	public VehicleFormation setZUnits(Z_UNITS z_units) {
 		values.put("z_units", z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public void setZUnits(String z_units) {
+	public VehicleFormation setZUnits(String z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public void setZUnits(short z_units) {
+	public VehicleFormation setZUnits(short z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed
 	 */
-	public void setSpeed(double speed) {
+	public VehicleFormation setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public VehicleFormation setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public VehicleFormation setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public VehicleFormation setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param points Trajectory Points
 	 */
-	public void setPoints(java.util.Collection<TrajectoryPoint> points) {
+	public VehicleFormation setPoints(java.util.Collection<TrajectoryPoint> points) {
 		values.put("points", points);
+		return this;
 	}
 
 	/**
 	 *  @param participants Formation Participants
 	 */
-	public void setParticipants(java.util.Collection<VehicleFormationParticipant> participants) {
+	public VehicleFormation setParticipants(java.util.Collection<VehicleFormationParticipant> participants) {
 		values.put("participants", participants);
+		return this;
 	}
 
 	/**
 	 *  @param start_time Start Time (s)
 	 */
-	public void setStartTime(double start_time) {
+	public VehicleFormation setStartTime(double start_time) {
 		values.put("start_time", start_time);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public VehicleFormation setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public VehicleFormation setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

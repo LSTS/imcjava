@@ -46,6 +46,16 @@ public class RegisterManeuver extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public RegisterManeuver(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public RegisterManeuver(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -89,8 +99,9 @@ public class RegisterManeuver extends IMCMessage {
 	/**
 	 *  @param mid Maneuver ID
 	 */
-	public void setMid(int mid) {
+	public RegisterManeuver setMid(int mid) {
 		values.put("mid", mid);
+		return this;
 	}
 
 }

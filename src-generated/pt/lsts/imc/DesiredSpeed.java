@@ -61,6 +61,16 @@ public class DesiredSpeed extends ControlCommand {
 		super(ID_STATIC);
 	}
 
+	public DesiredSpeed(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DesiredSpeed(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -119,29 +129,33 @@ public class DesiredSpeed extends ControlCommand {
 	/**
 	 *  @param value Value
 	 */
-	public void setValue(double value) {
+	public DesiredSpeed setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public DesiredSpeed setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public DesiredSpeed setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public DesiredSpeed setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 }

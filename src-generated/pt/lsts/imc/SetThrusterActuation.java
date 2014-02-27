@@ -45,6 +45,16 @@ public class SetThrusterActuation extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SetThrusterActuation(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SetThrusterActuation(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -96,15 +106,17 @@ public class SetThrusterActuation extends IMCMessage {
 	/**
 	 *  @param id Thruster Number
 	 */
-	public void setId(short id) {
+	public SetThrusterActuation setId(short id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param value Actuation Value
 	 */
-	public void setValue(double value) {
+	public SetThrusterActuation setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

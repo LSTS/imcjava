@@ -44,6 +44,16 @@ public class UamRxRange extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public UamRxRange(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public UamRxRange(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -104,22 +114,25 @@ public class UamRxRange extends IMCMessage {
 	/**
 	 *  @param seq Sequence Id
 	 */
-	public void setSeq(int seq) {
+	public UamRxRange setSeq(int seq) {
 		values.put("seq", seq);
+		return this;
 	}
 
 	/**
 	 *  @param sys System
 	 */
-	public void setSys(String sys) {
+	public UamRxRange setSys(String sys) {
 		values.put("sys", sys);
+		return this;
 	}
 
 	/**
 	 *  @param value Value
 	 */
-	public void setValue(double value) {
+	public UamRxRange setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

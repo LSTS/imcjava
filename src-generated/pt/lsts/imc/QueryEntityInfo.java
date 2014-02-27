@@ -47,6 +47,16 @@ public class QueryEntityInfo extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public QueryEntityInfo(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public QueryEntityInfo(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -90,8 +100,9 @@ public class QueryEntityInfo extends IMCMessage {
 	/**
 	 *  @param id Entity Identifier
 	 */
-	public void setId(short id) {
+	public QueryEntityInfo setId(short id) {
 		values.put("id", id);
+		return this;
 	}
 
 }

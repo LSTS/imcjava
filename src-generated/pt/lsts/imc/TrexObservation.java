@@ -45,6 +45,16 @@ public class TrexObservation extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TrexObservation(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TrexObservation(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -107,27 +117,31 @@ public class TrexObservation extends IMCMessage {
 	/**
 	 *  @param timeline Timeline
 	 */
-	public void setTimeline(String timeline) {
+	public TrexObservation setTimeline(String timeline) {
 		values.put("timeline", timeline);
+		return this;
 	}
 
 	/**
 	 *  @param predicate Predicate
 	 */
-	public void setPredicate(String predicate) {
+	public TrexObservation setPredicate(String predicate) {
 		values.put("predicate", predicate);
+		return this;
 	}
 
 	/**
 	 *  @param attributes Attributes (tuplelist)
 	 */
-	public void setAttributes(java.util.LinkedHashMap<String, ?> attributes) {
+	public TrexObservation setAttributes(java.util.LinkedHashMap<String, ?> attributes) {
 		String val = encodeTupleList(attributes);
 		values.put("attributes", val);
+		return this;
 	}
 
-	public void setAttributes(String attributes) {
+	public TrexObservation setAttributes(String attributes) {
 		values.put("attributes", attributes);
+		return this;
 	}
 
 }

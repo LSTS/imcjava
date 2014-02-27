@@ -48,6 +48,16 @@ public class AnnounceService extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AnnounceService(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AnnounceService(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -102,15 +112,17 @@ public class AnnounceService extends IMCMessage {
 	/**
 	 *  @param service Service
 	 */
-	public void setService(String service) {
+	public AnnounceService setService(String service) {
 		values.put("service", service);
+		return this;
 	}
 
 	/**
 	 *  @param service_type ServiceType (bitfield)
 	 */
-	public void setServiceType(short service_type) {
+	public AnnounceService setServiceType(short service_type) {
 		values.put("service_type", service_type);
+		return this;
 	}
 
 }

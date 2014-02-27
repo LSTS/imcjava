@@ -62,6 +62,16 @@ public class TrexAttribute extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TrexAttribute(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TrexAttribute(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -138,43 +148,49 @@ public class TrexAttribute extends IMCMessage {
 	/**
 	 *  @param name Attribute Name
 	 */
-	public void setName(String name) {
+	public TrexAttribute setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 	/**
 	 *  @param attr_type Attribute type (enumerated)
 	 */
-	public void setAttrType(ATTR_TYPE attr_type) {
+	public TrexAttribute setAttrType(ATTR_TYPE attr_type) {
 		values.put("attr_type", attr_type.value());
+		return this;
 	}
 
 	/**
 	 *  @param attr_type Attribute type (as a String)
 	 */
-	public void setAttrType(String attr_type) {
+	public TrexAttribute setAttrType(String attr_type) {
 		setValue("attr_type", attr_type);
+		return this;
 	}
 
 	/**
 	 *  @param attr_type Attribute type (integer value)
 	 */
-	public void setAttrType(short attr_type) {
+	public TrexAttribute setAttrType(short attr_type) {
 		setValue("attr_type", attr_type);
+		return this;
 	}
 
 	/**
 	 *  @param min Minimum
 	 */
-	public void setMin(String min) {
+	public TrexAttribute setMin(String min) {
 		values.put("min", min);
+		return this;
 	}
 
 	/**
 	 *  @param max Maximum
 	 */
-	public void setMax(String max) {
+	public TrexAttribute setMax(String max) {
 		values.put("max", max);
+		return this;
 	}
 
 }

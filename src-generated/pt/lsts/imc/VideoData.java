@@ -44,6 +44,16 @@ public class VideoData extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public VideoData(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VideoData(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -144,57 +154,65 @@ public class VideoData extends IMCMessage {
 	/**
 	 *  @param id Identification Number
 	 */
-	public void setId(short id) {
+	public VideoData setId(short id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param width Width Size
 	 */
-	public void setWidth(int width) {
+	public VideoData setWidth(int width) {
 		values.put("width", width);
+		return this;
 	}
 
 	/**
 	 *  @param height Height Size
 	 */
-	public void setHeight(int height) {
+	public VideoData setHeight(int height) {
 		values.put("height", height);
+		return this;
 	}
 
 	/**
 	 *  @param widthstep Width Step
 	 */
-	public void setWidthstep(int widthstep) {
+	public VideoData setWidthstep(int widthstep) {
 		values.put("widthstep", widthstep);
+		return this;
 	}
 
 	/**
 	 *  @param channels Number of Channels
 	 */
-	public void setChannels(short channels) {
+	public VideoData setChannels(short channels) {
 		values.put("channels", channels);
+		return this;
 	}
 
 	/**
 	 *  @param depth Pixel Depth
 	 */
-	public void setDepth(short depth) {
+	public VideoData setDepth(short depth) {
 		values.put("depth", depth);
+		return this;
 	}
 
 	/**
 	 *  @param finaldata Final Data
 	 */
-	public void setFinaldata(short finaldata) {
+	public VideoData setFinaldata(short finaldata) {
 		values.put("finaldata", finaldata);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public VideoData setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

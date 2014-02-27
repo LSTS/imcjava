@@ -45,6 +45,16 @@ public class AbortAcked extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AbortAcked(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AbortAcked(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

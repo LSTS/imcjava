@@ -44,6 +44,16 @@ public class TrexPlan extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TrexPlan(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TrexPlan(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -103,15 +113,17 @@ public class TrexPlan extends IMCMessage {
 	/**
 	 *  @param reactor Reactor name
 	 */
-	public void setReactor(String reactor) {
+	public TrexPlan setReactor(String reactor) {
 		values.put("reactor", reactor);
+		return this;
 	}
 
 	/**
 	 *  @param tokens Tokens
 	 */
-	public void setTokens(java.util.Collection<TrexToken> tokens) {
+	public TrexPlan setTokens(java.util.Collection<TrexToken> tokens) {
 		values.put("tokens", tokens);
+		return this;
 	}
 
 }

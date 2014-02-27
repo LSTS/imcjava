@@ -45,6 +45,16 @@ public class TrajectoryPoint extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TrajectoryPoint(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TrajectoryPoint(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -112,29 +122,33 @@ public class TrajectoryPoint extends IMCMessage {
 	/**
 	 *  @param x North Offset (m) (m)
 	 */
-	public void setX(double x) {
+	public TrajectoryPoint setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y East Offset (m) (m)
 	 */
-	public void setY(double y) {
+	public TrajectoryPoint setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Down Offset (m) (m)
 	 */
-	public void setZ(double z) {
+	public TrajectoryPoint setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param t Time Offset (s) (s)
 	 */
-	public void setT(double t) {
+	public TrajectoryPoint setT(double t) {
 		values.put("t", t);
+		return this;
 	}
 
 }

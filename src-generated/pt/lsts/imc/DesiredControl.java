@@ -53,6 +53,16 @@ public class DesiredControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DesiredControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DesiredControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -145,50 +155,57 @@ public class DesiredControl extends IMCMessage {
 	/**
 	 *  @param x Force along the x axis (n)
 	 */
-	public void setX(double x) {
+	public DesiredControl setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Force along the y axis (n)
 	 */
-	public void setY(double y) {
+	public DesiredControl setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Force along the z axis (n)
 	 */
-	public void setZ(double z) {
+	public DesiredControl setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param k Torque about the x axis (nm)
 	 */
-	public void setK(double k) {
+	public DesiredControl setK(double k) {
 		values.put("k", k);
+		return this;
 	}
 
 	/**
 	 *  @param m Torque about the y axis (nm)
 	 */
-	public void setM(double m) {
+	public DesiredControl setM(double m) {
 		values.put("m", m);
+		return this;
 	}
 
 	/**
 	 *  @param n Torque about the z axis (nm)
 	 */
-	public void setN(double n) {
+	public DesiredControl setN(double n) {
 		values.put("n", n);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(short flags) {
+	public DesiredControl setFlags(short flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 }

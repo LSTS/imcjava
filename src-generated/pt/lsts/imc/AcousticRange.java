@@ -45,6 +45,16 @@ public class AcousticRange extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AcousticRange(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AcousticRange(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class AcousticRange extends IMCMessage {
 	/**
 	 *  @param address Target Modem Address
 	 */
-	public void setAddress(short address) {
+	public AcousticRange setAddress(short address) {
 		values.put("address", address);
+		return this;
 	}
 
 }

@@ -45,6 +45,16 @@ public class Conductivity extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Conductivity(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Conductivity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -88,8 +98,9 @@ public class Conductivity extends IMCMessage {
 	/**
 	 *  @param value Measured Conductivity (s/m)
 	 */
-	public void setValue(double value) {
+	public Conductivity setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

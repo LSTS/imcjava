@@ -46,6 +46,16 @@ public class MagneticField extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public MagneticField(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public MagneticField(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -113,29 +123,33 @@ public class MagneticField extends IMCMessage {
 	/**
 	 *  @param time Device Time (s)
 	 */
-	public void setTime(double time) {
+	public MagneticField setTime(double time) {
 		values.put("time", time);
+		return this;
 	}
 
 	/**
 	 *  @param x X (g)
 	 */
-	public void setX(double x) {
+	public MagneticField setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y Y (g)
 	 */
-	public void setY(double y) {
+	public MagneticField setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Z (g)
 	 */
-	public void setZ(double z) {
+	public MagneticField setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 }

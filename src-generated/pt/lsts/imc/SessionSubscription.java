@@ -44,6 +44,16 @@ public class SessionSubscription extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SessionSubscription(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SessionSubscription(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -96,15 +106,17 @@ public class SessionSubscription extends IMCMessage {
 	/**
 	 *  @param sessid Session Identifier
 	 */
-	public void setSessid(long sessid) {
+	public SessionSubscription setSessid(long sessid) {
 		values.put("sessid", sessid);
+		return this;
 	}
 
 	/**
 	 *  @param messages Messages to subscribe
 	 */
-	public void setMessages(String messages) {
+	public SessionSubscription setMessages(String messages) {
 		values.put("messages", messages);
+		return this;
 	}
 
 }

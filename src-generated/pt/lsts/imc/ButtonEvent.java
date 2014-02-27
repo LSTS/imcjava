@@ -45,6 +45,16 @@ public class ButtonEvent extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public ButtonEvent(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ButtonEvent(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -96,15 +106,17 @@ public class ButtonEvent extends IMCMessage {
 	/**
 	 *  @param button Button
 	 */
-	public void setButton(short button) {
+	public ButtonEvent setButton(short button) {
 		values.put("button", button);
+		return this;
 	}
 
 	/**
 	 *  @param value Value
 	 */
-	public void setValue(short value) {
+	public ButtonEvent setValue(short value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

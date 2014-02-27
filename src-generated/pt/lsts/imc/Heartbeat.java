@@ -47,6 +47,16 @@ public class Heartbeat extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Heartbeat(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Heartbeat(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}

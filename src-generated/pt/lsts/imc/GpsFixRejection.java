@@ -62,6 +62,16 @@ public class GpsFixRejection extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public GpsFixRejection(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public GpsFixRejection(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -120,29 +130,33 @@ public class GpsFixRejection extends IMCMessage {
 	/**
 	 *  @param utc_time UTC Time of Fix (s)
 	 */
-	public void setUtcTime(double utc_time) {
+	public GpsFixRejection setUtcTime(double utc_time) {
 		values.put("utc_time", utc_time);
+		return this;
 	}
 
 	/**
 	 *  @param reason Reason (enumerated)
 	 */
-	public void setReason(REASON reason) {
+	public GpsFixRejection setReason(REASON reason) {
 		values.put("reason", reason.value());
+		return this;
 	}
 
 	/**
 	 *  @param reason Reason (as a String)
 	 */
-	public void setReason(String reason) {
+	public GpsFixRejection setReason(String reason) {
 		setValue("reason", reason);
+		return this;
 	}
 
 	/**
 	 *  @param reason Reason (integer value)
 	 */
-	public void setReason(short reason) {
+	public GpsFixRejection setReason(short reason) {
 		setValue("reason", reason);
+		return this;
 	}
 
 }

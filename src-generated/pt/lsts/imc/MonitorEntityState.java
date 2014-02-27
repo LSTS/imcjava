@@ -63,6 +63,16 @@ public class MonitorEntityState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public MonitorEntityState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public MonitorEntityState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -122,29 +132,33 @@ public class MonitorEntityState extends IMCMessage {
 	/**
 	 *  @param command Command (enumerated)
 	 */
-	public void setCommand(COMMAND command) {
+	public MonitorEntityState setCommand(COMMAND command) {
 		values.put("command", command.value());
+		return this;
 	}
 
 	/**
 	 *  @param command Command (as a String)
 	 */
-	public void setCommand(String command) {
+	public MonitorEntityState setCommand(String command) {
 		setValue("command", command);
+		return this;
 	}
 
 	/**
 	 *  @param command Command (integer value)
 	 */
-	public void setCommand(short command) {
+	public MonitorEntityState setCommand(short command) {
 		setValue("command", command);
+		return this;
 	}
 
 	/**
 	 *  @param entities Entity Names
 	 */
-	public void setEntities(String entities) {
+	public MonitorEntityState setEntities(String entities) {
 		values.put("entities", entities);
+		return this;
 	}
 
 }

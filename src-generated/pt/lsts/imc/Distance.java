@@ -60,6 +60,16 @@ public class Distance extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public Distance(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Distance(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -148,43 +158,49 @@ public class Distance extends IMCMessage {
 	/**
 	 *  @param validity Validity (enumerated)
 	 */
-	public void setValidity(VALIDITY validity) {
+	public Distance setValidity(VALIDITY validity) {
 		values.put("validity", validity.value());
+		return this;
 	}
 
 	/**
 	 *  @param validity Validity (as a String)
 	 */
-	public void setValidity(String validity) {
+	public Distance setValidity(String validity) {
 		setValue("validity", validity);
+		return this;
 	}
 
 	/**
 	 *  @param validity Validity (integer value)
 	 */
-	public void setValidity(short validity) {
+	public Distance setValidity(short validity) {
 		setValue("validity", validity);
+		return this;
 	}
 
 	/**
 	 *  @param location Location
 	 */
-	public void setLocation(java.util.Collection<DeviceState> location) {
+	public Distance setLocation(java.util.Collection<DeviceState> location) {
 		values.put("location", location);
+		return this;
 	}
 
 	/**
 	 *  @param beam_config Beam Configuration
 	 */
-	public void setBeamConfig(java.util.Collection<BeamConfig> beam_config) {
+	public Distance setBeamConfig(java.util.Collection<BeamConfig> beam_config) {
 		values.put("beam_config", beam_config);
+		return this;
 	}
 
 	/**
 	 *  @param value Measured Distance (m)
 	 */
-	public void setValue(double value) {
+	public Distance setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

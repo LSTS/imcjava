@@ -64,6 +64,16 @@ public class ParameterControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public ParameterControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ParameterControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -129,29 +139,33 @@ public class ParameterControl extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public ParameterControl setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public ParameterControl setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public ParameterControl setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param params Parameters
 	 */
-	public void setParams(java.util.Collection<Parameter> params) {
+	public ParameterControl setParams(java.util.Collection<Parameter> params) {
 		values.put("params", params);
+		return this;
 	}
 
 }

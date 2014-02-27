@@ -45,6 +45,16 @@ public class AllocatedControlTorques extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AllocatedControlTorques(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AllocatedControlTorques(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -104,22 +114,25 @@ public class AllocatedControlTorques extends IMCMessage {
 	/**
 	 *  @param k Torque about the x axis (nm)
 	 */
-	public void setK(double k) {
+	public AllocatedControlTorques setK(double k) {
 		values.put("k", k);
+		return this;
 	}
 
 	/**
 	 *  @param m Torque about the y axis (nm)
 	 */
-	public void setM(double m) {
+	public AllocatedControlTorques setM(double m) {
 		values.put("m", m);
+		return this;
 	}
 
 	/**
 	 *  @param n Torque about the x axis (nm)
 	 */
-	public void setN(double n) {
+	public AllocatedControlTorques setN(double n) {
 		values.put("n", n);
+		return this;
 	}
 
 }

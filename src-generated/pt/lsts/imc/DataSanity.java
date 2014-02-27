@@ -60,6 +60,16 @@ public class DataSanity extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DataSanity(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DataSanity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -110,22 +120,25 @@ public class DataSanity extends IMCMessage {
 	/**
 	 *  @param sane Sanity (enumerated)
 	 */
-	public void setSane(SANE sane) {
+	public DataSanity setSane(SANE sane) {
 		values.put("sane", sane.value());
+		return this;
 	}
 
 	/**
 	 *  @param sane Sanity (as a String)
 	 */
-	public void setSane(String sane) {
+	public DataSanity setSane(String sane) {
 		setValue("sane", sane);
+		return this;
 	}
 
 	/**
 	 *  @param sane Sanity (integer value)
 	 */
-	public void setSane(short sane) {
+	public DataSanity setSane(short sane) {
 		setValue("sane", sane);
+		return this;
 	}
 
 }

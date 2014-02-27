@@ -45,6 +45,16 @@ public class DevDataText extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public DevDataText(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public DevDataText(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -89,8 +99,9 @@ public class DevDataText extends IMCMessage {
 	/**
 	 *  @param value Value
 	 */
-	public void setValue(String value) {
+	public DevDataText setValue(String value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

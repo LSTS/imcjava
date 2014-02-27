@@ -61,6 +61,16 @@ public class FormCtrlParam extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public FormCtrlParam(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public FormCtrlParam(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -151,57 +161,65 @@ public class FormCtrlParam extends IMCMessage {
 	/**
 	 *  @param Action Action (enumerated)
 	 */
-	public void setAction(ACTION Action) {
+	public FormCtrlParam setAction(ACTION Action) {
 		values.put("Action", Action.value());
+		return this;
 	}
 
 	/**
 	 *  @param Action Action (as a String)
 	 */
-	public void setAction(String Action) {
+	public FormCtrlParam setAction(String Action) {
 		setValue("Action", Action);
+		return this;
 	}
 
 	/**
 	 *  @param Action Action (integer value)
 	 */
-	public void setAction(short Action) {
+	public FormCtrlParam setAction(short Action) {
 		setValue("Action", Action);
+		return this;
 	}
 
 	/**
 	 *  @param LonGain Longitudinal Gain
 	 */
-	public void setLonGain(long LonGain) {
+	public FormCtrlParam setLonGain(long LonGain) {
 		values.put("LonGain", LonGain);
+		return this;
 	}
 
 	/**
 	 *  @param LatGain Lateral Gain
 	 */
-	public void setLatGain(long LatGain) {
+	public FormCtrlParam setLatGain(long LatGain) {
 		values.put("LatGain", LatGain);
+		return this;
 	}
 
 	/**
 	 *  @param BondThick Boundary Layer Thickness
 	 */
-	public void setBondThick(long BondThick) {
+	public FormCtrlParam setBondThick(long BondThick) {
 		values.put("BondThick", BondThick);
+		return this;
 	}
 
 	/**
 	 *  @param LeadGain Leader Gain
 	 */
-	public void setLeadGain(long LeadGain) {
+	public FormCtrlParam setLeadGain(long LeadGain) {
 		values.put("LeadGain", LeadGain);
+		return this;
 	}
 
 	/**
 	 *  @param DeconflGain Deconfliction Gain
 	 */
-	public void setDeconflGain(long DeconflGain) {
+	public FormCtrlParam setDeconflGain(long DeconflGain) {
 		values.put("DeconflGain", DeconflGain);
+		return this;
 	}
 
 }

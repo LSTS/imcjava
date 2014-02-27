@@ -66,6 +66,16 @@ public class EntityActivationState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EntityActivationState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EntityActivationState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -125,29 +135,33 @@ public class EntityActivationState extends IMCMessage {
 	/**
 	 *  @param state State (enumerated)
 	 */
-	public void setState(STATE state) {
+	public EntityActivationState setState(STATE state) {
 		values.put("state", state.value());
+		return this;
 	}
 
 	/**
 	 *  @param state State (as a String)
 	 */
-	public void setState(String state) {
+	public EntityActivationState setState(String state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param state State (integer value)
 	 */
-	public void setState(short state) {
+	public EntityActivationState setState(short state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param error Error
 	 */
-	public void setError(String error) {
+	public EntityActivationState setError(String error) {
 		values.put("error", error);
+		return this;
 	}
 
 }

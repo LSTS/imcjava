@@ -97,6 +97,16 @@ public class CompassCalibration extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public CompassCalibration(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public CompassCalibration(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -258,139 +268,159 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @param timeout Timeout (s)
 	 */
-	public void setTimeout(int timeout) {
+	public CompassCalibration setTimeout(int timeout) {
 		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public CompassCalibration setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public CompassCalibration setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param z Z Reference (m)
 	 */
-	public void setZ(double z) {
+	public CompassCalibration setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public void setZUnits(Z_UNITS z_units) {
+	public CompassCalibration setZUnits(Z_UNITS z_units) {
 		values.put("z_units", z_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public void setZUnits(String z_units) {
+	public CompassCalibration setZUnits(String z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public void setZUnits(short z_units) {
+	public CompassCalibration setZUnits(short z_units) {
 		setValue("z_units", z_units);
+		return this;
 	}
 
 	/**
 	 *  @param pitch Pitch (rad)
 	 */
-	public void setPitch(double pitch) {
+	public CompassCalibration setPitch(double pitch) {
 		values.put("pitch", pitch);
+		return this;
 	}
 
 	/**
 	 *  @param amplitude Amplitude (m)
 	 */
-	public void setAmplitude(double amplitude) {
+	public CompassCalibration setAmplitude(double amplitude) {
 		values.put("amplitude", amplitude);
+		return this;
 	}
 
 	/**
 	 *  @param duration Duration (s)
 	 */
-	public void setDuration(int duration) {
+	public CompassCalibration setDuration(int duration) {
 		values.put("duration", duration);
+		return this;
 	}
 
 	/**
 	 *  @param speed Speed
 	 */
-	public void setSpeed(double speed) {
+	public CompassCalibration setSpeed(double speed) {
 		values.put("speed", speed);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public void setSpeedUnits(SPEED_UNITS speed_units) {
+	public CompassCalibration setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public void setSpeedUnits(String speed_units) {
+	public CompassCalibration setSpeedUnits(String speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public void setSpeedUnits(short speed_units) {
+	public CompassCalibration setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
 	}
 
 	/**
 	 *  @param radius Radius (m)
 	 */
-	public void setRadius(double radius) {
+	public CompassCalibration setRadius(double radius) {
 		values.put("radius", radius);
+		return this;
 	}
 
 	/**
 	 *  @param direction Direction (enumerated)
 	 */
-	public void setDirection(DIRECTION direction) {
+	public CompassCalibration setDirection(DIRECTION direction) {
 		values.put("direction", direction.value());
+		return this;
 	}
 
 	/**
 	 *  @param direction Direction (as a String)
 	 */
-	public void setDirection(String direction) {
+	public CompassCalibration setDirection(String direction) {
 		setValue("direction", direction);
+		return this;
 	}
 
 	/**
 	 *  @param direction Direction (integer value)
 	 */
-	public void setDirection(short direction) {
+	public CompassCalibration setDirection(short direction) {
 		setValue("direction", direction);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public CompassCalibration setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public CompassCalibration setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

@@ -63,6 +63,16 @@ public class VehicleMedium extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public VehicleMedium(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public VehicleMedium(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -113,22 +123,25 @@ public class VehicleMedium extends IMCMessage {
 	/**
 	 *  @param medium Medium (enumerated)
 	 */
-	public void setMedium(MEDIUM medium) {
+	public VehicleMedium setMedium(MEDIUM medium) {
 		values.put("medium", medium.value());
+		return this;
 	}
 
 	/**
 	 *  @param medium Medium (as a String)
 	 */
-	public void setMedium(String medium) {
+	public VehicleMedium setMedium(String medium) {
 		setValue("medium", medium);
+		return this;
 	}
 
 	/**
 	 *  @param medium Medium (integer value)
 	 */
-	public void setMedium(short medium) {
+	public VehicleMedium setMedium(short medium) {
 		setValue("medium", medium);
+		return this;
 	}
 
 }

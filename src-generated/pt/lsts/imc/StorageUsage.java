@@ -45,6 +45,16 @@ public class StorageUsage extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public StorageUsage(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public StorageUsage(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -96,15 +106,17 @@ public class StorageUsage extends IMCMessage {
 	/**
 	 *  @param available Available (mib)
 	 */
-	public void setAvailable(long available) {
+	public StorageUsage setAvailable(long available) {
 		values.put("available", available);
+		return this;
 	}
 
 	/**
 	 *  @param value Usage (%)
 	 */
-	public void setValue(short value) {
+	public StorageUsage setValue(short value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

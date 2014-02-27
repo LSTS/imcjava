@@ -45,6 +45,16 @@ public class PathPoint extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PathPoint(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PathPoint(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -104,22 +114,25 @@ public class PathPoint extends IMCMessage {
 	/**
 	 *  @param x North Offset (m) (m)
 	 */
-	public void setX(double x) {
+	public PathPoint setX(double x) {
 		values.put("x", x);
+		return this;
 	}
 
 	/**
 	 *  @param y East Offset (m) (m)
 	 */
-	public void setY(double y) {
+	public PathPoint setY(double y) {
 		values.put("y", y);
+		return this;
 	}
 
 	/**
 	 *  @param z Down Offset (m) (m)
 	 */
-	public void setZ(double z) {
+	public PathPoint setZ(double z) {
 		values.put("z", z);
+		return this;
 	}
 
 }

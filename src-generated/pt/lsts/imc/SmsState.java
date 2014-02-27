@@ -64,6 +64,16 @@ public class SmsState extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SmsState(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SmsState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -131,36 +141,41 @@ public class SmsState extends IMCMessage {
 	/**
 	 *  @param seq Sequence Number
 	 */
-	public void setSeq(long seq) {
+	public SmsState setSeq(long seq) {
 		values.put("seq", seq);
+		return this;
 	}
 
 	/**
 	 *  @param state State (enumerated)
 	 */
-	public void setState(STATE state) {
+	public SmsState setState(STATE state) {
 		values.put("state", state.value());
+		return this;
 	}
 
 	/**
 	 *  @param state State (as a String)
 	 */
-	public void setState(String state) {
+	public SmsState setState(String state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param state State (integer value)
 	 */
-	public void setState(short state) {
+	public SmsState setState(short state) {
 		setValue("state", state);
+		return this;
 	}
 
 	/**
 	 *  @param error Error Message
 	 */
-	public void setError(String error) {
+	public SmsState setError(String error) {
 		values.put("error", error);
+		return this;
 	}
 
 }

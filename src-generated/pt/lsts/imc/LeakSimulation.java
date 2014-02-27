@@ -60,6 +60,16 @@ public class LeakSimulation extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LeakSimulation(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LeakSimulation(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -119,29 +129,33 @@ public class LeakSimulation extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public LeakSimulation setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public LeakSimulation setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public LeakSimulation setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param entities Leak Entities
 	 */
-	public void setEntities(String entities) {
+	public LeakSimulation setEntities(String entities) {
 		values.put("entities", entities);
+		return this;
 	}
 
 }

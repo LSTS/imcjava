@@ -45,6 +45,16 @@ public class SetServoPosition extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public SetServoPosition(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public SetServoPosition(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -96,15 +106,17 @@ public class SetServoPosition extends IMCMessage {
 	/**
 	 *  @param id Identifier
 	 */
-	public void setId(short id) {
+	public SetServoPosition setId(short id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param value Position (rad)
 	 */
-	public void setValue(double value) {
+	public SetServoPosition setValue(double value) {
 		values.put("value", value);
+		return this;
 	}
 
 }

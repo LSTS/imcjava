@@ -45,6 +45,16 @@ public class BeamConfig extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public BeamConfig(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public BeamConfig(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -96,15 +106,17 @@ public class BeamConfig extends IMCMessage {
 	/**
 	 *  @param beam_width Beam Width (rad)
 	 */
-	public void setBeamWidth(double beam_width) {
+	public BeamConfig setBeamWidth(double beam_width) {
 		values.put("beam_width", beam_width);
+		return this;
 	}
 
 	/**
 	 *  @param beam_height Beam Height (rad)
 	 */
-	public void setBeamHeight(double beam_height) {
+	public BeamConfig setBeamHeight(double beam_height) {
 		values.put("beam_height", beam_height);
+		return this;
 	}
 
 }

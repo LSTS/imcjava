@@ -52,6 +52,16 @@ public class FormationPlanExecution extends Maneuver {
 		super(ID_STATIC);
 	}
 
+	public FormationPlanExecution(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public FormationPlanExecution(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -204,104 +214,119 @@ public class FormationPlanExecution extends Maneuver {
 	/**
 	 *  @param group_name Target Group Name
 	 */
-	public void setGroupName(String group_name) {
+	public FormationPlanExecution setGroupName(String group_name) {
 		values.put("group_name", group_name);
+		return this;
 	}
 
 	/**
 	 *  @param formation_name Formation Name
 	 */
-	public void setFormationName(String formation_name) {
+	public FormationPlanExecution setFormationName(String formation_name) {
 		values.put("formation_name", formation_name);
+		return this;
 	}
 
 	/**
 	 *  @param plan_id Formation Plan ID
 	 */
-	public void setPlanId(String plan_id) {
+	public FormationPlanExecution setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
+		return this;
 	}
 
 	/**
 	 *  @param description Plan Description
 	 */
-	public void setDescription(String description) {
+	public FormationPlanExecution setDescription(String description) {
 		values.put("description", description);
+		return this;
 	}
 
 	/**
 	 *  @param leader_speed Formation Leader Flight Airspeed (m/s)
 	 */
-	public void setLeaderSpeed(double leader_speed) {
+	public FormationPlanExecution setLeaderSpeed(double leader_speed) {
 		values.put("leader_speed", leader_speed);
+		return this;
 	}
 
 	/**
 	 *  @param leader_bank_lim Formation leader flight bank limit (m/s)
 	 */
-	public void setLeaderBankLim(double leader_bank_lim) {
+	public FormationPlanExecution setLeaderBankLim(double leader_bank_lim) {
 		values.put("leader_bank_lim", leader_bank_lim);
+		return this;
 	}
 
 	/**
 	 *  @param pos_sim_err_lim Position mismatch limit (m)
 	 */
-	public void setPosSimErrLim(double pos_sim_err_lim) {
+	public FormationPlanExecution setPosSimErrLim(double pos_sim_err_lim) {
 		values.put("pos_sim_err_lim", pos_sim_err_lim);
+		return this;
 	}
 
 	/**
 	 *  @param pos_sim_err_wrn Position mismatch threshold (m)
 	 */
-	public void setPosSimErrWrn(double pos_sim_err_wrn) {
+	public FormationPlanExecution setPosSimErrWrn(double pos_sim_err_wrn) {
 		values.put("pos_sim_err_wrn", pos_sim_err_wrn);
+		return this;
 	}
 
 	/**
 	 *  @param pos_sim_err_timeout Position mismatch time-out (s)
 	 */
-	public void setPosSimErrTimeout(int pos_sim_err_timeout) {
+	public FormationPlanExecution setPosSimErrTimeout(int pos_sim_err_timeout) {
 		values.put("pos_sim_err_timeout", pos_sim_err_timeout);
+		return this;
 	}
 
 	/**
 	 *  @param converg_max Convergence threshold (m)
 	 */
-	public void setConvergMax(double converg_max) {
+	public FormationPlanExecution setConvergMax(double converg_max) {
 		values.put("converg_max", converg_max);
+		return this;
 	}
 
 	/**
 	 *  @param converg_timeout Convergence time-out (s)
 	 */
-	public void setConvergTimeout(int converg_timeout) {
+	public FormationPlanExecution setConvergTimeout(int converg_timeout) {
 		values.put("converg_timeout", converg_timeout);
+		return this;
 	}
 
 	/**
 	 *  @param comms_timeout Communications time-out (s)
 	 */
-	public void setCommsTimeout(int comms_timeout) {
+	public FormationPlanExecution setCommsTimeout(int comms_timeout) {
 		values.put("comms_timeout", comms_timeout);
+		return this;
 	}
 
 	/**
 	 *  @param turb_lim Turbulence limit (m/s)
 	 */
-	public void setTurbLim(double turb_lim) {
+	public FormationPlanExecution setTurbLim(double turb_lim) {
 		values.put("turb_lim", turb_lim);
+		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public void setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public FormationPlanExecution setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
+		return this;
 	}
 
-	public void setCustom(String custom) {
+	public FormationPlanExecution setCustom(String custom) {
 		values.put("custom", custom);
+		return this;
 	}
 
 }

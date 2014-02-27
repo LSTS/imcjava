@@ -82,6 +82,16 @@ public class PlanControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PlanControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PlanControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -197,78 +207,89 @@ public class PlanControl extends IMCMessage {
 	/**
 	 *  @param type Type (enumerated)
 	 */
-	public void setType(TYPE type) {
+	public PlanControl setType(TYPE type) {
 		values.put("type", type.value());
+		return this;
 	}
 
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public void setType(String type) {
+	public PlanControl setType(String type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public void setType(short type) {
+	public PlanControl setType(short type) {
 		setValue("type", type);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public PlanControl setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public PlanControl setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public PlanControl setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param request_id Request ID
 	 */
-	public void setRequestId(int request_id) {
+	public PlanControl setRequestId(int request_id) {
 		values.put("request_id", request_id);
+		return this;
 	}
 
 	/**
 	 *  @param plan_id Plan Identifier
 	 */
-	public void setPlanId(String plan_id) {
+	public PlanControl setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
+		return this;
 	}
 
 	/**
 	 *  @param flags Flags (bitfield)
 	 */
-	public void setFlags(int flags) {
+	public PlanControl setFlags(int flags) {
 		values.put("flags", flags);
+		return this;
 	}
 
 	/**
 	 *  @param arg Request/Reply Argument
 	 */
-	public void setArg(IMCMessage arg) {
+	public PlanControl setArg(IMCMessage arg) {
 		values.put("arg", arg);
+		return this;
 	}
 
 	/**
 	 *  @param info Complementary Info
 	 */
-	public void setInfo(String info) {
+	public PlanControl setInfo(String info) {
 		values.put("info", info);
+		return this;
 	}
 
 }

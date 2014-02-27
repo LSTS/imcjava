@@ -46,6 +46,16 @@ public class PolygonVertex extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PolygonVertex(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PolygonVertex(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -97,15 +107,17 @@ public class PolygonVertex extends IMCMessage {
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public void setLat(double lat) {
+	public PolygonVertex setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public void setLon(double lon) {
+	public PolygonVertex setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 }

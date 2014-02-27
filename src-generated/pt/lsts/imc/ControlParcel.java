@@ -45,6 +45,16 @@ public class ControlParcel extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public ControlParcel(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ControlParcel(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -112,29 +122,33 @@ public class ControlParcel extends IMCMessage {
 	/**
 	 *  @param p Proportional Parcel
 	 */
-	public void setP(double p) {
+	public ControlParcel setP(double p) {
 		values.put("p", p);
+		return this;
 	}
 
 	/**
 	 *  @param i Integrative Parcel
 	 */
-	public void setI(double i) {
+	public ControlParcel setI(double i) {
 		values.put("i", i);
+		return this;
 	}
 
 	/**
 	 *  @param d Derivative Parcel
 	 */
-	public void setD(double d) {
+	public ControlParcel setD(double d) {
 		values.put("d", d);
+		return this;
 	}
 
 	/**
 	 *  @param a Anti-Windup Parcel
 	 */
-	public void setA(double a) {
+	public ControlParcel setA(double a) {
 		values.put("a", a);
+		return this;
 	}
 
 }

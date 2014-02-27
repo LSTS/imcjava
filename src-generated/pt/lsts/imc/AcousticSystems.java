@@ -47,6 +47,16 @@ public class AcousticSystems extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public AcousticSystems(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public AcousticSystems(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -91,8 +101,9 @@ public class AcousticSystems extends IMCMessage {
 	/**
 	 *  @param list System List (list)
 	 */
-	public void setList(String list) {
+	public AcousticSystems setList(String list) {
 		values.put("list", list);
+		return this;
 	}
 
 }

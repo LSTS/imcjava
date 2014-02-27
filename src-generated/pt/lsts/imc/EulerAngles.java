@@ -46,6 +46,16 @@ public class EulerAngles extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public EulerAngles(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EulerAngles(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -121,36 +131,41 @@ public class EulerAngles extends IMCMessage {
 	/**
 	 *  @param time Device Time (s)
 	 */
-	public void setTime(double time) {
+	public EulerAngles setTime(double time) {
 		values.put("time", time);
+		return this;
 	}
 
 	/**
 	 *  @param phi Roll Angle (rad)
 	 */
-	public void setPhi(double phi) {
+	public EulerAngles setPhi(double phi) {
 		values.put("phi", phi);
+		return this;
 	}
 
 	/**
 	 *  @param theta Pitch Angle (rad)
 	 */
-	public void setTheta(double theta) {
+	public EulerAngles setTheta(double theta) {
 		values.put("theta", theta);
+		return this;
 	}
 
 	/**
 	 *  @param psi Yaw Angle (True) (rad)
 	 */
-	public void setPsi(double psi) {
+	public EulerAngles setPsi(double psi) {
 		values.put("psi", psi);
+		return this;
 	}
 
 	/**
 	 *  @param psi_magnetic Yaw Angle (Magnetic) (rad)
 	 */
-	public void setPsiMagnetic(double psi_magnetic) {
+	public EulerAngles setPsiMagnetic(double psi_magnetic) {
 		values.put("psi_magnetic", psi_magnetic);
+		return this;
 	}
 
 }

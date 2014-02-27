@@ -64,6 +64,16 @@ public class LoggingControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LoggingControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LoggingControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -123,29 +133,33 @@ public class LoggingControl extends IMCMessage {
 	/**
 	 *  @param op Control Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public LoggingControl setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Control Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public LoggingControl setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Control Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public LoggingControl setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param name Log Label / Path
 	 */
-	public void setName(String name) {
+	public LoggingControl setName(String name) {
 		values.put("name", name);
+		return this;
 	}
 
 }

@@ -64,6 +64,16 @@ public class ClockControl extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public ClockControl(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ClockControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -130,36 +140,41 @@ public class ClockControl extends IMCMessage {
 	/**
 	 *  @param op Operation (enumerated)
 	 */
-	public void setOp(OP op) {
+	public ClockControl setOp(OP op) {
 		values.put("op", op.value());
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public void setOp(String op) {
+	public ClockControl setOp(String op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public void setOp(short op) {
+	public ClockControl setOp(short op) {
 		setValue("op", op);
+		return this;
 	}
 
 	/**
 	 *  @param clock Clock (s)
 	 */
-	public void setClock(double clock) {
+	public ClockControl setClock(double clock) {
 		values.put("clock", clock);
+		return this;
 	}
 
 	/**
 	 *  @param tz Timezone
 	 */
-	public void setTz(byte tz) {
+	public ClockControl setTz(byte tz) {
 		values.put("tz", tz);
+		return this;
 	}
 
 }

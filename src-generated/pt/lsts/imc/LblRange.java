@@ -48,6 +48,16 @@ public class LblRange extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public LblRange(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public LblRange(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -99,15 +109,17 @@ public class LblRange extends IMCMessage {
 	/**
 	 *  @param id Beacon Identification Number
 	 */
-	public void setId(short id) {
+	public LblRange setId(short id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param range Range (m)
 	 */
-	public void setRange(double range) {
+	public LblRange setRange(double range) {
 		values.put("range", range);
+		return this;
 	}
 
 }

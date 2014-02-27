@@ -45,6 +45,16 @@ public class TransportBindings extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public TransportBindings(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public TransportBindings(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -97,15 +107,17 @@ public class TransportBindings extends IMCMessage {
 	/**
 	 *  @param consumer Consumer name
 	 */
-	public void setConsumer(String consumer) {
+	public TransportBindings setConsumer(String consumer) {
 		values.put("consumer", consumer);
+		return this;
 	}
 
 	/**
 	 *  @param message_id Message Identifier
 	 */
-	public void setMessageId(int message_id) {
+	public TransportBindings setMessageId(int message_id) {
 		values.put("message_id", message_id);
+		return this;
 	}
 
 }

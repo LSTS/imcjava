@@ -44,6 +44,16 @@ public class IridiumMsgRx extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public IridiumMsgRx(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public IridiumMsgRx(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -121,36 +131,41 @@ public class IridiumMsgRx extends IMCMessage {
 	/**
 	 *  @param origin Origin Identifier
 	 */
-	public void setOrigin(String origin) {
+	public IridiumMsgRx setOrigin(String origin) {
 		values.put("origin", origin);
+		return this;
 	}
 
 	/**
 	 *  @param htime Timestamp (s)
 	 */
-	public void setHtime(double htime) {
+	public IridiumMsgRx setHtime(double htime) {
 		values.put("htime", htime);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude Reference (rad)
 	 */
-	public void setLat(double lat) {
+	public IridiumMsgRx setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude Reference (rad)
 	 */
-	public void setLon(double lon) {
+	public IridiumMsgRx setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param data Data
 	 */
-	public void setData(byte[] data) {
+	public IridiumMsgRx setData(byte[] data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

@@ -45,6 +45,16 @@ public class RemoteSensorInfo extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public RemoteSensorInfo(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public RemoteSensorInfo(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -139,55 +149,63 @@ public class RemoteSensorInfo extends IMCMessage {
 	/**
 	 *  @param id Id
 	 */
-	public void setId(String id) {
+	public RemoteSensorInfo setId(String id) {
 		values.put("id", id);
+		return this;
 	}
 
 	/**
 	 *  @param sensor_class Class
 	 */
-	public void setSensorClass(String sensor_class) {
+	public RemoteSensorInfo setSensorClass(String sensor_class) {
 		values.put("sensor_class", sensor_class);
+		return this;
 	}
 
 	/**
 	 *  @param lat Latitude (rad)
 	 */
-	public void setLat(double lat) {
+	public RemoteSensorInfo setLat(double lat) {
 		values.put("lat", lat);
+		return this;
 	}
 
 	/**
 	 *  @param lon Longitude (rad)
 	 */
-	public void setLon(double lon) {
+	public RemoteSensorInfo setLon(double lon) {
 		values.put("lon", lon);
+		return this;
 	}
 
 	/**
 	 *  @param alt Altitude (m)
 	 */
-	public void setAlt(double alt) {
+	public RemoteSensorInfo setAlt(double alt) {
 		values.put("alt", alt);
+		return this;
 	}
 
 	/**
 	 *  @param heading Heading (rad)
 	 */
-	public void setHeading(double heading) {
+	public RemoteSensorInfo setHeading(double heading) {
 		values.put("heading", heading);
+		return this;
 	}
 
 	/**
 	 *  @param data Custom Data (tuplelist)
 	 */
-	public void setData(java.util.LinkedHashMap<String, ?> data) {
+	public RemoteSensorInfo setData(java.util.LinkedHashMap<String, ?> data) {
 		String val = encodeTupleList(data);
 		values.put("data", val);
+		return this;
 	}
 
-	public void setData(String data) {
+	public RemoteSensorInfo setData(String data) {
 		values.put("data", data);
+		return this;
 	}
 
 }

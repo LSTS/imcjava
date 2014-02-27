@@ -45,6 +45,16 @@ public class PlanManeuver extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public PlanManeuver(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public PlanManeuver(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -126,29 +136,33 @@ public class PlanManeuver extends IMCMessage {
 	/**
 	 *  @param maneuver_id Maneuver ID
 	 */
-	public void setManeuverId(String maneuver_id) {
+	public PlanManeuver setManeuverId(String maneuver_id) {
 		values.put("maneuver_id", maneuver_id);
+		return this;
 	}
 
 	/**
 	 *  @param data Maneuver Specification
 	 */
-	public void setData(Maneuver data) {
+	public PlanManeuver setData(Maneuver data) {
 		values.put("data", data);
+		return this;
 	}
 
 	/**
 	 *  @param start_actions Start Actions
 	 */
-	public void setStartActions(java.util.Collection<IMCMessage> start_actions) {
+	public PlanManeuver setStartActions(java.util.Collection<IMCMessage> start_actions) {
 		values.put("start_actions", start_actions);
+		return this;
 	}
 
 	/**
 	 *  @param end_actions End Actions
 	 */
-	public void setEndActions(java.util.Collection<IMCMessage> end_actions) {
+	public PlanManeuver setEndActions(java.util.Collection<IMCMessage> end_actions) {
 		values.put("end_actions", end_actions);
+		return this;
 	}
 
 }

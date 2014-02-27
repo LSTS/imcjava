@@ -59,6 +59,16 @@ public class IridiumSubscription extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public IridiumSubscription(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public IridiumSubscription(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -108,22 +118,25 @@ public class IridiumSubscription extends IMCMessage {
 	/**
 	 *  @param req_type Request Type (enumerated)
 	 */
-	public void setReqType(REQ_TYPE req_type) {
+	public IridiumSubscription setReqType(REQ_TYPE req_type) {
 		values.put("req_type", req_type.value());
+		return this;
 	}
 
 	/**
 	 *  @param req_type Request Type (as a String)
 	 */
-	public void setReqType(String req_type) {
+	public IridiumSubscription setReqType(String req_type) {
 		setValue("req_type", req_type);
+		return this;
 	}
 
 	/**
 	 *  @param req_type Request Type (integer value)
 	 */
-	public void setReqType(short req_type) {
+	public IridiumSubscription setReqType(short req_type) {
 		setValue("req_type", req_type);
+		return this;
 	}
 
 }

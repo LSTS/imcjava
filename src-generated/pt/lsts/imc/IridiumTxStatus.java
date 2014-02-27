@@ -62,6 +62,16 @@ public class IridiumTxStatus extends IMCMessage {
 		super(ID_STATIC);
 	}
 
+	public IridiumTxStatus(IMCMessage msg) {
+		super(ID_STATIC);
+		try{
+			copyFrom(msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public IridiumTxStatus(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
@@ -128,36 +138,41 @@ public class IridiumTxStatus extends IMCMessage {
 	/**
 	 *  @param req_id Request Identifier
 	 */
-	public void setReqId(int req_id) {
+	public IridiumTxStatus setReqId(int req_id) {
 		values.put("req_id", req_id);
+		return this;
 	}
 
 	/**
 	 *  @param status Status Code (enumerated)
 	 */
-	public void setStatus(STATUS status) {
+	public IridiumTxStatus setStatus(STATUS status) {
 		values.put("status", status.value());
+		return this;
 	}
 
 	/**
 	 *  @param status Status Code (as a String)
 	 */
-	public void setStatus(String status) {
+	public IridiumTxStatus setStatus(String status) {
 		setValue("status", status);
+		return this;
 	}
 
 	/**
 	 *  @param status Status Code (integer value)
 	 */
-	public void setStatus(short status) {
+	public IridiumTxStatus setStatus(short status) {
 		setValue("status", status);
+		return this;
 	}
 
 	/**
 	 *  @param text Status Text
 	 */
-	public void setText(String text) {
+	public IridiumTxStatus setText(String text) {
 		values.put("text", text);
+		return this;
 	}
 
 }
