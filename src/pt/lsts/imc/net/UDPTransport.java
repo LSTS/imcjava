@@ -599,6 +599,7 @@ public class UDPTransport {
                     }
                 }
             };
+            listenerThread.setDaemon(true);
             listenerThread.setPriority(Thread.MIN_PRIORITY);
             listenerThread.start();
             dispacherThread = listenerThread;
@@ -616,7 +617,7 @@ public class UDPTransport {
             DatagramSocket sock;
             DatagramPacket dgram;
             SendRequest req;
-
+            
             public synchronized void start() {
                 try {
                     if (sockToUseAlreadyOpen != null)
@@ -652,6 +653,7 @@ public class UDPTransport {
 
             }
         };
+        senderThread.setDaemon(true);
         senderThread.setPriority(Thread.MIN_PRIORITY);
         senderThread.start();
         return senderThread;
