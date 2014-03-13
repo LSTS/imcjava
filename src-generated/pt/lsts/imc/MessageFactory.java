@@ -518,6 +518,8 @@ public class MessageFactory {
 				return new FormCtrlParam(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
+			case NeptusBlob.ID_STATIC:
+				return new NeptusBlob(defs);
 			default:
 				return new IMCMessage(defs);
 		}

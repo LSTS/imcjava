@@ -7396,7 +7396,12 @@ public class ImcStringDefs {
 		sb.append("      <field name=\"Total Number of fragments\" abbrev=\"num_frags\" type=\"uint8_t\"/>\n");
 		sb.append("      <field name=\"Fragment Data\" abbrev=\"data\" type=\"rawdata\"/>\n");
 		sb.append("  </message>\n");
-		sb.append("\n");
+		sb.append("  \n");
+		sb.append("  <message id=\"888\" abbrev=\"NeptusBlob\" name=\"Neptus Blob\">\n");
+		sb.append("      <field name=\"ContentType\" abbrev=\"content_type\" type=\"plaintext\"/>\n");
+		sb.append("      <field name=\"Content\" abbrev=\"content\" type=\"rawdata\"/>      \n");
+		sb.append("  </message>\n");
+		sb.append("  \n");
 		sb.append("</messages>\n");
 		return sb.toString();
 	}
