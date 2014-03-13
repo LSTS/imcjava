@@ -30,6 +30,9 @@
  */
 package pt.lsts.imc.net;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import pt.lsts.imc.IMCMessage;
 
 public class IMCNode {
@@ -85,17 +88,17 @@ public class IMCNode {
 		this.imcId = lastAnnounce.getHeader().getInteger("src");
 		this.last_heard = System.currentTimeMillis();
 		
+		Pattern p = Pattern.compile("imc\\+udp\\:\\/\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\\:(\\d+)/");
+		
 		String[] services = lastAnnounce.getString("services").split(";");
+		
 		for (String serv : services) {
-			if (serv.startsWith("imc+udp://")) {
-				String s = serv.substring(10);
-				s = s.replaceAll("/", "");
-				String[] parts = s.split(":");
-				this.address = parts[0];
-				this.port = Integer.parseInt(parts[1]);
-							
+			Matcher m = p.matcher(serv); 
+			if(m.matches()) {
+				this.address = m.group(1)+"."+m.group(2)+"."+m.group(3)+"."+m.group(4);
+				this.port = Integer.parseInt(m.group(5));
 			}
-		}
+		}		
 	}
 
 	public String getAddress() {
