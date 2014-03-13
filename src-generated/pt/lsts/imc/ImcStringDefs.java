@@ -944,7 +944,7 @@ public class ImcStringDefs {
 		sb.append("    </field>\n");
 		sb.append("  </message>\n");
 		sb.append("\n");
-		sb.append("  <message id=\"20\" name=\"Message List\" abbrev=\"MessageList\" >\n");
+		sb.append("  <message id=\"20\" name=\"Message List\" abbrev=\"MsgList\" >\n");
 		sb.append("  \t<field name=\"Messages\" abbrev=\"msgs\" type=\"message-list\"/>\n");
 		sb.append("  </message>\n");
 		sb.append("\n");

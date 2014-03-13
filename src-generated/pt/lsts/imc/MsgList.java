@@ -36,15 +36,15 @@ package pt.lsts.imc;
  *  IMC Message Message List (20)<br/>
  */
 
-public class MessageList extends IMCMessage {
+public class MsgList extends IMCMessage {
 
 	public static final int ID_STATIC = 20;
 
-	public MessageList() {
+	public MsgList() {
 		super(ID_STATIC);
 	}
 
-	public MessageList(IMCMessage msg) {
+	public MsgList(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -54,20 +54,20 @@ public class MessageList extends IMCMessage {
 		}
 	}
 
-	public MessageList(IMCDefinition defs) {
+	public MsgList(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static MessageList create(Object... values) {
-		MessageList m = new MessageList();
+	public static MsgList create(Object... values) {
+		MsgList m = new MsgList();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static MessageList clone(IMCMessage msg) throws Exception {
+	public static MsgList clone(IMCMessage msg) throws Exception {
 
-		MessageList m = new MessageList();
+		MsgList m = new MsgList();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -82,7 +82,7 @@ public class MessageList extends IMCMessage {
 		return m;
 	}
 
-	public MessageList(java.util.Collection<IMCMessage> msgs) {
+	public MsgList(java.util.Collection<IMCMessage> msgs) {
 		super(ID_STATIC);
 		if (msgs != null)
 			setMsgs(msgs);
@@ -98,7 +98,7 @@ public class MessageList extends IMCMessage {
 	/**
 	 *  @param msgs Messages
 	 */
-	public MessageList setMsgs(java.util.Collection<IMCMessage> msgs) {
+	public MsgList setMsgs(java.util.Collection<IMCMessage> msgs) {
 		values.put("msgs", msgs);
 		return this;
 	}
