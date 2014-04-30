@@ -1371,11 +1371,11 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 			else if (getTypeOf(fieldName).equals("rawdata")) {
 
 				byte[] bytes = getRawData(fieldName);
-				if (bytes.length >= 1)
-					sb.append(",\"" + fieldName + "\":[" + bytes[0] + ",");
-				for (int i = 1; i < bytes.length; i++)
-					sb.append(bytes[i] + ",");
-				sb.append(']');
+				StringBuilder dataHex = new StringBuilder();
+				for (int i = 0; i < bytes.length; i++) {
+					dataHex.append(String.format("%02X", bytes[i]));
+				}
+				sb.append(",\"" + fieldName + "\":\""+dataHex+"\"");				
 			}
 
 			else if (getTypeOf(fieldName).equals("message")) {

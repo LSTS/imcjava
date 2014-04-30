@@ -957,6 +957,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	public void deserializeFields(IMCMessage message, DataInput in) throws IOException {
 		for (String field : message.getMessageType().getFieldNames()) {
+			
 			Object o = deserialize(message.getMessageType().getFieldType(field),in, message.getAbbrev()+"."+field);
 			if (o instanceof IMCMessage) {
 				for (String f : new String[] {"src", "dst", "src_ent", "dst_ent"})
@@ -964,6 +965,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 				((IMCMessage)o).setTimestamp(message.getTimestamp());
 			}
+			System.out.println(field+" = "+o);
 			message.setValue(field, o);			
 		}
 	}
