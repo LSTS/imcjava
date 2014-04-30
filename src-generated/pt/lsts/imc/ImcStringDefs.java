@@ -5304,6 +5304,11 @@ public class ImcStringDefs {
 		sb.append("          Maneuver error.\n");
 		sb.append("        </description>\n");
 		sb.append("      </value>\n");
+		sb.append("      <value id=\"3\" name=\"Maneuver stopped\" abbrev=\"STOPPED\">\n");
+		sb.append("        <description>\n");
+		sb.append("          Maneuver stopped.\n");
+		sb.append("        </description>\n");
+		sb.append("      </value>\n");
 		sb.append("    </field>\n");
 		sb.append("    <field name=\"Completion Time\" abbrev=\"eta\" type=\"uint16_t\" unit=\"s\">\n");
 		sb.append("      <description>\n");

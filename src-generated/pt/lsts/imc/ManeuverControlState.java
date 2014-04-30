@@ -44,7 +44,8 @@ public class ManeuverControlState extends IMCMessage {
 	public enum STATE {
 		EXECUTING(0),
 		DONE(1),
-		ERROR(2);
+		ERROR(2),
+		STOPPED(3);
 
 		protected long value;
 
