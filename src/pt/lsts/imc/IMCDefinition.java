@@ -965,7 +965,6 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 				((IMCMessage)o).setTimestamp(message.getTimestamp());
 			}
-			System.out.println(field+" = "+o);
 			message.setValue(field, o);			
 		}
 	}
