@@ -24,6 +24,7 @@
   <address id="0x001E" name="lauv-xplore-1"/>
   <address id="0x00D1" name="lauv-simulator-1"/>
   <address id="0x0101" name="lauv-dolphin-1"/>
+  <address id="0x0102" name="lauv-lupis-1"/>
   <address id="0x0401" name="rov-ies"/>
   <address id="0x0402" name="adamastor"/>
   <address id="0x0801" name="swordfish"/>
@@ -180,6 +181,8 @@
   <address id="0x4101" name="ccu-lsts-1-1"/>
   <address id="0x416A" name="ccu-zp-1-106"/>
   <address id="0x4282" name="ccu-meg-2-130"/>
+  <address id="0x410a" name="ccu-pitvant-laptop-01-1-10"/>
+  <address id="0x406c" name="ccu-lsts-0-108"/>
   <address id="0xfff0" name="broadcast"/>
   <address id="0xffff" name="null"/>
 </addresses>
