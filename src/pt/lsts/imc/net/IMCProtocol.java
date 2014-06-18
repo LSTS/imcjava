@@ -86,11 +86,11 @@ public class IMCProtocol implements IMessageBus {
             bus = Class.forName("com.google.common.eventbus.AsyncEventBus")
                     .getConstructor(Class.forName("java.util.concurrent.Executor")).newInstance(executor);
         }
-        catch (Error e) { 
-            e.printStackTrace();
+        catch (Error e) {
+        	System.err.println("AsyncEventBus is not available");            
         }
         catch (Exception e) {
-            e.printStackTrace();
+        	System.err.println("AsyncEventBus is not available");
         }        
     }
 
@@ -175,9 +175,16 @@ public class IMCProtocol implements IMessageBus {
     public final String getLocalName() {
         return localName;
     }
+    
+    public int getLocalId() {
+    	return localId;
+    }
 
     private Thread discoveryThread = new Thread() {
 
+    	{
+    		setDaemon(true);
+    	}
         public void run() {
 
             int port = 30100;
@@ -305,15 +312,13 @@ public class IMCProtocol implements IMessageBus {
 
         return comms.sendMessage(node.getAddress(), node.getPort(), msg);
     }
-
-    /**
-     * Create a new IMCProtocol instance and bind it to given local port
-     * @param bindPort The port where to bind for listening to incoming messages (also advertised using multicast)
-     */
-    public IMCProtocol(int bindPort) {
-        IMCDefinition.getInstance();
-        this.bindPort = bindPort;
-        comms = new UDPTransport(bindPort, 1);        
+    
+    
+    public IMCProtocol(String localName, int localPort) {
+    	IMCDefinition.getInstance();
+        this.bindPort = localPort;
+        comms = new UDPTransport(bindPort, 1);
+        this.localName = localName;
         discoveryThread.start();
 
         try {
@@ -334,7 +339,21 @@ public class IMCProtocol implements IMessageBus {
             }
         });
     }
+    
 
+    /**
+     * Create a new IMCProtocol instance and bind it to given local port
+     * @param bindPort The port where to bind for listening to incoming messages (also advertised using multicast)
+     */
+    public IMCProtocol(int bindPort) {
+    	this("imcj_" + System.currentTimeMillis() / 500, bindPort);
+    }
+
+    
+    public IMCProtocol() {
+    	this("imcj_" + System.currentTimeMillis() / 500, 8000+(int)Math.random()*1000);
+    }
+    
     /**
      * Send message to a remote system
      * @param sysName The name of the system where to send the message
@@ -357,6 +376,8 @@ public class IMCProtocol implements IMessageBus {
                     return false;
             }
         }
+        
+        
         return false;
     }
 

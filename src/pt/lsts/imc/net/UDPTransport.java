@@ -547,6 +547,7 @@ public class UDPTransport {
 
             };
             listenerThread.setPriority(Thread.MIN_PRIORITY);
+            listenerThread.setDaemon(true);
             listenerThread.start();
             sockedListenerThread = listenerThread;
         }
