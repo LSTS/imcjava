@@ -236,6 +236,17 @@ GIT Status:
 		<echo message="The file 'dist/imc-${version}.jar' was generated"/>
 	</target>
 	
+	<target name="jar-controller" depends="compile,copylicense">
+		<description>Create library jar (no source).</description>
+		<jar destfile="dist/imc-controller.jar" basedir="build" index="true">
+			<manifest>
+				<attribute name="Main-Class" value="pt.lsts.imc.control.ControlLink"/>
+			</manifest>
+		</jar>
+		<echo message="The file 'dist/imc-controller.jar' was generated"/>
+	</target>
+		
+	
 	<target name="jar-source" depends="compile,copysrc,copylicense,copygenerated">
 		<description>Create library jar with source code embedded.</description>
 		<jar destfile="dist/imc-src-${version}.jar" basedir="build" index="true" />				   
