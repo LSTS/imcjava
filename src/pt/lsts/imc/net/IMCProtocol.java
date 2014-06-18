@@ -184,7 +184,7 @@ public class IMCProtocol implements IMessageBus {
 
             while (true) {
                 // System.out.println("[IMCTransport] Trying to bind to port " + port + "...");
-                discovery = new UDPTransport(port, 1);
+                discovery = new UDPTransport(true, true, port, 1);
                 discovery.setImcId(localId);
                 if (discovery.isOnBindError()) {
                     port++;

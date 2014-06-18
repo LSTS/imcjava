@@ -57,17 +57,17 @@ public class UDPTransport {
     LinkedHashMap<MessageListener<MessageInfo, IMCMessage>, Vector<Integer>> messageListeners = new LinkedHashMap<MessageListener<MessageInfo, IMCMessage>, Vector<Integer>>();
     LinkedHashMap<Integer, Vector<MessageListener<MessageInfo, IMCMessage>>> messagesListened = new LinkedHashMap<Integer, Vector<MessageListener<MessageInfo, IMCMessage>>>();
 
-    private LinkedBlockingQueue<MessagePacket> receptions = new LinkedBlockingQueue<MessagePacket>(100);
-    private LinkedBlockingQueue<SendRequest> sendmessageList = new LinkedBlockingQueue<SendRequest>(100);
+    private final LinkedBlockingQueue<MessagePacket> receptions = new LinkedBlockingQueue<MessagePacket>(100);
+    private final LinkedBlockingQueue<SendRequest> sendmessageList = new LinkedBlockingQueue<SendRequest>(100);
 
     private Thread sockedListenerThread = null;
     private Thread dispacherThread = null;
-    private Vector<Thread> senderThreads = new Vector<Thread>();	
+    private final Vector<Thread> senderThreads = new Vector<Thread>();	
     private int numberOfSenderThreads = 1;
 
     private DatagramSocket sock;
 
-    private LinkedHashMap<String, InetAddress> solvedAddresses = new LinkedHashMap<String, InetAddress>();
+    private final LinkedHashMap<String, InetAddress> solvedAddresses = new LinkedHashMap<String, InetAddress>();
 
     private int bindPort = 6001;
 
@@ -150,6 +150,23 @@ public class UDPTransport {
         setMulticastEnable(true);
         initialize();
     }
+
+	/**
+	 * @param multicastAddress
+	 * @param bindPort
+	 * @param numberOfSenderThreads
+	 */
+	public UDPTransport(boolean isBroadcastEnable, boolean isMulticastEnable,
+			int bindPort, int numberOfSenderThreads) {
+		setNumberOfSenderThreads(numberOfSenderThreads);
+		setBindPort(bindPort);
+		setBroadcastEnable(isBroadcastEnable);
+		if (isMulticastEnable) {
+			setMulticastAddress(multicastAddress);
+			setMulticastEnable(isMulticastEnable);
+		}
+		initialize();
+	}
 
     /**
      * @param multicastAddress
@@ -442,7 +459,8 @@ public class UDPTransport {
                 //DatagramSocket sock;
                 String multicastGroup = "";
 
-                public synchronized void start() {
+                @Override
+				public synchronized void start() {
                     //ConfigFetch.logPub.info("Listener Thread Started");
                     try {
                         boolean useMulticast = isMulticastEnable();
@@ -474,7 +492,8 @@ public class UDPTransport {
                     super.start();			
                 }
 
-                public void run() {
+                @Override
+				public void run() {
                     try {
                         while (!purging) {
                             DatagramPacket packet = new DatagramPacket (sBuffer, sBuffer.length);
@@ -562,7 +581,8 @@ public class UDPTransport {
     private Thread getDispacherThread() {
         if (dispacherThread == null) {
             Thread listenerThread = new Thread(UDPTransport.class.getSimpleName() + ": Dispacher Thread " + this.hashCode()) {			
-                public void run() {
+                @Override
+				public void run() {
                     try {
                         while (!(purging && receptions.isEmpty())) {
 
@@ -618,7 +638,8 @@ public class UDPTransport {
             DatagramPacket dgram;
             SendRequest req;
             
-            public synchronized void start() {
+            @Override
+			public synchronized void start() {
                 try {
                     if (sockToUseAlreadyOpen != null)
                         sock = sockToUseAlreadyOpen;
@@ -630,7 +651,8 @@ public class UDPTransport {
                 }
             }
 
-            public void run() {
+            @Override
+			public void run() {
                 try {
                     while (!(purging && sendmessageList.isEmpty())) {
                         req = sendmessageList.take();
