@@ -463,6 +463,16 @@ public class IMCProtocol implements IMessageBus {
 
         sysStates.get(sysName).setMessage(message);
     }
+    
+    public String[] lookupService(String serviceName) {
+    	Vector<String> systems = new Vector<String>();
+    	
+    	for (String sys : systems()) {
+    		Announce last = state(sys).lastAnnounce();
+    		System.out.println(last.getServices());
+    	}
+    	return systems.toArray(new String[0]);
+    }
 
     /**
      * Retrieve the continuously updated state of the given system

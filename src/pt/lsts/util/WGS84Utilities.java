@@ -30,6 +30,8 @@
  */
 package pt.lsts.util;
 
+import pt.lsts.imc.EstimatedState;
+
 
 public class WGS84Utilities {
 
@@ -190,5 +192,9 @@ public class WGS84Utilities {
     public static double distance(double latDegrees1, double lonDegrees1, double latDegrees2, double lonDegrees2) {
     	double[] offsets = WGS84displacement(latDegrees1, lonDegrees1, 0, latDegrees2, lonDegrees2, 0);
     	return Math.hypot(offsets[0],offsets[1]);
+    }
+    
+    public static double[] toLatLonDepth(EstimatedState msg) {
+    	return WGS84displace(Math.toDegrees(msg.getLat()), Math.toDegrees(msg.getLon()), msg.getDepth(), msg.getX(), msg.getY(), 0);
     }
 }
