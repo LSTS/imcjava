@@ -138,7 +138,7 @@ public class ControlLink {
 	public void guide(double lat_degs, double lon_degs, double z_meters, double speed_mps) {
 		DesiredZ desZ = null;
 		if (!Double.isNaN(z_meters)) {
-			if (z_meters != 0)
+			if (z_meters >= 0)
 				desZ = new DesiredZ((float) z_meters, DesiredZ.Z_UNITS.DEPTH);
 			else
 				desZ = new DesiredZ((float) -z_meters,
@@ -177,6 +177,8 @@ public class ControlLink {
 	
 	public void shutdown() {
 		proto.stop();
+		executor.shutdown();
+		executor = null;
 		proto = null;
 	}
 
@@ -220,6 +222,10 @@ public class ControlLink {
 		}
 	}
 
+	public double[] getPosition() {
+		return WGS84Utilities.toLatLonDepth(getImc().state(vehicle).lastEstimatedState());
+	}
+	
 	public EstimatedState getState() {
 		return getImc().state(vehicle).lastEstimatedState();
 	}
