@@ -120,7 +120,7 @@ public class ControlLink {
 					}
 				}
 				sendReference();
-				System.out.println(arrivedXY() + ", " + arrivedZ());
+				//System.out.println(arrivedXY() + ", " + arrivedZ());
 			}
 		}, 5, 5, TimeUnit.SECONDS);
 	}
@@ -172,7 +172,12 @@ public class ControlLink {
 		Reference ref = new Reference();
 		ref.setFlags(Reference.FLAG_MANDONE);
 		lastReference = ref;
-		sendReference();
+		sendReference();		
+	}
+	
+	public void shutdown() {
+		proto.stop();
+		proto = null;
 	}
 
 	public boolean arrived() {
