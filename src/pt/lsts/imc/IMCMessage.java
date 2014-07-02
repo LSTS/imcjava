@@ -1392,7 +1392,72 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 		sb.append("}\n");
 		return sb.toString();
 	}
+	public String asXmlStripped(int tabAmount, boolean isInline) {
+		StringBuilder sb = new StringBuilder();
+		String tabs = "";
+		for (int i = 0; i < tabAmount; i++)
+			tabs += "  ";
+		sb.append(tabs+"<" + getAbbrev());
+		
+		if (!isInline) {
+			sb.append(" imcv=\"" + definitions.getVersion() + "\"");
+			sb.append(" time=\"" + getTimestamp() + "\"");
+			sb.append(" src=\"" + getSrc() + "\"");
+			sb.append(" dst=\"" + getDst() + "\"");
+			sb.append(" src_ent=\"" + getSrcEnt() + "\"");
+			sb.append(" dst_ent=\"" + getDstEnt() + "\"");
+		}
+		sb.append(">\n");
+		//tabs += "  ";
+		
+		for (String fieldName : getMessageType().getFieldNames()) {
+			//sb.append("<" + fieldName + ">");
+			switch (getMessageType().getFieldType(fieldName)) {
+			case TYPE_FP32:
+			case TYPE_FP64:
+				double val = getDouble(fieldName);
+				if (val != 0)
+					sb.append(tabs+"  <"+fieldName+">"+getString(fieldName, false).replaceAll("\\.0+$", ".0")+"</"+fieldName+">\n");
+				break;
+			case TYPE_INT16:
+			case TYPE_INT32:
+			case TYPE_INT64:
+			case TYPE_INT8:
+			case TYPE_UINT16:
+			case TYPE_UINT32:
+			case TYPE_UINT8:
+				long longVal = getLong(fieldName);
+				if (longVal != 0)
+					sb.append(tabs+"  <"+fieldName+">"+getString(fieldName, false)+"</"+fieldName+">\n");
+				break;
+			case TYPE_PLAINTEXT:
+				if (!getString(fieldName).isEmpty())
+					sb.append(tabs+"  <"+fieldName+">"+getString(fieldName, false)+"</"+fieldName+">\n");
+				break;
+			case TYPE_MESSAGE:
+				IMCMessage msg = getMessage(fieldName);
+				if (msg != null)
+					sb.append(tabs+"  <"+fieldName+">\n" + msg.asXmlStripped(tabAmount+2,true)+tabs+"  </"+fieldName+">\n");
+				break;
+			case TYPE_RAWDATA:
+				if (getRawData(fieldName) != null) 
+					sb.append(tabs+"  <"+fieldName+">\n"+Base64.encode(getRawData(fieldName))+"  </"+fieldName+">\n");
+				break;
+			case TYPE_MESSAGELIST:
+				if (!getMessageList(fieldName).isEmpty()) {
+					sb.append(tabs+"  <"+fieldName+">\n");
+					for (IMCMessage m : getMessageList(fieldName))
+						sb.append(m.asXmlStripped(tabAmount+2, true));
+					sb.append(tabs+"  </"+fieldName+">\n");	
+				}
+				break;
+			}
+		}
 
+		sb.append(tabs+"</" + getAbbrev() + ">\n");
+
+		return sb.toString();
+	}
 	public String asXml(boolean isInline) {
 		StringBuilder sb = new StringBuilder();
 		if (!isInline)
