@@ -33,24 +33,35 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Water Velocity (260)<br/>
- *  Vector quantifying the direction and magnitude of the measured<br/>
- *  velocity relative to the water that a device is exposed to.<br/>
+ *  IMC Message Autopilot Mode (511)<br/>
+ *  Reports autopilot mode.<br/>
  */
 
-public class WaterVelocity extends IMCMessage {
+public class AutopilotMode extends IMCMessage {
 
-	public static final int ID_STATIC = 260;
+	public static final int ID_STATIC = 511;
 
-	public static final short VAL_VEL_X = 0x01;
-	public static final short VAL_VEL_Y = 0x02;
-	public static final short VAL_VEL_Z = 0x04;
+	public enum AUTONOMY {
+		MANUAL(0),
+		ASSISTED(1),
+		AUTO(2);
 
-	public WaterVelocity() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		AUTONOMY(long value) {
+			this.value = value;
+		}
+	}
+
+	public AutopilotMode() {
 		super(ID_STATIC);
 	}
 
-	public WaterVelocity(IMCMessage msg) {
+	public AutopilotMode(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -60,20 +71,20 @@ public class WaterVelocity extends IMCMessage {
 		}
 	}
 
-	public WaterVelocity(IMCDefinition defs) {
+	public AutopilotMode(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static WaterVelocity create(Object... values) {
-		WaterVelocity m = new WaterVelocity();
+	public static AutopilotMode create(Object... values) {
+		AutopilotMode m = new AutopilotMode();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static WaterVelocity clone(IMCMessage msg) throws Exception {
+	public static AutopilotMode clone(IMCMessage msg) throws Exception {
 
-		WaterVelocity m = new WaterVelocity();
+		AutopilotMode m = new AutopilotMode();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -88,73 +99,63 @@ public class WaterVelocity extends IMCMessage {
 		return m;
 	}
 
-	public WaterVelocity(short validity, double x, double y, double z) {
+	public AutopilotMode(AUTONOMY autonomy, String mode) {
 		super(ID_STATIC);
-		setValidity(validity);
-		setX(x);
-		setY(y);
-		setZ(z);
+		setAutonomy(autonomy);
+		if (mode != null)
+			setMode(mode);
 	}
 
 	/**
-	 *  Each bit of this field represents if a given velocity<br/>
-	 *  component is valid.<br/>
-	 *  @return Validity (bitfield) - uint8_t
+	 *  Current mode autonomy level.<br/>
+	 *  @return Autonomy Level (enumerated) - uint8_t
 	 */
-	public short getValidity() {
-		return (short) getInteger("validity");
+	public AUTONOMY getAutonomy() {
+		try {
+			AUTONOMY o = AUTONOMY.valueOf(getMessageType().getFieldPossibleValues("autonomy").get(getLong("autonomy")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
-	 *  @return X (m/s) - fp64_t
+	 *  @return Mode - plaintext
 	 */
-	public double getX() {
-		return getDouble("x");
+	public String getMode() {
+		return getString("mode");
 	}
 
 	/**
-	 *  @return Y (m/s) - fp64_t
+	 *  @param autonomy Autonomy Level (enumerated)
 	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Z (m/s) - fp64_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @param validity Validity (bitfield)
-	 */
-	public WaterVelocity setValidity(short validity) {
-		values.put("validity", validity);
+	public AutopilotMode setAutonomy(AUTONOMY autonomy) {
+		values.put("autonomy", autonomy.value());
 		return this;
 	}
 
 	/**
-	 *  @param x X (m/s)
+	 *  @param autonomy Autonomy Level (as a String)
 	 */
-	public WaterVelocity setX(double x) {
-		values.put("x", x);
+	public AutopilotMode setAutonomy(String autonomy) {
+		setValue("autonomy", autonomy);
 		return this;
 	}
 
 	/**
-	 *  @param y Y (m/s)
+	 *  @param autonomy Autonomy Level (integer value)
 	 */
-	public WaterVelocity setY(double y) {
-		values.put("y", y);
+	public AutopilotMode setAutonomy(short autonomy) {
+		setValue("autonomy", autonomy);
 		return this;
 	}
 
 	/**
-	 *  @param z Z (m/s)
+	 *  @param mode Mode
 	 */
-	public WaterVelocity setZ(double z) {
-		values.put("z", z);
+	public AutopilotMode setMode(String mode) {
+		values.put("mode", mode);
 		return this;
 	}
 

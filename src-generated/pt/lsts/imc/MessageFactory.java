@@ -390,6 +390,10 @@ public class MessageFactory {
 				return new Reference(defs);
 			case FollowRefState.ID_STATIC:
 				return new FollowRefState(defs);
+			case FormationMonitor.ID_STATIC:
+				return new FormationMonitor(defs);
+			case RelativeState.ID_STATIC:
+				return new RelativeState(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
@@ -412,6 +416,8 @@ public class MessageFactory {
 				return new Collision(defs);
 			case FormState.ID_STATIC:
 				return new FormState(defs);
+			case AutopilotMode.ID_STATIC:
+				return new AutopilotMode(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
