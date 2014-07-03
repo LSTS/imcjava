@@ -50,7 +50,7 @@ public class ImcStringDefs {
 		sb.append("          xsi:noNamespaceSchemaLocation=\"IMC.xsd\"\n");
 		sb.append("          name=\"IMC\"\n");
 		sb.append("          long-name=\"Inter Module Communication\"\n");
-		sb.append("          version=\"5.4.1-rc1\">\n");
+		sb.append("          version=\"5.4.x\">\n");
 		sb.append("\n");
 		sb.append("  <description>\n");
 		sb.append("    This document describes the communications protocol associated\n");
