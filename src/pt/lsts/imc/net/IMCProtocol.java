@@ -323,7 +323,6 @@ public class IMCProtocol implements IMessageBus {
 
         try {
             while (discovery == null) { 
-                System.err.println("Discovery thread not started...");
                 Thread.sleep(500);
             }
         }

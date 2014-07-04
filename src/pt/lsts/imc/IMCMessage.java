@@ -1458,6 +1458,52 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 
 		return sb.toString();
 	}
+	
+	public Map<String, Object> asMap(boolean inner) {
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		
+		if (!inner) {
+			map.put("timestamp", getTimestamp());
+			map.put("src", getSrc());
+			map.put("src_ent", getSrcEnt());
+			map.put("dst", getDst());
+			map.put("dst_ent", getDstEnt());
+		}
+		
+		for (String fieldName : getMessageType().getFieldNames()) {
+			switch (getMessageType().getFieldType(fieldName)) {
+			case TYPE_FP32:
+			case TYPE_FP64:				
+			case TYPE_INT16:
+			case TYPE_INT32:
+			case TYPE_INT64:
+			case TYPE_INT8:
+			case TYPE_UINT16:
+			case TYPE_UINT32:
+			case TYPE_UINT8:
+			case TYPE_PLAINTEXT:
+			case TYPE_RAWDATA:
+				map.put(fieldName, getValue(fieldName));
+				break;
+			case TYPE_MESSAGE:
+				IMCMessage innerMsg = getMessage(fieldName);
+				if (innerMsg != null)
+					map.put(fieldName, innerMsg.asMap(true));
+				else
+					map.put(fieldName, null);
+			case TYPE_MESSAGELIST:
+				Vector<Map<String, Object>> msgs = new Vector<Map<String,Object>>();
+				for (IMCMessage m : getMessageList(fieldName)) {
+					msgs.add(m.asMap(true));
+				}
+				map.put(fieldName, msgs);
+			}
+		}
+		
+		return map;
+		
+	}
+	
 	public String asXml(boolean isInline) {
 		StringBuilder sb = new StringBuilder();
 		if (!isInline)
@@ -1686,6 +1732,8 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	public static void main(String[] args) throws Exception {
 		EstimatedState state = new EstimatedState();
 		state.setX(10);
+		
+		System.out.println(state.asMap(false));
 	}
 
 }
