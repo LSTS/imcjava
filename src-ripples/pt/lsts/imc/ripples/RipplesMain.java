@@ -1,11 +1,15 @@
 package pt.lsts.imc.ripples;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import pt.lsts.imc.Announce;
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.LogBookEntry;
 import pt.lsts.imc.PlanControlState;
+import pt.lsts.imc.PlanDB;
+import pt.lsts.imc.PlanSpecification;
 import pt.lsts.imc.net.IMCProtocol;
+import pt.lsts.util.PlanUtilities;
 import pt.lsts.util.WGS84Utilities;
 
 import com.google.common.eventbus.Subscribe;
@@ -14,6 +18,9 @@ import com.google.common.eventbus.Subscribe;
 public class RipplesMain {
 	
 	private IMCProtocol proto;
+	private LinkedHashMap<String, PlanSpecification> plans = new LinkedHashMap<String, PlanSpecification>();
+	private static int count = 0;
+	
 	public RipplesMain(int port) {
 		System.out.println("[Ripples] Binding to port "+port+"...");
 		proto = new IMCProtocol("FireImc", port);
@@ -27,7 +34,7 @@ public class RipplesMain {
 			}
 		});
 	}
-	
+		
 	@Subscribe
 	public void on(Announce ann) {
 		
@@ -39,6 +46,7 @@ public class RipplesMain {
 		FirebaseDB.setValue("assets/"+ann.getSysName()+"/position/latitude", lat);
 		FirebaseDB.setValue("assets/"+ann.getSysName()+"/position/longitude", lon);
 		FirebaseDB.setValue("assets/"+ann.getSourceName()+"/updated_at", ann.getTimestampMillis());
+		FirebaseDB.setValue("assets/"+ann.getSourceName()+"/type", ann.getSysType().toString());
 		
 	}
 	
@@ -54,11 +62,30 @@ public class RipplesMain {
 	}
 
 	@Subscribe
+	public void on(PlanDB m) {
+		if (m.getType() == PlanDB.TYPE.SUCCESS && m.getOp() == PlanDB.OP.GET) {
+			plans.put(m.getPlanId(), (PlanSpecification)m.getArg());
+			Collection<double[]> locs = PlanUtilities.computeLocations((PlanSpecification)m.getArg());
+			FirebaseDB.setValue("assets/"+m.getSourceName()+"/plan/path", locs);
+		}
+	}
+	
+	@Subscribe
 	public void on(PlanControlState pcs) {
 		
 		if (pcs.getState() == PlanControlState.STATE.EXECUTING) {
+			
 			if (!pcs.getPlanId().isEmpty()) {
-				FirebaseDB.setValue("assets/"+pcs.getSourceName()+"/plan/id", pcs.getPlanId());				
+				FirebaseDB.setValue("assets/"+pcs.getSourceName()+"/plan/id", pcs.getPlanId());
+				
+				if (!plans.containsKey(pcs.getPlanId())) {
+					PlanDB req = new PlanDB();
+					req.setType(PlanDB.TYPE.REQUEST);
+					req.setOp(PlanDB.OP.GET);
+					req.setPlanId(pcs.getPlanId());
+					req.setRequestId(count++);
+					proto.sendMessage(pcs.getSourceName(), req);
+				}
 			}
 			if (pcs.getPlanProgress() > 0)
 				FirebaseDB.setValue("assets/"+pcs.getSourceName()+"/plan/progress", String.format("%.1f", pcs.getPlanProgress()));
