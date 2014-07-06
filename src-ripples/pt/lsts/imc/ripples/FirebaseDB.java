@@ -68,7 +68,7 @@ public class FirebaseDB {
 			
 			@Override
 			public void onCancelled(FirebaseError arg0) {
-				
+				System.out.println("Cancelled: "+arg0.getMessage());
 			}
 		});
 		if (!authKey.isEmpty()) {

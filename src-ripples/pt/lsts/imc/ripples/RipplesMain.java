@@ -94,6 +94,7 @@ public class RipplesMain {
 		}
 		else {
 			FirebaseDB.setValue("assets/"+pcs.getSourceName()+"/plan", null);
+			plans.remove(pcs.getPlanId());
 		}
 	}
 	

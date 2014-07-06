@@ -176,7 +176,7 @@ public class PlanUtilities {
 		boolean squareCurve = (man.getFlags() & Rows.FLG_SQUARE_CURVE) != 0;
 		boolean invertY = (man.getFlags() & Rows.FLG_CURVE_RIGHT) == 0;
 		Vector<double[]> offsetPoints = calcRowsPoints(man.getWidth(),
-				man.getLength(), man.getHstep(), man.getAlternation(),
+				man.getLength(), man.getHstep(), man.getAlternation()/100.0,
 				man.getCoff(), squareCurve, man.getBearing(),
 				man.getCrossAngle(), invertY);
 		
