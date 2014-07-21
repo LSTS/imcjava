@@ -179,6 +179,25 @@ public class IMCProtocol implements IMessageBus {
     public int getLocalId() {
     	return localId;
     }
+    
+    public Announce buildAnnounce() {
+    	Announce announce = new Announce();
+        announce.setSysType(SYS_TYPE.CCU);
+        announce.setSysName(localName);
+        announce.setSrc(localId);
+
+        String services = "";
+
+        for (String itf : getNetworkInterfaces(true)) {
+            services += "imc+udp://" + itf + ":" + bindPort + "/;";
+        }
+        if (services.length() > 0)
+            services = services.substring(0, services.length() - 1);
+
+        announce.setServices(services);
+        
+        return announce;
+    }
 
     private Thread discoveryThread = new Thread() {
 
@@ -205,20 +224,7 @@ public class IMCProtocol implements IMessageBus {
 
             discovery.addMessageListener(messageListener);
 
-            final Announce announce = new Announce();
-            announce.setSysType(SYS_TYPE.CCU);
-            announce.setSysName(localName);
-            announce.setSrc(localId);
-
-            String services = "";
-
-            for (String itf : getNetworkInterfaces(true)) {
-                services += "imc+udp://" + itf + ":" + bindPort + "/;";
-            }
-            if (services.length() > 0)
-                services = services.substring(0, services.length() - 1);
-
-            announce.setServices(services);
+            final Announce announce = buildAnnounce();
 
             long lastSent = System.currentTimeMillis();
             while (true) {
@@ -449,6 +455,10 @@ public class IMCProtocol implements IMessageBus {
         if (message.getMgid() == Announce.ID_STATIC) {  
             sysNames.put(message.getSrc(), message.getString("sys_name"));
             sysIds.put(message.getString("sys_name"), message.getSrc());
+            
+            sendMessage(message.getString("sys_name"), buildAnnounce());
+            sendMessage(message.getString("sys_name"), buildAnnounce());
+            sendMessage(message.getString("sys_name"), new Heartbeat());
             sendMessage(message.getString("sys_name"), new Heartbeat());     
             sendMessage(message.getString("sys_name"), new Heartbeat());
         }
