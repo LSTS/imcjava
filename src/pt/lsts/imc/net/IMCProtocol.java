@@ -452,15 +452,15 @@ public class IMCProtocol implements IMessageBus {
     }
 
     protected void setMessage(IMCMessage message) {
-        if (message.getMgid() == Announce.ID_STATIC) {  
+        if (message.getMgid() == Announce.ID_STATIC && message.getSrc() != getLocalId()) {  
             sysNames.put(message.getSrc(), message.getString("sys_name"));
             sysIds.put(message.getString("sys_name"), message.getSrc());
             
             sendMessage(message.getString("sys_name"), buildAnnounce());
-            sendMessage(message.getString("sys_name"), buildAnnounce());
+            //sendMessage(message.getString("sys_name"), buildAnnounce());
             sendMessage(message.getString("sys_name"), new Heartbeat());
-            sendMessage(message.getString("sys_name"), new Heartbeat());     
-            sendMessage(message.getString("sys_name"), new Heartbeat());
+            //sendMessage(message.getString("sys_name"), new Heartbeat());     
+            //sendMessage(message.getString("sys_name"), new Heartbeat());
         }
 
         String sysName = sysNames.get(message.getSrc());
