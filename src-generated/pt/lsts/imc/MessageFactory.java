@@ -522,6 +522,8 @@ public class MessageFactory {
 				return new AbortAcked(defs);
 			case FormCtrlParam.ID_STATIC:
 				return new FormCtrlParam(defs);
+			case FormationEval.ID_STATIC:
+				return new FormationEval(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
 			case NeptusBlob.ID_STATIC:
