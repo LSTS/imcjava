@@ -242,7 +242,7 @@ public class ControlLink {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ControlLink xp1 = ControlLink.acquire("lauv-xplore-1", 20000);
+		ControlLink xp1 = ControlLink.acquire("lauv-seacon-2", 20000);
 		System.out.println(xp1);
 	}
 }
