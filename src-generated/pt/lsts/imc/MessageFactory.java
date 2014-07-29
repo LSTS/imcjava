@@ -380,16 +380,14 @@ public class MessageFactory {
 				return new PolygonVertex(defs);
 			case CompassCalibration.ID_STATIC:
 				return new CompassCalibration(defs);
-			case FormationParameters.ID_STATIC:
-				return new FormationParameters(defs);
-			case FormationPlanExecution.ID_STATIC:
-				return new FormationPlanExecution(defs);
 			case FollowReference.ID_STATIC:
 				return new FollowReference(defs);
 			case Reference.ID_STATIC:
 				return new Reference(defs);
 			case FollowRefState.ID_STATIC:
 				return new FollowRefState(defs);
+			case UAVFormation.ID_STATIC:
+				return new UAVFormation(defs);
 			case FormationMonitor.ID_STATIC:
 				return new FormationMonitor(defs);
 			case RelativeState.ID_STATIC:
@@ -414,8 +412,8 @@ public class MessageFactory {
 				return new VehicleMedium(defs);
 			case Collision.ID_STATIC:
 				return new Collision(defs);
-			case FormState.ID_STATIC:
-				return new FormState(defs);
+			case FormationState.ID_STATIC:
+				return new FormationState(defs);
 			case AutopilotMode.ID_STATIC:
 				return new AutopilotMode(defs);
 			case Abort.ID_STATIC:
@@ -520,10 +518,10 @@ public class MessageFactory {
 				return new UamRxRange(defs);
 			case AbortAcked.ID_STATIC:
 				return new AbortAcked(defs);
-			case FormCtrlParam.ID_STATIC:
-				return new FormCtrlParam(defs);
-			case FormationEval.ID_STATIC:
-				return new FormationEval(defs);
+			case FormationControlParams.ID_STATIC:
+				return new FormationControlParams(defs);
+			case FormationEvaluation.ID_STATIC:
+				return new FormationEvaluation(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
 			case NeptusBlob.ID_STATIC:
