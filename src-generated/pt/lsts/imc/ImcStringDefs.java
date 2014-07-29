@@ -5892,7 +5892,7 @@ public class ImcStringDefs {
 		sb.append("    </field>\n");
 		sb.append("  </message>\n");
 		sb.append("\n");
-		sb.append("  <message id=\"482\" name=\"Relative State\" abbrev=\"RelativeState\">\n");
+		sb.append("  <message id=\"481\" name=\"Relative State\" abbrev=\"RelativeState\">\n");
 		sb.append("    <description>\n");
 		sb.append("      Inter-vehicle formation state.\n");
 		sb.append("    </description>\n");
@@ -7720,6 +7720,10 @@ public class ImcStringDefs {
 		sb.append("      <field name=\"Content\" abbrev=\"content\" type=\"rawdata\"/>\n");
 		sb.append("  </message>\n");
 		sb.append("\n");
+		sb.append("  <message id=\"889\" abbrev=\"Aborted\" name=\"Aborted\">\n");
+		sb.append("    This message signals that an :ref:`Abort` message was received and\n");
+		sb.append("    acted upon.\n");
+		sb.append("  </message>\n");
 		sb.append("</messages>\n");
 		return sb.toString();
 	}

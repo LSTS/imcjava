@@ -33,13 +33,13 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Relative State (482)<br/>
+ *  IMC Message Relative State (481)<br/>
  *  Inter-vehicle formation state.<br/>
  */
 
 public class RelativeState extends IMCMessage {
 
-	public static final int ID_STATIC = 482;
+	public static final int ID_STATIC = 481;
 
 	public RelativeState() {
 		super(ID_STATIC);

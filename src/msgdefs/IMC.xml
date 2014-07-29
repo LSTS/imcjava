@@ -5852,7 +5852,7 @@
     </field>
   </message>
 
-  <message id="482" name="Relative State" abbrev="RelativeState">
+  <message id="481" name="Relative State" abbrev="RelativeState">
     <description>
       Inter-vehicle formation state.
     </description>
@@ -7680,4 +7680,8 @@
       <field name="Content" abbrev="content" type="rawdata"/>
   </message>
 
+  <message id="889" abbrev="Aborted" name="Aborted">
+    This message signals that an :ref:`Abort` message was received and
+    acted upon.
+  </message>
 </messages>

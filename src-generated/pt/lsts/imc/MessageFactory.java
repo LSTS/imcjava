@@ -526,6 +526,8 @@ public class MessageFactory {
 				return new MessagePart(defs);
 			case NeptusBlob.ID_STATIC:
 				return new NeptusBlob(defs);
+			case Aborted.ID_STATIC:
+				return new Aborted(defs);
 			default:
 				return new IMCMessage(defs);
 		}
