@@ -350,7 +350,7 @@ public class ImcStringDefs {
 		sb.append("      <message-type abbrev=\"CoverArea\"/>\n");
 		sb.append("      <message-type abbrev=\"FollowReference\"/>\n");
 		sb.append("      <message-type abbrev=\"CommsRelay\"/>\n");
-		sb.append("      <message-type abbrev=\"UAVFormation\"/>\n");
+		sb.append("      <message-type abbrev=\"Formation\"/>\n");
 		sb.append("    </message-group>\n");
 		sb.append("\n");
 		sb.append("    <message-group name=\"Control Command\" abbrev=\"ControlCommand\">\n");
@@ -5645,13 +5645,13 @@ public class ImcStringDefs {
 		sb.append("    </field>\n");
 		sb.append("  </message>\n");
 		sb.append("\n");
-		sb.append("  <message id=\"479\" name=\"UAV Formation\" abbrev=\"UAVFormation\" source=\"ccu,vehicle\">\n");
+		sb.append("  <message id=\"479\" name=\"Formation\" abbrev=\"Formation\" source=\"ccu,vehicle\">\n");
 		sb.append("    <description>\n");
-		sb.append("      The \"UAV Formation\" is a maneuver specifying a plan for a team of vehicles.\n");
-		sb.append("      The maneuver defines:\n");
+		sb.append("      The \"Formation\" is a controller to execute a maneuver with a team of vehicles.\n");
+		sb.append("      It defines the:\n");
 		sb.append("      - Vehicles included in the formation group\n");
-		sb.append("      - The vehicles relative positions inside the formation\n");
-		sb.append("      - The reference frame where the relative positions are defined\n");
+		sb.append("      - Vehicles relative positions inside the formation\n");
+		sb.append("      - Reference frame where the relative positions are defined\n");
 		sb.append("      - Formation shape configuration\n");
 		sb.append("      - Plan (set of maneuvers) to be followed by the formation center\n");
 		sb.append("      - Plan contrains (virtual leader speed and bank limits)\n");

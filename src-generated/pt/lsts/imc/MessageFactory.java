@@ -386,8 +386,8 @@ public class MessageFactory {
 				return new Reference(defs);
 			case FollowRefState.ID_STATIC:
 				return new FollowRefState(defs);
-			case UAVFormation.ID_STATIC:
-				return new UAVFormation(defs);
+			case Formation.ID_STATIC:
+				return new Formation(defs);
 			case FormationMonitor.ID_STATIC:
 				return new FormationMonitor(defs);
 			case RelativeState.ID_STATIC:

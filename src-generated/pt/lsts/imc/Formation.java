@@ -33,12 +33,12 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message UAV Formation (479)<br/>
- *  The "UAV Formation" is a maneuver specifying a plan for a team of vehicles.<br/>
- *  The maneuver defines:<br/>
+ *  IMC Message Formation (479)<br/>
+ *  The "Formation" is a controller to execute a maneuver with a team of vehicles.<br/>
+ *  It defines the:<br/>
  *  - Vehicles included in the formation group<br/>
- *  - The vehicles relative positions inside the formation<br/>
- *  - The reference frame where the relative positions are defined<br/>
+ *  - Vehicles relative positions inside the formation<br/>
+ *  - Reference frame where the relative positions are defined<br/>
  *  - Formation shape configuration<br/>
  *  - Plan (set of maneuvers) to be followed by the formation center<br/>
  *  - Plan contrains (virtual leader speed and bank limits)<br/>
@@ -56,7 +56,7 @@ package pt.lsts.imc;
  *  formation center path line.<br/>
  */
 
-public class UAVFormation extends Maneuver {
+public class Formation extends Maneuver {
 
 	public static final int ID_STATIC = 479;
 
@@ -76,11 +76,11 @@ public class UAVFormation extends Maneuver {
 		}
 	}
 
-	public UAVFormation() {
+	public Formation() {
 		super(ID_STATIC);
 	}
 
-	public UAVFormation(IMCMessage msg) {
+	public Formation(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -90,20 +90,20 @@ public class UAVFormation extends Maneuver {
 		}
 	}
 
-	public UAVFormation(IMCDefinition defs) {
+	public Formation(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UAVFormation create(Object... values) {
-		UAVFormation m = new UAVFormation();
+	public static Formation create(Object... values) {
+		Formation m = new Formation();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UAVFormation clone(IMCMessage msg) throws Exception {
+	public static Formation clone(IMCMessage msg) throws Exception {
 
-		UAVFormation m = new UAVFormation();
+		Formation m = new Formation();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -118,7 +118,7 @@ public class UAVFormation extends Maneuver {
 		return m;
 	}
 
-	public UAVFormation(String formation_name, String group_name, String plan_id, String description, REFERENCE_FRAME reference_frame, java.util.Collection<VehicleFormationParticipant> participants, float leader_speed_min, float leader_speed_max, float leader_bank_lim, float pos_sim_err_lim, float pos_sim_err_wrn, int pos_sim_err_timeout, float converg_max, int converg_timeout, int comms_timeout, float turb_lim, String custom) {
+	public Formation(String formation_name, String group_name, String plan_id, String description, REFERENCE_FRAME reference_frame, java.util.Collection<VehicleFormationParticipant> participants, float leader_speed_min, float leader_speed_max, float leader_bank_lim, float pos_sim_err_lim, float pos_sim_err_wrn, int pos_sim_err_timeout, float converg_max, int converg_timeout, int comms_timeout, float turb_lim, String custom) {
 		super(ID_STATIC);
 		if (formation_name != null)
 			setFormationName(formation_name);
@@ -280,7 +280,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param formation_name Formation Name
 	 */
-	public UAVFormation setFormationName(String formation_name) {
+	public Formation setFormationName(String formation_name) {
 		values.put("formation_name", formation_name);
 		return this;
 	}
@@ -288,7 +288,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param group_name Target Group Name
 	 */
-	public UAVFormation setGroupName(String group_name) {
+	public Formation setGroupName(String group_name) {
 		values.put("group_name", group_name);
 		return this;
 	}
@@ -296,7 +296,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param plan_id Formation Plan ID
 	 */
-	public UAVFormation setPlanId(String plan_id) {
+	public Formation setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
 		return this;
 	}
@@ -304,7 +304,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param description Plan Description
 	 */
-	public UAVFormation setDescription(String description) {
+	public Formation setDescription(String description) {
 		values.put("description", description);
 		return this;
 	}
@@ -312,7 +312,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param reference_frame Formation Reference Frame (enumerated)
 	 */
-	public UAVFormation setReferenceFrame(REFERENCE_FRAME reference_frame) {
+	public Formation setReferenceFrame(REFERENCE_FRAME reference_frame) {
 		values.put("reference_frame", reference_frame.value());
 		return this;
 	}
@@ -320,7 +320,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param reference_frame Formation Reference Frame (as a String)
 	 */
-	public UAVFormation setReferenceFrame(String reference_frame) {
+	public Formation setReferenceFrame(String reference_frame) {
 		setValue("reference_frame", reference_frame);
 		return this;
 	}
@@ -328,7 +328,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param reference_frame Formation Reference Frame (integer value)
 	 */
-	public UAVFormation setReferenceFrame(short reference_frame) {
+	public Formation setReferenceFrame(short reference_frame) {
 		setValue("reference_frame", reference_frame);
 		return this;
 	}
@@ -336,7 +336,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param participants Formation Participants
 	 */
-	public UAVFormation setParticipants(java.util.Collection<VehicleFormationParticipant> participants) {
+	public Formation setParticipants(java.util.Collection<VehicleFormationParticipant> participants) {
 		values.put("participants", participants);
 		return this;
 	}
@@ -344,7 +344,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param leader_speed_min Formation Leader Minimum Speed (m/s)
 	 */
-	public UAVFormation setLeaderSpeedMin(double leader_speed_min) {
+	public Formation setLeaderSpeedMin(double leader_speed_min) {
 		values.put("leader_speed_min", leader_speed_min);
 		return this;
 	}
@@ -352,7 +352,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param leader_speed_max Formation Leader Maximum Speed (m/s)
 	 */
-	public UAVFormation setLeaderSpeedMax(double leader_speed_max) {
+	public Formation setLeaderSpeedMax(double leader_speed_max) {
 		values.put("leader_speed_max", leader_speed_max);
 		return this;
 	}
@@ -360,7 +360,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param leader_bank_lim Formation Leader Bank Limit (m/s)
 	 */
-	public UAVFormation setLeaderBankLim(double leader_bank_lim) {
+	public Formation setLeaderBankLim(double leader_bank_lim) {
 		values.put("leader_bank_lim", leader_bank_lim);
 		return this;
 	}
@@ -368,7 +368,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param pos_sim_err_lim Position mismatch limit (m)
 	 */
-	public UAVFormation setPosSimErrLim(double pos_sim_err_lim) {
+	public Formation setPosSimErrLim(double pos_sim_err_lim) {
 		values.put("pos_sim_err_lim", pos_sim_err_lim);
 		return this;
 	}
@@ -376,7 +376,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param pos_sim_err_wrn Position mismatch threshold (m)
 	 */
-	public UAVFormation setPosSimErrWrn(double pos_sim_err_wrn) {
+	public Formation setPosSimErrWrn(double pos_sim_err_wrn) {
 		values.put("pos_sim_err_wrn", pos_sim_err_wrn);
 		return this;
 	}
@@ -384,7 +384,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param pos_sim_err_timeout Position mismatch time-out (s)
 	 */
-	public UAVFormation setPosSimErrTimeout(int pos_sim_err_timeout) {
+	public Formation setPosSimErrTimeout(int pos_sim_err_timeout) {
 		values.put("pos_sim_err_timeout", pos_sim_err_timeout);
 		return this;
 	}
@@ -392,7 +392,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param converg_max Convergence threshold (m)
 	 */
-	public UAVFormation setConvergMax(double converg_max) {
+	public Formation setConvergMax(double converg_max) {
 		values.put("converg_max", converg_max);
 		return this;
 	}
@@ -400,7 +400,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param converg_timeout Convergence time-out (s)
 	 */
-	public UAVFormation setConvergTimeout(int converg_timeout) {
+	public Formation setConvergTimeout(int converg_timeout) {
 		values.put("converg_timeout", converg_timeout);
 		return this;
 	}
@@ -408,7 +408,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param comms_timeout Communications time-out (s)
 	 */
-	public UAVFormation setCommsTimeout(int comms_timeout) {
+	public Formation setCommsTimeout(int comms_timeout) {
 		values.put("comms_timeout", comms_timeout);
 		return this;
 	}
@@ -416,7 +416,7 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param turb_lim Turbulence limit (m/s)
 	 */
-	public UAVFormation setTurbLim(double turb_lim) {
+	public Formation setTurbLim(double turb_lim) {
 		values.put("turb_lim", turb_lim);
 		return this;
 	}
@@ -424,13 +424,13 @@ public class UAVFormation extends Maneuver {
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public UAVFormation setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public Formation setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
 		return this;
 	}
 
-	public UAVFormation setCustom(String custom) {
+	public Formation setCustom(String custom) {
 		values.put("custom", custom);
 		return this;
 	}
