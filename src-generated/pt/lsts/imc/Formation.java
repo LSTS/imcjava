@@ -60,6 +60,39 @@ public class Formation extends Maneuver {
 
 	public static final int ID_STATIC = 479;
 
+	public enum TYPE {
+		REQUEST(0),
+		REPORT(1);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		TYPE(long value) {
+			this.value = value;
+		}
+	}
+
+	public enum OP {
+		START(0),
+		STOP(1),
+		READY(2),
+		EXECUTING(3),
+		FAILURE(4);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		OP(long value) {
+			this.value = value;
+		}
+	}
+
 	public enum REFERENCE_FRAME {
 		EARTH_FIXED(0),
 		PATH_FIXED(1),
@@ -118,10 +151,12 @@ public class Formation extends Maneuver {
 		return m;
 	}
 
-	public Formation(String formation_name, String group_name, String plan_id, String description, REFERENCE_FRAME reference_frame, java.util.Collection<VehicleFormationParticipant> participants, float leader_speed_min, float leader_speed_max, float leader_bank_lim, float pos_sim_err_lim, float pos_sim_err_wrn, int pos_sim_err_timeout, float converg_max, int converg_timeout, int comms_timeout, float turb_lim, String custom) {
+	public Formation(String formation_name, TYPE type, OP op, String group_name, String plan_id, String description, REFERENCE_FRAME reference_frame, java.util.Collection<VehicleFormationParticipant> participants, float leader_speed_min, float leader_speed_max, float leader_bank_lim, float pos_sim_err_lim, float pos_sim_err_wrn, int pos_sim_err_timeout, float converg_max, int converg_timeout, int comms_timeout, float turb_lim, String custom) {
 		super(ID_STATIC);
 		if (formation_name != null)
 			setFormationName(formation_name);
+		setType(type);
+		setOp(op);
 		if (group_name != null)
 			setGroupName(group_name);
 		if (plan_id != null)
@@ -150,6 +185,34 @@ public class Formation extends Maneuver {
 	 */
 	public String getFormationName() {
 		return getString("formation_name");
+	}
+
+	/**
+	 *  Indicates if the message is a request, or a reply to a previous request.<br/>
+	 *  @return Type (enumerated) - uint8_t
+	 */
+	public TYPE getType() {
+		try {
+			TYPE o = TYPE.valueOf(getMessageType().getFieldPossibleValues("type").get(getLong("type")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 *  Operation to perform.<br/>
+	 *  @return Operation (enumerated) - uint8_t
+	 */
+	public OP getOp() {
+		try {
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -282,6 +345,54 @@ public class Formation extends Maneuver {
 	 */
 	public Formation setFormationName(String formation_name) {
 		values.put("formation_name", formation_name);
+		return this;
+	}
+
+	/**
+	 *  @param type Type (enumerated)
+	 */
+	public Formation setType(TYPE type) {
+		values.put("type", type.value());
+		return this;
+	}
+
+	/**
+	 *  @param type Type (as a String)
+	 */
+	public Formation setType(String type) {
+		setValue("type", type);
+		return this;
+	}
+
+	/**
+	 *  @param type Type (integer value)
+	 */
+	public Formation setType(short type) {
+		setValue("type", type);
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (enumerated)
+	 */
+	public Formation setOp(OP op) {
+		values.put("op", op.value());
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (as a String)
+	 */
+	public Formation setOp(String op) {
+		setValue("op", op);
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (integer value)
+	 */
+	public Formation setOp(short op) {
+		setValue("op", op);
 		return this;
 	}
 
