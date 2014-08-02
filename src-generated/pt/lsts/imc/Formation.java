@@ -151,7 +151,7 @@ public class Formation extends Maneuver {
 		return m;
 	}
 
-	public Formation(String formation_name, TYPE type, OP op, String group_name, String plan_id, String description, REFERENCE_FRAME reference_frame, java.util.Collection<VehicleFormationParticipant> participants, float leader_speed_min, float leader_speed_max, float leader_bank_lim, float pos_sim_err_lim, float pos_sim_err_wrn, int pos_sim_err_timeout, float converg_max, int converg_timeout, int comms_timeout, float turb_lim, String custom) {
+	public Formation(String formation_name, TYPE type, OP op, String group_name, String plan_id, String description, REFERENCE_FRAME reference_frame, java.util.Collection<VehicleFormationParticipant> participants, float leader_bank_lim, float leader_speed_min, float leader_speed_max, float leader_alt_min, float leader_alt_max, float pos_sim_err_lim, float pos_sim_err_wrn, int pos_sim_err_timeout, float converg_max, int converg_timeout, int comms_timeout, float turb_lim, String custom) {
 		super(ID_STATIC);
 		if (formation_name != null)
 			setFormationName(formation_name);
@@ -166,9 +166,11 @@ public class Formation extends Maneuver {
 		setReferenceFrame(reference_frame);
 		if (participants != null)
 			setParticipants(participants);
+		setLeaderBankLim(leader_bank_lim);
 		setLeaderSpeedMin(leader_speed_min);
 		setLeaderSpeedMax(leader_speed_max);
-		setLeaderBankLim(leader_bank_lim);
+		setLeaderAltMin(leader_alt_min);
+		setLeaderAltMax(leader_alt_max);
 		setPosSimErrLim(pos_sim_err_lim);
 		setPosSimErrWrn(pos_sim_err_wrn);
 		setPosSimErrTimeout(pos_sim_err_timeout);
@@ -264,6 +266,13 @@ public class Formation extends Maneuver {
 	}
 
 	/**
+	 *  @return Formation Leader Bank Limit (rad) - fp32_t
+	 */
+	public double getLeaderBankLim() {
+		return getDouble("leader_bank_lim");
+	}
+
+	/**
 	 *  @return Formation Leader Minimum Speed (m/s) - fp32_t
 	 */
 	public double getLeaderSpeedMin() {
@@ -278,10 +287,17 @@ public class Formation extends Maneuver {
 	}
 
 	/**
-	 *  @return Formation Leader Bank Limit (m/s) - fp32_t
+	 *  @return Formation Leader Minimum Altitude (m) - fp32_t
 	 */
-	public double getLeaderBankLim() {
-		return getDouble("leader_bank_lim");
+	public double getLeaderAltMin() {
+		return getDouble("leader_alt_min");
+	}
+
+	/**
+	 *  @return Formation Leader Maximum Altitude (m) - fp32_t
+	 */
+	public double getLeaderAltMax() {
+		return getDouble("leader_alt_max");
 	}
 
 	/**
@@ -453,6 +469,14 @@ public class Formation extends Maneuver {
 	}
 
 	/**
+	 *  @param leader_bank_lim Formation Leader Bank Limit (rad)
+	 */
+	public Formation setLeaderBankLim(double leader_bank_lim) {
+		values.put("leader_bank_lim", leader_bank_lim);
+		return this;
+	}
+
+	/**
 	 *  @param leader_speed_min Formation Leader Minimum Speed (m/s)
 	 */
 	public Formation setLeaderSpeedMin(double leader_speed_min) {
@@ -469,10 +493,18 @@ public class Formation extends Maneuver {
 	}
 
 	/**
-	 *  @param leader_bank_lim Formation Leader Bank Limit (m/s)
+	 *  @param leader_alt_min Formation Leader Minimum Altitude (m)
 	 */
-	public Formation setLeaderBankLim(double leader_bank_lim) {
-		values.put("leader_bank_lim", leader_bank_lim);
+	public Formation setLeaderAltMin(double leader_alt_min) {
+		values.put("leader_alt_min", leader_alt_min);
+		return this;
+	}
+
+	/**
+	 *  @param leader_alt_max Formation Leader Maximum Altitude (m)
+	 */
+	public Formation setLeaderAltMax(double leader_alt_max) {
+		values.put("leader_alt_max", leader_alt_max);
 		return this;
 	}
 

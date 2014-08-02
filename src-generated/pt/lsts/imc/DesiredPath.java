@@ -67,6 +67,8 @@ public class DesiredPath extends ControlCommand {
 	public static final short FL_3DTRACK = 0x08;
 	public static final short FL_CCLOCKW = 0x10;
 	public static final short FL_LOITER_CURR = 0x20;
+	public static final short FL_TAKEOFF = 0x40;
+	public static final short FL_LAND = 0x80;
 
 	public enum START_Z_UNITS {
 		NONE(0),
