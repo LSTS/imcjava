@@ -67,6 +67,8 @@ public class DesiredPath extends ControlCommand {
 	public static final short FL_3DTRACK = 0x08;
 	public static final short FL_CCLOCKW = 0x10;
 	public static final short FL_LOITER_CURR = 0x20;
+	public static final short FL_TAKEOFF = 0x40;
+	public static final short FL_LAND = 0x80;
 
 	public enum START_Z_UNITS {
 		NONE(0),
@@ -160,8 +162,9 @@ public class DesiredPath extends ControlCommand {
 		return m;
 	}
 
-	public DesiredPath(double start_lat, double start_lon, float start_z, START_Z_UNITS start_z_units, double end_lat, double end_lon, float end_z, END_Z_UNITS end_z_units, float speed, SPEED_UNITS speed_units, float lradius, short flags) {
+	public DesiredPath(long path_ref, double start_lat, double start_lon, float start_z, START_Z_UNITS start_z_units, double end_lat, double end_lon, float end_z, END_Z_UNITS end_z_units, float speed, SPEED_UNITS speed_units, float lradius, short flags) {
 		super(ID_STATIC);
+		setPathRef(path_ref);
 		setStartLat(start_lat);
 		setStartLon(start_lon);
 		setStartZ(start_z);
@@ -174,6 +177,13 @@ public class DesiredPath extends ControlCommand {
 		setSpeedUnits(speed_units);
 		setLradius(lradius);
 		setFlags(flags);
+	}
+
+	/**
+	 *  @return Path Reference - uint32_t
+	 */
+	public long getPathRef() {
+		return getLong("path_ref");
 	}
 
 	/**
@@ -280,6 +290,14 @@ public class DesiredPath extends ControlCommand {
 	 */
 	public short getFlags() {
 		return (short) getInteger("flags");
+	}
+
+	/**
+	 *  @param path_ref Path Reference
+	 */
+	public DesiredPath setPathRef(long path_ref) {
+		values.put("path_ref", path_ref);
+		return this;
 	}
 
 	/**

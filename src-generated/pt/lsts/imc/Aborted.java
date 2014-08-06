@@ -33,19 +33,18 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Abort Acknowledged (818)<br/>
- *  An 'Abort' message was received and acted upon.<br/>
+ *  IMC Message Aborted (889)<br/>
  */
 
-public class AbortAcked extends IMCMessage {
+public class Aborted extends IMCMessage {
 
-	public static final int ID_STATIC = 818;
+	public static final int ID_STATIC = 889;
 
-	public AbortAcked() {
+	public Aborted() {
 		super(ID_STATIC);
 	}
 
-	public AbortAcked(IMCMessage msg) {
+	public Aborted(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -55,20 +54,20 @@ public class AbortAcked extends IMCMessage {
 		}
 	}
 
-	public AbortAcked(IMCDefinition defs) {
+	public Aborted(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static AbortAcked create(Object... values) {
-		AbortAcked m = new AbortAcked();
+	public static Aborted create(Object... values) {
+		Aborted m = new Aborted();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static AbortAcked clone(IMCMessage msg) throws Exception {
+	public static Aborted clone(IMCMessage msg) throws Exception {
 
-		AbortAcked m = new AbortAcked();
+		Aborted m = new Aborted();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){

@@ -518,8 +518,6 @@ public class MessageFactory {
 				return new UamTxStatus(defs);
 			case UamRxRange.ID_STATIC:
 				return new UamRxRange(defs);
-			case AbortAcked.ID_STATIC:
-				return new AbortAcked(defs);
 			case FormCtrlParam.ID_STATIC:
 				return new FormCtrlParam(defs);
 			case FormationEval.ID_STATIC:
@@ -528,6 +526,8 @@ public class MessageFactory {
 				return new MessagePart(defs);
 			case NeptusBlob.ID_STATIC:
 				return new NeptusBlob(defs);
+			case Aborted.ID_STATIC:
+				return new Aborted(defs);
 			default:
 				return new IMCMessage(defs);
 		}
