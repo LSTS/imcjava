@@ -472,6 +472,8 @@ public class MessageFactory {
 				return new TrexToken(defs);
 			case TrexPlan.ID_STATIC:
 				return new TrexPlan(defs);
+			case Event.ID_STATIC:
+				return new Event(defs);
 			case VideoData.ID_STATIC:
 				return new VideoData(defs);
 			case RawImage.ID_STATIC:

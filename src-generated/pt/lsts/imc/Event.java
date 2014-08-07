@@ -33,19 +33,19 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Aborted (889)<br/>
- *  This message signals that an {@link Abort} message was received and acted upon.<br/>
+ *  IMC Message Event (660)<br/>
+ *  This message is used for signaling asynchronous events between different (sub) systems.<br/>
  */
 
-public class Aborted extends IMCMessage {
+public class Event extends IMCMessage {
 
-	public static final int ID_STATIC = 889;
+	public static final int ID_STATIC = 660;
 
-	public Aborted() {
+	public Event() {
 		super(ID_STATIC);
 	}
 
-	public Aborted(IMCMessage msg) {
+	public Event(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -55,20 +55,20 @@ public class Aborted extends IMCMessage {
 		}
 	}
 
-	public Aborted(IMCDefinition defs) {
+	public Event(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Aborted create(Object... values) {
-		Aborted m = new Aborted();
+	public static Event create(Object... values) {
+		Event m = new Event();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Aborted clone(IMCMessage msg) throws Exception {
+	public static Event clone(IMCMessage msg) throws Exception {
 
-		Aborted m = new Aborted();
+		Event m = new Event();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,6 +81,50 @@ public class Aborted extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public Event(String topic, String data) {
+		super(ID_STATIC);
+		if (topic != null)
+			setTopic(topic);
+		if (data != null)
+			setData(data);
+	}
+
+	/**
+	 *  @return Topic - plaintext
+	 */
+	public String getTopic() {
+		return getString("topic");
+	}
+
+	/**
+	 *  @return Data (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getData() {
+		return getTupleList("data");
+	}
+
+	/**
+	 *  @param topic Topic
+	 */
+	public Event setTopic(String topic) {
+		values.put("topic", topic);
+		return this;
+	}
+
+	/**
+	 *  @param data Data (tuplelist)
+	 */
+	public Event setData(java.util.LinkedHashMap<String, ?> data) {
+		String val = encodeTupleList(data);
+		values.put("data", val);
+		return this;
+	}
+
+	public Event setData(String data) {
+		values.put("data", data);
+		return this;
 	}
 
 }
