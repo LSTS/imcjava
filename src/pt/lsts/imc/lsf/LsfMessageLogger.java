@@ -3,11 +3,11 @@ package pt.lsts.imc.lsf;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
-import org.apache.commons.io.FileUtils;
+import java.util.zip.GZIPOutputStream;
 
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.IMCMessage;
@@ -79,8 +79,10 @@ class LsfMessageLogger {
         
         IMCOutputStream iosTmp = null;
         try {
-        	FileUtils.write(new File(outputDir.getAbsolutePath() + "/IMC.xml"), ImcStringDefs.getDefinitions());
-            iosTmp = new IMCOutputStream(new FileOutputStream(new File(outputDir, "Data.lsf")));
+        	OutputStream fos = new GZIPOutputStream(new FileOutputStream(new File(outputDir.getAbsolutePath() + "/IMC.xml.gz")));
+        	fos.write(ImcStringDefs.getDefinitions().getBytes());
+        	fos.close();
+        	iosTmp = new IMCOutputStream(new GZIPOutputStream(new FileOutputStream(new File(outputDir, "Data.lsf.gz"))));
         }
         catch (Exception e) {
             e.printStackTrace();
