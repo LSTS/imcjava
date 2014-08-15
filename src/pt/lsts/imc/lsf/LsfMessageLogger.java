@@ -18,7 +18,7 @@ import pt.lsts.imc.ImcStringDefs;
  * @author zp
  * 
  */
-class LsfMessageLogger {
+public class LsfMessageLogger {
 
     private static LsfMessageLogger instance = null;
     private IMCOutputStream ios = null;
