@@ -44,10 +44,10 @@ public class LsfCat {
 			IMCInputStream input;
 
 			if (getExtension(f).equals("lsf")) {
-				input = new IMCInputStream(new FileInputStream(f)); 
+				input = new IMCInputStream(new FileInputStream(f), defs); 
 			}
 			else if (getExtension(f).equals("lsf.gz")) {
-				input = new IMCInputStream(new GZIPInputStream(new FileInputStream(f)));
+				input = new IMCInputStream(new GZIPInputStream(new FileInputStream(f)), defs);
 			}
 			else {
 				System.err.println("Unrecognized file type: "+f.getAbsolutePath());

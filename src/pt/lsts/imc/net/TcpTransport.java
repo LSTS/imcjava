@@ -85,7 +85,7 @@ public class TcpTransport {
 		public ClientHandler(TcpTransport transport, Socket clientConnection) throws IOException {
 			this.transport = transport;
 			this.clientConnection = clientConnection;
-			input = new IMCInputStream(clientConnection.getInputStream());
+			input = new IMCInputStream(clientConnection.getInputStream(), IMCDefinition.getInstance());
 		}
 
 		@Override

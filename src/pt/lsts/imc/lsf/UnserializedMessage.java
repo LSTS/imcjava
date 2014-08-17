@@ -10,6 +10,8 @@ public class UnserializedMessage {
 	private byte[] data;
 	private boolean bigEndian = false;
 	
+	
+	
 	public static UnserializedMessage readMessage(IMCDefinition defs, DataInput in) throws IOException {
 		int sync = in.readUnsignedShort() & 0xFFFF;
 		int origSize, size = defs.getHeaderType().getComputedLength();
