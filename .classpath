@@ -13,6 +13,7 @@
 	<classpathentry kind="src" path="src-sniffer"/>
 	<classpathentry kind="src" path="src-examples"/>
 	<classpathentry kind="src" path="src-ripples"/>
+	<classpathentry kind="src" path="src-cli"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.1.jar"/>
@@ -23,5 +24,6 @@
 	<classpathentry kind="lib" path="lib/jetty-all-9.0.0.v20130308.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet-3.0.0.v201112011016.jar"/>
 	<classpathentry kind="lib" path="lib/firebase-client-jvm-LATEST.jar"/>
+	<classpathentry kind="lib" path="lib/commons-cli-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
