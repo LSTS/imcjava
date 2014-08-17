@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import pt.lsts.imc.IMCDefinition;
 
-public class UnserializedMessage {
+public class UnserializedMessage implements Comparable<UnserializedMessage> {
 
 	private byte[] data;
 	private boolean bigEndian = false;
@@ -110,11 +110,13 @@ public class UnserializedMessage {
 		return data[19] & 0xFF;
 	}
 	
-	
-	
 	public long getHash() {
 		return ((data[2] & 0xFF) << 32)| ((data[3] & 0xFF) << 24) | ((data[14] & 0xFF) << 16) | ((data[15] & 0xFF) << 8) | data[16] & 0xFF; 
 	}
 	
+	@Override
+	public int compareTo(UnserializedMessage o) {
+		return new Double(getTimestamp()).compareTo(o.getTimestamp());
+	}
 	
 }
