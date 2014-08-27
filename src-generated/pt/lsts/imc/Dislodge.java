@@ -33,21 +33,40 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Low Level Control Maneuver (455)<br/>
- *  Low level maneuver that sends a (heading, roll, speed, ...)<br/>
- *  reference to a controller of the vehicle and then optionally<br/>
- *  lingers for some time.<br/>
+ *  IMC Message Dislodge Maneuver (483)<br/>
+ *  A "Dislodge" is a maneuver ordering the vehicle to attempt a<br/>
+ *  series of thruster operations that will hopefully get it<br/>
+ *  unstuck from an entangled condition.<br/>
+ *  Parameters are RPMs for the motor when attempting dislodge and<br/>
+ *  and a flag specifying whether the thrust burst should be attempted<br/>
+ *  forward, backward or auto (letting the vehicle decide).<br/>
  */
 
-public class LowLevelControl extends Maneuver {
+public class Dislodge extends Maneuver {
 
-	public static final int ID_STATIC = 455;
+	public static final int ID_STATIC = 483;
 
-	public LowLevelControl() {
+	public enum DIRECTION {
+		AUTO(0),
+		FORWARD(1),
+		BACKWARD(2);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		DIRECTION(long value) {
+			this.value = value;
+		}
+	}
+
+	public Dislodge() {
 		super(ID_STATIC);
 	}
 
-	public LowLevelControl(IMCMessage msg) {
+	public Dislodge(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -57,20 +76,20 @@ public class LowLevelControl extends Maneuver {
 		}
 	}
 
-	public LowLevelControl(IMCDefinition defs) {
+	public Dislodge(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static LowLevelControl create(Object... values) {
-		LowLevelControl m = new LowLevelControl();
+	public static Dislodge create(Object... values) {
+		Dislodge m = new Dislodge();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static LowLevelControl clone(IMCMessage msg) throws Exception {
+	public static Dislodge clone(IMCMessage msg) throws Exception {
 
-		LowLevelControl m = new LowLevelControl();
+		Dislodge m = new Dislodge();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -85,37 +104,41 @@ public class LowLevelControl extends Maneuver {
 		return m;
 	}
 
-	public LowLevelControl(ControlCommand control, int duration, String custom) {
+	public Dislodge(int timeout, float rpm, DIRECTION direction, String custom) {
 		super(ID_STATIC);
-		if (control != null)
-			setControl(control);
-		setDuration(duration);
+		setTimeout(timeout);
+		setRpm(rpm);
+		setDirection(direction);
 		if (custom != null)
 			setCustom(custom);
 	}
 
 	/**
-	 *  @return Control - message
+	 *  @return Timeout (s) - uint16_t
 	 */
-	public ControlCommand getControl() {
+	public int getTimeout() {
+		return getInteger("timeout");
+	}
+
+	/**
+	 *  @return RPM - fp32_t
+	 */
+	public double getRpm() {
+		return getDouble("rpm");
+	}
+
+	/**
+	 *  Direction to which the vehicle should attempt to unstuck.<br/>
+	 *  @return Direction (enumerated) - uint8_t
+	 */
+	public DIRECTION getDirection() {
 		try {
-			IMCMessage obj = getMessage("control");
-			if (obj instanceof ControlCommand)
-				return (ControlCommand) obj;
-			else
-				return null;
+			DIRECTION o = DIRECTION.valueOf(getMessageType().getFieldPossibleValues("direction").get(getLong("direction")));
+			return o;
 		}
 		catch (Exception e) {
 			return null;
 		}
-
-	}
-
-	/**
-	 *  @return Duration (s) - uint16_t
-	 */
-	public int getDuration() {
-		return getInteger("duration");
 	}
 
 	/**
@@ -126,31 +149,55 @@ public class LowLevelControl extends Maneuver {
 	}
 
 	/**
-	 *  @param control Control
+	 *  @param timeout Timeout (s)
 	 */
-	public LowLevelControl setControl(ControlCommand control) {
-		values.put("control", control);
+	public Dislodge setTimeout(int timeout) {
+		values.put("timeout", timeout);
 		return this;
 	}
 
 	/**
-	 *  @param duration Duration (s)
+	 *  @param rpm RPM
 	 */
-	public LowLevelControl setDuration(int duration) {
-		values.put("duration", duration);
+	public Dislodge setRpm(double rpm) {
+		values.put("rpm", rpm);
+		return this;
+	}
+
+	/**
+	 *  @param direction Direction (enumerated)
+	 */
+	public Dislodge setDirection(DIRECTION direction) {
+		values.put("direction", direction.value());
+		return this;
+	}
+
+	/**
+	 *  @param direction Direction (as a String)
+	 */
+	public Dislodge setDirection(String direction) {
+		setValue("direction", direction);
+		return this;
+	}
+
+	/**
+	 *  @param direction Direction (integer value)
+	 */
+	public Dislodge setDirection(short direction) {
+		setValue("direction", direction);
 		return this;
 	}
 
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public LowLevelControl setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public Dislodge setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
 		return this;
 	}
 
-	public LowLevelControl setCustom(String custom) {
+	public Dislodge setCustom(String custom) {
 		values.put("custom", custom);
 		return this;
 	}
