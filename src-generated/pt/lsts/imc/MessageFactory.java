@@ -380,20 +380,20 @@ public class MessageFactory {
 				return new PolygonVertex(defs);
 			case CompassCalibration.ID_STATIC:
 				return new CompassCalibration(defs);
+			case FormationParameters.ID_STATIC:
+				return new FormationParameters(defs);
+			case FormationPlanExecution.ID_STATIC:
+				return new FormationPlanExecution(defs);
 			case FollowReference.ID_STATIC:
 				return new FollowReference(defs);
 			case Reference.ID_STATIC:
 				return new Reference(defs);
 			case FollowRefState.ID_STATIC:
 				return new FollowRefState(defs);
-			case Formation.ID_STATIC:
-				return new Formation(defs);
 			case FormationMonitor.ID_STATIC:
 				return new FormationMonitor(defs);
 			case RelativeState.ID_STATIC:
 				return new RelativeState(defs);
-			case Dislodge.ID_STATIC:
-				return new Dislodge(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
@@ -414,8 +414,8 @@ public class MessageFactory {
 				return new VehicleMedium(defs);
 			case Collision.ID_STATIC:
 				return new Collision(defs);
-			case FormationState.ID_STATIC:
-				return new FormationState(defs);
+			case FormState.ID_STATIC:
+				return new FormState(defs);
 			case AutopilotMode.ID_STATIC:
 				return new AutopilotMode(defs);
 			case Abort.ID_STATIC:
@@ -472,6 +472,8 @@ public class MessageFactory {
 				return new TrexToken(defs);
 			case TrexPlan.ID_STATIC:
 				return new TrexPlan(defs);
+			case Event.ID_STATIC:
+				return new Event(defs);
 			case VideoData.ID_STATIC:
 				return new VideoData(defs);
 			case RawImage.ID_STATIC:
@@ -518,12 +520,10 @@ public class MessageFactory {
 				return new UamTxStatus(defs);
 			case UamRxRange.ID_STATIC:
 				return new UamRxRange(defs);
-			case AbortAcked.ID_STATIC:
-				return new AbortAcked(defs);
-			case FormationControlParams.ID_STATIC:
-				return new FormationControlParams(defs);
-			case FormationEvaluation.ID_STATIC:
-				return new FormationEvaluation(defs);
+			case FormCtrlParam.ID_STATIC:
+				return new FormCtrlParam(defs);
+			case FormationEval.ID_STATIC:
+				return new FormationEval(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
 			case NeptusBlob.ID_STATIC:

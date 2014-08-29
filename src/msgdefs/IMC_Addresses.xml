@@ -114,7 +114,6 @@
   <address id="0x0c75" name="pilatus-05"/>
   <address id="0x0c76" name="pilatus-06"/>
   <address id="0x0c90" name="extended"/>
-  <address id="0x0cf0" name="coord-leader"/>
   <address id="0x0cf1" name="form-leader-01"/>
   <address id="0x0cf2" name="form-leader-02"/>
   <address id="0x0cf3" name="form-leader-03"/>
@@ -123,6 +122,7 @@
   <address id="0x0cf6" name="form-leader-06"/>
   <address id="0x4101" name="ccu-lsts-1-1"/>
   <address id="0x416A" name="ccu-zp-1-106"/>
+  <address id="0x4282" name="ccu-meg-2-130"/>
   <address id="0x410a" name="ccu-pitvant-laptop-01-1-10"/>
   <address id="0x406c" name="ccu-lsts-0-108"/>
   <address id="0xfff0" name="broadcast"/>
