@@ -394,6 +394,8 @@ public class MessageFactory {
 				return new FormationMonitor(defs);
 			case RelativeState.ID_STATIC:
 				return new RelativeState(defs);
+			case Dislodge.ID_STATIC:
+				return new Dislodge(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:

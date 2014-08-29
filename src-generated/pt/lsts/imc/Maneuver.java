@@ -54,8 +54,8 @@ package pt.lsts.imc;
  *  <li>{@link CoverArea}</li>
  *  <li>{@link FollowReference}</li>
  *  <li>{@link CommsRelay}</li>
- *  <li>{@link FormationParameters}</li>
  *  <li>{@link FormationPlanExecution}</li>
+ *  <li>{@link Dislodge}</li>
  *  </ul>
  */
 public class Maneuver extends IMCMessage {

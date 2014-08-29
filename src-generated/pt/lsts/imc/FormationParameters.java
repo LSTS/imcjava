@@ -49,7 +49,7 @@ package pt.lsts.imc;
  *  formation center path line.<br/>
  */
 
-public class FormationParameters extends Maneuver {
+public class FormationParameters extends IMCMessage {
 
 	public static final int ID_STATIC = 476;
 
