@@ -390,6 +390,12 @@ public class MessageFactory {
 				return new Reference(defs);
 			case FollowRefState.ID_STATIC:
 				return new FollowRefState(defs);
+			case FormationMonitor.ID_STATIC:
+				return new FormationMonitor(defs);
+			case RelativeState.ID_STATIC:
+				return new RelativeState(defs);
+			case Dislodge.ID_STATIC:
+				return new Dislodge(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
@@ -412,6 +418,8 @@ public class MessageFactory {
 				return new Collision(defs);
 			case FormState.ID_STATIC:
 				return new FormState(defs);
+			case AutopilotMode.ID_STATIC:
+				return new AutopilotMode(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
@@ -466,6 +474,8 @@ public class MessageFactory {
 				return new TrexToken(defs);
 			case TrexPlan.ID_STATIC:
 				return new TrexPlan(defs);
+			case Event.ID_STATIC:
+				return new Event(defs);
 			case VideoData.ID_STATIC:
 				return new VideoData(defs);
 			case RawImage.ID_STATIC:
@@ -512,14 +522,16 @@ public class MessageFactory {
 				return new UamTxStatus(defs);
 			case UamRxRange.ID_STATIC:
 				return new UamRxRange(defs);
-			case AbortAcked.ID_STATIC:
-				return new AbortAcked(defs);
 			case FormCtrlParam.ID_STATIC:
 				return new FormCtrlParam(defs);
+			case FormationEval.ID_STATIC:
+				return new FormationEval(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
 			case NeptusBlob.ID_STATIC:
 				return new NeptusBlob(defs);
+			case Aborted.ID_STATIC:
+				return new Aborted(defs);
 			default:
 				return new IMCMessage(defs);
 		}

@@ -10,7 +10,7 @@
           xsi:noNamespaceSchemaLocation="IMC.xsd"
           name="IMC"
           long-name="Inter Module Communication"
-          version="5.4.x">
+          version="5.4.1">
 
   <description>
     This document describes the communications protocol associated
@@ -274,6 +274,7 @@
       <value id="0x00000100" abbrev="YAW_RATE" name="Yaw Rate Control"/>
       <value id="0x00000200" abbrev="VERTICAL_RATE" name="Vertical Rate Control"/>
       <value id="0x00000400" abbrev="TORQUE" name="Torque Control"/>
+      <value id="0x00000800" abbrev="FORCE" name="Force Control"/>
       <value id="0x40000000" abbrev="EXTERNAL" name="Unspecified External Control"/>
       <value id="0x80000000" abbrev="NO_OVERRIDE" name="Non-overridable control"/>
       <value id="0xFFFFFFFF" abbrev="ALL" name="All"/>
@@ -310,8 +311,8 @@
       <message-type abbrev="CoverArea"/>
       <message-type abbrev="FollowReference"/>
       <message-type abbrev="CommsRelay"/>
-      <message-type abbrev="FormationParameters"/>
       <message-type abbrev="FormationPlanExecution"/>
+      <message-type abbrev="Dislodge"/>
     </message-group>
 
     <message-group name="Control Command" abbrev="ControlCommand">
@@ -3909,6 +3910,14 @@
       radius ('lradius'), duration ('lduration'), and clockwise or
       counter-clockwise direction ('CCLOCKW' flag).
     </description>
+    <field name = "Path Reference" abbrev="path_ref" type="uint32_t">
+      <description>
+        Unsigned integer reference for the scope of the desired path message.
+        Path reference should only be set by a maneuver.
+        Should be set to an always increasing reference at the time of dispatching this message.
+        Lower level path controllers must inherit the same path reference sent by maneuver.
+      </description>
+    </field>
     <field name="Start Point -- Latitude WGS-84" abbrev="start_lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
       <description>
         WGS-84 latitude of start point. This will be ignored unless
@@ -4012,6 +4021,16 @@
           Indicates that loitering, if defined, should be done from
           the current vehicle position. The end_lat and end_lon
           fields will be ignored.
+        </description>
+      </value>
+      <value id="0x40" abbrev="TAKEOFF" name="Takeoff">
+        <description>
+          Indicates that takeoff should be done before going to the end position.
+        </description>
+      </value>
+      <value id="0x80" abbrev="LAND" name="Land">
+        <description>
+          Indicates that the system should land at the end position.
         </description>
       </value>
     </field>
@@ -4176,6 +4195,13 @@
     <description>
       Path control state issued by Path Controller.
     </description>
+    <field name = "Path Reference" abbrev="path_ref" type="uint32_t">
+      <description>
+        Unsigned integer reference of the desired path message to which this
+	PathControlState message refers to.
+	Path reference should only be set by a maneuver, not by path controllers.
+      </description>
+    </field>
     <field name="Start Point -- Latitude WGS-84" abbrev="start_lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
       <description>
         WGS-84 latitude of start point.
@@ -5734,6 +5760,285 @@
     </field>
   </message>
 
+  <message id="481" name="Formation Monitoring Data" abbrev="FormationMonitor">
+    <description>
+      Monitoring variables for the formation state and performance.
+    </description>
+    <field name="Commanded X Acceleration (North)" abbrev="ax_cmd" type="fp32_t">
+      <description>
+        Commanded acceleration computed by the formation controller: northward direction.
+	On the vehicle directional reference frame.
+	Constrained by the vehicle operational limits.
+      </description>
+    </field>
+    <field name="Commanded Y Acceleration (East)" abbrev="ay_cmd" type="fp32_t">
+      <description>
+        Commanded acceleration computed by the formation controller: eastward direction.
+	On the vehicle directional reference frame.
+	Constrained by the vehicle operational limits.
+      </description>
+    </field>
+    <field name="Commanded Z Acceleration (Down)" abbrev="az_cmd" type="fp32_t">
+      <description>
+        Commanded acceleration computed by the formation controller: downward direction.
+	On the vehicle directional reference frame.
+	Constrained by the vehicle operational limits.
+      </description>
+    </field>
+    <field name="Desired X Acceleration (North)" abbrev="ax_des" type="fp32_t">
+      <description>
+        Desired acceleration computed by the formation controller: northward direction.
+	On the fixed reference frame.
+      </description>
+    </field>
+    <field name="Desired Y Acceleration (East)" abbrev="ay_des" type="fp32_t">
+      <description>
+        Desired acceleration computed by the formation controller: eastward direction.
+	On the fixed reference frame.
+      </description>
+    </field>
+    <field name="Desired Z Acceleration (Down)" abbrev="az_des" type="fp32_t">
+      <description>
+        Desired acceleration computed by the formation controller: downward direction.
+	On the fixed reference frame.
+      </description>
+    </field>
+    <field name="X Virtual Error (North)" abbrev="virt_err_x" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Overall formation combined virtual error: northward direction.
+	On the fixed reference frame.
+      </description>
+    </field>
+    <field name="Y Virtual Error (East)" abbrev="virt_err_y" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Overall formation combined virtual error: eastward direction.
+	On the fixed reference frame.
+      </description>
+    </field>
+    <field name="Z Virtual Error (Down)" abbrev="virt_err_z" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Overall formation combined virtual error: downward direction.
+	On the fixed reference frame.
+      </description>
+    </field>
+    <field name="X Sliding Surface Feedback (North)" abbrev="surf_fdbk_x" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Overall formation combined sliding surface feedback: northward direction.
+	On the fixed reference frame.
+      </description>
+    </field>
+    <field name="Y Sliding Surface Feedback (East)" abbrev="surf_fdbk_y" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Overall formation combined sliding surface feedback: eastward direction.
+	On the fixed reference frame.
+      </description>
+    </field>
+    <field name="Z Sliding Surface Feedback (Down)" abbrev="surf_fdbk_z" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Overall formation combined sliding surface feedback: downward direction.
+	On the fixed reference frame.
+      </description>
+    </field>
+    <field name="X Uncertainty Compensation (North)" abbrev="surf_unkn_x" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Dynamics uncertainty compensation: northward direction.
+      </description>
+    </field>
+    <field name="Y Uncertainty Compensation (East)" abbrev="surf_unkn_y" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Dynamics uncertainty compensation: eastward direction.
+      </description>
+    </field>
+    <field name="Z Uncertainty Compensation (Down)" abbrev="surf_unkn_z" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Dynamics uncertainty compensation: downward direction.
+      </description>
+    </field>
+    <field name="X Convergence Deviation (North)" abbrev="ss_x" type="fp32_t">
+      <description>
+	Combined deviation from convergence (sliding surface): North component.
+      </description>
+    </field>
+    <field name="Y Convergence Deviation (East)" abbrev="ss_y" type="fp32_t">
+      <description>
+	Combined deviation from convergence (sliding surface): East component.
+      </description>
+    </field>
+    <field name="Z Convergence Deviation (Down)" abbrev="ss_z" type="fp32_t">
+      <description>
+	Combined deviation from convergence (sliding surface): Down component.
+      </description>
+    </field>
+    <field name="Relative State" abbrev="rel_state" type="message-list" message-type="RelativeState">
+      <description>
+        List of RelativeState messages, encoding the inter-vehicle formation state.
+      </description>
+    </field>
+  </message>
+
+  <message id="482" name="Relative State" abbrev="RelativeState">
+    <description>
+      Inter-vehicle formation state.
+    </description>
+    <field name="System Identifier" abbrev="s_id" type="plaintext">
+      <description>
+        The identifier of the vehicle whose relative state is being reported.
+      </description>
+    </field>
+    <field name="Distance" abbrev="dist" type="fp32_t">
+      <description>
+        Distance between vehicles.
+      </description>
+    </field>
+    <field name="Position Error" abbrev="err" type="fp32_t">
+      <description>
+        Relative position error norm.
+      </description>
+    </field>
+    <field name="Control Importance" abbrev="ctrl_imp" type="fp32_t">
+      <description>
+	Weight in the computation of the desired acceleration.
+      </description>
+    </field>
+    <field name="Relative Direction X (North)" abbrev="rel_dir_x" type="fp32_t">
+      <description>
+	Inter-vehicle direction vector: North component.
+      </description>
+    </field>
+    <field name="Relative Direction Y (East)" abbrev="rel_dir_y" type="fp32_t">
+      <description>
+	Inter-vehicle direction vector: East component.
+      </description>
+    </field>
+    <field name="Relative Direction Z (Down)" abbrev="rel_dir_z" type="fp32_t">
+      <description>
+	Inter-vehicle direction vector: Down component.
+      </description>
+    </field>
+    <field name="X Position Error (North)" abbrev="err_x" type="fp32_t">
+      <description>
+	Relative position error: North component.
+      </description>
+    </field>
+    <field name="Y Position Error (East)" abbrev="err_y" type="fp32_t">
+      <description>
+	Relative position error: East component.
+      </description>
+    </field>
+    <field name="Z Position Error (Down)" abbrev="err_z" type="fp32_t">
+      <description>
+	Relative position error: Down component.
+      </description>
+    </field>
+    <field name="X Position Error In Relative Frame (North)" abbrev="rf_err_x" type="fp32_t">
+      <description>
+	Relative position error: X component on the inter-vehicle reference frame.
+      </description>
+    </field>
+    <field name="Y Position Error In Relative Frame (East)" abbrev="rf_err_y" type="fp32_t">
+      <description>
+	Relative position error: Y component on the inter-vehicle reference frame.
+      </description>
+    </field>
+    <field name="Z Position Error In Relative Frame (Down)" abbrev="rf_err_z" type="fp32_t">
+      <description>
+	Relative position error: Z component on the inter-vehicle reference frame.
+      </description>
+    </field>
+    <field name="X Velocity Error In Relative Frame (North)" abbrev="rf_err_vx" type="fp32_t">
+      <description>
+	Relative veloctity error: X component in the inter-vehicle reference frame.
+      </description>
+    </field>
+    <field name="Y Velocity Error In Relative Frame (East)" abbrev="rf_err_vy" type="fp32_t">
+      <description>
+	Relative velocity error: Y component on the inter-vehicle reference frame.
+      </description>
+    </field>
+    <field name="Z Velocity Error In Relative Frame (Down)" abbrev="rf_err_vz" type="fp32_t">
+      <description>
+	Relative velocity error: Z component on the inter-vehicle reference frame.
+      </description>
+    </field>
+    <field name="X Convergence Deviation (North)" abbrev="ss_x" type="fp32_t">
+      <description>
+	Deviation from convergence (sliding surface): X component on the inter-vehicle reference frame.
+      </description>
+    </field>
+    <field name="Y Convergence Deviation (East)" abbrev="ss_y" type="fp32_t">
+      <description>
+	Deviation from convergence (sliding surface): Y component on the inter-vehicle reference frame.
+      </description>
+    </field>
+    <field name="Z Convergence Deviation (Down)" abbrev="ss_z" type="fp32_t">
+      <description>
+	Deviation from convergence (sliding surface): Z component on the inter-vehicle reference frame.
+      </description>
+    </field>
+    <field name="X Virtual Error (North)" abbrev="virt_err_x" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Relative virtual error: northward direction.
+      </description>
+    </field>
+    <field name="Y Virtual Error (East)" abbrev="virt_err_y" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Relative virtual error: eastward direction.
+      </description>
+    </field>
+    <field name="Z Virtual Error (Down)" abbrev="virt_err_z" type="fp32_t">
+      <description>
+	Components of the vehicle desired acceleration.
+	Relative virtual error: downward direction.
+      </description>
+    </field>
+  </message>
+
+  <message id="483" name="Dislodge Maneuver" abbrev="Dislodge" source="ccu">
+    <description>
+      A "Dislodge" is a maneuver ordering the vehicle to attempt a
+      series of thruster operations that will hopefully get it
+      unstuck from an entangled condition.
+
+      Parameters are RPMs for the motor when attempting dislodge and
+      and a flag specifying whether the thrust burst should be attempted
+      forward, backward or auto (letting the vehicle decide).
+    </description>
+    <field name="Timeout" abbrev="timeout" type="uint16_t" unit="s">
+      <description>
+        The amount of time the maneuver is allowed to run.
+      </description>
+    </field>
+    <field name="RPM" abbrev="rpm" type="fp32_t">
+      <description>
+        Maneuver RPM reference.
+      </description>
+    </field>
+    <field name="Direction" abbrev="direction" type="uint8_t" unit="Enumerated" prefix="DIR">
+      <description>
+	Direction to which the vehicle should attempt to unstuck.
+      </description>
+      <value abbrev="AUTO" name="Let the vehicle decide" id="0"/>
+      <value abbrev="FORWARD" name="Attempt to move forward" id="1"/>
+      <value abbrev="BACKWARD" name="Attempt to move backward" id="2"/>
+    </field>
+    <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
+      <description>
+        Custom settings for maneuver.
+      </description>
+    </field>
+  </message>
+
   <!-- Vehicle Supervision -->
   <message id="500" name="Vehicle State" abbrev="VehicleState" source="vehicle">
     <description>
@@ -6082,6 +6387,31 @@
       </description>
       <value id="0" name="Ok" abbrev="OK"/>
       <value id="1" name="Timeout" abbrev="TIMEOUT"/>
+    </field>
+  </message>
+
+  <message id="511" name="Autopilot Mode" abbrev="AutopilotMode" source="vehicle">
+    <description>
+      Reports autopilot mode.
+    </description>
+    <field name="Autonomy Level" abbrev="autonomy" type="uint8_t" prefix="AL" unit="Enumerated">
+      <description>
+        Current mode autonomy level.
+      </description>
+      <value id="0" abbrev="MANUAL" name="Manual">
+        <description>Autopilot has no control</description>
+      </value>
+      <value id="1" abbrev="ASSISTED" name="Assisted">
+        <description>Autopilot has some control</description>
+      </value>
+      <value id="2" abbrev="AUTO" name="Auto">
+        <description>Autopilot has full control</description>
+      </value>
+    </field>
+    <field name="Mode" abbrev="mode" type="plaintext">
+      <description>
+        Current mode name.
+      </description>
     </field>
   </message>
 
@@ -7051,6 +7381,18 @@
     <field name="Tokens" abbrev="tokens" type="message-list" message-type="TrexToken" />
   </message>
 
+  <message id="660" abbrev="Event" name="Event" source="vehicle,ccu">
+    <description>
+      This message is used for signaling asynchronous events between different (sub) systems.
+    </description>
+    <field name="Topic" abbrev="topic" type="plaintext">
+      <description>The name or type of this event</description>
+    </field>
+    <field name="Data" abbrev="data" type="plaintext" unit="TupleList">
+      <description>A map with additional event information.</description>
+    </field>
+  </message>
+
   <!-- Vision -->
   <message id="700" name="Video Data" abbrev="VideoData" source="ccu, vehicle">
     <description/>
@@ -7308,12 +7650,6 @@
     <field name="Value" abbrev="value" type="fp32_t"/>
   </message>
 
-  <message id="818" name="Abort Acknowledged" abbrev="AbortAcked" source="vehicle">
-    <description>
-      An 'Abort' message was received and acted upon.
-    </description>
-  </message>
-
   <message id="820" name="Formation Control Parameters" abbrev="FormCtrlParam" source="ccu,vehicle">
     <description>
       Formation controller paramenters, as: trajectory gains, control boundary layer thickness, and formation shape gains.
@@ -7326,12 +7662,12 @@
       <value id="1" name="Set" abbrev="SET"/>
       <value id="2" name="Report" abbrev="REP"/>
     </field>
-    <field name="Longitudinal Gain" abbrev="LonGain" type="uint32_t">
+    <field name="Longitudinal Gain" abbrev="LonGain" type="fp32_t">
       <description>
         Trajectory gain over the vehicle longitudinal direction.
       </description>
     </field>
-    <field name="Lateral Gain" abbrev="LatGain" type="uint32_t">
+    <field name="Lateral Gain" abbrev="LatGain" type="fp32_t">
       <description>
         Trajectory gain over the vehicle lateral direction.
       </description>
@@ -7341,16 +7677,37 @@
         Control sliding surface boundary layer thickness.
       </description>
     </field>
-    <field name="Leader Gain" abbrev="LeadGain" type="uint32_t">
+    <field name="Leader Gain" abbrev="LeadGain" type="fp32_t">
       <description>
         Formation shape gain (absolute vehicle position tracking).
         Leader control importance gain (relative to the sum of every other formation vehicle).
       </description>
     </field>
-    <field name="Deconfliction Gain" abbrev="DeconflGain" type="uint32_t">
+    <field name="Deconfliction Gain" abbrev="DeconflGain" type="fp32_t">
       <description>
         Collision avoidance and formation shape gain (position tracking relative to the other formation vehicles).
         Individual vehicle importance gain (relative to the leader), when the relative position or the velocity state indicate higher probability of collision.
+      </description>
+    </field>
+  </message>
+
+  <message id="821" name="Formation Evaluation Data" abbrev="FormationEval">
+    <description>
+      Formation control performance evaluation variables.
+    </description>
+    <field name="Mean position error" abbrev="err_mean" type="fp32_t">
+      <description>
+        Mean position error relative to the formation reference.
+      </description>
+    </field>
+    <field name="Absolute minimum distance" abbrev="dist_min_abs" type="fp32_t">
+      <description>
+        Overall minimum distance to any other vehicle in the formation.
+      </description>
+    </field>
+    <field name="Mean minimum distance" abbrev="dist_min_mean" type="fp32_t">
+      <description>
+        Mean minimum distance to any other vehicle in the formation.
       </description>
     </field>
   </message>
@@ -7367,4 +7724,9 @@
       <field name="Content" abbrev="content" type="rawdata"/>
   </message>
 
+  <message id="889" abbrev="Aborted" name="Aborted">
+    <description>
+      This message signals that an :ref:`Abort` message was received and acted upon.
+    </description>
+  </message>
 </messages>
