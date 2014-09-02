@@ -50,7 +50,7 @@ public class ImcStringDefs {
 		sb.append("          xsi:noNamespaceSchemaLocation=\"IMC.xsd\"\n");
 		sb.append("          name=\"IMC\"\n");
 		sb.append("          long-name=\"Inter Module Communication\"\n");
-		sb.append("          version=\"5.4.x\">\n");
+		sb.append("          version=\"5.4.1\">\n");
 		sb.append("\n");
 		sb.append("  <description>\n");
 		sb.append("    This document describes the communications protocol associated\n");
@@ -314,6 +314,7 @@ public class ImcStringDefs {
 		sb.append("      <value id=\"0x00000100\" abbrev=\"YAW_RATE\" name=\"Yaw Rate Control\"/>\n");
 		sb.append("      <value id=\"0x00000200\" abbrev=\"VERTICAL_RATE\" name=\"Vertical Rate Control\"/>\n");
 		sb.append("      <value id=\"0x00000400\" abbrev=\"TORQUE\" name=\"Torque Control\"/>\n");
+		sb.append("      <value id=\"0x00000800\" abbrev=\"FORCE\" name=\"Force Control\"/>\n");
 		sb.append("      <value id=\"0x40000000\" abbrev=\"EXTERNAL\" name=\"Unspecified External Control\"/>\n");
 		sb.append("      <value id=\"0x80000000\" abbrev=\"NO_OVERRIDE\" name=\"Non-overridable control\"/>\n");
 		sb.append("      <value id=\"0xFFFFFFFF\" abbrev=\"ALL\" name=\"All\"/>\n");
