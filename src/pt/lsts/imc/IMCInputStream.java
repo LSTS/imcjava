@@ -83,13 +83,14 @@ public class IMCInputStream extends FilterInputStream implements DataInput {
 	protected int crc = 0;
 	protected IMCDefinition defs = IMCDefinition.getInstance(); 
 	
-	public IMCInputStream(InputStream in) {
-		super(in);
-		input = new DataInputStream(this);
-	}
+	//public IMCInputStream(InputStream in) {
+	//	super(in);
+	//	input = new DataInputStream(this);
+	//}
 	
 	public IMCInputStream(InputStream in, IMCDefinition defs) {
-	    this(in);
+	    super(in);
+	    this.input = new DataInputStream(in);
 	    this.defs = defs;
 	}
 	
@@ -317,9 +318,16 @@ public class IMCInputStream extends FilterInputStream implements DataInput {
 		return message;
 	}
 	
+	/**
+	 * @return the IMC Definitions
+	 */
+	public IMCDefinition getImcDefinition() {
+		return defs;
+	}
+
 	public static void main(String[] args) throws Exception {
 		FileInputStream fis = new FileInputStream("/home/zp/Desktop/test-llf/Data.lsf");
-		IMCInputStream iis = new IMCInputStream(fis);
+		IMCInputStream iis = new IMCInputStream(fis, IMCDefinition.getInstance());
 		IMCOutputStream ios = new IMCOutputStream(new FileOutputStream("/home/zp/Desktop/test.lsf"));
 		IMCMessage msg = iis.readMessage();
 		

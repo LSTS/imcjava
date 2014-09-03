@@ -365,6 +365,35 @@ GIT Status:
 		<delete file="dist/lsfmerge.jar"/>
 	</target>
 	
+	<target name="lsffilter" description="Create a program for filtering lsf files" depends="compile">
+			<jar destfile="dist/lsffilter.jar" basedir="build" index="true">
+				<manifest>
+					<attribute name="Main-Class" value="pt.lsts.imc.lsf.LsfFilter"/>
+				</manifest>
+			</jar>
+			
+			<exec executable="lib/jar2sh.sh" >
+				<arg value="dist/lsffilter"/>
+				<arg value="dist/lsffilter.jar"/>
+			</exec>
+			
+			<delete file="dist/lsffilter.jar"/>
+		</target>
+		
+	
+	<target name="ripples" description="Create ripples.jar" depends="compile">
+		<javac encoding="UTF-8" debug="true" srcdir="src-ripples" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/guava-13.0.1.jar;lib/firebase-client-jvm-LATEST.jar">      
+		</javac>
+		<unjar src="lib/guava-13.0.1.jar" dest="build"/>
+		<unjar src="lib/firebase-client-jvm-LATEST.jar" dest="build"/>
+
+		<jar destfile="dist/ripples-${version}.jar" basedir="build" index="true">
+			<manifest>
+				<attribute name="Main-Class" value="pt.lsts.imc.ripples.RipplesMain"/>
+			</manifest>
+		</jar>
+	</target>
+	
 	<target name="lsf2llf" description="Create a program for extracting and simplifying lsf files" depends="compile">
 		<jar destfile="dist/lsf2llf.jar" basedir="build" index="true">
 			<manifest>

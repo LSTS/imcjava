@@ -934,9 +934,6 @@ public class LsfIndex {
 
     public double getEndTime() {
         int idx = numMessages - 1;
-        int firstSource = sourceOf(0);
-        while (sourceOf(idx) != firstSource)
-            idx--;
         return timeOf(idx);
     }
 

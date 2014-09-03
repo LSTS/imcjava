@@ -25,7 +25,7 @@ public class ImcFragmentsTest {
 	            ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
 	            defs.serialize(m, baos1);
 	            byte[] data1 = baos1.toByteArray();            
-	            IMCMessage unser = defs.nextMessage(new IMCInputStream(new ByteArrayInputStream(data1)));
+	            IMCMessage unser = defs.nextMessage(new IMCInputStream(new ByteArrayInputStream(data1), defs));
 	            MessagePart[] parts = handler.fragment(unser, 100);
 	            IMCMessage res = null;
 	            for (MessagePart p : parts) {

@@ -703,7 +703,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 */
 	public IMCMessage parseMessage(byte[] data) throws IOException {           
 		try {
-			return nextMessage(new IMCInputStream(new ByteArrayInputStream(data)));
+			return nextMessage(new IMCInputStream(new ByteArrayInputStream(data), this));
 		}
 		catch (Exception e) {
 			throw new IOException(e);

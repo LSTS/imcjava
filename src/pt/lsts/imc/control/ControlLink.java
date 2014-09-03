@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import pt.lsts.imc.Announce;
 import pt.lsts.imc.DesiredSpeed;
 import pt.lsts.imc.DesiredSpeed.SPEED_UNITS;
-import pt.lsts.imc.AcousticOperation;
 import pt.lsts.imc.DesiredZ;
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.FollowRefState;
@@ -30,12 +29,12 @@ public class ControlLink {
 	private static ScheduledThreadPoolExecutor executor = null;
 	private Reference lastReference = null;
 	private String vehicle;
-	private boolean acousticLink = false;
+	//private boolean acousticLink = false;
 	
 	public static String[] listVehicles(Announce.SYS_TYPE type) {
 		
 		Vector<String> validVehicles = new Vector<String>();
-		String[] sys = getImc().lookupService("x");
+		//String[] sys = getImc().lookupService("x");
 		for (String s : getImc().systems()) {
 			if (getImc().state(s).lastAnnounce().getSysType() == type) {
 				if (getImc().state(s).lastVehicleState() != null && getImc().state(s).lastVehicleState().getOpMode() == VehicleState.OP_MODE.SERVICE)
@@ -243,7 +242,7 @@ public class ControlLink {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ControlLink xp1 = ControlLink.acquire("lauv-xplore-1", 20000);
+		ControlLink xp1 = ControlLink.acquire("lauv-seacon-2", 20000);
 		System.out.println(xp1);
 	}
 }
