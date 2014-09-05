@@ -1,8 +1,8 @@
 <project name="IMCJava" default="dist">
-  
+
   <property name="test-dir" location="src-junit" />
   <property file="imc.properties"/>
-  
+
   <path id="classpath.base">
   </path>
   <path id="classpath.test">
@@ -12,13 +12,13 @@
     <pathelement location="lib/commons-io-2.0.1.jar" />
     <path refid="classpath.base" />
   </path>
-  
+
   <target name="compile-test" depends="compile-all">
-		<javac encoding="UTF-8" srcdir="src-junit" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">     
-      		<classpath refid="classpath.test"/>
-		</javac>
-	</target>
-	
+    <javac encoding="UTF-8" srcdir="src-junit" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+      <classpath refid="classpath.test"/>
+    </javac>
+  </target>
+
   <target name="test" depends="compile-test">
     <junit>
       <classpath refid="classpath.test" />
@@ -30,381 +30,328 @@
       <test name="pt.lsts.imc.junit.ImcFragmentsTest" />
     </junit>
   </target>
-  
-	
-	
-	<target name="all" depends="update-msg-defs,generated,dist" />
 
-	<target name="scminfo" depends="gitinfo"/>
-	
-	<target name="svninfo">
-		<exec executable="svn" dir=".">
-			<arg value="up" />
-		</exec>
-				
-		<exec executable="svn" dir="." output="svninfo.xml">
-			<arg value="info" />
-			<arg value="--xml" />
-		</exec>
-		
-		<xmlproperty file="svninfo.xml" collapseattributes="true" />	
-		
-		<!-- <property name="scm.revision" value="${info.entry.commit.revision}" /> -->
-		
-		<property name="version" value="${scm.revision}" />
-	</target>
-	
-	<target name="gitinfo" >
-	    <exec executable="git" outputproperty="git.tagstring" failonerror="false">
-	      <arg value="describe"/>
-	      <arg value="--abbrev=0"/>
-	    </exec>
-	    <exec executable="git" outputproperty="scm.revision">
-	      <arg value="rev-parse"/>
-	      <arg value="HEAD"/>
-	    </exec>
-		<condition property="version" value="${scm.revision}" else="${git.tagstring}">
-		    <equals arg1="${git.tagstring}" arg2="fatal: No names found, cannot describe anything."/>
-		</condition>
-		
-	  </target>
-			
-	<target name="compile">
-		<mkdir dir="build"/>
-		<delete dir="build"/>
-		<mkdir dir="build"/>
-		<copy todir="build">
-			<fileset dir="src" includes="**/*.xml"/>
-			<fileset dir="src" includes="**/*.png"/>			
-		</copy>
-		<javac encoding="UTF-8" srcdir="src;src-generated"  destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">     
-		</javac>
-		<javac encoding="UTF-8" srcdir="src-merge" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">     
-		</javac>
-	</target>	
-	
-	<target name="compile-all" depends="compile, compile-sniffer, compile-teleop, compile-preview, compile-kraken, compile-agents">
-		<javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">     
-		</javac>
-		<copy todir="build">
-			<fileset dir="src" includes="**/*.xml"/>
-			<fileset dir="src" includes="**/*.png"/>			
-		</copy>
-	</target>
-	
-	<target name="compile-generator" depends="compile">
-			<mkdir dir="build"/>
-			<javac encoding="UTF-8" srcdir="src-generator" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/commons-lang3-3.1.jar">      
-			</javac>
-		</target>
-	
-	<target name="compile-sniffer" depends="compile">
-		<mkdir dir="build"/>
-		<copy todir="build">
-			<fileset dir="src-sniffer" includes="**/*.png"/>
-		</copy>
-		<javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">      
-		</javac>
-	</target>
-	
-	<target name="compile-preview" depends="compile">
-			<javac encoding="UTF-8" srcdir="src-lsfpreview" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">      
-			</javac>
-	</target>
-	
-	<target name="compile-agents" depends="compile">
-		<javac encoding="UTF-8" srcdir="src-agents" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" 
-		classpath="lib/js.jar;lib/guava-13.0.1.jar;lib/jetty-all-9.0.0.v20130308.jar;lib/javax.servlet-3.0.0.v201112011016.jar;lib/commons-io-2.0.1.jar">      
-		</javac>
-	</target>
-	
-	<target name="agents-jar" depends="compile-agents">
-		<delete file="dist/kraken.jar"/>
-		<unjar src="lib/js.jar" dest="build"/>
-		<unjar src="lib/guava-13.0.1.jar" dest="build"/>
-		<unjar src="lib/jetty-all-9.0.0.v20130308.jar" dest="build"/>
+  <target name="all" depends="update-msg-defs,generated,dist" />
 
-		<unjar src="lib/javax.servlet-3.0.0.v201112011016.jar" dest="build">
-            <patternset>
-                <include name="**"/>
-                <exclude name="META-INF/*.SF"/>
-                <exclude name="META-INF/*.DSA"/>
-                <exclude name="META-INF/*.RSA"/>
-            </patternset>		   
-		</unjar>
-			
-		<jar destfile="dist/kraken.jar" basedir="build" index="true">
-			<manifest>
-				<attribute name="Main-Class" value="pt.lsts.imc.AgentContext"/>
-			</manifest>
-		</jar>
-		<echo message="The file 'dist/kraken.jar' was generated"/>
-	</target>
-		
+  <target name="scminfo" depends="gitinfo"/>
 
-	<target name="sniffer-jar" depends="compile-sniffer">
-		<delete file="dist/sniffer.jar"/>
-		<unjar src="lib/jchart2d-3.2.0.jar" dest="build"/>
-		<jar destfile="dist/sniffer.jar" basedir="build" index="true">
-			<manifest>
-				<attribute name="Main-Class" value="pt.lsts.imc.sniffer.IMCMessageSniffer"/>
-			</manifest>
-		</jar>
-		<echo message="The file 'dist/sniffer.jar' was generated"/>
-	</target>
-	
-	<target name="teleop-jar" depends="compile-teleop">
-		<delete file="dist/teleop.jar"/>
-		<jar destfile="dist/teleop.jar" basedir="build" index="true">
-			<manifest>
-				<attribute name="Main-Class" value="pt.lsts.imc.teleop.TeleoperationApp"/>
-			</manifest>
-		</jar>
-		<echo message="The file 'dist/teleop.jar' was generated"/>
-	</target>
-	
-	<target name="compile-teleop" depends="compile">
-		<mkdir dir="build"/>
-		<javac encoding="UTF-8" debug="true" srcdir="src-teleop" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">      
-		</javac>
-	</target>	
-	
-	<target name="compile-kraken" depends="compile">
-		<mkdir dir="build"/>
-		<javac encoding="UTF-8" debug="true" srcdir="src-scripting" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/js.jar">      
-		</javac>
-	</target>
-	
-	<target name="compile-controllers" depends="compile">
-		<mkdir dir="build"/>
-		<javac encoding="UTF-8" debug="true" srcdir="src-controllers" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">      
-		</javac>
-	</target>
-		
-	<target name="copysrc" depends="compile">
-		<copy todir="build">
-			<fileset dir="src" includes="**/*.java"/>
-		</copy>
-	</target>
-	
-	<target name="copylicense" depends="compile">
-		<copy todir="build">
-			<fileset dir="." includes="COPYRIGHT.TXT"/>
-		</copy>
-	</target>
-	
-	<target name="copygenerated" depends="compile">
-		<copy todir="build">
-			<fileset dir="src-generated" includes="**/*.java"/>
-		</copy>
-	</target>
+  <target name="gitinfo" >
+    <exec executable="git" outputproperty="git.tagstring" failonerror="false">
+      <arg value="describe"/>
+      <arg value="--abbrev=0"/>
+    </exec>
+    <exec executable="git" outputproperty="scm.revision">
+      <arg value="rev-parse"/>
+      <arg value="HEAD"/>
+    </exec>
+    <condition property="version" value="${scm.revision}" else="${git.tagstring}">
+      <equals arg1="${git.tagstring}" arg2="fatal: No names found, cannot describe anything."/>
+    </condition>
 
-	<target name="scminfo.txt">
-		
-		<echo file="build/git.info.txt" append="false">GIT Tag:		
-		</echo>
-		
-		 <exec executable="git" output="build/git.info.txt" append="true">
-			<arg value="describe"/>			
-		</exec>
-		
-		<echo file="build/git.info.txt" append="true">
-			
-GIT Hash:
-		</echo>				
-		
-		<exec executable="git" output="build/git.info.txt" append="true">
-			<arg value="rev-parse"/>
-			<arg value="HEAD"/>
-		</exec>
-		
-		<echo file="build/git.info.txt" append="true">
+  </target>
 
-GIT Status:
-		</echo>
-		
-		 <exec executable="git" output="build/git.info.txt" append="true">
-			<arg value="status"/>			
-		</exec>
-				
-		
-	</target>
-	
-	<target name="jar-stripped" depends="compile,copylicense">
-		<description>Create library jar (no source).</description>
-		<jar destfile="dist/imc-${version}.jar" basedir="build" index="true" />				   
-		<echo message="The file 'dist/imc-${version}.jar' was generated"/>
-	</target>
-	
-	<target name="jar-controller" depends="compile,copylicense">
-		<description>Create library jar (no source).</description>
-		<jar destfile="dist/imc-controller.jar" basedir="build" index="true">
-			<manifest>
-				<attribute name="Main-Class" value="pt.lsts.imc.control.ControlLink"/>
-			</manifest>
-		</jar>
-		<echo message="The file 'dist/imc-controller.jar' was generated"/>
-	</target>
-		
-	
-	<target name="jar-source" depends="compile,copysrc,copylicense,copygenerated">
-		<description>Create library jar with source code embedded.</description>
-		<jar destfile="dist/imc-src-${version}.jar" basedir="build" index="true" />				   
-		<echo message="The file 'dist/imc-src-${version}.jar' was generated"/>
-	</target>
-	
-	<target name="jar-full" depends="compile-all,copysrc,copylicense,copygenerated">
-		<unjar src="lib/jchart2d-3.2.0.jar" dest="build"/>
-		<unjar src="lib/js.jar" dest="build"/>
-		<unjar src="lib/guava-13.0.1.jar" dest="build"/>
-		<unjar src="lib/commons-io-2.0.1.jar" dest="build"/>
-		<unjar src="lib/commons-lang3-3.1.jar" dest="build"/>
-		<jar destfile="dist/imc-full-${version}.jar" basedir="build" index="true" />				   
-		<echo message="The file 'dist/imc-full-${version}.jar' was generated"/>
-	</target>
-		
-	<target name="neptus-dist" depends="gitinfo,compile,copysrc,copylicense,copygenerated">
-		<tstamp>
-			<format property="time" pattern="yyyy-MM-dd HH:mm:ss"/>
-		    </tstamp>		
-		<echo message="Adding info: 'Jar generated by ${user.name} on ${time}, from git revision ${scm.revision}.'"/>
-		<echo file="build/META-INF/info" message="Jar generated by ${user.name} on ${time}, from git revision ${scm.revision}."/>
-		<description>Create library to be used by neptus.</description>
-		<jar destfile="dist/libimc.jar" basedir="build" index="true" />		   
-		<echo message="The file 'dist/libimc.jar' was generated"/>
-	</target>
-	
-	<target name="dist" depends="jar-stripped,jar-source,jar-full"
-		description="Compile and create jar packages (default target)" />
-	
-	<target name="update-msg-defs" depends="compile-generator" description="Update message definitions from github.com/LSTS/imc">
-	<java classname="pt.lsts.imc.generator.UpdateMessageDefinitions">
-		         <classpath>
-		           <pathelement location="build"/>		           
-		         </classpath>
-		       </java>
-		
-	</target>
-	
-	<target name="svn-commit"> 
-		<exec executable="svn" dir=".">
-			<arg value="ci"/>
-			<arg value="--non-interactive"/>
-			<arg value="-m"/>
-			<arg value="Message definitions updated."/>
-		</exec>
-	</target>
-	
-	<target name="send-to-neptus" depends="svninfo" 
-		description="Commit jar and message definitions to Neptus SVN.">
-		
-		<exec executable="svnmucc" dir="./src/msgdefs">
-			<arg value="put"/>
-			<arg value="--non-interactive"/>
-			<arg value="-m"/>
-			<arg value="Automated commit from IMCJava (rev. ${svn.revision})."/>
-			<arg value="IMC.xml"/>			
-			<arg value="https://whale.fe.up.pt/svn/neptus/trunk/conf/messages/IMC.xml"/>
-		</exec>		
-		
-		<exec executable="svnmucc" dir="./dist">
-			<arg value="put"/>
-			<arg value="--non-interactive"/>
-			<arg value="-m"/>
-			<arg value="Automated commit from IMCJava (rev. ${svn.revision})."/>
-			<arg value="imc-src-r${svn.revision}.jar"/>
-			<arg value="https://whale.fe.up.pt/svn/neptus/trunk/lib/libimc.jar"/>
-		</exec>		
-	</target>		
-	
-	<target name="generated" description="Generate message classes from existing IMC.xml definition">
-		<antcall target="compile"/>
-		<javac encoding="UTF-8" classpath="lib/commons-lang3-3.1.jar" srcdir="src-generator"  destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" />
-		<delete>
-			<fileset dir="src-generated/pt/lsts/imc/">
-				<include name="*.java"/>
-			</fileset>
-		</delete>
-		<java classname="pt.lsts.imc.generator.ClassGenerator" args="src/msgdefs/IMC.xml" classpath="build;lib/commons-lang3-3.1.jar" />
-	</target>
-	
-    <target name="javadoc" description="Create javadoc documentation">
-	    <javadoc charset="UTF-8" encoding="UTF-8" access="public" author="true" classpath="lib/guava-13.0.1.jar:lib/commons-lang3-3.1.jar:lib/js.jar:lib/jchart2d-3.2.0.jar:lib/commons-lang3-3.1.jar:lib/commons-io-2.0.1.jar" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
-	</target>    
-	
+  <target name="compile">
+    <mkdir dir="build"/>
+    <delete dir="build"/>
+    <mkdir dir="build"/>
+    <copy todir="build">
+      <fileset dir="src" includes="**/*.xml"/>
+      <fileset dir="src" includes="**/*.png"/>
+    </copy>
+    <javac encoding="UTF-8" srcdir="src;src-generated"  destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+    </javac>
+    <javac encoding="UTF-8" srcdir="src-merge" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+    </javac>
+  </target>
 
-	
-	<target name="lsfcat" description="Create a program for extracting and simplifying lsf files" depends="compile">
-		<jar destfile="dist/lsfcat.jar" basedir="build" index="true">
-			<manifest>
-				<attribute name="Main-Class" value="pt.lsts.imc.lsf.LsfCat"/>
-			</manifest>
-		</jar>
-		
-		<exec executable="lib/jar2sh.sh" >
-			<arg value="dist/lsfcat"/>
-			<arg value="dist/lsfcat.jar"/>
-		</exec>
-		
-		<delete file="dist/lsfcat.jar"/>
-	</target>
-	
-	
-	<target name="lsfmerge" description="Create a program for extracting and simplifying lsf files" depends="compile">
-		<jar destfile="dist/lsfmerge.jar" basedir="build" index="true">
-			<manifest>
-				<attribute name="Main-Class" value="pt.lsts.imc.lsf.LsfMerge"/>
-			</manifest>
-		</jar>
-		
-		<exec executable="lib/jar2sh.sh" >
-			<arg value="dist/lsfmerge"/>
-			<arg value="dist/lsfmerge.jar"/>
-		</exec>
-		
-		<delete file="dist/lsfmerge.jar"/>
-	</target>
-	
-	<target name="lsffilter" description="Create a program for filtering lsf files" depends="compile">
-			<jar destfile="dist/lsffilter.jar" basedir="build" index="true">
-				<manifest>
-					<attribute name="Main-Class" value="pt.lsts.imc.lsf.LsfFilter"/>
-				</manifest>
-			</jar>
-			
-			<exec executable="lib/jar2sh.sh" >
-				<arg value="dist/lsffilter"/>
-				<arg value="dist/lsffilter.jar"/>
-			</exec>
-			
-			<delete file="dist/lsffilter.jar"/>
-		</target>
-		
-	
-	<target name="ripples" description="Create ripples.jar" depends="compile">
-		<javac encoding="UTF-8" debug="true" srcdir="src-ripples" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/guava-13.0.1.jar;lib/firebase-client-jvm-LATEST.jar">      
-		</javac>
-		<unjar src="lib/guava-13.0.1.jar" dest="build"/>
-		<unjar src="lib/firebase-client-jvm-LATEST.jar" dest="build"/>
+  <target name="compile-all" depends="compile, compile-sniffer, compile-teleop, compile-preview, compile-kraken, compile-agents">
+    <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+    </javac>
+    <copy todir="build">
+      <fileset dir="src" includes="**/*.xml"/>
+      <fileset dir="src" includes="**/*.png"/>
+    </copy>
+  </target>
 
-		<jar destfile="dist/ripples-${version}.jar" basedir="build" index="true">
-			<manifest>
-				<attribute name="Main-Class" value="pt.lsts.imc.ripples.RipplesMain"/>
-			</manifest>
-		</jar>
-	</target>
-	
-	<target name="lsf2llf" description="Create a program for extracting and simplifying lsf files" depends="compile">
-		<jar destfile="dist/lsf2llf.jar" basedir="build" index="true">
-			<manifest>
-				<attribute name="Main-Class" value="pt.lsts.imc.llf.LSF2LLF"/>
-			</manifest>
-		</jar>
-		
-		<exec executable="lib/jar2sh.sh" >
-			<arg value="dist/lsf2llf"/>
-			<arg value="dist/lsf2llf.jar"/>
-		</exec>
-	</target>
+  <target name="compile-generator" depends="compile">
+    <mkdir dir="build"/>
+    <javac encoding="UTF-8" srcdir="src-generator" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/commons-lang3-3.1.jar">
+    </javac>
+  </target>
+
+  <target name="compile-sniffer" depends="compile">
+    <mkdir dir="build"/>
+    <copy todir="build">
+      <fileset dir="src-sniffer" includes="**/*.png"/>
+    </copy>
+    <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
+    </javac>
+  </target>
+
+  <target name="compile-preview" depends="compile">
+    <javac encoding="UTF-8" srcdir="src-lsfpreview" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
+    </javac>
+  </target>
+
+  <target name="compile-agents" depends="compile">
+    <javac encoding="UTF-8" srcdir="src-agents" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false"
+           classpath="lib/js.jar;lib/guava-13.0.1.jar;lib/jetty-all-9.0.0.v20130308.jar;lib/javax.servlet-3.0.0.v201112011016.jar;lib/commons-io-2.0.1.jar">
+    </javac>
+  </target>
+
+  <target name="agents-jar" depends="compile-agents">
+    <delete file="dist/kraken.jar"/>
+    <unjar src="lib/js.jar" dest="build"/>
+    <unjar src="lib/guava-13.0.1.jar" dest="build"/>
+    <unjar src="lib/jetty-all-9.0.0.v20130308.jar" dest="build"/>
+
+    <unjar src="lib/javax.servlet-3.0.0.v201112011016.jar" dest="build">
+      <patternset>
+        <include name="**"/>
+        <exclude name="META-INF/*.SF"/>
+        <exclude name="META-INF/*.DSA"/>
+        <exclude name="META-INF/*.RSA"/>
+      </patternset>
+    </unjar>
+
+    <jar destfile="dist/kraken.jar" basedir="build" index="true">
+      <manifest>
+        <attribute name="Main-Class" value="pt.lsts.imc.AgentContext"/>
+      </manifest>
+    </jar>
+    <echo message="The file 'dist/kraken.jar' was generated"/>
+  </target>
+
+
+  <target name="sniffer-jar" depends="compile-sniffer">
+    <delete file="dist/sniffer.jar"/>
+    <unjar src="lib/jchart2d-3.2.0.jar" dest="build"/>
+    <jar destfile="dist/sniffer.jar" basedir="build" index="true">
+      <manifest>
+        <attribute name="Main-Class" value="pt.lsts.imc.sniffer.IMCMessageSniffer"/>
+      </manifest>
+    </jar>
+    <echo message="The file 'dist/sniffer.jar' was generated"/>
+  </target>
+
+  <target name="teleop-jar" depends="compile-teleop">
+    <delete file="dist/teleop.jar"/>
+    <jar destfile="dist/teleop.jar" basedir="build" index="true">
+      <manifest>
+        <attribute name="Main-Class" value="pt.lsts.imc.teleop.TeleoperationApp"/>
+      </manifest>
+    </jar>
+    <echo message="The file 'dist/teleop.jar' was generated"/>
+  </target>
+
+  <target name="compile-teleop" depends="compile">
+    <mkdir dir="build"/>
+    <javac encoding="UTF-8" debug="true" srcdir="src-teleop" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+    </javac>
+  </target>
+
+  <target name="compile-kraken" depends="compile">
+    <mkdir dir="build"/>
+    <javac encoding="UTF-8" debug="true" srcdir="src-scripting" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/js.jar">
+    </javac>
+  </target>
+
+  <target name="compile-controllers" depends="compile">
+    <mkdir dir="build"/>
+    <javac encoding="UTF-8" debug="true" srcdir="src-controllers" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+    </javac>
+  </target>
+
+  <target name="copysrc" depends="compile">
+    <copy todir="build">
+      <fileset dir="src" includes="**/*.java"/>
+    </copy>
+  </target>
+
+  <target name="copylicense" depends="compile">
+    <copy todir="build">
+      <fileset dir="." includes="COPYRIGHT.TXT"/>
+    </copy>
+  </target>
+
+  <target name="copygenerated" depends="compile">
+    <copy todir="build">
+      <fileset dir="src-generated" includes="**/*.java"/>
+    </copy>
+  </target>
+
+  <target name="scminfo.txt">
+
+    <echo file="build/git.info.txt" append="false">GIT Tag:
+    </echo>
+
+    <exec executable="git" output="build/git.info.txt" append="true">
+      <arg value="describe"/>
+    </exec>
+
+    <echo file="build/git.info.txt" append="true">
+
+      GIT Hash:
+    </echo>
+
+    <exec executable="git" output="build/git.info.txt" append="true">
+      <arg value="rev-parse"/>
+      <arg value="HEAD"/>
+    </exec>
+
+    <echo file="build/git.info.txt" append="true">
+
+      GIT Status:
+    </echo>
+
+    <exec executable="git" output="build/git.info.txt" append="true">
+      <arg value="status"/>
+    </exec>
+
+
+  </target>
+
+  <target name="jar-stripped" depends="compile,copylicense">
+    <description>Create library jar (no source).</description>
+    <jar destfile="dist/imc-${version}.jar" basedir="build" index="true" />
+    <echo message="The file 'dist/imc-${version}.jar' was generated"/>
+  </target>
+
+  <target name="jar-controller" depends="compile,copylicense">
+    <description>Create library jar (no source).</description>
+    <jar destfile="dist/imc-controller.jar" basedir="build" index="true">
+      <manifest>
+        <attribute name="Main-Class" value="pt.lsts.imc.control.ControlLink"/>
+      </manifest>
+    </jar>
+    <echo message="The file 'dist/imc-controller.jar' was generated"/>
+  </target>
+
+
+  <target name="jar-source" depends="compile,copysrc,copylicense,copygenerated">
+    <description>Create library jar with source code embedded.</description>
+    <jar destfile="dist/imc-src-${version}.jar" basedir="build" index="true" />
+    <echo message="The file 'dist/imc-src-${version}.jar' was generated"/>
+  </target>
+
+  <target name="jar-full" depends="compile-all,copysrc,copylicense,copygenerated">
+    <unjar src="lib/jchart2d-3.2.0.jar" dest="build"/>
+    <unjar src="lib/js.jar" dest="build"/>
+    <unjar src="lib/guava-13.0.1.jar" dest="build"/>
+    <unjar src="lib/commons-io-2.0.1.jar" dest="build"/>
+    <unjar src="lib/commons-lang3-3.1.jar" dest="build"/>
+    <jar destfile="dist/imc-full-${version}.jar" basedir="build" index="true" />
+    <echo message="The file 'dist/imc-full-${version}.jar' was generated"/>
+  </target>
+
+  <target name="neptus-dist" depends="gitinfo,compile,copysrc,copylicense,copygenerated">
+    <tstamp>
+      <format property="time" pattern="yyyy-MM-dd HH:mm:ss"/>
+    </tstamp>
+    <echo message="Adding info: 'Jar generated by ${user.name} on ${time}, from git revision ${scm.revision}.'"/>
+    <echo file="build/META-INF/info" message="Jar generated by ${user.name} on ${time}, from git revision ${scm.revision}."/>
+    <description>Create library to be used by neptus.</description>
+    <jar destfile="dist/libimc.jar" basedir="build" index="true" />
+    <echo message="The file 'dist/libimc.jar' was generated"/>
+  </target>
+
+  <target name="dist" depends="jar-stripped,jar-source,jar-full"
+          description="Compile and create jar packages (default target)" />
+
+  <target name="update-msg-defs" depends="compile-generator" description="Update message definitions from github.com/LSTS/imc">
+    <java classname="pt.lsts.imc.generator.UpdateMessageDefinitions">
+      <classpath>
+        <pathelement location="build"/>
+      </classpath>
+    </java>
+
+  </target>
+
+  <target name="generated" description="Generate message classes from existing IMC.xml definition">
+    <antcall target="compile"/>
+    <javac encoding="UTF-8" classpath="lib/commons-lang3-3.1.jar" srcdir="src-generator"  destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" />
+    <delete>
+      <fileset dir="src-generated/pt/lsts/imc/">
+        <include name="*.java"/>
+      </fileset>
+    </delete>
+    <java classname="pt.lsts.imc.generator.ClassGenerator" args="src/msgdefs/IMC.xml" classpath="build;lib/commons-lang3-3.1.jar" />
+  </target>
+
+  <target name="javadoc" description="Create javadoc documentation">
+    <javadoc charset="UTF-8" encoding="UTF-8" access="public" author="true" classpath="lib/guava-13.0.1.jar:lib/commons-lang3-3.1.jar:lib/js.jar:lib/jchart2d-3.2.0.jar:lib/commons-lang3-3.1.jar:lib/commons-io-2.0.1.jar" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
+  </target>
+
+  <target name="lsfcat" description="Create a program for extracting and simplifying lsf files" depends="compile">
+    <jar destfile="dist/lsfcat.jar" basedir="build" index="true">
+      <manifest>
+        <attribute name="Main-Class" value="pt.lsts.imc.lsf.LsfCat"/>
+      </manifest>
+    </jar>
+
+    <exec executable="lib/jar2sh.sh" >
+      <arg value="dist/lsfcat"/>
+      <arg value="dist/lsfcat.jar"/>
+    </exec>
+
+    <delete file="dist/lsfcat.jar"/>
+  </target>
+
+  <target name="lsfmerge" description="Create a program for extracting and simplifying lsf files" depends="compile">
+    <jar destfile="dist/lsfmerge.jar" basedir="build" index="true">
+      <manifest>
+        <attribute name="Main-Class" value="pt.lsts.imc.lsf.LsfMerge"/>
+      </manifest>
+    </jar>
+
+    <exec executable="lib/jar2sh.sh" >
+      <arg value="dist/lsfmerge"/>
+      <arg value="dist/lsfmerge.jar"/>
+    </exec>
+
+    <delete file="dist/lsfmerge.jar"/>
+  </target>
+
+  <target name="lsffilter" description="Create a program for filtering lsf files" depends="compile">
+    <jar destfile="dist/lsffilter.jar" basedir="build" index="true">
+      <manifest>
+        <attribute name="Main-Class" value="pt.lsts.imc.lsf.LsfFilter"/>
+      </manifest>
+    </jar>
+
+    <exec executable="lib/jar2sh.sh" >
+      <arg value="dist/lsffilter"/>
+      <arg value="dist/lsffilter.jar"/>
+    </exec>
+
+    <delete file="dist/lsffilter.jar"/>
+  </target>
+
+
+  <target name="ripples" description="Create ripples.jar" depends="compile">
+    <javac encoding="UTF-8" debug="true" srcdir="src-ripples" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/guava-13.0.1.jar;lib/firebase-client-jvm-LATEST.jar">
+    </javac>
+    <unjar src="lib/guava-13.0.1.jar" dest="build"/>
+    <unjar src="lib/firebase-client-jvm-LATEST.jar" dest="build"/>
+
+    <jar destfile="dist/ripples-${version}.jar" basedir="build" index="true">
+      <manifest>
+        <attribute name="Main-Class" value="pt.lsts.imc.ripples.RipplesMain"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="lsf2llf" description="Create a program for extracting and simplifying lsf files" depends="compile">
+    <jar destfile="dist/lsf2llf.jar" basedir="build" index="true">
+      <manifest>
+        <attribute name="Main-Class" value="pt.lsts.imc.llf.LSF2LLF"/>
+      </manifest>
+    </jar>
+
+    <exec executable="lib/jar2sh.sh" >
+      <arg value="dist/lsf2llf"/>
+      <arg value="dist/lsf2llf.jar"/>
+    </exec>
+  </target>
 
 </project>
