@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import pt.lsts.imc.IMCAddressResolver;
-import pt.lsts.imc.ImcStringDefs;
 
 public class GenerationUtils {
 
@@ -18,6 +17,7 @@ public class GenerationUtils {
 		Process p = Runtime.getRuntime().exec(cmd, null, where);
 		
         Scanner s = new Scanner(p.getInputStream());
+        
         String ret = "";
         s.useDelimiter("\\A");
         if (s.hasNext()) 
@@ -31,7 +31,10 @@ public class GenerationUtils {
 	}
 	
 	public static String getGitBranch(File repo) throws Exception {
-		return execCmd("git rev-parse --abbrev-ref HEAD", repo).trim();
+		String branch = execCmd("git log --pretty=format:%d -1", repo).trim();
+		String head = execCmd("git log --pretty=format:%h -1 --abbrev-commit", repo).trim();
+		String date = execCmd("git log --pretty=format:%ad -1 --date=short", repo).trim();
+		return date+" "+head+" "+branch; 
 	}
 	
 	public static String getGitCommitAuthor(File repo) throws Exception {
@@ -87,6 +90,7 @@ public class GenerationUtils {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(ImcStringDefs.getDefinitions());
+		System.out.println(getGitBranch(new File("../imc")));
+		//System.out.println(ImcStringDefs.getDefinitions());
 	}
 }

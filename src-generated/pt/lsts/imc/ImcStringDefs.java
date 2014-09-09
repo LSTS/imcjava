@@ -32,7 +32,7 @@ package pt.lsts.imc;
 public class ImcStringDefs {
 
 	public static final String IMC_SHA = "bdac7f856ba9d7bcbd7b448d71f1e58fb86907a9";
-	public static final String IMC_BRANCH = "heads/tags/imc-5.4.2";
+	public static final String IMC_BRANCH = "2014-09-09 bdac7f8 (HEAD, tag: imc-5.4.2, origin/release/imc-5.4.x, tags/imc-5.4.2)";
 	public static final String IMC_COMMIT = "Ricardo Martins (rasm@lsts.pt), Tue Sep 09 18:08:00 WEST 2014, Removed obsolete messages Parameter and ParameterControl.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
