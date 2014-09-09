@@ -1,7 +1,6 @@
 <project name="IMCJava" default="dist">
 
   <property name="test-dir" location="src-junit" />
-  <property file="imc.properties"/>
 
   <path id="classpath.base">
   </path>
@@ -341,7 +340,7 @@
     <unjar src="lib/guava-13.0.1.jar" dest="build"/>
     <unjar src="lib/firebase-client-jvm-LATEST.jar" dest="build"/>
 
-    <jar destfile="dist/ripples-${version}.jar" basedir="build" index="true">
+    <jar destfile="dist/ripples.jar" basedir="build" index="true">
       <manifest>
         <attribute name="Main-Class" value="pt.lsts.imc.ripples.RipplesMain"/>
       </manifest>
