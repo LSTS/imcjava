@@ -59,9 +59,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import pt.lsts.imc.Header;
-import pt.lsts.imc.ImcStringDefs;
-import pt.lsts.imc.MessageFactory;
 import pt.lsts.imc.gz.MultiMemberGZIPInputStream;
 import pt.lsts.neptus.messages.IMessageProtocol;
 
@@ -70,8 +67,6 @@ import pt.lsts.neptus.messages.IMessageProtocol;
  * @author zp
  */
 public class IMCDefinition implements IMessageProtocol<IMCMessage> {
-
-	public static String pathToDefaults = "./IMC.xml";
 
 	private static IMCDefinition instance;
 	private IMCAddressResolver resolver = new IMCAddressResolver();
@@ -122,8 +117,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	public static void writeDefaultDefinitions(File destination) throws IOException {
-		InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("msgdefs/IMC.xml");
-
+		InputStream is = new ByteArrayInputStream(ImcStringDefs.getDefinitions().getBytes());
 		FileOutputStream fos = new FileOutputStream(destination);
 		byte[] buffer = new byte[1024];
 		while (is.read(buffer) > 0)
@@ -139,34 +133,6 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		return getInstance(null);
 	}
 
-	protected static IMCDefinition imc3 = null;
-	protected static IMCDefinition imc4 = null;
-	protected static IMCDefinition imc5 = null;
-
-	public static IMCDefinition getImc3Instance() {
-		if (imc3 == null) {
-			InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("msgdefs/IMC-3.0.0.xml");
-			imc3 = getInstance(is);
-		}
-		return imc3;
-	}
-
-	public static IMCDefinition getImc4Instance() {
-		if (imc4 == null) {
-			InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("msgdefs/IMC-4.7.0.xml");
-			imc4 = getInstance(is);
-		}
-		return imc4;
-	}
-
-	public static IMCDefinition getLatest() {
-		if (imc5 == null) {
-			InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("msgdefs/IMC-5.0.0.xml");
-			imc5 = getInstance(is);
-		}
-		return imc5;
-	}
-
 	/**
 	 * Load the XML on the given {@link InputStream} and changes the default instance to this
 	 * @param isDefinitions {@link InputStream} holding the XML definitions
@@ -179,18 +145,8 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 				return instance;
 			}
 			if (instance == null) {
-				if (new File(pathToDefaults).canRead()) {
-					instance = new IMCDefinition(new FileInputStream(new File(pathToDefaults)));
-				}
-				else {
-					//System.out.println("Loading default IMC definitions");
-					InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream("msgdefs/IMC.xml");
-					if (is == null) {
-						System.out.println("Failed to load default IMC definitions. Using string constant definitions.");
-						is = new ByteArrayInputStream(ImcStringDefs.getDefinitions().getBytes());
-					}
-					instance = new IMCDefinition(is);
-				}
+				instance = new IMCDefinition(new ByteArrayInputStream(
+						ImcStringDefs.getDefinitions().getBytes()));
 			}
 		}
 		catch (Exception e) {
@@ -1327,6 +1283,6 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 
 	public static void main(String[] args) {
-		System.out.println(IMCDefinition.getInstance().getVersion());
+		System.out.print(ImcStringDefs.getDefinitions());
 	}
 }

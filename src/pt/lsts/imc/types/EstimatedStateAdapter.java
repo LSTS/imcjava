@@ -407,8 +407,7 @@ public class EstimatedStateAdapter implements IMessageAdapter {
     }
     
     public static void main(String[] args) {
-        IMCDefinition a = IMCDefinition.getImc4Instance();
-        IMCDefinition b = IMCDefinition.getLatest();
+        IMCDefinition b = IMCDefinition.getInstance();
         
         EstimatedStateAdapter pose = new EstimatedStateAdapter();
         pose.setLatRads(Math.toRadians(41));
@@ -417,7 +416,6 @@ public class EstimatedStateAdapter implements IMessageAdapter {
         pose.setDepth(32);
         pose.setHeight(57);
         pose.setThetaRads(Math.toRadians(30));
-        System.out.println(pose.getData(a));
         System.out.println(pose.getData(b));        
     }
 }

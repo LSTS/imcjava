@@ -43,15 +43,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
-import pt.lsts.imc.EulerAngles;
-import pt.lsts.imc.FollowPath;
-import pt.lsts.imc.FollowTrajectory;
-import pt.lsts.imc.LblBeacon;
-import pt.lsts.imc.LblConfig;
-import pt.lsts.imc.PlanSpecification;
-import pt.lsts.imc.SonarConfig;
-import pt.lsts.imc.SonarData;
-import pt.lsts.imc.VehicleFormation;
 import pt.lsts.imc.types.PlanSpecificationAdapter;
 
 /**
@@ -261,11 +252,6 @@ public class IMCUtil {
                     msg.setValue("beacons", beacons);
                 }
                 break;
-            case SonarConfig.ID_STATIC:
-                if (msg.getTypeOf("type") == null && target.getType(SonarConfig.ID_STATIC).getFieldType("type") != null) {
-                    msg.setValue("type", SonarData.TYPE.SIDESCAN);
-                    msg.setValue("bits_per_point", 8);
-                }
             case SonarData.ID_STATIC:
                 if (msg.getTypeOf("min_range") == null
                         && target.getType(SonarData.ID_STATIC).getFieldType("min_range") != null) {
