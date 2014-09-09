@@ -466,9 +466,7 @@ public class PlanSpecificationAdapter implements IMessageAdapter {
                 ));
         plan.addTransition("Goto1", "Goto2", "ManeuverIsDone", null);
 
-        IMCUtil.debug(plan.getData(IMCDefinition.getImc3Instance()), "IMC v3 Plan");
-        IMCUtil.debug(plan.getData(IMCDefinition.getImc4Instance()), "IMC v4 Plan");
-        IMCUtil.debug(plan.getData(IMCDefinition.getInstance()),     "IMC v5 Plan");
+        IMCUtil.debug(plan.getData(IMCDefinition.getInstance()),     "IMC Plan");
     }
 
     public class Transition {

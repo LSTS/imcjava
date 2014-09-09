@@ -141,13 +141,4 @@ public class ImcDiff {
         }
 
     }
-
-
-
-    public static void main(String[] args) {
-        IMCDefinition a = IMCDefinition.getImc4Instance();
-        IMCDefinition b = IMCDefinition.getLatest();
-        diff(a, b);
-    }
-
 }

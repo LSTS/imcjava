@@ -32,7 +32,10 @@ package pt.lsts.imc;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -46,16 +49,12 @@ public class IMCAddressResolver {
 
     protected LinkedHashMap<Integer, String> addresses = new LinkedHashMap<Integer, String>();
     protected LinkedHashMap<String, Integer> addressesReverse = new LinkedHashMap<String, Integer>();
-    protected static final int DEFAULT_ID = (1 << 16) - 1;
+
+	protected static final int DEFAULT_ID = (1 << 16) - 1;
 
     public IMCAddressResolver() {
-        try  {
-            loadImcAddresses(getAddressesXmlStream());
-            return;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }  
+    	for (Entry<String, Integer> entry : ImcStringDefs.IMC_ADDRESSES.entrySet())
+    		addEntry(entry.getValue(), entry.getKey());    	
     }
 
     public IMCAddressResolver(InputStream is) {        
@@ -66,14 +65,6 @@ public class IMCAddressResolver {
         catch (Exception e) {
             e.printStackTrace();
         }
-
-        try  {
-            loadImcAddresses(getAddressesXmlStream());
-            return;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }        
     }
 
     public String resolve(int imcId) {
@@ -93,16 +84,16 @@ public class IMCAddressResolver {
         addresses.put(imcid, imcName);
         addressesReverse.put(imcName, imcid);
     }
+    
+    /**
+	 * @return the addresses
+	 */
+	public Map<String, Integer> getAddresses() {
+		return Collections.unmodifiableMap(addressesReverse);
+	}
 
-    protected InputStream getAddressesXmlStream() {
-        return ClassLoader.getSystemClassLoader().getResourceAsStream("msgdefs/IMC_Addresses.xml");
-    }    
-
-    protected void loadImcAddresses(InputStream is) throws IOException {
-        addresses.clear();
-        addressesReverse.clear();
-
-        if (is == null) {
+	protected void addImcAddresses(InputStream is) throws IOException {
+		if (is == null) {
             System.err.println("Failed to load imc addresses table");
             return;
         }
@@ -137,5 +128,14 @@ public class IMCAddressResolver {
         catch (Exception e) {
             e.printStackTrace();
         }        
+	}
+	
+    protected void loadImcAddresses(InputStream is) throws IOException {
+        addresses.clear();
+        addressesReverse.clear();
+        
+        addImcAddresses(is);        
     }
+    
+    
 }

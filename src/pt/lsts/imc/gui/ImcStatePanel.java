@@ -52,7 +52,6 @@ import javax.swing.JViewport;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import pt.lsts.imc.EntityControl;
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.Heartbeat;
 import pt.lsts.imc.IMCMessage;
@@ -271,7 +270,7 @@ public class ImcStatePanel extends JPanel {
         
         state.setMessage(new EstimatedState());
         state.setMessage(new Heartbeat());
-        state.setMessage(new EntityControl());
+        //state.setMessage(new EntityControl());
         final JFrame frame = new JFrame();
 
         frame.getContentPane().add(statePanel);

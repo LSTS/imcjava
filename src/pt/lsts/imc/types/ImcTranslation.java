@@ -32,7 +32,6 @@ package pt.lsts.imc.types;
 
 import java.util.LinkedHashMap;
 
-import pt.lsts.imc.Heartbeat;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 
@@ -67,10 +66,5 @@ public class ImcTranslation {
         }
         
         return msg;
-    }
-    
-    public static void main(String[] args) {
-        Heartbeat hb = new Heartbeat();
-        ImcTranslation.translate(hb, IMCDefinition.getImc4Instance());
     }
 }
