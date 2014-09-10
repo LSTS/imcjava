@@ -643,6 +643,13 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		return msgGroupNames;
 	}
 
+	/**
+	 * @return the msgGroupTypes
+	 */
+	public LinkedHashMap<String, IMCMessageType> getMsgGroupTypes() {
+		return msgGroupTypes;
+	}
+
 	private final String computeMD5String(InputStream defStream) {
 		byte[] md5Array = computeMD5(defStream);
 		if (md5Array != null) {

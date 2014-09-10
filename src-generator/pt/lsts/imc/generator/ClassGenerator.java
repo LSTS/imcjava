@@ -34,6 +34,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -315,6 +316,7 @@ public class ClassGenerator {
 			IMCDefinition definitions) throws Exception {
 
 		for (String subtype : definitions.getSubtypeGroups()) {
+			IMCMessageType type = definitions.getMsgGroupTypes().get(subtype);
 			File outputDir = getOutputDir(outputFolder, packageName);
 			File outputFile = new File(outputDir, subtype + ".java");
 			System.out.println("generating " + outputFile);
@@ -329,9 +331,9 @@ public class ClassGenerator {
 			bw.write("package pt.lsts.imc;\n\n");
 
 			bw.write("/**\n");
-			bw.write(" *  IMC Subtype " + subtype + " ("
+			bw.write(" *  IMC Supertype " + subtype + " ("
 					+ definitions.getSubTypeName(subtype) + ")<br/>\n");
-			bw.write(" *  Messages belonging to this subtype: <ul>\n");
+			bw.write(" *  Messages belonging to this type: <ul>\n");
 			for (String msg : definitions.getSubTypeGroup(subtype)) {
 				bw.write(" *  <li>{@link " + msg + "}</li>\n");
 			}
@@ -339,6 +341,11 @@ public class ClassGenerator {
 			bw.write(" */\n");
 
 			bw.write("public class " + subtype + " extends IMCMessage {\n\n");
+			
+			if (type != null) {
+				bw.write(generateDefinitions(type, new IMCMessageType()));
+			}
+			
 			bw.write("\tpublic " + subtype + "(IMCDefinition defs, int id) {\n");
 			bw.write("\t\tsuper(defs, id);\n");
 			bw.write("\t}\n\n");
@@ -357,8 +364,17 @@ public class ClassGenerator {
 			bw.write("\t\tgetHeader().values.putAll(msg.getHeader().values);\n");
 			bw.write("\t\tvalues.putAll(msg.values);\n");
 			bw.write("\t}\n\n");
+			
+			
+			if (type != null) {
+				for (String f : type.getFieldNames()) {
+					bw.write(generateGetters(type, f, true));
+					bw.write(generateSetters(type, f, true));
+				}
+			}
+			
 			bw.write("}\n");
-
+			
 			bw.close();
 		}
 	}
@@ -979,6 +995,88 @@ public class ClassGenerator {
 
 		bw.close();
 	}
+	
+	
+	private static String generateDefinitions(IMCMessageType type, IMCMessageType superType) throws IOException {
+		
+		Vector<String> generatedBitmaskDefs = new Vector<String>();
+		StringBuilder result = new StringBuilder();
+
+		for (String field : type.getFieldNames()) {
+			
+			// this field is inherited, skip
+			if (superType.getFieldType(field) != null) {
+				continue;
+			}
+			
+			if ((type.getFieldUnits(field) + "").equals("bitfield")) {
+
+				if (type.getFieldPossibleValues(field) == null)
+					continue;
+
+				String bmaskType = "long";
+
+				if (type.getFieldType(field) == IMCFieldType.TYPE_INT8)
+					bmaskType = "byte";
+				else if (type.getFieldType(field) == IMCFieldType.TYPE_UINT8
+						|| type.getFieldType(field) == IMCFieldType.TYPE_INT16)
+					bmaskType = "short";
+				else if (type.getFieldType(field) == IMCFieldType.TYPE_UINT16
+						|| type.getFieldType(field) == IMCFieldType.TYPE_INT32)
+					bmaskType = "int";
+
+				LinkedHashMap<Long, String> enum_vals = type
+						.getFieldPossibleValues(field);
+
+				for (long val : enum_vals.keySet()) {
+					String name = enum_vals.get(val);
+					if (generatedBitmaskDefs.contains(name))
+						continue;
+					generatedBitmaskDefs.add(name);
+
+					Formatter fmt = new Formatter();
+					int bits = type.getFieldType(field).getSizeInBytes() * 2;
+					fmt.format("0x%0" + bits + "X", val);
+					String hex = fmt.out().toString();
+					result.append("\tpublic static final " + bmaskType + " "
+							+ type.getFieldPrefix(field) + "_"
+							+ enum_vals.get(val).toUpperCase() + " = " + hex
+							+ ";\n");
+					fmt.close();
+				}
+				result.append("\n");
+			}
+		}
+
+		for (String field : type.getFieldNames()) {
+			if ((type.getFieldUnits(field) + "").equals("enumerated")) {
+				LinkedHashMap<String, Long> enum_vals = type
+						.getFieldMeanings(field);
+
+				result.append("\tpublic enum " + field.toUpperCase() + " {\n");
+				boolean first = true;
+				for (String name : enum_vals.keySet()) {
+					if (!first)
+						result.append(",\n");
+					result.append("\t\t" + name.toUpperCase() + "("
+							+ enum_vals.get(name) + ")");
+					first = false;
+				}
+				result.append(";\n\n");
+
+				result.append("\t\tprotected long value;\n\n");
+				result.append("\t\tpublic long value() {\n");
+				result.append("\t\t\treturn value;\n");
+				result.append("\t\t}\n\n");
+				result.append("\t\t" + field.toUpperCase() + "(long value) {\n");
+				result.append("\t\t\tthis.value = value;\n");
+				result.append("\t\t}\n");
+				result.append("\t}\n\n");
+			}
+		}
+		
+		return result.toString();
+	}
 
 	protected static void generateClass(String packageName, File outputFolder,
 			IMCDefinition defs, String msgName) throws Exception {
@@ -1018,82 +1116,22 @@ public class ClassGenerator {
 
 		bw.write(" */\n\n");
 
-		if (type.getSupertypes().size() == 1)
+		IMCMessageType superType = new IMCMessageType();
+		
+		if (type.getSupertypes().size() == 1) {
 			bw.write("public class " + msgName + " extends "
 					+ type.getSupertypes().iterator().next() + " {\n\n");
+			
+			superType = defs.getMsgGroupTypes().get(
+					type.getSupertypes().iterator().next());					
+		}
 		else
 			bw.write("public class " + msgName + " extends IMCMessage {\n\n");
 
 		bw.write("\tpublic static final int ID_STATIC = " + type.getId()
 				+ ";\n\n");
 
-		Vector<String> generatedBitmaskDefs = new Vector<String>();
-		for (String field : type.getFieldNames()) {
-			if ((type.getFieldUnits(field) + "").equals("bitfield")) {
-
-				if (type.getFieldPossibleValues(field) == null)
-					continue;
-
-				String bmaskType = "long";
-
-				if (type.getFieldType(field) == IMCFieldType.TYPE_INT8)
-					bmaskType = "byte";
-				else if (type.getFieldType(field) == IMCFieldType.TYPE_UINT8
-						|| type.getFieldType(field) == IMCFieldType.TYPE_INT16)
-					bmaskType = "short";
-				else if (type.getFieldType(field) == IMCFieldType.TYPE_UINT16
-						|| type.getFieldType(field) == IMCFieldType.TYPE_INT32)
-					bmaskType = "int";
-
-				LinkedHashMap<Long, String> enum_vals = type
-						.getFieldPossibleValues(field);
-
-				for (long val : enum_vals.keySet()) {
-					String name = enum_vals.get(val);
-					if (generatedBitmaskDefs.contains(name))
-						continue;
-					generatedBitmaskDefs.add(name);
-
-					Formatter fmt = new Formatter();
-					int bits = type.getFieldType(field).getSizeInBytes() * 2;
-					fmt.format("0x%0" + bits + "X", val);
-					String hex = fmt.out().toString();
-					bw.write("\tpublic static final " + bmaskType + " "
-							+ type.getFieldPrefix(field) + "_"
-							+ enum_vals.get(val).toUpperCase() + " = " + hex
-							+ ";\n");
-					fmt.close();
-				}
-				bw.write("\n");
-			}
-		}
-
-		for (String field : type.getFieldNames()) {
-			if ((type.getFieldUnits(field) + "").equals("enumerated")) {
-				LinkedHashMap<String, Long> enum_vals = type
-						.getFieldMeanings(field);
-
-				bw.write("\tpublic enum " + field.toUpperCase() + " {\n");
-				boolean first = true;
-				for (String name : enum_vals.keySet()) {
-					if (!first)
-						bw.write(",\n");
-					bw.write("\t\t" + name.toUpperCase() + "("
-							+ enum_vals.get(name) + ")");
-					first = false;
-				}
-				bw.write(";\n\n");
-
-				bw.write("\t\tprotected long value;\n\n");
-				bw.write("\t\tpublic long value() {\n");
-				bw.write("\t\t\treturn value;\n");
-				bw.write("\t\t}\n\n");
-				bw.write("\t\t" + field.toUpperCase() + "(long value) {\n");
-				bw.write("\t\t\tthis.value = value;\n");
-				bw.write("\t\t}\n");
-				bw.write("\t}\n\n");
-			}
-		}
+		bw.write(generateDefinitions(type, superType));
 
 		bw.write("\tpublic " + msgName + "() {\n\t\tsuper(ID_STATIC);\n\t}\n\n");
 		bw.write("\tpublic " + msgName + "(IMCMessage msg) {\n");
@@ -1132,11 +1170,14 @@ public class ClassGenerator {
 
 		bw.write(generateFullConstructor(defs, msgName));
 
-		for (String field : type.getFieldNames())
-			bw.write(generateGetters(type, field, true));
+		for (String field : type.getFieldNames()) {
+			if (superType.getFieldType(field) == null)
+				bw.write(generateGetters(type, field, true));
+		}
 
 		for (String field : type.getFieldNames())
-			bw.write(generateSetters(type, field, true));
+			if (superType.getFieldType(field) == null)
+				bw.write(generateSetters(type, field, true));
 
 		bw.write("}\n");
 
