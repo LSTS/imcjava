@@ -449,22 +449,24 @@ public class PlanSpecificationAdapter implements IMessageAdapter {
         plan.setDescription("Plan generated");
         plan.setPlanId("the_plan_id");
         plan.addManeuver("Goto1", 
-                new Goto(1000, 
-                Math.toRadians(41), 
-                Math.toRadians(-8), 
-                2f, Z_UNITS.DEPTH,
-                1f, pt.lsts.imc.Goto.SPEED_UNITS.METERS_PS,
-                0d,0d,0d, ""
-                ));
+                new Goto()
+        			.setSpeed(1000) 
+        			.setLat(Math.toRadians(41)) 
+        			.setLon(Math.toRadians(-8)) 
+        			.setZ(2f)
+        			.setZUnits(Z_UNITS.DEPTH)
+        			.setSpeedUnits(pt.lsts.imc.Goto.SPEED_UNITS.METERS_PS)
+        		);
         plan.addManeuver("Goto2", 
-                new Goto(1000, 
-                Math.toRadians(41), 
-                Math.toRadians(-8), 
-                5f, Z_UNITS.DEPTH,
-                1f, pt.lsts.imc.Goto.SPEED_UNITS.METERS_PS,
-                0d,0d,0d, ""
-                ));
-        plan.addTransition("Goto1", "Goto2", "ManeuverIsDone", null);
+        		new Goto()
+	        		.setSpeed(1000) 
+	    			.setLat(Math.toRadians(41)) 
+	    			.setLon(Math.toRadians(-8)) 
+	    			.setZ(5f)
+	    			.setZUnits(Z_UNITS.DEPTH)
+	    			.setSpeedUnits(pt.lsts.imc.Goto.SPEED_UNITS.METERS_PS)
+        		);
+    			plan.addTransition("Goto1", "Goto2", "ManeuverIsDone", null);
 
         IMCUtil.debug(plan.getData(IMCDefinition.getInstance()),     "IMC Plan");
     }
