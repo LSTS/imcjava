@@ -80,8 +80,13 @@ public class FollowReference extends Maneuver {
 		return m;
 	}
 
-	public FollowReference(int control_src, short control_ent, float timeout, float loiter_radius, float altitude_interval) {
+	public FollowReference(long plan_ref, String id, String memento, int control_src, short control_ent, float timeout, float loiter_radius, float altitude_interval) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setControlSrc(control_src);
 		setControlEnt(control_ent);
 		setTimeout(timeout);

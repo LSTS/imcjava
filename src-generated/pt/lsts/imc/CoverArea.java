@@ -114,8 +114,13 @@ public class CoverArea extends Maneuver {
 		return m;
 	}
 
-	public CoverArea(double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, java.util.Collection<PolygonVertex> polygon, String custom) {
+	public CoverArea(long plan_ref, String id, String memento, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, java.util.Collection<PolygonVertex> polygon, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setLat(lat);
 		setLon(lon);
 		setZ(z);

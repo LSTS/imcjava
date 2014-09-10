@@ -97,8 +97,13 @@ public class CommsRelay extends Maneuver {
 		return m;
 	}
 
-	public CommsRelay(double lat, double lon, float speed, SPEED_UNITS speed_units, int duration, int sys_a, int sys_b, float move_threshold) {
+	public CommsRelay(long plan_ref, String id, String memento, double lat, double lon, float speed, SPEED_UNITS speed_units, int duration, int sys_a, int sys_b, float move_threshold) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setLat(lat);
 		setLon(lon);
 		setSpeed(speed);

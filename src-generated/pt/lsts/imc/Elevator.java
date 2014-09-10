@@ -135,8 +135,13 @@ public class Elevator extends Maneuver {
 		return m;
 	}
 
-	public Elevator(int timeout, short flags, double lat, double lon, float start_z, START_Z_UNITS start_z_units, float end_z, END_Z_UNITS end_z_units, float radius, float speed, SPEED_UNITS speed_units, String custom) {
+	public Elevator(long plan_ref, String id, String memento, int timeout, short flags, double lat, double lon, float start_z, START_Z_UNITS start_z_units, float end_z, END_Z_UNITS end_z_units, float radius, float speed, SPEED_UNITS speed_units, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setTimeout(timeout);
 		setFlags(flags);
 		setLat(lat);

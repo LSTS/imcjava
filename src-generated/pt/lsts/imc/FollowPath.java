@@ -113,8 +113,13 @@ public class FollowPath extends Maneuver {
 		return m;
 	}
 
-	public FollowPath(int timeout, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, java.util.Collection<PathPoint> points, String custom) {
+	public FollowPath(long plan_ref, String id, String memento, int timeout, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, java.util.Collection<PathPoint> points, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setTimeout(timeout);
 		setLat(lat);
 		setLon(lon);

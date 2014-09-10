@@ -115,8 +115,13 @@ public class StationKeeping extends Maneuver {
 		return m;
 	}
 
-	public StationKeeping(double lat, double lon, float z, Z_UNITS z_units, float radius, int duration, float speed, SPEED_UNITS speed_units, String custom) {
+	public StationKeeping(long plan_ref, String id, String memento, double lat, double lon, float z, Z_UNITS z_units, float radius, int duration, float speed, SPEED_UNITS speed_units, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setLat(lat);
 		setLon(lon);
 		setZ(z);

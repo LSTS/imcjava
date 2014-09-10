@@ -113,8 +113,13 @@ public class VehicleFormation extends Maneuver {
 		return m;
 	}
 
-	public VehicleFormation(double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, java.util.Collection<TrajectoryPoint> points, java.util.Collection<VehicleFormationParticipant> participants, double start_time, String custom) {
+	public VehicleFormation(long plan_ref, String id, String memento, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, java.util.Collection<TrajectoryPoint> points, java.util.Collection<VehicleFormationParticipant> participants, double start_time, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setLat(lat);
 		setLon(lon);
 		setZ(z);

@@ -30,8 +30,8 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Subtype Maneuver (Maneuver)<br/>
- *  Messages belonging to this subtype: <ul>
+ *  IMC Supertype Maneuver (Maneuver)<br/>
+ *  Messages belonging to this type: <ul>
  *  <li>{@link Goto}</li>
  *  <li>{@link PopUp}</li>
  *  <li>{@link Teleoperation}</li>
@@ -72,6 +72,51 @@ public class Maneuver extends IMCMessage {
 		super(msg.getMgid());
 		getHeader().values.putAll(msg.getHeader().values);
 		values.putAll(msg.values);
+	}
+
+	/**
+	 *  @return Plan Reference - uint32_t
+	 */
+	public long getPlanRef() {
+		return getLong("plan_ref");
+	}
+
+	/**
+	 *  @param plan_ref Plan Reference
+	 */
+	public Maneuver setPlanRef(long plan_ref) {
+		values.put("plan_ref", plan_ref);
+		return this;
+	}
+
+	/**
+	 *  @return Maneuver ID - plaintext
+	 */
+	public String getId() {
+		return getString("id");
+	}
+
+	/**
+	 *  @param id Maneuver ID
+	 */
+	public Maneuver setId(String id) {
+		values.put("id", id);
+		return this;
+	}
+
+	/**
+	 *  @return Memento - plaintext
+	 */
+	public String getMemento() {
+		return getString("memento");
+	}
+
+	/**
+	 *  @param memento Memento
+	 */
+	public Maneuver setMemento(String memento) {
+		values.put("memento", memento);
+		return this;
 	}
 
 }

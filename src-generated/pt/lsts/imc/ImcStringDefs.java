@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "bdac7f856ba9d7bcbd7b448d71f1e58fb86907a9";
-	public static final String IMC_BRANCH = "2014-09-09 bdac7f8 (HEAD, tag: imc-5.4.2, origin/release/imc-5.4.x)";
-	public static final String IMC_COMMIT = "Ricardo Martins (rasm@lsts.pt), Tue Sep 09 18:08:00 WEST 2014, Removed obsolete messages Parameter and ParameterControl.";
+	public static final String IMC_SHA = "5ebace19a371120e78092da13fd9ddf0c3db96db";
+	public static final String IMC_BRANCH = "2014-09-10 5ebace1 (HEAD, origin/feature/supertypes, feature/supertypes)";
+	public static final String IMC_COMMIT = "Pedro Calado (pdcalado@gmail.com), Wed Sep 10 20:00:11 WEST 2014, Added fields to the message group Maneuver.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -474,6 +474,23 @@ public class ImcStringDefs {
 		sb.append("\n");
 		sb.append("  <message-groups>\n");
 		sb.append("    <message-group name=\"Maneuver\" abbrev=\"Maneuver\">\n");
+		sb.append("      <field name=\"Plan Reference\" abbrev=\"plan_ref\" type=\"uint32_t\">\n");
+		sb.append("\t<description>\n");
+		sb.append("\t  Unsigned integer reference for the scope of the maneuver.\n");
+		sb.append("          Plan reference should only be set by who parses the plan.\n");
+		sb.append("\t  It should increment with each parsed plan specification.\n");
+		sb.append("\t</description>\n");
+		sb.append("      </field>\n");
+		sb.append("      <field name=\"Maneuver ID\" abbrev=\"id\" type=\"plaintext\">\n");
+		sb.append("\t<description>\n");
+		sb.append("\t  ID given to this maneuver in the executing plan.\n");
+		sb.append("\t</description>\n");
+		sb.append("      </field>\n");
+		sb.append("      <field name=\"Memento\" abbrev=\"memento\" type=\"plaintext\">\n");
+		sb.append("\t<description>\n");
+		sb.append("\t  List of tuples allowing this maneuver to resume itself\n");
+		sb.append("\t</description>\n");
+		sb.append("      </field>\n");
 		sb.append("      <message-type abbrev=\"Goto\"/>\n");
 		sb.append("      <message-type abbrev=\"PopUp\"/>\n");
 		sb.append("      <message-type abbrev=\"Teleoperation\"/>\n");

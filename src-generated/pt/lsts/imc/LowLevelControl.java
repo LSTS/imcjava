@@ -82,8 +82,13 @@ public class LowLevelControl extends Maneuver {
 		return m;
 	}
 
-	public LowLevelControl(ControlCommand control, int duration, String custom) {
+	public LowLevelControl(long plan_ref, String id, String memento, ControlCommand control, int duration, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		if (control != null)
 			setControl(control);
 		setDuration(duration);

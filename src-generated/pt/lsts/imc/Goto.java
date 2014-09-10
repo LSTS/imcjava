@@ -121,8 +121,13 @@ public class Goto extends Maneuver {
 		return m;
 	}
 
-	public Goto(int timeout, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, double roll, double pitch, double yaw, String custom) {
+	public Goto(long plan_ref, String id, String memento, int timeout, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, double roll, double pitch, double yaw, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setTimeout(timeout);
 		setLat(lat);
 		setLon(lon);

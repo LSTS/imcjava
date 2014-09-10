@@ -149,8 +149,13 @@ public class Loiter extends Maneuver {
 		return m;
 	}
 
-	public Loiter(int timeout, double lat, double lon, float z, Z_UNITS z_units, int duration, float speed, SPEED_UNITS speed_units, TYPE type, float radius, float length, double bearing, DIRECTION direction, String custom) {
+	public Loiter(long plan_ref, String id, String memento, int timeout, double lat, double lon, float z, Z_UNITS z_units, int duration, float speed, SPEED_UNITS speed_units, TYPE type, float radius, float length, double bearing, DIRECTION direction, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setTimeout(timeout);
 		setLat(lat);
 		setLon(lon);

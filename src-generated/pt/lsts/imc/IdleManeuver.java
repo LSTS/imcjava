@@ -80,8 +80,13 @@ public class IdleManeuver extends Maneuver {
 		return m;
 	}
 
-	public IdleManeuver(int duration, String custom) {
+	public IdleManeuver(long plan_ref, String id, String memento, int duration, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setDuration(duration);
 		if (custom != null)
 			setCustom(custom);

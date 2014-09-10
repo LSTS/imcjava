@@ -83,8 +83,13 @@ public class CustomManeuver extends Maneuver {
 		return m;
 	}
 
-	public CustomManeuver(int timeout, String name, String custom) {
+	public CustomManeuver(long plan_ref, String id, String memento, int timeout, String name, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setTimeout(timeout);
 		if (name != null)
 			setName(name);

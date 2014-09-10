@@ -87,8 +87,13 @@ public class FormationPlanExecution extends Maneuver {
 		return m;
 	}
 
-	public FormationPlanExecution(String group_name, String formation_name, String plan_id, String description, float leader_speed, float leader_bank_lim, float pos_sim_err_lim, float pos_sim_err_wrn, int pos_sim_err_timeout, float converg_max, int converg_timeout, int comms_timeout, float turb_lim, String custom) {
+	public FormationPlanExecution(long plan_ref, String id, String memento, String group_name, String formation_name, String plan_id, String description, float leader_speed, float leader_bank_lim, float pos_sim_err_lim, float pos_sim_err_wrn, int pos_sim_err_timeout, float converg_max, int converg_timeout, int comms_timeout, float turb_lim, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		if (group_name != null)
 			setGroupName(group_name);
 		if (formation_name != null)

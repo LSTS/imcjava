@@ -81,8 +81,13 @@ public class Teleoperation extends Maneuver {
 		return m;
 	}
 
-	public Teleoperation(String custom) {
+	public Teleoperation(long plan_ref, String id, String memento, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		if (custom != null)
 			setCustom(custom);
 	}

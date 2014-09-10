@@ -101,8 +101,13 @@ public class Dislodge extends Maneuver {
 		return m;
 	}
 
-	public Dislodge(int timeout, float rpm, DIRECTION direction, String custom) {
+	public Dislodge(long plan_ref, String id, String memento, int timeout, float rpm, DIRECTION direction, String custom) {
 		super(ID_STATIC);
+		setPlanRef(plan_ref);
+		if (id != null)
+			setId(id);
+		if (memento != null)
+			setMemento(memento);
 		setTimeout(timeout);
 		setRpm(rpm);
 		setDirection(direction);
