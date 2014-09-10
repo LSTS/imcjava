@@ -31,6 +31,7 @@
 package pt.lsts.imc;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
@@ -45,7 +46,7 @@ public class IMCMessageType {
 
     public static final int UNKNOWN_SIZE = -1;
 
-    private int id;
+    private int id = -1;
     private String fullName;
     private String shortName;
     private int size;
@@ -63,7 +64,24 @@ public class IMCMessageType {
     private LinkedHashMap<String, String> descriptions = new LinkedHashMap<String, String>();
     private LinkedHashMap<String, String> fullnames = new LinkedHashMap<String, String>();
     private LinkedHashMap<String, String> subtypes = new LinkedHashMap<String, String>();
-    private Vector<String> superTypes = new Vector<String>();
+    private HashSet<String> superTypes = new HashSet<String>();
+    
+    public IMCMessageType() {
+    	
+    }
+    
+    public IMCMessageType(IMCMessageType superType) {
+    	fields.putAll(superType.fields);
+    	units.putAll(superType.units);
+    	offsets.putAll(superType.offsets);
+    	fieldPossibleValues.putAll(superType.fieldPossibleValues);
+    	fieldPossibleValuesInverse.putAll(superType.fieldPossibleValuesInverse);
+    	fieldPrefixes.putAll(superType.fieldPrefixes);
+    	defaultValues.putAll(superType.defaultValues);
+    	descriptions.putAll(superType.descriptions);
+    	fullnames.putAll(superType.fullnames);
+    	subtypes.putAll(superType.subtypes);
+    }
     
     public Vector<String> getFlags() {
         return flags;
@@ -325,8 +343,11 @@ public class IMCMessageType {
         return superTypes;
     }
     
-    public void addSuperType(String supertype) {
-        superTypes.add(supertype);
+    public void addSuperType(String supertype) throws Exception {
+    	superTypes.add(supertype);
+    	
+    	if (superTypes.size() > 1)
+    		throw new Exception("A message can only belong to a single message group");
     }
     
     @Override

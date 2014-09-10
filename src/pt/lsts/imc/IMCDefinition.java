@@ -86,9 +86,11 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	protected LinkedHashMap<String, LinkedHashMap<Long, String>> globalEnumerations = new LinkedHashMap<String, LinkedHashMap<Long,String>>();
 	protected LinkedHashMap<String, String> globalEnumPrefixes = new LinkedHashMap<String, String>();
 
-	protected LinkedHashMap<String, Vector<String>> subtypeGroups = new LinkedHashMap<String, Vector<String>>();
-	protected LinkedHashMap<String, String> subTypeNames = new LinkedHashMap<String, String>();
-
+	// message-groups
+	protected LinkedHashMap<String, Vector<String>> msgGroupAbbrevs = new LinkedHashMap<String, Vector<String>>();
+	protected LinkedHashMap<String, String> msgGroupNames = new LinkedHashMap<String, String>();
+	protected LinkedHashMap<String, IMCMessageType> msgGroupTypes = new LinkedHashMap<String, IMCMessageType>();
+	
 
 	/**
 	 * Create a new IMCDefinition, loading the definitions from <b>f</b>
@@ -179,8 +181,16 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	private IMCMessageType parseFields(NodeList fields) {
+		return parseFields(null, fields);
+	}
+	private IMCMessageType parseFields(IMCMessageType supertype, NodeList fields) {
+		
 		IMCMessageType msgType = new IMCMessageType();
-
+		
+		if (supertype != null) {
+			msgType = new IMCMessageType(supertype);
+		}
+		
 		for (int i = 0; i < fields.getLength(); i++) {
 			Node field = fields.item(i);
 			if (field.getNodeName().equals("description"))
@@ -400,7 +410,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 				else if (def.getParentNode().getNodeName().equals("subtypes")) {
 					String typeAbbrev = def.getAttributes().getNamedItem("abbrev").getTextContent();
 					String typeName = def.getAttributes().getNamedItem("name").getTextContent();
-					subTypeNames.put(typeAbbrev, typeName);
+					msgGroupNames.put(typeAbbrev, typeName);
 
 					Vector<String> subtypeGroup = new Vector<String>();
 
@@ -416,11 +426,27 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 						}
 					}
 
-					subtypeGroups.put(typeAbbrev, subtypeGroup);
+					msgGroupAbbrevs.put(typeAbbrev, subtypeGroup);
 
 				}
 			}
-
+			
+			// Super type definitions
+			NodeList msgGroups = root.getElementsByTagName("message-group");
+			for (int i = 0; i < msgGroups.getLength(); i++) {
+				Node groupDef = msgGroups.item(i);
+				String msgGroup = groupDef.getAttributes().getNamedItem("abbrev").getTextContent();
+				String groupName = groupDef.getAttributes().getNamedItem("name").getTextContent();
+				
+				IMCMessageType groupType = parseFields(groupDef.getChildNodes());
+				
+				groupType.setShortName(msgGroup);
+				groupType.setFullName(groupName);
+				
+				msgGroupTypes.put(msgGroup, groupType);
+			}
+			
+			// message <-> group associations
 			NodeList msgTypes = root.getElementsByTagName("message-type");
 
 			for (int i = 0; i < msgTypes.getLength(); i++) {
@@ -429,19 +455,25 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 				String groupName = typeDef.getParentNode().getAttributes().getNamedItem("name").getTextContent();
 				String msgType = typeDef.getAttributes().getNamedItem("abbrev").getTextContent();
 
-				if (!subtypeGroups.containsKey(msgGroup)) {
-					subtypeGroups.put(msgGroup, new Vector<String>());                    
-					subTypeNames.put(msgGroup, groupName);                    
+				if (!msgGroupAbbrevs.containsKey(msgGroup)) {
+					msgGroupAbbrevs.put(msgGroup, new Vector<String>());                    
+					msgGroupNames.put(msgGroup, groupName);                    
 				}
 
-				subtypeGroups.get(msgGroup).add(msgType);
+				msgGroupAbbrevs.get(msgGroup).add(msgType);
 			}
 
 			NodeList msgs = root.getElementsByTagName("message");
 			for (int i = 0; i < msgs.getLength(); i++) {
 				Node msg = msgs.item(i);
-
-				IMCMessageType msgType = parseFields(msg.getChildNodes());
+				String shortName = msg.getAttributes().getNamedItem("abbrev").getTextContent();
+				IMCMessageType superType = null;
+				for (String subtype : msgGroupAbbrevs.keySet()) {
+					if (msgGroupAbbrevs.get(subtype).contains(shortName))
+						superType = msgGroupTypes.get(subtype);					
+				}
+				
+				IMCMessageType msgType = parseFields(superType, msg.getChildNodes());
 				msgType.setImcVersion(version);
 				msgType.setComputedLength(headerType.getComputedLength());
 				int id = 0;
@@ -456,7 +488,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 				String fullName = msg.getAttributes().getNamedItem("name").getTextContent();
 				msgType.setFullName(fullName);
 
-				String shortName = msg.getAttributes().getNamedItem("abbrev").getTextContent();
+				
 				msgType.setShortName(shortName);
 
 				if (msg.getAttributes().getNamedItem("flags") != null ) {
@@ -471,8 +503,8 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 				id_Abbrev.put(id, shortName);
 			}
 
-			for (String subtype : subtypeGroups.keySet()) {
-				for (String msg : subtypeGroups.get(subtype)) {
+			for (String subtype : msgGroupAbbrevs.keySet()) {
+				for (String msg : msgGroupAbbrevs.get(subtype)) {
 					int msgId = getMessageId(msg);
 
 					if (types.containsKey(msgId))
@@ -499,19 +531,19 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	public final Collection<String> getSubtypeGroups() {
-		return subtypeGroups.keySet();
+		return msgGroupAbbrevs.keySet();
 	}
 
 	public final Vector<String> getSubTypeGroup(String abbrev) {
-		if (!subtypeGroups.containsKey(abbrev))
+		if (!msgGroupAbbrevs.containsKey(abbrev))
 			return new Vector<String>();
 		Vector<String> types = new Vector<String>();	    
-		types.addAll(subtypeGroups.get(abbrev));
+		types.addAll(msgGroupAbbrevs.get(abbrev));
 		return types;
 	}
 
 	public String getSubTypeName(String abbrev) {
-		return subTypeNames.get(abbrev);
+		return msgGroupNames.get(abbrev);
 	}
 
 	/**
@@ -608,7 +640,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 * @return the subTypeNames
 	 */
 	public final LinkedHashMap<String, String> getSubTypeNames() {
-		return subTypeNames;
+		return msgGroupNames;
 	}
 
 	private final String computeMD5String(InputStream defStream) {
@@ -1282,7 +1314,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 
-	public static void main(String[] args) {
-		System.out.print(ImcStringDefs.getDefinitions());
+	public static void main(String[] args) throws Exception {
+		System.out.println(IMCDefinition.getInstance());
 	}
 }
