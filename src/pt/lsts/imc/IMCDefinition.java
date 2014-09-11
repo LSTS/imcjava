@@ -146,7 +146,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			}
 			if (instance == null) {
 				instance = new IMCDefinition(new ByteArrayInputStream(
-						ImcStringDefs.getDefinitions().getBytes()));
+						ImcStringDefs.getDefinitions().getBytes("UTF-8")));
 			}
 		}
 		catch (Exception e) {
