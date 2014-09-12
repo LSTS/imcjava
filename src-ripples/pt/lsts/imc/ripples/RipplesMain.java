@@ -9,10 +9,9 @@ import pt.lsts.imc.PlanControlState;
 import pt.lsts.imc.PlanDB;
 import pt.lsts.imc.PlanSpecification;
 import pt.lsts.imc.net.IMCProtocol;
+import pt.lsts.neptus.messages.listener.Consume;
 import pt.lsts.util.PlanUtilities;
 import pt.lsts.util.WGS84Utilities;
-
-import com.google.common.eventbus.Subscribe;
 
 
 public class RipplesMain {
@@ -35,7 +34,7 @@ public class RipplesMain {
 		});
 	}
 		
-	@Subscribe
+	@Consume
 	public void on(Announce ann) {
 		
 		double lat = Math.toDegrees(ann.getLat());
@@ -50,7 +49,7 @@ public class RipplesMain {
 		
 	}
 	
-	@Subscribe
+	@Consume
 	public void on(LogBookEntry entry) {
 		if (entry.getType() != LogBookEntry.TYPE.INFO && entry.getType() != LogBookEntry.TYPE.DEBUG) {
 			LinkedHashMap<String, Object> logEntry = new LinkedHashMap<String, Object>();
@@ -61,7 +60,7 @@ public class RipplesMain {
 		}
 	}
 
-	@Subscribe
+	@Consume
 	public void on(PlanDB m) {
 		if (m.getType() == PlanDB.TYPE.SUCCESS && m.getOp() == PlanDB.OP.GET) {
 			plans.put(m.getPlanId(), (PlanSpecification)m.getArg());
@@ -70,7 +69,7 @@ public class RipplesMain {
 		}
 	}
 	
-	@Subscribe
+	@Consume
 	public void on(PlanControlState pcs) {
 		
 		if (pcs.getState() == PlanControlState.STATE.EXECUTING) {
@@ -98,7 +97,7 @@ public class RipplesMain {
 		}
 	}
 	
-	@Subscribe
+	@Consume
 	public void on(EstimatedState s) {
 		double[] pos = WGS84Utilities.toLatLonDepth(s);
 		LinkedHashMap<String, Object> position = new LinkedHashMap<String, Object>();

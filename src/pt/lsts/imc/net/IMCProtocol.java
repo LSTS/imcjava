@@ -35,6 +35,7 @@ import java.io.FileInputStream;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -43,12 +44,15 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import pt.lsts.imc.Announce;
+import pt.lsts.imc.Announce.SYS_TYPE;
+import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.Heartbeat;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
-import pt.lsts.imc.Announce.SYS_TYPE;
 import pt.lsts.imc.lsf.LsfIndex;
 import pt.lsts.imc.state.ImcSysState;
+import pt.lsts.neptus.messages.listener.Consume;
+import pt.lsts.neptus.messages.listener.ImcConsumer;
 import pt.lsts.neptus.messages.listener.MessageInfo;
 import pt.lsts.neptus.messages.listener.MessageListener;
 
@@ -77,57 +81,7 @@ public class IMCProtocol implements IMessageBus {
     protected String localName = "imcj_" + System.currentTimeMillis() / 500;
 
     protected LinkedHashMap<Integer, LinkedList<Integer>> acks = new LinkedHashMap<Integer, LinkedList<Integer>>();
-    protected Object bus = null;
-
-    {   
-        try {
-            Object executor = Class.forName("java.util.concurrent.Executors").getMethod("newFixedThreadPool", int.class)
-                    .invoke(null, 3);
-            bus = Class.forName("com.google.common.eventbus.AsyncEventBus")
-                    .getConstructor(Class.forName("java.util.concurrent.Executor")).newInstance(executor);
-        }
-        catch (Error e) {
-        	System.err.println("AsyncEventBus is not available");            
-        }
-        catch (Exception e) {
-        	System.err.println("AsyncEventBus is not available");
-        }        
-    }
-
-    @Override
-    public void unregister(Object subscriber) {
-        try {
-            if (bus != null)
-                bus.getClass().getMethod("unregister", Object.class).invoke(bus, subscriber);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }        
-    }
-
-    @Override
-    public void register(Object subscriber) {
-        try {
-            if (bus != null)
-                bus.getClass().getMethod("register", Object.class).invoke(bus, subscriber);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }        
-    }
-
-    @Override
-    public void post(Object event) {        
-        try {
-            if (bus != null)
-                bus.getClass().getMethod("post", Object.class).invoke(bus, event);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
+    
     private MessageListener<MessageInfo, IMCMessage> messageListener = new MessageListener<MessageInfo, IMCMessage>() {
         @Override
         public void onMessage(MessageInfo info, IMCMessage msg) {
@@ -209,7 +163,7 @@ public class IMCProtocol implements IMessageBus {
             int port = 30100;
 
             while (true) {
-                // System.out.println("[IMCTransport] Trying to bind to port " + port + "...");
+                // system.out.println("[IMCTransport] Trying to bind to port " + port + "...");
                 discovery = new UDPTransport(true, true, port, 1);
                 discovery.setImcId(localId);
                 if (discovery.isOnBindError()) {
@@ -384,6 +338,37 @@ public class IMCProtocol implements IMessageBus {
         
         
         return false;
+    }
+    
+    private LinkedHashMap<Object, ImcConsumer.Itf> pojoSubscribers = new LinkedHashMap<Object, ImcConsumer.Itf>();
+    
+    public void register(Object consumer) {
+    	unregister(consumer);
+    	
+    	ImcConsumer.Itf listener = ImcConsumer.create(consumer);
+    	
+    	if (listener.getTypesToListen() == null)
+    		addMessageListener(listener, new ArrayList<String>());
+    	else if (listener.getTypesToListen().isEmpty())
+    		return;
+    	else
+    		addMessageListener(listener, listener.getTypesToListen());
+    	
+    	pojoSubscribers.put(consumer, listener);
+    }
+    
+    public void unregister(Object consumer) {
+    	if (pojoSubscribers.containsKey(consumer))
+    		removeMessageListener(pojoSubscribers.get(consumer));
+    	pojoSubscribers.remove(consumer);
+    }
+    
+    
+    public void post(Object event) {
+    	//FIXME post locally
+    	if (event instanceof IMCMessage) {
+    		
+    	}
     }
 
     /**
@@ -564,5 +549,15 @@ public class IMCProtocol implements IMessageBus {
 
     public static void main(String[] args) throws Exception {
 
+    	IMCProtocol proto = new IMCProtocol(7001);
+    	proto.register(new Object() {
+    		
+    		@Consume
+    		public void on(EstimatedState state) {
+    			System.out.println("Got an estimated state from "+state.getSourceName());
+    		}
+    	});
+    	
+    	Thread.sleep(30000);
     }
 }

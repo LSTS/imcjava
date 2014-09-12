@@ -63,7 +63,7 @@
     </javac>
   </target>
 
-  <target name="compile-all" depends="compile, compile-sniffer, compile-teleop, compile-preview, compile-kraken, compile-agents">
+  <target name="compile-all" depends="compile, compile-sniffer, compile-teleop, compile-preview">
     <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
     </javac>
     <copy todir="build">
@@ -91,36 +91,6 @@
     <javac encoding="UTF-8" srcdir="src-lsfpreview" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
     </javac>
   </target>
-
-  <target name="compile-agents" depends="compile">
-    <javac encoding="UTF-8" srcdir="src-agents" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false"
-           classpath="lib/js.jar;lib/guava-13.0.1.jar;lib/jetty-all-9.0.0.v20130308.jar;lib/javax.servlet-3.0.0.v201112011016.jar;lib/commons-io-2.0.1.jar">
-    </javac>
-  </target>
-
-  <target name="agents-jar" depends="compile-agents">
-    <delete file="dist/kraken.jar"/>
-    <unjar src="lib/js.jar" dest="build"/>
-    <unjar src="lib/guava-13.0.1.jar" dest="build"/>
-    <unjar src="lib/jetty-all-9.0.0.v20130308.jar" dest="build"/>
-
-    <unjar src="lib/javax.servlet-3.0.0.v201112011016.jar" dest="build">
-      <patternset>
-        <include name="**"/>
-        <exclude name="META-INF/*.SF"/>
-        <exclude name="META-INF/*.DSA"/>
-        <exclude name="META-INF/*.RSA"/>
-      </patternset>
-    </unjar>
-
-    <jar destfile="dist/kraken.jar" basedir="build" index="true">
-      <manifest>
-        <attribute name="Main-Class" value="pt.lsts.imc.AgentContext"/>
-      </manifest>
-    </jar>
-    <echo message="The file 'dist/kraken.jar' was generated"/>
-  </target>
-
 
   <target name="sniffer-jar" depends="compile-sniffer">
     <delete file="dist/sniffer.jar"/>
@@ -244,7 +214,6 @@
   <target name="jar-full" depends="compile-all,copysrc,copylicense,copygenerated">
     <unjar src="lib/jchart2d-3.2.0.jar" dest="build"/>
     <unjar src="lib/js.jar" dest="build"/>
-    <unjar src="lib/guava-13.0.1.jar" dest="build"/>
     <unjar src="lib/commons-io-2.0.1.jar" dest="build"/>
     <unjar src="lib/commons-lang3-3.1.jar" dest="build"/>
     <jar destfile="dist/imc-full.jar" basedir="build" index="true">
@@ -285,7 +254,7 @@
   </target>
 
   <target name="javadoc" description="Create javadoc documentation">
-    <javadoc charset="UTF-8" encoding="UTF-8" access="public" author="true" classpath="lib/guava-13.0.1.jar:lib/commons-lang3-3.1.jar:lib/js.jar:lib/jchart2d-3.2.0.jar:lib/commons-lang3-3.1.jar:lib/commons-io-2.0.1.jar" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
+    <javadoc charset="UTF-8" encoding="UTF-8" access="public" author="true" classpath="lib/commons-lang3-3.1.jar:lib/js.jar:lib/jchart2d-3.2.0.jar:lib/commons-lang3-3.1.jar:lib/commons-io-2.0.1.jar" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
   </target>
 
   <target name="lsfcat" description="Create a program for extracting and simplifying lsf files" depends="compile">
@@ -335,9 +304,8 @@
 
 
   <target name="ripples" description="Create ripples.jar" depends="compile">
-    <javac encoding="UTF-8" debug="true" srcdir="src-ripples" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/guava-13.0.1.jar;lib/firebase-client-jvm-LATEST.jar">
+    <javac encoding="UTF-8" debug="true" srcdir="src-ripples" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/firebase-client-jvm-LATEST.jar">
     </javac>
-    <unjar src="lib/guava-13.0.1.jar" dest="build"/>
     <unjar src="lib/firebase-client-jvm-LATEST.jar" dest="build"/>
 
     <jar destfile="dist/ripples.jar" basedir="build" index="true">

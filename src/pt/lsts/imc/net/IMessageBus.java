@@ -31,10 +31,6 @@
 package pt.lsts.imc.net;
 
 public interface IMessageBus {
-
     public void register(Object subscriber);
-    
     public void unregister(Object subscriber);
-    
-    public void post(Object event);
 }
