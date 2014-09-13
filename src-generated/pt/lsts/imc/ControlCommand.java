@@ -30,8 +30,8 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Subtype ControlCommand (Control Command)<br/>
- *  Messages belonging to this subtype: <ul>
+ *  IMC Supertype ControlCommand (Control Command)<br/>
+ *  Messages belonging to this type: <ul>
  *  <li>{@link DesiredZ}</li>
  *  <li>{@link DesiredHeading}</li>
  *  <li>{@link DesiredRoll}</li>

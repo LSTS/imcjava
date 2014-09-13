@@ -422,6 +422,8 @@ public class MessageFactory {
 				return new PlanGeneration(defs);
 			case LeaderState.ID_STATIC:
 				return new LeaderState(defs);
+			case PlanStatistics.ID_STATIC:
+				return new PlanStatistics(defs);
 			case ReportedState.ID_STATIC:
 				return new ReportedState(defs);
 			case RemoteSensorInfo.ID_STATIC:

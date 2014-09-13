@@ -30,8 +30,8 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Subtype Maneuver (Maneuver)<br/>
- *  Messages belonging to this subtype: <ul>
+ *  IMC Supertype Maneuver (Maneuver)<br/>
+ *  Messages belonging to this type: <ul>
  *  <li>{@link Goto}</li>
  *  <li>{@link PopUp}</li>
  *  <li>{@link Teleoperation}</li>
