@@ -52,8 +52,8 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 			String name = c.getSimpleName();
 			// If its a supertype, also add its subtypes to the list of messages
 			// listened
-			if (IMCDefinition.getInstance().getSubTypeGroup(name) != null)
-				types.addAll(IMCDefinition.getInstance().getSubTypeGroup(name));
+			if (IMCDefinition.getInstance().subtypesOf(name) != null)
+				types.addAll(IMCDefinition.getInstance().subtypesOf(name));
 			types.add(name);
 		}
 		return types;

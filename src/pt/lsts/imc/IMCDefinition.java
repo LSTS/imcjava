@@ -36,29 +36,30 @@ import java.io.DataInput;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
-import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 //import java.util.logging.Logger;
+
+
+
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
+import pt.lsts.imc.def.DefaultProtocolParser;
+import pt.lsts.imc.def.ProtocolDefinition;
+import pt.lsts.imc.def.ValueDescriptor;
 import pt.lsts.imc.gz.MultiMemberGZIPInputStream;
 import pt.lsts.neptus.messages.IMessageProtocol;
 
@@ -80,18 +81,10 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	protected LinkedHashMap<Integer, String> id_Abbrev = new LinkedHashMap<Integer, String>();
 	protected LinkedHashMap<String, Integer> abbrev_Id = new LinkedHashMap<String, Integer>();
-	protected LinkedHashMap<String, String> abbrev_Abbrev = new LinkedHashMap<String, String>();
-
-	protected LinkedHashMap<Integer, IMCMessageType> types = new LinkedHashMap<Integer, IMCMessageType>();
+	protected LinkedHashMap<String, IMCMessageType> types = new LinkedHashMap<String, IMCMessageType>();
 	protected LinkedHashMap<String, LinkedHashMap<Long, String>> globalEnumerations = new LinkedHashMap<String, LinkedHashMap<Long,String>>();
 	protected LinkedHashMap<String, String> globalEnumPrefixes = new LinkedHashMap<String, String>();
-
-	// message-groups
-	protected LinkedHashMap<String, Vector<String>> msgGroupAbbrevs = new LinkedHashMap<String, Vector<String>>();
-	protected LinkedHashMap<String, String> msgGroupNames = new LinkedHashMap<String, String>();
-	protected LinkedHashMap<String, IMCMessageType> msgGroupTypes = new LinkedHashMap<String, IMCMessageType>();
-	
-
+	protected LinkedHashMap<String, Vector<String>> subTypes = new LinkedHashMap<String, Vector<String>>();
 	/**
 	 * Create a new IMCDefinition, loading the definitions from <b>f</b>
 	 * @param f The file from where to read the definitions.
@@ -172,7 +165,6 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 */
 	public Header createHeader() {
 		Header h = new Header(this);
-
 		return h;
 	}
 
@@ -180,370 +172,39 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		return headerType;
 	}
 
-	private IMCMessageType parseFields(NodeList fields) {
-		return parseFields(null, fields);
-	}
-	private IMCMessageType parseFields(IMCMessageType supertype, NodeList fields) {
-		
-		IMCMessageType msgType = new IMCMessageType();
-		
-		if (supertype != null) {
-			msgType = new IMCMessageType(supertype);
-		}
-		
-		for (int i = 0; i < fields.getLength(); i++) {
-			Node field = fields.item(i);
-			if (field.getNodeName().equals("description"))
-				msgType.setMessageDescription(field.getTextContent());
-			if (!field.getNodeName().equals("field"))
-				continue;
-			NamedNodeMap attrs = field.getAttributes();
-			String fieldAbbrv = attrs.getNamedItem("abbrev").getTextContent();
-			String fieldName = attrs.getNamedItem("name").getTextContent();
-			String type = attrs.getNamedItem("type").getTextContent();
-
-			String unit = null;//attrs.getNamedItem("unit").getTextContent();
-			Node unitNd = attrs.getNamedItem("unit");
-			if (unitNd != null)
-				unit = unitNd.getTextContent();
-
-			String subtype = null;
-			Node subtNd = attrs.getNamedItem("subtype");
-			if (subtNd != null)
-				subtype = subtNd.getTextContent();
-
-			subtNd = attrs.getNamedItem("message-type");
-			if (subtNd != null)
-				subtype = subtNd.getTextContent();
-
-			String minVal = null;
-			Node minNd = attrs.getNamedItem("min");
-			if (minNd != null)
-				minVal = minNd.getTextContent();
-
-			String maxVal = null;
-			Node maxNd = attrs.getNamedItem("max");
-			if (maxNd != null)
-				maxVal = maxNd.getTextContent();
-
-			msgType.addField(fieldAbbrv, type, unit, minVal, maxVal);
-			msgType.setFieldName(fieldAbbrv, fieldName);
-
-			if (subtype != null) {
-				msgType.setFieldSubtype(fieldAbbrv, subtype);
-			}
-			if (unit == null)
-				continue;
-
-			if (unit.equalsIgnoreCase("enumerated") || unit.equalsIgnoreCase("bitmask") || unit.equalsIgnoreCase("bitfield")) {
-
-				LinkedHashMap<Long, String> possibleValues = new LinkedHashMap<Long, String>();
-				String prefix = null;
-
-				if (field.getAttributes().getNamedItem("enum-def") != null) {
-					possibleValues.putAll(globalEnumerations.get(field
-							.getAttributes().getNamedItem("enum-def")
-							.getTextContent()));
-
-					prefix = globalEnumPrefixes.get(field
-							.getAttributes().getNamedItem("enum-def")
-							.getTextContent());
-				}
-
-				if (field.getAttributes().getNamedItem("bitmask-def") != null) {
-					possibleValues.putAll(globalEnumerations.get(field
-							.getAttributes().getNamedItem("bitmask-def")
-							.getTextContent()));
-
-					prefix = globalEnumPrefixes.get(field
-							.getAttributes().getNamedItem("bitmask-def")
-							.getTextContent());
-				}
-
-				if (field.getAttributes().getNamedItem("bitfield-def") != null) {
-					possibleValues.putAll(globalEnumerations.get(field
-							.getAttributes().getNamedItem("bitfield-def")
-							.getTextContent()));
-
-					prefix = globalEnumPrefixes.get(field
-							.getAttributes().getNamedItem("bitfield-def")
-							.getTextContent());
-				}
-
-				NodeList inner = field.getChildNodes();
-				for (int j = 0; j < inner.getLength(); j++) {
-
-					Node n = inner.item(j);
-
-					if (n.getNodeName().equals("enum") || n.getNodeName().equals("bitmask") ||  n.getNodeName().equals("value")) {
-						String idEl = n.getAttributes().getNamedItem("id").getTextContent();
-						String abbrev = n.getAttributes().getNamedItem("abbrev").getTextContent();
-
-						long val = 0;
-						if (!idEl.contains("x")) {
-							val = Long.parseLong(idEl);
-						}
-						else {
-							idEl = idEl.substring(idEl.indexOf('x')+1);
-							val = Long.parseLong(idEl, 16);
-						}
-						possibleValues.put(val, abbrev);
-
-						if (n.getParentNode().getAttributes().getNamedItem("prefix") != null) {
-							prefix = n.getParentNode().getAttributes().getNamedItem("prefix").getTextContent();
-						}
-					}
-					else if (n.getNodeName().equals("description")) {
-						msgType.setFieldDescription(fieldAbbrv, n.getTextContent());					    
-					}
-				}
-				msgType.setFieldPossibleValues(fieldAbbrv, possibleValues);	
-				if (prefix != null)
-					msgType.setFieldPrefix(fieldAbbrv, prefix);
-			}			
-		}
-		return msgType;
-	}
-
 	protected void readDefs(InputStream is) throws Exception {
-		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		FilterInputStream fis = new FilterInputStream(is) {
-			@Override
-			public int read() throws IOException {
-				int tmp =  super.read();
-				baos.write(tmp);
-				return tmp;
-			}
-			@Override
-			public int read(byte[] b) throws IOException {
-				return read(b, 0, b.length);
-			}
-			@Override
-			public int read(byte[] b, int off, int len) throws IOException {
-				int tmp = super.read(b, off, len);
-				if (tmp != -1)
-					baos.write(b, off, tmp);
-				return tmp;
-			}
-		};
-		is = fis;
-
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		dbf.setIgnoringComments(true);
-		dbf.setIgnoringElementContentWhitespace(true);
-
-		try {
-			DocumentBuilder builder = dbf.newDocumentBuilder();
-			Document doc = builder.parse(is);
-			Element root = doc.getDocumentElement();
-			version = root.getAttributes().getNamedItem("version").getTextContent();
-			name = root.getAttributes().getNamedItem("name").getTextContent();
-			longName = root.getAttributes().getNamedItem("long-name").getTextContent();
-			if (root.getAttributes().getNamedItem("creation") != null)
-				creation = root.getAttributes().getNamedItem("creation").getTextContent();
-			else
-				creation = "unknown date";
-
-			Node header = root.getElementsByTagName("header").item(0);
-
-			Node hnode = header.getFirstChild();
-			while (hnode != null) {
-				if (hnode.getNodeName().equals("field") && hnode.getAttributes().getNamedItem("abbrev").getTextContent().equals("sync")) {
-					String swText = hnode.getAttributes().getNamedItem("value").getTextContent();
-					swText = swText.replaceAll("0x", "");
-					syncWord = Long.parseLong(swText, 16);
-					swappedWord = (syncWord & 0xFF) << 8 | ((syncWord&0xFF00)>>8);
-				}
-				hnode = hnode.getNextSibling();
-			}
-
-			headerType = parseFields(header.getChildNodes());
-			headerType.setShortName("Header");
-			id_Abbrev.clear();
-			abbrev_Id.clear();
-			types.clear();
-			globalEnumerations.clear();
-
-
-
-			NodeList enumDefs = root.getElementsByTagName("def");
-			for (int i = 0;i < enumDefs.getLength(); i++) {
-				Node def = enumDefs.item(i);
-				if (def.getParentNode().getNodeName().equals("enumerations") || def.getParentNode().getNodeName().equals("bitmasks")
-						|| def.getParentNode().getNodeName().equals("bitfields")) {
-
-					String enumName = def.getAttributes().getNamedItem("abbrev").getTextContent();
-					String enumPrefix = def.getAttributes().getNamedItem("prefix").getTextContent();
-
-					globalEnumPrefixes.put(enumName, enumPrefix);
-
-					LinkedHashMap<Long, String> enumDef = new LinkedHashMap<Long, String>();
-					Node child = def.getFirstChild();
-					while (child != null) {
-						try {
-
-							if (!child.hasAttributes() || child.getAttributes().getNamedItem("id") == null) {					        
-								child = child.getNextSibling();
-								continue;
-							}
-
-							String idEl = child.getAttributes().getNamedItem("id").getTextContent();
-							long val = 0;
-							if (!idEl.contains("x")) {
-								val = Long.parseLong(idEl);
-							}
-							else {
-								idEl = idEl.substring(idEl.indexOf('x')+1);
-								val = Long.parseLong(idEl, 16);
-							}
-
-							enumDef.put(val, child.getAttributes().getNamedItem("abbrev").getTextContent());	
-						}
-						catch (Exception e) {
-							System.out.println("Error while parsing "+enumName+":");
-							e.printStackTrace();
-						}
-						child = child.getNextSibling();
-					}
-					globalEnumerations.put(enumName, enumDef);					
-				}
-				else if (def.getParentNode().getNodeName().equals("subtypes")) {
-					String typeAbbrev = def.getAttributes().getNamedItem("abbrev").getTextContent();
-					String typeName = def.getAttributes().getNamedItem("name").getTextContent();
-					msgGroupNames.put(typeAbbrev, typeName);
-
-					Vector<String> subtypeGroup = new Vector<String>();
-
-					NodeList types = def.getChildNodes();
-					for (int j = 0; j < types.getLength(); j++) {
-						Node inner = types.item(j);
-						try {
-							String msg = inner.getAttributes().getNamedItem("message").getTextContent();				            
-							subtypeGroup.add(msg);
-						}
-						catch (Exception e) {
-							//e.printStackTrace();
-						}
-					}
-
-					msgGroupAbbrevs.put(typeAbbrev, subtypeGroup);
-
-				}
-			}
-			
-			// Super type definitions
-			NodeList msgGroups = root.getElementsByTagName("message-group");
-			for (int i = 0; i < msgGroups.getLength(); i++) {
-				Node groupDef = msgGroups.item(i);
-				String msgGroup = groupDef.getAttributes().getNamedItem("abbrev").getTextContent();
-				String groupName = groupDef.getAttributes().getNamedItem("name").getTextContent();
-				
-				IMCMessageType groupType = parseFields(groupDef.getChildNodes());
-				
-				groupType.setShortName(msgGroup);
-				groupType.setFullName(groupName);
-				
-				msgGroupTypes.put(msgGroup, groupType);
-			}
-			
-			// message <-> group associations
-			NodeList msgTypes = root.getElementsByTagName("message-type");
-
-			for (int i = 0; i < msgTypes.getLength(); i++) {
-				Node typeDef = msgTypes.item(i);
-				String msgGroup = typeDef.getParentNode().getAttributes().getNamedItem("abbrev").getTextContent();
-				String groupName = typeDef.getParentNode().getAttributes().getNamedItem("name").getTextContent();
-				String msgType = typeDef.getAttributes().getNamedItem("abbrev").getTextContent();
-
-				if (!msgGroupAbbrevs.containsKey(msgGroup)) {
-					msgGroupAbbrevs.put(msgGroup, new Vector<String>());                    
-					msgGroupNames.put(msgGroup, groupName);                    
-				}
-
-				msgGroupAbbrevs.get(msgGroup).add(msgType);
-			}
-
-			NodeList msgs = root.getElementsByTagName("message");
-			for (int i = 0; i < msgs.getLength(); i++) {
-				Node msg = msgs.item(i);
-				String shortName = msg.getAttributes().getNamedItem("abbrev").getTextContent();
-				IMCMessageType superType = null;
-				for (String subtype : msgGroupAbbrevs.keySet()) {
-					if (msgGroupAbbrevs.get(subtype).contains(shortName))
-						superType = msgGroupTypes.get(subtype);					
-				}
-				
-				IMCMessageType msgType = parseFields(superType, msg.getChildNodes());
-				msgType.setImcVersion(version);
-				msgType.setComputedLength(headerType.getComputedLength());
-				int id = 0;
-				try {
-					id = Integer.parseInt((msg.getAttributes().getNamedItem("id").getTextContent()));
-				}
-				catch (Exception e) {
-					System.err.println("check "+msg.getAttributes().getNamedItem("name"));
-				}
-
-				msgType.setId(id);
-				String fullName = msg.getAttributes().getNamedItem("name").getTextContent();
-				msgType.setFullName(fullName);
-
-				
-				msgType.setShortName(shortName);
-
-				if (msg.getAttributes().getNamedItem("flags") != null ) {
-					String flags = msg.getAttributes().getNamedItem("flags").getTextContent();
-					for (String f : flags.split(","))
-						msgType.getFlags().add(f.trim());
-				}
-
-				types.put(id, msgType);
-				abbrev_Id.put(shortName, id);
-				abbrev_Abbrev.put(shortName.toLowerCase(), shortName);
-				id_Abbrev.put(id, shortName);
-			}
-
-			for (String subtype : msgGroupAbbrevs.keySet()) {
-				for (String msg : msgGroupAbbrevs.get(subtype)) {
-					int msgId = getMessageId(msg);
-
-					if (types.containsKey(msgId))
-						types.get(msgId).addSuperType(subtype);
-				}
-			}
-
-			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-			md5String = computeMD5String(bais);
-			/*
-            StringBuilder sb = new StringBuilder();
-            sb.append("Loaded IMC Message Definitions\n");
-            sb.append("  Version : " + getVersion() + "\n");
-            sb.append(" Creation : " + getCreation() + "\n");
-            sb.append("  Synch   : " + getSyncWord() + "\n");
-            sb.append("      MD5 : " + getMd5String() + "\n");
-            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info(sb.toString());
-			 */
+		ProtocolDefinition def = new DefaultProtocolParser().parseDefinitions(is);
+		this.version = def.getVersion();
+		this.syncWord = def.getSyncWord();
+		this.swappedWord = (syncWord & 0xFF) << 8 | ((syncWord&0xFF00)>>8);
+		this.md5String = def.getDefinitionMD5();
+		this.name = def.getName();
+		this.headerType = def.getHeader();
+		this.footerType = def.getFooter();
+		
+		for (ValueDescriptor vd : def.getGlobalBitfields()) {
+			globalEnumerations.put(vd.getAbbrev(), vd.getValues());
+			globalEnumPrefixes.put(vd.getAbbrev(), vd.getPrefix());
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			throw(e);
+		
+		for (ValueDescriptor vd : def.getGlobalEnumerations()) {
+			globalEnumerations.put(vd.getAbbrev(), vd.getValues());
+			globalEnumPrefixes.put(vd.getAbbrev(), vd.getPrefix());
 		}
-	}
-
-	public final Collection<String> getSubtypeGroups() {
-		return msgGroupAbbrevs.keySet();
-	}
-
-	public final Vector<String> getSubTypeGroup(String abbrev) {
-		if (!msgGroupAbbrevs.containsKey(abbrev))
-			return new Vector<String>();
-		Vector<String> types = new Vector<String>();	    
-		types.addAll(msgGroupAbbrevs.get(abbrev));
-		return types;
-	}
-
-	public String getSubTypeName(String abbrev) {
-		return msgGroupNames.get(abbrev);
+		
+		for(IMCMessageType msgType : def.getMessageDefinitions()) {
+			if (!msgType.isAbstract()) {
+				id_Abbrev.put(msgType.getId(), msgType.getShortName());
+				abbrev_Id.put(msgType.getShortName(), msgType.getId());
+			}
+			if (msgType.getSupertype() != null) {
+				String superType = msgType.getSupertype().getShortName();
+				if (!subTypes.containsKey(superType))
+					subTypes.put(superType, new Vector<String>());
+				subTypes.get(superType).add(msgType.getShortName());
+			}
+			types.put(msgType.getShortName(), msgType);
+		}
 	}
 
 	/**
@@ -552,7 +213,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 * @return The corresponding {@link IMCMessageType} or <strong>null</strong> if that type was not found
 	 */
 	public final IMCMessageType getType(Integer id) {
-		return types.get(id);
+		return types.get(id_Abbrev.get(id));
 	}
 
 	/**
@@ -561,7 +222,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 * @return The corresponding {@link IMCMessageType} or <strong>null</strong> if that type was not found
 	 */
 	public final IMCMessageType getType(String name) {
-		return types.get(abbrev_Id.get(name));
+		return types.get(name);
 	}
 
 	/**
@@ -635,61 +296,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	public String getMd5String() {
 		return md5String;
 	}
-
-	/**
-	 * @return the subTypeNames
-	 */
-	public final LinkedHashMap<String, String> getSubTypeNames() {
-		return msgGroupNames;
-	}
-
-	/**
-	 * @return the msgGroupTypes
-	 */
-	public LinkedHashMap<String, IMCMessageType> getMsgGroupTypes() {
-		return msgGroupTypes;
-	}
-
-	private final String computeMD5String(InputStream defStream) {
-		byte[] md5Array = computeMD5(defStream);
-		if (md5Array != null) {
-			BigInteger bi = new BigInteger(1, md5Array);
-			return bi.toString(16);
-		}
-		else {
-			return "";
-		}
-	}
-
-	private final byte[] computeMD5(InputStream defStream) {
-		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			MessageDigest md = MessageDigest.getInstance("MD5");
-
-			byte[] extra = new byte[50000];
-			int ret = 0;
-			for (;;) {
-				ret = defStream.read(extra);
-				if (ret != -1) {
-					byte[] extra1 = new byte[ret];
-					System.arraycopy(extra, 0, extra1, 0, ret);
-					baos.write(extra1);
-					baos.flush();
-				}
-				else {
-					break;
-				}
-			}
-
-			md.update(baos.toByteArray());
-			return md.digest();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
+	
 	/**
 	 * Create and retrieve an IMCMessage that is serialized in an array of bytes
 	 * @param data Where to read the message from
@@ -1178,16 +785,13 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 * @return Whether that message exists in this definition or not
 	 */
 	public boolean messageExists(String name) {
-		return abbrev_Id.containsKey(name) || abbrev_Abbrev.containsKey(name.toLowerCase());
+		return types.containsKey(name);
 	}
 
 	@Override
 	public int getMessageId(String name) {
 		if (abbrev_Id.containsKey(name))
 			return abbrev_Id.get(name);
-		else if (abbrev_Abbrev.containsKey(name.toLowerCase())) {
-			return abbrev_Id.get(abbrev_Abbrev.get(name.toLowerCase()));
-		}
 		else
 			return -1;
 	}
@@ -1299,6 +903,12 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 */
 	public final IMCAddressResolver getResolver() {
 		return resolver;
+	}
+	
+	public Collection<String> subtypesOf(String msgAbbrev) {
+		if (!subTypes.containsKey(msgAbbrev))
+			return new ArrayList<String>();
+		return subTypes.get(msgAbbrev);
 	}
 
 	/**

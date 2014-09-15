@@ -312,73 +312,6 @@ public class ClassGenerator {
 				IMCDefinition.getInstance());
 	}
 
-	public static void generateSubtypes(String packageName, File outputFolder,
-			IMCDefinition definitions) throws Exception {
-
-		for (String subtype : definitions.getSubtypeGroups()) {
-			IMCMessageType type = definitions.getMsgGroupTypes().get(subtype);
-			File outputDir = getOutputDir(outputFolder, packageName);
-			File outputFile = new File(outputDir, subtype + ".java");
-			System.out.println("generating " + outputFile);
-
-			// BufferedWriter bw = new BufferedWriter(new
-			// FileWriter(outputFile));
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(outputFile), "UTF-8"));
-
-			bw.write(getCopyRightHeader());
-
-			bw.write("package pt.lsts.imc;\n\n");
-
-			bw.write("/**\n");
-			bw.write(" *  IMC Supertype " + subtype + " ("
-					+ definitions.getSubTypeName(subtype) + ")<br/>\n");
-			bw.write(" *  Messages belonging to this type: <ul>\n");
-			for (String msg : definitions.getSubTypeGroup(subtype)) {
-				bw.write(" *  <li>{@link " + msg + "}</li>\n");
-			}
-			bw.write(" *  </ul>\n");
-			bw.write(" */\n");
-
-			bw.write("public class " + subtype + " extends IMCMessage {\n\n");
-			
-			if (type != null) {
-				bw.write(generateDefinitions(type, new IMCMessageType()));
-			}
-			
-			bw.write("\tpublic " + subtype + "(IMCDefinition defs, int id) {\n");
-			bw.write("\t\tsuper(defs, id);\n");
-			bw.write("\t}\n\n");
-
-			bw.write("\tpublic " + subtype + "(int id) {\n");
-			bw.write("\t\tsuper(id);\n");
-			bw.write("\t}\n\n");
-
-			bw.write("\tpublic " + subtype + "(int id, Object... values) {\n");
-			bw.write("\t\tsuper(id, values);\n");
-			bw.write("\t}\n\n");
-
-			bw.write("\tpublic "
-					+ subtype
-					+ "(IMCMessage msg) throws Exception {\n\t\tsuper(msg.getMgid());\n");
-			bw.write("\t\tgetHeader().values.putAll(msg.getHeader().values);\n");
-			bw.write("\t\tvalues.putAll(msg.values);\n");
-			bw.write("\t}\n\n");
-			
-			
-			if (type != null) {
-				for (String f : type.getFieldNames()) {
-					bw.write(generateGetters(type, f, true));
-					bw.write(generateSetters(type, f, true));
-				}
-			}
-			
-			bw.write("}\n");
-			
-			bw.close();
-		}
-	}
-
 	public static void generateClasses(String packageName, File outputFolder,
 			IMCDefinition definitions) throws Exception {
 
@@ -386,8 +319,6 @@ public class ClassGenerator {
 			f.delete();
 		}
 		outputFolder.delete();
-
-		generateSubtypes(packageName, outputFolder, definitions);
 
 		generateHeader(packageName, outputFolder, definitions);
 
@@ -995,20 +926,20 @@ public class ClassGenerator {
 
 		bw.close();
 	}
-	
-	
-	private static String generateDefinitions(IMCMessageType type, IMCMessageType superType) throws IOException {
-		
+
+	private static String generateDefinitions(IMCMessageType type,
+			IMCMessageType superType) throws IOException {
+
 		Vector<String> generatedBitmaskDefs = new Vector<String>();
 		StringBuilder result = new StringBuilder();
 
 		for (String field : type.getFieldNames()) {
-			
+
 			// this field is inherited, skip
 			if (superType.getFieldType(field) != null) {
 				continue;
 			}
-			
+
 			if ((type.getFieldUnits(field) + "").equals("bitfield")) {
 
 				if (type.getFieldPossibleValues(field) == null)
@@ -1074,7 +1005,7 @@ public class ClassGenerator {
 				result.append("\t}\n\n");
 			}
 		}
-		
+
 		return result.toString();
 	}
 
@@ -1117,70 +1048,72 @@ public class ClassGenerator {
 		bw.write(" */\n\n");
 
 		IMCMessageType superType = new IMCMessageType();
-		
-		if (type.getSupertypes().size() == 1) {
-			bw.write("public class " + msgName + " extends "
-					+ type.getSupertypes().iterator().next() + " {\n\n");
-			
-			superType = defs.getMsgGroupTypes().get(
-					type.getSupertypes().iterator().next());					
-		}
-		else
-			bw.write("public class " + msgName + " extends IMCMessage {\n\n");
 
-		bw.write("\tpublic static final int ID_STATIC = " + type.getId()
-				+ ";\n\n");
+		String abstractClass = type.isAbstract() ? "abstract " : "";
+		String superClass = " extends IMCMessage";
+
+		if (type.getSupertype() != null) {
+			superType = type.getSupertype();
+			superClass = " extends " + superType;
+		}
+
+		bw.write("public " + abstractClass + "class " + msgName + superClass
+				+ " {\n\n");
+
+		if (!type.isAbstract())
+			bw.write("\tpublic static final int ID_STATIC = " + type.getId()
+					+ ";\n\n");
 
 		bw.write(generateDefinitions(type, superType));
 
-		bw.write("\tpublic " + msgName + "() {\n\t\tsuper(ID_STATIC);\n\t}\n\n");
-		bw.write("\tpublic " + msgName + "(IMCMessage msg) {\n");
-		bw.write("\t\tsuper(ID_STATIC);\n");
-		bw.write("\t\ttry{\n");
-		bw.write("\t\t\tcopyFrom(msg);\n");
-		bw.write("\t\t}\n");
-		bw.write("\t\tcatch (Exception e) {\n");
-		bw.write("\t\t\te.printStackTrace();\n");
-		bw.write("\t\t}\n");
-		bw.write("\t}\n\n");
-		bw.write("\tpublic "
-				+ msgName
-				+ "(IMCDefinition defs) {\n\t\tsuper(defs, ID_STATIC);\n\t}\n\n");
+		if (!type.isAbstract()) {
+			bw.write("\tpublic " + msgName
+					+ "() {\n\t\tsuper(ID_STATIC);\n\t}\n\n");
+			bw.write("\tpublic " + msgName + "(IMCMessage msg) {\n");
+			bw.write("\t\tsuper(ID_STATIC);\n");
+			bw.write("\t\ttry{\n");
+			bw.write("\t\t\tcopyFrom(msg);\n");
+			bw.write("\t\t}\n");
+			bw.write("\t\tcatch (Exception e) {\n");
+			bw.write("\t\t\te.printStackTrace();\n");
+			bw.write("\t\t}\n");
+			bw.write("\t}\n\n");
+			bw.write("\tpublic "
+					+ msgName
+					+ "(IMCDefinition defs) {\n\t\tsuper(defs, ID_STATIC);\n\t}\n\n");
 
-		bw.write("\tpublic static " + msgName + " create(Object... values) {\n");
-		bw.write("\t\t" + msgName + " m = new " + msgName + "();\n");
-		bw.write("\t\tfor (int i = 0; i < values.length-1; i+= 2)\n");
-		bw.write("\t\t\tm.setValue(values[i].toString(), values[i+1]);\n");
-		bw.write("\t\treturn m;\n");
-		bw.write("\t}\n\n");
+			bw.write("\tpublic static " + msgName
+					+ " create(Object... values) {\n");
+			bw.write("\t\t" + msgName + " m = new " + msgName + "();\n");
+			bw.write("\t\tfor (int i = 0; i < values.length-1; i+= 2)\n");
+			bw.write("\t\t\tm.setValue(values[i].toString(), values[i+1]);\n");
+			bw.write("\t\treturn m;\n");
+			bw.write("\t}\n\n");
 
-		bw.write("\tpublic static " + msgName
-				+ " clone(IMCMessage msg) throws Exception {\n\n");
-		bw.write("\t\t" + msgName + " m = new " + msgName + "();\n");
-		bw.write("\t\tif (msg == null)\n");
-		bw.write("\t\t\treturn m;\n");
-		bw.write("\t\tif(msg.definitions != m.definitions){\n");
-		bw.write("\t\t\tmsg = msg.cloneMessage();\n");
-		bw.write("\t\t\tIMCUtil.updateMessage(msg, m.definitions);\n\t\t}\n");
-		bw.write("\t\telse if (msg.getMgid()!=m.getMgid())\n");
-		bw.write("\t\t\tthrow new Exception(\"Argument \"+msg.getAbbrev()+\" is incompatible with message \"+m.getAbbrev());\n\n");
-		bw.write("\t\tm.getHeader().values.putAll(msg.getHeader().values);\n");
-		bw.write("\t\tm.values.putAll(msg.values);\n");
-		bw.write("\t\treturn m;\n\t}\n\n");
+			bw.write("\tpublic static " + msgName
+					+ " clone(IMCMessage msg) throws Exception {\n\n");
+			bw.write("\t\t" + msgName + " m = new " + msgName + "();\n");
+			bw.write("\t\tif (msg == null)\n");
+			bw.write("\t\t\treturn m;\n");
+			bw.write("\t\tif(msg.definitions != m.definitions){\n");
+			bw.write("\t\t\tmsg = msg.cloneMessage();\n");
+			bw.write("\t\t\tIMCUtil.updateMessage(msg, m.definitions);\n\t\t}\n");
+			bw.write("\t\telse if (msg.getMgid()!=m.getMgid())\n");
+			bw.write("\t\t\tthrow new Exception(\"Argument \"+msg.getAbbrev()+\" is incompatible with message \"+m.getAbbrev());\n\n");
+			bw.write("\t\tm.getHeader().values.putAll(msg.getHeader().values);\n");
+			bw.write("\t\tm.values.putAll(msg.values);\n");
+			bw.write("\t\treturn m;\n\t}\n\n");
 
-		bw.write(generateFullConstructor(defs, msgName));
-
-		for (String field : type.getFieldNames()) {
-			if (superType.getFieldType(field) == null)
-				bw.write(generateGetters(type, field, true));
+			bw.write(generateFullConstructor(defs, msgName));
 		}
 
-		for (String field : type.getFieldNames())
-			if (superType.getFieldType(field) == null)
+		for (String field : type.getFieldNames()) {
+			if (superType.getFieldType(field) == null) {
+				bw.write(generateGetters(type, field, true));
 				bw.write(generateSetters(type, field, true));
-
+			}
+		}
 		bw.write("}\n");
-
 		bw.close();
 	}
 
@@ -1194,11 +1127,11 @@ public class ClassGenerator {
 		}
 		return curFolder;
 	}
-	
+
 	private static void clearDir(File outputFolder) {
 		for (File f : outputFolder.listFiles()) {
 			if (f.getName().endsWith(".java")) {
-				System.out.println("Deleting "+f.getPath());
+				System.out.println("Deleting " + f.getPath());
 				f.delete();
 			}
 		}
@@ -1228,13 +1161,12 @@ public class ClassGenerator {
 			IMCDefinition defs = new IMCDefinition(
 					GenerationUtils.getImcXml(repo));
 			Map<String, Integer> addrs = GenerationUtils.getImcAddresses(repo);
-			
+
 			File output = getOutputDir(new File("src-generated"), "pt.lsts.imc");
 			clearDir(output);
-			
+
 			generateClasses("pt.lsts.imc", new File("src-generated"), defs);
-			generateStringDefinitions("pt.lsts.imc",
-					addrs, sha, branch,
+			generateStringDefinitions("pt.lsts.imc", addrs, sha, branch,
 					commitDetails, new File("src-generated"),
 					GenerationUtils.getImcXml(repo));
 			generateImcFactory(defs, new File("src-generated"));

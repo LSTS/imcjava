@@ -31,7 +31,6 @@
 package pt.lsts.imc;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
@@ -64,7 +63,7 @@ public class IMCMessageType {
     private LinkedHashMap<String, String> descriptions = new LinkedHashMap<String, String>();
     private LinkedHashMap<String, String> fullnames = new LinkedHashMap<String, String>();
     private LinkedHashMap<String, String> subtypes = new LinkedHashMap<String, String>();
-    private HashSet<String> superTypes = new HashSet<String>();
+    private IMCMessageType superType = null;
     
     public IMCMessageType() {
     	
@@ -248,6 +247,10 @@ public class IMCMessageType {
     public LinkedHashMap<String, Long> getFieldMeanings(String abbrev) {
         return fieldPossibleValuesInverse.get(abbrev);
     }
+    
+    public boolean isAbstract() {
+    	return getId() == -1;
+    }
 
     public int getId() {
         return id;
@@ -339,15 +342,12 @@ public class IMCMessageType {
         return subtypes.get(abbrev);
     }
     
-    public final Collection<String> getSupertypes() {
-        return superTypes;
+    public IMCMessageType getSupertype() {
+        return superType;
     }
     
-    public void addSuperType(String supertype) throws Exception {
-    	superTypes.add(supertype);
-    	
-    	if (superTypes.size() > 1)
-    		throw new Exception("A message can only belong to a single message group");
+    public void setSuperType(IMCMessageType msgType) throws Exception {
+    	this.superType = msgType;
     }
     
     @Override
