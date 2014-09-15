@@ -318,10 +318,10 @@ public class ClassGenerator {
 	public static void generateClasses(String packageName, File outputFolder,
 			IMCDefinition definitions) throws Exception {
 
-		// for (File f : outputFolder.listFiles()) {
-		// f.delete();
-		// }
-		// outputFolder.delete();
+		 for (File f : outputFolder.listFiles()) {
+			 f.delete();
+		 }
+		 outputFolder.delete();
 
 		generateHeader(packageName, outputFolder, definitions);
 
