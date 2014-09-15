@@ -94,18 +94,18 @@ public class ButtonEvent extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value - uint8_t
-	 */
-	public short getValue() {
-		return (short) getInteger("value");
-	}
-
-	/**
 	 *  @param button Button
 	 */
 	public ButtonEvent setButton(short button) {
 		values.put("button", button);
 		return this;
+	}
+
+	/**
+	 *  @return Value - uint8_t
+	 */
+	public short getValue() {
+		return (short) getInteger("value");
 	}
 
 	/**

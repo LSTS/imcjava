@@ -44,8 +44,6 @@ package pt.lsts.imc;
 
 public class Goto extends Maneuver {
 
-	public static final int ID_STATIC = 450;
-
 	public enum Z_UNITS {
 		NONE(0),
 		DEPTH(1),
@@ -78,6 +76,8 @@ public class Goto extends Maneuver {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 450;
 
 	public Goto() {
 		super(ID_STATIC);
@@ -145,95 +145,18 @@ public class Goto extends Maneuver {
 	}
 
 	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Z Reference (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  Units of the z reference.<br/>
-	 *  @return Z Units (enumerated) - uint8_t
-	 */
-	public Z_UNITS getZUnits() {
-		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Roll (rad) - fp64_t
-	 */
-	public double getRoll() {
-		return getDouble("roll");
-	}
-
-	/**
-	 *  @return Pitch (rad) - fp64_t
-	 */
-	public double getPitch() {
-		return getDouble("pitch");
-	}
-
-	/**
-	 *  @return Yaw (rad) - fp64_t
-	 */
-	public double getYaw() {
-		return getDouble("yaw");
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param timeout Timeout (s)
 	 */
 	public Goto setTimeout(int timeout) {
 		values.put("timeout", timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -245,6 +168,13 @@ public class Goto extends Maneuver {
 	}
 
 	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
 	public Goto setLon(double lon) {
@@ -253,11 +183,31 @@ public class Goto extends Maneuver {
 	}
 
 	/**
+	 *  @return Z Reference (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Z Reference (m)
 	 */
 	public Goto setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Z Units (enumerated) - uint8_t
+	 */
+	public Z_UNITS getZUnits() {
+		try {
+			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -285,11 +235,31 @@ public class Goto extends Maneuver {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public Goto setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -317,11 +287,25 @@ public class Goto extends Maneuver {
 	}
 
 	/**
+	 *  @return Roll (rad) - fp64_t
+	 */
+	public double getRoll() {
+		return getDouble("roll");
+	}
+
+	/**
 	 *  @param roll Roll (rad)
 	 */
 	public Goto setRoll(double roll) {
 		values.put("roll", roll);
 		return this;
+	}
+
+	/**
+	 *  @return Pitch (rad) - fp64_t
+	 */
+	public double getPitch() {
+		return getDouble("pitch");
 	}
 
 	/**
@@ -333,11 +317,25 @@ public class Goto extends Maneuver {
 	}
 
 	/**
+	 *  @return Yaw (rad) - fp64_t
+	 */
+	public double getYaw() {
+		return getDouble("yaw");
+	}
+
+	/**
 	 *  @param yaw Yaw (rad)
 	 */
 	public Goto setYaw(double yaw) {
 		values.put("yaw", yaw);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

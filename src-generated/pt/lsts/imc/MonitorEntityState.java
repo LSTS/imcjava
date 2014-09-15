@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class MonitorEntityState extends IMCMessage {
 
-	public static final int ID_STATIC = 502;
-
 	public enum COMMAND {
 		RESET(0),
 		ENABLE(1),
@@ -55,6 +53,8 @@ public class MonitorEntityState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 502;
 
 	public MonitorEntityState() {
 		super(ID_STATIC);
@@ -106,7 +106,6 @@ public class MonitorEntityState extends IMCMessage {
 	}
 
 	/**
-	 *  Command.<br/>
 	 *  @return Command (enumerated) - uint8_t
 	 */
 	public COMMAND getCommand() {
@@ -117,13 +116,6 @@ public class MonitorEntityState extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Entity Names - plaintext
-	 */
-	public String getEntities() {
-		return getString("entities");
 	}
 
 	/**
@@ -148,6 +140,13 @@ public class MonitorEntityState extends IMCMessage {
 	public MonitorEntityState setCommand(short command) {
 		setValue("command", command);
 		return this;
+	}
+
+	/**
+	 *  @return Entity Names - plaintext
+	 */
+	public String getEntities() {
+		return getString("entities");
 	}
 
 	/**

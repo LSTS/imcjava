@@ -115,158 +115,18 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Distance - fp32_t
-	 */
-	public double getDist() {
-		return getDouble("dist");
-	}
-
-	/**
-	 *  @return Position Error - fp32_t
-	 */
-	public double getErr() {
-		return getDouble("err");
-	}
-
-	/**
-	 *  @return Control Importance - fp32_t
-	 */
-	public double getCtrlImp() {
-		return getDouble("ctrl_imp");
-	}
-
-	/**
-	 *  @return Relative Direction X (North) - fp32_t
-	 */
-	public double getRelDirX() {
-		return getDouble("rel_dir_x");
-	}
-
-	/**
-	 *  @return Relative Direction Y (East) - fp32_t
-	 */
-	public double getRelDirY() {
-		return getDouble("rel_dir_y");
-	}
-
-	/**
-	 *  @return Relative Direction Z (Down) - fp32_t
-	 */
-	public double getRelDirZ() {
-		return getDouble("rel_dir_z");
-	}
-
-	/**
-	 *  @return X Position Error (North) - fp32_t
-	 */
-	public double getErrX() {
-		return getDouble("err_x");
-	}
-
-	/**
-	 *  @return Y Position Error (East) - fp32_t
-	 */
-	public double getErrY() {
-		return getDouble("err_y");
-	}
-
-	/**
-	 *  @return Z Position Error (Down) - fp32_t
-	 */
-	public double getErrZ() {
-		return getDouble("err_z");
-	}
-
-	/**
-	 *  @return X Position Error In Relative Frame (North) - fp32_t
-	 */
-	public double getRfErrX() {
-		return getDouble("rf_err_x");
-	}
-
-	/**
-	 *  @return Y Position Error In Relative Frame (East) - fp32_t
-	 */
-	public double getRfErrY() {
-		return getDouble("rf_err_y");
-	}
-
-	/**
-	 *  @return Z Position Error In Relative Frame (Down) - fp32_t
-	 */
-	public double getRfErrZ() {
-		return getDouble("rf_err_z");
-	}
-
-	/**
-	 *  @return X Velocity Error In Relative Frame (North) - fp32_t
-	 */
-	public double getRfErrVx() {
-		return getDouble("rf_err_vx");
-	}
-
-	/**
-	 *  @return Y Velocity Error In Relative Frame (East) - fp32_t
-	 */
-	public double getRfErrVy() {
-		return getDouble("rf_err_vy");
-	}
-
-	/**
-	 *  @return Z Velocity Error In Relative Frame (Down) - fp32_t
-	 */
-	public double getRfErrVz() {
-		return getDouble("rf_err_vz");
-	}
-
-	/**
-	 *  @return X Convergence Deviation (North) - fp32_t
-	 */
-	public double getSsX() {
-		return getDouble("ss_x");
-	}
-
-	/**
-	 *  @return Y Convergence Deviation (East) - fp32_t
-	 */
-	public double getSsY() {
-		return getDouble("ss_y");
-	}
-
-	/**
-	 *  @return Z Convergence Deviation (Down) - fp32_t
-	 */
-	public double getSsZ() {
-		return getDouble("ss_z");
-	}
-
-	/**
-	 *  @return X Virtual Error (North) - fp32_t
-	 */
-	public double getVirtErrX() {
-		return getDouble("virt_err_x");
-	}
-
-	/**
-	 *  @return Y Virtual Error (East) - fp32_t
-	 */
-	public double getVirtErrY() {
-		return getDouble("virt_err_y");
-	}
-
-	/**
-	 *  @return Z Virtual Error (Down) - fp32_t
-	 */
-	public double getVirtErrZ() {
-		return getDouble("virt_err_z");
-	}
-
-	/**
 	 *  @param s_id System Identifier
 	 */
 	public RelativeState setSId(String s_id) {
 		values.put("s_id", s_id);
 		return this;
+	}
+
+	/**
+	 *  @return Distance - fp32_t
+	 */
+	public double getDist() {
+		return getDouble("dist");
 	}
 
 	/**
@@ -278,11 +138,25 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Position Error - fp32_t
+	 */
+	public double getErr() {
+		return getDouble("err");
+	}
+
+	/**
 	 *  @param err Position Error
 	 */
 	public RelativeState setErr(double err) {
 		values.put("err", err);
 		return this;
+	}
+
+	/**
+	 *  @return Control Importance - fp32_t
+	 */
+	public double getCtrlImp() {
+		return getDouble("ctrl_imp");
 	}
 
 	/**
@@ -294,11 +168,25 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Relative Direction X (North) - fp32_t
+	 */
+	public double getRelDirX() {
+		return getDouble("rel_dir_x");
+	}
+
+	/**
 	 *  @param rel_dir_x Relative Direction X (North)
 	 */
 	public RelativeState setRelDirX(double rel_dir_x) {
 		values.put("rel_dir_x", rel_dir_x);
 		return this;
+	}
+
+	/**
+	 *  @return Relative Direction Y (East) - fp32_t
+	 */
+	public double getRelDirY() {
+		return getDouble("rel_dir_y");
 	}
 
 	/**
@@ -310,11 +198,25 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Relative Direction Z (Down) - fp32_t
+	 */
+	public double getRelDirZ() {
+		return getDouble("rel_dir_z");
+	}
+
+	/**
 	 *  @param rel_dir_z Relative Direction Z (Down)
 	 */
 	public RelativeState setRelDirZ(double rel_dir_z) {
 		values.put("rel_dir_z", rel_dir_z);
 		return this;
+	}
+
+	/**
+	 *  @return X Position Error (North) - fp32_t
+	 */
+	public double getErrX() {
+		return getDouble("err_x");
 	}
 
 	/**
@@ -326,11 +228,25 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Y Position Error (East) - fp32_t
+	 */
+	public double getErrY() {
+		return getDouble("err_y");
+	}
+
+	/**
 	 *  @param err_y Y Position Error (East)
 	 */
 	public RelativeState setErrY(double err_y) {
 		values.put("err_y", err_y);
 		return this;
+	}
+
+	/**
+	 *  @return Z Position Error (Down) - fp32_t
+	 */
+	public double getErrZ() {
+		return getDouble("err_z");
 	}
 
 	/**
@@ -342,11 +258,25 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
+	 *  @return X Position Error In Relative Frame (North) - fp32_t
+	 */
+	public double getRfErrX() {
+		return getDouble("rf_err_x");
+	}
+
+	/**
 	 *  @param rf_err_x X Position Error In Relative Frame (North)
 	 */
 	public RelativeState setRfErrX(double rf_err_x) {
 		values.put("rf_err_x", rf_err_x);
 		return this;
+	}
+
+	/**
+	 *  @return Y Position Error In Relative Frame (East) - fp32_t
+	 */
+	public double getRfErrY() {
+		return getDouble("rf_err_y");
 	}
 
 	/**
@@ -358,11 +288,25 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Z Position Error In Relative Frame (Down) - fp32_t
+	 */
+	public double getRfErrZ() {
+		return getDouble("rf_err_z");
+	}
+
+	/**
 	 *  @param rf_err_z Z Position Error In Relative Frame (Down)
 	 */
 	public RelativeState setRfErrZ(double rf_err_z) {
 		values.put("rf_err_z", rf_err_z);
 		return this;
+	}
+
+	/**
+	 *  @return X Velocity Error In Relative Frame (North) - fp32_t
+	 */
+	public double getRfErrVx() {
+		return getDouble("rf_err_vx");
 	}
 
 	/**
@@ -374,11 +318,25 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Y Velocity Error In Relative Frame (East) - fp32_t
+	 */
+	public double getRfErrVy() {
+		return getDouble("rf_err_vy");
+	}
+
+	/**
 	 *  @param rf_err_vy Y Velocity Error In Relative Frame (East)
 	 */
 	public RelativeState setRfErrVy(double rf_err_vy) {
 		values.put("rf_err_vy", rf_err_vy);
 		return this;
+	}
+
+	/**
+	 *  @return Z Velocity Error In Relative Frame (Down) - fp32_t
+	 */
+	public double getRfErrVz() {
+		return getDouble("rf_err_vz");
 	}
 
 	/**
@@ -390,11 +348,25 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
+	 *  @return X Convergence Deviation (North) - fp32_t
+	 */
+	public double getSsX() {
+		return getDouble("ss_x");
+	}
+
+	/**
 	 *  @param ss_x X Convergence Deviation (North)
 	 */
 	public RelativeState setSsX(double ss_x) {
 		values.put("ss_x", ss_x);
 		return this;
+	}
+
+	/**
+	 *  @return Y Convergence Deviation (East) - fp32_t
+	 */
+	public double getSsY() {
+		return getDouble("ss_y");
 	}
 
 	/**
@@ -406,11 +378,25 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Z Convergence Deviation (Down) - fp32_t
+	 */
+	public double getSsZ() {
+		return getDouble("ss_z");
+	}
+
+	/**
 	 *  @param ss_z Z Convergence Deviation (Down)
 	 */
 	public RelativeState setSsZ(double ss_z) {
 		values.put("ss_z", ss_z);
 		return this;
+	}
+
+	/**
+	 *  @return X Virtual Error (North) - fp32_t
+	 */
+	public double getVirtErrX() {
+		return getDouble("virt_err_x");
 	}
 
 	/**
@@ -422,11 +408,25 @@ public class RelativeState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Y Virtual Error (East) - fp32_t
+	 */
+	public double getVirtErrY() {
+		return getDouble("virt_err_y");
+	}
+
+	/**
 	 *  @param virt_err_y Y Virtual Error (East)
 	 */
 	public RelativeState setVirtErrY(double virt_err_y) {
 		values.put("virt_err_y", virt_err_y);
 		return this;
+	}
+
+	/**
+	 *  @return Z Virtual Error (Down) - fp32_t
+	 */
+	public double getVirtErrZ() {
+		return getDouble("virt_err_z");
 	}
 
 	/**

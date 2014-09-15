@@ -108,102 +108,18 @@ public class NavigationUncertainty extends IMCMessage {
 	}
 
 	/**
-	 *  @return Variance - y Position (m) - fp32_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Variance - z Position (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @return Variance - Roll (rad) - fp32_t
-	 */
-	public double getPhi() {
-		return getDouble("phi");
-	}
-
-	/**
-	 *  @return Variance - Pitch (rad) - fp32_t
-	 */
-	public double getTheta() {
-		return getDouble("theta");
-	}
-
-	/**
-	 *  @return Variance - Yaw (rad) - fp32_t
-	 */
-	public double getPsi() {
-		return getDouble("psi");
-	}
-
-	/**
-	 *  @return Variance - Gyro. Roll Rate (rad/s) - fp32_t
-	 */
-	public double getP() {
-		return getDouble("p");
-	}
-
-	/**
-	 *  @return Variance - Gyro. Pitch Rate (rad/s) - fp32_t
-	 */
-	public double getQ() {
-		return getDouble("q");
-	}
-
-	/**
-	 *  @return Variance - Gyro. Yaw Rate (rad/s) - fp32_t
-	 */
-	public double getR() {
-		return getDouble("r");
-	}
-
-	/**
-	 *  @return Variance - Body-Fixed xx Velocity (m/s) - fp32_t
-	 */
-	public double getU() {
-		return getDouble("u");
-	}
-
-	/**
-	 *  @return Variance - Body-Fixed yy Velocity (m/s) - fp32_t
-	 */
-	public double getV() {
-		return getDouble("v");
-	}
-
-	/**
-	 *  @return Variance - Body-Fixed ww Velocity (m/s) - fp32_t
-	 */
-	public double getW() {
-		return getDouble("w");
-	}
-
-	/**
-	 *  @return Variance - Yaw Bias (rad) - fp32_t
-	 */
-	public double getBiasPsi() {
-		return getDouble("bias_psi");
-	}
-
-	/**
-	 *  @return Variance - Gyro. Yaw Rate Bias (rad/s) - fp32_t
-	 */
-	public double getBiasR() {
-		return getDouble("bias_r");
-	}
-
-	/**
 	 *  @param x Variance - x Position (m)
 	 */
 	public NavigationUncertainty setX(double x) {
 		values.put("x", x);
 		return this;
+	}
+
+	/**
+	 *  @return Variance - y Position (m) - fp32_t
+	 */
+	public double getY() {
+		return getDouble("y");
 	}
 
 	/**
@@ -215,11 +131,25 @@ public class NavigationUncertainty extends IMCMessage {
 	}
 
 	/**
+	 *  @return Variance - z Position (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Variance - z Position (m)
 	 */
 	public NavigationUncertainty setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Variance - Roll (rad) - fp32_t
+	 */
+	public double getPhi() {
+		return getDouble("phi");
 	}
 
 	/**
@@ -231,11 +161,25 @@ public class NavigationUncertainty extends IMCMessage {
 	}
 
 	/**
+	 *  @return Variance - Pitch (rad) - fp32_t
+	 */
+	public double getTheta() {
+		return getDouble("theta");
+	}
+
+	/**
 	 *  @param theta Variance - Pitch (rad)
 	 */
 	public NavigationUncertainty setTheta(double theta) {
 		values.put("theta", theta);
 		return this;
+	}
+
+	/**
+	 *  @return Variance - Yaw (rad) - fp32_t
+	 */
+	public double getPsi() {
+		return getDouble("psi");
 	}
 
 	/**
@@ -247,11 +191,25 @@ public class NavigationUncertainty extends IMCMessage {
 	}
 
 	/**
+	 *  @return Variance - Gyro. Roll Rate (rad/s) - fp32_t
+	 */
+	public double getP() {
+		return getDouble("p");
+	}
+
+	/**
 	 *  @param p Variance - Gyro. Roll Rate (rad/s)
 	 */
 	public NavigationUncertainty setP(double p) {
 		values.put("p", p);
 		return this;
+	}
+
+	/**
+	 *  @return Variance - Gyro. Pitch Rate (rad/s) - fp32_t
+	 */
+	public double getQ() {
+		return getDouble("q");
 	}
 
 	/**
@@ -263,11 +221,25 @@ public class NavigationUncertainty extends IMCMessage {
 	}
 
 	/**
+	 *  @return Variance - Gyro. Yaw Rate (rad/s) - fp32_t
+	 */
+	public double getR() {
+		return getDouble("r");
+	}
+
+	/**
 	 *  @param r Variance - Gyro. Yaw Rate (rad/s)
 	 */
 	public NavigationUncertainty setR(double r) {
 		values.put("r", r);
 		return this;
+	}
+
+	/**
+	 *  @return Variance - Body-Fixed xx Velocity (m/s) - fp32_t
+	 */
+	public double getU() {
+		return getDouble("u");
 	}
 
 	/**
@@ -279,11 +251,25 @@ public class NavigationUncertainty extends IMCMessage {
 	}
 
 	/**
+	 *  @return Variance - Body-Fixed yy Velocity (m/s) - fp32_t
+	 */
+	public double getV() {
+		return getDouble("v");
+	}
+
+	/**
 	 *  @param v Variance - Body-Fixed yy Velocity (m/s)
 	 */
 	public NavigationUncertainty setV(double v) {
 		values.put("v", v);
 		return this;
+	}
+
+	/**
+	 *  @return Variance - Body-Fixed ww Velocity (m/s) - fp32_t
+	 */
+	public double getW() {
+		return getDouble("w");
 	}
 
 	/**
@@ -295,11 +281,25 @@ public class NavigationUncertainty extends IMCMessage {
 	}
 
 	/**
+	 *  @return Variance - Yaw Bias (rad) - fp32_t
+	 */
+	public double getBiasPsi() {
+		return getDouble("bias_psi");
+	}
+
+	/**
 	 *  @param bias_psi Variance - Yaw Bias (rad)
 	 */
 	public NavigationUncertainty setBiasPsi(double bias_psi) {
 		values.put("bias_psi", bias_psi);
 		return this;
+	}
+
+	/**
+	 *  @return Variance - Gyro. Yaw Rate Bias (rad/s) - fp32_t
+	 */
+	public double getBiasR() {
+		return getDouble("bias_r");
 	}
 
 	/**

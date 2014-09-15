@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class FormCtrlParam extends IMCMessage {
 
-	public static final int ID_STATIC = 820;
-
 	public enum ACTION {
 		REQ(0),
 		SET(1),
@@ -53,6 +51,8 @@ public class FormCtrlParam extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 820;
 
 	public FormCtrlParam() {
 		super(ID_STATIC);
@@ -107,7 +107,6 @@ public class FormCtrlParam extends IMCMessage {
 	}
 
 	/**
-	 *  Action on the vehicle formation control parameters.<br/>
 	 *  @return Action (enumerated) - uint8_t
 	 */
 	public ACTION getAction() {
@@ -118,41 +117,6 @@ public class FormCtrlParam extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Longitudinal Gain - fp32_t
-	 */
-	public double getLonGain() {
-		return getDouble("LonGain");
-	}
-
-	/**
-	 *  @return Lateral Gain - fp32_t
-	 */
-	public double getLatGain() {
-		return getDouble("LatGain");
-	}
-
-	/**
-	 *  @return Boundary Layer Thickness - uint32_t
-	 */
-	public long getBondThick() {
-		return getLong("BondThick");
-	}
-
-	/**
-	 *  @return Leader Gain - fp32_t
-	 */
-	public double getLeadGain() {
-		return getDouble("LeadGain");
-	}
-
-	/**
-	 *  @return Deconfliction Gain - fp32_t
-	 */
-	public double getDeconflGain() {
-		return getDouble("DeconflGain");
 	}
 
 	/**
@@ -180,11 +144,25 @@ public class FormCtrlParam extends IMCMessage {
 	}
 
 	/**
+	 *  @return Longitudinal Gain - fp32_t
+	 */
+	public double getLonGain() {
+		return getDouble("LonGain");
+	}
+
+	/**
 	 *  @param LonGain Longitudinal Gain
 	 */
 	public FormCtrlParam setLonGain(double LonGain) {
 		values.put("LonGain", LonGain);
 		return this;
+	}
+
+	/**
+	 *  @return Lateral Gain - fp32_t
+	 */
+	public double getLatGain() {
+		return getDouble("LatGain");
 	}
 
 	/**
@@ -196,6 +174,13 @@ public class FormCtrlParam extends IMCMessage {
 	}
 
 	/**
+	 *  @return Boundary Layer Thickness - uint32_t
+	 */
+	public long getBondThick() {
+		return getLong("BondThick");
+	}
+
+	/**
 	 *  @param BondThick Boundary Layer Thickness
 	 */
 	public FormCtrlParam setBondThick(long BondThick) {
@@ -204,11 +189,25 @@ public class FormCtrlParam extends IMCMessage {
 	}
 
 	/**
+	 *  @return Leader Gain - fp32_t
+	 */
+	public double getLeadGain() {
+		return getDouble("LeadGain");
+	}
+
+	/**
 	 *  @param LeadGain Leader Gain
 	 */
 	public FormCtrlParam setLeadGain(double LeadGain) {
 		values.put("LeadGain", LeadGain);
 		return this;
+	}
+
+	/**
+	 *  @return Deconfliction Gain - fp32_t
+	 */
+	public double getDeconflGain() {
+		return getDouble("DeconflGain");
 	}
 
 	/**

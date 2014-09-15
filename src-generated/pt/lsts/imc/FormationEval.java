@@ -95,20 +95,6 @@ public class FormationEval extends IMCMessage {
 	}
 
 	/**
-	 *  @return Absolute minimum distance - fp32_t
-	 */
-	public double getDistMinAbs() {
-		return getDouble("dist_min_abs");
-	}
-
-	/**
-	 *  @return Mean minimum distance - fp32_t
-	 */
-	public double getDistMinMean() {
-		return getDouble("dist_min_mean");
-	}
-
-	/**
 	 *  @param err_mean Mean position error
 	 */
 	public FormationEval setErrMean(double err_mean) {
@@ -117,11 +103,25 @@ public class FormationEval extends IMCMessage {
 	}
 
 	/**
+	 *  @return Absolute minimum distance - fp32_t
+	 */
+	public double getDistMinAbs() {
+		return getDouble("dist_min_abs");
+	}
+
+	/**
 	 *  @param dist_min_abs Absolute minimum distance
 	 */
 	public FormationEval setDistMinAbs(double dist_min_abs) {
 		values.put("dist_min_abs", dist_min_abs);
 		return this;
+	}
+
+	/**
+	 *  @return Mean minimum distance - fp32_t
+	 */
+	public double getDistMinMean() {
+		return getDouble("dist_min_mean");
 	}
 
 	/**

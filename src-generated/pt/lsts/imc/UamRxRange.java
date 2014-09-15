@@ -95,20 +95,6 @@ public class UamRxRange extends IMCMessage {
 	}
 
 	/**
-	 *  @return System - plaintext
-	 */
-	public String getSys() {
-		return getString("sys");
-	}
-
-	/**
-	 *  @return Value - fp32_t
-	 */
-	public double getValue() {
-		return getDouble("value");
-	}
-
-	/**
 	 *  @param seq Sequence Id
 	 */
 	public UamRxRange setSeq(int seq) {
@@ -117,11 +103,25 @@ public class UamRxRange extends IMCMessage {
 	}
 
 	/**
+	 *  @return System - plaintext
+	 */
+	public String getSys() {
+		return getString("sys");
+	}
+
+	/**
 	 *  @param sys System
 	 */
 	public UamRxRange setSys(String sys) {
 		values.put("sys", sys);
 		return this;
+	}
+
+	/**
+	 *  @return Value - fp32_t
+	 */
+	public double getValue() {
+		return getDouble("value");
 	}
 
 	/**

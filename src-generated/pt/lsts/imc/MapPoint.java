@@ -95,20 +95,6 @@ public class MapPoint extends IMCMessage {
 	}
 
 	/**
-	 *  @return Longitude (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Altitude (m) - fp32_t
-	 */
-	public double getAlt() {
-		return getDouble("alt");
-	}
-
-	/**
 	 *  @param lat Latitude (rad)
 	 */
 	public MapPoint setLat(double lat) {
@@ -117,11 +103,25 @@ public class MapPoint extends IMCMessage {
 	}
 
 	/**
+	 *  @return Longitude (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude (rad)
 	 */
 	public MapPoint setLon(double lon) {
 		values.put("lon", lon);
 		return this;
+	}
+
+	/**
+	 *  @return Altitude (m) - fp32_t
+	 */
+	public double getAlt() {
+		return getDouble("alt");
 	}
 
 	/**

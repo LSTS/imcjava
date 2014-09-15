@@ -96,20 +96,6 @@ public class EstimatedStreamVelocity extends IMCMessage {
 	}
 
 	/**
-	 *  @return Y component (East) (m/s) - fp64_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Z component (Down) (m/s) - fp64_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
 	 *  @param x X component (North) (m/s)
 	 */
 	public EstimatedStreamVelocity setX(double x) {
@@ -118,11 +104,25 @@ public class EstimatedStreamVelocity extends IMCMessage {
 	}
 
 	/**
+	 *  @return Y component (East) (m/s) - fp64_t
+	 */
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
 	 *  @param y Y component (East) (m/s)
 	 */
 	public EstimatedStreamVelocity setY(double y) {
 		values.put("y", y);
 		return this;
+	}
+
+	/**
+	 *  @return Z component (Down) (m/s) - fp64_t
+	 */
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**

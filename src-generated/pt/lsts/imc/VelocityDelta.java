@@ -96,32 +96,18 @@ public class VelocityDelta extends IMCMessage {
 	}
 
 	/**
-	 *  @return X (m/s) - fp64_t
-	 */
-	public double getX() {
-		return getDouble("x");
-	}
-
-	/**
-	 *  @return Y (m/s) - fp64_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Z (m/s) - fp64_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
 	 *  @param time Device Time (s)
 	 */
 	public VelocityDelta setTime(double time) {
 		values.put("time", time);
 		return this;
+	}
+
+	/**
+	 *  @return X (m/s) - fp64_t
+	 */
+	public double getX() {
+		return getDouble("x");
 	}
 
 	/**
@@ -133,11 +119,25 @@ public class VelocityDelta extends IMCMessage {
 	}
 
 	/**
+	 *  @return Y (m/s) - fp64_t
+	 */
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
 	 *  @param y Y (m/s)
 	 */
 	public VelocityDelta setY(double y) {
 		values.put("y", y);
 		return this;
+	}
+
+	/**
+	 *  @return Z (m/s) - fp64_t
+	 */
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**

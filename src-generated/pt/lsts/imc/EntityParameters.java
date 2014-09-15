@@ -96,6 +96,14 @@ public class EntityParameters extends IMCMessage {
 	}
 
 	/**
+	 *  @param name Entity Name
+	 */
+	public EntityParameters setName(String name) {
+		values.put("name", name);
+		return this;
+	}
+
+	/**
 	 *  @return Parameters - message-list
 	 */
 	public java.util.Vector<EntityParameter> getParams() {
@@ -106,14 +114,6 @@ public class EntityParameters extends IMCMessage {
 			return null;
 		}
 
-	}
-
-	/**
-	 *  @param name Entity Name
-	 */
-	public EntityParameters setName(String name) {
-		values.put("name", name);
-		return this;
 	}
 
 	/**

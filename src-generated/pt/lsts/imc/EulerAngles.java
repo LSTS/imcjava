@@ -98,39 +98,18 @@ public class EulerAngles extends IMCMessage {
 	}
 
 	/**
-	 *  @return Roll Angle (rad) - fp64_t
-	 */
-	public double getPhi() {
-		return getDouble("phi");
-	}
-
-	/**
-	 *  @return Pitch Angle (rad) - fp64_t
-	 */
-	public double getTheta() {
-		return getDouble("theta");
-	}
-
-	/**
-	 *  @return Yaw Angle (True) (rad) - fp64_t
-	 */
-	public double getPsi() {
-		return getDouble("psi");
-	}
-
-	/**
-	 *  @return Yaw Angle (Magnetic) (rad) - fp64_t
-	 */
-	public double getPsiMagnetic() {
-		return getDouble("psi_magnetic");
-	}
-
-	/**
 	 *  @param time Device Time (s)
 	 */
 	public EulerAngles setTime(double time) {
 		values.put("time", time);
 		return this;
+	}
+
+	/**
+	 *  @return Roll Angle (rad) - fp64_t
+	 */
+	public double getPhi() {
+		return getDouble("phi");
 	}
 
 	/**
@@ -142,6 +121,13 @@ public class EulerAngles extends IMCMessage {
 	}
 
 	/**
+	 *  @return Pitch Angle (rad) - fp64_t
+	 */
+	public double getTheta() {
+		return getDouble("theta");
+	}
+
+	/**
 	 *  @param theta Pitch Angle (rad)
 	 */
 	public EulerAngles setTheta(double theta) {
@@ -150,11 +136,25 @@ public class EulerAngles extends IMCMessage {
 	}
 
 	/**
+	 *  @return Yaw Angle (True) (rad) - fp64_t
+	 */
+	public double getPsi() {
+		return getDouble("psi");
+	}
+
+	/**
 	 *  @param psi Yaw Angle (True) (rad)
 	 */
 	public EulerAngles setPsi(double psi) {
 		values.put("psi", psi);
 		return this;
+	}
+
+	/**
+	 *  @return Yaw Angle (Magnetic) (rad) - fp64_t
+	 */
+	public double getPsiMagnetic() {
+		return getDouble("psi_magnetic");
 	}
 
 	/**

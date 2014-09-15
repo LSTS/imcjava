@@ -35,8 +35,6 @@ package pt.lsts.imc;
 
 public class EmergencyControlState extends IMCMessage {
 
-	public static final int ID_STATIC = 555;
-
 	public enum STATE {
 		NOT_CONFIGURED(0),
 		DISABLED(1),
@@ -55,6 +53,8 @@ public class EmergencyControlState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 555;
 
 	public EmergencyControlState() {
 		super(ID_STATIC);
@@ -120,20 +120,6 @@ public class EmergencyControlState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Plan Id - plaintext
-	 */
-	public String getPlanId() {
-		return getString("plan_id");
-	}
-
-	/**
-	 *  @return Communications Level (%) - uint8_t
-	 */
-	public short getCommLevel() {
-		return (short) getInteger("comm_level");
-	}
-
-	/**
 	 *  @param state State (enumerated)
 	 */
 	public EmergencyControlState setState(STATE state) {
@@ -158,11 +144,25 @@ public class EmergencyControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Plan Id - plaintext
+	 */
+	public String getPlanId() {
+		return getString("plan_id");
+	}
+
+	/**
 	 *  @param plan_id Plan Id
 	 */
 	public EmergencyControlState setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
 		return this;
+	}
+
+	/**
+	 *  @return Communications Level (%) - uint8_t
+	 */
+	public short getCommLevel() {
+		return (short) getInteger("comm_level");
 	}
 
 	/**

@@ -97,39 +97,18 @@ public class RemoteState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Longitude WGS-84 (rad) - fp32_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Depth (m) - uint8_t
-	 */
-	public short getDepth() {
-		return (short) getInteger("depth");
-	}
-
-	/**
-	 *  @return Speed (m/s) - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  @return Heading (rad) - fp32_t
-	 */
-	public double getPsi() {
-		return getDouble("psi");
-	}
-
-	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
 	public RemoteState setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude WGS-84 (rad) - fp32_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -141,6 +120,13 @@ public class RemoteState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Depth (m) - uint8_t
+	 */
+	public short getDepth() {
+		return (short) getInteger("depth");
+	}
+
+	/**
 	 *  @param depth Depth (m)
 	 */
 	public RemoteState setDepth(short depth) {
@@ -149,11 +135,25 @@ public class RemoteState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Speed (m/s) - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed (m/s)
 	 */
 	public RemoteState setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Heading (rad) - fp32_t
+	 */
+	public double getPsi() {
+		return getDouble("psi");
 	}
 
 	/**

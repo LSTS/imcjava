@@ -94,18 +94,18 @@ public class SetControlSurfaceDeflection extends IMCMessage {
 	}
 
 	/**
-	 *  @return Angle (rad) - fp32_t
-	 */
-	public double getAngle() {
-		return getDouble("angle");
-	}
-
-	/**
 	 *  @param id Identifier
 	 */
 	public SetControlSurfaceDeflection setId(short id) {
 		values.put("id", id);
 		return this;
+	}
+
+	/**
+	 *  @return Angle (rad) - fp32_t
+	 */
+	public double getAngle() {
+		return getDouble("angle");
 	}
 
 	/**

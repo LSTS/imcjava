@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class FormState extends IMCMessage {
 
-	public static final int ID_STATIC = 510;
-
 	public enum POSSIMMON {
 		OK(0),
 		WRN(1),
@@ -83,6 +81,8 @@ public class FormState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 510;
 
 	public FormState() {
 		super(ID_STATIC);
@@ -144,67 +144,18 @@ public class FormState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Convergence (m) - fp32_t
-	 */
-	public double getConverg() {
-		return getDouble("Converg");
-	}
-
-	/**
-	 *  @return Stream Turbulence (m/s/s) - fp32_t
-	 */
-	public double getTurbulence() {
-		return getDouble("Turbulence");
-	}
-
-	/**
-	 *  Position mismatch monitoring flag.<br/>
-	 *  @return Position Mismatch Monitor (enumerated) - uint8_t
-	 */
-	public POSSIMMON getPosSimMon() {
-		try {
-			POSSIMMON o = POSSIMMON.valueOf(getMessageType().getFieldPossibleValues("PosSimMon").get(getLong("PosSimMon")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  Communications monitoring flag.<br/>
-	 *  @return Communications Monitor (enumerated) - uint8_t
-	 */
-	public COMMMON getCommMon() {
-		try {
-			COMMMON o = COMMMON.valueOf(getMessageType().getFieldPossibleValues("CommMon").get(getLong("CommMon")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  Convergence monitoring flag.<br/>
-	 *  @return Convergence (enumerated) - uint8_t
-	 */
-	public CONVERGMON getConvergMon() {
-		try {
-			CONVERGMON o = CONVERGMON.valueOf(getMessageType().getFieldPossibleValues("ConvergMon").get(getLong("ConvergMon")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
 	 *  @param PosSimErr Position Mismatch (m)
 	 */
 	public FormState setPosSimErr(double PosSimErr) {
 		values.put("PosSimErr", PosSimErr);
 		return this;
+	}
+
+	/**
+	 *  @return Convergence (m) - fp32_t
+	 */
+	public double getConverg() {
+		return getDouble("Converg");
 	}
 
 	/**
@@ -216,11 +167,31 @@ public class FormState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Stream Turbulence (m/s/s) - fp32_t
+	 */
+	public double getTurbulence() {
+		return getDouble("Turbulence");
+	}
+
+	/**
 	 *  @param Turbulence Stream Turbulence (m/s/s)
 	 */
 	public FormState setTurbulence(double Turbulence) {
 		values.put("Turbulence", Turbulence);
 		return this;
+	}
+
+	/**
+	 *  @return Position Mismatch Monitor (enumerated) - uint8_t
+	 */
+	public POSSIMMON getPosSimMon() {
+		try {
+			POSSIMMON o = POSSIMMON.valueOf(getMessageType().getFieldPossibleValues("PosSimMon").get(getLong("PosSimMon")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -248,6 +219,19 @@ public class FormState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Communications Monitor (enumerated) - uint8_t
+	 */
+	public COMMMON getCommMon() {
+		try {
+			COMMMON o = COMMMON.valueOf(getMessageType().getFieldPossibleValues("CommMon").get(getLong("CommMon")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
 	 *  @param CommMon Communications Monitor (enumerated)
 	 */
 	public FormState setCommMon(COMMMON CommMon) {
@@ -269,6 +253,19 @@ public class FormState extends IMCMessage {
 	public FormState setCommMon(short CommMon) {
 		setValue("CommMon", CommMon);
 		return this;
+	}
+
+	/**
+	 *  @return Convergence (enumerated) - uint8_t
+	 */
+	public CONVERGMON getConvergMon() {
+		try {
+			CONVERGMON o = CONVERGMON.valueOf(getMessageType().getFieldPossibleValues("ConvergMon").get(getLong("ConvergMon")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**

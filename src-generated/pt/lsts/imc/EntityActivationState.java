@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class EntityActivationState extends IMCMessage {
 
-	public static final int ID_STATIC = 14;
-
 	public enum STATE {
 		INACTIVE(0),
 		ACTIVE(1),
@@ -58,6 +56,8 @@ public class EntityActivationState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 14;
 
 	public EntityActivationState() {
 		super(ID_STATIC);
@@ -109,7 +109,6 @@ public class EntityActivationState extends IMCMessage {
 	}
 
 	/**
-	 *  Current state.<br/>
 	 *  @return State (enumerated) - uint8_t
 	 */
 	public STATE getState() {
@@ -120,13 +119,6 @@ public class EntityActivationState extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Error - plaintext
-	 */
-	public String getError() {
-		return getString("error");
 	}
 
 	/**
@@ -151,6 +143,13 @@ public class EntityActivationState extends IMCMessage {
 	public EntityActivationState setState(short state) {
 		setValue("state", state);
 		return this;
+	}
+
+	/**
+	 *  @return Error - plaintext
+	 */
+	public String getError() {
+		return getString("error");
 	}
 
 	/**

@@ -35,8 +35,6 @@ package pt.lsts.imc;
 
 public class IridiumTxStatus extends IMCMessage {
 
-	public static final int ID_STATIC = 172;
-
 	public enum STATUS {
 		OK(1),
 		ERROR(2),
@@ -54,6 +52,8 @@ public class IridiumTxStatus extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 172;
 
 	public IridiumTxStatus() {
 		super(ID_STATIC);
@@ -113,6 +113,14 @@ public class IridiumTxStatus extends IMCMessage {
 	}
 
 	/**
+	 *  @param req_id Request Identifier
+	 */
+	public IridiumTxStatus setReqId(int req_id) {
+		values.put("req_id", req_id);
+		return this;
+	}
+
+	/**
 	 *  @return Status Code (enumerated) - uint8_t
 	 */
 	public STATUS getStatus() {
@@ -123,21 +131,6 @@ public class IridiumTxStatus extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Status Text - plaintext
-	 */
-	public String getText() {
-		return getString("text");
-	}
-
-	/**
-	 *  @param req_id Request Identifier
-	 */
-	public IridiumTxStatus setReqId(int req_id) {
-		values.put("req_id", req_id);
-		return this;
 	}
 
 	/**
@@ -162,6 +155,13 @@ public class IridiumTxStatus extends IMCMessage {
 	public IridiumTxStatus setStatus(short status) {
 		setValue("status", status);
 		return this;
+	}
+
+	/**
+	 *  @return Status Text - plaintext
+	 */
+	public String getText() {
+		return getString("text");
 	}
 
 	/**

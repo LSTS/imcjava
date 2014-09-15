@@ -36,13 +36,13 @@ package pt.lsts.imc;
 
 public class DevCalibrationState extends IMCMessage {
 
-	public static final int ID_STATIC = 13;
-
 	public static final short DCS_PREVIOUS_NOT_SUPPORTED = 0x01;
 	public static final short DCS_NEXT_NOT_SUPPORTED = 0x02;
 	public static final short DCS_WAITING_CONTROL = 0x04;
 	public static final short DCS_ERROR = 0x08;
 	public static final short DCS_COMPLETED = 0x10;
+
+	public static final int ID_STATIC = 13;
 
 	public DevCalibrationState() {
 		super(ID_STATIC);
@@ -103,33 +103,18 @@ public class DevCalibrationState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Current Step Number - uint8_t
-	 */
-	public short getStepNumber() {
-		return (short) getInteger("step_number");
-	}
-
-	/**
-	 *  @return Description - plaintext
-	 */
-	public String getStep() {
-		return getString("step");
-	}
-
-	/**
-	 *  Additional flags.<br/>
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
 	 *  @param total_steps Total Steps
 	 */
 	public DevCalibrationState setTotalSteps(short total_steps) {
 		values.put("total_steps", total_steps);
 		return this;
+	}
+
+	/**
+	 *  @return Current Step Number - uint8_t
+	 */
+	public short getStepNumber() {
+		return (short) getInteger("step_number");
 	}
 
 	/**
@@ -141,11 +126,25 @@ public class DevCalibrationState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Description - plaintext
+	 */
+	public String getStep() {
+		return getString("step");
+	}
+
+	/**
 	 *  @param step Description
 	 */
 	public DevCalibrationState setStep(String step) {
 		values.put("step", step);
 		return this;
+	}
+
+	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
 	}
 
 	/**

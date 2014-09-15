@@ -35,9 +35,9 @@ package pt.lsts.imc;
 
 public class UamTxFrame extends IMCMessage {
 
-	public static final int ID_STATIC = 814;
-
 	public static final short UTF_ACK = 0x01;
+
+	public static final int ID_STATIC = 814;
 
 	public UamTxFrame() {
 		super(ID_STATIC);
@@ -99,32 +99,18 @@ public class UamTxFrame extends IMCMessage {
 	}
 
 	/**
-	 *  @return Destination System - plaintext
-	 */
-	public String getSysDst() {
-		return getString("sys_dst");
-	}
-
-	/**
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
 	 *  @param seq Sequence Id
 	 */
 	public UamTxFrame setSeq(int seq) {
 		values.put("seq", seq);
 		return this;
+	}
+
+	/**
+	 *  @return Destination System - plaintext
+	 */
+	public String getSysDst() {
+		return getString("sys_dst");
 	}
 
 	/**
@@ -136,11 +122,25 @@ public class UamTxFrame extends IMCMessage {
 	}
 
 	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
+	}
+
+	/**
 	 *  @param flags Flags (bitfield)
 	 */
 	public UamTxFrame setFlags(short flags) {
 		values.put("flags", flags);
 		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**

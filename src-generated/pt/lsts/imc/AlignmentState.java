@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class AlignmentState extends IMCMessage {
 
-	public static final int ID_STATIC = 361;
-
 	public enum STATE {
 		NOT_ALIGNED(0),
 		ALIGNED(1),
@@ -53,6 +51,8 @@ public class AlignmentState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 361;
 
 	public AlignmentState() {
 		super(ID_STATIC);
@@ -102,7 +102,6 @@ public class AlignmentState extends IMCMessage {
 	}
 
 	/**
-	 *  Alignment State.<br/>
 	 *  @return State (enumerated) - uint8_t
 	 */
 	public STATE getState() {

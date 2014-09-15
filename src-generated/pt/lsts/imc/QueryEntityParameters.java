@@ -97,20 +97,6 @@ public class QueryEntityParameters extends IMCMessage {
 	}
 
 	/**
-	 *  @return Visibility - plaintext
-	 */
-	public String getVisibility() {
-		return getString("visibility");
-	}
-
-	/**
-	 *  @return Scope - plaintext
-	 */
-	public String getScope() {
-		return getString("scope");
-	}
-
-	/**
 	 *  @param name Entity Name
 	 */
 	public QueryEntityParameters setName(String name) {
@@ -119,11 +105,25 @@ public class QueryEntityParameters extends IMCMessage {
 	}
 
 	/**
+	 *  @return Visibility - plaintext
+	 */
+	public String getVisibility() {
+		return getString("visibility");
+	}
+
+	/**
 	 *  @param visibility Visibility
 	 */
 	public QueryEntityParameters setVisibility(String visibility) {
 		values.put("visibility", visibility);
 		return this;
+	}
+
+	/**
+	 *  @return Scope - plaintext
+	 */
+	public String getScope() {
+		return getString("scope");
 	}
 
 	/**

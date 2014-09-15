@@ -30,48 +30,17 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Supertype Maneuver (Maneuver)<br/>
- *  Messages belonging to this type: <ul>
- *  <li>{@link Goto}</li>
- *  <li>{@link PopUp}</li>
- *  <li>{@link Teleoperation}</li>
- *  <li>{@link Loiter}</li>
- *  <li>{@link IdleManeuver}</li>
- *  <li>{@link LowLevelControl}</li>
- *  <li>{@link Rows}</li>
- *  <li>{@link FollowPath}</li>
- *  <li>{@link YoYo}</li>
- *  <li>{@link StationKeeping}</li>
- *  <li>{@link Elevator}</li>
- *  <li>{@link FollowTrajectory}</li>
- *  <li>{@link CustomManeuver}</li>
- *  <li>{@link VehicleFormation}</li>
- *  <li>{@link CompassCalibration}</li>
- *  <li>{@link CoverArea}</li>
- *  <li>{@link FollowReference}</li>
- *  <li>{@link CommsRelay}</li>
- *  <li>{@link FormationPlanExecution}</li>
- *  <li>{@link Dislodge}</li>
- *  </ul>
+ *  IMC Message Maneuver (-1)<br/>
  */
-public class Maneuver extends IMCMessage {
 
-	public Maneuver(IMCDefinition defs, int id) {
-		super(defs, id);
+public abstract class Maneuver extends IMCMessage {
+
+	public Maneuver(int type) {
+		super(type);
 	}
 
-	public Maneuver(int id) {
-		super(id);
-	}
-
-	public Maneuver(int id, Object... values) {
-		super(id, values);
-	}
-
-	public Maneuver(IMCMessage msg) throws Exception {
-		super(msg.getMgid());
-		getHeader().values.putAll(msg.getHeader().values);
-		values.putAll(msg.values);
+	public Maneuver(IMCDefinition defs, int type) {
+		super(defs, type);
 	}
 
 }

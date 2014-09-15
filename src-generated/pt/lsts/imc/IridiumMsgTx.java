@@ -97,32 +97,18 @@ public class IridiumMsgTx extends IMCMessage {
 	}
 
 	/**
-	 *  @return Time to live (s) - uint16_t
-	 */
-	public int getTtl() {
-		return getInteger("ttl");
-	}
-
-	/**
-	 *  @return Destination Identifier - plaintext
-	 */
-	public String getDestination() {
-		return getString("destination");
-	}
-
-	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
 	 *  @param req_id Request Identifier
 	 */
 	public IridiumMsgTx setReqId(int req_id) {
 		values.put("req_id", req_id);
 		return this;
+	}
+
+	/**
+	 *  @return Time to live (s) - uint16_t
+	 */
+	public int getTtl() {
+		return getInteger("ttl");
 	}
 
 	/**
@@ -134,11 +120,25 @@ public class IridiumMsgTx extends IMCMessage {
 	}
 
 	/**
+	 *  @return Destination Identifier - plaintext
+	 */
+	public String getDestination() {
+		return getString("destination");
+	}
+
+	/**
 	 *  @param destination Destination Identifier
 	 */
 	public IridiumMsgTx setDestination(String destination) {
 		values.put("destination", destination);
 		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**

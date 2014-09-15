@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class AcousticOperation extends IMCMessage {
 
-	public static final int ID_STATIC = 211;
-
 	public enum OP {
 		ABORT(0),
 		ABORT_IP(1),
@@ -67,6 +65,8 @@ public class AcousticOperation extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 211;
 
 	public AcousticOperation() {
 		super(ID_STATIC);
@@ -121,7 +121,6 @@ public class AcousticOperation extends IMCMessage {
 	}
 
 	/**
-	 *  Operation type.<br/>
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -132,31 +131,6 @@ public class AcousticOperation extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return System - plaintext
-	 */
-	public String getSystem() {
-		return getString("system");
-	}
-
-	/**
-	 *  @return Range (m) - fp32_t
-	 */
-	public double getRange() {
-		return getDouble("range");
-	}
-
-	/**
-	 *  @return Message To Send - message
-	 */
-	public IMCMessage getMsg() {
-		return getMessage("msg");
-	}
-
-	public <T extends IMCMessage> T getMsg(Class<T> clazz) throws Exception {
-		return getMessage(clazz, "msg");
 	}
 
 	/**
@@ -184,6 +158,13 @@ public class AcousticOperation extends IMCMessage {
 	}
 
 	/**
+	 *  @return System - plaintext
+	 */
+	public String getSystem() {
+		return getString("system");
+	}
+
+	/**
 	 *  @param system System
 	 */
 	public AcousticOperation setSystem(String system) {
@@ -192,11 +173,29 @@ public class AcousticOperation extends IMCMessage {
 	}
 
 	/**
+	 *  @return Range (m) - fp32_t
+	 */
+	public double getRange() {
+		return getDouble("range");
+	}
+
+	/**
 	 *  @param range Range (m)
 	 */
 	public AcousticOperation setRange(double range) {
 		values.put("range", range);
 		return this;
+	}
+
+	/**
+	 *  @return Message To Send - message
+	 */
+	public IMCMessage getMsg() {
+		return getMessage("msg");
+	}
+
+	public <T extends IMCMessage> T getMsg(Class<T> clazz) throws Exception {
+		return getMessage(clazz, "msg");
 	}
 
 	/**

@@ -97,39 +97,18 @@ public class FollowReference extends Maneuver {
 	}
 
 	/**
-	 *  @return Controlling Entity - uint8_t
-	 */
-	public short getControlEnt() {
-		return (short) getInteger("control_ent");
-	}
-
-	/**
-	 *  @return Reference Update Timeout - fp32_t
-	 */
-	public double getTimeout() {
-		return getDouble("timeout");
-	}
-
-	/**
-	 *  @return Loiter Radius - fp32_t
-	 */
-	public double getLoiterRadius() {
-		return getDouble("loiter_radius");
-	}
-
-	/**
-	 *  @return Altitude Interval - fp32_t
-	 */
-	public double getAltitudeInterval() {
-		return getDouble("altitude_interval");
-	}
-
-	/**
 	 *  @param control_src Controlling Source
 	 */
 	public FollowReference setControlSrc(int control_src) {
 		values.put("control_src", control_src);
 		return this;
+	}
+
+	/**
+	 *  @return Controlling Entity - uint8_t
+	 */
+	public short getControlEnt() {
+		return (short) getInteger("control_ent");
 	}
 
 	/**
@@ -141,6 +120,13 @@ public class FollowReference extends Maneuver {
 	}
 
 	/**
+	 *  @return Reference Update Timeout - fp32_t
+	 */
+	public double getTimeout() {
+		return getDouble("timeout");
+	}
+
+	/**
 	 *  @param timeout Reference Update Timeout
 	 */
 	public FollowReference setTimeout(double timeout) {
@@ -149,11 +135,25 @@ public class FollowReference extends Maneuver {
 	}
 
 	/**
+	 *  @return Loiter Radius - fp32_t
+	 */
+	public double getLoiterRadius() {
+		return getDouble("loiter_radius");
+	}
+
+	/**
 	 *  @param loiter_radius Loiter Radius
 	 */
 	public FollowReference setLoiterRadius(double loiter_radius) {
 		values.put("loiter_radius", loiter_radius);
 		return this;
+	}
+
+	/**
+	 *  @return Altitude Interval - fp32_t
+	 */
+	public double getAltitudeInterval() {
+		return getDouble("altitude_interval");
 	}
 
 	/**

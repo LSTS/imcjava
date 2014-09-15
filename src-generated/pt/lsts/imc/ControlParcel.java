@@ -96,32 +96,18 @@ public class ControlParcel extends IMCMessage {
 	}
 
 	/**
-	 *  @return Integrative Parcel - fp32_t
-	 */
-	public double getI() {
-		return getDouble("i");
-	}
-
-	/**
-	 *  @return Derivative Parcel - fp32_t
-	 */
-	public double getD() {
-		return getDouble("d");
-	}
-
-	/**
-	 *  @return Anti-Windup Parcel - fp32_t
-	 */
-	public double getA() {
-		return getDouble("a");
-	}
-
-	/**
 	 *  @param p Proportional Parcel
 	 */
 	public ControlParcel setP(double p) {
 		values.put("p", p);
 		return this;
+	}
+
+	/**
+	 *  @return Integrative Parcel - fp32_t
+	 */
+	public double getI() {
+		return getDouble("i");
 	}
 
 	/**
@@ -133,11 +119,25 @@ public class ControlParcel extends IMCMessage {
 	}
 
 	/**
+	 *  @return Derivative Parcel - fp32_t
+	 */
+	public double getD() {
+		return getDouble("d");
+	}
+
+	/**
 	 *  @param d Derivative Parcel
 	 */
 	public ControlParcel setD(double d) {
 		values.put("d", d);
 		return this;
+	}
+
+	/**
+	 *  @return Anti-Windup Parcel - fp32_t
+	 */
+	public double getA() {
+		return getDouble("a");
 	}
 
 	/**

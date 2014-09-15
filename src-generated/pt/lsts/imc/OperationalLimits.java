@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class OperationalLimits extends IMCMessage {
 
-	public static final int ID_STATIC = 504;
-
 	public static final short OPL_MAX_DEPTH = 0x01;
 	public static final short OPL_MIN_ALT = 0x02;
 	public static final short OPL_MAX_ALT = 0x04;
@@ -45,6 +43,8 @@ public class OperationalLimits extends IMCMessage {
 	public static final short OPL_MAX_SPEED = 0x10;
 	public static final short OPL_MAX_VRATE = 0x20;
 	public static final short OPL_AREA = 0x40;
+
+	public static final int ID_STATIC = 504;
 
 	public OperationalLimits() {
 		super(ID_STATIC);
@@ -112,88 +112,18 @@ public class OperationalLimits extends IMCMessage {
 	}
 
 	/**
-	 *  @return Maximum Depth (m) - fp32_t
-	 */
-	public double getMaxDepth() {
-		return getDouble("max_depth");
-	}
-
-	/**
-	 *  @return Minimum Altitude (m) - fp32_t
-	 */
-	public double getMinAltitude() {
-		return getDouble("min_altitude");
-	}
-
-	/**
-	 *  @return Maximum Altitude (m) - fp32_t
-	 */
-	public double getMaxAltitude() {
-		return getDouble("max_altitude");
-	}
-
-	/**
-	 *  @return Minimum Speed (m/s) - fp32_t
-	 */
-	public double getMinSpeed() {
-		return getDouble("min_speed");
-	}
-
-	/**
-	 *  @return Maximum Speed (m/s) - fp32_t
-	 */
-	public double getMaxSpeed() {
-		return getDouble("max_speed");
-	}
-
-	/**
-	 *  @return Maximum Vertical Rate (m/s) - fp32_t
-	 */
-	public double getMaxVrate() {
-		return getDouble("max_vrate");
-	}
-
-	/**
-	 *  @return Area -- WGS-84 Latitude (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Area -- WGS-84 Longitude (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Area -- Orientation (rad) - fp32_t
-	 */
-	public double getOrientation() {
-		return getDouble("orientation");
-	}
-
-	/**
-	 *  @return Area -- Width (m) - fp32_t
-	 */
-	public double getWidth() {
-		return getDouble("width");
-	}
-
-	/**
-	 *  @return Area -- Length (m) - fp32_t
-	 */
-	public double getLength() {
-		return getDouble("length");
-	}
-
-	/**
 	 *  @param mask Field Indicator Mask (bitfield)
 	 */
 	public OperationalLimits setMask(short mask) {
 		values.put("mask", mask);
 		return this;
+	}
+
+	/**
+	 *  @return Maximum Depth (m) - fp32_t
+	 */
+	public double getMaxDepth() {
+		return getDouble("max_depth");
 	}
 
 	/**
@@ -205,11 +135,25 @@ public class OperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Minimum Altitude (m) - fp32_t
+	 */
+	public double getMinAltitude() {
+		return getDouble("min_altitude");
+	}
+
+	/**
 	 *  @param min_altitude Minimum Altitude (m)
 	 */
 	public OperationalLimits setMinAltitude(double min_altitude) {
 		values.put("min_altitude", min_altitude);
 		return this;
+	}
+
+	/**
+	 *  @return Maximum Altitude (m) - fp32_t
+	 */
+	public double getMaxAltitude() {
+		return getDouble("max_altitude");
 	}
 
 	/**
@@ -221,11 +165,25 @@ public class OperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Minimum Speed (m/s) - fp32_t
+	 */
+	public double getMinSpeed() {
+		return getDouble("min_speed");
+	}
+
+	/**
 	 *  @param min_speed Minimum Speed (m/s)
 	 */
 	public OperationalLimits setMinSpeed(double min_speed) {
 		values.put("min_speed", min_speed);
 		return this;
+	}
+
+	/**
+	 *  @return Maximum Speed (m/s) - fp32_t
+	 */
+	public double getMaxSpeed() {
+		return getDouble("max_speed");
 	}
 
 	/**
@@ -237,11 +195,25 @@ public class OperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maximum Vertical Rate (m/s) - fp32_t
+	 */
+	public double getMaxVrate() {
+		return getDouble("max_vrate");
+	}
+
+	/**
 	 *  @param max_vrate Maximum Vertical Rate (m/s)
 	 */
 	public OperationalLimits setMaxVrate(double max_vrate) {
 		values.put("max_vrate", max_vrate);
 		return this;
+	}
+
+	/**
+	 *  @return Area -- WGS-84 Latitude (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -253,11 +225,25 @@ public class OperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Area -- WGS-84 Longitude (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Area -- WGS-84 Longitude (rad)
 	 */
 	public OperationalLimits setLon(double lon) {
 		values.put("lon", lon);
 		return this;
+	}
+
+	/**
+	 *  @return Area -- Orientation (rad) - fp32_t
+	 */
+	public double getOrientation() {
+		return getDouble("orientation");
 	}
 
 	/**
@@ -269,11 +255,25 @@ public class OperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Area -- Width (m) - fp32_t
+	 */
+	public double getWidth() {
+		return getDouble("width");
+	}
+
+	/**
 	 *  @param width Area -- Width (m)
 	 */
 	public OperationalLimits setWidth(double width) {
 		values.put("width", width);
 		return this;
+	}
+
+	/**
+	 *  @return Area -- Length (m) - fp32_t
+	 */
+	public double getLength() {
+		return getDouble("length");
 	}
 
 	/**

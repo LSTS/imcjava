@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class PathControlState extends IMCMessage {
 
-	public static final int ID_STATIC = 410;
-
 	public static final short FL_NEAR = 0x01;
 	public static final short FL_LOITERING = 0x02;
 	public static final short FL_NO_Z = 0x04;
@@ -77,6 +75,8 @@ public class PathControlState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 410;
 
 	public PathControlState() {
 		super(ID_STATIC);
@@ -151,152 +151,18 @@ public class PathControlState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Start Point -- Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getStartLat() {
-		return getDouble("start_lat");
-	}
-
-	/**
-	 *  @return Start Point -- WGS-84 Longitude (rad) - fp64_t
-	 */
-	public double getStartLon() {
-		return getDouble("start_lon");
-	}
-
-	/**
-	 *  @return Start Point -- Z Reference (m) - fp32_t
-	 */
-	public double getStartZ() {
-		return getDouble("start_z");
-	}
-
-	/**
-	 *  Units of the start point's z reference.<br/>
-	 *  @return Start Point -- Z Units (enumerated) - uint8_t
-	 */
-	public START_Z_UNITS getStartZUnits() {
-		try {
-			START_Z_UNITS o = START_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return End Point -- Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getEndLat() {
-		return getDouble("end_lat");
-	}
-
-	/**
-	 *  @return End Point -- WGS-84 Longitude (rad) - fp64_t
-	 */
-	public double getEndLon() {
-		return getDouble("end_lon");
-	}
-
-	/**
-	 *  @return End Point -- Z Reference (m) - fp32_t
-	 */
-	public double getEndZ() {
-		return getDouble("end_z");
-	}
-
-	/**
-	 *  Units of the end point's z reference.<br/>
-	 *  @return End Point -- Z Units (enumerated) - uint8_t
-	 */
-	public END_Z_UNITS getEndZUnits() {
-		try {
-			END_Z_UNITS o = END_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Loiter -- Radius (m) - fp32_t
-	 */
-	public double getLradius() {
-		return getDouble("lradius");
-	}
-
-	/**
-	 *  Path control state flags.<br/>
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @return Along Track Position (m) - fp32_t
-	 */
-	public double getX() {
-		return getDouble("x");
-	}
-
-	/**
-	 *  @return Cross Track Position (m) - fp32_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Vertical Track Position (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @return Along Track Velocity (m/s) - fp32_t
-	 */
-	public double getVx() {
-		return getDouble("vx");
-	}
-
-	/**
-	 *  @return Cross Track Velocity (m/s) - fp32_t
-	 */
-	public double getVy() {
-		return getDouble("vy");
-	}
-
-	/**
-	 *  @return Vertical Track Velocity (m/s) - fp32_t
-	 */
-	public double getVz() {
-		return getDouble("vz");
-	}
-
-	/**
-	 *  @return Course Error (rad) - fp32_t
-	 */
-	public double getCourseError() {
-		return getDouble("course_error");
-	}
-
-	/**
-	 *  @return Estimated Time to Arrival (ETA) (s) - uint16_t
-	 */
-	public int getEta() {
-		return getInteger("eta");
-	}
-
-	/**
 	 *  @param path_ref Path Reference
 	 */
 	public PathControlState setPathRef(long path_ref) {
 		values.put("path_ref", path_ref);
 		return this;
+	}
+
+	/**
+	 *  @return Start Point -- Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getStartLat() {
+		return getDouble("start_lat");
 	}
 
 	/**
@@ -308,6 +174,13 @@ public class PathControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Start Point -- WGS-84 Longitude (rad) - fp64_t
+	 */
+	public double getStartLon() {
+		return getDouble("start_lon");
+	}
+
+	/**
 	 *  @param start_lon Start Point -- WGS-84 Longitude (rad)
 	 */
 	public PathControlState setStartLon(double start_lon) {
@@ -316,11 +189,31 @@ public class PathControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Start Point -- Z Reference (m) - fp32_t
+	 */
+	public double getStartZ() {
+		return getDouble("start_z");
+	}
+
+	/**
 	 *  @param start_z Start Point -- Z Reference (m)
 	 */
 	public PathControlState setStartZ(double start_z) {
 		values.put("start_z", start_z);
 		return this;
+	}
+
+	/**
+	 *  @return Start Point -- Z Units (enumerated) - uint8_t
+	 */
+	public START_Z_UNITS getStartZUnits() {
+		try {
+			START_Z_UNITS o = START_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -348,11 +241,25 @@ public class PathControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return End Point -- Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getEndLat() {
+		return getDouble("end_lat");
+	}
+
+	/**
 	 *  @param end_lat End Point -- Latitude WGS-84 (rad)
 	 */
 	public PathControlState setEndLat(double end_lat) {
 		values.put("end_lat", end_lat);
 		return this;
+	}
+
+	/**
+	 *  @return End Point -- WGS-84 Longitude (rad) - fp64_t
+	 */
+	public double getEndLon() {
+		return getDouble("end_lon");
 	}
 
 	/**
@@ -364,11 +271,31 @@ public class PathControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return End Point -- Z Reference (m) - fp32_t
+	 */
+	public double getEndZ() {
+		return getDouble("end_z");
+	}
+
+	/**
 	 *  @param end_z End Point -- Z Reference (m)
 	 */
 	public PathControlState setEndZ(double end_z) {
 		values.put("end_z", end_z);
 		return this;
+	}
+
+	/**
+	 *  @return End Point -- Z Units (enumerated) - uint8_t
+	 */
+	public END_Z_UNITS getEndZUnits() {
+		try {
+			END_Z_UNITS o = END_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -396,11 +323,25 @@ public class PathControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Loiter -- Radius (m) - fp32_t
+	 */
+	public double getLradius() {
+		return getDouble("lradius");
+	}
+
+	/**
 	 *  @param lradius Loiter -- Radius (m)
 	 */
 	public PathControlState setLradius(double lradius) {
 		values.put("lradius", lradius);
 		return this;
+	}
+
+	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
 	}
 
 	/**
@@ -412,11 +353,25 @@ public class PathControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Along Track Position (m) - fp32_t
+	 */
+	public double getX() {
+		return getDouble("x");
+	}
+
+	/**
 	 *  @param x Along Track Position (m)
 	 */
 	public PathControlState setX(double x) {
 		values.put("x", x);
 		return this;
+	}
+
+	/**
+	 *  @return Cross Track Position (m) - fp32_t
+	 */
+	public double getY() {
+		return getDouble("y");
 	}
 
 	/**
@@ -428,11 +383,25 @@ public class PathControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Vertical Track Position (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Vertical Track Position (m)
 	 */
 	public PathControlState setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Along Track Velocity (m/s) - fp32_t
+	 */
+	public double getVx() {
+		return getDouble("vx");
 	}
 
 	/**
@@ -444,11 +413,25 @@ public class PathControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Cross Track Velocity (m/s) - fp32_t
+	 */
+	public double getVy() {
+		return getDouble("vy");
+	}
+
+	/**
 	 *  @param vy Cross Track Velocity (m/s)
 	 */
 	public PathControlState setVy(double vy) {
 		values.put("vy", vy);
 		return this;
+	}
+
+	/**
+	 *  @return Vertical Track Velocity (m/s) - fp32_t
+	 */
+	public double getVz() {
+		return getDouble("vz");
 	}
 
 	/**
@@ -460,11 +443,25 @@ public class PathControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Course Error (rad) - fp32_t
+	 */
+	public double getCourseError() {
+		return getDouble("course_error");
+	}
+
+	/**
 	 *  @param course_error Course Error (rad)
 	 */
 	public PathControlState setCourseError(double course_error) {
 		values.put("course_error", course_error);
 		return this;
+	}
+
+	/**
+	 *  @return Estimated Time to Arrival (ETA) (s) - uint16_t
+	 */
+	public int getEta() {
+		return getInteger("eta");
 	}
 
 	/**

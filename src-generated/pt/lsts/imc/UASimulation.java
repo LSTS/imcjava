@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class UASimulation extends IMCMessage {
 
-	public static final int ID_STATIC = 52;
-
 	public enum TYPE {
 		DATA(0),
 		PING(1),
@@ -53,6 +51,8 @@ public class UASimulation extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 52;
 
 	public UASimulation() {
 		super(ID_STATIC);
@@ -105,7 +105,6 @@ public class UASimulation extends IMCMessage {
 	}
 
 	/**
-	 *  Type of request.<br/>
 	 *  @return Type (enumerated) - uint8_t
 	 */
 	public TYPE getType() {
@@ -116,20 +115,6 @@ public class UASimulation extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Transmission Speed (bps) - uint16_t
-	 */
-	public int getSpeed() {
-		return getInteger("speed");
-	}
-
-	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
 	}
 
 	/**
@@ -157,11 +142,25 @@ public class UASimulation extends IMCMessage {
 	}
 
 	/**
+	 *  @return Transmission Speed (bps) - uint16_t
+	 */
+	public int getSpeed() {
+		return getInteger("speed");
+	}
+
+	/**
 	 *  @param speed Transmission Speed (bps)
 	 */
 	public UASimulation setSpeed(int speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**

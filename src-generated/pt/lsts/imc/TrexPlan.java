@@ -95,6 +95,14 @@ public class TrexPlan extends IMCMessage {
 	}
 
 	/**
+	 *  @param reactor Reactor name
+	 */
+	public TrexPlan setReactor(String reactor) {
+		values.put("reactor", reactor);
+		return this;
+	}
+
+	/**
 	 *  @return Tokens - message-list
 	 */
 	public java.util.Vector<TrexToken> getTokens() {
@@ -105,14 +113,6 @@ public class TrexPlan extends IMCMessage {
 			return null;
 		}
 
-	}
-
-	/**
-	 *  @param reactor Reactor name
-	 */
-	public TrexPlan setReactor(String reactor) {
-		values.put("reactor", reactor);
-		return this;
 	}
 
 	/**

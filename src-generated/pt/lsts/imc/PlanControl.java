@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class PlanControl extends IMCMessage {
 
-	public static final int ID_STATIC = 559;
-
 	public static final int FLG_CALIBRATE = 0x0001;
 	public static final int FLG_IGNORE_ERRORS = 0x0002;
 
@@ -74,6 +72,8 @@ public class PlanControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 559;
 
 	public PlanControl() {
 		super(ID_STATIC);
@@ -132,10 +132,6 @@ public class PlanControl extends IMCMessage {
 	}
 
 	/**
-	 *  Indicates if the message is a request or a reply to a<br/>
-	 *  previous request. The <code>op*, *request_id* and *plan_id</code> fields<br/>
-	 *  of a request will be echoed in one or more responses to that<br/>
-	 *  request.<br/>
 	 *  @return Type (enumerated) - uint8_t
 	 */
 	public TYPE getType() {
@@ -146,59 +142,6 @@ public class PlanControl extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  Plan control operation.<br/>
-	 *  @return Operation (enumerated) - uint8_t
-	 */
-	public OP getOp() {
-		try {
-			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Request ID - uint16_t
-	 */
-	public int getRequestId() {
-		return getInteger("request_id");
-	}
-
-	/**
-	 *  @return Plan Identifier - plaintext
-	 */
-	public String getPlanId() {
-		return getString("plan_id");
-	}
-
-	/**
-	 *  @return Flags (bitfield) - uint16_t
-	 */
-	public int getFlags() {
-		return getInteger("flags");
-	}
-
-	/**
-	 *  @return Request/Reply Argument - message
-	 */
-	public IMCMessage getArg() {
-		return getMessage("arg");
-	}
-
-	public <T extends IMCMessage> T getArg(Class<T> clazz) throws Exception {
-		return getMessage(clazz, "arg");
-	}
-
-	/**
-	 *  @return Complementary Info - plaintext
-	 */
-	public String getInfo() {
-		return getString("info");
 	}
 
 	/**
@@ -226,6 +169,19 @@ public class PlanControl extends IMCMessage {
 	}
 
 	/**
+	 *  @return Operation (enumerated) - uint8_t
+	 */
+	public OP getOp() {
+		try {
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
 	 *  @param op Operation (enumerated)
 	 */
 	public PlanControl setOp(OP op) {
@@ -250,11 +206,25 @@ public class PlanControl extends IMCMessage {
 	}
 
 	/**
+	 *  @return Request ID - uint16_t
+	 */
+	public int getRequestId() {
+		return getInteger("request_id");
+	}
+
+	/**
 	 *  @param request_id Request ID
 	 */
 	public PlanControl setRequestId(int request_id) {
 		values.put("request_id", request_id);
 		return this;
+	}
+
+	/**
+	 *  @return Plan Identifier - plaintext
+	 */
+	public String getPlanId() {
+		return getString("plan_id");
 	}
 
 	/**
@@ -266,6 +236,13 @@ public class PlanControl extends IMCMessage {
 	}
 
 	/**
+	 *  @return Flags (bitfield) - uint16_t
+	 */
+	public int getFlags() {
+		return getInteger("flags");
+	}
+
+	/**
 	 *  @param flags Flags (bitfield)
 	 */
 	public PlanControl setFlags(int flags) {
@@ -274,11 +251,29 @@ public class PlanControl extends IMCMessage {
 	}
 
 	/**
+	 *  @return Request/Reply Argument - message
+	 */
+	public IMCMessage getArg() {
+		return getMessage("arg");
+	}
+
+	public <T extends IMCMessage> T getArg(Class<T> clazz) throws Exception {
+		return getMessage(clazz, "arg");
+	}
+
+	/**
 	 *  @param arg Request/Reply Argument
 	 */
 	public PlanControl setArg(IMCMessage arg) {
 		values.put("arg", arg);
 		return this;
+	}
+
+	/**
+	 *  @return Complementary Info - plaintext
+	 */
+	public String getInfo() {
+		return getString("info");
 	}
 
 	/**

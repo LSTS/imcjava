@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class ReplayControl extends IMCMessage {
 
-	public static final int ID_STATIC = 105;
-
 	public enum OP {
 		START(0),
 		STOP(1),
@@ -54,6 +52,8 @@ public class ReplayControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 105;
 
 	public ReplayControl() {
 		super(ID_STATIC);
@@ -105,7 +105,6 @@ public class ReplayControl extends IMCMessage {
 	}
 
 	/**
-	 *  Operation to perform.<br/>
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -116,13 +115,6 @@ public class ReplayControl extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return File To Replay - plaintext
-	 */
-	public String getFile() {
-		return getString("file");
 	}
 
 	/**
@@ -147,6 +139,13 @@ public class ReplayControl extends IMCMessage {
 	public ReplayControl setOp(short op) {
 		setValue("op", op);
 		return this;
+	}
+
+	/**
+	 *  @return File To Replay - plaintext
+	 */
+	public String getFile() {
+		return getString("file");
 	}
 
 	/**

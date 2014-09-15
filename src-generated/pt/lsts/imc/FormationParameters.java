@@ -48,8 +48,6 @@ package pt.lsts.imc;
 
 public class FormationParameters extends IMCMessage {
 
-	public static final int ID_STATIC = 476;
-
 	public enum REFERENCE_FRAME {
 		EARTH_FIXED(0),
 		PATH_FIXED(1),
@@ -65,6 +63,8 @@ public class FormationParameters extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 476;
 
 	public FormationParameters() {
 		super(ID_STATIC);
@@ -127,7 +127,14 @@ public class FormationParameters extends IMCMessage {
 	}
 
 	/**
-	 *  Formation reference frame<br/>
+	 *  @param formation_name Formation Name
+	 */
+	public FormationParameters setFormationName(String formation_name) {
+		values.put("formation_name", formation_name);
+		return this;
+	}
+
+	/**
 	 *  @return Formation Reference Frame (enumerated) - uint8_t
 	 */
 	public REFERENCE_FRAME getReferenceFrame() {
@@ -138,34 +145,6 @@ public class FormationParameters extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Formation Participants - message-list
-	 */
-	public java.util.Vector<VehicleFormationParticipant> getParticipants() {
-		try {
-			return getMessageList("participants", VehicleFormationParticipant.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
-	 *  @return Custom settings for formation (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
-	 *  @param formation_name Formation Name
-	 */
-	public FormationParameters setFormationName(String formation_name) {
-		values.put("formation_name", formation_name);
-		return this;
 	}
 
 	/**
@@ -193,11 +172,31 @@ public class FormationParameters extends IMCMessage {
 	}
 
 	/**
+	 *  @return Formation Participants - message-list
+	 */
+	public java.util.Vector<VehicleFormationParticipant> getParticipants() {
+		try {
+			return getMessageList("participants", VehicleFormationParticipant.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
 	 *  @param participants Formation Participants
 	 */
 	public FormationParameters setParticipants(java.util.Collection<VehicleFormationParticipant> participants) {
 		values.put("participants", participants);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for formation (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

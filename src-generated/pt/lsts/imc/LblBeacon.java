@@ -100,53 +100,18 @@ public class LblBeacon extends IMCMessage {
 	}
 
 	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Depth (m) - fp32_t
-	 */
-	public double getDepth() {
-		return getDouble("depth");
-	}
-
-	/**
-	 *  @return Interrogation channel - uint8_t
-	 */
-	public short getQueryChannel() {
-		return (short) getInteger("query_channel");
-	}
-
-	/**
-	 *  @return Reply channel - uint8_t
-	 */
-	public short getReplyChannel() {
-		return (short) getInteger("reply_channel");
-	}
-
-	/**
-	 *  @return Transponder delay (ms) - uint8_t
-	 */
-	public short getTransponderDelay() {
-		return (short) getInteger("transponder_delay");
-	}
-
-	/**
 	 *  @param beacon Beacon Name
 	 */
 	public LblBeacon setBeacon(String beacon) {
 		values.put("beacon", beacon);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -158,11 +123,25 @@ public class LblBeacon extends IMCMessage {
 	}
 
 	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
 	public LblBeacon setLon(double lon) {
 		values.put("lon", lon);
 		return this;
+	}
+
+	/**
+	 *  @return Depth (m) - fp32_t
+	 */
+	public double getDepth() {
+		return getDouble("depth");
 	}
 
 	/**
@@ -174,6 +153,13 @@ public class LblBeacon extends IMCMessage {
 	}
 
 	/**
+	 *  @return Interrogation channel - uint8_t
+	 */
+	public short getQueryChannel() {
+		return (short) getInteger("query_channel");
+	}
+
+	/**
 	 *  @param query_channel Interrogation channel
 	 */
 	public LblBeacon setQueryChannel(short query_channel) {
@@ -182,11 +168,25 @@ public class LblBeacon extends IMCMessage {
 	}
 
 	/**
+	 *  @return Reply channel - uint8_t
+	 */
+	public short getReplyChannel() {
+		return (short) getInteger("reply_channel");
+	}
+
+	/**
 	 *  @param reply_channel Reply channel
 	 */
 	public LblBeacon setReplyChannel(short reply_channel) {
 		values.put("reply_channel", reply_channel);
 		return this;
+	}
+
+	/**
+	 *  @return Transponder delay (ms) - uint8_t
+	 */
+	public short getTransponderDelay() {
+		return (short) getInteger("transponder_delay");
 	}
 
 	/**

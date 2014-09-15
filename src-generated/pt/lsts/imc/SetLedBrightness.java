@@ -97,18 +97,18 @@ public class SetLedBrightness extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value - uint8_t
-	 */
-	public short getValue() {
-		return (short) getInteger("value");
-	}
-
-	/**
 	 *  @param name Name
 	 */
 	public SetLedBrightness setName(String name) {
 		values.put("name", name);
 		return this;
+	}
+
+	/**
+	 *  @return Value - uint8_t
+	 */
+	public short getValue() {
+		return (short) getInteger("value");
 	}
 
 	/**

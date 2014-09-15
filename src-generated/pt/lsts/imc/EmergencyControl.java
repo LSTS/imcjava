@@ -35,8 +35,6 @@ package pt.lsts.imc;
 
 public class EmergencyControl extends IMCMessage {
 
-	public static final int ID_STATIC = 554;
-
 	public enum COMMAND {
 		ENABLE(0),
 		DISABLE(1),
@@ -55,6 +53,8 @@ public class EmergencyControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 554;
 
 	public EmergencyControl() {
 		super(ID_STATIC);
@@ -119,23 +119,6 @@ public class EmergencyControl extends IMCMessage {
 	}
 
 	/**
-	 *  @return Plan Specification - message
-	 */
-	public PlanSpecification getPlan() {
-		try {
-			IMCMessage obj = getMessage("plan");
-			if (obj instanceof PlanSpecification)
-				return (PlanSpecification) obj;
-			else
-				return null;
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
 	 *  @param command Command (enumerated)
 	 */
 	public EmergencyControl setCommand(COMMAND command) {
@@ -157,6 +140,23 @@ public class EmergencyControl extends IMCMessage {
 	public EmergencyControl setCommand(short command) {
 		setValue("command", command);
 		return this;
+	}
+
+	/**
+	 *  @return Plan Specification - message
+	 */
+	public PlanSpecification getPlan() {
+		try {
+			IMCMessage obj = getMessage("plan");
+			if (obj instanceof PlanSpecification)
+				return (PlanSpecification) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	/**

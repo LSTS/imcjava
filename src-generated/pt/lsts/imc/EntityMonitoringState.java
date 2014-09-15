@@ -103,60 +103,18 @@ public class EntityMonitoringState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Entities monitored - Names - plaintext
-	 */
-	public String getMnames() {
-		return getString("mnames");
-	}
-
-	/**
-	 *  @return Entities with errors - Count - uint8_t
-	 */
-	public short getEcount() {
-		return (short) getInteger("ecount");
-	}
-
-	/**
-	 *  @return Entities with errors - Names - plaintext
-	 */
-	public String getEnames() {
-		return getString("enames");
-	}
-
-	/**
-	 *  @return Entities with critical errors - Count - uint8_t
-	 */
-	public short getCcount() {
-		return (short) getInteger("ccount");
-	}
-
-	/**
-	 *  @return Entities with critical errors - Names - plaintext
-	 */
-	public String getCnames() {
-		return getString("cnames");
-	}
-
-	/**
-	 *  @return Last Error -- Description - plaintext
-	 */
-	public String getLastError() {
-		return getString("last_error");
-	}
-
-	/**
-	 *  @return Last Error -- Time (s) - fp64_t
-	 */
-	public double getLastErrorTime() {
-		return getDouble("last_error_time");
-	}
-
-	/**
 	 *  @param mcount Entities monitored - Count
 	 */
 	public EntityMonitoringState setMcount(short mcount) {
 		values.put("mcount", mcount);
 		return this;
+	}
+
+	/**
+	 *  @return Entities monitored - Names - plaintext
+	 */
+	public String getMnames() {
+		return getString("mnames");
 	}
 
 	/**
@@ -168,11 +126,25 @@ public class EntityMonitoringState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Entities with errors - Count - uint8_t
+	 */
+	public short getEcount() {
+		return (short) getInteger("ecount");
+	}
+
+	/**
 	 *  @param ecount Entities with errors - Count
 	 */
 	public EntityMonitoringState setEcount(short ecount) {
 		values.put("ecount", ecount);
 		return this;
+	}
+
+	/**
+	 *  @return Entities with errors - Names - plaintext
+	 */
+	public String getEnames() {
+		return getString("enames");
 	}
 
 	/**
@@ -184,11 +156,25 @@ public class EntityMonitoringState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Entities with critical errors - Count - uint8_t
+	 */
+	public short getCcount() {
+		return (short) getInteger("ccount");
+	}
+
+	/**
 	 *  @param ccount Entities with critical errors - Count
 	 */
 	public EntityMonitoringState setCcount(short ccount) {
 		values.put("ccount", ccount);
 		return this;
+	}
+
+	/**
+	 *  @return Entities with critical errors - Names - plaintext
+	 */
+	public String getCnames() {
+		return getString("cnames");
 	}
 
 	/**
@@ -200,11 +186,25 @@ public class EntityMonitoringState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Last Error -- Description - plaintext
+	 */
+	public String getLastError() {
+		return getString("last_error");
+	}
+
+	/**
 	 *  @param last_error Last Error -- Description
 	 */
 	public EntityMonitoringState setLastError(String last_error) {
 		values.put("last_error", last_error);
 		return this;
+	}
+
+	/**
+	 *  @return Last Error -- Time (s) - fp64_t
+	 */
+	public double getLastErrorTime() {
+		return getDouble("last_error_time");
 	}
 
 	/**

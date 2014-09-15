@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class AutopilotMode extends IMCMessage {
 
-	public static final int ID_STATIC = 511;
-
 	public enum AUTONOMY {
 		MANUAL(0),
 		ASSISTED(1),
@@ -53,6 +51,8 @@ public class AutopilotMode extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 511;
 
 	public AutopilotMode() {
 		super(ID_STATIC);
@@ -104,7 +104,6 @@ public class AutopilotMode extends IMCMessage {
 	}
 
 	/**
-	 *  Current mode autonomy level.<br/>
 	 *  @return Autonomy Level (enumerated) - uint8_t
 	 */
 	public AUTONOMY getAutonomy() {
@@ -115,13 +114,6 @@ public class AutopilotMode extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Mode - plaintext
-	 */
-	public String getMode() {
-		return getString("mode");
 	}
 
 	/**
@@ -146,6 +138,13 @@ public class AutopilotMode extends IMCMessage {
 	public AutopilotMode setAutonomy(short autonomy) {
 		setValue("autonomy", autonomy);
 		return this;
+	}
+
+	/**
+	 *  @return Mode - plaintext
+	 */
+	public String getMode() {
+		return getString("mode");
 	}
 
 	/**

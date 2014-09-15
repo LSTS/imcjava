@@ -102,10 +102,26 @@ public class PlanDBState extends IMCMessage {
 	}
 
 	/**
+	 *  @param plan_count Plan -- Count
+	 */
+	public PlanDBState setPlanCount(int plan_count) {
+		values.put("plan_count", plan_count);
+		return this;
+	}
+
+	/**
 	 *  @return Plan -- Size of all plans - uint32_t
 	 */
 	public long getPlanSize() {
 		return getLong("plan_size");
+	}
+
+	/**
+	 *  @param plan_size Plan -- Size of all plans
+	 */
+	public PlanDBState setPlanSize(long plan_size) {
+		values.put("plan_size", plan_size);
+		return this;
 	}
 
 	/**
@@ -116,10 +132,26 @@ public class PlanDBState extends IMCMessage {
 	}
 
 	/**
+	 *  @param change_time Last Change -- Time (s)
+	 */
+	public PlanDBState setChangeTime(double change_time) {
+		values.put("change_time", change_time);
+		return this;
+	}
+
+	/**
 	 *  @return Last Change -- Source Address - uint16_t
 	 */
 	public int getChangeSid() {
 		return getInteger("change_sid");
+	}
+
+	/**
+	 *  @param change_sid Last Change -- Source Address
+	 */
+	public PlanDBState setChangeSid(int change_sid) {
+		values.put("change_sid", change_sid);
+		return this;
 	}
 
 	/**
@@ -130,10 +162,26 @@ public class PlanDBState extends IMCMessage {
 	}
 
 	/**
+	 *  @param change_sname Last Change -- Source Name
+	 */
+	public PlanDBState setChangeSname(String change_sname) {
+		values.put("change_sname", change_sname);
+		return this;
+	}
+
+	/**
 	 *  @return MD5 - rawdata
 	 */
 	public byte[] getMd5() {
 		return getRawData("md5");
+	}
+
+	/**
+	 *  @param md5 MD5
+	 */
+	public PlanDBState setMd5(byte[] md5) {
+		values.put("md5", md5);
+		return this;
 	}
 
 	/**
@@ -147,54 +195,6 @@ public class PlanDBState extends IMCMessage {
 			return null;
 		}
 
-	}
-
-	/**
-	 *  @param plan_count Plan -- Count
-	 */
-	public PlanDBState setPlanCount(int plan_count) {
-		values.put("plan_count", plan_count);
-		return this;
-	}
-
-	/**
-	 *  @param plan_size Plan -- Size of all plans
-	 */
-	public PlanDBState setPlanSize(long plan_size) {
-		values.put("plan_size", plan_size);
-		return this;
-	}
-
-	/**
-	 *  @param change_time Last Change -- Time (s)
-	 */
-	public PlanDBState setChangeTime(double change_time) {
-		values.put("change_time", change_time);
-		return this;
-	}
-
-	/**
-	 *  @param change_sid Last Change -- Source Address
-	 */
-	public PlanDBState setChangeSid(int change_sid) {
-		values.put("change_sid", change_sid);
-		return this;
-	}
-
-	/**
-	 *  @param change_sname Last Change -- Source Name
-	 */
-	public PlanDBState setChangeSname(String change_sname) {
-		values.put("change_sname", change_sname);
-		return this;
-	}
-
-	/**
-	 *  @param md5 MD5
-	 */
-	public PlanDBState setMd5(byte[] md5) {
-		values.put("md5", md5);
-		return this;
 	}
 
 	/**

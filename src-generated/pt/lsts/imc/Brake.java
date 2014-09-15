@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class Brake extends IMCMessage {
 
-	public static final int ID_STATIC = 413;
-
 	public enum OP {
 		STOP(0),
 		START(1);
@@ -52,6 +50,8 @@ public class Brake extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 413;
 
 	public Brake() {
 		super(ID_STATIC);
@@ -101,7 +101,6 @@ public class Brake extends IMCMessage {
 	}
 
 	/**
-	 *  Brake operation.<br/>
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {

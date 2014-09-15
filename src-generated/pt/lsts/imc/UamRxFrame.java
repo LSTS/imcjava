@@ -35,9 +35,9 @@ package pt.lsts.imc;
 
 public class UamRxFrame extends IMCMessage {
 
-	public static final int ID_STATIC = 815;
-
 	public static final short URF_PROMISCUOUS = 0x01;
+
+	public static final int ID_STATIC = 815;
 
 	public UamRxFrame() {
 		super(ID_STATIC);
@@ -100,32 +100,18 @@ public class UamRxFrame extends IMCMessage {
 	}
 
 	/**
-	 *  @return Destination System - plaintext
-	 */
-	public String getSysDst() {
-		return getString("sys_dst");
-	}
-
-	/**
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
 	 *  @param sys_src Source System
 	 */
 	public UamRxFrame setSysSrc(String sys_src) {
 		values.put("sys_src", sys_src);
 		return this;
+	}
+
+	/**
+	 *  @return Destination System - plaintext
+	 */
+	public String getSysDst() {
+		return getString("sys_dst");
 	}
 
 	/**
@@ -137,11 +123,25 @@ public class UamRxFrame extends IMCMessage {
 	}
 
 	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
+	}
+
+	/**
 	 *  @param flags Flags (bitfield)
 	 */
 	public UamRxFrame setFlags(short flags) {
 		values.put("flags", flags);
 		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**

@@ -37,8 +37,6 @@ package pt.lsts.imc;
 
 public class EntityList extends IMCMessage {
 
-	public static final int ID_STATIC = 5;
-
 	public enum OP {
 		REPORT(0),
 		QUERY(1);
@@ -53,6 +51,8 @@ public class EntityList extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 5;
 
 	public EntityList() {
 		super(ID_STATIC);
@@ -104,7 +104,6 @@ public class EntityList extends IMCMessage {
 	}
 
 	/**
-	 *  Operation to perform.<br/>
 	 *  @return operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -115,13 +114,6 @@ public class EntityList extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return list (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getList() {
-		return getTupleList("list");
 	}
 
 	/**
@@ -146,6 +138,13 @@ public class EntityList extends IMCMessage {
 	public EntityList setOp(short op) {
 		setValue("op", op);
 		return this;
+	}
+
+	/**
+	 *  @return list (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getList() {
+		return getTupleList("list");
 	}
 
 	/**

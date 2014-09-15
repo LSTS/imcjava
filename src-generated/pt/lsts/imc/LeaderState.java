@@ -48,8 +48,6 @@ package pt.lsts.imc;
 
 public class LeaderState extends IMCMessage {
 
-	public static final int ID_STATIC = 563;
-
 	public enum OP {
 		REQUEST(0),
 		SET(1),
@@ -65,6 +63,8 @@ public class LeaderState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 563;
 
 	public LeaderState() {
 		super(ID_STATIC);
@@ -141,7 +141,14 @@ public class LeaderState extends IMCMessage {
 	}
 
 	/**
-	 *  Action on the formation leader state variables<br/>
+	 *  @param group_name Group Name
+	 */
+	public LeaderState setGroupName(String group_name) {
+		values.put("group_name", group_name);
+		return this;
+	}
+
+	/**
 	 *  @return Action on the leader state (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -152,140 +159,6 @@ public class LeaderState extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Latitude (WGS-84) (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude (WGS-84) (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Height (WGS-84) (m) - fp32_t
-	 */
-	public double getHeight() {
-		return getDouble("height");
-	}
-
-	/**
-	 *  @return Offset north (m) - fp32_t
-	 */
-	public double getX() {
-		return getDouble("x");
-	}
-
-	/**
-	 *  @return Offset east (m) - fp32_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Offset down (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @return Rotation over x axis (rad) - fp32_t
-	 */
-	public double getPhi() {
-		return getDouble("phi");
-	}
-
-	/**
-	 *  @return Rotation over y axis (rad) - fp32_t
-	 */
-	public double getTheta() {
-		return getDouble("theta");
-	}
-
-	/**
-	 *  @return Rotation over z axis (rad) - fp32_t
-	 */
-	public double getPsi() {
-		return getDouble("psi");
-	}
-
-	/**
-	 *  @return Ground Velocity X (North) (m/s) - fp32_t
-	 */
-	public double getVx() {
-		return getDouble("vx");
-	}
-
-	/**
-	 *  @return Ground Velocity Y (East) (m/s) - fp32_t
-	 */
-	public double getVy() {
-		return getDouble("vy");
-	}
-
-	/**
-	 *  @return Ground Velocity Z (Down) (m/s) - fp32_t
-	 */
-	public double getVz() {
-		return getDouble("vz");
-	}
-
-	/**
-	 *  @return Angular Velocity in x (rad/s) - fp32_t
-	 */
-	public double getP() {
-		return getDouble("p");
-	}
-
-	/**
-	 *  @return Angular Velocity in y (rad/s) - fp32_t
-	 */
-	public double getQ() {
-		return getDouble("q");
-	}
-
-	/**
-	 *  @return Angular Velocity in z (rad/s) - fp32_t
-	 */
-	public double getR() {
-		return getDouble("r");
-	}
-
-	/**
-	 *  @return Stream Velocity X (North) (m/s) - fp32_t
-	 */
-	public double getSvx() {
-		return getDouble("svx");
-	}
-
-	/**
-	 *  @return Stream Velocity Y (East) (m/s) - fp32_t
-	 */
-	public double getSvy() {
-		return getDouble("svy");
-	}
-
-	/**
-	 *  @return Stream Velocity Z (Down) (m/s) - fp32_t
-	 */
-	public double getSvz() {
-		return getDouble("svz");
-	}
-
-	/**
-	 *  @param group_name Group Name
-	 */
-	public LeaderState setGroupName(String group_name) {
-		values.put("group_name", group_name);
-		return this;
 	}
 
 	/**
@@ -313,11 +186,25 @@ public class LeaderState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Latitude (WGS-84) (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
+	}
+
+	/**
 	 *  @param lat Latitude (WGS-84) (rad)
 	 */
 	public LeaderState setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude (WGS-84) (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -329,11 +216,25 @@ public class LeaderState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Height (WGS-84) (m) - fp32_t
+	 */
+	public double getHeight() {
+		return getDouble("height");
+	}
+
+	/**
 	 *  @param height Height (WGS-84) (m)
 	 */
 	public LeaderState setHeight(double height) {
 		values.put("height", height);
 		return this;
+	}
+
+	/**
+	 *  @return Offset north (m) - fp32_t
+	 */
+	public double getX() {
+		return getDouble("x");
 	}
 
 	/**
@@ -345,11 +246,25 @@ public class LeaderState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Offset east (m) - fp32_t
+	 */
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
 	 *  @param y Offset east (m)
 	 */
 	public LeaderState setY(double y) {
 		values.put("y", y);
 		return this;
+	}
+
+	/**
+	 *  @return Offset down (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**
@@ -361,11 +276,25 @@ public class LeaderState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Rotation over x axis (rad) - fp32_t
+	 */
+	public double getPhi() {
+		return getDouble("phi");
+	}
+
+	/**
 	 *  @param phi Rotation over x axis (rad)
 	 */
 	public LeaderState setPhi(double phi) {
 		values.put("phi", phi);
 		return this;
+	}
+
+	/**
+	 *  @return Rotation over y axis (rad) - fp32_t
+	 */
+	public double getTheta() {
+		return getDouble("theta");
 	}
 
 	/**
@@ -377,11 +306,25 @@ public class LeaderState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Rotation over z axis (rad) - fp32_t
+	 */
+	public double getPsi() {
+		return getDouble("psi");
+	}
+
+	/**
 	 *  @param psi Rotation over z axis (rad)
 	 */
 	public LeaderState setPsi(double psi) {
 		values.put("psi", psi);
 		return this;
+	}
+
+	/**
+	 *  @return Ground Velocity X (North) (m/s) - fp32_t
+	 */
+	public double getVx() {
+		return getDouble("vx");
 	}
 
 	/**
@@ -393,11 +336,25 @@ public class LeaderState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Ground Velocity Y (East) (m/s) - fp32_t
+	 */
+	public double getVy() {
+		return getDouble("vy");
+	}
+
+	/**
 	 *  @param vy Ground Velocity Y (East) (m/s)
 	 */
 	public LeaderState setVy(double vy) {
 		values.put("vy", vy);
 		return this;
+	}
+
+	/**
+	 *  @return Ground Velocity Z (Down) (m/s) - fp32_t
+	 */
+	public double getVz() {
+		return getDouble("vz");
 	}
 
 	/**
@@ -409,11 +366,25 @@ public class LeaderState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Angular Velocity in x (rad/s) - fp32_t
+	 */
+	public double getP() {
+		return getDouble("p");
+	}
+
+	/**
 	 *  @param p Angular Velocity in x (rad/s)
 	 */
 	public LeaderState setP(double p) {
 		values.put("p", p);
 		return this;
+	}
+
+	/**
+	 *  @return Angular Velocity in y (rad/s) - fp32_t
+	 */
+	public double getQ() {
+		return getDouble("q");
 	}
 
 	/**
@@ -425,11 +396,25 @@ public class LeaderState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Angular Velocity in z (rad/s) - fp32_t
+	 */
+	public double getR() {
+		return getDouble("r");
+	}
+
+	/**
 	 *  @param r Angular Velocity in z (rad/s)
 	 */
 	public LeaderState setR(double r) {
 		values.put("r", r);
 		return this;
+	}
+
+	/**
+	 *  @return Stream Velocity X (North) (m/s) - fp32_t
+	 */
+	public double getSvx() {
+		return getDouble("svx");
 	}
 
 	/**
@@ -441,11 +426,25 @@ public class LeaderState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Stream Velocity Y (East) (m/s) - fp32_t
+	 */
+	public double getSvy() {
+		return getDouble("svy");
+	}
+
+	/**
 	 *  @param svy Stream Velocity Y (East) (m/s)
 	 */
 	public LeaderState setSvy(double svy) {
 		values.put("svy", svy);
 		return this;
+	}
+
+	/**
+	 *  @return Stream Velocity Z (Down) (m/s) - fp32_t
+	 */
+	public double getSvz() {
+		return getDouble("svz");
 	}
 
 	/**

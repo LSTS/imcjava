@@ -97,39 +97,18 @@ public class EulerAnglesDelta extends IMCMessage {
 	}
 
 	/**
-	 *  @return X (rad) - fp64_t
-	 */
-	public double getX() {
-		return getDouble("x");
-	}
-
-	/**
-	 *  @return Y (rad) - fp64_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Z (rad) - fp64_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @return Timestep (s) - fp32_t
-	 */
-	public double getTimestep() {
-		return getDouble("timestep");
-	}
-
-	/**
 	 *  @param time Device Time (s)
 	 */
 	public EulerAnglesDelta setTime(double time) {
 		values.put("time", time);
 		return this;
+	}
+
+	/**
+	 *  @return X (rad) - fp64_t
+	 */
+	public double getX() {
+		return getDouble("x");
 	}
 
 	/**
@@ -141,6 +120,13 @@ public class EulerAnglesDelta extends IMCMessage {
 	}
 
 	/**
+	 *  @return Y (rad) - fp64_t
+	 */
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
 	 *  @param y Y (rad)
 	 */
 	public EulerAnglesDelta setY(double y) {
@@ -149,11 +135,25 @@ public class EulerAnglesDelta extends IMCMessage {
 	}
 
 	/**
+	 *  @return Z (rad) - fp64_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Z (rad)
 	 */
 	public EulerAnglesDelta setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Timestep (s) - fp32_t
+	 */
+	public double getTimestep() {
+		return getDouble("timestep");
 	}
 
 	/**

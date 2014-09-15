@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class GpsFix extends IMCMessage {
 
-	public static final int ID_STATIC = 253;
-
 	public static final int GFV_VALID_DATE = 0x0001;
 	public static final int GFV_VALID_TIME = 0x0002;
 	public static final int GFV_VALID_POS = 0x0004;
@@ -65,6 +63,8 @@ public class GpsFix extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 253;
 
 	public GpsFix() {
 		super(ID_STATIC);
@@ -129,7 +129,6 @@ public class GpsFix extends IMCMessage {
 	}
 
 	/**
-	 *  Validity of fields.<br/>
 	 *  @return Validity (bitfield) - uint16_t
 	 */
 	public int getValidity() {
@@ -137,7 +136,14 @@ public class GpsFix extends IMCMessage {
 	}
 
 	/**
-	 *  Type of fix.<br/>
+	 *  @param validity Validity (bitfield)
+	 */
+	public GpsFix setValidity(int validity) {
+		values.put("validity", validity);
+		return this;
+	}
+
+	/**
 	 *  @return Type (enumerated) - uint8_t
 	 */
 	public TYPE getType() {
@@ -148,112 +154,6 @@ public class GpsFix extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return UTC Year - uint16_t
-	 */
-	public int getUtcYear() {
-		return getInteger("utc_year");
-	}
-
-	/**
-	 *  @return UTC Month - uint8_t
-	 */
-	public short getUtcMonth() {
-		return (short) getInteger("utc_month");
-	}
-
-	/**
-	 *  @return UTC Day - uint8_t
-	 */
-	public short getUtcDay() {
-		return (short) getInteger("utc_day");
-	}
-
-	/**
-	 *  @return UTC Time of Fix (s) - fp32_t
-	 */
-	public double getUtcTime() {
-		return getDouble("utc_time");
-	}
-
-	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Height above WGS-84 ellipsoid (m) - fp32_t
-	 */
-	public double getHeight() {
-		return getDouble("height");
-	}
-
-	/**
-	 *  @return Number of Satellites - uint8_t
-	 */
-	public short getSatellites() {
-		return (short) getInteger("satellites");
-	}
-
-	/**
-	 *  @return Course Over Ground (rad) - fp32_t
-	 */
-	public double getCog() {
-		return getDouble("cog");
-	}
-
-	/**
-	 *  @return Speed Over Ground (m/s) - fp32_t
-	 */
-	public double getSog() {
-		return getDouble("sog");
-	}
-
-	/**
-	 *  @return Horizontal Dilution of Precision - fp32_t
-	 */
-	public double getHdop() {
-		return getDouble("hdop");
-	}
-
-	/**
-	 *  @return Vertical Dilution of Precision - fp32_t
-	 */
-	public double getVdop() {
-		return getDouble("vdop");
-	}
-
-	/**
-	 *  @return Horizontal Accuracy Estimate (m) - fp32_t
-	 */
-	public double getHacc() {
-		return getDouble("hacc");
-	}
-
-	/**
-	 *  @return Vertical Accuracy Estimate (m) - fp32_t
-	 */
-	public double getVacc() {
-		return getDouble("vacc");
-	}
-
-	/**
-	 *  @param validity Validity (bitfield)
-	 */
-	public GpsFix setValidity(int validity) {
-		values.put("validity", validity);
-		return this;
 	}
 
 	/**
@@ -281,11 +181,25 @@ public class GpsFix extends IMCMessage {
 	}
 
 	/**
+	 *  @return UTC Year - uint16_t
+	 */
+	public int getUtcYear() {
+		return getInteger("utc_year");
+	}
+
+	/**
 	 *  @param utc_year UTC Year
 	 */
 	public GpsFix setUtcYear(int utc_year) {
 		values.put("utc_year", utc_year);
 		return this;
+	}
+
+	/**
+	 *  @return UTC Month - uint8_t
+	 */
+	public short getUtcMonth() {
+		return (short) getInteger("utc_month");
 	}
 
 	/**
@@ -297,11 +211,25 @@ public class GpsFix extends IMCMessage {
 	}
 
 	/**
+	 *  @return UTC Day - uint8_t
+	 */
+	public short getUtcDay() {
+		return (short) getInteger("utc_day");
+	}
+
+	/**
 	 *  @param utc_day UTC Day
 	 */
 	public GpsFix setUtcDay(short utc_day) {
 		values.put("utc_day", utc_day);
 		return this;
+	}
+
+	/**
+	 *  @return UTC Time of Fix (s) - fp32_t
+	 */
+	public double getUtcTime() {
+		return getDouble("utc_time");
 	}
 
 	/**
@@ -313,11 +241,25 @@ public class GpsFix extends IMCMessage {
 	}
 
 	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
+	}
+
+	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
 	public GpsFix setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -329,11 +271,25 @@ public class GpsFix extends IMCMessage {
 	}
 
 	/**
+	 *  @return Height above WGS-84 ellipsoid (m) - fp32_t
+	 */
+	public double getHeight() {
+		return getDouble("height");
+	}
+
+	/**
 	 *  @param height Height above WGS-84 ellipsoid (m)
 	 */
 	public GpsFix setHeight(double height) {
 		values.put("height", height);
 		return this;
+	}
+
+	/**
+	 *  @return Number of Satellites - uint8_t
+	 */
+	public short getSatellites() {
+		return (short) getInteger("satellites");
 	}
 
 	/**
@@ -345,11 +301,25 @@ public class GpsFix extends IMCMessage {
 	}
 
 	/**
+	 *  @return Course Over Ground (rad) - fp32_t
+	 */
+	public double getCog() {
+		return getDouble("cog");
+	}
+
+	/**
 	 *  @param cog Course Over Ground (rad)
 	 */
 	public GpsFix setCog(double cog) {
 		values.put("cog", cog);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Over Ground (m/s) - fp32_t
+	 */
+	public double getSog() {
+		return getDouble("sog");
 	}
 
 	/**
@@ -361,11 +331,25 @@ public class GpsFix extends IMCMessage {
 	}
 
 	/**
+	 *  @return Horizontal Dilution of Precision - fp32_t
+	 */
+	public double getHdop() {
+		return getDouble("hdop");
+	}
+
+	/**
 	 *  @param hdop Horizontal Dilution of Precision
 	 */
 	public GpsFix setHdop(double hdop) {
 		values.put("hdop", hdop);
 		return this;
+	}
+
+	/**
+	 *  @return Vertical Dilution of Precision - fp32_t
+	 */
+	public double getVdop() {
+		return getDouble("vdop");
 	}
 
 	/**
@@ -377,11 +361,25 @@ public class GpsFix extends IMCMessage {
 	}
 
 	/**
+	 *  @return Horizontal Accuracy Estimate (m) - fp32_t
+	 */
+	public double getHacc() {
+		return getDouble("hacc");
+	}
+
+	/**
 	 *  @param hacc Horizontal Accuracy Estimate (m)
 	 */
 	public GpsFix setHacc(double hacc) {
 		values.put("hacc", hacc);
 		return this;
+	}
+
+	/**
+	 *  @return Vertical Accuracy Estimate (m) - fp32_t
+	 */
+	public double getVacc() {
+		return getDouble("vacc");
 	}
 
 	/**

@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class PlanVariable extends IMCMessage {
 
-	public static final int ID_STATIC = 561;
-
 	public enum TYPE {
 		BOOLEAN(0),
 		NUMBER(1),
@@ -70,6 +68,8 @@ public class PlanVariable extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 561;
 
 	public PlanVariable() {
 		super(ID_STATIC);
@@ -131,10 +131,26 @@ public class PlanVariable extends IMCMessage {
 	}
 
 	/**
+	 *  @param name Name
+	 */
+	public PlanVariable setName(String name) {
+		values.put("name", name);
+		return this;
+	}
+
+	/**
 	 *  @return Value - plaintext
 	 */
 	public String getValue() {
 		return getString("value");
+	}
+
+	/**
+	 *  @param value Value
+	 */
+	public PlanVariable setValue(String value) {
+		values.put("value", value);
+		return this;
 	}
 
 	/**
@@ -148,35 +164,6 @@ public class PlanVariable extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Access Type (enumerated) - uint8_t
-	 */
-	public ACCESS getAccess() {
-		try {
-			ACCESS o = ACCESS.valueOf(getMessageType().getFieldPossibleValues("access").get(getLong("access")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @param name Name
-	 */
-	public PlanVariable setName(String name) {
-		values.put("name", name);
-		return this;
-	}
-
-	/**
-	 *  @param value Value
-	 */
-	public PlanVariable setValue(String value) {
-		values.put("value", value);
-		return this;
 	}
 
 	/**
@@ -201,6 +188,19 @@ public class PlanVariable extends IMCMessage {
 	public PlanVariable setType(short type) {
 		setValue("type", type);
 		return this;
+	}
+
+	/**
+	 *  @return Access Type (enumerated) - uint8_t
+	 */
+	public ACCESS getAccess() {
+		try {
+			ACCESS o = ACCESS.valueOf(getMessageType().getFieldPossibleValues("access").get(getLong("access")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**

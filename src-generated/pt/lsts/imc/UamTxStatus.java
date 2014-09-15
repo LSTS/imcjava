@@ -35,8 +35,6 @@ package pt.lsts.imc;
 
 public class UamTxStatus extends IMCMessage {
 
-	public static final int ID_STATIC = 816;
-
 	public enum VALUE {
 		DONE(0),
 		FAILED(1),
@@ -55,6 +53,8 @@ public class UamTxStatus extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 816;
 
 	public UamTxStatus() {
 		super(ID_STATIC);
@@ -114,6 +114,14 @@ public class UamTxStatus extends IMCMessage {
 	}
 
 	/**
+	 *  @param seq Sequence Id
+	 */
+	public UamTxStatus setSeq(int seq) {
+		values.put("seq", seq);
+		return this;
+	}
+
+	/**
 	 *  @return Value (enumerated) - uint8_t
 	 */
 	public VALUE getValue() {
@@ -124,21 +132,6 @@ public class UamTxStatus extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Error Message - plaintext
-	 */
-	public String getError() {
-		return getString("error");
-	}
-
-	/**
-	 *  @param seq Sequence Id
-	 */
-	public UamTxStatus setSeq(int seq) {
-		values.put("seq", seq);
-		return this;
 	}
 
 	/**
@@ -163,6 +156,13 @@ public class UamTxStatus extends IMCMessage {
 	public UamTxStatus setValue(short value) {
 		setValue("value", value);
 		return this;
+	}
+
+	/**
+	 *  @return Error Message - plaintext
+	 */
+	public String getError() {
+		return getString("error");
 	}
 
 	/**

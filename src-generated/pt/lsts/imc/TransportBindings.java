@@ -95,18 +95,18 @@ public class TransportBindings extends IMCMessage {
 	}
 
 	/**
-	 *  @return Message Identifier - uint16_t
-	 */
-	public int getMessageId() {
-		return getInteger("message_id");
-	}
-
-	/**
 	 *  @param consumer Consumer name
 	 */
 	public TransportBindings setConsumer(String consumer) {
 		values.put("consumer", consumer);
 		return this;
+	}
+
+	/**
+	 *  @return Message Identifier - uint16_t
+	 */
+	public int getMessageId() {
+		return getInteger("message_id");
 	}
 
 	/**

@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class Rows extends Maneuver {
 
-	public static final int ID_STATIC = 456;
-
 	public static final short FLG_SQUARE_CURVE = 0x01;
 	public static final short FLG_CURVE_RIGHT = 0x02;
 
@@ -73,6 +71,8 @@ public class Rows extends Maneuver {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 456;
 
 	public Rows() {
 		super(ID_STATIC);
@@ -145,131 +145,18 @@ public class Rows extends Maneuver {
 	}
 
 	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Z Reference (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  Units of the z reference.<br/>
-	 *  @return Z Units (enumerated) - uint8_t
-	 */
-	public Z_UNITS getZUnits() {
-		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Bearing (rad) - fp64_t
-	 */
-	public double getBearing() {
-		return getDouble("bearing");
-	}
-
-	/**
-	 *  @return Cross Angle (rad) - fp64_t
-	 */
-	public double getCrossAngle() {
-		return getDouble("cross_angle");
-	}
-
-	/**
-	 *  @return Width (m) - fp32_t
-	 */
-	public double getWidth() {
-		return getDouble("width");
-	}
-
-	/**
-	 *  @return Length (m) - fp32_t
-	 */
-	public double getLength() {
-		return getDouble("length");
-	}
-
-	/**
-	 *  @return Horizontal Step (m) - fp32_t
-	 */
-	public double getHstep() {
-		return getDouble("hstep");
-	}
-
-	/**
-	 *  @return Curve Offset (m) - uint8_t
-	 */
-	public short getCoff() {
-		return (short) getInteger("coff");
-	}
-
-	/**
-	 *  @return Alternation Parameter (%) - uint8_t
-	 */
-	public short getAlternation() {
-		return (short) getInteger("alternation");
-	}
-
-	/**
-	 *  Maneuver flags.<br/>
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param timeout Timeout (s)
 	 */
 	public Rows setTimeout(int timeout) {
 		values.put("timeout", timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -281,6 +168,13 @@ public class Rows extends Maneuver {
 	}
 
 	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
 	public Rows setLon(double lon) {
@@ -289,11 +183,31 @@ public class Rows extends Maneuver {
 	}
 
 	/**
+	 *  @return Z Reference (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Z Reference (m)
 	 */
 	public Rows setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Z Units (enumerated) - uint8_t
+	 */
+	public Z_UNITS getZUnits() {
+		try {
+			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -321,11 +235,31 @@ public class Rows extends Maneuver {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public Rows setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -353,11 +287,25 @@ public class Rows extends Maneuver {
 	}
 
 	/**
+	 *  @return Bearing (rad) - fp64_t
+	 */
+	public double getBearing() {
+		return getDouble("bearing");
+	}
+
+	/**
 	 *  @param bearing Bearing (rad)
 	 */
 	public Rows setBearing(double bearing) {
 		values.put("bearing", bearing);
 		return this;
+	}
+
+	/**
+	 *  @return Cross Angle (rad) - fp64_t
+	 */
+	public double getCrossAngle() {
+		return getDouble("cross_angle");
 	}
 
 	/**
@@ -369,11 +317,25 @@ public class Rows extends Maneuver {
 	}
 
 	/**
+	 *  @return Width (m) - fp32_t
+	 */
+	public double getWidth() {
+		return getDouble("width");
+	}
+
+	/**
 	 *  @param width Width (m)
 	 */
 	public Rows setWidth(double width) {
 		values.put("width", width);
 		return this;
+	}
+
+	/**
+	 *  @return Length (m) - fp32_t
+	 */
+	public double getLength() {
+		return getDouble("length");
 	}
 
 	/**
@@ -385,11 +347,25 @@ public class Rows extends Maneuver {
 	}
 
 	/**
+	 *  @return Horizontal Step (m) - fp32_t
+	 */
+	public double getHstep() {
+		return getDouble("hstep");
+	}
+
+	/**
 	 *  @param hstep Horizontal Step (m)
 	 */
 	public Rows setHstep(double hstep) {
 		values.put("hstep", hstep);
 		return this;
+	}
+
+	/**
+	 *  @return Curve Offset (m) - uint8_t
+	 */
+	public short getCoff() {
+		return (short) getInteger("coff");
 	}
 
 	/**
@@ -401,6 +377,13 @@ public class Rows extends Maneuver {
 	}
 
 	/**
+	 *  @return Alternation Parameter (%) - uint8_t
+	 */
+	public short getAlternation() {
+		return (short) getInteger("alternation");
+	}
+
+	/**
 	 *  @param alternation Alternation Parameter (%)
 	 */
 	public Rows setAlternation(short alternation) {
@@ -409,11 +392,25 @@ public class Rows extends Maneuver {
 	}
 
 	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
+	}
+
+	/**
 	 *  @param flags Flags (bitfield)
 	 */
 	public Rows setFlags(short flags) {
 		values.put("flags", flags);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

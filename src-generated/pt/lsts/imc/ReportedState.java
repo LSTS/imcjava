@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class ReportedState extends IMCMessage {
 
-	public static final int ID_STATIC = 600;
-
 	public enum S_TYPE {
 		WI_FI(0),
 		TRACKER(1),
@@ -55,6 +53,8 @@ public class ReportedState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 600;
 
 	public ReportedState() {
 		super(ID_STATIC);
@@ -120,74 +120,18 @@ public class ReportedState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Longitude (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Depth (m) - fp64_t
-	 */
-	public double getDepth() {
-		return getDouble("depth");
-	}
-
-	/**
-	 *  @return Roll (rad) - fp64_t
-	 */
-	public double getRoll() {
-		return getDouble("roll");
-	}
-
-	/**
-	 *  @return Pitch (rad) - fp64_t
-	 */
-	public double getPitch() {
-		return getDouble("pitch");
-	}
-
-	/**
-	 *  @return Yaw (rad) - fp64_t
-	 */
-	public double getYaw() {
-		return getDouble("yaw");
-	}
-
-	/**
-	 *  @return Reception Time (s) - fp64_t
-	 */
-	public double getRcpTime() {
-		return getDouble("rcp_time");
-	}
-
-	/**
-	 *  @return System Identifier - plaintext
-	 */
-	public String getSid() {
-		return getString("sid");
-	}
-
-	/**
-	 *  How the position was received/calculated<br/>
-	 *  @return Source Type (enumerated) - uint8_t
-	 */
-	public S_TYPE getSType() {
-		try {
-			S_TYPE o = S_TYPE.valueOf(getMessageType().getFieldPossibleValues("s_type").get(getLong("s_type")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
 	 *  @param lat Latitude (rad)
 	 */
 	public ReportedState setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -199,11 +143,25 @@ public class ReportedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Depth (m) - fp64_t
+	 */
+	public double getDepth() {
+		return getDouble("depth");
+	}
+
+	/**
 	 *  @param depth Depth (m)
 	 */
 	public ReportedState setDepth(double depth) {
 		values.put("depth", depth);
 		return this;
+	}
+
+	/**
+	 *  @return Roll (rad) - fp64_t
+	 */
+	public double getRoll() {
+		return getDouble("roll");
 	}
 
 	/**
@@ -215,11 +173,25 @@ public class ReportedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Pitch (rad) - fp64_t
+	 */
+	public double getPitch() {
+		return getDouble("pitch");
+	}
+
+	/**
 	 *  @param pitch Pitch (rad)
 	 */
 	public ReportedState setPitch(double pitch) {
 		values.put("pitch", pitch);
 		return this;
+	}
+
+	/**
+	 *  @return Yaw (rad) - fp64_t
+	 */
+	public double getYaw() {
+		return getDouble("yaw");
 	}
 
 	/**
@@ -231,6 +203,13 @@ public class ReportedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Reception Time (s) - fp64_t
+	 */
+	public double getRcpTime() {
+		return getDouble("rcp_time");
+	}
+
+	/**
 	 *  @param rcp_time Reception Time (s)
 	 */
 	public ReportedState setRcpTime(double rcp_time) {
@@ -239,11 +218,31 @@ public class ReportedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return System Identifier - plaintext
+	 */
+	public String getSid() {
+		return getString("sid");
+	}
+
+	/**
 	 *  @param sid System Identifier
 	 */
 	public ReportedState setSid(String sid) {
 		values.put("sid", sid);
 		return this;
+	}
+
+	/**
+	 *  @return Source Type (enumerated) - uint8_t
+	 */
+	public S_TYPE getSType() {
+		try {
+			S_TYPE o = S_TYPE.valueOf(getMessageType().getFieldPossibleValues("s_type").get(getLong("s_type")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**

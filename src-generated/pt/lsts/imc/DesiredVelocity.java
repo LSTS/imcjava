@@ -36,14 +36,14 @@ package pt.lsts.imc;
 
 public class DesiredVelocity extends IMCMessage {
 
-	public static final int ID_STATIC = 409;
-
 	public static final short FL_SURGE = 0x01;
 	public static final short FL_SWAY = 0x02;
 	public static final short FL_HEAVE = 0x04;
 	public static final short FL_ROLL = 0x08;
 	public static final short FL_PITCH = 0x10;
 	public static final short FL_YAW = 0x20;
+
+	public static final int ID_STATIC = 409;
 
 	public DesiredVelocity() {
 		super(ID_STATIC);
@@ -106,54 +106,18 @@ public class DesiredVelocity extends IMCMessage {
 	}
 
 	/**
-	 *  @return Desired Linear Speed in yy (m/s) - fp64_t
-	 */
-	public double getV() {
-		return getDouble("v");
-	}
-
-	/**
-	 *  @return Desired Linear Speed in zz (m/s) - fp64_t
-	 */
-	public double getW() {
-		return getDouble("w");
-	}
-
-	/**
-	 *  @return Desired Angular Speed in xx (m/s) - fp64_t
-	 */
-	public double getP() {
-		return getDouble("p");
-	}
-
-	/**
-	 *  @return Desired Angular Speed in yy (m/s) - fp64_t
-	 */
-	public double getQ() {
-		return getDouble("q");
-	}
-
-	/**
-	 *  @return Desired Angular Speed in zz (m/s) - fp64_t
-	 */
-	public double getR() {
-		return getDouble("r");
-	}
-
-	/**
-	 *  Desired Velocity flags.<br/>
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
 	 *  @param u Desired Linear Speed in xx (m/s)
 	 */
 	public DesiredVelocity setU(double u) {
 		values.put("u", u);
 		return this;
+	}
+
+	/**
+	 *  @return Desired Linear Speed in yy (m/s) - fp64_t
+	 */
+	public double getV() {
+		return getDouble("v");
 	}
 
 	/**
@@ -165,11 +129,25 @@ public class DesiredVelocity extends IMCMessage {
 	}
 
 	/**
+	 *  @return Desired Linear Speed in zz (m/s) - fp64_t
+	 */
+	public double getW() {
+		return getDouble("w");
+	}
+
+	/**
 	 *  @param w Desired Linear Speed in zz (m/s)
 	 */
 	public DesiredVelocity setW(double w) {
 		values.put("w", w);
 		return this;
+	}
+
+	/**
+	 *  @return Desired Angular Speed in xx (m/s) - fp64_t
+	 */
+	public double getP() {
+		return getDouble("p");
 	}
 
 	/**
@@ -181,6 +159,13 @@ public class DesiredVelocity extends IMCMessage {
 	}
 
 	/**
+	 *  @return Desired Angular Speed in yy (m/s) - fp64_t
+	 */
+	public double getQ() {
+		return getDouble("q");
+	}
+
+	/**
 	 *  @param q Desired Angular Speed in yy (m/s)
 	 */
 	public DesiredVelocity setQ(double q) {
@@ -189,11 +174,25 @@ public class DesiredVelocity extends IMCMessage {
 	}
 
 	/**
+	 *  @return Desired Angular Speed in zz (m/s) - fp64_t
+	 */
+	public double getR() {
+		return getDouble("r");
+	}
+
+	/**
 	 *  @param r Desired Angular Speed in zz (m/s)
 	 */
 	public DesiredVelocity setR(double r) {
 		values.put("r", r);
 		return this;
+	}
+
+	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
 	}
 
 	/**

@@ -109,46 +109,18 @@ public class LblEstimate extends IMCMessage {
 	}
 
 	/**
-	 *  @return North position (m) - fp32_t
-	 */
-	public double getX() {
-		return getDouble("x");
-	}
-
-	/**
-	 *  @return East position (m) - fp32_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return North position variance (m) - fp32_t
-	 */
-	public double getVarX() {
-		return getDouble("var_x");
-	}
-
-	/**
-	 *  @return East position variance (m) - fp32_t
-	 */
-	public double getVarY() {
-		return getDouble("var_y");
-	}
-
-	/**
-	 *  @return Distance (m) - fp32_t
-	 */
-	public double getDistance() {
-		return getDouble("distance");
-	}
-
-	/**
 	 *  @param beacon LBL Beacon Configuration
 	 */
 	public LblEstimate setBeacon(LblBeacon beacon) {
 		values.put("beacon", beacon);
 		return this;
+	}
+
+	/**
+	 *  @return North position (m) - fp32_t
+	 */
+	public double getX() {
+		return getDouble("x");
 	}
 
 	/**
@@ -160,11 +132,25 @@ public class LblEstimate extends IMCMessage {
 	}
 
 	/**
+	 *  @return East position (m) - fp32_t
+	 */
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
 	 *  @param y East position (m)
 	 */
 	public LblEstimate setY(double y) {
 		values.put("y", y);
 		return this;
+	}
+
+	/**
+	 *  @return North position variance (m) - fp32_t
+	 */
+	public double getVarX() {
+		return getDouble("var_x");
 	}
 
 	/**
@@ -176,11 +162,25 @@ public class LblEstimate extends IMCMessage {
 	}
 
 	/**
+	 *  @return East position variance (m) - fp32_t
+	 */
+	public double getVarY() {
+		return getDouble("var_y");
+	}
+
+	/**
 	 *  @param var_y East position variance (m)
 	 */
 	public LblEstimate setVarY(double var_y) {
 		values.put("var_y", var_y);
 		return this;
+	}
+
+	/**
+	 *  @return Distance (m) - fp32_t
+	 */
+	public double getDistance() {
+		return getDouble("distance");
 	}
 
 	/**

@@ -100,6 +100,14 @@ public class PlanManeuver extends IMCMessage {
 	}
 
 	/**
+	 *  @param maneuver_id Maneuver ID
+	 */
+	public PlanManeuver setManeuverId(String maneuver_id) {
+		values.put("maneuver_id", maneuver_id);
+		return this;
+	}
+
+	/**
 	 *  @return Maneuver Specification - message
 	 */
 	public Maneuver getData() {
@@ -117,28 +125,6 @@ public class PlanManeuver extends IMCMessage {
 	}
 
 	/**
-	 *  @return Start Actions - message-list
-	 */
-	public java.util.Vector<IMCMessage> getStartActions() {
-		return getMessageList("start_actions");
-	}
-
-	/**
-	 *  @return End Actions - message-list
-	 */
-	public java.util.Vector<IMCMessage> getEndActions() {
-		return getMessageList("end_actions");
-	}
-
-	/**
-	 *  @param maneuver_id Maneuver ID
-	 */
-	public PlanManeuver setManeuverId(String maneuver_id) {
-		values.put("maneuver_id", maneuver_id);
-		return this;
-	}
-
-	/**
 	 *  @param data Maneuver Specification
 	 */
 	public PlanManeuver setData(Maneuver data) {
@@ -147,11 +133,25 @@ public class PlanManeuver extends IMCMessage {
 	}
 
 	/**
+	 *  @return Start Actions - message-list
+	 */
+	public java.util.Vector<IMCMessage> getStartActions() {
+		return getMessageList("start_actions");
+	}
+
+	/**
 	 *  @param start_actions Start Actions
 	 */
 	public PlanManeuver setStartActions(java.util.Collection<IMCMessage> start_actions) {
 		values.put("start_actions", start_actions);
 		return this;
+	}
+
+	/**
+	 *  @return End Actions - message-list
+	 */
+	public java.util.Vector<IMCMessage> getEndActions() {
+		return getMessageList("end_actions");
 	}
 
 	/**

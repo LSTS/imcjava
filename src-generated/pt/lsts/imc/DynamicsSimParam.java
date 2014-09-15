@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class DynamicsSimParam extends IMCMessage {
 
-	public static final int ID_STATIC = 53;
-
 	public enum OP {
 		REQUEST(0),
 		SET(1),
@@ -53,6 +51,8 @@ public class DynamicsSimParam extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 53;
 
 	public DynamicsSimParam() {
 		super(ID_STATIC);
@@ -104,7 +104,6 @@ public class DynamicsSimParam extends IMCMessage {
 	}
 
 	/**
-	 *  Action on the vehicle simulation parameters for the formation control<br/>
 	 *  @return Action on the Vehicle Simulation Parameters (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -115,20 +114,6 @@ public class DynamicsSimParam extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return TAS to Longitudinal Acceleration Gain - fp32_t
-	 */
-	public double getTas2accPgain() {
-		return getDouble("tas2acc_pgain");
-	}
-
-	/**
-	 *  @return Bank to Bank Rate Gain - fp32_t
-	 */
-	public double getBank2pPgain() {
-		return getDouble("bank2p_pgain");
 	}
 
 	/**
@@ -156,11 +141,25 @@ public class DynamicsSimParam extends IMCMessage {
 	}
 
 	/**
+	 *  @return TAS to Longitudinal Acceleration Gain - fp32_t
+	 */
+	public double getTas2accPgain() {
+		return getDouble("tas2acc_pgain");
+	}
+
+	/**
 	 *  @param tas2acc_pgain TAS to Longitudinal Acceleration Gain
 	 */
 	public DynamicsSimParam setTas2accPgain(double tas2acc_pgain) {
 		values.put("tas2acc_pgain", tas2acc_pgain);
 		return this;
+	}
+
+	/**
+	 *  @return Bank to Bank Rate Gain - fp32_t
+	 */
+	public double getBank2pPgain() {
+		return getDouble("bank2p_pgain");
 	}
 
 	/**

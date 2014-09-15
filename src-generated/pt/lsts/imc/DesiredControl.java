@@ -37,14 +37,14 @@ package pt.lsts.imc;
 
 public class DesiredControl extends IMCMessage {
 
-	public static final int ID_STATIC = 407;
-
 	public static final short FL_X = 0x01;
 	public static final short FL_Y = 0x02;
 	public static final short FL_Z = 0x04;
 	public static final short FL_K = 0x08;
 	public static final short FL_M = 0x10;
 	public static final short FL_N = 0x20;
+
+	public static final int ID_STATIC = 407;
 
 	public DesiredControl() {
 		super(ID_STATIC);
@@ -107,54 +107,18 @@ public class DesiredControl extends IMCMessage {
 	}
 
 	/**
-	 *  @return Force along the y axis (n) - fp64_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Force along the z axis (n) - fp64_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @return Torque about the x axis (nm) - fp64_t
-	 */
-	public double getK() {
-		return getDouble("k");
-	}
-
-	/**
-	 *  @return Torque about the y axis (nm) - fp64_t
-	 */
-	public double getM() {
-		return getDouble("m");
-	}
-
-	/**
-	 *  @return Torque about the z axis (nm) - fp64_t
-	 */
-	public double getN() {
-		return getDouble("n");
-	}
-
-	/**
-	 *  Desired Control flags.<br/>
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
 	 *  @param x Force along the x axis (n)
 	 */
 	public DesiredControl setX(double x) {
 		values.put("x", x);
 		return this;
+	}
+
+	/**
+	 *  @return Force along the y axis (n) - fp64_t
+	 */
+	public double getY() {
+		return getDouble("y");
 	}
 
 	/**
@@ -166,11 +130,25 @@ public class DesiredControl extends IMCMessage {
 	}
 
 	/**
+	 *  @return Force along the z axis (n) - fp64_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Force along the z axis (n)
 	 */
 	public DesiredControl setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Torque about the x axis (nm) - fp64_t
+	 */
+	public double getK() {
+		return getDouble("k");
 	}
 
 	/**
@@ -182,6 +160,13 @@ public class DesiredControl extends IMCMessage {
 	}
 
 	/**
+	 *  @return Torque about the y axis (nm) - fp64_t
+	 */
+	public double getM() {
+		return getDouble("m");
+	}
+
+	/**
 	 *  @param m Torque about the y axis (nm)
 	 */
 	public DesiredControl setM(double m) {
@@ -190,11 +175,25 @@ public class DesiredControl extends IMCMessage {
 	}
 
 	/**
+	 *  @return Torque about the z axis (nm) - fp64_t
+	 */
+	public double getN() {
+		return getDouble("n");
+	}
+
+	/**
 	 *  @param n Torque about the z axis (nm)
 	 */
 	public DesiredControl setN(double n) {
 		values.put("n", n);
 		return this;
+	}
+
+	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
 	}
 
 	/**

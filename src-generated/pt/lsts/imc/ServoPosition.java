@@ -94,18 +94,18 @@ public class ServoPosition extends IMCMessage {
 	}
 
 	/**
-	 *  @return Position (rad) - fp32_t
-	 */
-	public double getValue() {
-		return getDouble("value");
-	}
-
-	/**
 	 *  @param id Identifier
 	 */
 	public ServoPosition setId(short id) {
 		values.put("id", id);
 		return this;
+	}
+
+	/**
+	 *  @return Position (rad) - fp32_t
+	 */
+	public double getValue() {
+		return getDouble("value");
 	}
 
 	/**

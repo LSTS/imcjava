@@ -97,32 +97,18 @@ public class MagneticField extends IMCMessage {
 	}
 
 	/**
-	 *  @return X (g) - fp64_t
-	 */
-	public double getX() {
-		return getDouble("x");
-	}
-
-	/**
-	 *  @return Y (g) - fp64_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Z (g) - fp64_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
 	 *  @param time Device Time (s)
 	 */
 	public MagneticField setTime(double time) {
 		values.put("time", time);
 		return this;
+	}
+
+	/**
+	 *  @return X (g) - fp64_t
+	 */
+	public double getX() {
+		return getDouble("x");
 	}
 
 	/**
@@ -134,11 +120,25 @@ public class MagneticField extends IMCMessage {
 	}
 
 	/**
+	 *  @return Y (g) - fp64_t
+	 */
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
 	 *  @param y Y (g)
 	 */
 	public MagneticField setY(double y) {
 		values.put("y", y);
 		return this;
+	}
+
+	/**
+	 *  @return Z (g) - fp64_t
+	 */
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**

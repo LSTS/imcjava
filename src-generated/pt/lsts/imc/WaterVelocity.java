@@ -37,11 +37,11 @@ package pt.lsts.imc;
 
 public class WaterVelocity extends IMCMessage {
 
-	public static final int ID_STATIC = 260;
-
 	public static final short VAL_VEL_X = 0x01;
 	public static final short VAL_VEL_Y = 0x02;
 	public static final short VAL_VEL_Z = 0x04;
+
+	public static final int ID_STATIC = 260;
 
 	public WaterVelocity() {
 		super(ID_STATIC);
@@ -94,33 +94,10 @@ public class WaterVelocity extends IMCMessage {
 	}
 
 	/**
-	 *  Each bit of this field represents if a given velocity<br/>
-	 *  component is valid.<br/>
 	 *  @return Validity (bitfield) - uint8_t
 	 */
 	public short getValidity() {
 		return (short) getInteger("validity");
-	}
-
-	/**
-	 *  @return X (m/s) - fp64_t
-	 */
-	public double getX() {
-		return getDouble("x");
-	}
-
-	/**
-	 *  @return Y (m/s) - fp64_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Z (m/s) - fp64_t
-	 */
-	public double getZ() {
-		return getDouble("z");
 	}
 
 	/**
@@ -132,6 +109,13 @@ public class WaterVelocity extends IMCMessage {
 	}
 
 	/**
+	 *  @return X (m/s) - fp64_t
+	 */
+	public double getX() {
+		return getDouble("x");
+	}
+
+	/**
 	 *  @param x X (m/s)
 	 */
 	public WaterVelocity setX(double x) {
@@ -140,11 +124,25 @@ public class WaterVelocity extends IMCMessage {
 	}
 
 	/**
+	 *  @return Y (m/s) - fp64_t
+	 */
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
 	 *  @param y Y (m/s)
 	 */
 	public WaterVelocity setY(double y) {
 		values.put("y", y);
 		return this;
+	}
+
+	/**
+	 *  @return Z (m/s) - fp64_t
+	 */
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**

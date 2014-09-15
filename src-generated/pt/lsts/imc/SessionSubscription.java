@@ -94,18 +94,18 @@ public class SessionSubscription extends IMCMessage {
 	}
 
 	/**
-	 *  @return Messages to subscribe - plaintext
-	 */
-	public String getMessages() {
-		return getString("messages");
-	}
-
-	/**
 	 *  @param sessid Session Identifier
 	 */
 	public SessionSubscription setSessid(long sessid) {
 		values.put("sessid", sessid);
 		return this;
+	}
+
+	/**
+	 *  @return Messages to subscribe - plaintext
+	 */
+	public String getMessages() {
+		return getString("messages");
 	}
 
 	/**

@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class LcdControl extends IMCMessage {
 
-	public static final int ID_STATIC = 307;
-
 	public enum OP {
 		TURN_OFF(0),
 		TURN_ON(1),
@@ -55,6 +53,8 @@ public class LcdControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 307;
 
 	public LcdControl() {
 		super(ID_STATIC);
@@ -106,7 +106,6 @@ public class LcdControl extends IMCMessage {
 	}
 
 	/**
-	 *  The LCD action to perform<br/>
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -117,13 +116,6 @@ public class LcdControl extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Text - plaintext
-	 */
-	public String getText() {
-		return getString("text");
 	}
 
 	/**
@@ -148,6 +140,13 @@ public class LcdControl extends IMCMessage {
 	public LcdControl setOp(short op) {
 		setValue("op", op);
 		return this;
+	}
+
+	/**
+	 *  @return Text - plaintext
+	 */
+	public String getText() {
+		return getString("text");
 	}
 
 	/**

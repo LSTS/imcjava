@@ -36,10 +36,10 @@ package pt.lsts.imc;
 
 public class AnnounceService extends IMCMessage {
 
-	public static final int ID_STATIC = 152;
-
 	public static final short SRV_TYPE_EXTERNAL = 0x01;
 	public static final short SRV_TYPE_LOCAL = 0x02;
+
+	public static final int ID_STATIC = 152;
 
 	public AnnounceService() {
 		super(ID_STATIC);
@@ -98,20 +98,18 @@ public class AnnounceService extends IMCMessage {
 	}
 
 	/**
-	 *  Informs about the availability of the service on internal and<br/>
-	 *  external networks.<br/>
-	 *  @return ServiceType (bitfield) - uint8_t
-	 */
-	public short getServiceType() {
-		return (short) getInteger("service_type");
-	}
-
-	/**
 	 *  @param service Service
 	 */
 	public AnnounceService setService(String service) {
 		values.put("service", service);
 		return this;
+	}
+
+	/**
+	 *  @return ServiceType (bitfield) - uint8_t
+	 */
+	public short getServiceType() {
+		return (short) getInteger("service_type");
 	}
 
 	/**

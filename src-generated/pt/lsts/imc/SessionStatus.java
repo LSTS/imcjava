@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class SessionStatus extends IMCMessage {
 
-	public static final int ID_STATIC = 810;
-
 	public enum STATUS {
 		ESTABLISHED(1),
 		CLOSED(2);
@@ -52,6 +50,8 @@ public class SessionStatus extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 810;
 
 	public SessionStatus() {
 		super(ID_STATIC);
@@ -109,6 +109,14 @@ public class SessionStatus extends IMCMessage {
 	}
 
 	/**
+	 *  @param sessid Session Identifier
+	 */
+	public SessionStatus setSessid(long sessid) {
+		values.put("sessid", sessid);
+		return this;
+	}
+
+	/**
 	 *  @return Status (enumerated) - uint8_t
 	 */
 	public STATUS getStatus() {
@@ -119,14 +127,6 @@ public class SessionStatus extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @param sessid Session Identifier
-	 */
-	public SessionStatus setSessid(long sessid) {
-		values.put("sessid", sessid);
-		return this;
 	}
 
 	/**

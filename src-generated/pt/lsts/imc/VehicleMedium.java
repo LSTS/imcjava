@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class VehicleMedium extends IMCMessage {
 
-	public static final int ID_STATIC = 508;
-
 	public enum MEDIUM {
 		GROUND(0),
 		AIR(1),
@@ -55,6 +53,8 @@ public class VehicleMedium extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 508;
 
 	public VehicleMedium() {
 		super(ID_STATIC);
@@ -104,7 +104,6 @@ public class VehicleMedium extends IMCMessage {
 	}
 
 	/**
-	 *  Current medium.<br/>
 	 *  @return Medium (enumerated) - uint8_t
 	 */
 	public MEDIUM getMedium() {

@@ -95,18 +95,18 @@ public class NeptusBlob extends IMCMessage {
 	}
 
 	/**
-	 *  @return Content - rawdata
-	 */
-	public byte[] getContent() {
-		return getRawData("content");
-	}
-
-	/**
 	 *  @param content_type ContentType
 	 */
 	public NeptusBlob setContentType(String content_type) {
 		values.put("content_type", content_type);
 		return this;
+	}
+
+	/**
+	 *  @return Content - rawdata
+	 */
+	public byte[] getContent() {
+		return getRawData("content");
 	}
 
 	/**

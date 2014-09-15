@@ -95,20 +95,6 @@ public class WindSpeed extends IMCMessage {
 	}
 
 	/**
-	 *  @return Speed (m/s) - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  @return Turbulence (m/s) - fp32_t
-	 */
-	public double getTurbulence() {
-		return getDouble("turbulence");
-	}
-
-	/**
 	 *  @param direction Direction (rad)
 	 */
 	public WindSpeed setDirection(double direction) {
@@ -117,11 +103,25 @@ public class WindSpeed extends IMCMessage {
 	}
 
 	/**
+	 *  @return Speed (m/s) - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed (m/s)
 	 */
 	public WindSpeed setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Turbulence (m/s) - fp32_t
+	 */
+	public double getTurbulence() {
+		return getDouble("turbulence");
 	}
 
 	/**

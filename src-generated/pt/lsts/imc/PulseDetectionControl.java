@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class PulseDetectionControl extends IMCMessage {
 
-	public static final int ID_STATIC = 278;
-
 	public enum OP {
 		OFF(0),
 		ON(1);
@@ -52,6 +50,8 @@ public class PulseDetectionControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 278;
 
 	public PulseDetectionControl() {
 		super(ID_STATIC);
@@ -101,7 +101,6 @@ public class PulseDetectionControl extends IMCMessage {
 	}
 
 	/**
-	 *  Activate or deactivate hardware pulse detection.<br/>
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {

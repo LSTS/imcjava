@@ -98,32 +98,18 @@ public class SmsTx extends IMCMessage {
 	}
 
 	/**
-	 *  @return Destination - plaintext
-	 */
-	public String getDestination() {
-		return getString("destination");
-	}
-
-	/**
-	 *  @return Timeout (s) - uint16_t
-	 */
-	public int getTimeout() {
-		return getInteger("timeout");
-	}
-
-	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
 	 *  @param seq Sequence Number
 	 */
 	public SmsTx setSeq(long seq) {
 		values.put("seq", seq);
 		return this;
+	}
+
+	/**
+	 *  @return Destination - plaintext
+	 */
+	public String getDestination() {
+		return getString("destination");
 	}
 
 	/**
@@ -135,11 +121,25 @@ public class SmsTx extends IMCMessage {
 	}
 
 	/**
+	 *  @return Timeout (s) - uint16_t
+	 */
+	public int getTimeout() {
+		return getInteger("timeout");
+	}
+
+	/**
 	 *  @param timeout Timeout (s)
 	 */
 	public SmsTx setTimeout(int timeout) {
 		values.put("timeout", timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**

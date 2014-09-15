@@ -109,20 +109,6 @@ public class LowLevelControl extends Maneuver {
 	}
 
 	/**
-	 *  @return Duration (s) - uint16_t
-	 */
-	public int getDuration() {
-		return getInteger("duration");
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param control Control
 	 */
 	public LowLevelControl setControl(ControlCommand control) {
@@ -131,11 +117,25 @@ public class LowLevelControl extends Maneuver {
 	}
 
 	/**
+	 *  @return Duration (s) - uint16_t
+	 */
+	public int getDuration() {
+		return getInteger("duration");
+	}
+
+	/**
 	 *  @param duration Duration (s)
 	 */
 	public LowLevelControl setDuration(int duration) {
 		values.put("duration", duration);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

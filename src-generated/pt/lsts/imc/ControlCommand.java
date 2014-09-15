@@ -30,34 +30,17 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Supertype ControlCommand (Control Command)<br/>
- *  Messages belonging to this type: <ul>
- *  <li>{@link DesiredZ}</li>
- *  <li>{@link DesiredHeading}</li>
- *  <li>{@link DesiredRoll}</li>
- *  <li>{@link DesiredPitch}</li>
- *  <li>{@link DesiredSpeed}</li>
- *  <li>{@link DesiredPath}</li>
- *  </ul>
+ *  IMC Message Control Command (-1)<br/>
  */
-public class ControlCommand extends IMCMessage {
 
-	public ControlCommand(IMCDefinition defs, int id) {
-		super(defs, id);
+public abstract class ControlCommand extends IMCMessage {
+
+	public ControlCommand(int type) {
+		super(type);
 	}
 
-	public ControlCommand(int id) {
-		super(id);
-	}
-
-	public ControlCommand(int id, Object... values) {
-		super(id, values);
-	}
-
-	public ControlCommand(IMCMessage msg) throws Exception {
-		super(msg.getMgid());
-		getHeader().values.putAll(msg.getHeader().values);
-		values.putAll(msg.values);
+	public ControlCommand(IMCDefinition defs, int type) {
+		super(defs, type);
 	}
 
 }

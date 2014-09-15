@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class Target extends IMCMessage {
 
-	public static final int ID_STATIC = 800;
-
 	public enum Z_UNITS {
 		NONE(0),
 		DEPTH(1),
@@ -54,6 +52,8 @@ public class Target extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 800;
 
 	public Target() {
 		super(ID_STATIC);
@@ -117,60 +117,18 @@ public class Target extends IMCMessage {
 	}
 
 	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Z Reference (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  Units of the z reference.<br/>
-	 *  @return Z Units (enumerated) - uint8_t
-	 */
-	public Z_UNITS getZUnits() {
-		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Course Over Ground (rad) - fp32_t
-	 */
-	public double getCog() {
-		return getDouble("cog");
-	}
-
-	/**
-	 *  @return Speed Over Ground (m/s) - fp32_t
-	 */
-	public double getSog() {
-		return getDouble("sog");
-	}
-
-	/**
 	 *  @param label Label
 	 */
 	public Target setLabel(String label) {
 		values.put("label", label);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -182,6 +140,13 @@ public class Target extends IMCMessage {
 	}
 
 	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
 	public Target setLon(double lon) {
@@ -190,11 +155,31 @@ public class Target extends IMCMessage {
 	}
 
 	/**
+	 *  @return Z Reference (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Z Reference (m)
 	 */
 	public Target setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Z Units (enumerated) - uint8_t
+	 */
+	public Z_UNITS getZUnits() {
+		try {
+			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -222,11 +207,25 @@ public class Target extends IMCMessage {
 	}
 
 	/**
+	 *  @return Course Over Ground (rad) - fp32_t
+	 */
+	public double getCog() {
+		return getDouble("cog");
+	}
+
+	/**
 	 *  @param cog Course Over Ground (rad)
 	 */
 	public Target setCog(double cog) {
 		values.put("cog", cog);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Over Ground (m/s) - fp32_t
+	 */
+	public double getSog() {
+		return getDouble("sog");
 	}
 
 	/**

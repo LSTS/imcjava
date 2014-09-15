@@ -38,8 +38,6 @@ package pt.lsts.imc;
 
 public class CompassCalibration extends Maneuver {
 
-	public static final int ID_STATIC = 475;
-
 	public enum Z_UNITS {
 		NONE(0),
 		DEPTH(1),
@@ -89,6 +87,8 @@ public class CompassCalibration extends Maneuver {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 475;
 
 	public CompassCalibration() {
 		super(ID_STATIC);
@@ -158,116 +158,18 @@ public class CompassCalibration extends Maneuver {
 	}
 
 	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Z Reference (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  Units of the z reference.<br/>
-	 *  @return Z Units (enumerated) - uint8_t
-	 */
-	public Z_UNITS getZUnits() {
-		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Pitch (rad) - fp32_t
-	 */
-	public double getPitch() {
-		return getDouble("pitch");
-	}
-
-	/**
-	 *  @return Amplitude (m) - fp32_t
-	 */
-	public double getAmplitude() {
-		return getDouble("amplitude");
-	}
-
-	/**
-	 *  @return Duration (s) - uint16_t
-	 */
-	public int getDuration() {
-		return getInteger("duration");
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Radius (m) - fp32_t
-	 */
-	public double getRadius() {
-		return getDouble("radius");
-	}
-
-	/**
-	 *  Direction of the maneuver.<br/>
-	 *  @return Direction (enumerated) - uint8_t
-	 */
-	public DIRECTION getDirection() {
-		try {
-			DIRECTION o = DIRECTION.valueOf(getMessageType().getFieldPossibleValues("direction").get(getLong("direction")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param timeout Timeout (s)
 	 */
 	public CompassCalibration setTimeout(int timeout) {
 		values.put("timeout", timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -279,6 +181,13 @@ public class CompassCalibration extends Maneuver {
 	}
 
 	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
 	public CompassCalibration setLon(double lon) {
@@ -287,11 +196,31 @@ public class CompassCalibration extends Maneuver {
 	}
 
 	/**
+	 *  @return Z Reference (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Z Reference (m)
 	 */
 	public CompassCalibration setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Z Units (enumerated) - uint8_t
+	 */
+	public Z_UNITS getZUnits() {
+		try {
+			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -319,11 +248,25 @@ public class CompassCalibration extends Maneuver {
 	}
 
 	/**
+	 *  @return Pitch (rad) - fp32_t
+	 */
+	public double getPitch() {
+		return getDouble("pitch");
+	}
+
+	/**
 	 *  @param pitch Pitch (rad)
 	 */
 	public CompassCalibration setPitch(double pitch) {
 		values.put("pitch", pitch);
 		return this;
+	}
+
+	/**
+	 *  @return Amplitude (m) - fp32_t
+	 */
+	public double getAmplitude() {
+		return getDouble("amplitude");
 	}
 
 	/**
@@ -335,6 +278,13 @@ public class CompassCalibration extends Maneuver {
 	}
 
 	/**
+	 *  @return Duration (s) - uint16_t
+	 */
+	public int getDuration() {
+		return getInteger("duration");
+	}
+
+	/**
 	 *  @param duration Duration (s)
 	 */
 	public CompassCalibration setDuration(int duration) {
@@ -343,11 +293,31 @@ public class CompassCalibration extends Maneuver {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public CompassCalibration setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -375,11 +345,31 @@ public class CompassCalibration extends Maneuver {
 	}
 
 	/**
+	 *  @return Radius (m) - fp32_t
+	 */
+	public double getRadius() {
+		return getDouble("radius");
+	}
+
+	/**
 	 *  @param radius Radius (m)
 	 */
 	public CompassCalibration setRadius(double radius) {
 		values.put("radius", radius);
 		return this;
+	}
+
+	/**
+	 *  @return Direction (enumerated) - uint8_t
+	 */
+	public DIRECTION getDirection() {
+		try {
+			DIRECTION o = DIRECTION.valueOf(getMessageType().getFieldPossibleValues("direction").get(getLong("direction")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -404,6 +394,13 @@ public class CompassCalibration extends Maneuver {
 	public CompassCalibration setDirection(short direction) {
 		setValue("direction", direction);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

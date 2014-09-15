@@ -100,46 +100,18 @@ public class PlanDBInformation extends IMCMessage {
 	}
 
 	/**
-	 *  @return Plan Size - uint16_t
-	 */
-	public int getPlanSize() {
-		return getInteger("plan_size");
-	}
-
-	/**
-	 *  @return Last Changed -- Time - fp64_t
-	 */
-	public double getChangeTime() {
-		return getDouble("change_time");
-	}
-
-	/**
-	 *  @return Last Change -- Source Address - uint16_t
-	 */
-	public int getChangeSid() {
-		return getInteger("change_sid");
-	}
-
-	/**
-	 *  @return Last Change -- Source Name - plaintext
-	 */
-	public String getChangeSname() {
-		return getString("change_sname");
-	}
-
-	/**
-	 *  @return MD5 - rawdata
-	 */
-	public byte[] getMd5() {
-		return getRawData("md5");
-	}
-
-	/**
 	 *  @param plan_id Plan ID
 	 */
 	public PlanDBInformation setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
 		return this;
+	}
+
+	/**
+	 *  @return Plan Size - uint16_t
+	 */
+	public int getPlanSize() {
+		return getInteger("plan_size");
 	}
 
 	/**
@@ -151,11 +123,25 @@ public class PlanDBInformation extends IMCMessage {
 	}
 
 	/**
+	 *  @return Last Changed -- Time - fp64_t
+	 */
+	public double getChangeTime() {
+		return getDouble("change_time");
+	}
+
+	/**
 	 *  @param change_time Last Changed -- Time
 	 */
 	public PlanDBInformation setChangeTime(double change_time) {
 		values.put("change_time", change_time);
 		return this;
+	}
+
+	/**
+	 *  @return Last Change -- Source Address - uint16_t
+	 */
+	public int getChangeSid() {
+		return getInteger("change_sid");
 	}
 
 	/**
@@ -167,11 +153,25 @@ public class PlanDBInformation extends IMCMessage {
 	}
 
 	/**
+	 *  @return Last Change -- Source Name - plaintext
+	 */
+	public String getChangeSname() {
+		return getString("change_sname");
+	}
+
+	/**
 	 *  @param change_sname Last Change -- Source Name
 	 */
 	public PlanDBInformation setChangeSname(String change_sname) {
 		values.put("change_sname", change_sname);
 		return this;
+	}
+
+	/**
+	 *  @return MD5 - rawdata
+	 */
+	public byte[] getMd5() {
+		return getRawData("md5");
 	}
 
 	/**

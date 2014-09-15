@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class DesiredSpeed extends ControlCommand {
 
-	public static final int ID_STATIC = 402;
-
 	public enum SPEED_UNITS {
 		METERS_PS(0),
 		RPM(1),
@@ -53,6 +51,8 @@ public class DesiredSpeed extends ControlCommand {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 402;
 
 	public DesiredSpeed() {
 		super(ID_STATIC);
@@ -110,7 +110,14 @@ public class DesiredSpeed extends ControlCommand {
 	}
 
 	/**
-	 *  Indicates the units used for the speed value.<br/>
+	 *  @param value Value
+	 */
+	public DesiredSpeed setValue(double value) {
+		values.put("value", value);
+		return this;
+	}
+
+	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
 	public SPEED_UNITS getSpeedUnits() {
@@ -121,14 +128,6 @@ public class DesiredSpeed extends ControlCommand {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @param value Value
-	 */
-	public DesiredSpeed setValue(double value) {
-		values.put("value", value);
-		return this;
 	}
 
 	/**

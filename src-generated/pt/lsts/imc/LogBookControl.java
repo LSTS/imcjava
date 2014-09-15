@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class LogBookControl extends IMCMessage {
 
-	public static final int ID_STATIC = 104;
-
 	public enum COMMAND {
 		GET(0),
 		CLEAR(1),
@@ -54,6 +52,8 @@ public class LogBookControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 104;
 
 	public LogBookControl() {
 		super(ID_STATIC);
@@ -106,7 +106,6 @@ public class LogBookControl extends IMCMessage {
 	}
 
 	/**
-	 *  Command to perform.<br/>
 	 *  @return Command (enumerated) - uint8_t
 	 */
 	public COMMAND getCommand() {
@@ -117,26 +116,6 @@ public class LogBookControl extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Timestamp (s) - fp64_t
-	 */
-	public double getHtime() {
-		return getDouble("htime");
-	}
-
-	/**
-	 *  @return Messages - message-list
-	 */
-	public java.util.Vector<LogBookEntry> getMsg() {
-		try {
-			return getMessageList("msg", LogBookEntry.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
 	}
 
 	/**
@@ -164,11 +143,31 @@ public class LogBookControl extends IMCMessage {
 	}
 
 	/**
+	 *  @return Timestamp (s) - fp64_t
+	 */
+	public double getHtime() {
+		return getDouble("htime");
+	}
+
+	/**
 	 *  @param htime Timestamp (s)
 	 */
 	public LogBookControl setHtime(double htime) {
 		values.put("htime", htime);
 		return this;
+	}
+
+	/**
+	 *  @return Messages - message-list
+	 */
+	public java.util.Vector<LogBookEntry> getMsg() {
+		try {
+			return getMessageList("msg", LogBookEntry.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	/**

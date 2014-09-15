@@ -95,20 +95,6 @@ public class AllocatedControlTorques extends IMCMessage {
 	}
 
 	/**
-	 *  @return Torque about the y axis (nm) - fp64_t
-	 */
-	public double getM() {
-		return getDouble("m");
-	}
-
-	/**
-	 *  @return Torque about the x axis (nm) - fp64_t
-	 */
-	public double getN() {
-		return getDouble("n");
-	}
-
-	/**
 	 *  @param k Torque about the x axis (nm)
 	 */
 	public AllocatedControlTorques setK(double k) {
@@ -117,11 +103,25 @@ public class AllocatedControlTorques extends IMCMessage {
 	}
 
 	/**
+	 *  @return Torque about the y axis (nm) - fp64_t
+	 */
+	public double getM() {
+		return getDouble("m");
+	}
+
+	/**
 	 *  @param m Torque about the y axis (nm)
 	 */
 	public AllocatedControlTorques setM(double m) {
 		values.put("m", m);
 		return this;
+	}
+
+	/**
+	 *  @return Torque about the x axis (nm) - fp64_t
+	 */
+	public double getN() {
+		return getDouble("n");
 	}
 
 	/**

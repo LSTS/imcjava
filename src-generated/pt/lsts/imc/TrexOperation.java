@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class TrexOperation extends IMCMessage {
 
-	public static final int ID_STATIC = 655;
-
 	public enum OP {
 		POST_TOKEN(1),
 		POST_GOAL(2),
@@ -55,6 +53,8 @@ public class TrexOperation extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 655;
 
 	public TrexOperation() {
 		super(ID_STATIC);
@@ -121,30 +121,6 @@ public class TrexOperation extends IMCMessage {
 	}
 
 	/**
-	 *  @return Goal Id - plaintext
-	 */
-	public String getGoalId() {
-		return getString("goal_id");
-	}
-
-	/**
-	 *  @return Token - message
-	 */
-	public TrexToken getToken() {
-		try {
-			IMCMessage obj = getMessage("token");
-			if (obj instanceof TrexToken)
-				return (TrexToken) obj;
-			else
-				return null;
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
 	 *  @param op Operation (enumerated)
 	 */
 	public TrexOperation setOp(OP op) {
@@ -169,11 +145,35 @@ public class TrexOperation extends IMCMessage {
 	}
 
 	/**
+	 *  @return Goal Id - plaintext
+	 */
+	public String getGoalId() {
+		return getString("goal_id");
+	}
+
+	/**
 	 *  @param goal_id Goal Id
 	 */
 	public TrexOperation setGoalId(String goal_id) {
 		values.put("goal_id", goal_id);
 		return this;
+	}
+
+	/**
+	 *  @return Token - message
+	 */
+	public TrexToken getToken() {
+		try {
+			IMCMessage obj = getMessage("token");
+			if (obj instanceof TrexToken)
+				return (TrexToken) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	/**

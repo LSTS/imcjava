@@ -95,18 +95,18 @@ public class GroupMembershipState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Communication Links Assertion - uint32_t
-	 */
-	public long getLinks() {
-		return getLong("links");
-	}
-
-	/**
 	 *  @param group_name Group Name
 	 */
 	public GroupMembershipState setGroupName(String group_name) {
 		values.put("group_name", group_name);
 		return this;
+	}
+
+	/**
+	 *  @return Communication Links Assertion - uint32_t
+	 */
+	public long getLinks() {
+		return getLong("links");
 	}
 
 	/**

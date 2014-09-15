@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class IoEvent extends IMCMessage {
 
-	public static final int ID_STATIC = 813;
-
 	public enum TYPE {
 		INPUT(1),
 		INPUT_ERROR(2);
@@ -52,6 +50,8 @@ public class IoEvent extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 813;
 
 	public IoEvent() {
 		super(ID_STATIC);
@@ -103,7 +103,6 @@ public class IoEvent extends IMCMessage {
 	}
 
 	/**
-	 *  Event type.<br/>
 	 *  @return Type (enumerated) - uint8_t
 	 */
 	public TYPE getType() {
@@ -114,13 +113,6 @@ public class IoEvent extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Error Message - plaintext
-	 */
-	public String getError() {
-		return getString("error");
 	}
 
 	/**
@@ -145,6 +137,13 @@ public class IoEvent extends IMCMessage {
 	public IoEvent setType(short type) {
 		setValue("type", type);
 		return this;
+	}
+
+	/**
+	 *  @return Error Message - plaintext
+	 */
+	public String getError() {
+		return getString("error");
 	}
 
 	/**

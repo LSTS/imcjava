@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class LblConfig extends IMCMessage {
 
-	public static final int ID_STATIC = 203;
-
 	public enum OP {
 		SET_CFG(0),
 		GET_CFG(1),
@@ -53,6 +51,8 @@ public class LblConfig extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 203;
 
 	public LblConfig() {
 		super(ID_STATIC);
@@ -104,7 +104,6 @@ public class LblConfig extends IMCMessage {
 	}
 
 	/**
-	 *  Used to define the type of the operation this message holds.<br/>
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -115,19 +114,6 @@ public class LblConfig extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Beacons - message-list
-	 */
-	public java.util.Vector<LblBeacon> getBeacons() {
-		try {
-			return getMessageList("beacons", LblBeacon.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
 	}
 
 	/**
@@ -152,6 +138,19 @@ public class LblConfig extends IMCMessage {
 	public LblConfig setOp(short op) {
 		setValue("op", op);
 		return this;
+	}
+
+	/**
+	 *  @return Beacons - message-list
+	 */
+	public java.util.Vector<LblBeacon> getBeacons() {
+		try {
+			return getMessageList("beacons", LblBeacon.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	/**

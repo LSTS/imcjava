@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class FollowSystem extends IMCMessage {
 
-	public static final int ID_STATIC = 471;
-
 	public enum SPEED_UNITS {
 		METERS_PS(0),
 		RPM(1),
@@ -70,6 +68,8 @@ public class FollowSystem extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 471;
 
 	public FollowSystem() {
 		super(ID_STATIC);
@@ -133,74 +133,18 @@ public class FollowSystem extends IMCMessage {
 	}
 
 	/**
-	 *  @return Duration (s) - uint16_t
-	 */
-	public int getDuration() {
-		return getInteger("duration");
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Reference speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Offset -- X - fp32_t
-	 */
-	public double getX() {
-		return getDouble("x");
-	}
-
-	/**
-	 *  @return Offset -- Y - fp32_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Coordinate -- Z - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  Units of the z reference.<br/>
-	 *  @return Z Units (enumerated) - uint8_t
-	 */
-	public Z_UNITS getZUnits() {
-		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
 	 *  @param system System To Follow
 	 */
 	public FollowSystem setSystem(int system) {
 		values.put("system", system);
 		return this;
+	}
+
+	/**
+	 *  @return Duration (s) - uint16_t
+	 */
+	public int getDuration() {
+		return getInteger("duration");
 	}
 
 	/**
@@ -212,11 +156,31 @@ public class FollowSystem extends IMCMessage {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public FollowSystem setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -244,11 +208,25 @@ public class FollowSystem extends IMCMessage {
 	}
 
 	/**
+	 *  @return Offset -- X - fp32_t
+	 */
+	public double getX() {
+		return getDouble("x");
+	}
+
+	/**
 	 *  @param x Offset -- X
 	 */
 	public FollowSystem setX(double x) {
 		values.put("x", x);
 		return this;
+	}
+
+	/**
+	 *  @return Offset -- Y - fp32_t
+	 */
+	public double getY() {
+		return getDouble("y");
 	}
 
 	/**
@@ -260,11 +238,31 @@ public class FollowSystem extends IMCMessage {
 	}
 
 	/**
+	 *  @return Coordinate -- Z - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Coordinate -- Z
 	 */
 	public FollowSystem setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Z Units (enumerated) - uint8_t
+	 */
+	public Z_UNITS getZUnits() {
+		try {
+			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**

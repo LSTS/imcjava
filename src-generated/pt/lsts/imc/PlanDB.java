@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class PlanDB extends IMCMessage {
 
-	public static final int ID_STATIC = 556;
-
 	public enum TYPE {
 		REQUEST(0),
 		SUCCESS(1),
@@ -75,6 +73,8 @@ public class PlanDB extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 556;
 
 	public PlanDB() {
 		super(ID_STATIC);
@@ -132,8 +132,6 @@ public class PlanDB extends IMCMessage {
 	}
 
 	/**
-	 *  Indicates if the message is a request, or a reply to a<br/>
-	 *  previous request.<br/>
 	 *  @return Type (enumerated) - uint8_t
 	 */
 	public TYPE getType() {
@@ -144,59 +142,6 @@ public class PlanDB extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  Indicates the operation affecting the DB.<br/>
-	 *  The operation may relate to a single plan or the entire plan DB.<br/>
-	 *  For each request,  a plan DB may reply with any number of 'in progress'<br/>
-	 *  replies followed by a success or a failure reply.<br/>
-	 *  The 'op', 'request_id' and 'plan_id' fields of a request will be echoed<br/>
-	 *  in one or more responses to that request.<br/>
-	 *  The operation at stake also determines a certain type of the 'arg' field,<br/>
-	 *  and whether or not the 'plan_id' field needs to be set.<br/>
-	 *  @return Operation (enumerated) - uint8_t
-	 */
-	public OP getOp() {
-		try {
-			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Request ID - uint16_t
-	 */
-	public int getRequestId() {
-		return getInteger("request_id");
-	}
-
-	/**
-	 *  @return Plan ID - plaintext
-	 */
-	public String getPlanId() {
-		return getString("plan_id");
-	}
-
-	/**
-	 *  @return Argument - message
-	 */
-	public IMCMessage getArg() {
-		return getMessage("arg");
-	}
-
-	public <T extends IMCMessage> T getArg(Class<T> clazz) throws Exception {
-		return getMessage(clazz, "arg");
-	}
-
-	/**
-	 *  @return Complementary Information - plaintext
-	 */
-	public String getInfo() {
-		return getString("info");
 	}
 
 	/**
@@ -224,6 +169,19 @@ public class PlanDB extends IMCMessage {
 	}
 
 	/**
+	 *  @return Operation (enumerated) - uint8_t
+	 */
+	public OP getOp() {
+		try {
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
 	 *  @param op Operation (enumerated)
 	 */
 	public PlanDB setOp(OP op) {
@@ -248,11 +206,25 @@ public class PlanDB extends IMCMessage {
 	}
 
 	/**
+	 *  @return Request ID - uint16_t
+	 */
+	public int getRequestId() {
+		return getInteger("request_id");
+	}
+
+	/**
 	 *  @param request_id Request ID
 	 */
 	public PlanDB setRequestId(int request_id) {
 		values.put("request_id", request_id);
 		return this;
+	}
+
+	/**
+	 *  @return Plan ID - plaintext
+	 */
+	public String getPlanId() {
+		return getString("plan_id");
 	}
 
 	/**
@@ -264,11 +236,29 @@ public class PlanDB extends IMCMessage {
 	}
 
 	/**
+	 *  @return Argument - message
+	 */
+	public IMCMessage getArg() {
+		return getMessage("arg");
+	}
+
+	public <T extends IMCMessage> T getArg(Class<T> clazz) throws Exception {
+		return getMessage(clazz, "arg");
+	}
+
+	/**
 	 *  @param arg Argument
 	 */
 	public PlanDB setArg(IMCMessage arg) {
 		values.put("arg", arg);
 		return this;
+	}
+
+	/**
+	 *  @return Complementary Information - plaintext
+	 */
+	public String getInfo() {
+		return getString("info");
 	}
 
 	/**

@@ -102,53 +102,18 @@ public class RemoteSensorInfo extends IMCMessage {
 	}
 
 	/**
-	 *  @return Class - plaintext
-	 */
-	public String getSensorClass() {
-		return getString("sensor_class");
-	}
-
-	/**
-	 *  @return Latitude (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Altitude (m) - fp32_t
-	 */
-	public double getAlt() {
-		return getDouble("alt");
-	}
-
-	/**
-	 *  @return Heading (rad) - fp32_t
-	 */
-	public double getHeading() {
-		return getDouble("heading");
-	}
-
-	/**
-	 *  @return Custom Data (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getData() {
-		return getTupleList("data");
-	}
-
-	/**
 	 *  @param id Id
 	 */
 	public RemoteSensorInfo setId(String id) {
 		values.put("id", id);
 		return this;
+	}
+
+	/**
+	 *  @return Class - plaintext
+	 */
+	public String getSensorClass() {
+		return getString("sensor_class");
 	}
 
 	/**
@@ -160,11 +125,25 @@ public class RemoteSensorInfo extends IMCMessage {
 	}
 
 	/**
+	 *  @return Latitude (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
+	}
+
+	/**
 	 *  @param lat Latitude (rad)
 	 */
 	public RemoteSensorInfo setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -176,6 +155,13 @@ public class RemoteSensorInfo extends IMCMessage {
 	}
 
 	/**
+	 *  @return Altitude (m) - fp32_t
+	 */
+	public double getAlt() {
+		return getDouble("alt");
+	}
+
+	/**
 	 *  @param alt Altitude (m)
 	 */
 	public RemoteSensorInfo setAlt(double alt) {
@@ -184,11 +170,25 @@ public class RemoteSensorInfo extends IMCMessage {
 	}
 
 	/**
+	 *  @return Heading (rad) - fp32_t
+	 */
+	public double getHeading() {
+		return getDouble("heading");
+	}
+
+	/**
 	 *  @param heading Heading (rad)
 	 */
 	public RemoteSensorInfo setHeading(double heading) {
 		values.put("heading", heading);
 		return this;
+	}
+
+	/**
+	 *  @return Custom Data (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getData() {
+		return getTupleList("data");
 	}
 
 	/**

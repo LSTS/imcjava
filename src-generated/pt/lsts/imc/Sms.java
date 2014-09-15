@@ -97,20 +97,6 @@ public class Sms extends IMCMessage {
 	}
 
 	/**
-	 *  @return Timeout - uint16_t
-	 */
-	public int getTimeout() {
-		return getInteger("timeout");
-	}
-
-	/**
-	 *  @return Contents - plaintext
-	 */
-	public String getContents() {
-		return getString("contents");
-	}
-
-	/**
 	 *  @param number Number
 	 */
 	public Sms setNumber(String number) {
@@ -119,11 +105,25 @@ public class Sms extends IMCMessage {
 	}
 
 	/**
+	 *  @return Timeout - uint16_t
+	 */
+	public int getTimeout() {
+		return getInteger("timeout");
+	}
+
+	/**
 	 *  @param timeout Timeout
 	 */
 	public Sms setTimeout(int timeout) {
 		values.put("timeout", timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Contents - plaintext
+	 */
+	public String getContents() {
+		return getString("contents");
 	}
 
 	/**

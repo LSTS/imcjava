@@ -96,20 +96,6 @@ public class FuelLevel extends IMCMessage {
 	}
 
 	/**
-	 *  @return Confidence Level (%) - fp32_t
-	 */
-	public double getConfidence() {
-		return getDouble("confidence");
-	}
-
-	/**
-	 *  @return Operation Modes (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getOpmodes() {
-		return getTupleList("opmodes");
-	}
-
-	/**
 	 *  @param value Value (%)
 	 */
 	public FuelLevel setValue(double value) {
@@ -118,11 +104,25 @@ public class FuelLevel extends IMCMessage {
 	}
 
 	/**
+	 *  @return Confidence Level (%) - fp32_t
+	 */
+	public double getConfidence() {
+		return getDouble("confidence");
+	}
+
+	/**
 	 *  @param confidence Confidence Level (%)
 	 */
 	public FuelLevel setConfidence(double confidence) {
 		values.put("confidence", confidence);
 		return this;
+	}
+
+	/**
+	 *  @return Operation Modes (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getOpmodes() {
+		return getTupleList("opmodes");
 	}
 
 	/**

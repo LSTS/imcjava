@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class DataSanity extends IMCMessage {
 
-	public static final int ID_STATIC = 284;
-
 	public enum SANE {
 		SANE(0),
 		NOT_SANE(1);
@@ -52,6 +50,8 @@ public class DataSanity extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 284;
 
 	public DataSanity() {
 		super(ID_STATIC);
@@ -101,7 +101,6 @@ public class DataSanity extends IMCMessage {
 	}
 
 	/**
-	 *  Whether the data is sane or not sane.<br/>
 	 *  @return Sanity (enumerated) - uint8_t
 	 */
 	public SANE getSane() {

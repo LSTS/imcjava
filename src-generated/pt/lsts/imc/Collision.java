@@ -36,12 +36,12 @@ package pt.lsts.imc;
 
 public class Collision extends IMCMessage {
 
-	public static final int ID_STATIC = 509;
-
 	public static final short CD_X = 0x01;
 	public static final short CD_Y = 0x02;
 	public static final short CD_Z = 0x04;
 	public static final short CD_IMPACT = 0x08;
+
+	public static final int ID_STATIC = 509;
 
 	public Collision() {
 		super(ID_STATIC);
@@ -99,19 +99,18 @@ public class Collision extends IMCMessage {
 	}
 
 	/**
-	 *  Collision flags.<br/>
-	 *  @return Type (bitfield) - uint8_t
-	 */
-	public short getType() {
-		return (short) getInteger("type");
-	}
-
-	/**
 	 *  @param value Collision value (m/s/s)
 	 */
 	public Collision setValue(double value) {
 		values.put("value", value);
 		return this;
+	}
+
+	/**
+	 *  @return Type (bitfield) - uint8_t
+	 */
+	public short getType() {
+		return (short) getInteger("type");
 	}
 
 	/**

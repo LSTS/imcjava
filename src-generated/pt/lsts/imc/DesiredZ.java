@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class DesiredZ extends ControlCommand {
 
-	public static final int ID_STATIC = 401;
-
 	public enum Z_UNITS {
 		NONE(0),
 		DEPTH(1),
@@ -54,6 +52,8 @@ public class DesiredZ extends ControlCommand {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 401;
 
 	public DesiredZ() {
 		super(ID_STATIC);
@@ -111,7 +111,14 @@ public class DesiredZ extends ControlCommand {
 	}
 
 	/**
-	 *  Units of the z reference.<br/>
+	 *  @param value Value (m)
+	 */
+	public DesiredZ setValue(double value) {
+		values.put("value", value);
+		return this;
+	}
+
+	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
 	public Z_UNITS getZUnits() {
@@ -122,14 +129,6 @@ public class DesiredZ extends ControlCommand {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @param value Value (m)
-	 */
-	public DesiredZ setValue(double value) {
-		values.put("value", value);
-		return this;
 	}
 
 	/**

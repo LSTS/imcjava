@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class LeakSimulation extends IMCMessage {
 
-	public static final int ID_STATIC = 51;
-
 	public enum OP {
 		OFF(0),
 		ON(1);
@@ -52,6 +50,8 @@ public class LeakSimulation extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 51;
 
 	public LeakSimulation() {
 		super(ID_STATIC);
@@ -103,7 +103,6 @@ public class LeakSimulation extends IMCMessage {
 	}
 
 	/**
-	 *  Indicates whether leaks have been detected or not.<br/>
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -114,13 +113,6 @@ public class LeakSimulation extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Leak Entities - plaintext
-	 */
-	public String getEntities() {
-		return getString("entities");
 	}
 
 	/**
@@ -145,6 +137,13 @@ public class LeakSimulation extends IMCMessage {
 	public LeakSimulation setOp(short op) {
 		setValue("op", op);
 		return this;
+	}
+
+	/**
+	 *  @return Leak Entities - plaintext
+	 */
+	public String getEntities() {
+		return getString("entities");
 	}
 
 	/**

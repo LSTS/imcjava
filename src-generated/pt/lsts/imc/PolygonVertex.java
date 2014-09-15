@@ -95,18 +95,18 @@ public class PolygonVertex extends IMCMessage {
 	}
 
 	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
 	public PolygonVertex setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**

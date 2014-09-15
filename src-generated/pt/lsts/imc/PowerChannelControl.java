@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class PowerChannelControl extends IMCMessage {
 
-	public static final int ID_STATIC = 309;
-
 	public enum OP {
 		TURN_OFF(0),
 		TURN_ON(1),
@@ -57,6 +55,8 @@ public class PowerChannelControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 309;
 
 	public PowerChannelControl() {
 		super(ID_STATIC);
@@ -116,7 +116,14 @@ public class PowerChannelControl extends IMCMessage {
 	}
 
 	/**
-	 *  Operation to perform.<br/>
+	 *  @param name Channel Name
+	 */
+	public PowerChannelControl setName(String name) {
+		values.put("name", name);
+		return this;
+	}
+
+	/**
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -127,21 +134,6 @@ public class PowerChannelControl extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Scheduled Time (s) - fp64_t
-	 */
-	public double getSchedTime() {
-		return getDouble("sched_time");
-	}
-
-	/**
-	 *  @param name Channel Name
-	 */
-	public PowerChannelControl setName(String name) {
-		values.put("name", name);
-		return this;
 	}
 
 	/**
@@ -166,6 +158,13 @@ public class PowerChannelControl extends IMCMessage {
 	public PowerChannelControl setOp(short op) {
 		setValue("op", op);
 		return this;
+	}
+
+	/**
+	 *  @return Scheduled Time (s) - fp64_t
+	 */
+	public double getSchedTime() {
+		return getDouble("sched_time");
 	}
 
 	/**

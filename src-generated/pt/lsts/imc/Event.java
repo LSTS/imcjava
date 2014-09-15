@@ -96,18 +96,18 @@ public class Event extends IMCMessage {
 	}
 
 	/**
-	 *  @return Data (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getData() {
-		return getTupleList("data");
-	}
-
-	/**
 	 *  @param topic Topic
 	 */
 	public Event setTopic(String topic) {
 		values.put("topic", topic);
 		return this;
+	}
+
+	/**
+	 *  @return Data (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getData() {
+		return getTupleList("data");
 	}
 
 	/**

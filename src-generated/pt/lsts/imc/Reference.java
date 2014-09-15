@@ -35,13 +35,13 @@ package pt.lsts.imc;
 
 public class Reference extends IMCMessage {
 
-	public static final int ID_STATIC = 479;
-
 	public static final short FLAG_LOCATION = 0x01;
 	public static final short FLAG_SPEED = 0x02;
 	public static final short FLAG_Z = 0x04;
 	public static final short FLAG_RADIUS = 0x08;
 	public static final short FLAG_MANDONE = 0x80;
+
+	public static final int ID_STATIC = 479;
 
 	public Reference() {
 		super(ID_STATIC);
@@ -105,6 +105,14 @@ public class Reference extends IMCMessage {
 	}
 
 	/**
+	 *  @param flags Flags (bitfield)
+	 */
+	public Reference setFlags(short flags) {
+		values.put("flags", flags);
+		return this;
+	}
+
+	/**
 	 *  @return Speed Reference - message
 	 */
 	public DesiredSpeed getSpeed() {
@@ -119,6 +127,14 @@ public class Reference extends IMCMessage {
 			return null;
 		}
 
+	}
+
+	/**
+	 *  @param speed Speed Reference
+	 */
+	public Reference setSpeed(DesiredSpeed speed) {
+		values.put("speed", speed);
+		return this;
 	}
 
 	/**
@@ -139,48 +155,18 @@ public class Reference extends IMCMessage {
 	}
 
 	/**
-	 *  @return Latitude Reference - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude Reference - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Radius - fp32_t
-	 */
-	public double getRadius() {
-		return getDouble("radius");
-	}
-
-	/**
-	 *  @param flags Flags (bitfield)
-	 */
-	public Reference setFlags(short flags) {
-		values.put("flags", flags);
-		return this;
-	}
-
-	/**
-	 *  @param speed Speed Reference
-	 */
-	public Reference setSpeed(DesiredSpeed speed) {
-		values.put("speed", speed);
-		return this;
-	}
-
-	/**
 	 *  @param z Z Reference
 	 */
 	public Reference setZ(DesiredZ z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude Reference - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -192,11 +178,25 @@ public class Reference extends IMCMessage {
 	}
 
 	/**
+	 *  @return Longitude Reference - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude Reference
 	 */
 	public Reference setLon(double lon) {
 		values.put("lon", lon);
 		return this;
+	}
+
+	/**
+	 *  @return Radius - fp32_t
+	 */
+	public double getRadius() {
+		return getDouble("radius");
 	}
 
 	/**

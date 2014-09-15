@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class CameraZoom extends IMCMessage {
 
-	public static final int ID_STATIC = 300;
-
 	public enum ACTION {
 		ZOOM_RESET(0),
 		ZOOM_IN(1),
@@ -54,6 +52,8 @@ public class CameraZoom extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 300;
 
 	public CameraZoom() {
 		super(ID_STATIC);
@@ -112,6 +112,14 @@ public class CameraZoom extends IMCMessage {
 	}
 
 	/**
+	 *  @param id Camera Number
+	 */
+	public CameraZoom setId(short id) {
+		values.put("id", id);
+		return this;
+	}
+
+	/**
 	 *  @return Absolute Zoom Level - uint8_t
 	 */
 	public short getZoom() {
@@ -119,7 +127,14 @@ public class CameraZoom extends IMCMessage {
 	}
 
 	/**
-	 *  The zoom action to perform.<br/>
+	 *  @param zoom Absolute Zoom Level
+	 */
+	public CameraZoom setZoom(short zoom) {
+		values.put("zoom", zoom);
+		return this;
+	}
+
+	/**
 	 *  @return Action (enumerated) - uint8_t
 	 */
 	public ACTION getAction() {
@@ -130,22 +145,6 @@ public class CameraZoom extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @param id Camera Number
-	 */
-	public CameraZoom setId(short id) {
-		values.put("id", id);
-		return this;
-	}
-
-	/**
-	 *  @param zoom Absolute Zoom Level
-	 */
-	public CameraZoom setZoom(short zoom) {
-		values.put("zoom", zoom);
-		return this;
 	}
 
 	/**

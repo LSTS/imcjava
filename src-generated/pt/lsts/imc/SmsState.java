@@ -35,8 +35,6 @@ package pt.lsts.imc;
 
 public class SmsState extends IMCMessage {
 
-	public static final int ID_STATIC = 159;
-
 	public enum STATE {
 		ACCEPTED(0),
 		REJECTED(1),
@@ -56,6 +54,8 @@ public class SmsState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 159;
 
 	public SmsState() {
 		super(ID_STATIC);
@@ -115,7 +115,14 @@ public class SmsState extends IMCMessage {
 	}
 
 	/**
-	 *  Current state of an SMS transaction.<br/>
+	 *  @param seq Sequence Number
+	 */
+	public SmsState setSeq(long seq) {
+		values.put("seq", seq);
+		return this;
+	}
+
+	/**
 	 *  @return State (enumerated) - uint8_t
 	 */
 	public STATE getState() {
@@ -126,21 +133,6 @@ public class SmsState extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Error Message - plaintext
-	 */
-	public String getError() {
-		return getString("error");
-	}
-
-	/**
-	 *  @param seq Sequence Number
-	 */
-	public SmsState setSeq(long seq) {
-		values.put("seq", seq);
-		return this;
 	}
 
 	/**
@@ -165,6 +157,13 @@ public class SmsState extends IMCMessage {
 	public SmsState setState(short state) {
 		setValue("state", state);
 		return this;
+	}
+
+	/**
+	 *  @return Error Message - plaintext
+	 */
+	public String getError() {
+		return getString("error");
 	}
 
 	/**

@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class ControlLoops extends IMCMessage {
 
-	public static final int ID_STATIC = 507;
-
 	public static final long CL_NONE = 0x00000000;
 	public static final long CL_PATH = 0x00000001;
 	public static final long CL_TELEOPERATION = 0x00000002;
@@ -69,6 +67,8 @@ public class ControlLoops extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 507;
 
 	public ControlLoops() {
 		super(ID_STATIC);
@@ -133,21 +133,6 @@ public class ControlLoops extends IMCMessage {
 	}
 
 	/**
-	 *  Control loop mask.<br/>
-	 *  @return Control Loop Mask (bitfield) - uint32_t
-	 */
-	public long getMask() {
-		return getLong("mask");
-	}
-
-	/**
-	 *  @return Scope Time Reference - uint32_t
-	 */
-	public long getScopeRef() {
-		return getLong("scope_ref");
-	}
-
-	/**
 	 *  @param enable Enable (enumerated)
 	 */
 	public ControlLoops setEnable(ENABLE enable) {
@@ -172,11 +157,25 @@ public class ControlLoops extends IMCMessage {
 	}
 
 	/**
+	 *  @return Control Loop Mask (bitfield) - uint32_t
+	 */
+	public long getMask() {
+		return getLong("mask");
+	}
+
+	/**
 	 *  @param mask Control Loop Mask (bitfield)
 	 */
 	public ControlLoops setMask(long mask) {
 		values.put("mask", mask);
 		return this;
+	}
+
+	/**
+	 *  @return Scope Time Reference - uint32_t
+	 */
+	public long getScopeRef() {
+		return getLong("scope_ref");
 	}
 
 	/**

@@ -96,32 +96,18 @@ public class VehicleFormationParticipant extends IMCMessage {
 	}
 
 	/**
-	 *  @return Formation offset -- Along-track (m) - fp32_t
-	 */
-	public double getOffX() {
-		return getDouble("off_x");
-	}
-
-	/**
-	 *  @return Formation offset -- Cross-track (m) - fp32_t
-	 */
-	public double getOffY() {
-		return getDouble("off_y");
-	}
-
-	/**
-	 *  @return Formation offset -- Depth/Altitude (m) - fp32_t
-	 */
-	public double getOffZ() {
-		return getDouble("off_z");
-	}
-
-	/**
 	 *  @param vid ID (IMC address)
 	 */
 	public VehicleFormationParticipant setVid(int vid) {
 		values.put("vid", vid);
 		return this;
+	}
+
+	/**
+	 *  @return Formation offset -- Along-track (m) - fp32_t
+	 */
+	public double getOffX() {
+		return getDouble("off_x");
 	}
 
 	/**
@@ -133,11 +119,25 @@ public class VehicleFormationParticipant extends IMCMessage {
 	}
 
 	/**
+	 *  @return Formation offset -- Cross-track (m) - fp32_t
+	 */
+	public double getOffY() {
+		return getDouble("off_y");
+	}
+
+	/**
 	 *  @param off_y Formation offset -- Cross-track (m)
 	 */
 	public VehicleFormationParticipant setOffY(double off_y) {
 		values.put("off_y", off_y);
 		return this;
+	}
+
+	/**
+	 *  @return Formation offset -- Depth/Altitude (m) - fp32_t
+	 */
+	public double getOffZ() {
+		return getDouble("off_z");
 	}
 
 	/**

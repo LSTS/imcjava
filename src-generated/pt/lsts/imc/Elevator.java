@@ -39,8 +39,6 @@ package pt.lsts.imc;
 
 public class Elevator extends Maneuver {
 
-	public static final int ID_STATIC = 462;
-
 	public static final short FLG_CURR_POS = 0x01;
 
 	public enum START_Z_UNITS {
@@ -92,6 +90,8 @@ public class Elevator extends Maneuver {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 462;
 
 	public Elevator() {
 		super(ID_STATIC);
@@ -160,110 +160,18 @@ public class Elevator extends Maneuver {
 	}
 
 	/**
-	 *  Flags of the maneuver.<br/>
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Start Point -- Z Reference (m) - fp32_t
-	 */
-	public double getStartZ() {
-		return getDouble("start_z");
-	}
-
-	/**
-	 *  Units of the start point's z reference.<br/>
-	 *  @return Start Point -- Z Units (enumerated) - uint8_t
-	 */
-	public START_Z_UNITS getStartZUnits() {
-		try {
-			START_Z_UNITS o = START_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return End Point -- Z Reference (m) - fp32_t
-	 */
-	public double getEndZ() {
-		return getDouble("end_z");
-	}
-
-	/**
-	 *  Units of the end point's z reference.<br/>
-	 *  @return End Point -- Z Units (enumerated) - uint8_t
-	 */
-	public END_Z_UNITS getEndZUnits() {
-		try {
-			END_Z_UNITS o = END_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Radius (m) - fp32_t
-	 */
-	public double getRadius() {
-		return getDouble("radius");
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param timeout Timeout (s)
 	 */
 	public Elevator setTimeout(int timeout) {
 		values.put("timeout", timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
 	}
 
 	/**
@@ -275,11 +183,25 @@ public class Elevator extends Maneuver {
 	}
 
 	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
+	}
+
+	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
 	public Elevator setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -291,11 +213,31 @@ public class Elevator extends Maneuver {
 	}
 
 	/**
+	 *  @return Start Point -- Z Reference (m) - fp32_t
+	 */
+	public double getStartZ() {
+		return getDouble("start_z");
+	}
+
+	/**
 	 *  @param start_z Start Point -- Z Reference (m)
 	 */
 	public Elevator setStartZ(double start_z) {
 		values.put("start_z", start_z);
 		return this;
+	}
+
+	/**
+	 *  @return Start Point -- Z Units (enumerated) - uint8_t
+	 */
+	public START_Z_UNITS getStartZUnits() {
+		try {
+			START_Z_UNITS o = START_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -323,11 +265,31 @@ public class Elevator extends Maneuver {
 	}
 
 	/**
+	 *  @return End Point -- Z Reference (m) - fp32_t
+	 */
+	public double getEndZ() {
+		return getDouble("end_z");
+	}
+
+	/**
 	 *  @param end_z End Point -- Z Reference (m)
 	 */
 	public Elevator setEndZ(double end_z) {
 		values.put("end_z", end_z);
 		return this;
+	}
+
+	/**
+	 *  @return End Point -- Z Units (enumerated) - uint8_t
+	 */
+	public END_Z_UNITS getEndZUnits() {
+		try {
+			END_Z_UNITS o = END_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -355,6 +317,13 @@ public class Elevator extends Maneuver {
 	}
 
 	/**
+	 *  @return Radius (m) - fp32_t
+	 */
+	public double getRadius() {
+		return getDouble("radius");
+	}
+
+	/**
 	 *  @param radius Radius (m)
 	 */
 	public Elevator setRadius(double radius) {
@@ -363,11 +332,31 @@ public class Elevator extends Maneuver {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public Elevator setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -392,6 +381,13 @@ public class Elevator extends Maneuver {
 	public Elevator setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

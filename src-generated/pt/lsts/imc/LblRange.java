@@ -97,18 +97,18 @@ public class LblRange extends IMCMessage {
 	}
 
 	/**
-	 *  @return Range (m) - fp32_t
-	 */
-	public double getRange() {
-		return getDouble("range");
-	}
-
-	/**
 	 *  @param id Beacon Identification Number
 	 */
 	public LblRange setId(short id) {
 		values.put("id", id);
 		return this;
+	}
+
+	/**
+	 *  @return Range (m) - fp32_t
+	 */
+	public double getRange() {
+		return getDouble("range");
 	}
 
 	/**

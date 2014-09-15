@@ -41,8 +41,6 @@ package pt.lsts.imc;
 
 public class RemoteActionsRequest extends IMCMessage {
 
-	public static final int ID_STATIC = 304;
-
 	public enum OP {
 		REPORT(0),
 		QUERY(1);
@@ -57,6 +55,8 @@ public class RemoteActionsRequest extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 304;
 
 	public RemoteActionsRequest() {
 		super(ID_STATIC);
@@ -108,7 +108,6 @@ public class RemoteActionsRequest extends IMCMessage {
 	}
 
 	/**
-	 *  Operation to perform.<br/>
 	 *  @return operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -119,13 +118,6 @@ public class RemoteActionsRequest extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Actions (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getActions() {
-		return getTupleList("actions");
 	}
 
 	/**
@@ -150,6 +142,13 @@ public class RemoteActionsRequest extends IMCMessage {
 	public RemoteActionsRequest setOp(short op) {
 		setValue("op", op);
 		return this;
+	}
+
+	/**
+	 *  @return Actions (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getActions() {
+		return getTupleList("actions");
 	}
 
 	/**

@@ -35,8 +35,6 @@ package pt.lsts.imc;
 
 public class GpsFixRejection extends IMCMessage {
 
-	public static final int ID_STATIC = 356;
-
 	public enum REASON {
 		ABOVE_THRESHOLD(0),
 		INVALID(1),
@@ -54,6 +52,8 @@ public class GpsFixRejection extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 356;
 
 	public GpsFixRejection() {
 		super(ID_STATIC);
@@ -111,7 +111,14 @@ public class GpsFixRejection extends IMCMessage {
 	}
 
 	/**
-	 *  Reason for rejection.<br/>
+	 *  @param utc_time UTC Time of Fix (s)
+	 */
+	public GpsFixRejection setUtcTime(double utc_time) {
+		values.put("utc_time", utc_time);
+		return this;
+	}
+
+	/**
 	 *  @return Reason (enumerated) - uint8_t
 	 */
 	public REASON getReason() {
@@ -122,14 +129,6 @@ public class GpsFixRejection extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @param utc_time UTC Time of Fix (s)
-	 */
-	public GpsFixRejection setUtcTime(double utc_time) {
-		values.put("utc_time", utc_time);
-		return this;
 	}
 
 	/**

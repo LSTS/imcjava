@@ -37,8 +37,6 @@ package pt.lsts.imc;
 
 public class PlanGeneration extends IMCMessage {
 
-	public static final int ID_STATIC = 562;
-
 	public enum CMD {
 		GENERATE(0),
 		EXECUTE(1);
@@ -69,6 +67,8 @@ public class PlanGeneration extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 562;
 
 	public PlanGeneration() {
 		super(ID_STATIC);
@@ -136,33 +136,6 @@ public class PlanGeneration extends IMCMessage {
 	}
 
 	/**
-	 *  @return Operation (enumerated) - uint8_t
-	 */
-	public OP getOp() {
-		try {
-			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Plan Identifier - plaintext
-	 */
-	public String getPlanId() {
-		return getString("plan_id");
-	}
-
-	/**
-	 *  @return Parameters (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getParams() {
-		return getTupleList("params");
-	}
-
-	/**
 	 *  @param cmd Command (enumerated)
 	 */
 	public PlanGeneration setCmd(CMD cmd) {
@@ -184,6 +157,19 @@ public class PlanGeneration extends IMCMessage {
 	public PlanGeneration setCmd(short cmd) {
 		setValue("cmd", cmd);
 		return this;
+	}
+
+	/**
+	 *  @return Operation (enumerated) - uint8_t
+	 */
+	public OP getOp() {
+		try {
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -211,11 +197,25 @@ public class PlanGeneration extends IMCMessage {
 	}
 
 	/**
+	 *  @return Plan Identifier - plaintext
+	 */
+	public String getPlanId() {
+		return getString("plan_id");
+	}
+
+	/**
 	 *  @param plan_id Plan Identifier
 	 */
 	public PlanGeneration setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
 		return this;
+	}
+
+	/**
+	 *  @return Parameters (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getParams() {
+		return getTupleList("params");
 	}
 
 	/**

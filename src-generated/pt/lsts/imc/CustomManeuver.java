@@ -100,20 +100,6 @@ public class CustomManeuver extends Maneuver {
 	}
 
 	/**
-	 *  @return Maneuver Name - plaintext
-	 */
-	public String getName() {
-		return getString("name");
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param timeout Timeout (s)
 	 */
 	public CustomManeuver setTimeout(int timeout) {
@@ -122,11 +108,25 @@ public class CustomManeuver extends Maneuver {
 	}
 
 	/**
+	 *  @return Maneuver Name - plaintext
+	 */
+	public String getName() {
+		return getString("name");
+	}
+
+	/**
 	 *  @param name Maneuver Name
 	 */
 	public CustomManeuver setName(String name) {
 		values.put("name", name);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

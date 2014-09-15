@@ -38,8 +38,6 @@ package pt.lsts.imc;
 
 public class YoYo extends Maneuver {
 
-	public static final int ID_STATIC = 459;
-
 	public enum Z_UNITS {
 		NONE(0),
 		DEPTH(1),
@@ -72,6 +70,8 @@ public class YoYo extends Maneuver {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 459;
 
 	public YoYo() {
 		super(ID_STATIC);
@@ -138,88 +138,18 @@ public class YoYo extends Maneuver {
 	}
 
 	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Z Reference (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  Units of the z reference.<br/>
-	 *  @return Z Units (enumerated) - uint8_t
-	 */
-	public Z_UNITS getZUnits() {
-		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Amplitude (m) - fp32_t
-	 */
-	public double getAmplitude() {
-		return getDouble("amplitude");
-	}
-
-	/**
-	 *  @return Pitch Angle (rad) - fp32_t
-	 */
-	public double getPitch() {
-		return getDouble("pitch");
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param timeout Timeout (s)
 	 */
 	public YoYo setTimeout(int timeout) {
 		values.put("timeout", timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -231,6 +161,13 @@ public class YoYo extends Maneuver {
 	}
 
 	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
 	public YoYo setLon(double lon) {
@@ -239,11 +176,31 @@ public class YoYo extends Maneuver {
 	}
 
 	/**
+	 *  @return Z Reference (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Z Reference (m)
 	 */
 	public YoYo setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Z Units (enumerated) - uint8_t
+	 */
+	public Z_UNITS getZUnits() {
+		try {
+			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -271,11 +228,25 @@ public class YoYo extends Maneuver {
 	}
 
 	/**
+	 *  @return Amplitude (m) - fp32_t
+	 */
+	public double getAmplitude() {
+		return getDouble("amplitude");
+	}
+
+	/**
 	 *  @param amplitude Amplitude (m)
 	 */
 	public YoYo setAmplitude(double amplitude) {
 		values.put("amplitude", amplitude);
 		return this;
+	}
+
+	/**
+	 *  @return Pitch Angle (rad) - fp32_t
+	 */
+	public double getPitch() {
+		return getDouble("pitch");
 	}
 
 	/**
@@ -287,11 +258,31 @@ public class YoYo extends Maneuver {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public YoYo setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -316,6 +307,13 @@ public class YoYo extends Maneuver {
 	public YoYo setSpeedUnits(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

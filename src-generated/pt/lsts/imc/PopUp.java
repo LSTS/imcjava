@@ -37,8 +37,6 @@ package pt.lsts.imc;
 
 public class PopUp extends Maneuver {
 
-	public static final int ID_STATIC = 451;
-
 	public static final short FLG_CURR_POS = 0x01;
 	public static final short FLG_WAIT_AT_SURFACE = 0x02;
 	public static final short FLG_STATION_KEEP = 0x04;
@@ -75,6 +73,8 @@ public class PopUp extends Maneuver {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 451;
 
 	public PopUp() {
 		super(ID_STATIC);
@@ -142,96 +142,18 @@ public class PopUp extends Maneuver {
 	}
 
 	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Z Reference (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  Units of the z reference.<br/>
-	 *  @return Z Units (enumerated) - uint8_t
-	 */
-	public Z_UNITS getZUnits() {
-		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Duration (s) - uint16_t
-	 */
-	public int getDuration() {
-		return getInteger("duration");
-	}
-
-	/**
-	 *  @return Radius (m) - fp32_t
-	 */
-	public double getRadius() {
-		return getDouble("radius");
-	}
-
-	/**
-	 *  Flags of the maneuver.<br/>
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param timeout Timeout (s)
 	 */
 	public PopUp setTimeout(int timeout) {
 		values.put("timeout", timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -243,6 +165,13 @@ public class PopUp extends Maneuver {
 	}
 
 	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
 	public PopUp setLon(double lon) {
@@ -251,11 +180,31 @@ public class PopUp extends Maneuver {
 	}
 
 	/**
+	 *  @return Z Reference (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Z Reference (m)
 	 */
 	public PopUp setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Z Units (enumerated) - uint8_t
+	 */
+	public Z_UNITS getZUnits() {
+		try {
+			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -283,11 +232,31 @@ public class PopUp extends Maneuver {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public PopUp setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -315,11 +284,25 @@ public class PopUp extends Maneuver {
 	}
 
 	/**
+	 *  @return Duration (s) - uint16_t
+	 */
+	public int getDuration() {
+		return getInteger("duration");
+	}
+
+	/**
 	 *  @param duration Duration (s)
 	 */
 	public PopUp setDuration(int duration) {
 		values.put("duration", duration);
 		return this;
+	}
+
+	/**
+	 *  @return Radius (m) - fp32_t
+	 */
+	public double getRadius() {
+		return getDouble("radius");
 	}
 
 	/**
@@ -331,11 +314,25 @@ public class PopUp extends Maneuver {
 	}
 
 	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
+	}
+
+	/**
 	 *  @param flags Flags (bitfield)
 	 */
 	public PopUp setFlags(short flags) {
 		values.put("flags", flags);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

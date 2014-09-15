@@ -107,109 +107,18 @@ public class GpsNavData extends IMCMessage {
 	}
 
 	/**
-	 *  @return Latitude (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Height above ellipsoid (m) - fp32_t
-	 */
-	public double getHeightEll() {
-		return getDouble("height_ell");
-	}
-
-	/**
-	 *  @return Height above sea level (m) - fp32_t
-	 */
-	public double getHeightSea() {
-		return getDouble("height_sea");
-	}
-
-	/**
-	 *  @return Horizontal Accuracy Estimate (m) - fp32_t
-	 */
-	public double getHacc() {
-		return getDouble("hacc");
-	}
-
-	/**
-	 *  @return Vertical Accuracy Estimate (m) - fp32_t
-	 */
-	public double getVacc() {
-		return getDouble("vacc");
-	}
-
-	/**
-	 *  @return NED North Velocity (m/s) - fp32_t
-	 */
-	public double getVelN() {
-		return getDouble("vel_n");
-	}
-
-	/**
-	 *  @return NED East Velocity (m/s) - fp32_t
-	 */
-	public double getVelE() {
-		return getDouble("vel_e");
-	}
-
-	/**
-	 *  @return NED Down Velocity (m/s) - fp32_t
-	 */
-	public double getVelD() {
-		return getDouble("vel_d");
-	}
-
-	/**
-	 *  @return Speed (3D) (m/s) - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  @return Ground Speed (2D) (m/s) - fp32_t
-	 */
-	public double getGspeed() {
-		return getDouble("gspeed");
-	}
-
-	/**
-	 *  @return Heading (2D) (rad) - fp32_t
-	 */
-	public double getHeading() {
-		return getDouble("heading");
-	}
-
-	/**
-	 *  @return Speed Accuracy Estimate (m/s) - fp32_t
-	 */
-	public double getSacc() {
-		return getDouble("sacc");
-	}
-
-	/**
-	 *  @return Course / Heading Accuracy Estimate (rad) - fp32_t
-	 */
-	public double getCacc() {
-		return getDouble("cacc");
-	}
-
-	/**
 	 *  @param itow GPS Millisecond Time of Week (ms)
 	 */
 	public GpsNavData setItow(long itow) {
 		values.put("itow", itow);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -221,11 +130,25 @@ public class GpsNavData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Longitude (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude (rad)
 	 */
 	public GpsNavData setLon(double lon) {
 		values.put("lon", lon);
 		return this;
+	}
+
+	/**
+	 *  @return Height above ellipsoid (m) - fp32_t
+	 */
+	public double getHeightEll() {
+		return getDouble("height_ell");
 	}
 
 	/**
@@ -237,11 +160,25 @@ public class GpsNavData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Height above sea level (m) - fp32_t
+	 */
+	public double getHeightSea() {
+		return getDouble("height_sea");
+	}
+
+	/**
 	 *  @param height_sea Height above sea level (m)
 	 */
 	public GpsNavData setHeightSea(double height_sea) {
 		values.put("height_sea", height_sea);
 		return this;
+	}
+
+	/**
+	 *  @return Horizontal Accuracy Estimate (m) - fp32_t
+	 */
+	public double getHacc() {
+		return getDouble("hacc");
 	}
 
 	/**
@@ -253,11 +190,25 @@ public class GpsNavData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Vertical Accuracy Estimate (m) - fp32_t
+	 */
+	public double getVacc() {
+		return getDouble("vacc");
+	}
+
+	/**
 	 *  @param vacc Vertical Accuracy Estimate (m)
 	 */
 	public GpsNavData setVacc(double vacc) {
 		values.put("vacc", vacc);
 		return this;
+	}
+
+	/**
+	 *  @return NED North Velocity (m/s) - fp32_t
+	 */
+	public double getVelN() {
+		return getDouble("vel_n");
 	}
 
 	/**
@@ -269,11 +220,25 @@ public class GpsNavData extends IMCMessage {
 	}
 
 	/**
+	 *  @return NED East Velocity (m/s) - fp32_t
+	 */
+	public double getVelE() {
+		return getDouble("vel_e");
+	}
+
+	/**
 	 *  @param vel_e NED East Velocity (m/s)
 	 */
 	public GpsNavData setVelE(double vel_e) {
 		values.put("vel_e", vel_e);
 		return this;
+	}
+
+	/**
+	 *  @return NED Down Velocity (m/s) - fp32_t
+	 */
+	public double getVelD() {
+		return getDouble("vel_d");
 	}
 
 	/**
@@ -285,11 +250,25 @@ public class GpsNavData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Speed (3D) (m/s) - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed (3D) (m/s)
 	 */
 	public GpsNavData setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Ground Speed (2D) (m/s) - fp32_t
+	 */
+	public double getGspeed() {
+		return getDouble("gspeed");
 	}
 
 	/**
@@ -301,6 +280,13 @@ public class GpsNavData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Heading (2D) (rad) - fp32_t
+	 */
+	public double getHeading() {
+		return getDouble("heading");
+	}
+
+	/**
 	 *  @param heading Heading (2D) (rad)
 	 */
 	public GpsNavData setHeading(double heading) {
@@ -309,11 +295,25 @@ public class GpsNavData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Speed Accuracy Estimate (m/s) - fp32_t
+	 */
+	public double getSacc() {
+		return getDouble("sacc");
+	}
+
+	/**
 	 *  @param sacc Speed Accuracy Estimate (m/s)
 	 */
 	public GpsNavData setSacc(double sacc) {
 		values.put("sacc", sacc);
 		return this;
+	}
+
+	/**
+	 *  @return Course / Heading Accuracy Estimate (rad) - fp32_t
+	 */
+	public double getCacc() {
+		return getDouble("cacc");
 	}
 
 	/**

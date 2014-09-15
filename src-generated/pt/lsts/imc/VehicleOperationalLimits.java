@@ -37,8 +37,6 @@ package pt.lsts.imc;
 
 public class VehicleOperationalLimits extends IMCMessage {
 
-	public static final int ID_STATIC = 16;
-
 	public enum OP {
 		REQUEST(0),
 		SET(1),
@@ -54,6 +52,8 @@ public class VehicleOperationalLimits extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 16;
 
 	public VehicleOperationalLimits() {
 		super(ID_STATIC);
@@ -120,7 +120,6 @@ public class VehicleOperationalLimits extends IMCMessage {
 	}
 
 	/**
-	 *  Action on the vehicle operation limits<br/>
 	 *  @return Action on the vehicle operational limits (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -131,125 +130,6 @@ public class VehicleOperationalLimits extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Minimum speed (m/s) - fp32_t
-	 */
-	public double getSpeedMin() {
-		return getDouble("speed_min");
-	}
-
-	/**
-	 *  @return Maximum speed (m/s) - fp32_t
-	 */
-	public double getSpeedMax() {
-		return getDouble("speed_max");
-	}
-
-	/**
-	 *  @return Longitudinal maximum acceleration (m/s/s) - fp32_t
-	 */
-	public double getLongAccel() {
-		return getDouble("long_accel");
-	}
-
-	/**
-	 *  @return Maximum MSL altitude (m) - fp32_t
-	 */
-	public double getAltMaxMsl() {
-		return getDouble("alt_max_msl");
-	}
-
-	/**
-	 *  @return Maximum Dive Rate Speed Fraction - fp32_t
-	 */
-	public double getDiveFractionMax() {
-		return getDouble("dive_fraction_max");
-	}
-
-	/**
-	 *  @return Maximum Climb Rate Speed Fraction - fp32_t
-	 */
-	public double getClimbFractionMax() {
-		return getDouble("climb_fraction_max");
-	}
-
-	/**
-	 *  @return Bank limit (rad) - fp32_t
-	 */
-	public double getBankMax() {
-		return getDouble("bank_max");
-	}
-
-	/**
-	 *  @return Bank rate limit (rad/s) - fp32_t
-	 */
-	public double getPMax() {
-		return getDouble("p_max");
-	}
-
-	/**
-	 *  @return Minimum pitch angle (rad) - fp32_t
-	 */
-	public double getPitchMin() {
-		return getDouble("pitch_min");
-	}
-
-	/**
-	 *  @return Maximum pitch angle (rad) - fp32_t
-	 */
-	public double getPitchMax() {
-		return getDouble("pitch_max");
-	}
-
-	/**
-	 *  @return Maximum pitch rate (rad/s) - fp32_t
-	 */
-	public double getQMax() {
-		return getDouble("q_max");
-	}
-
-	/**
-	 *  @return Minimum load factor (g) - fp32_t
-	 */
-	public double getGMin() {
-		return getDouble("g_min");
-	}
-
-	/**
-	 *  @return Maximum load factor (g) - fp32_t
-	 */
-	public double getGMax() {
-		return getDouble("g_max");
-	}
-
-	/**
-	 *  @return Maximum lateral load factor (g) - fp32_t
-	 */
-	public double getGLatMax() {
-		return getDouble("g_lat_max");
-	}
-
-	/**
-	 *  @return Minimum RPMs (rpm) - fp32_t
-	 */
-	public double getRpmMin() {
-		return getDouble("rpm_min");
-	}
-
-	/**
-	 *  @return Maximum RPMs (rpm) - fp32_t
-	 */
-	public double getRpmMax() {
-		return getDouble("rpm_max");
-	}
-
-	/**
-	 *  @return Maximum RPM rate (rpm/s) - fp32_t
-	 */
-	public double getRpmRateMax() {
-		return getDouble("rpm_rate_max");
 	}
 
 	/**
@@ -277,11 +157,25 @@ public class VehicleOperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Minimum speed (m/s) - fp32_t
+	 */
+	public double getSpeedMin() {
+		return getDouble("speed_min");
+	}
+
+	/**
 	 *  @param speed_min Minimum speed (m/s)
 	 */
 	public VehicleOperationalLimits setSpeedMin(double speed_min) {
 		values.put("speed_min", speed_min);
 		return this;
+	}
+
+	/**
+	 *  @return Maximum speed (m/s) - fp32_t
+	 */
+	public double getSpeedMax() {
+		return getDouble("speed_max");
 	}
 
 	/**
@@ -293,11 +187,25 @@ public class VehicleOperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Longitudinal maximum acceleration (m/s/s) - fp32_t
+	 */
+	public double getLongAccel() {
+		return getDouble("long_accel");
+	}
+
+	/**
 	 *  @param long_accel Longitudinal maximum acceleration (m/s/s)
 	 */
 	public VehicleOperationalLimits setLongAccel(double long_accel) {
 		values.put("long_accel", long_accel);
 		return this;
+	}
+
+	/**
+	 *  @return Maximum MSL altitude (m) - fp32_t
+	 */
+	public double getAltMaxMsl() {
+		return getDouble("alt_max_msl");
 	}
 
 	/**
@@ -309,11 +217,25 @@ public class VehicleOperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maximum Dive Rate Speed Fraction - fp32_t
+	 */
+	public double getDiveFractionMax() {
+		return getDouble("dive_fraction_max");
+	}
+
+	/**
 	 *  @param dive_fraction_max Maximum Dive Rate Speed Fraction
 	 */
 	public VehicleOperationalLimits setDiveFractionMax(double dive_fraction_max) {
 		values.put("dive_fraction_max", dive_fraction_max);
 		return this;
+	}
+
+	/**
+	 *  @return Maximum Climb Rate Speed Fraction - fp32_t
+	 */
+	public double getClimbFractionMax() {
+		return getDouble("climb_fraction_max");
 	}
 
 	/**
@@ -325,11 +247,25 @@ public class VehicleOperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Bank limit (rad) - fp32_t
+	 */
+	public double getBankMax() {
+		return getDouble("bank_max");
+	}
+
+	/**
 	 *  @param bank_max Bank limit (rad)
 	 */
 	public VehicleOperationalLimits setBankMax(double bank_max) {
 		values.put("bank_max", bank_max);
 		return this;
+	}
+
+	/**
+	 *  @return Bank rate limit (rad/s) - fp32_t
+	 */
+	public double getPMax() {
+		return getDouble("p_max");
 	}
 
 	/**
@@ -341,11 +277,25 @@ public class VehicleOperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Minimum pitch angle (rad) - fp32_t
+	 */
+	public double getPitchMin() {
+		return getDouble("pitch_min");
+	}
+
+	/**
 	 *  @param pitch_min Minimum pitch angle (rad)
 	 */
 	public VehicleOperationalLimits setPitchMin(double pitch_min) {
 		values.put("pitch_min", pitch_min);
 		return this;
+	}
+
+	/**
+	 *  @return Maximum pitch angle (rad) - fp32_t
+	 */
+	public double getPitchMax() {
+		return getDouble("pitch_max");
 	}
 
 	/**
@@ -357,11 +307,25 @@ public class VehicleOperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maximum pitch rate (rad/s) - fp32_t
+	 */
+	public double getQMax() {
+		return getDouble("q_max");
+	}
+
+	/**
 	 *  @param q_max Maximum pitch rate (rad/s)
 	 */
 	public VehicleOperationalLimits setQMax(double q_max) {
 		values.put("q_max", q_max);
 		return this;
+	}
+
+	/**
+	 *  @return Minimum load factor (g) - fp32_t
+	 */
+	public double getGMin() {
+		return getDouble("g_min");
 	}
 
 	/**
@@ -373,11 +337,25 @@ public class VehicleOperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maximum load factor (g) - fp32_t
+	 */
+	public double getGMax() {
+		return getDouble("g_max");
+	}
+
+	/**
 	 *  @param g_max Maximum load factor (g)
 	 */
 	public VehicleOperationalLimits setGMax(double g_max) {
 		values.put("g_max", g_max);
 		return this;
+	}
+
+	/**
+	 *  @return Maximum lateral load factor (g) - fp32_t
+	 */
+	public double getGLatMax() {
+		return getDouble("g_lat_max");
 	}
 
 	/**
@@ -389,6 +367,13 @@ public class VehicleOperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Minimum RPMs (rpm) - fp32_t
+	 */
+	public double getRpmMin() {
+		return getDouble("rpm_min");
+	}
+
+	/**
 	 *  @param rpm_min Minimum RPMs (rpm)
 	 */
 	public VehicleOperationalLimits setRpmMin(double rpm_min) {
@@ -397,11 +382,25 @@ public class VehicleOperationalLimits extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maximum RPMs (rpm) - fp32_t
+	 */
+	public double getRpmMax() {
+		return getDouble("rpm_max");
+	}
+
+	/**
 	 *  @param rpm_max Maximum RPMs (rpm)
 	 */
 	public VehicleOperationalLimits setRpmMax(double rpm_max) {
 		values.put("rpm_max", rpm_max);
 		return this;
+	}
+
+	/**
+	 *  @return Maximum RPM rate (rpm/s) - fp32_t
+	 */
+	public double getRpmRateMax() {
+		return getDouble("rpm_rate_max");
 	}
 
 	/**

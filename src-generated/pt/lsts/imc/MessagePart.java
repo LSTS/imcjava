@@ -96,32 +96,18 @@ public class MessagePart extends IMCMessage {
 	}
 
 	/**
-	 *  @return Fragment Number - uint8_t
-	 */
-	public short getFragNumber() {
-		return (short) getInteger("frag_number");
-	}
-
-	/**
-	 *  @return Total Number of fragments - uint8_t
-	 */
-	public short getNumFrags() {
-		return (short) getInteger("num_frags");
-	}
-
-	/**
-	 *  @return Fragment Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
 	 *  @param uid Transmission Unique Id
 	 */
 	public MessagePart setUid(short uid) {
 		values.put("uid", uid);
 		return this;
+	}
+
+	/**
+	 *  @return Fragment Number - uint8_t
+	 */
+	public short getFragNumber() {
+		return (short) getInteger("frag_number");
 	}
 
 	/**
@@ -133,11 +119,25 @@ public class MessagePart extends IMCMessage {
 	}
 
 	/**
+	 *  @return Total Number of fragments - uint8_t
+	 */
+	public short getNumFrags() {
+		return (short) getInteger("num_frags");
+	}
+
+	/**
 	 *  @param num_frags Total Number of fragments
 	 */
 	public MessagePart setNumFrags(short num_frags) {
 		values.put("num_frags", num_frags);
 		return this;
+	}
+
+	/**
+	 *  @return Fragment Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**

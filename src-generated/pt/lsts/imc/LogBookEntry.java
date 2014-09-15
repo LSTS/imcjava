@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class LogBookEntry extends IMCMessage {
 
-	public static final int ID_STATIC = 103;
-
 	public enum TYPE {
 		INFO(0),
 		WARNING(1),
@@ -55,6 +53,8 @@ public class LogBookEntry extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 103;
 
 	public LogBookEntry() {
 		super(ID_STATIC);
@@ -109,7 +109,6 @@ public class LogBookEntry extends IMCMessage {
 	}
 
 	/**
-	 *  Type of message.<br/>
 	 *  @return Type (enumerated) - uint8_t
 	 */
 	public TYPE getType() {
@@ -120,27 +119,6 @@ public class LogBookEntry extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Timestamp (s) - fp64_t
-	 */
-	public double getHtime() {
-		return getDouble("htime");
-	}
-
-	/**
-	 *  @return Context - plaintext
-	 */
-	public String getContext() {
-		return getString("context");
-	}
-
-	/**
-	 *  @return Text - plaintext
-	 */
-	public String getText() {
-		return getString("text");
 	}
 
 	/**
@@ -168,6 +146,13 @@ public class LogBookEntry extends IMCMessage {
 	}
 
 	/**
+	 *  @return Timestamp (s) - fp64_t
+	 */
+	public double getHtime() {
+		return getDouble("htime");
+	}
+
+	/**
 	 *  @param htime Timestamp (s)
 	 */
 	public LogBookEntry setHtime(double htime) {
@@ -176,11 +161,25 @@ public class LogBookEntry extends IMCMessage {
 	}
 
 	/**
+	 *  @return Context - plaintext
+	 */
+	public String getContext() {
+		return getString("context");
+	}
+
+	/**
 	 *  @param context Context
 	 */
 	public LogBookEntry setContext(String context) {
 		values.put("context", context);
 		return this;
+	}
+
+	/**
+	 *  @return Text - plaintext
+	 */
+	public String getText() {
+		return getString("text");
 	}
 
 	/**

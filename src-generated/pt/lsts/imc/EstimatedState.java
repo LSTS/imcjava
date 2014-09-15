@@ -124,144 +124,18 @@ public class EstimatedState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Longitude (WGS-84) (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Height (WGS-84) (m) - fp32_t
-	 */
-	public double getHeight() {
-		return getDouble("height");
-	}
-
-	/**
-	 *  @return Offset north (m) - fp32_t
-	 */
-	public double getX() {
-		return getDouble("x");
-	}
-
-	/**
-	 *  @return Offset east (m) - fp32_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Offset down (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @return Rotation over x axis (rad) - fp32_t
-	 */
-	public double getPhi() {
-		return getDouble("phi");
-	}
-
-	/**
-	 *  @return Rotation over y axis (rad) - fp32_t
-	 */
-	public double getTheta() {
-		return getDouble("theta");
-	}
-
-	/**
-	 *  @return Rotation over z axis (rad) - fp32_t
-	 */
-	public double getPsi() {
-		return getDouble("psi");
-	}
-
-	/**
-	 *  @return Body-Fixed xx Velocity (m/s) - fp32_t
-	 */
-	public double getU() {
-		return getDouble("u");
-	}
-
-	/**
-	 *  @return Body-Fixed yy Velocity (m/s) - fp32_t
-	 */
-	public double getV() {
-		return getDouble("v");
-	}
-
-	/**
-	 *  @return Body-Fixed zz Velocity (m/s) - fp32_t
-	 */
-	public double getW() {
-		return getDouble("w");
-	}
-
-	/**
-	 *  @return Ground Velocity X (North) (m/s) - fp32_t
-	 */
-	public double getVx() {
-		return getDouble("vx");
-	}
-
-	/**
-	 *  @return Ground Velocity Y (East) (m/s) - fp32_t
-	 */
-	public double getVy() {
-		return getDouble("vy");
-	}
-
-	/**
-	 *  @return Ground Velocity Z (Down) (m/s) - fp32_t
-	 */
-	public double getVz() {
-		return getDouble("vz");
-	}
-
-	/**
-	 *  @return Angular Velocity in x (rad/s) - fp32_t
-	 */
-	public double getP() {
-		return getDouble("p");
-	}
-
-	/**
-	 *  @return Angular Velocity in y (rad/s) - fp32_t
-	 */
-	public double getQ() {
-		return getDouble("q");
-	}
-
-	/**
-	 *  @return Angular Velocity in z (rad/s) - fp32_t
-	 */
-	public double getR() {
-		return getDouble("r");
-	}
-
-	/**
-	 *  @return Depth (m) - fp32_t
-	 */
-	public double getDepth() {
-		return getDouble("depth");
-	}
-
-	/**
-	 *  @return Altitude (m) - fp32_t
-	 */
-	public double getAlt() {
-		return getDouble("alt");
-	}
-
-	/**
 	 *  @param lat Latitude (WGS-84) (rad)
 	 */
 	public EstimatedState setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude (WGS-84) (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -273,11 +147,25 @@ public class EstimatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Height (WGS-84) (m) - fp32_t
+	 */
+	public double getHeight() {
+		return getDouble("height");
+	}
+
+	/**
 	 *  @param height Height (WGS-84) (m)
 	 */
 	public EstimatedState setHeight(double height) {
 		values.put("height", height);
 		return this;
+	}
+
+	/**
+	 *  @return Offset north (m) - fp32_t
+	 */
+	public double getX() {
+		return getDouble("x");
 	}
 
 	/**
@@ -289,11 +177,25 @@ public class EstimatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Offset east (m) - fp32_t
+	 */
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
 	 *  @param y Offset east (m)
 	 */
 	public EstimatedState setY(double y) {
 		values.put("y", y);
 		return this;
+	}
+
+	/**
+	 *  @return Offset down (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**
@@ -305,11 +207,25 @@ public class EstimatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Rotation over x axis (rad) - fp32_t
+	 */
+	public double getPhi() {
+		return getDouble("phi");
+	}
+
+	/**
 	 *  @param phi Rotation over x axis (rad)
 	 */
 	public EstimatedState setPhi(double phi) {
 		values.put("phi", phi);
 		return this;
+	}
+
+	/**
+	 *  @return Rotation over y axis (rad) - fp32_t
+	 */
+	public double getTheta() {
+		return getDouble("theta");
 	}
 
 	/**
@@ -321,11 +237,25 @@ public class EstimatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Rotation over z axis (rad) - fp32_t
+	 */
+	public double getPsi() {
+		return getDouble("psi");
+	}
+
+	/**
 	 *  @param psi Rotation over z axis (rad)
 	 */
 	public EstimatedState setPsi(double psi) {
 		values.put("psi", psi);
 		return this;
+	}
+
+	/**
+	 *  @return Body-Fixed xx Velocity (m/s) - fp32_t
+	 */
+	public double getU() {
+		return getDouble("u");
 	}
 
 	/**
@@ -337,11 +267,25 @@ public class EstimatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Body-Fixed yy Velocity (m/s) - fp32_t
+	 */
+	public double getV() {
+		return getDouble("v");
+	}
+
+	/**
 	 *  @param v Body-Fixed yy Velocity (m/s)
 	 */
 	public EstimatedState setV(double v) {
 		values.put("v", v);
 		return this;
+	}
+
+	/**
+	 *  @return Body-Fixed zz Velocity (m/s) - fp32_t
+	 */
+	public double getW() {
+		return getDouble("w");
 	}
 
 	/**
@@ -353,11 +297,25 @@ public class EstimatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Ground Velocity X (North) (m/s) - fp32_t
+	 */
+	public double getVx() {
+		return getDouble("vx");
+	}
+
+	/**
 	 *  @param vx Ground Velocity X (North) (m/s)
 	 */
 	public EstimatedState setVx(double vx) {
 		values.put("vx", vx);
 		return this;
+	}
+
+	/**
+	 *  @return Ground Velocity Y (East) (m/s) - fp32_t
+	 */
+	public double getVy() {
+		return getDouble("vy");
 	}
 
 	/**
@@ -369,11 +327,25 @@ public class EstimatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Ground Velocity Z (Down) (m/s) - fp32_t
+	 */
+	public double getVz() {
+		return getDouble("vz");
+	}
+
+	/**
 	 *  @param vz Ground Velocity Z (Down) (m/s)
 	 */
 	public EstimatedState setVz(double vz) {
 		values.put("vz", vz);
 		return this;
+	}
+
+	/**
+	 *  @return Angular Velocity in x (rad/s) - fp32_t
+	 */
+	public double getP() {
+		return getDouble("p");
 	}
 
 	/**
@@ -385,11 +357,25 @@ public class EstimatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Angular Velocity in y (rad/s) - fp32_t
+	 */
+	public double getQ() {
+		return getDouble("q");
+	}
+
+	/**
 	 *  @param q Angular Velocity in y (rad/s)
 	 */
 	public EstimatedState setQ(double q) {
 		values.put("q", q);
 		return this;
+	}
+
+	/**
+	 *  @return Angular Velocity in z (rad/s) - fp32_t
+	 */
+	public double getR() {
+		return getDouble("r");
 	}
 
 	/**
@@ -401,11 +387,25 @@ public class EstimatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Depth (m) - fp32_t
+	 */
+	public double getDepth() {
+		return getDouble("depth");
+	}
+
+	/**
 	 *  @param depth Depth (m)
 	 */
 	public EstimatedState setDepth(double depth) {
 		values.put("depth", depth);
 		return this;
+	}
+
+	/**
+	 *  @return Altitude (m) - fp32_t
+	 */
+	public double getAlt() {
+		return getDouble("alt");
 	}
 
 	/**

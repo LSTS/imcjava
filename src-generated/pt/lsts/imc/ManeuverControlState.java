@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class ManeuverControlState extends IMCMessage {
 
-	public static final int ID_STATIC = 470;
-
 	public enum STATE {
 		EXECUTING(0),
 		DONE(1),
@@ -54,6 +52,8 @@ public class ManeuverControlState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 470;
 
 	public ManeuverControlState() {
 		super(ID_STATIC);
@@ -106,7 +106,6 @@ public class ManeuverControlState extends IMCMessage {
 	}
 
 	/**
-	 *  Code indicating maneuver state.<br/>
 	 *  @return State (enumerated) - uint8_t
 	 */
 	public STATE getState() {
@@ -117,20 +116,6 @@ public class ManeuverControlState extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Completion Time (s) - uint16_t
-	 */
-	public int getEta() {
-		return getInteger("eta");
-	}
-
-	/**
-	 *  @return Info - plaintext
-	 */
-	public String getInfo() {
-		return getString("info");
 	}
 
 	/**
@@ -158,11 +143,25 @@ public class ManeuverControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Completion Time (s) - uint16_t
+	 */
+	public int getEta() {
+		return getInteger("eta");
+	}
+
+	/**
 	 *  @param eta Completion Time (s)
 	 */
 	public ManeuverControlState setEta(int eta) {
 		values.put("eta", eta);
 		return this;
+	}
+
+	/**
+	 *  @return Info - plaintext
+	 */
+	public String getInfo() {
+		return getString("info");
 	}
 
 	/**

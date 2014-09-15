@@ -116,6 +116,14 @@ public class PlanSpecification extends IMCMessage {
 	}
 
 	/**
+	 *  @param plan_id Plan ID
+	 */
+	public PlanSpecification setPlanId(String plan_id) {
+		values.put("plan_id", plan_id);
+		return this;
+	}
+
+	/**
 	 *  @return Plan Description - plaintext
 	 */
 	public String getDescription() {
@@ -123,10 +131,26 @@ public class PlanSpecification extends IMCMessage {
 	}
 
 	/**
+	 *  @param description Plan Description
+	 */
+	public PlanSpecification setDescription(String description) {
+		values.put("description", description);
+		return this;
+	}
+
+	/**
 	 *  @return Namespace - plaintext
 	 */
 	public String getVnamespace() {
 		return getString("vnamespace");
+	}
+
+	/**
+	 *  @param vnamespace Namespace
+	 */
+	public PlanSpecification setVnamespace(String vnamespace) {
+		values.put("vnamespace", vnamespace);
+		return this;
 	}
 
 	/**
@@ -143,10 +167,26 @@ public class PlanSpecification extends IMCMessage {
 	}
 
 	/**
+	 *  @param variables Plan Variables
+	 */
+	public PlanSpecification setVariables(java.util.Collection<PlanVariable> variables) {
+		values.put("variables", variables);
+		return this;
+	}
+
+	/**
 	 *  @return Starting maneuver - plaintext
 	 */
 	public String getStartManId() {
 		return getString("start_man_id");
+	}
+
+	/**
+	 *  @param start_man_id Starting maneuver
+	 */
+	public PlanSpecification setStartManId(String start_man_id) {
+		values.put("start_man_id", start_man_id);
+		return this;
 	}
 
 	/**
@@ -163,6 +203,14 @@ public class PlanSpecification extends IMCMessage {
 	}
 
 	/**
+	 *  @param maneuvers Maneuvers
+	 */
+	public PlanSpecification setManeuvers(java.util.Collection<PlanManeuver> maneuvers) {
+		values.put("maneuvers", maneuvers);
+		return this;
+	}
+
+	/**
 	 *  @return Transitions - message-list
 	 */
 	public java.util.Vector<PlanTransition> getTransitions() {
@@ -176,68 +224,6 @@ public class PlanSpecification extends IMCMessage {
 	}
 
 	/**
-	 *  @return Start Actions - message-list
-	 */
-	public java.util.Vector<IMCMessage> getStartActions() {
-		return getMessageList("start_actions");
-	}
-
-	/**
-	 *  @return End Actions - message-list
-	 */
-	public java.util.Vector<IMCMessage> getEndActions() {
-		return getMessageList("end_actions");
-	}
-
-	/**
-	 *  @param plan_id Plan ID
-	 */
-	public PlanSpecification setPlanId(String plan_id) {
-		values.put("plan_id", plan_id);
-		return this;
-	}
-
-	/**
-	 *  @param description Plan Description
-	 */
-	public PlanSpecification setDescription(String description) {
-		values.put("description", description);
-		return this;
-	}
-
-	/**
-	 *  @param vnamespace Namespace
-	 */
-	public PlanSpecification setVnamespace(String vnamespace) {
-		values.put("vnamespace", vnamespace);
-		return this;
-	}
-
-	/**
-	 *  @param variables Plan Variables
-	 */
-	public PlanSpecification setVariables(java.util.Collection<PlanVariable> variables) {
-		values.put("variables", variables);
-		return this;
-	}
-
-	/**
-	 *  @param start_man_id Starting maneuver
-	 */
-	public PlanSpecification setStartManId(String start_man_id) {
-		values.put("start_man_id", start_man_id);
-		return this;
-	}
-
-	/**
-	 *  @param maneuvers Maneuvers
-	 */
-	public PlanSpecification setManeuvers(java.util.Collection<PlanManeuver> maneuvers) {
-		values.put("maneuvers", maneuvers);
-		return this;
-	}
-
-	/**
 	 *  @param transitions Transitions
 	 */
 	public PlanSpecification setTransitions(java.util.Collection<PlanTransition> transitions) {
@@ -246,11 +232,25 @@ public class PlanSpecification extends IMCMessage {
 	}
 
 	/**
+	 *  @return Start Actions - message-list
+	 */
+	public java.util.Vector<IMCMessage> getStartActions() {
+		return getMessageList("start_actions");
+	}
+
+	/**
 	 *  @param start_actions Start Actions
 	 */
 	public PlanSpecification setStartActions(java.util.Collection<IMCMessage> start_actions) {
 		values.put("start_actions", start_actions);
 		return this;
+	}
+
+	/**
+	 *  @return End Actions - message-list
+	 */
+	public java.util.Vector<IMCMessage> getEndActions() {
+		return getMessageList("end_actions");
 	}
 
 	/**

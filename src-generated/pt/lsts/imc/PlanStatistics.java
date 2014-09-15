@@ -35,8 +35,6 @@ package pt.lsts.imc;
 
 public class PlanStatistics extends IMCMessage {
 
-	public static final int ID_STATIC = 564;
-
 	public static final short PRP_BASIC = 0x00;
 	public static final short PRP_NONLINEAR = 0x01;
 	public static final short PRP_INFINITE = 0x02;
@@ -57,6 +55,8 @@ public class PlanStatistics extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 564;
 
 	public PlanStatistics() {
 		super(ID_STATIC);
@@ -124,7 +124,14 @@ public class PlanStatistics extends IMCMessage {
 	}
 
 	/**
-	 *  Type of plan statistics, if they are launched before, during or after the plan execution.<br/>
+	 *  @param plan_id Plan Identifier
+	 */
+	public PlanStatistics setPlanId(String plan_id) {
+		values.put("plan_id", plan_id);
+		return this;
+	}
+
+	/**
 	 *  @return Type (enumerated) - uint8_t
 	 */
 	public TYPE getType() {
@@ -135,49 +142,6 @@ public class PlanStatistics extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Properties (bitfield) - uint8_t
-	 */
-	public short getProperties() {
-		return (short) getInteger("properties");
-	}
-
-	/**
-	 *  @return Durations (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getDurations() {
-		return getTupleList("durations");
-	}
-
-	/**
-	 *  @return Distances (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getDistances() {
-		return getTupleList("distances");
-	}
-
-	/**
-	 *  @return Actions (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getActions() {
-		return getTupleList("actions");
-	}
-
-	/**
-	 *  @return Fuel (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getFuel() {
-		return getTupleList("fuel");
-	}
-
-	/**
-	 *  @param plan_id Plan Identifier
-	 */
-	public PlanStatistics setPlanId(String plan_id) {
-		values.put("plan_id", plan_id);
-		return this;
 	}
 
 	/**
@@ -205,11 +169,25 @@ public class PlanStatistics extends IMCMessage {
 	}
 
 	/**
+	 *  @return Properties (bitfield) - uint8_t
+	 */
+	public short getProperties() {
+		return (short) getInteger("properties");
+	}
+
+	/**
 	 *  @param properties Properties (bitfield)
 	 */
 	public PlanStatistics setProperties(short properties) {
 		values.put("properties", properties);
 		return this;
+	}
+
+	/**
+	 *  @return Durations (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getDurations() {
+		return getTupleList("durations");
 	}
 
 	/**
@@ -227,6 +205,13 @@ public class PlanStatistics extends IMCMessage {
 	}
 
 	/**
+	 *  @return Distances (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getDistances() {
+		return getTupleList("distances");
+	}
+
+	/**
 	 *  @param distances Distances (tuplelist)
 	 */
 	public PlanStatistics setDistances(java.util.LinkedHashMap<String, ?> distances) {
@@ -241,6 +226,13 @@ public class PlanStatistics extends IMCMessage {
 	}
 
 	/**
+	 *  @return Actions (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getActions() {
+		return getTupleList("actions");
+	}
+
+	/**
 	 *  @param actions Actions (tuplelist)
 	 */
 	public PlanStatistics setActions(java.util.LinkedHashMap<String, ?> actions) {
@@ -252,6 +244,13 @@ public class PlanStatistics extends IMCMessage {
 	public PlanStatistics setActions(String actions) {
 		values.put("actions", actions);
 		return this;
+	}
+
+	/**
+	 *  @return Fuel (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getFuel() {
+		return getTupleList("fuel");
 	}
 
 	/**

@@ -96,18 +96,18 @@ public class TextMessage extends IMCMessage {
 	}
 
 	/**
-	 *  @return Text - plaintext
-	 */
-	public String getText() {
-		return getString("text");
-	}
-
-	/**
 	 *  @param origin Origin
 	 */
 	public TextMessage setOrigin(String origin) {
 		values.put("origin", origin);
 		return this;
+	}
+
+	/**
+	 *  @return Text - plaintext
+	 */
+	public String getText() {
+		return getString("text");
 	}
 
 	/**

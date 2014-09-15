@@ -41,8 +41,6 @@ package pt.lsts.imc;
 
 public class VehicleState extends IMCMessage {
 
-	public static final int ID_STATIC = 500;
-
 	public static final long CL_NONE = 0x00000000;
 	public static final long CL_PATH = 0x00000001;
 	public static final long CL_TELEOPERATION = 0x00000002;
@@ -80,6 +78,8 @@ public class VehicleState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 500;
 
 	public VehicleState() {
 		super(ID_STATIC);
@@ -140,7 +140,6 @@ public class VehicleState extends IMCMessage {
 	}
 
 	/**
-	 *  The overall operation mode.<br/>
 	 *  @return Operation Mode (enumerated) - uint8_t
 	 */
 	public OP_MODE getOpMode() {
@@ -151,70 +150,6 @@ public class VehicleState extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Errors -- Count - uint8_t
-	 */
-	public short getErrorCount() {
-		return (short) getInteger("error_count");
-	}
-
-	/**
-	 *  @return Errors -- Entities - plaintext
-	 */
-	public String getErrorEnts() {
-		return getString("error_ents");
-	}
-
-	/**
-	 *  @return Maneuver -- Type - uint16_t
-	 */
-	public int getManeuverType() {
-		return getInteger("maneuver_type");
-	}
-
-	/**
-	 *  @return Maneuver -- Start Time (s) - fp64_t
-	 */
-	public double getManeuverStime() {
-		return getDouble("maneuver_stime");
-	}
-
-	/**
-	 *  @return Maneuver -- ETA (s) - uint16_t
-	 */
-	public int getManeuverEta() {
-		return getInteger("maneuver_eta");
-	}
-
-	/**
-	 *  Enabled control loops.<br/>
-	 *  @return Control Loops (bitfield) - uint32_t
-	 */
-	public long getControlLoops() {
-		return getLong("control_loops");
-	}
-
-	/**
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @return Last Error -- Description - plaintext
-	 */
-	public String getLastError() {
-		return getString("last_error");
-	}
-
-	/**
-	 *  @return Last Error -- Time (s) - fp64_t
-	 */
-	public double getLastErrorTime() {
-		return getDouble("last_error_time");
 	}
 
 	/**
@@ -242,11 +177,25 @@ public class VehicleState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Errors -- Count - uint8_t
+	 */
+	public short getErrorCount() {
+		return (short) getInteger("error_count");
+	}
+
+	/**
 	 *  @param error_count Errors -- Count
 	 */
 	public VehicleState setErrorCount(short error_count) {
 		values.put("error_count", error_count);
 		return this;
+	}
+
+	/**
+	 *  @return Errors -- Entities - plaintext
+	 */
+	public String getErrorEnts() {
+		return getString("error_ents");
 	}
 
 	/**
@@ -258,11 +207,25 @@ public class VehicleState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maneuver -- Type - uint16_t
+	 */
+	public int getManeuverType() {
+		return getInteger("maneuver_type");
+	}
+
+	/**
 	 *  @param maneuver_type Maneuver -- Type
 	 */
 	public VehicleState setManeuverType(int maneuver_type) {
 		values.put("maneuver_type", maneuver_type);
 		return this;
+	}
+
+	/**
+	 *  @return Maneuver -- Start Time (s) - fp64_t
+	 */
+	public double getManeuverStime() {
+		return getDouble("maneuver_stime");
 	}
 
 	/**
@@ -274,11 +237,25 @@ public class VehicleState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maneuver -- ETA (s) - uint16_t
+	 */
+	public int getManeuverEta() {
+		return getInteger("maneuver_eta");
+	}
+
+	/**
 	 *  @param maneuver_eta Maneuver -- ETA (s)
 	 */
 	public VehicleState setManeuverEta(int maneuver_eta) {
 		values.put("maneuver_eta", maneuver_eta);
 		return this;
+	}
+
+	/**
+	 *  @return Control Loops (bitfield) - uint32_t
+	 */
+	public long getControlLoops() {
+		return getLong("control_loops");
 	}
 
 	/**
@@ -290,6 +267,13 @@ public class VehicleState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
+	}
+
+	/**
 	 *  @param flags Flags (bitfield)
 	 */
 	public VehicleState setFlags(short flags) {
@@ -298,11 +282,25 @@ public class VehicleState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Last Error -- Description - plaintext
+	 */
+	public String getLastError() {
+		return getString("last_error");
+	}
+
+	/**
 	 *  @param last_error Last Error -- Description
 	 */
 	public VehicleState setLastError(String last_error) {
 		values.put("last_error", last_error);
 		return this;
+	}
+
+	/**
+	 *  @return Last Error -- Time (s) - fp64_t
+	 */
+	public double getLastErrorTime() {
+		return getDouble("last_error_time");
 	}
 
 	/**

@@ -118,102 +118,18 @@ public class FormationPlanExecution extends Maneuver {
 	}
 
 	/**
-	 *  @return Formation Name - plaintext
-	 */
-	public String getFormationName() {
-		return getString("formation_name");
-	}
-
-	/**
-	 *  @return Formation Plan ID - plaintext
-	 */
-	public String getPlanId() {
-		return getString("plan_id");
-	}
-
-	/**
-	 *  @return Plan Description - plaintext
-	 */
-	public String getDescription() {
-		return getString("description");
-	}
-
-	/**
-	 *  @return Formation Leader Flight Airspeed (m/s) - fp32_t
-	 */
-	public double getLeaderSpeed() {
-		return getDouble("leader_speed");
-	}
-
-	/**
-	 *  @return Formation leader flight bank limit (m/s) - fp32_t
-	 */
-	public double getLeaderBankLim() {
-		return getDouble("leader_bank_lim");
-	}
-
-	/**
-	 *  @return Position mismatch limit (m) - fp32_t
-	 */
-	public double getPosSimErrLim() {
-		return getDouble("pos_sim_err_lim");
-	}
-
-	/**
-	 *  @return Position mismatch threshold (m) - fp32_t
-	 */
-	public double getPosSimErrWrn() {
-		return getDouble("pos_sim_err_wrn");
-	}
-
-	/**
-	 *  @return Position mismatch time-out (s) - uint16_t
-	 */
-	public int getPosSimErrTimeout() {
-		return getInteger("pos_sim_err_timeout");
-	}
-
-	/**
-	 *  @return Convergence threshold (m) - fp32_t
-	 */
-	public double getConvergMax() {
-		return getDouble("converg_max");
-	}
-
-	/**
-	 *  @return Convergence time-out (s) - uint16_t
-	 */
-	public int getConvergTimeout() {
-		return getInteger("converg_timeout");
-	}
-
-	/**
-	 *  @return Communications time-out (s) - uint16_t
-	 */
-	public int getCommsTimeout() {
-		return getInteger("comms_timeout");
-	}
-
-	/**
-	 *  @return Turbulence limit (m/s) - fp32_t
-	 */
-	public double getTurbLim() {
-		return getDouble("turb_lim");
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param group_name Target Group Name
 	 */
 	public FormationPlanExecution setGroupName(String group_name) {
 		values.put("group_name", group_name);
 		return this;
+	}
+
+	/**
+	 *  @return Formation Name - plaintext
+	 */
+	public String getFormationName() {
+		return getString("formation_name");
 	}
 
 	/**
@@ -225,11 +141,25 @@ public class FormationPlanExecution extends Maneuver {
 	}
 
 	/**
+	 *  @return Formation Plan ID - plaintext
+	 */
+	public String getPlanId() {
+		return getString("plan_id");
+	}
+
+	/**
 	 *  @param plan_id Formation Plan ID
 	 */
 	public FormationPlanExecution setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
 		return this;
+	}
+
+	/**
+	 *  @return Plan Description - plaintext
+	 */
+	public String getDescription() {
+		return getString("description");
 	}
 
 	/**
@@ -241,11 +171,25 @@ public class FormationPlanExecution extends Maneuver {
 	}
 
 	/**
+	 *  @return Formation Leader Flight Airspeed (m/s) - fp32_t
+	 */
+	public double getLeaderSpeed() {
+		return getDouble("leader_speed");
+	}
+
+	/**
 	 *  @param leader_speed Formation Leader Flight Airspeed (m/s)
 	 */
 	public FormationPlanExecution setLeaderSpeed(double leader_speed) {
 		values.put("leader_speed", leader_speed);
 		return this;
+	}
+
+	/**
+	 *  @return Formation leader flight bank limit (m/s) - fp32_t
+	 */
+	public double getLeaderBankLim() {
+		return getDouble("leader_bank_lim");
 	}
 
 	/**
@@ -257,11 +201,25 @@ public class FormationPlanExecution extends Maneuver {
 	}
 
 	/**
+	 *  @return Position mismatch limit (m) - fp32_t
+	 */
+	public double getPosSimErrLim() {
+		return getDouble("pos_sim_err_lim");
+	}
+
+	/**
 	 *  @param pos_sim_err_lim Position mismatch limit (m)
 	 */
 	public FormationPlanExecution setPosSimErrLim(double pos_sim_err_lim) {
 		values.put("pos_sim_err_lim", pos_sim_err_lim);
 		return this;
+	}
+
+	/**
+	 *  @return Position mismatch threshold (m) - fp32_t
+	 */
+	public double getPosSimErrWrn() {
+		return getDouble("pos_sim_err_wrn");
 	}
 
 	/**
@@ -273,11 +231,25 @@ public class FormationPlanExecution extends Maneuver {
 	}
 
 	/**
+	 *  @return Position mismatch time-out (s) - uint16_t
+	 */
+	public int getPosSimErrTimeout() {
+		return getInteger("pos_sim_err_timeout");
+	}
+
+	/**
 	 *  @param pos_sim_err_timeout Position mismatch time-out (s)
 	 */
 	public FormationPlanExecution setPosSimErrTimeout(int pos_sim_err_timeout) {
 		values.put("pos_sim_err_timeout", pos_sim_err_timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Convergence threshold (m) - fp32_t
+	 */
+	public double getConvergMax() {
+		return getDouble("converg_max");
 	}
 
 	/**
@@ -289,11 +261,25 @@ public class FormationPlanExecution extends Maneuver {
 	}
 
 	/**
+	 *  @return Convergence time-out (s) - uint16_t
+	 */
+	public int getConvergTimeout() {
+		return getInteger("converg_timeout");
+	}
+
+	/**
 	 *  @param converg_timeout Convergence time-out (s)
 	 */
 	public FormationPlanExecution setConvergTimeout(int converg_timeout) {
 		values.put("converg_timeout", converg_timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Communications time-out (s) - uint16_t
+	 */
+	public int getCommsTimeout() {
+		return getInteger("comms_timeout");
 	}
 
 	/**
@@ -305,11 +291,25 @@ public class FormationPlanExecution extends Maneuver {
 	}
 
 	/**
+	 *  @return Turbulence limit (m/s) - fp32_t
+	 */
+	public double getTurbLim() {
+		return getDouble("turb_lim");
+	}
+
+	/**
 	 *  @param turb_lim Turbulence limit (m/s)
 	 */
 	public FormationPlanExecution setTurbLim(double turb_lim) {
 		values.put("turb_lim", turb_lim);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

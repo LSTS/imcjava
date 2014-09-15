@@ -95,32 +95,18 @@ public class ImageTxSettings extends IMCMessage {
 	}
 
 	/**
-	 *  @return Quality - uint8_t
-	 */
-	public short getQuality() {
-		return (short) getInteger("quality");
-	}
-
-	/**
-	 *  @return Repetitions - uint8_t
-	 */
-	public short getReps() {
-		return (short) getInteger("reps");
-	}
-
-	/**
-	 *  @return Target Size - uint8_t
-	 */
-	public short getTsize() {
-		return (short) getInteger("tsize");
-	}
-
-	/**
 	 *  @param fps Frames Per Second
 	 */
 	public ImageTxSettings setFps(short fps) {
 		values.put("fps", fps);
 		return this;
+	}
+
+	/**
+	 *  @return Quality - uint8_t
+	 */
+	public short getQuality() {
+		return (short) getInteger("quality");
 	}
 
 	/**
@@ -132,11 +118,25 @@ public class ImageTxSettings extends IMCMessage {
 	}
 
 	/**
+	 *  @return Repetitions - uint8_t
+	 */
+	public short getReps() {
+		return (short) getInteger("reps");
+	}
+
+	/**
 	 *  @param reps Repetitions
 	 */
 	public ImageTxSettings setReps(short reps) {
 		values.put("reps", reps);
 		return this;
+	}
+
+	/**
+	 *  @return Target Size - uint8_t
+	 */
+	public short getTsize() {
+		return (short) getInteger("tsize");
 	}
 
 	/**

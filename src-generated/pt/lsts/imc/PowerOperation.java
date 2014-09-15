@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class PowerOperation extends IMCMessage {
 
-	public static final int ID_STATIC = 308;
-
 	public enum OP {
 		PWR_DOWN(0),
 		PWR_DOWN_IP(1),
@@ -57,6 +55,8 @@ public class PowerOperation extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 308;
 
 	public PowerOperation() {
 		super(ID_STATIC);
@@ -108,7 +108,6 @@ public class PowerOperation extends IMCMessage {
 	}
 
 	/**
-	 *  Operation type.<br/>
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -119,20 +118,6 @@ public class PowerOperation extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Time Remaining (s) - fp32_t
-	 */
-	public double getTimeRemain() {
-		return getDouble("time_remain");
-	}
-
-	/**
-	 *  @return Scheduled Time (s) - fp64_t
-	 */
-	public double getSchedTime() {
-		return getDouble("sched_time");
 	}
 
 	/**
@@ -160,11 +145,25 @@ public class PowerOperation extends IMCMessage {
 	}
 
 	/**
+	 *  @return Time Remaining (s) - fp32_t
+	 */
+	public double getTimeRemain() {
+		return getDouble("time_remain");
+	}
+
+	/**
 	 *  @param time_remain Time Remaining (s)
 	 */
 	public PowerOperation setTimeRemain(double time_remain) {
 		values.put("time_remain", time_remain);
 		return this;
+	}
+
+	/**
+	 *  @return Scheduled Time (s) - fp64_t
+	 */
+	public double getSchedTime() {
+		return getDouble("sched_time");
 	}
 
 	/**

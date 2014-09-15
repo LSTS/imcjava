@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class MapFeature extends IMCMessage {
 
-	public static final int ID_STATIC = 603;
-
 	public enum FEATURE_TYPE {
 		POI(0),
 		FILLEDPOLY(1),
@@ -57,6 +55,8 @@ public class MapFeature extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 603;
 
 	public MapFeature() {
 		super(ID_STATIC);
@@ -120,7 +120,14 @@ public class MapFeature extends IMCMessage {
 	}
 
 	/**
-	 *  The type of feature<br/>
+	 *  @param id Identifier
+	 */
+	public MapFeature setId(String id) {
+		values.put("id", id);
+		return this;
+	}
+
+	/**
 	 *  @return FeatureType (enumerated) - uint8_t
 	 */
 	public FEATURE_TYPE getFeatureType() {
@@ -131,48 +138,6 @@ public class MapFeature extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return RedComponent - uint8_t
-	 */
-	public short getRgbRed() {
-		return (short) getInteger("rgb_red");
-	}
-
-	/**
-	 *  @return GreenComponent - uint8_t
-	 */
-	public short getRgbGreen() {
-		return (short) getInteger("rgb_green");
-	}
-
-	/**
-	 *  @return BlueComponent - uint8_t
-	 */
-	public short getRgbBlue() {
-		return (short) getInteger("rgb_blue");
-	}
-
-	/**
-	 *  @return Feature - message-list
-	 */
-	public java.util.Vector<MapPoint> getFeature() {
-		try {
-			return getMessageList("feature", MapPoint.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
-	 *  @param id Identifier
-	 */
-	public MapFeature setId(String id) {
-		values.put("id", id);
-		return this;
 	}
 
 	/**
@@ -200,11 +165,25 @@ public class MapFeature extends IMCMessage {
 	}
 
 	/**
+	 *  @return RedComponent - uint8_t
+	 */
+	public short getRgbRed() {
+		return (short) getInteger("rgb_red");
+	}
+
+	/**
 	 *  @param rgb_red RedComponent
 	 */
 	public MapFeature setRgbRed(short rgb_red) {
 		values.put("rgb_red", rgb_red);
 		return this;
+	}
+
+	/**
+	 *  @return GreenComponent - uint8_t
+	 */
+	public short getRgbGreen() {
+		return (short) getInteger("rgb_green");
 	}
 
 	/**
@@ -216,11 +195,31 @@ public class MapFeature extends IMCMessage {
 	}
 
 	/**
+	 *  @return BlueComponent - uint8_t
+	 */
+	public short getRgbBlue() {
+		return (short) getInteger("rgb_blue");
+	}
+
+	/**
 	 *  @param rgb_blue BlueComponent
 	 */
 	public MapFeature setRgbBlue(short rgb_blue) {
 		values.put("rgb_blue", rgb_blue);
 		return this;
+	}
+
+	/**
+	 *  @return Feature - message-list
+	 */
+	public java.util.Vector<MapPoint> getFeature() {
+		try {
+			return getMessageList("feature", MapPoint.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	/**

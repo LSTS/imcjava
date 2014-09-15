@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class LoggingControl extends IMCMessage {
 
-	public static final int ID_STATIC = 102;
-
 	public enum OP {
 		REQUEST_START(0),
 		STARTED(1),
@@ -56,6 +54,8 @@ public class LoggingControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 102;
 
 	public LoggingControl() {
 		super(ID_STATIC);
@@ -107,7 +107,6 @@ public class LoggingControl extends IMCMessage {
 	}
 
 	/**
-	 *  Operation to perform.<br/>
 	 *  @return Control Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -118,13 +117,6 @@ public class LoggingControl extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Log Label / Path - plaintext
-	 */
-	public String getName() {
-		return getString("name");
 	}
 
 	/**
@@ -149,6 +141,13 @@ public class LoggingControl extends IMCMessage {
 	public LoggingControl setOp(short op) {
 		setValue("op", op);
 		return this;
+	}
+
+	/**
+	 *  @return Log Label / Path - plaintext
+	 */
+	public String getName() {
+		return getString("name");
 	}
 
 	/**

@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class CcuEvent extends IMCMessage {
 
-	public static final int ID_STATIC = 606;
-
 	public enum TYPE {
 		LOG_ENTRY(1),
 		PLAN_ADDED(2),
@@ -59,6 +57,8 @@ public class CcuEvent extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 606;
 
 	public CcuEvent() {
 		super(ID_STATIC);
@@ -125,24 +125,6 @@ public class CcuEvent extends IMCMessage {
 	}
 
 	/**
-	 *  @return Identifier - plaintext
-	 */
-	public String getId() {
-		return getString("id");
-	}
-
-	/**
-	 *  @return Additional Data - message
-	 */
-	public IMCMessage getArg() {
-		return getMessage("arg");
-	}
-
-	public <T extends IMCMessage> T getArg(Class<T> clazz) throws Exception {
-		return getMessage(clazz, "arg");
-	}
-
-	/**
 	 *  @param type Event Type (enumerated)
 	 */
 	public CcuEvent setType(TYPE type) {
@@ -167,11 +149,29 @@ public class CcuEvent extends IMCMessage {
 	}
 
 	/**
+	 *  @return Identifier - plaintext
+	 */
+	public String getId() {
+		return getString("id");
+	}
+
+	/**
 	 *  @param id Identifier
 	 */
 	public CcuEvent setId(String id) {
 		values.put("id", id);
 		return this;
+	}
+
+	/**
+	 *  @return Additional Data - message
+	 */
+	public IMCMessage getArg() {
+		return getMessage("arg");
+	}
+
+	public <T extends IMCMessage> T getArg(Class<T> clazz) throws Exception {
+		return getMessage(clazz, "arg");
 	}
 
 	/**

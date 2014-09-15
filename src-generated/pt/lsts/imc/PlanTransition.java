@@ -104,32 +104,18 @@ public class PlanTransition extends IMCMessage {
 	}
 
 	/**
-	 *  @return Destination Maneuver Name - plaintext
-	 */
-	public String getDestMan() {
-		return getString("dest_man");
-	}
-
-	/**
-	 *  @return Transition conditions - plaintext
-	 */
-	public String getConditions() {
-		return getString("conditions");
-	}
-
-	/**
-	 *  @return Transition actions - message-list
-	 */
-	public java.util.Vector<IMCMessage> getActions() {
-		return getMessageList("actions");
-	}
-
-	/**
 	 *  @param source_man Source
 	 */
 	public PlanTransition setSourceMan(String source_man) {
 		values.put("source_man", source_man);
 		return this;
+	}
+
+	/**
+	 *  @return Destination Maneuver Name - plaintext
+	 */
+	public String getDestMan() {
+		return getString("dest_man");
 	}
 
 	/**
@@ -141,11 +127,25 @@ public class PlanTransition extends IMCMessage {
 	}
 
 	/**
+	 *  @return Transition conditions - plaintext
+	 */
+	public String getConditions() {
+		return getString("conditions");
+	}
+
+	/**
 	 *  @param conditions Transition conditions
 	 */
 	public PlanTransition setConditions(String conditions) {
 		values.put("conditions", conditions);
 		return this;
+	}
+
+	/**
+	 *  @return Transition actions - message-list
+	 */
+	public java.util.Vector<IMCMessage> getActions() {
+		return getMessageList("actions");
 	}
 
 	/**

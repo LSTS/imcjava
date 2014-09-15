@@ -95,20 +95,6 @@ public class SetPWM extends IMCMessage {
 	}
 
 	/**
-	 *  @return Period (µs) - uint32_t
-	 */
-	public long getPeriod() {
-		return getLong("period");
-	}
-
-	/**
-	 *  @return Duty Cycle (µs) - uint32_t
-	 */
-	public long getDutyCycle() {
-		return getLong("duty_cycle");
-	}
-
-	/**
 	 *  @param id Channel Identifier
 	 */
 	public SetPWM setId(short id) {
@@ -117,11 +103,25 @@ public class SetPWM extends IMCMessage {
 	}
 
 	/**
+	 *  @return Period (µs) - uint32_t
+	 */
+	public long getPeriod() {
+		return getLong("period");
+	}
+
+	/**
 	 *  @param period Period (µs)
 	 */
 	public SetPWM setPeriod(long period) {
 		values.put("period", period);
 		return this;
+	}
+
+	/**
+	 *  @return Duty Cycle (µs) - uint32_t
+	 */
+	public long getDutyCycle() {
+		return getLong("duty_cycle");
 	}
 
 	/**

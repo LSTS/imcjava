@@ -104,67 +104,18 @@ public class NavigationData extends IMCMessage {
 	}
 
 	/**
-	 *  @return Gyro. Yaw Rate Bias (rad/s) - fp32_t
-	 */
-	public double getBiasR() {
-		return getDouble("bias_r");
-	}
-
-	/**
-	 *  @return Course Over Ground (rad) - fp32_t
-	 */
-	public double getCog() {
-		return getDouble("cog");
-	}
-
-	/**
-	 *  @return Continuous Yaw (rad) - fp32_t
-	 */
-	public double getCyaw() {
-		return getDouble("cyaw");
-	}
-
-	/**
-	 *  @return GPS Rejection Filter Level - fp32_t
-	 */
-	public double getLblRejLevel() {
-		return getDouble("lbl_rej_level");
-	}
-
-	/**
-	 *  @return LBL Rejection Filter Level - fp32_t
-	 */
-	public double getGpsRejLevel() {
-		return getDouble("gps_rej_level");
-	}
-
-	/**
-	 *  @return Variance - Custom Variable X - fp32_t
-	 */
-	public double getCustomX() {
-		return getDouble("custom_x");
-	}
-
-	/**
-	 *  @return Variance - Custom Variable Y - fp32_t
-	 */
-	public double getCustomY() {
-		return getDouble("custom_y");
-	}
-
-	/**
-	 *  @return Variance - Custom Variable Z - fp32_t
-	 */
-	public double getCustomZ() {
-		return getDouble("custom_z");
-	}
-
-	/**
 	 *  @param bias_psi Yaw Bias (rad)
 	 */
 	public NavigationData setBiasPsi(double bias_psi) {
 		values.put("bias_psi", bias_psi);
 		return this;
+	}
+
+	/**
+	 *  @return Gyro. Yaw Rate Bias (rad/s) - fp32_t
+	 */
+	public double getBiasR() {
+		return getDouble("bias_r");
 	}
 
 	/**
@@ -176,11 +127,25 @@ public class NavigationData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Course Over Ground (rad) - fp32_t
+	 */
+	public double getCog() {
+		return getDouble("cog");
+	}
+
+	/**
 	 *  @param cog Course Over Ground (rad)
 	 */
 	public NavigationData setCog(double cog) {
 		values.put("cog", cog);
 		return this;
+	}
+
+	/**
+	 *  @return Continuous Yaw (rad) - fp32_t
+	 */
+	public double getCyaw() {
+		return getDouble("cyaw");
 	}
 
 	/**
@@ -192,11 +157,25 @@ public class NavigationData extends IMCMessage {
 	}
 
 	/**
+	 *  @return GPS Rejection Filter Level - fp32_t
+	 */
+	public double getLblRejLevel() {
+		return getDouble("lbl_rej_level");
+	}
+
+	/**
 	 *  @param lbl_rej_level GPS Rejection Filter Level
 	 */
 	public NavigationData setLblRejLevel(double lbl_rej_level) {
 		values.put("lbl_rej_level", lbl_rej_level);
 		return this;
+	}
+
+	/**
+	 *  @return LBL Rejection Filter Level - fp32_t
+	 */
+	public double getGpsRejLevel() {
+		return getDouble("gps_rej_level");
 	}
 
 	/**
@@ -208,6 +187,13 @@ public class NavigationData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Variance - Custom Variable X - fp32_t
+	 */
+	public double getCustomX() {
+		return getDouble("custom_x");
+	}
+
+	/**
 	 *  @param custom_x Variance - Custom Variable X
 	 */
 	public NavigationData setCustomX(double custom_x) {
@@ -216,11 +202,25 @@ public class NavigationData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Variance - Custom Variable Y - fp32_t
+	 */
+	public double getCustomY() {
+		return getDouble("custom_y");
+	}
+
+	/**
 	 *  @param custom_y Variance - Custom Variable Y
 	 */
 	public NavigationData setCustomY(double custom_y) {
 		values.put("custom_y", custom_y);
 		return this;
+	}
+
+	/**
+	 *  @return Variance - Custom Variable Z - fp32_t
+	 */
+	public double getCustomZ() {
+		return getDouble("custom_z");
 	}
 
 	/**

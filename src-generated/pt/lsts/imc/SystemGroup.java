@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class SystemGroup extends IMCMessage {
 
-	public static final int ID_STATIC = 181;
-
 	public enum ACTION {
 		DIS(0),
 		SET(1),
@@ -56,6 +54,8 @@ public class SystemGroup extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 181;
 
 	public SystemGroup() {
 		super(ID_STATIC);
@@ -116,7 +116,14 @@ public class SystemGroup extends IMCMessage {
 	}
 
 	/**
-	 *  Actions on the group list.<br/>
+	 *  @param GroupName Group Name
+	 */
+	public SystemGroup setGroupName(String GroupName) {
+		values.put("GroupName", GroupName);
+		return this;
+	}
+
+	/**
 	 *  @return Group List Action (enumerated) - uint8_t
 	 */
 	public ACTION getAction() {
@@ -127,21 +134,6 @@ public class SystemGroup extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Systems Name List - plaintext
-	 */
-	public String getGroupList() {
-		return getString("GroupList");
-	}
-
-	/**
-	 *  @param GroupName Group Name
-	 */
-	public SystemGroup setGroupName(String GroupName) {
-		values.put("GroupName", GroupName);
-		return this;
 	}
 
 	/**
@@ -166,6 +158,13 @@ public class SystemGroup extends IMCMessage {
 	public SystemGroup setAction(short Action) {
 		setValue("Action", Action);
 		return this;
+	}
+
+	/**
+	 *  @return Systems Name List - plaintext
+	 */
+	public String getGroupList() {
+		return getString("GroupList");
 	}
 
 	/**

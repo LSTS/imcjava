@@ -112,130 +112,18 @@ public class SimulatedState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Longitude (WGS-84) (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Height (WGS-84) (m) - fp32_t
-	 */
-	public double getHeight() {
-		return getDouble("height");
-	}
-
-	/**
-	 *  @return Offset north (m) (m) - fp32_t
-	 */
-	public double getX() {
-		return getDouble("x");
-	}
-
-	/**
-	 *  @return Offset east (m) (m) - fp32_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Offset down (m) (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @return Rotation over x axis (rad) - fp32_t
-	 */
-	public double getPhi() {
-		return getDouble("phi");
-	}
-
-	/**
-	 *  @return Rotation over y axis (rad) - fp32_t
-	 */
-	public double getTheta() {
-		return getDouble("theta");
-	}
-
-	/**
-	 *  @return Rotation over z axis (rad) - fp32_t
-	 */
-	public double getPsi() {
-		return getDouble("psi");
-	}
-
-	/**
-	 *  @return Body-Fixed xx Linear Velocity (m/s) - fp32_t
-	 */
-	public double getU() {
-		return getDouble("u");
-	}
-
-	/**
-	 *  @return Body-Fixed yy Linear Velocity (m/s) - fp32_t
-	 */
-	public double getV() {
-		return getDouble("v");
-	}
-
-	/**
-	 *  @return Body-Fixed zz Linear Velocity (m/s) - fp32_t
-	 */
-	public double getW() {
-		return getDouble("w");
-	}
-
-	/**
-	 *  @return Angular Velocity in x (rad/s) - fp32_t
-	 */
-	public double getP() {
-		return getDouble("p");
-	}
-
-	/**
-	 *  @return Angular Velocity in y (rad/s) - fp32_t
-	 */
-	public double getQ() {
-		return getDouble("q");
-	}
-
-	/**
-	 *  @return Angular Velocity in z (rad/s) - fp32_t
-	 */
-	public double getR() {
-		return getDouble("r");
-	}
-
-	/**
-	 *  @return Stream Velocity X (North) (m/s) - fp32_t
-	 */
-	public double getSvx() {
-		return getDouble("svx");
-	}
-
-	/**
-	 *  @return Stream Velocity Y (East) (m/s) - fp32_t
-	 */
-	public double getSvy() {
-		return getDouble("svy");
-	}
-
-	/**
-	 *  @return Stream Velocity Z (Down) (m/s) - fp32_t
-	 */
-	public double getSvz() {
-		return getDouble("svz");
-	}
-
-	/**
 	 *  @param lat Latitude (WGS-84) (rad)
 	 */
 	public SimulatedState setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude (WGS-84) (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -247,11 +135,25 @@ public class SimulatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Height (WGS-84) (m) - fp32_t
+	 */
+	public double getHeight() {
+		return getDouble("height");
+	}
+
+	/**
 	 *  @param height Height (WGS-84) (m)
 	 */
 	public SimulatedState setHeight(double height) {
 		values.put("height", height);
 		return this;
+	}
+
+	/**
+	 *  @return Offset north (m) (m) - fp32_t
+	 */
+	public double getX() {
+		return getDouble("x");
 	}
 
 	/**
@@ -263,11 +165,25 @@ public class SimulatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Offset east (m) (m) - fp32_t
+	 */
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
 	 *  @param y Offset east (m) (m)
 	 */
 	public SimulatedState setY(double y) {
 		values.put("y", y);
 		return this;
+	}
+
+	/**
+	 *  @return Offset down (m) (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**
@@ -279,11 +195,25 @@ public class SimulatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Rotation over x axis (rad) - fp32_t
+	 */
+	public double getPhi() {
+		return getDouble("phi");
+	}
+
+	/**
 	 *  @param phi Rotation over x axis (rad)
 	 */
 	public SimulatedState setPhi(double phi) {
 		values.put("phi", phi);
 		return this;
+	}
+
+	/**
+	 *  @return Rotation over y axis (rad) - fp32_t
+	 */
+	public double getTheta() {
+		return getDouble("theta");
 	}
 
 	/**
@@ -295,11 +225,25 @@ public class SimulatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Rotation over z axis (rad) - fp32_t
+	 */
+	public double getPsi() {
+		return getDouble("psi");
+	}
+
+	/**
 	 *  @param psi Rotation over z axis (rad)
 	 */
 	public SimulatedState setPsi(double psi) {
 		values.put("psi", psi);
 		return this;
+	}
+
+	/**
+	 *  @return Body-Fixed xx Linear Velocity (m/s) - fp32_t
+	 */
+	public double getU() {
+		return getDouble("u");
 	}
 
 	/**
@@ -311,11 +255,25 @@ public class SimulatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Body-Fixed yy Linear Velocity (m/s) - fp32_t
+	 */
+	public double getV() {
+		return getDouble("v");
+	}
+
+	/**
 	 *  @param v Body-Fixed yy Linear Velocity (m/s)
 	 */
 	public SimulatedState setV(double v) {
 		values.put("v", v);
 		return this;
+	}
+
+	/**
+	 *  @return Body-Fixed zz Linear Velocity (m/s) - fp32_t
+	 */
+	public double getW() {
+		return getDouble("w");
 	}
 
 	/**
@@ -327,11 +285,25 @@ public class SimulatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Angular Velocity in x (rad/s) - fp32_t
+	 */
+	public double getP() {
+		return getDouble("p");
+	}
+
+	/**
 	 *  @param p Angular Velocity in x (rad/s)
 	 */
 	public SimulatedState setP(double p) {
 		values.put("p", p);
 		return this;
+	}
+
+	/**
+	 *  @return Angular Velocity in y (rad/s) - fp32_t
+	 */
+	public double getQ() {
+		return getDouble("q");
 	}
 
 	/**
@@ -343,11 +315,25 @@ public class SimulatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Angular Velocity in z (rad/s) - fp32_t
+	 */
+	public double getR() {
+		return getDouble("r");
+	}
+
+	/**
 	 *  @param r Angular Velocity in z (rad/s)
 	 */
 	public SimulatedState setR(double r) {
 		values.put("r", r);
 		return this;
+	}
+
+	/**
+	 *  @return Stream Velocity X (North) (m/s) - fp32_t
+	 */
+	public double getSvx() {
+		return getDouble("svx");
 	}
 
 	/**
@@ -359,11 +345,25 @@ public class SimulatedState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Stream Velocity Y (East) (m/s) - fp32_t
+	 */
+	public double getSvy() {
+		return getDouble("svy");
+	}
+
+	/**
 	 *  @param svy Stream Velocity Y (East) (m/s)
 	 */
 	public SimulatedState setSvy(double svy) {
 		values.put("svy", svy);
 		return this;
+	}
+
+	/**
+	 *  @return Stream Velocity Z (Down) (m/s) - fp32_t
+	 */
+	public double getSvz() {
+		return getDouble("svz");
 	}
 
 	/**

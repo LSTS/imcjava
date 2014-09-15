@@ -95,18 +95,18 @@ public class IdleManeuver extends Maneuver {
 	}
 
 	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param duration Duration (s)
 	 */
 	public IdleManeuver setDuration(int duration) {
 		values.put("duration", duration);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class CacheControl extends IMCMessage {
 
-	public static final int ID_STATIC = 101;
-
 	public enum OP {
 		STORE(0),
 		LOAD(1),
@@ -55,6 +53,8 @@ public class CacheControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 101;
 
 	public CacheControl() {
 		super(ID_STATIC);
@@ -108,7 +108,6 @@ public class CacheControl extends IMCMessage {
 	}
 
 	/**
-	 *  Operation to perform.<br/>
 	 *  @return Control Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -119,24 +118,6 @@ public class CacheControl extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Snapshot destination - plaintext
-	 */
-	public String getSnapshot() {
-		return getString("snapshot");
-	}
-
-	/**
-	 *  @return Message - message
-	 */
-	public IMCMessage getMessage() {
-		return getMessage("message");
-	}
-
-	public <T extends IMCMessage> T getMessage(Class<T> clazz) throws Exception {
-		return getMessage(clazz, "message");
 	}
 
 	/**
@@ -164,11 +145,29 @@ public class CacheControl extends IMCMessage {
 	}
 
 	/**
+	 *  @return Snapshot destination - plaintext
+	 */
+	public String getSnapshot() {
+		return getString("snapshot");
+	}
+
+	/**
 	 *  @param snapshot Snapshot destination
 	 */
 	public CacheControl setSnapshot(String snapshot) {
 		values.put("snapshot", snapshot);
 		return this;
+	}
+
+	/**
+	 *  @return Message - message
+	 */
+	public IMCMessage getMessage() {
+		return getMessage("message");
+	}
+
+	public <T extends IMCMessage> T getMessage(Class<T> clazz) throws Exception {
+		return getMessage(clazz, "message");
 	}
 
 	/**

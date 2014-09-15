@@ -41,8 +41,6 @@ package pt.lsts.imc;
 
 public class LblRangeAcceptance extends IMCMessage {
 
-	public static final int ID_STATIC = 357;
-
 	public enum ACCEPTANCE {
 		ACCEPTED(0),
 		ABOVE_THRESHOLD(1),
@@ -60,6 +58,8 @@ public class LblRangeAcceptance extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 357;
 
 	public LblRangeAcceptance() {
 		super(ID_STATIC);
@@ -118,6 +118,14 @@ public class LblRangeAcceptance extends IMCMessage {
 	}
 
 	/**
+	 *  @param id Beacon Identification Number
+	 */
+	public LblRangeAcceptance setId(short id) {
+		values.put("id", id);
+		return this;
+	}
+
+	/**
 	 *  @return Range (m) - fp32_t
 	 */
 	public double getRange() {
@@ -125,7 +133,14 @@ public class LblRangeAcceptance extends IMCMessage {
 	}
 
 	/**
-	 *  Reason for acceptance/rejection.<br/>
+	 *  @param range Range (m)
+	 */
+	public LblRangeAcceptance setRange(double range) {
+		values.put("range", range);
+		return this;
+	}
+
+	/**
 	 *  @return Acceptance (enumerated) - uint8_t
 	 */
 	public ACCEPTANCE getAcceptance() {
@@ -136,22 +151,6 @@ public class LblRangeAcceptance extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @param id Beacon Identification Number
-	 */
-	public LblRangeAcceptance setId(short id) {
-		values.put("id", id);
-		return this;
-	}
-
-	/**
-	 *  @param range Range (m)
-	 */
-	public LblRangeAcceptance setRange(double range) {
-		values.put("range", range);
-		return this;
 	}
 
 	/**

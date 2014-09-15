@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class Distance extends IMCMessage {
 
-	public static final int ID_STATIC = 262;
-
 	public enum VALIDITY {
 		INVALID(0),
 		VALID(1);
@@ -52,6 +50,8 @@ public class Distance extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 262;
 
 	public Distance() {
 		super(ID_STATIC);
@@ -106,7 +106,6 @@ public class Distance extends IMCMessage {
 	}
 
 	/**
-	 *  Validity of the measurement.<br/>
 	 *  @return Validity (enumerated) - uint8_t
 	 */
 	public VALIDITY getValidity() {
@@ -117,39 +116,6 @@ public class Distance extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Location - message-list
-	 */
-	public java.util.Vector<DeviceState> getLocation() {
-		try {
-			return getMessageList("location", DeviceState.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
-	 *  @return Beam Configuration - message-list
-	 */
-	public java.util.Vector<BeamConfig> getBeamConfig() {
-		try {
-			return getMessageList("beam_config", BeamConfig.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
-	 *  @return Measured Distance (m) - fp32_t
-	 */
-	public double getValue() {
-		return getDouble("value");
 	}
 
 	/**
@@ -177,6 +143,19 @@ public class Distance extends IMCMessage {
 	}
 
 	/**
+	 *  @return Location - message-list
+	 */
+	public java.util.Vector<DeviceState> getLocation() {
+		try {
+			return getMessageList("location", DeviceState.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
 	 *  @param location Location
 	 */
 	public Distance setLocation(java.util.Collection<DeviceState> location) {
@@ -185,11 +164,31 @@ public class Distance extends IMCMessage {
 	}
 
 	/**
+	 *  @return Beam Configuration - message-list
+	 */
+	public java.util.Vector<BeamConfig> getBeamConfig() {
+		try {
+			return getMessageList("beam_config", BeamConfig.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
 	 *  @param beam_config Beam Configuration
 	 */
 	public Distance setBeamConfig(java.util.Collection<BeamConfig> beam_config) {
 		values.put("beam_config", beam_config);
 		return this;
+	}
+
+	/**
+	 *  @return Measured Distance (m) - fp32_t
+	 */
+	public double getValue() {
+		return getDouble("value");
 	}
 
 	/**

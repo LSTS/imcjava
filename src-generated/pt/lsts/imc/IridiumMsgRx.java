@@ -98,39 +98,18 @@ public class IridiumMsgRx extends IMCMessage {
 	}
 
 	/**
-	 *  @return Timestamp (s) - fp64_t
-	 */
-	public double getHtime() {
-		return getDouble("htime");
-	}
-
-	/**
-	 *  @return Latitude Reference (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude Reference (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
 	 *  @param origin Origin Identifier
 	 */
 	public IridiumMsgRx setOrigin(String origin) {
 		values.put("origin", origin);
 		return this;
+	}
+
+	/**
+	 *  @return Timestamp (s) - fp64_t
+	 */
+	public double getHtime() {
+		return getDouble("htime");
 	}
 
 	/**
@@ -142,6 +121,13 @@ public class IridiumMsgRx extends IMCMessage {
 	}
 
 	/**
+	 *  @return Latitude Reference (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
+	}
+
+	/**
 	 *  @param lat Latitude Reference (rad)
 	 */
 	public IridiumMsgRx setLat(double lat) {
@@ -150,11 +136,25 @@ public class IridiumMsgRx extends IMCMessage {
 	}
 
 	/**
+	 *  @return Longitude Reference (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude Reference (rad)
 	 */
 	public IridiumMsgRx setLon(double lon) {
 		values.put("lon", lon);
 		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**

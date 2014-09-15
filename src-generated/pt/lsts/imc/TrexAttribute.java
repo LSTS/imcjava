@@ -35,8 +35,6 @@ package pt.lsts.imc;
 
 public class TrexAttribute extends IMCMessage {
 
-	public static final int ID_STATIC = 656;
-
 	public enum ATTR_TYPE {
 		BOOL(1),
 		INT(2),
@@ -54,6 +52,8 @@ public class TrexAttribute extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 656;
 
 	public TrexAttribute() {
 		super(ID_STATIC);
@@ -116,6 +116,14 @@ public class TrexAttribute extends IMCMessage {
 	}
 
 	/**
+	 *  @param name Attribute Name
+	 */
+	public TrexAttribute setName(String name) {
+		values.put("name", name);
+		return this;
+	}
+
+	/**
 	 *  @return Attribute type (enumerated) - uint8_t
 	 */
 	public ATTR_TYPE getAttrType() {
@@ -126,28 +134,6 @@ public class TrexAttribute extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Minimum - plaintext
-	 */
-	public String getMin() {
-		return getString("min");
-	}
-
-	/**
-	 *  @return Maximum - plaintext
-	 */
-	public String getMax() {
-		return getString("max");
-	}
-
-	/**
-	 *  @param name Attribute Name
-	 */
-	public TrexAttribute setName(String name) {
-		values.put("name", name);
-		return this;
 	}
 
 	/**
@@ -175,11 +161,25 @@ public class TrexAttribute extends IMCMessage {
 	}
 
 	/**
+	 *  @return Minimum - plaintext
+	 */
+	public String getMin() {
+		return getString("min");
+	}
+
+	/**
 	 *  @param min Minimum
 	 */
 	public TrexAttribute setMin(String min) {
 		values.put("min", min);
 		return this;
+	}
+
+	/**
+	 *  @return Maximum - plaintext
+	 */
+	public String getMax() {
+		return getString("max");
 	}
 
 	/**

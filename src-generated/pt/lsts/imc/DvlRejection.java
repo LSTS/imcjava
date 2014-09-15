@@ -38,8 +38,6 @@ package pt.lsts.imc;
 
 public class DvlRejection extends IMCMessage {
 
-	public static final int ID_STATIC = 358;
-
 	public static final short TYPE_GV = 0x01;
 	public static final short TYPE_WV = 0x02;
 
@@ -59,6 +57,8 @@ public class DvlRejection extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 358;
 
 	public DvlRejection() {
 		super(ID_STATIC);
@@ -111,7 +111,6 @@ public class DvlRejection extends IMCMessage {
 	}
 
 	/**
-	 *  This field represents the type of the rejected velocity.<br/>
 	 *  @return Type of velocity (bitfield) - uint8_t
 	 */
 	public short getType() {
@@ -119,13 +118,14 @@ public class DvlRejection extends IMCMessage {
 	}
 
 	/**
-	 *  Reason for rejection. There are two types of DVL measurement<br/>
-	 *  filters. An Innovation filter checks the innovation between<br/>
-	 *  the current measurement and the previous measurement within a<br/>
-	 *  certain amount of time and an Absolute filter compares the<br/>
-	 *  measurement with an absolute threshold value. Those filters<br/>
-	 *  are tested using horizontal speed measurements, i.e.,<br/>
-	 *  measurements in the x-axis and in the y-axis.<br/>
+	 *  @param type Type of velocity (bitfield)
+	 */
+	public DvlRejection setType(short type) {
+		values.put("type", type);
+		return this;
+	}
+
+	/**
 	 *  @return Reason (enumerated) - uint8_t
 	 */
 	public REASON getReason() {
@@ -136,28 +136,6 @@ public class DvlRejection extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Value (m/s) - fp32_t
-	 */
-	public double getValue() {
-		return getDouble("value");
-	}
-
-	/**
-	 *  @return Timestep (s) - fp32_t
-	 */
-	public double getTimestep() {
-		return getDouble("timestep");
-	}
-
-	/**
-	 *  @param type Type of velocity (bitfield)
-	 */
-	public DvlRejection setType(short type) {
-		values.put("type", type);
-		return this;
 	}
 
 	/**
@@ -185,11 +163,25 @@ public class DvlRejection extends IMCMessage {
 	}
 
 	/**
+	 *  @return Value (m/s) - fp32_t
+	 */
+	public double getValue() {
+		return getDouble("value");
+	}
+
+	/**
 	 *  @param value Value (m/s)
 	 */
 	public DvlRejection setValue(double value) {
 		values.put("value", value);
 		return this;
+	}
+
+	/**
+	 *  @return Timestep (s) - fp32_t
+	 */
+	public double getTimestep() {
+		return getDouble("timestep");
 	}
 
 	/**

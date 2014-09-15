@@ -38,8 +38,6 @@ package pt.lsts.imc;
 
 public class DevCalibrationControl extends IMCMessage {
 
-	public static final int ID_STATIC = 12;
-
 	public enum OP {
 		START(0),
 		STOP(1),
@@ -56,6 +54,8 @@ public class DevCalibrationControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 12;
 
 	public DevCalibrationControl() {
 		super(ID_STATIC);
@@ -105,7 +105,6 @@ public class DevCalibrationControl extends IMCMessage {
 	}
 
 	/**
-	 *  Operation to perform.<br/>
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {

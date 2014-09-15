@@ -37,8 +37,6 @@ package pt.lsts.imc;
 
 public class EntityState extends IMCMessage {
 
-	public static final int ID_STATIC = 1;
-
 	public static final short EFLA_HUMAN_INTERVENTION = 0x01;
 
 	public enum STATE {
@@ -58,6 +56,8 @@ public class EntityState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 1;
 
 	public EntityState() {
 		super(ID_STATIC);
@@ -110,7 +110,6 @@ public class EntityState extends IMCMessage {
 	}
 
 	/**
-	 *  State of entity.<br/>
 	 *  @return State (enumerated) - uint8_t
 	 */
 	public STATE getState() {
@@ -121,21 +120,6 @@ public class EntityState extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  Complementary entity state flags.<br/>
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @return Complementary description - plaintext
-	 */
-	public String getDescription() {
-		return getString("description");
 	}
 
 	/**
@@ -163,11 +147,25 @@ public class EntityState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
+	}
+
+	/**
 	 *  @param flags Flags (bitfield)
 	 */
 	public EntityState setFlags(short flags) {
 		values.put("flags", flags);
 		return this;
+	}
+
+	/**
+	 *  @return Complementary description - plaintext
+	 */
+	public String getDescription() {
+		return getString("description");
 	}
 
 	/**

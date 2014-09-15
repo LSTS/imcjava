@@ -94,18 +94,18 @@ public class SetThrusterActuation extends IMCMessage {
 	}
 
 	/**
-	 *  @return Actuation Value - fp32_t
-	 */
-	public double getValue() {
-		return getDouble("value");
-	}
-
-	/**
 	 *  @param id Thruster Number
 	 */
 	public SetThrusterActuation setId(short id) {
 		values.put("id", id);
 		return this;
+	}
+
+	/**
+	 *  @return Actuation Value - fp32_t
+	 */
+	public double getValue() {
+		return getDouble("value");
 	}
 
 	/**

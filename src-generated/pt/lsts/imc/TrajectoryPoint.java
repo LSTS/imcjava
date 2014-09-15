@@ -96,32 +96,18 @@ public class TrajectoryPoint extends IMCMessage {
 	}
 
 	/**
-	 *  @return East Offset (m) (m) - fp32_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Down Offset (m) (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @return Time Offset (s) (s) - fp32_t
-	 */
-	public double getT() {
-		return getDouble("t");
-	}
-
-	/**
 	 *  @param x North Offset (m) (m)
 	 */
 	public TrajectoryPoint setX(double x) {
 		values.put("x", x);
 		return this;
+	}
+
+	/**
+	 *  @return East Offset (m) (m) - fp32_t
+	 */
+	public double getY() {
+		return getDouble("y");
 	}
 
 	/**
@@ -133,11 +119,25 @@ public class TrajectoryPoint extends IMCMessage {
 	}
 
 	/**
+	 *  @return Down Offset (m) (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Down Offset (m) (m)
 	 */
 	public TrajectoryPoint setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Time Offset (s) (s) - fp32_t
+	 */
+	public double getT() {
+		return getDouble("t");
 	}
 
 	/**

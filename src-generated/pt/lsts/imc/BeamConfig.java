@@ -94,18 +94,18 @@ public class BeamConfig extends IMCMessage {
 	}
 
 	/**
-	 *  @return Beam Height (rad) - fp32_t
-	 */
-	public double getBeamHeight() {
-		return getDouble("beam_height");
-	}
-
-	/**
 	 *  @param beam_width Beam Width (rad)
 	 */
 	public BeamConfig setBeamWidth(double beam_width) {
 		values.put("beam_width", beam_width);
 		return this;
+	}
+
+	/**
+	 *  @return Beam Height (rad) - fp32_t
+	 */
+	public double getBeamHeight() {
+		return getDouble("beam_height");
 	}
 
 	/**

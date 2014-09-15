@@ -41,8 +41,6 @@ package pt.lsts.imc;
 
 public class Dislodge extends Maneuver {
 
-	public static final int ID_STATIC = 483;
-
 	public enum DIRECTION {
 		AUTO(0),
 		FORWARD(1),
@@ -58,6 +56,8 @@ public class Dislodge extends Maneuver {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 483;
 
 	public Dislodge() {
 		super(ID_STATIC);
@@ -118,6 +118,14 @@ public class Dislodge extends Maneuver {
 	}
 
 	/**
+	 *  @param timeout Timeout (s)
+	 */
+	public Dislodge setTimeout(int timeout) {
+		values.put("timeout", timeout);
+		return this;
+	}
+
+	/**
 	 *  @return RPM - fp32_t
 	 */
 	public double getRpm() {
@@ -125,7 +133,14 @@ public class Dislodge extends Maneuver {
 	}
 
 	/**
-	 *  Direction to which the vehicle should attempt to unstuck.<br/>
+	 *  @param rpm RPM
+	 */
+	public Dislodge setRpm(double rpm) {
+		values.put("rpm", rpm);
+		return this;
+	}
+
+	/**
 	 *  @return Direction (enumerated) - uint8_t
 	 */
 	public DIRECTION getDirection() {
@@ -136,29 +151,6 @@ public class Dislodge extends Maneuver {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
-	 *  @param timeout Timeout (s)
-	 */
-	public Dislodge setTimeout(int timeout) {
-		values.put("timeout", timeout);
-		return this;
-	}
-
-	/**
-	 *  @param rpm RPM
-	 */
-	public Dislodge setRpm(double rpm) {
-		values.put("rpm", rpm);
-		return this;
 	}
 
 	/**
@@ -183,6 +175,13 @@ public class Dislodge extends Maneuver {
 	public Dislodge setDirection(short direction) {
 		setValue("direction", direction);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

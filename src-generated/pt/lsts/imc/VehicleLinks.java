@@ -96,6 +96,14 @@ public class VehicleLinks extends IMCMessage {
 	}
 
 	/**
+	 *  @param localname Local Name
+	 */
+	public VehicleLinks setLocalname(String localname) {
+		values.put("localname", localname);
+		return this;
+	}
+
+	/**
 	 *  @return Active Links - message-list
 	 */
 	public java.util.Vector<Announce> getLinks() {
@@ -106,14 +114,6 @@ public class VehicleLinks extends IMCMessage {
 			return null;
 		}
 
-	}
-
-	/**
-	 *  @param localname Local Name
-	 */
-	public VehicleLinks setLocalname(String localname) {
-		values.put("localname", localname);
-		return this;
 	}
 
 	/**

@@ -112,10 +112,26 @@ public class FormationMonitor extends IMCMessage {
 	}
 
 	/**
+	 *  @param ax_cmd Commanded X Acceleration (North)
+	 */
+	public FormationMonitor setAxCmd(double ax_cmd) {
+		values.put("ax_cmd", ax_cmd);
+		return this;
+	}
+
+	/**
 	 *  @return Commanded Y Acceleration (East) - fp32_t
 	 */
 	public double getAyCmd() {
 		return getDouble("ay_cmd");
+	}
+
+	/**
+	 *  @param ay_cmd Commanded Y Acceleration (East)
+	 */
+	public FormationMonitor setAyCmd(double ay_cmd) {
+		values.put("ay_cmd", ay_cmd);
+		return this;
 	}
 
 	/**
@@ -126,10 +142,26 @@ public class FormationMonitor extends IMCMessage {
 	}
 
 	/**
+	 *  @param az_cmd Commanded Z Acceleration (Down)
+	 */
+	public FormationMonitor setAzCmd(double az_cmd) {
+		values.put("az_cmd", az_cmd);
+		return this;
+	}
+
+	/**
 	 *  @return Desired X Acceleration (North) - fp32_t
 	 */
 	public double getAxDes() {
 		return getDouble("ax_des");
+	}
+
+	/**
+	 *  @param ax_des Desired X Acceleration (North)
+	 */
+	public FormationMonitor setAxDes(double ax_des) {
+		values.put("ax_des", ax_des);
+		return this;
 	}
 
 	/**
@@ -140,10 +172,26 @@ public class FormationMonitor extends IMCMessage {
 	}
 
 	/**
+	 *  @param ay_des Desired Y Acceleration (East)
+	 */
+	public FormationMonitor setAyDes(double ay_des) {
+		values.put("ay_des", ay_des);
+		return this;
+	}
+
+	/**
 	 *  @return Desired Z Acceleration (Down) - fp32_t
 	 */
 	public double getAzDes() {
 		return getDouble("az_des");
+	}
+
+	/**
+	 *  @param az_des Desired Z Acceleration (Down)
+	 */
+	public FormationMonitor setAzDes(double az_des) {
+		values.put("az_des", az_des);
+		return this;
 	}
 
 	/**
@@ -154,10 +202,26 @@ public class FormationMonitor extends IMCMessage {
 	}
 
 	/**
+	 *  @param virt_err_x X Virtual Error (North)
+	 */
+	public FormationMonitor setVirtErrX(double virt_err_x) {
+		values.put("virt_err_x", virt_err_x);
+		return this;
+	}
+
+	/**
 	 *  @return Y Virtual Error (East) - fp32_t
 	 */
 	public double getVirtErrY() {
 		return getDouble("virt_err_y");
+	}
+
+	/**
+	 *  @param virt_err_y Y Virtual Error (East)
+	 */
+	public FormationMonitor setVirtErrY(double virt_err_y) {
+		values.put("virt_err_y", virt_err_y);
+		return this;
 	}
 
 	/**
@@ -168,10 +232,26 @@ public class FormationMonitor extends IMCMessage {
 	}
 
 	/**
+	 *  @param virt_err_z Z Virtual Error (Down)
+	 */
+	public FormationMonitor setVirtErrZ(double virt_err_z) {
+		values.put("virt_err_z", virt_err_z);
+		return this;
+	}
+
+	/**
 	 *  @return X Sliding Surface Feedback (North) - fp32_t
 	 */
 	public double getSurfFdbkX() {
 		return getDouble("surf_fdbk_x");
+	}
+
+	/**
+	 *  @param surf_fdbk_x X Sliding Surface Feedback (North)
+	 */
+	public FormationMonitor setSurfFdbkX(double surf_fdbk_x) {
+		values.put("surf_fdbk_x", surf_fdbk_x);
+		return this;
 	}
 
 	/**
@@ -182,10 +262,26 @@ public class FormationMonitor extends IMCMessage {
 	}
 
 	/**
+	 *  @param surf_fdbk_y Y Sliding Surface Feedback (East)
+	 */
+	public FormationMonitor setSurfFdbkY(double surf_fdbk_y) {
+		values.put("surf_fdbk_y", surf_fdbk_y);
+		return this;
+	}
+
+	/**
 	 *  @return Z Sliding Surface Feedback (Down) - fp32_t
 	 */
 	public double getSurfFdbkZ() {
 		return getDouble("surf_fdbk_z");
+	}
+
+	/**
+	 *  @param surf_fdbk_z Z Sliding Surface Feedback (Down)
+	 */
+	public FormationMonitor setSurfFdbkZ(double surf_fdbk_z) {
+		values.put("surf_fdbk_z", surf_fdbk_z);
+		return this;
 	}
 
 	/**
@@ -196,10 +292,26 @@ public class FormationMonitor extends IMCMessage {
 	}
 
 	/**
+	 *  @param surf_unkn_x X Uncertainty Compensation (North)
+	 */
+	public FormationMonitor setSurfUnknX(double surf_unkn_x) {
+		values.put("surf_unkn_x", surf_unkn_x);
+		return this;
+	}
+
+	/**
 	 *  @return Y Uncertainty Compensation (East) - fp32_t
 	 */
 	public double getSurfUnknY() {
 		return getDouble("surf_unkn_y");
+	}
+
+	/**
+	 *  @param surf_unkn_y Y Uncertainty Compensation (East)
+	 */
+	public FormationMonitor setSurfUnknY(double surf_unkn_y) {
+		values.put("surf_unkn_y", surf_unkn_y);
+		return this;
 	}
 
 	/**
@@ -210,10 +322,26 @@ public class FormationMonitor extends IMCMessage {
 	}
 
 	/**
+	 *  @param surf_unkn_z Z Uncertainty Compensation (Down)
+	 */
+	public FormationMonitor setSurfUnknZ(double surf_unkn_z) {
+		values.put("surf_unkn_z", surf_unkn_z);
+		return this;
+	}
+
+	/**
 	 *  @return X Convergence Deviation (North) - fp32_t
 	 */
 	public double getSsX() {
 		return getDouble("ss_x");
+	}
+
+	/**
+	 *  @param ss_x X Convergence Deviation (North)
+	 */
+	public FormationMonitor setSsX(double ss_x) {
+		values.put("ss_x", ss_x);
+		return this;
 	}
 
 	/**
@@ -224,10 +352,26 @@ public class FormationMonitor extends IMCMessage {
 	}
 
 	/**
+	 *  @param ss_y Y Convergence Deviation (East)
+	 */
+	public FormationMonitor setSsY(double ss_y) {
+		values.put("ss_y", ss_y);
+		return this;
+	}
+
+	/**
 	 *  @return Z Convergence Deviation (Down) - fp32_t
 	 */
 	public double getSsZ() {
 		return getDouble("ss_z");
+	}
+
+	/**
+	 *  @param ss_z Z Convergence Deviation (Down)
+	 */
+	public FormationMonitor setSsZ(double ss_z) {
+		values.put("ss_z", ss_z);
+		return this;
 	}
 
 	/**
@@ -241,150 +385,6 @@ public class FormationMonitor extends IMCMessage {
 			return null;
 		}
 
-	}
-
-	/**
-	 *  @param ax_cmd Commanded X Acceleration (North)
-	 */
-	public FormationMonitor setAxCmd(double ax_cmd) {
-		values.put("ax_cmd", ax_cmd);
-		return this;
-	}
-
-	/**
-	 *  @param ay_cmd Commanded Y Acceleration (East)
-	 */
-	public FormationMonitor setAyCmd(double ay_cmd) {
-		values.put("ay_cmd", ay_cmd);
-		return this;
-	}
-
-	/**
-	 *  @param az_cmd Commanded Z Acceleration (Down)
-	 */
-	public FormationMonitor setAzCmd(double az_cmd) {
-		values.put("az_cmd", az_cmd);
-		return this;
-	}
-
-	/**
-	 *  @param ax_des Desired X Acceleration (North)
-	 */
-	public FormationMonitor setAxDes(double ax_des) {
-		values.put("ax_des", ax_des);
-		return this;
-	}
-
-	/**
-	 *  @param ay_des Desired Y Acceleration (East)
-	 */
-	public FormationMonitor setAyDes(double ay_des) {
-		values.put("ay_des", ay_des);
-		return this;
-	}
-
-	/**
-	 *  @param az_des Desired Z Acceleration (Down)
-	 */
-	public FormationMonitor setAzDes(double az_des) {
-		values.put("az_des", az_des);
-		return this;
-	}
-
-	/**
-	 *  @param virt_err_x X Virtual Error (North)
-	 */
-	public FormationMonitor setVirtErrX(double virt_err_x) {
-		values.put("virt_err_x", virt_err_x);
-		return this;
-	}
-
-	/**
-	 *  @param virt_err_y Y Virtual Error (East)
-	 */
-	public FormationMonitor setVirtErrY(double virt_err_y) {
-		values.put("virt_err_y", virt_err_y);
-		return this;
-	}
-
-	/**
-	 *  @param virt_err_z Z Virtual Error (Down)
-	 */
-	public FormationMonitor setVirtErrZ(double virt_err_z) {
-		values.put("virt_err_z", virt_err_z);
-		return this;
-	}
-
-	/**
-	 *  @param surf_fdbk_x X Sliding Surface Feedback (North)
-	 */
-	public FormationMonitor setSurfFdbkX(double surf_fdbk_x) {
-		values.put("surf_fdbk_x", surf_fdbk_x);
-		return this;
-	}
-
-	/**
-	 *  @param surf_fdbk_y Y Sliding Surface Feedback (East)
-	 */
-	public FormationMonitor setSurfFdbkY(double surf_fdbk_y) {
-		values.put("surf_fdbk_y", surf_fdbk_y);
-		return this;
-	}
-
-	/**
-	 *  @param surf_fdbk_z Z Sliding Surface Feedback (Down)
-	 */
-	public FormationMonitor setSurfFdbkZ(double surf_fdbk_z) {
-		values.put("surf_fdbk_z", surf_fdbk_z);
-		return this;
-	}
-
-	/**
-	 *  @param surf_unkn_x X Uncertainty Compensation (North)
-	 */
-	public FormationMonitor setSurfUnknX(double surf_unkn_x) {
-		values.put("surf_unkn_x", surf_unkn_x);
-		return this;
-	}
-
-	/**
-	 *  @param surf_unkn_y Y Uncertainty Compensation (East)
-	 */
-	public FormationMonitor setSurfUnknY(double surf_unkn_y) {
-		values.put("surf_unkn_y", surf_unkn_y);
-		return this;
-	}
-
-	/**
-	 *  @param surf_unkn_z Z Uncertainty Compensation (Down)
-	 */
-	public FormationMonitor setSurfUnknZ(double surf_unkn_z) {
-		values.put("surf_unkn_z", surf_unkn_z);
-		return this;
-	}
-
-	/**
-	 *  @param ss_x X Convergence Deviation (North)
-	 */
-	public FormationMonitor setSsX(double ss_x) {
-		values.put("ss_x", ss_x);
-		return this;
-	}
-
-	/**
-	 *  @param ss_y Y Convergence Deviation (East)
-	 */
-	public FormationMonitor setSsY(double ss_y) {
-		values.put("ss_y", ss_y);
-		return this;
-	}
-
-	/**
-	 *  @param ss_z Z Convergence Deviation (Down)
-	 */
-	public FormationMonitor setSsZ(double ss_z) {
-		values.put("ss_z", ss_z);
-		return this;
 	}
 
 	/**

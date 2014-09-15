@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class Announce extends IMCMessage {
 
-	public static final int ID_STATIC = 151;
-
 	public enum SYS_TYPE {
 		CCU(0),
 		HUMANSENSOR(1),
@@ -59,6 +57,8 @@ public class Announce extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 151;
 
 	public Announce() {
 		super(ID_STATIC);
@@ -123,7 +123,14 @@ public class Announce extends IMCMessage {
 	}
 
 	/**
-	 *  System type.<br/>
+	 *  @param sys_name System Name
+	 */
+	public Announce setSysName(String sys_name) {
+		values.put("sys_name", sys_name);
+		return this;
+	}
+
+	/**
 	 *  @return System Type (enumerated) - uint8_t
 	 */
 	public SYS_TYPE getSysType() {
@@ -134,49 +141,6 @@ public class Announce extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Control Owner - uint16_t
-	 */
-	public int getOwner() {
-		return getInteger("owner");
-	}
-
-	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Height WGS-84 (m) - fp32_t
-	 */
-	public double getHeight() {
-		return getDouble("height");
-	}
-
-	/**
-	 *  @return Services - plaintext
-	 */
-	public String getServices() {
-		return getString("services");
-	}
-
-	/**
-	 *  @param sys_name System Name
-	 */
-	public Announce setSysName(String sys_name) {
-		values.put("sys_name", sys_name);
-		return this;
 	}
 
 	/**
@@ -204,11 +168,25 @@ public class Announce extends IMCMessage {
 	}
 
 	/**
+	 *  @return Control Owner - uint16_t
+	 */
+	public int getOwner() {
+		return getInteger("owner");
+	}
+
+	/**
 	 *  @param owner Control Owner
 	 */
 	public Announce setOwner(int owner) {
 		values.put("owner", owner);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -220,6 +198,13 @@ public class Announce extends IMCMessage {
 	}
 
 	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
 	public Announce setLon(double lon) {
@@ -228,11 +213,25 @@ public class Announce extends IMCMessage {
 	}
 
 	/**
+	 *  @return Height WGS-84 (m) - fp32_t
+	 */
+	public double getHeight() {
+		return getDouble("height");
+	}
+
+	/**
 	 *  @param height Height WGS-84 (m)
 	 */
 	public Announce setHeight(double height) {
 		values.put("height", height);
 		return this;
+	}
+
+	/**
+	 *  @return Services - plaintext
+	 */
+	public String getServices() {
+		return getString("services");
 	}
 
 	/**

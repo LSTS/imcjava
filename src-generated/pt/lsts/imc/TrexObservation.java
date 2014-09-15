@@ -98,20 +98,6 @@ public class TrexObservation extends IMCMessage {
 	}
 
 	/**
-	 *  @return Predicate - plaintext
-	 */
-	public String getPredicate() {
-		return getString("predicate");
-	}
-
-	/**
-	 *  @return Attributes (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getAttributes() {
-		return getTupleList("attributes");
-	}
-
-	/**
 	 *  @param timeline Timeline
 	 */
 	public TrexObservation setTimeline(String timeline) {
@@ -120,11 +106,25 @@ public class TrexObservation extends IMCMessage {
 	}
 
 	/**
+	 *  @return Predicate - plaintext
+	 */
+	public String getPredicate() {
+		return getString("predicate");
+	}
+
+	/**
 	 *  @param predicate Predicate
 	 */
 	public TrexObservation setPredicate(String predicate) {
 		values.put("predicate", predicate);
 		return this;
+	}
+
+	/**
+	 *  @return Attributes (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getAttributes() {
+		return getTupleList("attributes");
 	}
 
 	/**

@@ -37,8 +37,6 @@ package pt.lsts.imc;
 
 public class Loiter extends Maneuver {
 
-	public static final int ID_STATIC = 453;
-
 	public enum Z_UNITS {
 		NONE(0),
 		DEPTH(1),
@@ -106,6 +104,8 @@ public class Loiter extends Maneuver {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 453;
 
 	public Loiter() {
 		super(ID_STATIC);
@@ -176,130 +176,18 @@ public class Loiter extends Maneuver {
 	}
 
 	/**
-	 *  @return Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLat() {
-		return getDouble("lat");
-	}
-
-	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Z Reference (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  Units of the z reference.<br/>
-	 *  @return Z Units (enumerated) - uint8_t
-	 */
-	public Z_UNITS getZUnits() {
-		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Duration (s) - uint16_t
-	 */
-	public int getDuration() {
-		return getInteger("duration");
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  Loiter maneuver type.<br/>
-	 *  @return Loiter Type (enumerated) - uint8_t
-	 */
-	public TYPE getType() {
-		try {
-			TYPE o = TYPE.valueOf(getMessageType().getFieldPossibleValues("type").get(getLong("type")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Radius (m) - fp32_t
-	 */
-	public double getRadius() {
-		return getDouble("radius");
-	}
-
-	/**
-	 *  @return Length (m) - fp32_t
-	 */
-	public double getLength() {
-		return getDouble("length");
-	}
-
-	/**
-	 *  @return Bearing (rad) - fp64_t
-	 */
-	public double getBearing() {
-		return getDouble("bearing");
-	}
-
-	/**
-	 *  Desired direction.<br/>
-	 *  @return Direction (enumerated) - uint8_t
-	 */
-	public DIRECTION getDirection() {
-		try {
-			DIRECTION o = DIRECTION.valueOf(getMessageType().getFieldPossibleValues("direction").get(getLong("direction")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Custom settings for maneuver (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param timeout Timeout (s)
 	 */
 	public Loiter setTimeout(int timeout) {
 		values.put("timeout", timeout);
 		return this;
+	}
+
+	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
@@ -311,6 +199,13 @@ public class Loiter extends Maneuver {
 	}
 
 	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
 	public Loiter setLon(double lon) {
@@ -319,11 +214,31 @@ public class Loiter extends Maneuver {
 	}
 
 	/**
+	 *  @return Z Reference (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Z Reference (m)
 	 */
 	public Loiter setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Z Units (enumerated) - uint8_t
+	 */
+	public Z_UNITS getZUnits() {
+		try {
+			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -351,6 +266,13 @@ public class Loiter extends Maneuver {
 	}
 
 	/**
+	 *  @return Duration (s) - uint16_t
+	 */
+	public int getDuration() {
+		return getInteger("duration");
+	}
+
+	/**
 	 *  @param duration Duration (s)
 	 */
 	public Loiter setDuration(int duration) {
@@ -359,11 +281,31 @@ public class Loiter extends Maneuver {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public Loiter setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -391,6 +333,19 @@ public class Loiter extends Maneuver {
 	}
 
 	/**
+	 *  @return Loiter Type (enumerated) - uint8_t
+	 */
+	public TYPE getType() {
+		try {
+			TYPE o = TYPE.valueOf(getMessageType().getFieldPossibleValues("type").get(getLong("type")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
 	 *  @param type Loiter Type (enumerated)
 	 */
 	public Loiter setType(TYPE type) {
@@ -415,11 +370,25 @@ public class Loiter extends Maneuver {
 	}
 
 	/**
+	 *  @return Radius (m) - fp32_t
+	 */
+	public double getRadius() {
+		return getDouble("radius");
+	}
+
+	/**
 	 *  @param radius Radius (m)
 	 */
 	public Loiter setRadius(double radius) {
 		values.put("radius", radius);
 		return this;
+	}
+
+	/**
+	 *  @return Length (m) - fp32_t
+	 */
+	public double getLength() {
+		return getDouble("length");
 	}
 
 	/**
@@ -431,11 +400,31 @@ public class Loiter extends Maneuver {
 	}
 
 	/**
+	 *  @return Bearing (rad) - fp64_t
+	 */
+	public double getBearing() {
+		return getDouble("bearing");
+	}
+
+	/**
 	 *  @param bearing Bearing (rad)
 	 */
 	public Loiter setBearing(double bearing) {
 		values.put("bearing", bearing);
 		return this;
+	}
+
+	/**
+	 *  @return Direction (enumerated) - uint8_t
+	 */
+	public DIRECTION getDirection() {
+		try {
+			DIRECTION o = DIRECTION.valueOf(getMessageType().getFieldPossibleValues("direction").get(getLong("direction")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -460,6 +449,13 @@ public class Loiter extends Maneuver {
 	public Loiter setDirection(short direction) {
 		setValue("direction", direction);
 		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

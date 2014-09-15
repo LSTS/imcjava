@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class PowerChannelState extends IMCMessage {
 
-	public static final int ID_STATIC = 311;
-
 	public enum STATE {
 		OFF(0),
 		ON(1);
@@ -52,6 +50,8 @@ public class PowerChannelState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 311;
 
 	public PowerChannelState() {
 		super(ID_STATIC);
@@ -110,7 +110,14 @@ public class PowerChannelState extends IMCMessage {
 	}
 
 	/**
-	 *  State of the Power Channel.<br/>
+	 *  @param name Name
+	 */
+	public PowerChannelState setName(String name) {
+		values.put("name", name);
+		return this;
+	}
+
+	/**
 	 *  @return State (enumerated) - uint8_t
 	 */
 	public STATE getState() {
@@ -121,14 +128,6 @@ public class PowerChannelState extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @param name Name
-	 */
-	public PowerChannelState setName(String name) {
-		values.put("name", name);
-		return this;
 	}
 
 	/**

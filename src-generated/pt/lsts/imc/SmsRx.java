@@ -96,18 +96,18 @@ public class SmsRx extends IMCMessage {
 	}
 
 	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
 	 *  @param source Source
 	 */
 	public SmsRx setSource(String source) {
 		values.put("source", source);
 		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**

@@ -94,18 +94,18 @@ public class StorageUsage extends IMCMessage {
 	}
 
 	/**
-	 *  @return Usage (%) - uint8_t
-	 */
-	public short getValue() {
-		return (short) getInteger("value");
-	}
-
-	/**
 	 *  @param available Available (mib)
 	 */
 	public StorageUsage setAvailable(long available) {
 		values.put("available", available);
 		return this;
+	}
+
+	/**
+	 *  @return Usage (%) - uint8_t
+	 */
+	public short getValue() {
+		return (short) getInteger("value");
 	}
 
 	/**

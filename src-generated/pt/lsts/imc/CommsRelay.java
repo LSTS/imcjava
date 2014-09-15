@@ -37,8 +37,6 @@ package pt.lsts.imc;
 
 public class CommsRelay extends Maneuver {
 
-	public static final int ID_STATIC = 472;
-
 	public enum SPEED_UNITS {
 		METERS_PS(0),
 		RPM(1),
@@ -54,6 +52,8 @@ public class CommsRelay extends Maneuver {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 472;
 
 	public CommsRelay() {
 		super(ID_STATIC);
@@ -117,67 +117,18 @@ public class CommsRelay extends Maneuver {
 	}
 
 	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Reference speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Duration (s) - uint16_t
-	 */
-	public int getDuration() {
-		return getInteger("duration");
-	}
-
-	/**
-	 *  @return System A - uint16_t
-	 */
-	public int getSysA() {
-		return getInteger("sys_a");
-	}
-
-	/**
-	 *  @return System B - uint16_t
-	 */
-	public int getSysB() {
-		return getInteger("sys_b");
-	}
-
-	/**
-	 *  @return Move threshold (m) - fp32_t
-	 */
-	public double getMoveThreshold() {
-		return getDouble("move_threshold");
-	}
-
-	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
 	public CommsRelay setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -189,11 +140,31 @@ public class CommsRelay extends Maneuver {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public CommsRelay setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -221,11 +192,25 @@ public class CommsRelay extends Maneuver {
 	}
 
 	/**
+	 *  @return Duration (s) - uint16_t
+	 */
+	public int getDuration() {
+		return getInteger("duration");
+	}
+
+	/**
 	 *  @param duration Duration (s)
 	 */
 	public CommsRelay setDuration(int duration) {
 		values.put("duration", duration);
 		return this;
+	}
+
+	/**
+	 *  @return System A - uint16_t
+	 */
+	public int getSysA() {
+		return getInteger("sys_a");
 	}
 
 	/**
@@ -237,11 +222,25 @@ public class CommsRelay extends Maneuver {
 	}
 
 	/**
+	 *  @return System B - uint16_t
+	 */
+	public int getSysB() {
+		return getInteger("sys_b");
+	}
+
+	/**
 	 *  @param sys_b System B
 	 */
 	public CommsRelay setSysB(int sys_b) {
 		values.put("sys_b", sys_b);
 		return this;
+	}
+
+	/**
+	 *  @return Move threshold (m) - fp32_t
+	 */
+	public double getMoveThreshold() {
+		return getDouble("move_threshold");
 	}
 
 	/**

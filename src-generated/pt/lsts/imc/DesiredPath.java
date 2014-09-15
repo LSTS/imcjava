@@ -56,8 +56,6 @@ package pt.lsts.imc;
 
 public class DesiredPath extends ControlCommand {
 
-	public static final int ID_STATIC = 406;
-
 	public static final short FL_START = 0x01;
 	public static final short FL_DIRECT = 0x02;
 	public static final short FL_NO_Z = 0x04;
@@ -116,6 +114,8 @@ public class DesiredPath extends ControlCommand {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 406;
 
 	public DesiredPath() {
 		super(ID_STATIC);
@@ -184,117 +184,18 @@ public class DesiredPath extends ControlCommand {
 	}
 
 	/**
-	 *  @return Start Point -- Latitude WGS-84 (rad) - fp64_t
-	 */
-	public double getStartLat() {
-		return getDouble("start_lat");
-	}
-
-	/**
-	 *  @return Start Point -- WGS-84 Longitude (rad) - fp64_t
-	 */
-	public double getStartLon() {
-		return getDouble("start_lon");
-	}
-
-	/**
-	 *  @return Start Point -- Z Reference (m) - fp32_t
-	 */
-	public double getStartZ() {
-		return getDouble("start_z");
-	}
-
-	/**
-	 *  Units of the start point's z reference.<br/>
-	 *  @return Start Point -- Z Units (enumerated) - uint8_t
-	 */
-	public START_Z_UNITS getStartZUnits() {
-		try {
-			START_Z_UNITS o = START_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return End Point -- WGS84 Latitude (rad) - fp64_t
-	 */
-	public double getEndLat() {
-		return getDouble("end_lat");
-	}
-
-	/**
-	 *  @return End Point -- WGS-84 Longitude (rad) - fp64_t
-	 */
-	public double getEndLon() {
-		return getDouble("end_lon");
-	}
-
-	/**
-	 *  @return End Point -- Z Reference (m) - fp32_t
-	 */
-	public double getEndZ() {
-		return getDouble("end_z");
-	}
-
-	/**
-	 *  Units of the end point's z reference.<br/>
-	 *  @return End Point -- Z Units (enumerated) - uint8_t
-	 */
-	public END_Z_UNITS getEndZUnits() {
-		try {
-			END_Z_UNITS o = END_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Loiter -- Radius (m) - fp32_t
-	 */
-	public double getLradius() {
-		return getDouble("lradius");
-	}
-
-	/**
-	 *  Desired Path flags.<br/>
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
 	 *  @param path_ref Path Reference
 	 */
 	public DesiredPath setPathRef(long path_ref) {
 		values.put("path_ref", path_ref);
 		return this;
+	}
+
+	/**
+	 *  @return Start Point -- Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getStartLat() {
+		return getDouble("start_lat");
 	}
 
 	/**
@@ -306,6 +207,13 @@ public class DesiredPath extends ControlCommand {
 	}
 
 	/**
+	 *  @return Start Point -- WGS-84 Longitude (rad) - fp64_t
+	 */
+	public double getStartLon() {
+		return getDouble("start_lon");
+	}
+
+	/**
 	 *  @param start_lon Start Point -- WGS-84 Longitude (rad)
 	 */
 	public DesiredPath setStartLon(double start_lon) {
@@ -314,11 +222,31 @@ public class DesiredPath extends ControlCommand {
 	}
 
 	/**
+	 *  @return Start Point -- Z Reference (m) - fp32_t
+	 */
+	public double getStartZ() {
+		return getDouble("start_z");
+	}
+
+	/**
 	 *  @param start_z Start Point -- Z Reference (m)
 	 */
 	public DesiredPath setStartZ(double start_z) {
 		values.put("start_z", start_z);
 		return this;
+	}
+
+	/**
+	 *  @return Start Point -- Z Units (enumerated) - uint8_t
+	 */
+	public START_Z_UNITS getStartZUnits() {
+		try {
+			START_Z_UNITS o = START_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -346,11 +274,25 @@ public class DesiredPath extends ControlCommand {
 	}
 
 	/**
+	 *  @return End Point -- WGS84 Latitude (rad) - fp64_t
+	 */
+	public double getEndLat() {
+		return getDouble("end_lat");
+	}
+
+	/**
 	 *  @param end_lat End Point -- WGS84 Latitude (rad)
 	 */
 	public DesiredPath setEndLat(double end_lat) {
 		values.put("end_lat", end_lat);
 		return this;
+	}
+
+	/**
+	 *  @return End Point -- WGS-84 Longitude (rad) - fp64_t
+	 */
+	public double getEndLon() {
+		return getDouble("end_lon");
 	}
 
 	/**
@@ -362,11 +304,31 @@ public class DesiredPath extends ControlCommand {
 	}
 
 	/**
+	 *  @return End Point -- Z Reference (m) - fp32_t
+	 */
+	public double getEndZ() {
+		return getDouble("end_z");
+	}
+
+	/**
 	 *  @param end_z End Point -- Z Reference (m)
 	 */
 	public DesiredPath setEndZ(double end_z) {
 		values.put("end_z", end_z);
 		return this;
+	}
+
+	/**
+	 *  @return End Point -- Z Units (enumerated) - uint8_t
+	 */
+	public END_Z_UNITS getEndZUnits() {
+		try {
+			END_Z_UNITS o = END_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -394,11 +356,31 @@ public class DesiredPath extends ControlCommand {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public DesiredPath setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -426,11 +408,25 @@ public class DesiredPath extends ControlCommand {
 	}
 
 	/**
+	 *  @return Loiter -- Radius (m) - fp32_t
+	 */
+	public double getLradius() {
+		return getDouble("lradius");
+	}
+
+	/**
 	 *  @param lradius Loiter -- Radius (m)
 	 */
 	public DesiredPath setLradius(double lradius) {
 		values.put("lradius", lradius);
 		return this;
+	}
+
+	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
 	}
 
 	/**

@@ -98,46 +98,18 @@ public class DeviceState extends IMCMessage {
 	}
 
 	/**
-	 *  @return Device Position - Y (m) - fp32_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Device Position - Z (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @return Device Rotation - X (rad) - fp32_t
-	 */
-	public double getPhi() {
-		return getDouble("phi");
-	}
-
-	/**
-	 *  @return Device Rotation - Y (rad) - fp32_t
-	 */
-	public double getTheta() {
-		return getDouble("theta");
-	}
-
-	/**
-	 *  @return Device Rotation - Z (rad) - fp32_t
-	 */
-	public double getPsi() {
-		return getDouble("psi");
-	}
-
-	/**
 	 *  @param x Device Position - X (m)
 	 */
 	public DeviceState setX(double x) {
 		values.put("x", x);
 		return this;
+	}
+
+	/**
+	 *  @return Device Position - Y (m) - fp32_t
+	 */
+	public double getY() {
+		return getDouble("y");
 	}
 
 	/**
@@ -149,11 +121,25 @@ public class DeviceState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Device Position - Z (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Device Position - Z (m)
 	 */
 	public DeviceState setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Device Rotation - X (rad) - fp32_t
+	 */
+	public double getPhi() {
+		return getDouble("phi");
 	}
 
 	/**
@@ -165,11 +151,25 @@ public class DeviceState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Device Rotation - Y (rad) - fp32_t
+	 */
+	public double getTheta() {
+		return getDouble("theta");
+	}
+
+	/**
 	 *  @param theta Device Rotation - Y (rad)
 	 */
 	public DeviceState setTheta(double theta) {
 		values.put("theta", theta);
 		return this;
+	}
+
+	/**
+	 *  @return Device Rotation - Z (rad) - fp32_t
+	 */
+	public double getPsi() {
+		return getDouble("psi");
 	}
 
 	/**

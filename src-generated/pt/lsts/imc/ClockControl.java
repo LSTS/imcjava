@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class ClockControl extends IMCMessage {
 
-	public static final int ID_STATIC = 106;
-
 	public enum OP {
 		SYNC_EXEC(0),
 		SYNC_REQUEST(1),
@@ -56,6 +54,8 @@ public class ClockControl extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 106;
 
 	public ClockControl() {
 		super(ID_STATIC);
@@ -107,7 +107,6 @@ public class ClockControl extends IMCMessage {
 	}
 
 	/**
-	 *  Operation to perform.<br/>
 	 *  @return Operation (enumerated) - uint8_t
 	 */
 	public OP getOp() {
@@ -118,20 +117,6 @@ public class ClockControl extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Clock (s) - fp64_t
-	 */
-	public double getClock() {
-		return getDouble("clock");
-	}
-
-	/**
-	 *  @return Timezone - int8_t
-	 */
-	public byte getTz() {
-		return (byte) getInteger("tz");
 	}
 
 	/**
@@ -159,11 +144,25 @@ public class ClockControl extends IMCMessage {
 	}
 
 	/**
+	 *  @return Clock (s) - fp64_t
+	 */
+	public double getClock() {
+		return getDouble("clock");
+	}
+
+	/**
 	 *  @param clock Clock (s)
 	 */
 	public ClockControl setClock(double clock) {
 		values.put("clock", clock);
 		return this;
+	}
+
+	/**
+	 *  @return Timezone - int8_t
+	 */
+	public byte getTz() {
+		return (byte) getInteger("tz");
 	}
 
 	/**

@@ -96,6 +96,14 @@ public class Map extends IMCMessage {
 	}
 
 	/**
+	 *  @param id Identifier
+	 */
+	public Map setId(String id) {
+		values.put("id", id);
+		return this;
+	}
+
+	/**
 	 *  @return Features - message-list
 	 */
 	public java.util.Vector<MapFeature> getFeatures() {
@@ -106,14 +114,6 @@ public class Map extends IMCMessage {
 			return null;
 		}
 
-	}
-
-	/**
-	 *  @param id Identifier
-	 */
-	public Map setId(String id) {
-		values.put("id", id);
-		return this;
 	}
 
 	/**

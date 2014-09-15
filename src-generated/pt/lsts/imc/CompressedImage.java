@@ -94,18 +94,18 @@ public class CompressedImage extends IMCMessage {
 	}
 
 	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
 	 *  @param frameid Frame Id
 	 */
 	public CompressedImage setFrameid(short frameid) {
 		values.put("frameid", frameid);
 		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**

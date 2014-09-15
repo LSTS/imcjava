@@ -35,8 +35,6 @@ package pt.lsts.imc;
 
 public class FollowRefState extends IMCMessage {
 
-	public static final int ID_STATIC = 480;
-
 	public static final short PROX_FAR = 0x01;
 	public static final short PROX_XY_NEAR = 0x02;
 	public static final short PROX_Z_NEAR = 0x04;
@@ -59,6 +57,8 @@ public class FollowRefState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 480;
 
 	public FollowRefState() {
 		super(ID_STATIC);
@@ -120,10 +120,26 @@ public class FollowRefState extends IMCMessage {
 	}
 
 	/**
+	 *  @param control_src Controlling Source
+	 */
+	public FollowRefState setControlSrc(int control_src) {
+		values.put("control_src", control_src);
+		return this;
+	}
+
+	/**
 	 *  @return Controlling Entity - uint8_t
 	 */
 	public short getControlEnt() {
 		return (short) getInteger("control_ent");
+	}
+
+	/**
+	 *  @param control_ent Controlling Entity
+	 */
+	public FollowRefState setControlEnt(short control_ent) {
+		values.put("control_ent", control_ent);
+		return this;
 	}
 
 	/**
@@ -144,6 +160,14 @@ public class FollowRefState extends IMCMessage {
 	}
 
 	/**
+	 *  @param reference Reference
+	 */
+	public FollowRefState setReference(Reference reference) {
+		values.put("reference", reference);
+		return this;
+	}
+
+	/**
 	 *  @return State (enumerated) - uint8_t
 	 */
 	public STATE getState() {
@@ -154,37 +178,6 @@ public class FollowRefState extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Proximity (bitfield) - uint8_t
-	 */
-	public short getProximity() {
-		return (short) getInteger("proximity");
-	}
-
-	/**
-	 *  @param control_src Controlling Source
-	 */
-	public FollowRefState setControlSrc(int control_src) {
-		values.put("control_src", control_src);
-		return this;
-	}
-
-	/**
-	 *  @param control_ent Controlling Entity
-	 */
-	public FollowRefState setControlEnt(short control_ent) {
-		values.put("control_ent", control_ent);
-		return this;
-	}
-
-	/**
-	 *  @param reference Reference
-	 */
-	public FollowRefState setReference(Reference reference) {
-		values.put("reference", reference);
-		return this;
 	}
 
 	/**
@@ -209,6 +202,13 @@ public class FollowRefState extends IMCMessage {
 	public FollowRefState setState(short state) {
 		setValue("state", state);
 		return this;
+	}
+
+	/**
+	 *  @return Proximity (bitfield) - uint8_t
+	 */
+	public short getProximity() {
+		return (short) getInteger("proximity");
 	}
 
 	/**

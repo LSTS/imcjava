@@ -95,20 +95,6 @@ public class PathPoint extends IMCMessage {
 	}
 
 	/**
-	 *  @return East Offset (m) (m) - fp32_t
-	 */
-	public double getY() {
-		return getDouble("y");
-	}
-
-	/**
-	 *  @return Down Offset (m) (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
 	 *  @param x North Offset (m) (m)
 	 */
 	public PathPoint setX(double x) {
@@ -117,11 +103,25 @@ public class PathPoint extends IMCMessage {
 	}
 
 	/**
+	 *  @return East Offset (m) (m) - fp32_t
+	 */
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
 	 *  @param y East Offset (m) (m)
 	 */
 	public PathPoint setY(double y) {
 		values.put("y", y);
 		return this;
+	}
+
+	/**
+	 *  @return Down Offset (m) (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**

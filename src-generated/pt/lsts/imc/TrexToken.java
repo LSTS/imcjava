@@ -97,10 +97,26 @@ public class TrexToken extends IMCMessage {
 	}
 
 	/**
+	 *  @param timeline Timeline
+	 */
+	public TrexToken setTimeline(String timeline) {
+		values.put("timeline", timeline);
+		return this;
+	}
+
+	/**
 	 *  @return Predicate - plaintext
 	 */
 	public String getPredicate() {
 		return getString("predicate");
+	}
+
+	/**
+	 *  @param predicate Predicate
+	 */
+	public TrexToken setPredicate(String predicate) {
+		values.put("predicate", predicate);
+		return this;
 	}
 
 	/**
@@ -114,22 +130,6 @@ public class TrexToken extends IMCMessage {
 			return null;
 		}
 
-	}
-
-	/**
-	 *  @param timeline Timeline
-	 */
-	public TrexToken setTimeline(String timeline) {
-		values.put("timeline", timeline);
-		return this;
-	}
-
-	/**
-	 *  @param predicate Predicate
-	 */
-	public TrexToken setPredicate(String predicate) {
-		values.put("predicate", predicate);
-		return this;
 	}
 
 	/**

@@ -37,8 +37,6 @@ package pt.lsts.imc;
 
 public class CoverArea extends Maneuver {
 
-	public static final int ID_STATIC = 473;
-
 	public enum Z_UNITS {
 		NONE(0),
 		DEPTH(1),
@@ -71,6 +69,8 @@ public class CoverArea extends Maneuver {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 473;
 
 	public CoverArea() {
 		super(ID_STATIC);
@@ -136,80 +136,18 @@ public class CoverArea extends Maneuver {
 	}
 
 	/**
-	 *  @return Longitude WGS-84 (rad) - fp64_t
-	 */
-	public double getLon() {
-		return getDouble("lon");
-	}
-
-	/**
-	 *  @return Z Reference (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  Units of the z reference.<br/>
-	 *  @return Z Units (enumerated) - uint8_t
-	 */
-	public Z_UNITS getZUnits() {
-		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Speed - fp32_t
-	 */
-	public double getSpeed() {
-		return getDouble("speed");
-	}
-
-	/**
-	 *  Reference speed units.<br/>
-	 *  @return Speed Units (enumerated) - uint8_t
-	 */
-	public SPEED_UNITS getSpeedUnits() {
-		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Polygon - message-list
-	 */
-	public java.util.Vector<PolygonVertex> getPolygon() {
-		try {
-			return getMessageList("polygon", PolygonVertex.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
-	 *  @return CustomParameters (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getCustom() {
-		return getTupleList("custom");
-	}
-
-	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
 	public CoverArea setLat(double lat) {
 		values.put("lat", lat);
 		return this;
+	}
+
+	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
@@ -221,11 +159,31 @@ public class CoverArea extends Maneuver {
 	}
 
 	/**
+	 *  @return Z Reference (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
 	 *  @param z Z Reference (m)
 	 */
 	public CoverArea setZ(double z) {
 		values.put("z", z);
 		return this;
+	}
+
+	/**
+	 *  @return Z Units (enumerated) - uint8_t
+	 */
+	public Z_UNITS getZUnits() {
+		try {
+			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -253,11 +211,31 @@ public class CoverArea extends Maneuver {
 	}
 
 	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
 	 *  @param speed Speed
 	 */
 	public CoverArea setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -285,11 +263,31 @@ public class CoverArea extends Maneuver {
 	}
 
 	/**
+	 *  @return Polygon - message-list
+	 */
+	public java.util.Vector<PolygonVertex> getPolygon() {
+		try {
+			return getMessageList("polygon", PolygonVertex.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
 	 *  @param polygon Polygon
 	 */
 	public CoverArea setPolygon(java.util.Collection<PolygonVertex> polygon) {
 		values.put("polygon", polygon);
 		return this;
+	}
+
+	/**
+	 *  @return CustomParameters (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
 	}
 
 	/**

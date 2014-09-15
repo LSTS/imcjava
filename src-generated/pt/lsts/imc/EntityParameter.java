@@ -96,18 +96,18 @@ public class EntityParameter extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value - plaintext
-	 */
-	public String getValue() {
-		return getString("value");
-	}
-
-	/**
 	 *  @param name Name
 	 */
 	public EntityParameter setName(String name) {
 		values.put("name", name);
 		return this;
+	}
+
+	/**
+	 *  @return Value - plaintext
+	 */
+	public String getValue() {
+		return getString("value");
 	}
 
 	/**

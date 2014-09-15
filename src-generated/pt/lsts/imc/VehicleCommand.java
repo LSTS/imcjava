@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class VehicleCommand extends IMCMessage {
 
-	public static final int ID_STATIC = 501;
-
 	public enum TYPE {
 		REQUEST(0),
 		SUCCESS(1),
@@ -71,6 +69,8 @@ public class VehicleCommand extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 501;
 
 	public VehicleCommand() {
 		super(ID_STATIC);
@@ -140,58 +140,6 @@ public class VehicleCommand extends IMCMessage {
 	}
 
 	/**
-	 *  @return Request ID - uint16_t
-	 */
-	public int getRequestId() {
-		return getInteger("request_id");
-	}
-
-	/**
-	 *  The type of command/action to be performed<br/>
-	 *  @return Command (enumerated) - uint8_t
-	 */
-	public COMMAND getCommand() {
-		try {
-			COMMAND o = COMMAND.valueOf(getMessageType().getFieldPossibleValues("command").get(getLong("command")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Maneuver - message
-	 */
-	public Maneuver getManeuver() {
-		try {
-			IMCMessage obj = getMessage("maneuver");
-			if (obj instanceof Maneuver)
-				return (Maneuver) obj;
-			else
-				return null;
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
-	 *  @return Calibration Time (s) - uint16_t
-	 */
-	public int getCalibTime() {
-		return getInteger("calib_time");
-	}
-
-	/**
-	 *  @return Info - plaintext
-	 */
-	public String getInfo() {
-		return getString("info");
-	}
-
-	/**
 	 *  @param type Type (enumerated)
 	 */
 	public VehicleCommand setType(TYPE type) {
@@ -216,11 +164,31 @@ public class VehicleCommand extends IMCMessage {
 	}
 
 	/**
+	 *  @return Request ID - uint16_t
+	 */
+	public int getRequestId() {
+		return getInteger("request_id");
+	}
+
+	/**
 	 *  @param request_id Request ID
 	 */
 	public VehicleCommand setRequestId(int request_id) {
 		values.put("request_id", request_id);
 		return this;
+	}
+
+	/**
+	 *  @return Command (enumerated) - uint8_t
+	 */
+	public COMMAND getCommand() {
+		try {
+			COMMAND o = COMMAND.valueOf(getMessageType().getFieldPossibleValues("command").get(getLong("command")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -248,6 +216,23 @@ public class VehicleCommand extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maneuver - message
+	 */
+	public Maneuver getManeuver() {
+		try {
+			IMCMessage obj = getMessage("maneuver");
+			if (obj instanceof Maneuver)
+				return (Maneuver) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
 	 *  @param maneuver Maneuver
 	 */
 	public VehicleCommand setManeuver(Maneuver maneuver) {
@@ -256,11 +241,25 @@ public class VehicleCommand extends IMCMessage {
 	}
 
 	/**
+	 *  @return Calibration Time (s) - uint16_t
+	 */
+	public int getCalibTime() {
+		return getInteger("calib_time");
+	}
+
+	/**
 	 *  @param calib_time Calibration Time (s)
 	 */
 	public VehicleCommand setCalibTime(int calib_time) {
 		values.put("calib_time", calib_time);
 		return this;
+	}
+
+	/**
+	 *  @return Info - plaintext
+	 */
+	public String getInfo() {
+		return getString("info");
 	}
 
 	/**

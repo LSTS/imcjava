@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class PlanControlState extends IMCMessage {
 
-	public static final int ID_STATIC = 560;
-
 	public enum STATE {
 		BLOCKED(0),
 		READY(1),
@@ -70,6 +68,8 @@ public class PlanControlState extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 560;
 
 	public PlanControlState() {
 		super(ID_STATIC);
@@ -128,68 +128,11 @@ public class PlanControlState extends IMCMessage {
 	}
 
 	/**
-	 *  Describes overall state.<br/>
 	 *  @return State (enumerated) - uint8_t
 	 */
 	public STATE getState() {
 		try {
 			STATE o = STATE.valueOf(getMessageType().getFieldPossibleValues("state").get(getLong("state")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 *  @return Plan -- ID - plaintext
-	 */
-	public String getPlanId() {
-		return getString("plan_id");
-	}
-
-	/**
-	 *  @return Plan -- ETA (s) - int32_t
-	 */
-	public int getPlanEta() {
-		return getInteger("plan_eta");
-	}
-
-	/**
-	 *  @return Plan -- Progress (%) - fp32_t
-	 */
-	public double getPlanProgress() {
-		return getDouble("plan_progress");
-	}
-
-	/**
-	 *  @return Maneuver -- ID - plaintext
-	 */
-	public String getManId() {
-		return getString("man_id");
-	}
-
-	/**
-	 *  @return Maneuver -- Type - uint16_t
-	 */
-	public int getManType() {
-		return getInteger("man_type");
-	}
-
-	/**
-	 *  @return Maneuver -- ETA (s) - int32_t
-	 */
-	public int getManEta() {
-		return getInteger("man_eta");
-	}
-
-	/**
-	 *  Outcome of the last executed plan.<br/>
-	 *  @return Last Plan Outcome (enumerated) - uint8_t
-	 */
-	public LAST_OUTCOME getLastOutcome() {
-		try {
-			LAST_OUTCOME o = LAST_OUTCOME.valueOf(getMessageType().getFieldPossibleValues("last_outcome").get(getLong("last_outcome")));
 			return o;
 		}
 		catch (Exception e) {
@@ -222,11 +165,25 @@ public class PlanControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Plan -- ID - plaintext
+	 */
+	public String getPlanId() {
+		return getString("plan_id");
+	}
+
+	/**
 	 *  @param plan_id Plan -- ID
 	 */
 	public PlanControlState setPlanId(String plan_id) {
 		values.put("plan_id", plan_id);
 		return this;
+	}
+
+	/**
+	 *  @return Plan -- ETA (s) - int32_t
+	 */
+	public int getPlanEta() {
+		return getInteger("plan_eta");
 	}
 
 	/**
@@ -238,11 +195,25 @@ public class PlanControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Plan -- Progress (%) - fp32_t
+	 */
+	public double getPlanProgress() {
+		return getDouble("plan_progress");
+	}
+
+	/**
 	 *  @param plan_progress Plan -- Progress (%)
 	 */
 	public PlanControlState setPlanProgress(double plan_progress) {
 		values.put("plan_progress", plan_progress);
 		return this;
+	}
+
+	/**
+	 *  @return Maneuver -- ID - plaintext
+	 */
+	public String getManId() {
+		return getString("man_id");
 	}
 
 	/**
@@ -254,6 +225,13 @@ public class PlanControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maneuver -- Type - uint16_t
+	 */
+	public int getManType() {
+		return getInteger("man_type");
+	}
+
+	/**
 	 *  @param man_type Maneuver -- Type
 	 */
 	public PlanControlState setManType(int man_type) {
@@ -262,11 +240,31 @@ public class PlanControlState extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maneuver -- ETA (s) - int32_t
+	 */
+	public int getManEta() {
+		return getInteger("man_eta");
+	}
+
+	/**
 	 *  @param man_eta Maneuver -- ETA (s)
 	 */
 	public PlanControlState setManEta(int man_eta) {
 		values.put("man_eta", man_eta);
 		return this;
+	}
+
+	/**
+	 *  @return Last Plan Outcome (enumerated) - uint8_t
+	 */
+	public LAST_OUTCOME getLastOutcome() {
+		try {
+			LAST_OUTCOME o = LAST_OUTCOME.valueOf(getMessageType().getFieldPossibleValues("last_outcome").get(getLong("last_outcome")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**

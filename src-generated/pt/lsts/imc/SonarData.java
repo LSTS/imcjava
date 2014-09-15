@@ -37,8 +37,6 @@ package pt.lsts.imc;
 
 public class SonarData extends IMCMessage {
 
-	public static final int ID_STATIC = 276;
-
 	public enum TYPE {
 		SIDESCAN(0),
 		ECHOSOUNDER(1),
@@ -54,6 +52,8 @@ public class SonarData extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 276;
 
 	public SonarData() {
 		super(ID_STATIC);
@@ -112,7 +112,6 @@ public class SonarData extends IMCMessage {
 	}
 
 	/**
-	 *  Type of sonar.<br/>
 	 *  @return Type (enumerated) - uint8_t
 	 */
 	public TYPE getType() {
@@ -123,61 +122,6 @@ public class SonarData extends IMCMessage {
 		catch (Exception e) {
 			return null;
 		}
-	}
-
-	/**
-	 *  @return Frequency (hz) - uint32_t
-	 */
-	public long getFrequency() {
-		return getLong("frequency");
-	}
-
-	/**
-	 *  @return Minimum Range (m) - uint16_t
-	 */
-	public int getMinRange() {
-		return getInteger("min_range");
-	}
-
-	/**
-	 *  @return Maximum Range (m) - uint16_t
-	 */
-	public int getMaxRange() {
-		return getInteger("max_range");
-	}
-
-	/**
-	 *  @return Bits Per Data Point (bit) - uint8_t
-	 */
-	public short getBitsPerPoint() {
-		return (short) getInteger("bits_per_point");
-	}
-
-	/**
-	 *  @return Scaling Factor - fp32_t
-	 */
-	public double getScaleFactor() {
-		return getDouble("scale_factor");
-	}
-
-	/**
-	 *  @return Beam Configuration - message-list
-	 */
-	public java.util.Vector<BeamConfig> getBeamConfig() {
-		try {
-			return getMessageList("beam_config", BeamConfig.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
 	}
 
 	/**
@@ -205,11 +149,25 @@ public class SonarData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Frequency (hz) - uint32_t
+	 */
+	public long getFrequency() {
+		return getLong("frequency");
+	}
+
+	/**
 	 *  @param frequency Frequency (hz)
 	 */
 	public SonarData setFrequency(long frequency) {
 		values.put("frequency", frequency);
 		return this;
+	}
+
+	/**
+	 *  @return Minimum Range (m) - uint16_t
+	 */
+	public int getMinRange() {
+		return getInteger("min_range");
 	}
 
 	/**
@@ -221,11 +179,25 @@ public class SonarData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Maximum Range (m) - uint16_t
+	 */
+	public int getMaxRange() {
+		return getInteger("max_range");
+	}
+
+	/**
 	 *  @param max_range Maximum Range (m)
 	 */
 	public SonarData setMaxRange(int max_range) {
 		values.put("max_range", max_range);
 		return this;
+	}
+
+	/**
+	 *  @return Bits Per Data Point (bit) - uint8_t
+	 */
+	public short getBitsPerPoint() {
+		return (short) getInteger("bits_per_point");
 	}
 
 	/**
@@ -237,6 +209,13 @@ public class SonarData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Scaling Factor - fp32_t
+	 */
+	public double getScaleFactor() {
+		return getDouble("scale_factor");
+	}
+
+	/**
 	 *  @param scale_factor Scaling Factor
 	 */
 	public SonarData setScaleFactor(double scale_factor) {
@@ -245,11 +224,31 @@ public class SonarData extends IMCMessage {
 	}
 
 	/**
+	 *  @return Beam Configuration - message-list
+	 */
+	public java.util.Vector<BeamConfig> getBeamConfig() {
+		try {
+			return getMessageList("beam_config", BeamConfig.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
 	 *  @param beam_config Beam Configuration
 	 */
 	public SonarData setBeamConfig(java.util.Collection<BeamConfig> beam_config) {
 		values.put("beam_config", beam_config);
 		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**

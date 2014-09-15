@@ -36,8 +36,6 @@ package pt.lsts.imc;
 
 public class TrexCommand extends IMCMessage {
 
-	public static final int ID_STATIC = 652;
-
 	public enum COMMAND {
 		DISABLE(0),
 		ENABLE(1),
@@ -56,6 +54,8 @@ public class TrexCommand extends IMCMessage {
 			this.value = value;
 		}
 	}
+
+	public static final int ID_STATIC = 652;
 
 	public TrexCommand() {
 		super(ID_STATIC);
@@ -122,20 +122,6 @@ public class TrexCommand extends IMCMessage {
 	}
 
 	/**
-	 *  @return Goal Id - plaintext
-	 */
-	public String getGoalId() {
-		return getString("goal_id");
-	}
-
-	/**
-	 *  @return Goal XML - plaintext
-	 */
-	public String getGoalXml() {
-		return getString("goal_xml");
-	}
-
-	/**
 	 *  @param command Command (enumerated)
 	 */
 	public TrexCommand setCommand(COMMAND command) {
@@ -160,11 +146,25 @@ public class TrexCommand extends IMCMessage {
 	}
 
 	/**
+	 *  @return Goal Id - plaintext
+	 */
+	public String getGoalId() {
+		return getString("goal_id");
+	}
+
+	/**
 	 *  @param goal_id Goal Id
 	 */
 	public TrexCommand setGoalId(String goal_id) {
 		values.put("goal_id", goal_id);
 		return this;
+	}
+
+	/**
+	 *  @return Goal XML - plaintext
+	 */
+	public String getGoalXml() {
+		return getString("goal_xml");
 	}
 
 	/**
