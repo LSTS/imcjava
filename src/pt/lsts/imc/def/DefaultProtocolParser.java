@@ -138,7 +138,6 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 		for (int i = 0; i < nlist.getLength(); i++) {
 			MessageGroupType mg = parseMessageGroup(nlist.item(i));
 			messages.put(mg.getAbbrev(), mg.getMsgType());
-			System.out.println(mg.getMsgType());
 			for (String s : mg.getSubTypes()) {
 				messages.get(s).setSuperType(mg.getMsgType());
 			}

@@ -907,7 +907,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 	
 	public Collection<String> getAbstractMessages() {
-		LinkedHashSet<String> allMessages = new LinkedHashSet<>();
+		LinkedHashSet<String> allMessages = new LinkedHashSet<String>();
 		allMessages.addAll(getMessageNames());
 		allMessages.removeAll(getConcreteMessages());
 		
