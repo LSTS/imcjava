@@ -7,7 +7,7 @@ import pt.lsts.imc.IMCMessageType;
 public class MessageGroupType {
 
 	private String name, abbrev;
-	private ArrayList<String> subTypes = new ArrayList<>();
+	private ArrayList<String> subTypes = new ArrayList<String>();
 	private IMCMessageType msgType;
 	/**
 	 * @return the name

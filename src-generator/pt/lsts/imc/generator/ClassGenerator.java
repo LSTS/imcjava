@@ -315,10 +315,10 @@ public class ClassGenerator {
 	public static void generateClasses(String packageName, File outputFolder,
 			IMCDefinition definitions) throws Exception {
 
-		for (File f : outputFolder.listFiles()) {
-			f.delete();
-		}
-		outputFolder.delete();
+//		for (File f : outputFolder.listFiles()) {
+//			f.delete();
+//		}
+	//	outputFolder.delete();
 
 		generateHeader(packageName, outputFolder, definitions);
 
@@ -940,7 +940,7 @@ public class ClassGenerator {
 				continue;
 			}
 
-			if ((type.getFieldUnits(field) + "").equals("bitfield")) {
+			if ("bitfield".equals(type.getFieldUnits(field))) {
 
 				if (type.getFieldPossibleValues(field) == null)
 					continue;
@@ -980,7 +980,8 @@ public class ClassGenerator {
 		}
 
 		for (String field : type.getFieldNames()) {
-			if ((type.getFieldUnits(field) + "").equals("enumerated")) {
+			if ("enumerated".equals(type.getFieldUnits(field))) {
+				
 				LinkedHashMap<String, Long> enum_vals = type
 						.getFieldMeanings(field);
 
@@ -1054,7 +1055,7 @@ public class ClassGenerator {
 
 		if (type.getSupertype() != null) {
 			superType = type.getSupertype();
-			superClass = " extends " + superType;
+			superClass = " extends " + superType.getShortName();
 		}
 
 		bw.write("public " + abstractClass + "class " + msgName + superClass

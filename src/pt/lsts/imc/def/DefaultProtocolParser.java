@@ -2,8 +2,6 @@ package pt.lsts.imc.def;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +19,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import pt.lsts.imc.EstimatedState;
+import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessageType;
 
 public class DefaultProtocolParser extends AbstractProtocolParser {
@@ -138,7 +138,7 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 		for (int i = 0; i < nlist.getLength(); i++) {
 			MessageGroupType mg = parseMessageGroup(nlist.item(i));
 			messages.put(mg.getAbbrev(), mg.getMsgType());
-
+			System.out.println(mg.getMsgType());
 			for (String s : mg.getSubTypes()) {
 				messages.get(s).setSuperType(mg.getMsgType());
 			}
@@ -165,7 +165,10 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 				.getTextContent());
 
 		NodeList subtypeList = nd.getChildNodes();
-		group.setMsgType(parseFields(subtypeList));
+		IMCMessageType msgType = parseFields(subtypeList);
+		msgType.setFullName(group.getName());
+		msgType.setShortName(group.getAbbrev());
+		group.setMsgType(msgType);
 
 		for (int i = 0; i < subtypeList.getLength(); i++) {
 			Node tmp = subtypeList.item(i);
@@ -286,10 +289,9 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 					possibleValues.putAll(descriptor.getValues());
 				}
 				if (prefix != null)
-					msgType.setFieldPrefix(fieldName, prefix);
-				
-				System.out.println(possibleValues);
-			}
+					msgType.setFieldPrefix(fieldAbbrv, prefix);
+				msgType.setFieldPossibleValues(fieldAbbrv, possibleValues);							
+			}			
 		}
 		return msgType;
 	}
@@ -338,7 +340,11 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 	}
 
 	public static void main(String[] args) throws Exception {
-		DefaultProtocolParser parser = new DefaultProtocolParser();
-		parser.parseDefinitions(new FileInputStream(new File("../imc/IMC.xml")));
+		IMCDefinition.getInstance().create(EstimatedState.class);
+		for (String name : IMCDefinition.getInstance().getMessageNames()) {
+			if (IMCDefinition.getInstance().getType(name).isAbstract())
+			System.out.println(name);
+		}
+		
 	}
 }

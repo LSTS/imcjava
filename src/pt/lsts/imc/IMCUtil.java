@@ -349,7 +349,7 @@ public class IMCUtil {
                     subtype = msg.getMessageType().getFieldSubtype(field);
                     for (int i = 0; i < numMsgs; i++) {                        
                         if (subtype != null) {
-                        	Vector<String> msgs = new Vector<>();
+                        	Vector<String> msgs = new Vector<String>();
                         	msgs.addAll(IMCDefinition.getInstance().subtypesOf(subtype));
                             String messageName = subtype;
                             if (!msgs.isEmpty())

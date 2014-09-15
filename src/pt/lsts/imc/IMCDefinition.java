@@ -46,10 +46,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Vector;
-//import java.util.logging.Logger;
-
-
-
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -64,7 +60,9 @@ import pt.lsts.imc.gz.MultiMemberGZIPInputStream;
 import pt.lsts.neptus.messages.IMessageProtocol;
 
 /**
- * This class loads and holds an IMC definition (XML) and allows creation of compatible messages (factory), parsing and serialization
+ * This class loads and holds an IMC definition (XML) and allows creation of
+ * compatible messages (factory), parsing and serialization
+ * 
  * @author zp
  */
 public class IMCDefinition implements IMessageProtocol<IMCMessage> {
@@ -82,13 +80,17 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	protected LinkedHashMap<Integer, String> id_Abbrev = new LinkedHashMap<Integer, String>();
 	protected LinkedHashMap<String, Integer> abbrev_Id = new LinkedHashMap<String, Integer>();
 	protected LinkedHashMap<String, IMCMessageType> types = new LinkedHashMap<String, IMCMessageType>();
-	protected LinkedHashMap<String, LinkedHashMap<Long, String>> globalEnumerations = new LinkedHashMap<String, LinkedHashMap<Long,String>>();
+	protected LinkedHashMap<String, LinkedHashMap<Long, String>> globalEnumerations = new LinkedHashMap<String, LinkedHashMap<Long, String>>();
 	protected LinkedHashMap<String, String> globalEnumPrefixes = new LinkedHashMap<String, String>();
 	protected LinkedHashMap<String, Vector<String>> subTypes = new LinkedHashMap<String, Vector<String>>();
+
 	/**
 	 * Create a new IMCDefinition, loading the definitions from <b>f</b>
-	 * @param f The file from where to read the definitions.
-	 * @throws Exception In case there are problems reading the file.
+	 * 
+	 * @param f
+	 *            The file from where to read the definitions.
+	 * @throws Exception
+	 *             In case there are problems reading the file.
 	 */
 	public IMCDefinition(File f) throws Exception {
 		InputStream is;
@@ -103,16 +105,20 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	/**
-	 * Create a new IMCDefinition, loading the XML definitions from the given {@link InputStream}
+	 * Create a new IMCDefinition, loading the XML definitions from the given
+	 * {@link InputStream}
+	 * 
 	 * @param is
 	 * @throws Exception
 	 */
-	public IMCDefinition(InputStream is) throws Exception {        
-		readDefs(is);	    
+	public IMCDefinition(InputStream is) throws Exception {
+		readDefs(is);
 	}
 
-	public static void writeDefaultDefinitions(File destination) throws IOException {
-		InputStream is = new ByteArrayInputStream(ImcStringDefs.getDefinitions().getBytes());
+	public static void writeDefaultDefinitions(File destination)
+			throws IOException {
+		InputStream is = new ByteArrayInputStream(ImcStringDefs
+				.getDefinitions().getBytes());
 		FileOutputStream fos = new FileOutputStream(destination);
 		byte[] buffer = new byte[1024];
 		while (is.read(buffer) > 0)
@@ -122,6 +128,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	/**
 	 * Retrieve (possibly reusing) default definitions
+	 * 
 	 * @return Default IMC definitions
 	 */
 	public static IMCDefinition getInstance() {
@@ -129,13 +136,17 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	/**
-	 * Load the XML on the given {@link InputStream} and changes the default instance to this
-	 * @param isDefinitions {@link InputStream} holding the XML definitions
-	 * @return new IMCDefinition, loading the XML definitions from the given {@link InputStream}
+	 * Load the XML on the given {@link InputStream} and changes the default
+	 * instance to this
+	 * 
+	 * @param isDefinitions
+	 *            {@link InputStream} holding the XML definitions
+	 * @return new IMCDefinition, loading the XML definitions from the given
+	 *         {@link InputStream}
 	 */
 	public static IMCDefinition getInstance(InputStream isDefinitions) {
 		try {
-			if(isDefinitions != null) {
+			if (isDefinitions != null) {
 				instance = new IMCDefinition(isDefinitions);
 				return instance;
 			}
@@ -143,16 +154,15 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 				instance = new IMCDefinition(new ByteArrayInputStream(
 						ImcStringDefs.getDefinitions().getBytes("UTF-8")));
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return instance;
 	}
 
-
 	/**
 	 * Retrieve the header length in this IMC version
+	 * 
 	 * @return the header length in this IMC version
 	 */
 	public int headerLength() {
@@ -161,6 +171,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	/**
 	 * Create a new header compatible with these definitions
+	 * 
 	 * @return a new header compatible with these definitions
 	 */
 	public Header createHeader() {
@@ -173,26 +184,27 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	protected void readDefs(InputStream is) throws Exception {
-		ProtocolDefinition def = new DefaultProtocolParser().parseDefinitions(is);
+		ProtocolDefinition def = new DefaultProtocolParser()
+				.parseDefinitions(is);
 		this.version = def.getVersion();
 		this.syncWord = def.getSyncWord();
-		this.swappedWord = (syncWord & 0xFF) << 8 | ((syncWord&0xFF00)>>8);
+		this.swappedWord = (syncWord & 0xFF) << 8 | ((syncWord & 0xFF00) >> 8);
 		this.md5String = def.getDefinitionMD5();
 		this.name = def.getName();
 		this.headerType = def.getHeader();
 		this.footerType = def.getFooter();
-		
+
 		for (ValueDescriptor vd : def.getGlobalBitfields()) {
 			globalEnumerations.put(vd.getAbbrev(), vd.getValues());
 			globalEnumPrefixes.put(vd.getAbbrev(), vd.getPrefix());
 		}
-		
+
 		for (ValueDescriptor vd : def.getGlobalEnumerations()) {
 			globalEnumerations.put(vd.getAbbrev(), vd.getValues());
 			globalEnumPrefixes.put(vd.getAbbrev(), vd.getPrefix());
 		}
-		
-		for(IMCMessageType msgType : def.getMessageDefinitions()) {
+
+		for (IMCMessageType msgType : def.getMessageDefinitions()) {
 			if (!msgType.isAbstract()) {
 				id_Abbrev.put(msgType.getId(), msgType.getShortName());
 				abbrev_Id.put(msgType.getShortName(), msgType.getId());
@@ -209,8 +221,11 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	/**
 	 * Retrieve the message type of given message id
-	 * @param id a (numeric) message id
-	 * @return The corresponding {@link IMCMessageType} or <strong>null</strong> if that type was not found
+	 * 
+	 * @param id
+	 *            a (numeric) message id
+	 * @return The corresponding {@link IMCMessageType} or <strong>null</strong>
+	 *         if that type was not found
 	 */
 	public final IMCMessageType getType(Integer id) {
 		return types.get(id_Abbrev.get(id));
@@ -218,8 +233,11 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	/**
 	 * Retrieve the message type of given message abbreviated name
-	 * @param name the abbreviated name of the wanted message type
-	 * @return The corresponding {@link IMCMessageType} or <strong>null</strong> if that type was not found
+	 * 
+	 * @param name
+	 *            the abbreviated name of the wanted message type
+	 * @return The corresponding {@link IMCMessageType} or <strong>null</strong>
+	 *         if that type was not found
 	 */
 	public final IMCMessageType getType(String name) {
 		return types.get(name);
@@ -227,6 +245,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	/**
 	 * Retrieve the Synchronization word of this IMC definition
+	 * 
 	 * @return Synchronization word of this IMC definition
 	 */
 	public long getSyncWord() {
@@ -234,7 +253,9 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	/**
-	 * Retrieve the swapped (little endian) synchronization word of this IMC definition
+	 * Retrieve the swapped (little endian) synchronization word of this IMC
+	 * definition
+	 * 
 	 * @return Swapped synchronization word of this IMC definition
 	 */
 	public long getSwappedWord() {
@@ -270,6 +291,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	/**
 	 * Retrieve the definitions' name found on the XML
+	 * 
 	 * @return the definitions' name found on the XML
 	 */
 	public String getName() {
@@ -296,30 +318,39 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	public String getMd5String() {
 		return md5String;
 	}
-	
+
 	/**
 	 * Create and retrieve an IMCMessage that is serialized in an array of bytes
-	 * @param data Where to read the message from
+	 * 
+	 * @param data
+	 *            Where to read the message from
 	 * @return The deserialized IMCMessage
-	 * @throws IOException In case of a buffer underflow
+	 * @throws IOException
+	 *             In case of a buffer underflow
 	 */
-	public IMCMessage parseMessage(byte[] data) throws IOException {           
+	public IMCMessage parseMessage(byte[] data) throws IOException {
 		try {
-			return nextMessage(new IMCInputStream(new ByteArrayInputStream(data), this));
-		}
-		catch (Exception e) {
+			return nextMessage(new IMCInputStream(
+					new ByteArrayInputStream(data), this));
+		} catch (Exception e) {
 			throw new IOException(e);
 		}
 	}
 
 	/**
-	 * Retrieve the next message of given type from current position in the buffer
-	 * @param type The type of the message to be retrieved
-	 * @param buff The buffer where to read the message from
+	 * Retrieve the next message of given type from current position in the
+	 * buffer
+	 * 
+	 * @param type
+	 *            The type of the message to be retrieved
+	 * @param buff
+	 *            The buffer where to read the message from
 	 * @return The next IMCMessage of given type
-	 * @throws Exception if end of the buffer is reached
+	 * @throws Exception
+	 *             if end of the buffer is reached
 	 */
-	public IMCMessage nextMessageOfType(int type, ByteBuffer buff) throws Exception {
+	public IMCMessage nextMessageOfType(int type, ByteBuffer buff)
+			throws Exception {
 		IMCMessage header = new IMCMessage(this, headerType);
 		while (true) {
 			long sync = buff.getShort() & 0xFFFF;
@@ -332,22 +363,24 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 			if (type == header.getInteger("mgid")) {
 				IMCMessage message = new IMCMessage(this, type);
-				message.setHeader((Header)header.cloneMessage(this));
+				message.setHeader((Header) header.cloneMessage(this));
 				deserializeFields(message, buff);
 				deserialize(IMCFieldType.TYPE_UINT16, buff); // footer
-				return message;		
-			}
-			else {
-				buff.position(buff.position()+header.getInteger("size")+2);
+				return message;
+			} else {
+				buff.position(buff.position() + header.getInteger("size") + 2);
 			}
 		}
 	}
 
-	/** 
+	/**
 	 * Retrieve the next message from the buffer
-	 * @param buff The buffer where to read the message from
+	 * 
+	 * @param buff
+	 *            The buffer where to read the message from
 	 * @return The next message in the buffer
-	 * @throws Exception if end of the buffer is reached
+	 * @throws Exception
+	 *             if end of the buffer is reached
 	 */
 	public IMCMessage nextMessage(ByteBuffer buff) throws Exception {
 
@@ -358,8 +391,10 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		else if (sync == syncWord)
 			header.setValue("sync", syncWord);
 		else {
-			System.err.printf("Found a message with invalid sync (%X) was skipped\n", sync);
-			byte[] tmp = new byte[header.getInteger("size")+2];
+			System.err.printf(
+					"Found a message with invalid sync (%X) was skipped\n",
+					sync);
+			byte[] tmp = new byte[header.getInteger("size") + 2];
 			buff.get(tmp);
 			return nextMessage(buff);
 		}
@@ -367,16 +402,18 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		deserializeAllFieldsBut(header, buff, "sync");
 		IMCMessageType type = getType(getMessageName(header.get_mgid()));
 		if (type != null) {
-			IMCMessage message = MessageFactory.getInstance().createTypedMessage(getMessageName(header.get_mgid()), this);
+			IMCMessage message = MessageFactory
+					.getInstance()
+					.createTypedMessage(getMessageName(header.get_mgid()), this);
 			message.setHeader(header);
 			message.setType(type);
 			deserializeFields(message, buff);
 			deserialize(IMCFieldType.TYPE_UINT16, buff); // footer
 			return message;
-		}
-		else {
-			System.err.println("Unknown message type was skipped: "+header.getInteger("mgid"));
-			byte[] tmp = new byte[header.getInteger("size")+2];
+		} else {
+			System.err.println("Unknown message type was skipped: "
+					+ header.getInteger("mgid"));
+			byte[] tmp = new byte[header.getInteger("size") + 2];
 			buff.get(tmp);
 			return nextMessage(buff);
 		}
@@ -384,18 +421,25 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	/**
 	 * Read a message header from the given IMCInputStream
-	 * @param header Where to store the read data
-	 * @param iis Where to read the header from
+	 * 
+	 * @param header
+	 *            Where to store the read data
+	 * @param iis
+	 *            Where to read the header from
 	 */
-	public void readHeader(IMCInputStream iis, IMCMessage header) throws IOException {
-		deserializeFields(header, iis);		
+	public void readHeader(IMCInputStream iis, IMCMessage header)
+			throws IOException {
+		deserializeFields(header, iis);
 	}
 
 	/**
 	 * Retrieve the next message from the given IMCInputStream
-	 * @param input where to read the message from
+	 * 
+	 * @param input
+	 *            where to read the message from
 	 * @return The next message in the input
-	 * @throws IOException In case of any IO error (like end of input)
+	 * @throws IOException
+	 *             In case of any IO error (like end of input)
 	 */
 	public IMCMessage nextMessage(IMCInputStream input) throws IOException {
 		Header header = createHeader();
@@ -405,44 +449,52 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			input.setBigEndian(true);
 		else if (sync == swappedWord)
 			input.setBigEndian(false);
-		else 
-			throw new IOException("Unrecognized Sync word: "+String.format("%02X", sync));
+		else
+			throw new IOException("Unrecognized Sync word: "
+					+ String.format("%02X", sync));
 
-        header.setValue("sync", syncWord);
+		header.setValue("sync", syncWord);
 
-		deserializeAllFieldsBut(header, input, "sync");         
+		deserializeAllFieldsBut(header, input, "sync");
 		int msgid = header.getInteger("mgid");
-		if (msgid != -1) {            
-			IMCMessage message = MessageFactory.getInstance().createTypedMessage(getMessageName(msgid), this);
+		if (msgid != -1) {
+			IMCMessage message = MessageFactory.getInstance()
+					.createTypedMessage(getMessageName(msgid), this);
 			message.setHeader(header);
 			deserializeFields(message, input);
-			deserialize(IMCFieldType.TYPE_UINT16, input, getMessageName(msgid)+".footer"); // footer         
+			deserialize(IMCFieldType.TYPE_UINT16, input, getMessageName(msgid)
+					+ ".footer"); // footer
 			return message;
-		}
-		else {
-			System.err.println("Unknown message type was skipped: "+header.getInteger("mgid"));             
-			input.skip(header.getInteger("size")+2);
+		} else {
+			System.err.println("Unknown message type was skipped: "
+					+ header.getInteger("mgid"));
+			input.skip(header.getInteger("size") + 2);
 			return nextMessage(input);
 		}
 	}
 
 	/**
-	 * Retrieve the next message in the given InputStream. This is done by converting the InputStream in an IMCInputStream.
-	 * @param in Where to read the message from
+	 * Retrieve the next message in the given InputStream. This is done by
+	 * converting the InputStream in an IMCInputStream.
+	 * 
+	 * @param in
+	 *            Where to read the message from
 	 * @return The next message in the input
-	 * @throws IOException IO errors
+	 * @throws IOException
+	 *             IO errors
 	 */
 	public IMCMessage nextMessage(InputStream in) throws IOException {
 		return nextMessage(new IMCInputStream(in, this));
 	}
 
-	public Object deserialize(IMCFieldType type, DataInput in, String context) throws IOException {
+	public Object deserialize(IMCFieldType type, DataInput in, String context)
+			throws IOException {
 		switch (type) {
 		case TYPE_UINT8:
 			return 0xFF & in.readByte();
 		case TYPE_UINT16:
-			int v =0xFFFF & in.readShort();
-			//System.out.println(v);
+			int v = 0xFFFF & in.readShort();
+			// System.out.println(v);
 			return v;
 		case TYPE_UINT32:
 			return 0xFFFFFFFFL & in.readInt();
@@ -459,37 +511,45 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		case TYPE_FP64:
 			return in.readDouble();
 		case TYPE_RAWDATA:
-			int size = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in, context);
+			int size = (Integer) deserialize(IMCFieldType.TYPE_UINT16, in,
+					context);
 			byte[] data = new byte[size];
 			in.readFully(data);
 			return data;
 		case TYPE_PLAINTEXT:
-			int l = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in, context);
-			byte[] d = new byte[l];			
+			int l = (Integer) deserialize(IMCFieldType.TYPE_UINT16, in, context);
+			byte[] d = new byte[l];
 			in.readFully(d);
 			return new String(d, "UTF-8");
 		case TYPE_MESSAGE:
-			int t = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in, context);
+			int t = (Integer) deserialize(IMCFieldType.TYPE_UINT16, in, context);
 			if (t == 65535)
 				return null;
 
 			if (getType(t) == null)
-				throw new IOException("Inline message has an unknown type: "+t+" ("+context+")");
+				throw new IOException("Inline message has an unknown type: "
+						+ t + " (" + context + ")");
 
-			IMCMessage message = MessageFactory.getInstance().createTypedMessage(getMessageName(t), this);
+			IMCMessage message = MessageFactory.getInstance()
+					.createTypedMessage(getMessageName(t), this);
 			deserializeFields(message, in);
 			return message;
 		case TYPE_MESSAGELIST:
 			Vector<IMCMessage> vec = new Vector<IMCMessage>();
-			int numMessages = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in, context);
+			int numMessages = (Integer) deserialize(IMCFieldType.TYPE_UINT16,
+					in, context);
 			for (int i = 0; i < numMessages; i++) {
-				int mgid = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in, context+"["+i+"]");
+				int mgid = (Integer) deserialize(IMCFieldType.TYPE_UINT16, in,
+						context + "[" + i + "]");
 				if (mgid == 65535)
 					vec.add(null);
 				else {
 					if (getType(mgid) == null)
-						throw new IOException("Message in message-list has an unknown type: "+mgid+" ("+context+")");
-					IMCMessage m = MessageFactory.getInstance().createTypedMessage(getMessageName(mgid), this);
+						throw new IOException(
+								"Message in message-list has an unknown type: "
+										+ mgid + " (" + context + ")");
+					IMCMessage m = MessageFactory.getInstance()
+							.createTypedMessage(getMessageName(mgid), this);
 					deserializeFields(m, in);
 					vec.add(m);
 				}
@@ -500,7 +560,8 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		return null;
 	}
 
-	protected Object deserialize(IMCFieldType type, ByteBuffer in) throws IOException {
+	protected Object deserialize(IMCFieldType type, ByteBuffer in)
+			throws IOException {
 		switch (type) {
 		case TYPE_UINT8:
 			return 0xFF & in.get();
@@ -521,17 +582,17 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		case TYPE_FP64:
 			return in.getDouble();
 		case TYPE_RAWDATA:
-			int size = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in);
+			int size = (Integer) deserialize(IMCFieldType.TYPE_UINT16, in);
 			byte[] data = new byte[size];
 			in.get(data);
 			return data;
 		case TYPE_PLAINTEXT:
-			int l = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in);
+			int l = (Integer) deserialize(IMCFieldType.TYPE_UINT16, in);
 			byte[] d = new byte[l];
 			in.get(d);
 			return new String(d, "UTF-8");
 		case TYPE_MESSAGE:
-			int t = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in);
+			int t = (Integer) deserialize(IMCFieldType.TYPE_UINT16, in);
 			if (t == 65535)
 				return null;
 			IMCMessage message = new IMCMessage(this, getType(t));
@@ -539,73 +600,95 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			return message;
 		case TYPE_MESSAGELIST:
 			Vector<IMCMessage> vec = new Vector<IMCMessage>();
-			int numMessages = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in);
+			int numMessages = (Integer) deserialize(IMCFieldType.TYPE_UINT16,
+					in);
 			for (int i = 0; i < numMessages; i++) {
-				int mgid = (Integer)deserialize(IMCFieldType.TYPE_UINT16, in);
+				int mgid = (Integer) deserialize(IMCFieldType.TYPE_UINT16, in);
 				if (mgid == 65535)
 					vec.add(null);
 				else {
 					if (getType(mgid) == null)
-						throw new IOException("Message in message-list has an unknown type: "+mgid);
-					IMCMessage m = MessageFactory.getInstance().createTypedMessage(getMessageName(mgid), this);
+						throw new IOException(
+								"Message in message-list has an unknown type: "
+										+ mgid);
+					IMCMessage m = MessageFactory.getInstance()
+							.createTypedMessage(getMessageName(mgid), this);
 					deserializeFields(m, in);
 					vec.add(m);
 				}
 			}
 			return vec;
-		}		
+		}
 		return null;
 	}
 
-	public void deserializeFields(IMCMessage message, DataInput in) throws IOException {
+	public void deserializeFields(IMCMessage message, DataInput in)
+			throws IOException {
 		for (String field : message.getMessageType().getFieldNames()) {
-			
-			Object o = deserialize(message.getMessageType().getFieldType(field),in, message.getAbbrev()+"."+field);
+
+			Object o = deserialize(
+					message.getMessageType().getFieldType(field), in,
+					message.getAbbrev() + "." + field);
 			if (o instanceof IMCMessage) {
-				for (String f : new String[] {"src", "dst", "src_ent", "dst_ent"})
-					((IMCMessage) o).getHeader().setValue(f, message.getHeader().getValue(f));
+				for (String f : new String[] { "src", "dst", "src_ent",
+						"dst_ent" })
+					((IMCMessage) o).getHeader().setValue(f,
+							message.getHeader().getValue(f));
 
-				((IMCMessage)o).setTimestamp(message.getTimestamp());
-			}
-			message.setValue(field, o);			
-		}
-	}
-
-	protected void deserializeFields(IMCMessage message, ByteBuffer in) throws IOException {		
-		for (String field : message.getMessageType().getFieldNames()) {
-			Object o = deserialize(message.getMessageType().getFieldType(field),in);
-			if (o instanceof IMCMessage) {
-
-				for (String f : new String[] {"src", "dst", "src_ent", "dst_ent"})
-					((IMCMessage) o).getHeader().setValue(f, message.getHeader().getValue(f));
-
-				((IMCMessage)o).setTimestamp(message.getTimestamp());
+				((IMCMessage) o).setTimestamp(message.getTimestamp());
 			}
 			message.setValue(field, o);
 		}
-	}	
+	}
 
-	protected void deserializeAllFieldsBut(IMCMessage message, DataInput in, String fieldToSkip) throws IOException {		
+	protected void deserializeFields(IMCMessage message, ByteBuffer in)
+			throws IOException {
+		for (String field : message.getMessageType().getFieldNames()) {
+			Object o = deserialize(
+					message.getMessageType().getFieldType(field), in);
+			if (o instanceof IMCMessage) {
+
+				for (String f : new String[] { "src", "dst", "src_ent",
+						"dst_ent" })
+					((IMCMessage) o).getHeader().setValue(f,
+							message.getHeader().getValue(f));
+
+				((IMCMessage) o).setTimestamp(message.getTimestamp());
+			}
+			message.setValue(field, o);
+		}
+	}
+
+	protected void deserializeAllFieldsBut(IMCMessage message, DataInput in,
+			String fieldToSkip) throws IOException {
 		for (String field : message.getMessageType().getFieldNames()) {
 			if (field.equals(fieldToSkip))
 				continue;
 
-			message.setValue(field, deserialize(message.getMessageType().getFieldType(field),in, message.getAbbrev()+"."+field));			
+			message.setValue(
+					field,
+					deserialize(message.getMessageType().getFieldType(field),
+							in, message.getAbbrev() + "." + field));
 		}
 	}
 
-	private void deserializeAllFieldsBut(IMCMessage message, ByteBuffer in, String fieldToSkip) throws IOException {		
+	private void deserializeAllFieldsBut(IMCMessage message, ByteBuffer in,
+			String fieldToSkip) throws IOException {
 		for (String field : message.getMessageType().getFieldNames()) {
 			if (field.equals(fieldToSkip))
 				continue;
-			message.setValue(field, deserialize(message.getMessageType().getFieldType(field),in));
+			message.setValue(
+					field,
+					deserialize(message.getMessageType().getFieldType(field),
+							in));
 		}
 	}
 
-	int serialize(Number value, IMCFieldType type, IMCOutputStream out) throws IOException {
+	int serialize(Number value, IMCFieldType type, IMCOutputStream out)
+			throws IOException {
 		switch (type) {
-		case TYPE_UINT8:		
-		case TYPE_INT8:				
+		case TYPE_UINT8:
+		case TYPE_INT8:
 			out.write(value.byteValue());
 			return 1;
 		case TYPE_UINT16:
@@ -624,14 +707,15 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			return 4;
 		case TYPE_FP64:
 			out.writeDouble(value.doubleValue());
-			return 8;		
+			return 8;
 		default:
 			break;
-		}		
+		}
 		return 0;
-	}	
+	}
 
-	protected int serialize(Object value, IMCFieldType type, IMCOutputStream out) throws IOException {
+	protected int serialize(Object value, IMCFieldType type, IMCOutputStream out)
+			throws IOException {
 		switch (type) {
 		case TYPE_PLAINTEXT:
 		case TYPE_RAWDATA:
@@ -640,77 +724,81 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 					value = value.toString().getBytes("UTF-8");
 
 				if (value instanceof byte[]) {
-					byte[] d = (byte[])value;					
+					byte[] d = (byte[]) value;
 					serialize(d.length, IMCFieldType.TYPE_UINT16, out);
 					out.write(d);
-					return 2+d.length;
+					return 2 + d.length;
 				}
 				if (value == null)
-					throw new Exception("Trying to serialize a null value as a RAWDATA type");
+					throw new Exception(
+							"Trying to serialize a null value as a RAWDATA type");
 				else
-					throw new Exception("Trying to serialize a "+value.getClass().getSimpleName()+ " as a RAWDATA type");
-			}
-			catch (Exception e) {
+					throw new Exception("Trying to serialize a "
+							+ value.getClass().getSimpleName()
+							+ " as a RAWDATA type");
+			} catch (Exception e) {
 				return serialize(0, IMCFieldType.TYPE_UINT16, out);
-			}			
+			}
 		case TYPE_MESSAGE:
 			try {
-				if (value instanceof IMCMessage) {					
+				if (value instanceof IMCMessage) {
 					IMCMessage inner = (IMCMessage) value;
-					serialize(inner.getMessageType().getId(), IMCFieldType.TYPE_UINT16, out);
+					serialize(inner.getMessageType().getId(),
+							IMCFieldType.TYPE_UINT16, out);
 					return 2 + serializeFields(inner, out);
-				}
-				else if (value == null)
+				} else if (value == null)
 					return serialize(65535, IMCFieldType.TYPE_UINT16, out);
 				else {
-					throw new Exception("Inline Message "+value+" is not valid");
+					throw new Exception("Inline Message " + value
+							+ " is not valid");
 				}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		case TYPE_MESSAGELIST:
 			try {
 				if (value == null) {
 					return serialize(0, IMCFieldType.TYPE_UINT16, out);
-				}
-				else if (value instanceof Collection<?>) {
+				} else if (value instanceof Collection<?>) {
 					Collection<?> collection = (Collection<?>) value;
-					int count = serialize(collection.size(), IMCFieldType.TYPE_UINT16, out);
+					int count = serialize(collection.size(),
+							IMCFieldType.TYPE_UINT16, out);
 
 					for (Object o : collection) {
 						if (o instanceof IMCMessage) {
 							IMCMessage inner = (IMCMessage) o;
-							serialize(inner.getMessageType().getId(), IMCFieldType.TYPE_UINT16, out);
+							serialize(inner.getMessageType().getId(),
+									IMCFieldType.TYPE_UINT16, out);
 							count += 2 + serializeFields(inner, out);
-						}
-						else
-							count += serialize(65535, IMCFieldType.TYPE_UINT16, out);
+						} else
+							count += serialize(65535, IMCFieldType.TYPE_UINT16,
+									out);
 					}
 					return count;
-				}
-				else if (value.getClass().isArray()) {
+				} else if (value.getClass().isArray()) {
 					int numMsgs = Array.getLength(value);
-					int count = serialize(numMsgs, IMCFieldType.TYPE_UINT16, out);
+					int count = serialize(numMsgs, IMCFieldType.TYPE_UINT16,
+							out);
 
 					for (int i = 0; i < numMsgs; i++) {
 						Object o = Array.get(value, i);
 						if (o instanceof IMCMessage) {
 							IMCMessage inner = (IMCMessage) o;
-							serialize(inner.getMessageType().getId(), IMCFieldType.TYPE_UINT16, out);
+							serialize(inner.getMessageType().getId(),
+									IMCFieldType.TYPE_UINT16, out);
 							count += 2 + serializeFields(inner, out);
+						} else {
+							count += serialize(65535, IMCFieldType.TYPE_UINT16,
+									out);
 						}
-						else {
-							count += serialize(65535, IMCFieldType.TYPE_UINT16, out);
-						}
-					}                    
+					}
 					return count;
+				} else {
+					throw new Exception("The value of type "
+							+ value.getClass().getSimpleName()
+							+ " is not valid for a message-list field.");
 				}
-				else {
-					throw new Exception("The value of type "+value.getClass().getSimpleName()+" is not valid for a message-list field.");
-				}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		default:
@@ -719,43 +807,45 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		if (value == null)
 			value = 0;
 		if (value instanceof Number)
-			return serialize((Number)value, type, out);
+			return serialize((Number) value, type, out);
 
 		return 0;
 	}
 
-	public String dumpPayload(IMCMessage message, int numTabs) throws IOException {
+	public String dumpPayload(IMCMessage message, int numTabs)
+			throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		IMCOutputStream ios = new IMCOutputStream(baos);
 		LinkedHashMap<String, Integer> fieldSizes = new LinkedHashMap<String, Integer>();
 		StringBuilder sb = new StringBuilder();
-		
+
 		for (String field : message.getMessageType().getFieldNames()) {
-			fieldSizes.put(field, serialize(message.getValue(field), message.getMessageType().getFieldType(field),ios));
+			fieldSizes.put(
+					field,
+					serialize(message.getValue(field), message.getMessageType()
+							.getFieldType(field), ios));
 		}
-	
+
 		int pos = 0;
 		byte[] data = baos.toByteArray();
-		sb.append("Message "+message.getAbbrev()+":\n");
+		sb.append("Message " + message.getAbbrev() + ":\n");
 		for (String key : fieldSizes.keySet()) {
-			for (int i = 0; i < numTabs; i++)    
+			for (int i = 0; i < numTabs; i++)
 				sb.append("\t");
 			if (message.getTypeOf(key).equals("message")) {
-				sb.append(dumpPayload(message.getMessage(key), numTabs+1));
-			}
-			else if (message.getTypeOf(key).equals("message-list")) {
-				sb.append(key+": [");
-				
+				sb.append(dumpPayload(message.getMessage(key), numTabs + 1));
+			} else if (message.getTypeOf(key).equals("message-list")) {
+				sb.append(key + ": [");
+
 				for (IMCMessage m : message.getMessageList(key)) {
-					for (int i = 0; i < numTabs; i++)    
+					for (int i = 0; i < numTabs; i++)
 						sb.append("\t");
-					sb.append(dumpPayload(m, numTabs+1));
+					sb.append(dumpPayload(m, numTabs + 1));
 				}
-				for (int i = 0; i < numTabs; i++)    
+				for (int i = 0; i < numTabs; i++)
 					sb.append("\t");
 				sb.append("]\n");
-			}
-			else {    			
+			} else {
 				sb.append(String.format("%s: %s (", key, message.getString(key)));
 				for (int i = 0; i < fieldSizes.get(key); i++) {
 					sb.append(String.format("%02X ", data[pos++]));
@@ -766,10 +856,12 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		return sb.toString();
 	}
 
-	public int serializeFields(IMCMessage message, IMCOutputStream out) throws IOException {
+	public int serializeFields(IMCMessage message, IMCOutputStream out)
+			throws IOException {
 		int count = 0;
 		for (String field : message.getMessageType().getFieldNames()) {
-			count += serialize(message.getValue(field), message.getMessageType().getFieldType(field), out);
+			count += serialize(message.getValue(field), message
+					.getMessageType().getFieldType(field), out);
 		}
 		return count;
 	}
@@ -780,8 +872,11 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	/**
-	 * Verify if a message with given abbreviated name exists in these definitions
-	 * @param name The name to be searched for
+	 * Verify if a message with given abbreviated name exists in these
+	 * definitions
+	 * 
+	 * @param name
+	 *            The name to be searched for
 	 * @return Whether that message exists in this definition or not
 	 */
 	public boolean messageExists(String name) {
@@ -797,7 +892,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	@Override
-	public String getMessageName(int id){
+	public String getMessageName(int id) {
 		return id_Abbrev.get(id);
 	}
 
@@ -808,7 +903,8 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	@Override
 	public IMCMessage newMessage(int id) throws Exception {
-		return MessageFactory.getInstance().createTypedMessage(getMessageName(id), this);	
+		return MessageFactory.getInstance().createTypedMessage(
+				getMessageName(id), this);
 	}
 
 	@Override
@@ -832,41 +928,47 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	/**
 	 * Create a new message and fills it with given values
-	 * @param name The abbreviated name of the message to be created
-	 * @param values A list of pairs &lt;field,value&gt; for initializing the message. Example:
-	 * <pre>IMCMessage estimatedState = 
-	 *   new IMCMessage("EstimatedState", "x", 10.0, "lat", 0.71, "ref", "NED");
+	 * 
+	 * @param name
+	 *            The abbreviated name of the message to be created
+	 * @param values
+	 *            A list of pairs &lt;field,value&gt; for initializing the
+	 *            message. Example:
+	 * 
+	 *            <pre>
+	 * IMCMessage estimatedState = new IMCMessage(&quot;EstimatedState&quot;, &quot;x&quot;, 10.0, &quot;lat&quot;,
+	 * 		0.71, &quot;ref&quot;, &quot;NED&quot;);
 	 * </pre>
-	 * @return The created message or <strong>null</strong> if the given name is not valid 
+	 * @return The created message or <strong>null</strong> if the given name is
+	 *         not valid
 	 */
-	public IMCMessage create(String name, Object ... values) {
+	public IMCMessage create(String name, Object... values) {
 		if (!messageExists(name))
 			return null;
-		IMCMessage m = MessageFactory.getInstance().createTypedMessage(name, this);
+		IMCMessage m = MessageFactory.getInstance().createTypedMessage(name,
+				this);
 
 		if (m.getMgid() == 65535)
 			m = new IMCMessage(getType(name));
 
 		m.definitions = this;
 
-		for (int i = 0; i < values.length-1; i+=2)
-			m.setValue(values[i].toString(), values[i+1]);
+		for (int i = 0; i < values.length - 1; i += 2)
+			m.setValue(values[i].toString(), values[i + 1]);
 		return m;
 	}
 
-	public <T extends IMCMessage> T create(Class<T> clazz, Object ... values) {
+	public <T extends IMCMessage> T create(Class<T> clazz, Object... values) {
 		try {
 			T m = clazz.getConstructor().newInstance();
-			for (int i = 0; i < values.length-1; i+=2)
-				m.setValue(values[i].toString(), values[i+1]);
+			for (int i = 0; i < values.length - 1; i += 2)
+				m.setValue(values[i].toString(), values[i + 1]);
 			return m;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		}                
+		}
 	}
-
 
 	IMCMessageType createDummyType() {
 		IMCMessageType type = new IMCMessageType();
@@ -878,9 +980,13 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	/**
 	 * Serialize the given message to an IMCOutputStream
-	 * @param m The message to be serialized
-	 * @param os Where to serialize the message
-	 * @throws Exception IO errors
+	 * 
+	 * @param m
+	 *            The message to be serialized
+	 * @param os
+	 *            Where to serialize the message
+	 * @throws Exception
+	 *             IO errors
 	 */
 	public void serialize(IMCMessage m, IMCOutputStream os) throws Exception {
 		m.serialize(this, os);
@@ -899,12 +1005,13 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	/**
 	 * Retrieve this definition's address resolver
+	 * 
 	 * @return This definition's address resolver
 	 */
 	public final IMCAddressResolver getResolver() {
 		return resolver;
 	}
-	
+
 	public Collection<String> subtypesOf(String msgAbbrev) {
 		if (!subTypes.containsKey(msgAbbrev))
 			return new ArrayList<String>();
@@ -912,8 +1019,11 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	/**
-	 * Utility method to retrieve the IMC version of a given file with XML defitions
-	 * @param f The XML file of the IMC definitions (IMC.xml)
+	 * Utility method to retrieve the IMC version of a given file with XML
+	 * defitions
+	 * 
+	 * @param f
+	 *            The XML file of the IMC definitions (IMC.xml)
 	 * @return The version found on the file
 	 */
 	public static String versionOfFile(File f) {
@@ -922,14 +1032,13 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			DocumentBuilder builder = dbf.newDocumentBuilder();
 			Document doc = builder.parse(new FileInputStream(f));
 			Element root = doc.getDocumentElement();
-			return (root.getAttributes().getNamedItem("version").getTextContent());
-		}
-		catch (Exception e) {
+			return (root.getAttributes().getNamedItem("version")
+					.getTextContent());
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-
 
 	public static void main(String[] args) throws Exception {
 		System.out.println(IMCDefinition.getInstance());
