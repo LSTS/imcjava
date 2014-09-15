@@ -45,6 +45,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -898,8 +899,22 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	@Override
 	public Collection<String> getMessageNames() {
-		return abbrev_Id.keySet();
+		return types.keySet();
 	}
+	
+	public Collection<String> getConcreteMessages() {
+		return id_Abbrev.values();
+	}
+	
+	public Collection<String> getAbstractMessages() {
+		LinkedHashSet<String> allMessages = new LinkedHashSet<>();
+		allMessages.addAll(getMessageNames());
+		allMessages.removeAll(getConcreteMessages());
+		
+		return allMessages;
+	}
+	
+	
 
 	@Override
 	public IMCMessage newMessage(int id) throws Exception {

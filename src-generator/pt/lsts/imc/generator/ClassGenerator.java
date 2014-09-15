@@ -89,7 +89,7 @@ public class ClassGenerator {
 		bw.write("\tprivate IMCMessage createTypedMessage(int mgid, IMCDefinition defs) {\n\n");
 
 		bw.write("\t\tswitch(mgid) {\n");
-		for (String msg : definitions.getMessageNames()) {
+		for (String msg : definitions.getConcreteMessages()) {
 			bw.write("\t\t\tcase " + msg + ".ID_STATIC:\n");
 			bw.write("\t\t\t\treturn new " + msg + "(defs);\n");
 		}
@@ -126,6 +126,9 @@ public class ClassGenerator {
 
 		for (String msg : definitions.getMessageNames()) {
 
+			IMCMessageType msgType = definitions.getType(msg);
+			if (msgType.isAbstract())
+				continue;
 			bw.write("\t/**\n");
 			bw.write("\t * Retrieve the last {@link "
 					+ msg
@@ -315,10 +318,10 @@ public class ClassGenerator {
 	public static void generateClasses(String packageName, File outputFolder,
 			IMCDefinition definitions) throws Exception {
 
-//		for (File f : outputFolder.listFiles()) {
-//			f.delete();
-//		}
-	//	outputFolder.delete();
+		// for (File f : outputFolder.listFiles()) {
+		// f.delete();
+		// }
+		// outputFolder.delete();
 
 		generateHeader(packageName, outputFolder, definitions);
 
@@ -981,7 +984,7 @@ public class ClassGenerator {
 
 		for (String field : type.getFieldNames()) {
 			if ("enumerated".equals(type.getFieldUnits(field))) {
-				
+
 				LinkedHashMap<String, Long> enum_vals = type
 						.getFieldMeanings(field);
 
@@ -1061,13 +1064,17 @@ public class ClassGenerator {
 		bw.write("public " + abstractClass + "class " + msgName + superClass
 				+ " {\n\n");
 
-		if (!type.isAbstract())
-			bw.write("\tpublic static final int ID_STATIC = " + type.getId()
-					+ ";\n\n");
-
 		bw.write(generateDefinitions(type, superType));
 
-		if (!type.isAbstract()) {
+		if (type.isAbstract()) {
+			bw.write("\tpublic " + msgName
+					+ "(int type) {\n\t\tsuper(type);\n\t}\n\n");
+			bw.write("\tpublic "
+					+ msgName
+					+ "(IMCDefinition defs, int type) {\n\t\tsuper(defs, type);\n\t}\n\n");
+		} else {
+			bw.write("\tpublic static final int ID_STATIC = " + type.getId()
+					+ ";\n\n");
 			bw.write("\tpublic " + msgName
 					+ "() {\n\t\tsuper(ID_STATIC);\n\t}\n\n");
 			bw.write("\tpublic " + msgName + "(IMCMessage msg) {\n");
@@ -1107,7 +1114,6 @@ public class ClassGenerator {
 
 			bw.write(generateFullConstructor(defs, msgName));
 		}
-
 		for (String field : type.getFieldNames()) {
 			if (superType.getFieldType(field) == null) {
 				bw.write(generateGetters(type, field, true));
