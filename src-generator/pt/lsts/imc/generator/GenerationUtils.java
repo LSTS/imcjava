@@ -45,7 +45,9 @@ public class GenerationUtils {
 		return execCmd("git log -1 --format=%ce", repo).trim();
 	}
 	public static String getGitCommitNote(File repo) throws Exception {
-		return execCmd("git log -1 --format=%B", repo).trim();
+		String log = execCmd("git log -1 --format=%B", repo).trim();
+		return org.apache.commons.lang3.StringEscapeUtils
+				.escapeJava(log);
 	}
 	
 	public static Date getGitCommitDate(File repo) throws Exception {
@@ -90,7 +92,8 @@ public class GenerationUtils {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println(getGitBranch(new File("../imc")));
-		//System.out.println(ImcStringDefs.getDefinitions());
+		
+		System.out.println(org.apache.commons.lang3.StringEscapeUtils
+			.escapeJava(getGitCommit(new File("../imc"))));
 	}
 }
