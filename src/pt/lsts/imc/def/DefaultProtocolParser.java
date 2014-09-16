@@ -95,14 +95,7 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 			enums.putAll(parseDescriptorSection(nlist.item(i)));
 
 		// Global Bit Fields
-		nlist = (NodeList) xPath.evaluate("bitfields", root,
-				XPathConstants.NODESET);
-		for (int i = 0; i < nlist.getLength(); i++)
-			bitfields.putAll(parseDescriptorSection(nlist.item(i)));
-
-		// Continue to support old IMC definition bit mask (instead of bit
-		// field)
-		nlist = (NodeList) xPath.evaluate("bitmasks", root,
+		nlist = (NodeList) xPath.evaluate("bitfields|bitmasks", root,
 				XPathConstants.NODESET);
 		for (int i = 0; i < nlist.getLength(); i++)
 			bitfields.putAll(parseDescriptorSection(nlist.item(i)));
