@@ -39,6 +39,7 @@ public class PlanStatistics extends IMCMessage {
 	public static final short PRP_NONLINEAR = 0x01;
 	public static final short PRP_INFINITE = 0x02;
 	public static final short PRP_CYCLICAL = 0x04;
+	public static final short PRP_ALL = 0x07;
 
 	public enum TYPE {
 		PREPLAN(0),

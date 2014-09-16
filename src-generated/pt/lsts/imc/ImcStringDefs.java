@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "be72e410b53b3b65f02972c3e719228f550584f1";
-	public static final String IMC_BRANCH = "2014-09-11 be72e41 (HEAD)";
-	public static final String IMC_COMMIT = "Pedro Calado (pdcalado@gmail.com), Thu Sep 11 12:04:25 WEST 2014, Added message Plan Statistics.";
+	public static final String IMC_SHA = "1ac4134941bf67ab34f22e7654d0cbb18baa9e05";
+	public static final String IMC_BRANCH = "2014-09-16 1ac4134 (HEAD)";
+	public static final String IMC_COMMIT = "Pedro Calado (pdcalado@gmail.com), Tue Sep 16 15:01:31 WEST 2014, Merge branch 'feature/plan_statistics'";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -167,7 +167,6 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("ntnu-penguin-004", 3396);
 		IMC_ADDRESSES.put("ccu-lsts-1-1", 16641);
 		IMC_ADDRESSES.put("ccu-zp-1-106", 16746);
-		IMC_ADDRESSES.put("ccu-meg-2-130", 17026);
 		IMC_ADDRESSES.put("ccu-pitvant-laptop-01-1-10", 16650);
 		IMC_ADDRESSES.put("ccu-lsts-0-108", 16492);
 		IMC_ADDRESSES.put("broadcast", 65520);
@@ -7142,6 +7141,11 @@ public class ImcStringDefs {
 		sb.append("      <value id=\"0x04\" name=\"Cyclical\" abbrev=\"CYCLICAL\">\n");
 		sb.append("        <description>\n");
 		sb.append("          Plan is cyclical.\n");
+		sb.append("        </description>\n");
+		sb.append("      </value>\n");
+		sb.append("      <value id=\"0x07\" name=\"All\" abbrev=\"ALL\">\n");
+		sb.append("        <description>\n");
+		sb.append("\t  All properties checked.\n");
 		sb.append("        </description>\n");
 		sb.append("      </value>\n");
 		sb.append("    </field>\n");
