@@ -39,10 +39,6 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.Vector;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-
 import pt.lsts.imc.types.PlanSpecificationAdapter;
 
 /**
@@ -152,25 +148,6 @@ public class IMCUtil {
 
     }
 
-    /**
-     * Shows a JFC/Swing frame with the HTML of the given image 
-     * @param message The message to be debugged
-     * @param title The title to use for the JFC/Swing frame
-     */
-    public static void debug(IMCMessage message, String title) {
-        JFrame frame = new JFrame(title);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
-        JLabel lbl = new JLabel(getAsHtml(message));
-        frame.setState(JFrame.MAXIMIZED_BOTH);
-        frame.getContentPane().add(new JScrollPane(lbl));
-        frame.setSize(500, 700);
-        frame.setVisible(true);
-    }
-    
-    public static void debug(IMCMessage message) {
-    	debug(message, "Debugging "+message.getAbbrev());
-    }
-    
     public static void dumpAsHex(IMCMessage msg, int bytesPerLine) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         IMCOutputStream ios = new IMCOutputStream(baos);

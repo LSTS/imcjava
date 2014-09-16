@@ -37,11 +37,10 @@ import java.util.Map;
 import java.util.Vector;
 
 import pt.lsts.imc.Goto;
+import pt.lsts.imc.Goto.Z_UNITS;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
-import pt.lsts.imc.IMCUtil;
 import pt.lsts.imc.PlanSpecification;
-import pt.lsts.imc.Goto.Z_UNITS;
 
 /**
  * This class holds a PlanSpecification data structure that is independent of IMC version
@@ -468,7 +467,6 @@ public class PlanSpecificationAdapter implements IMessageAdapter {
         		);
     			plan.addTransition("Goto1", "Goto2", "ManeuverIsDone", null);
 
-        IMCUtil.debug(plan.getData(IMCDefinition.getInstance()),     "IMC Plan");
     }
 
     public class Transition {

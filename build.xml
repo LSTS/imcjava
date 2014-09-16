@@ -13,7 +13,7 @@
   </path>
 
   <target name="compile-test" depends="compile-all">
-    <javac encoding="UTF-8" srcdir="src-junit" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+    <javac encoding="UTF-8" srcdir="src-junit" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
       <classpath refid="classpath.test"/>
     </javac>
   </target>
@@ -49,6 +49,7 @@
 
   </target>
 
+  
   <target name="compile">
     <mkdir dir="build"/>
     <delete dir="build"/>
@@ -57,14 +58,12 @@
       <fileset dir="src" includes="**/*.xml"/>
       <fileset dir="src" includes="**/*.png"/>
     </copy>
-    <javac encoding="UTF-8" srcdir="src;src-generated"  destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
-    </javac>
-    <javac encoding="UTF-8" srcdir="src-merge" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+    <javac encoding="UTF-8" srcdir="src;src-generated"  destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
     </javac>
   </target>
-
-  <target name="compile-all" depends="compile, compile-sniffer, compile-teleop, compile-preview">
-    <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+  
+  <target name="compile-all" depends="compile-merge, compile-gui, compile-sniffer, compile-teleop, compile-preview">
+    <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
     </javac>
     <copy todir="build">
       <fileset dir="src" includes="**/*.xml"/>
@@ -72,23 +71,34 @@
     </copy>
   </target>
 
+  <target name="compile-merge" depends="compile">
+	<javac encoding="UTF-8" srcdir="src-merge" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
+	</javac>
+  </target>
+
+  <target name="compile-gui" depends="compile">
+	<javac encoding="UTF-8" srcdir="src-gui" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
+	</javac>
+  </target>	
+
+
   <target name="compile-generator" depends="compile">
     <mkdir dir="build"/>
-    <javac encoding="UTF-8" srcdir="src-generator" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/commons-lang3-3.1.jar">
+    <javac encoding="UTF-8" srcdir="src-generator" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/commons-lang3-3.1.jar">
     </javac>
   </target>
 
-  <target name="compile-sniffer" depends="compile">
+  <target name="compile-sniffer" depends="compile, compile-gui">
     <mkdir dir="build"/>
     <copy todir="build">
       <fileset dir="src-sniffer" includes="**/*.png"/>
     </copy>
-    <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
+    <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
     </javac>
   </target>
 
   <target name="compile-preview" depends="compile">
-    <javac encoding="UTF-8" srcdir="src-lsfpreview" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
+    <javac encoding="UTF-8" srcdir="src-lsfpreview" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
     </javac>
   </target>
 
@@ -113,21 +123,21 @@
     <echo message="The file 'dist/teleop.jar' was generated"/>
   </target>
 
-  <target name="compile-teleop" depends="compile">
+  <target name="compile-teleop" depends="compile, compile-gui">
     <mkdir dir="build"/>
-    <javac encoding="UTF-8" debug="true" srcdir="src-teleop" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+    <javac encoding="UTF-8" debug="true" srcdir="src-teleop" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
     </javac>
   </target>
 
   <target name="compile-kraken" depends="compile">
     <mkdir dir="build"/>
-    <javac encoding="UTF-8" debug="true" srcdir="src-scripting" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/js.jar">
+    <javac encoding="UTF-8" debug="true" srcdir="src-scripting" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/js.jar">
     </javac>
   </target>
 
   <target name="compile-controllers" depends="compile">
     <mkdir dir="build"/>
-    <javac encoding="UTF-8" debug="true" srcdir="src-controllers" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false">
+    <javac encoding="UTF-8" debug="true" srcdir="src-controllers" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
     </javac>
   </target>
 
@@ -239,16 +249,14 @@
     <echo message="The file 'dist/libimc.jar' was generated"/>
   </target>
 
-  <target name="generated" description="Generate java code for given IMC protocol (git repository).">
-    <antcall target="compile"/>
-  	
+  <target name="generated" description="Generate java code for given IMC protocol (git repository)." depends="compile">
    	<input
    	    message="Path to IMC repository:"
    		defaultvalue="../imc"
    	    addproperty="imc.dir"
   	  />
   	
-    <javac encoding="UTF-8" classpath="lib/commons-lang3-3.1.jar" srcdir="src-generator"  destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" />
+    <javac encoding="UTF-8" classpath="lib/commons-lang3-3.1.jar" srcdir="src-generator"  destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" />
     
   	<java classname="pt.lsts.imc.generator.ClassGenerator" args="${imc.dir}" classpath="build;lib/commons-lang3-3.1.jar" />
   </target>
@@ -304,7 +312,7 @@
 
 
   <target name="ripples" description="Create ripples.jar" depends="compile">
-    <javac encoding="UTF-8" debug="true" srcdir="src-ripples" destdir="build" target="1.5" source="1.5" includes="**/*.java" fork="false" classpath="lib/firebase-client-jvm-LATEST.jar">
+    <javac encoding="UTF-8" debug="true" srcdir="src-ripples" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/firebase-client-jvm-LATEST.jar">
     </javac>
     <unjar src="lib/firebase-client-jvm-LATEST.jar" dest="build"/>
 
@@ -315,7 +323,7 @@
     </jar>
   </target>
 
-  <target name="lsf2llf" description="Create a program for extracting and simplifying lsf files" depends="compile">
+  <target name="lsf2llf" description="Create a program for extracting and simplifying lsf files" depends="compile, compile-gui">
     <jar destfile="dist/lsf2llf.jar" basedir="build" index="true">
       <manifest>
         <attribute name="Main-Class" value="pt.lsts.imc.llf.LSF2LLF"/>
