@@ -49,8 +49,6 @@ import java.util.LinkedHashMap;
 import java.util.TimeZone;
 import java.util.Vector;
 
-import javax.swing.JFileChooser;
-
 import pt.lsts.imc.Announce;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCFieldType;
@@ -243,15 +241,6 @@ public class LsfIndex {
         load(lsfFile, defs);
     }
     
-    public static LsfIndex OpenLsfDialog() throws Exception {
-    	JFileChooser chooser = new JFileChooser();
-    	int op = chooser.showOpenDialog(null);
-    	if (op != JFileChooser.APPROVE_OPTION)
-    		return null;
-    	System.out.println(chooser.getSelectedFile());
-    	return new LsfIndex(chooser.getSelectedFile());
-    }
-
     protected void loadIndex() throws Exception {
         checkIndex();
         new File(lsfFile.getParent(), "mra").mkdirs();
