@@ -234,7 +234,7 @@
     <echo message="The file 'dist/imc-full.jar' was generated"/>
   </target>
 
-  <target name="libimc.jar" depends="gitinfo,compile,copysrc,copylicense,copygenerated" description="Generates neptus-compatible library (with bundled source).">
+  <target name="libimc.jar" depends="gitinfo,compile,compile-gui,compile-merge,copysrc,copylicense,copygenerated" description="Generates neptus-compatible library (with bundled source).">
     <tstamp>
       <format property="time" pattern="yyyy-MM-dd HH:mm:ss"/>
     </tstamp>
