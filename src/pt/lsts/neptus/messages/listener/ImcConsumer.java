@@ -1,8 +1,6 @@
 package pt.lsts.neptus.messages.listener;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -82,36 +80,7 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 		}
 	}
 
-	public static Itf create(final Object pojo) {
-
-		return (Itf) Proxy.newProxyInstance(pojo.getClass().getClassLoader(),
-				new Class<?>[] { ImcConsumer.Itf.class },
-				new InvocationHandler() {
-
-					ImcConsumer consumer = new ImcConsumer(pojo);
-
-					@Override
-					public Object invoke(Object proxy, Method method,
-							Object[] args) throws Throwable {
-
-						if (method.getName().equals("onMessage")
-								&& args.length == 2) {
-							consumer.onMessage((MessageInfo) args[0],
-									(IMCMessage) args[1]);
-							return null;
-						} else {
-							return consumer.getClass()
-									.getMethod(method.getName(),
-											method.getParameterTypes())
-									.invoke(consumer, args);
-						}
-					}
-				});
-	}
-
-	public static interface Itf extends
-			MessageListener<MessageInfo, IMCMessage> {
-
-		public Collection<String> getTypesToListen();
+	public static ImcConsumer create(final Object pojo) {
+		return new ImcConsumer(pojo);
 	}
 }

@@ -172,9 +172,9 @@ public class IMCProtocol implements IMessageBus {
                         port = 30100;
                 }
                 else
-                    break;
-                System.out.println("[IMCTransport] Announcer thread bound to port " + port + "...");
+                    break;                
             }
+            System.out.println("[IMCProtocol] Discovery thread bound to port " + port + "...");
 
             discovery.addMessageListener(messageListener);
 
@@ -340,12 +340,12 @@ public class IMCProtocol implements IMessageBus {
         return false;
     }
     
-    private LinkedHashMap<Object, ImcConsumer.Itf> pojoSubscribers = new LinkedHashMap<Object, ImcConsumer.Itf>();
+    private LinkedHashMap<Object, ImcConsumer> pojoSubscribers = new LinkedHashMap<Object, ImcConsumer>();
     
     public void register(Object consumer) {
     	unregister(consumer);
     	
-    	ImcConsumer.Itf listener = ImcConsumer.create(consumer);
+    	ImcConsumer listener = ImcConsumer.create(consumer);
     	
     	if (listener.getTypesToListen() == null)
     		addMessageListener(listener, new ArrayList<String>());
