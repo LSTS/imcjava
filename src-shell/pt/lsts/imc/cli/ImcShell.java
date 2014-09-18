@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -80,7 +82,16 @@ public class ImcShell {
 		vars.put(name, m);
 	}
 
+	private Pattern scriptedVars = Pattern.compile(".*\\$\\{(.*)\\}.*");
+	
 	private Object valueOf(String expr) {
+		Matcher matcher = scriptedVars.matcher(expr);
+		while (matcher.matches()) {
+			String inner = matcher.group(1);
+			expr = expr.replaceFirst("\\$\\{"+inner+"\\}", ""+valueOf(inner));
+			matcher = scriptedVars.matcher(expr);
+		}
+		
 		if (vars.containsKey(expr))
 			return vars.get(expr);
 		else if (expr.contains("/")
