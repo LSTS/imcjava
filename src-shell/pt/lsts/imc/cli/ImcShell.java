@@ -1,6 +1,5 @@
 package pt.lsts.imc.cli;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -30,7 +29,11 @@ public class ImcShell {
 	private UDPTransport transport = new UDPTransport();
 	private IMCProtocol proto = null;
 	private Shell reference = null;
-	
+	ScriptEngineManager mgr = new ScriptEngineManager();
+
+	public ImcShell() {
+	}
+
 	@Consume
 	public void onMessage(IMCMessage m) {
 		vars.put(m.getSourceName() + "." + m.getAbbrev(), m);
@@ -45,6 +48,11 @@ public class ImcShell {
 	@Command(abbrev = "print", description = "Print the value of a message in the environment")
 	public void print(
 			@Param(name = "expr", description = "The name of the message to be printed or a value in the form <message>[/<field>]+") String msg) {
+
+		if (msg.matches("`(.*)`")) {
+			System.out.println(valueOf(msg.substring(1, msg.length() - 1)));
+			return;
+		}
 
 		if (msg.contains("/")) {
 			String[] parts = msg.split("\\/");
@@ -83,15 +91,15 @@ public class ImcShell {
 	}
 
 	private Pattern scriptedVars = Pattern.compile(".*\\$\\{(.*)\\}.*");
-	
+
 	private Object valueOf(String expr) {
 		Matcher matcher = scriptedVars.matcher(expr);
 		while (matcher.matches()) {
 			String inner = matcher.group(1);
-			expr = expr.replaceFirst("\\$\\{"+inner+"\\}", ""+valueOf(inner));
+			expr = expr.replaceFirst("\\$\\{" + inner + "\\}", ""
+					+ valueOf(inner));
 			matcher = scriptedVars.matcher(expr);
 		}
-		
 		if (vars.containsKey(expr))
 			return vars.get(expr);
 		else if (expr.contains("/")
@@ -110,11 +118,17 @@ public class ImcShell {
 				return null;
 			}
 		} else {
-			ScriptEngineManager mgr = new ScriptEngineManager();
-			ScriptEngine engine = mgr.getEngineByName("JavaScript");
 			try {
+				ScriptEngine engine = mgr.getEngineByName("JavaScript");
+				// Only required for Java 8
+				try {
+					engine.eval("load(\"nashorn:mozilla_compat.js\");");
+				} catch (Exception e) {
+				}
+
 				return engine.eval(expr);
 			} catch (Exception e) {
+				e.printStackTrace();
 				return null;
 			}
 		}
@@ -122,6 +136,7 @@ public class ImcShell {
 
 	private void setValue(IMCMessage m, String field, String value)
 			throws Exception {
+
 		String fieldType = m.getTypeOf(field);
 		if (fieldType == null) {
 			throw new Exception("The field '" + field + "' is not valid.");
@@ -138,7 +153,14 @@ public class ImcShell {
 		case "uint16_t":
 		case "uint32_t":
 			try {
-				long uval = Long.parseLong(value);
+				int uradix = 10;
+
+				if (value.startsWith("0x") || value.startsWith("0X")) {
+					value = value.substring(2);
+					uradix = 16;
+				}
+
+				long uval = Long.parseLong(value, uradix);
 				if (uval < 0)
 					throw new Exception("The value of '" + field + "' ("
 							+ fieldType + ") is not valid.");
@@ -159,7 +181,14 @@ public class ImcShell {
 		case "int32_t":
 		case "int64_t":
 			try {
-				long lval = Long.parseLong(value);
+				int lradix = 10;
+
+				if (value.startsWith("0x") || value.startsWith("0X")) {
+					value = value.substring(2);
+					lradix = 16;
+				}
+
+				long lval = Long.parseLong(value, lradix);
 				m.setValue(field, lval);
 			} catch (NumberFormatException e) {
 				if (m.getMessageType().getFieldPossibleValues(field) != null
@@ -245,6 +274,10 @@ public class ImcShell {
 		}
 		for (int i = 0; i < args.length; i++) {
 			String[] parts = args[i].split("=");
+			if (parts.length != 2) {
+				throw new Exception("Malformed field attribution expression: '"
+						+ args[i] + "'.");
+			}
 			String field = parts[0].trim();
 			String value = parts[1].trim();
 			setValue(m, field, value);
@@ -296,10 +329,10 @@ public class ImcShell {
 			throw new Exception(
 					"There is no message in the environment named '" + message
 							+ "'.");
-		
+
 		IMCMessage msg = vars.get(message);
 		transport.sendMessage(host, port, vars.get(message));
-		LsfMessageLogger.log(msg);		
+		LsfMessageLogger.log(msg);
 	}
 
 	@Command(abbrev = "copy", description = "Create a copy of a message in the environment")
@@ -332,27 +365,34 @@ public class ImcShell {
 				try {
 					System.out.println(instrs[j]);
 					reference.processLine(instrs[j]);
-				}
-				catch (Exception e) {
-					System.err.println(e.getClass().getSimpleName()+": "+e.getMessage());
+				} catch (Exception e) {
+					System.err.println(e.getClass().getSimpleName() + ": "
+							+ e.getMessage());
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * @param reference the reference to set
+	 * @param reference
+	 *            the reference to set
 	 */
 	public void setReference(Shell reference) {
 		this.reference = reference;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		ImcShell imcShell = new ImcShell();
 		Shell shell = ShellFactory.createConsoleShell("?", "IMC Shell",
 				imcShell);
 		imcShell.setReference(shell);
-		
+		shell.setDisplayTime(true);
+
+		if (args.length == 1) {
+			shell.processLine("!rs " + args[0]);
+			Thread.sleep(1000);
+			return;
+		}
 		System.out.println("Using IMC v"
 				+ IMCDefinition.getInstance().getVersion() + " ("
 				+ ImcStringDefs.IMC_SHA
