@@ -81,6 +81,11 @@
 	</javac>
   </target>	
 
+  <target name="compile-shell" depends="compile">
+  	<unjar src="lib/asg.cliche-110413.jar" dest="build"/>
+	<javac encoding="UTF-8" srcdir="src-shell" destdir="build" includes="**/*.java" fork="false">
+	</javac>
+  </target>
 
   <target name="compile-generator" depends="compile">
     <mkdir dir="build"/>
@@ -335,5 +340,12 @@
       <arg value="dist/lsf2llf.jar"/>
     </exec>
   </target>
-
+	
+  <target name="ImcShell.jar" description="Create ImcShell program (as executable jar)" depends="compile, compile-shell">
+    <jar destfile="dist/ImcShell.jar" basedir="build" index="true">
+        <manifest>
+          <attribute name="Main-Class" value="pt.lsts.imc.cli.ImcShell"/>
+        </manifest>
+      </jar>
+  </target>
 </project>
