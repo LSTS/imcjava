@@ -30,19 +30,19 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Navigation Reset (359)<br/>
- *  Request a navigation reset.<br/>
+ *  IMC Message Rhodamine Dye (285)<br/>
+ *  Rhodamine Dye measurement.<br/>
  */
 
-public class NavigationReset extends IMCMessage {
+public class RhodamineDye extends IMCMessage {
 
-	public static final int ID_STATIC = 359;
+	public static final int ID_STATIC = 285;
 
-	public NavigationReset() {
+	public RhodamineDye() {
 		super(ID_STATIC);
 	}
 
-	public NavigationReset(IMCMessage msg) {
+	public RhodamineDye(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -52,20 +52,20 @@ public class NavigationReset extends IMCMessage {
 		}
 	}
 
-	public NavigationReset(IMCDefinition defs) {
+	public RhodamineDye(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static NavigationReset create(Object... values) {
-		NavigationReset m = new NavigationReset();
+	public static RhodamineDye create(Object... values) {
+		RhodamineDye m = new RhodamineDye();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static NavigationReset clone(IMCMessage msg) throws Exception {
+	public static RhodamineDye clone(IMCMessage msg) throws Exception {
 
-		NavigationReset m = new NavigationReset();
+		RhodamineDye m = new RhodamineDye();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -78,6 +78,26 @@ public class NavigationReset extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public RhodamineDye(float value) {
+		super(ID_STATIC);
+		setValue(value);
+	}
+
+	/**
+	 *  @return Value (ppb) - fp32_t
+	 */
+	public double getValue() {
+		return getDouble("value");
+	}
+
+	/**
+	 *  @param value Value (ppb)
+	 */
+	public RhodamineDye setValue(double value) {
+		values.put("value", value);
+		return this;
 	}
 
 }
