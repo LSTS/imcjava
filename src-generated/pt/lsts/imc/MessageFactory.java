@@ -76,6 +76,12 @@ public class MessageFactory {
 				return new QueryEntityActivationState(defs);
 			case VehicleOperationalLimits.ID_STATIC:
 				return new VehicleOperationalLimits(defs);
+			case EntityActivationLock.ID_STATIC:
+				return new EntityActivationLock(defs);
+			case EntityStatus.ID_STATIC:
+				return new EntityStatus(defs);
+			case QueryEntityStatus.ID_STATIC:
+				return new QueryEntityStatus(defs);
 			case MsgList.ID_STATIC:
 				return new MsgList(defs);
 			case SimulatedState.ID_STATIC:
