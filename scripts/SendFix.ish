@@ -1,0 +1,18 @@
+#!/usr/bin/imcshell
+
+# Create an empty LBL configuration
+create lblConfig LblConfig
+print "`'Sending empty LblConfig to localhost'`"
+send localhost 6002 lblConfig
+
+# Create a GPS fix message to initialize the simulator (also passing it the current time)
+create gps GpsFix validity=0xFFFF type=MANUAL_INPUT height=0 satellites=4 hdop=1 vdop=1 hacc=2 vacc=2
+change gps "utc_year=`new Date().getUTCFullYear()`"
+change gps "utc_month=`new Date().getUTCMonth()+1`"
+change gps "utc_day=`new Date().getUTCDate()`"
+change gps "utc_time=`new Date().getUTCHours()*3600+new Date().getUTCMinutes()*60+new Date().getUTCSeconds()`"
+change gps "lat=`41.185 * (Math.PI / 180)`"
+change gps "lon=`-8.706 * (Math.PI / 180)`"
+
+print "`'Sending fix to localhost'`"
+send localhost 6002 gps

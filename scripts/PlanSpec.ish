@@ -1,0 +1,29 @@
+#!/usr/bin/imcshell
+
+# Create 2 Goto maneuvers
+create g1 Goto lat=`41.185*(Math.PI/180)` lon=`-8.705*(Math.PI/180)` z=2 z_units=DEPTH speed=1.2
+create g2 Goto lat=`41.184*(Math.PI/180)` lon=`-8.706*(Math.PI/180)` z=2 z_units=DEPTH speed=1.2
+
+# Create a wrapping PlanManeuver message for each of the maneuvers
+create p1 PlanManeuver maneuver_id="g1" data=g1
+create p2 PlanManeuver maneuver_id="g2" data=g2
+
+# Create two transitions (resulting in a cyclic plan)
+create t1 PlanTransition source_man="g1" dest_man="g2" conditions="maneuverIsDone"
+create t2 PlanTransition source_man="g2" dest_man="g1" conditions="maneuverIsDone"
+
+# Create the plan specification by passing the maneuvers and transitions created
+create spec PlanSpecification maneuvers=[p1,p2] transitions=[t1,t2] start_man_id="g1" plan_id="cyclic_apdl"
+
+# Create a PlanDB message to command the vehicle to load the plan
+create pdb PlanDB type=REQUEST op=SET request_id=1 plan_id="cyclic_apdl" arg=spec
+send localhost 6002 pdb
+
+# Wait for 1 second
+print "`'Waiting for one second...'`"
+sleep 1
+
+# Request execution of the sent plan
+create pc PlanControl type=REQUEST op=START flags=0 plan_id="cyclic_apdl"
+send localhost 6002 pc
+print "`'Done!'`"

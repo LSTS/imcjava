@@ -1,5 +1,8 @@
 package pt.lsts.imc.cli;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -386,13 +389,20 @@ public class ImcShell {
 		Shell shell = ShellFactory.createConsoleShell("?", "IMC Shell",
 				imcShell);
 		imcShell.setReference(shell);
-		shell.setDisplayTime(true);
 
-		if (args.length == 1) {
-			shell.processLine("!rs " + args[0]);
-			Thread.sleep(1000);
+		if (args.length == 1 && new File(args[0]).canRead()) {
+			BufferedReader reader = new BufferedReader(new FileReader(new File(
+					args[0])));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				if (line.startsWith("#") || line.trim().isEmpty())
+					continue;
+				shell.processLine(line);
+			}
+			reader.close();
 			return;
 		}
+		shell.setDisplayTime(true);
 		System.out.println("Using IMC v"
 				+ IMCDefinition.getInstance().getVersion() + " ("
 				+ ImcStringDefs.IMC_SHA
