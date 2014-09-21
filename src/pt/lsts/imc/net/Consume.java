@@ -15,6 +15,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Consume {
-	public String Source() default "";
-	public String Entity() default "";
+	public String[] Source() default "";
+	public String[] Entity() default "";
 }

@@ -41,6 +41,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -54,8 +55,8 @@ import pt.lsts.neptus.messages.listener.MessageListener;
 
 public class UDPTransport {
 
-    LinkedHashMap<MessageListener<MessageInfo, IMCMessage>, Vector<Integer>> messageListeners = new LinkedHashMap<MessageListener<MessageInfo, IMCMessage>, Vector<Integer>>();
-    LinkedHashMap<Integer, Vector<MessageListener<MessageInfo, IMCMessage>>> messagesListened = new LinkedHashMap<Integer, Vector<MessageListener<MessageInfo, IMCMessage>>>();
+    LinkedHashMap<MessageListener<MessageInfo, IMCMessage>, HashSet<Integer>> messageListeners = new LinkedHashMap<MessageListener<MessageInfo, IMCMessage>, HashSet<Integer>>();
+    LinkedHashMap<Integer, HashSet<MessageListener<MessageInfo, IMCMessage>>> messagesListened = new LinkedHashMap<Integer, HashSet<MessageListener<MessageInfo, IMCMessage>>>();
 
     private final LinkedBlockingQueue<MessagePacket> receptions = new LinkedBlockingQueue<MessagePacket>(100);
     private final LinkedBlockingQueue<SendRequest> sendmessageList = new LinkedBlockingQueue<SendRequest>(100);
@@ -705,12 +706,12 @@ public class UDPTransport {
 
 
     public void addMessageListener(MessageListener<MessageInfo, IMCMessage> l, Collection<Integer> typesToListen) {
-        Vector<Integer> types = new Vector<Integer>();
+    	HashSet<Integer> types = new HashSet<Integer>();
         types.addAll(typesToListen);
 
         for (int id : typesToListen) {
             if (!messagesListened.containsKey(id))
-                messagesListened.put(id, new Vector<MessageListener<MessageInfo, IMCMessage>>());
+                messagesListened.put(id, new HashSet<MessageListener<MessageInfo, IMCMessage>>());
             messagesListened.get(id).add(l);
         }		
 
@@ -731,12 +732,12 @@ public class UDPTransport {
     }
 
     public void addMessageListener(MessageListener<MessageInfo, IMCMessage> l) {
-        messageListeners.put(l, new Vector<Integer>()); // empty means all
+        messageListeners.put(l, new HashSet<Integer>()); // empty means all
         for (String s : getDefinition().getMessageNames()) {
             try {
                 int id = getDefinition().getMessageId(s);
                 if (!messagesListened.containsKey(id))
-                    messagesListened.put(id, new Vector<MessageListener<MessageInfo, IMCMessage>>());
+                    messagesListened.put(id, new HashSet<MessageListener<MessageInfo, IMCMessage>>());
                 messagesListened.get(id).add(l);
             }
             catch (Exception e) {

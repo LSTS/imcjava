@@ -1,50 +1,36 @@
 package pt.lsts.imc.net;
 
-import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 
+/**
+ * This class can be extended by stand-alone programs that want to interface with
+ * an IMC network
+ * 
+ * @author zp
+ *
+ */
 public class SimpleAgent {
 
+	private Thread t = null;
 	private IMCProtocol proto;
-
-	public SimpleAgent() {
+	{
 		String name = getClass().getSimpleName();
-		
 		proto = new IMCProtocol(name, name.hashCode() % 100 + 6200);
 		proto.register(this);
-		Thread t = new Thread() {
-			public void run() {
-				while(true) {
-					try {
-						Thread.sleep(1000);
-					}
-					catch(Exception e) {
-						e.printStackTrace();
-					}
-				}
-			};
-		};
-		t.start();
 	}
 
 	public boolean send(String destination, IMCMessage m) {
-		return proto.sendMessage(destination, m);
-	}
-	
-	public String resolve(int imcId) {
-		return IMCDefinition.getInstance().getResolver().resolve(imcId);
-	}
-	
-	public String resolve(int imcId, int entity) {
-		return IMCDefinition.getInstance().getResolver()
-				.resolveEntity(imcId, entity);
+		return proto.sendMessage(destination, m);		
 	}
 
 	public void stop() {
 		proto.stop();
+		if (t != null)
+			t.interrupt();
 	}
 
 	public static void main(String[] args) {
 		new SimpleAgent();
 	}
+
 }

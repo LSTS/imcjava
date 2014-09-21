@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.Random;
 import java.util.Vector;
 
 import pt.lsts.imc.Announce;
@@ -56,19 +57,7 @@ import pt.lsts.util.NetworkUtilities;
 
 /**
  * This class implements the IMC protocol allowing sending / receiving messages
- * and also discovery of IMC peers <br/>
- * <br/>
- * Example - wait until seacon-2 sends an EstimatedState message and print it to
- * the screen:
- * 
- * <pre>
- * IMCProtocol imc = new IMCProtocol(6001);
- * ImcSysState seacon2 = imc.state(&quot;lauv-seacon-2&quot;);
- * EstimatedState state = seacon2.pollEstimatedState(30000);
- * if (state != null)
- * 	state.dump(System.out);
- * </pre>
- * 
+ * and also discovery of IMC peers
  * @author zp
  */
 public class IMCProtocol implements IMessageBus {
@@ -77,10 +66,9 @@ public class IMCProtocol implements IMessageBus {
 	protected UDPTransport comms;
 	protected LinkedHashMap<Integer, IMCNode> announces = new LinkedHashMap<Integer, IMCNode>();
 	protected int bindPort = 7001;
-	protected short localId = (short) System.getProperty("user.name")
-			.hashCode();
 	protected LinkedHashMap<String, ImcSysState> sysStates = new LinkedHashMap<String, ImcSysState>();
 	protected String localName = "imcj_" + System.currentTimeMillis() / 500;
+	protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
 	private ImcConsumer listener = ImcConsumer.create(this);
 
 	@Consume
@@ -102,6 +90,10 @@ public class IMCProtocol implements IMessageBus {
 					"EntityList")) {
 				sendMessage(msg.getSysName(),
 						new EntityList().setOp(OP.QUERY));
+			}
+			else {
+				sendMessage(msg.getSysName(),
+						new Heartbeat());
 			}
 		}
 	}
@@ -160,10 +152,6 @@ public class IMCProtocol implements IMessageBus {
 	}
 
 	private Thread discoveryThread = new Thread() {
-		{
-			setDaemon(true);
-		}
-
 		public void run() {
 
 			int port = 30100;
@@ -180,8 +168,6 @@ public class IMCProtocol implements IMessageBus {
 			}
 			System.out.println("[IMCProtocol] Discovery thread bound to port "
 					+ port + ".");
-
-			discovery.addMessageListener(listener);
 
 			final Announce announce = buildAnnounce();
 
@@ -241,6 +227,8 @@ public class IMCProtocol implements IMessageBus {
 		IMCDefinition.getInstance();
 		this.bindPort = localPort;
 		comms = new UDPTransport(bindPort, 1);
+		comms.setImcId(localId);
+		
 		this.localName = localName;
 		discoveryThread.start();
 
@@ -251,14 +239,7 @@ public class IMCProtocol implements IMessageBus {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		addMessageListener(new MessageListener<MessageInfo, IMCMessage>() {
-
-			@Override
-			public void onMessage(MessageInfo info, IMCMessage msg) {
-				listener.onMessage(info, msg);
-				post(msg);
-			}
-		});
+		addMessageListener(listener);
 	}
 
 	/**
@@ -528,6 +509,7 @@ public class IMCProtocol implements IMessageBus {
 
 	public static void main(String[] args) throws Exception {
 
+		 
 		IMCProtocol proto = new IMCProtocol(7001);
 		proto.register(new Object() {
 
@@ -539,5 +521,7 @@ public class IMCProtocol implements IMessageBus {
 		});
 
 		Thread.sleep(30000);
+		
+		proto.stop();
 	}
 }

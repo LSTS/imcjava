@@ -2,9 +2,11 @@ package pt.lsts.neptus.messages.listener;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
@@ -13,6 +15,9 @@ import pt.lsts.imc.net.Consume;
 public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 
 	private LinkedHashMap<Class<?>, ArrayList<Method>> consumeMethods = new LinkedHashMap<Class<?>, ArrayList<Method>>();
+	private LinkedHashMap<Method, List<String>> sources = new LinkedHashMap<Method, List<String>>();
+	private LinkedHashMap<Method, List<String>> entities = new LinkedHashMap<Method, List<String>>();
+	
 	private Object pojo;
 
 	private ImcConsumer(Object pojo) {
@@ -41,7 +46,19 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 				}
 				if (!m.isAccessible())
 					m.setAccessible(true);
+				
+				
 				consumeMethods.get(c).add(m);
+				
+				Consume annotation = m.getAnnotation(Consume.class);
+				
+				List<String> srcs = Arrays.asList(annotation.Source());
+				if (srcs.size() != 1 || !srcs.get(0).isEmpty())
+					sources.put(m, srcs);
+				List<String> ents = Arrays.asList(annotation.Entity());
+				if (ents.size() != 1 || !ents.get(0).isEmpty())
+					entities.put(m, ents);
+				
 			}
 		}
 	}
@@ -73,6 +90,10 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 		}
 
 		for (Method method : consumers) {
+			if (sources.containsKey(method) && ! sources.get(method).contains(m.getSourceName()))
+				continue;
+			if (entities.containsKey(method) && ! entities.get(method).contains(m.getEntityName()))
+				continue;
 			try {
 				method.invoke(pojo, m);
 			} catch (Exception e) {
