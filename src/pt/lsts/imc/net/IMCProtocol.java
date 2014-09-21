@@ -51,7 +51,6 @@ import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.lsf.LsfIndex;
 import pt.lsts.imc.state.ImcSysState;
-import pt.lsts.neptus.messages.listener.Consume;
 import pt.lsts.neptus.messages.listener.ImcConsumer;
 import pt.lsts.neptus.messages.listener.MessageInfo;
 import pt.lsts.neptus.messages.listener.MessageListener;
@@ -152,9 +151,8 @@ public class IMCProtocol implements IMessageBus {
         
         return announce;
     }
-
+    
     private Thread discoveryThread = new Thread() {
-
     	{
     		setDaemon(true);
     	}

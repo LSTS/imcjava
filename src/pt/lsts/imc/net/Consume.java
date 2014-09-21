@@ -1,7 +1,7 @@
 /**
  * 
  */
-package pt.lsts.neptus.messages.listener;
+package pt.lsts.imc.net;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

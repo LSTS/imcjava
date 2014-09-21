@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.net.Consume;
 
 public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 

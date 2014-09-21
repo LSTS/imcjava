@@ -8,8 +8,8 @@ import pt.lsts.imc.LogBookEntry;
 import pt.lsts.imc.PlanControlState;
 import pt.lsts.imc.PlanDB;
 import pt.lsts.imc.PlanSpecification;
+import pt.lsts.imc.net.Consume;
 import pt.lsts.imc.net.IMCProtocol;
-import pt.lsts.neptus.messages.listener.Consume;
 import pt.lsts.util.PlanUtilities;
 import pt.lsts.util.WGS84Utilities;
 

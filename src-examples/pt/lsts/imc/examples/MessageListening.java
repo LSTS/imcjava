@@ -2,8 +2,8 @@ package pt.lsts.imc.examples;
 
 import pt.lsts.imc.Announce;
 import pt.lsts.imc.EstimatedState;
+import pt.lsts.imc.net.Consume;
 import pt.lsts.imc.net.IMCProtocol;
-import pt.lsts.neptus.messages.listener.Consume;
 
 public class MessageListening {
 
