@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry excluding="pt/up/fe/dceg/neptus/imc/net/MessageListener.java" kind="src" path="src"/>
 	<classpathentry kind="src" path="src-generated"/>
-	<classpathentry kind="src" path="src-controllers"/>
 	<classpathentry kind="src" path="src-generator"/>
 	<classpathentry kind="src" path="src-lsfpreview"/>
 	<classpathentry kind="src" path="src-merge"/>

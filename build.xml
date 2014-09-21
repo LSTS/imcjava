@@ -140,12 +140,6 @@
     </javac>
   </target>
 
-  <target name="compile-controllers" depends="compile">
-    <mkdir dir="build"/>
-    <javac encoding="UTF-8" debug="true" srcdir="src-controllers" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
-    </javac>
-  </target>
-
   <target name="copysrc" depends="compile">
     <copy todir="build">
       <fileset dir="src" includes="**/*.java"/>
