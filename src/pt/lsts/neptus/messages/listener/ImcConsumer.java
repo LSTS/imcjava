@@ -17,8 +17,9 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 
 	private ImcConsumer(Object pojo) {
 		this.pojo = pojo;
-		for (Method m : pojo.getClass().getMethods()) {
+		for (Method m : pojo.getClass().getDeclaredMethods()) {
 			if (m.getAnnotation(Consume.class) != null) {
+				
 				if (m.getParameterTypes().length != 1) {
 					System.err
 							.println("Warning: Ignoring @Consume annotation on method "
@@ -38,6 +39,8 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 				if (!consumeMethods.containsKey(c)) {
 					consumeMethods.put(c, new ArrayList<Method>());
 				}
+				if (!m.isAccessible())
+					m.setAccessible(true);
 				consumeMethods.get(c).add(m);
 			}
 		}
@@ -60,8 +63,6 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 
 	public void onMessage(MessageInfo i, IMCMessage m) {
 		Class<?> c = m.getClass();
-		// System.out.println(IMCDefinition.getInstance().getResolver().
-		// .getSrcEnt());
 
 		ArrayList<Method> consumers = new ArrayList<Method>();
 
@@ -73,7 +74,6 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 
 		for (Method method : consumers) {
 			try {
-				method.setAccessible(true);
 				method.invoke(pojo, m);
 			} catch (Exception e) {
 				e.printStackTrace();

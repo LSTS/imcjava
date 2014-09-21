@@ -370,6 +370,10 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	public String getSourceName() {
 		return definitions.getResolver().resolve(getSrc());
 	}
+	
+	public String getEntityName() {
+		return definitions.getResolver().resolveEntity(getSrc(), getSrcEnt());
+	}
 
 	/**
 	 * The numeric id of this message destination (header field "dst")

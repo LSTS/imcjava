@@ -867,7 +867,10 @@ public class LsfIndex {
 					einfo.getInteger("id"));
 			systemEntityNames.get(src).put(einfo.getInteger("id"),
 					einfo.getString("label"));
-
+			
+			if (defs != IMCDefinition.getInstance())
+				defs.getResolver().setEntityName(src, einfo.getInteger("id"),
+						einfo.getString("label"));
 		}
 	}
 

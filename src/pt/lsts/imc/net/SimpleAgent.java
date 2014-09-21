@@ -1,5 +1,6 @@
 package pt.lsts.imc.net;
 
+import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 
 public class SimpleAgent {
@@ -28,6 +29,15 @@ public class SimpleAgent {
 
 	public boolean send(String destination, IMCMessage m) {
 		return proto.sendMessage(destination, m);
+	}
+	
+	public String resolve(int imcId) {
+		return IMCDefinition.getInstance().getResolver().resolve(imcId);
+	}
+	
+	public String resolve(int imcId, int entity) {
+		return IMCDefinition.getInstance().getResolver()
+				.resolveEntity(imcId, entity);
 	}
 
 	public void stop() {
