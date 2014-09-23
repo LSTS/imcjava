@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "550440cbc77abde0ea5a85a3f78fd60caac980f6";
-	public static final String IMC_BRANCH = "2014-09-18 550440c (HEAD, tag: imc-5.4.3, origin/master, origin/HEAD, master)";
-	public static final String IMC_COMMIT = "Ricardo Martins (rasm@lsts.pt), Thu Sep 18 22:13:03 WEST 2014, IMC v5.4.3\n\nChanges since IMC v5.4.2:\n\n- Added units PPM and PPB.\n\n- Increased maximum message id of GroupDevelopment from 849 to 900.\n\n- Added messages RhodamineDye, CrudeOil, FineOil, PlanStatistics, UsblAngles,\n  UsblPosition, and UsblFix\n\n- Removed obsolete message NavigationReset.";
+	public static final String IMC_SHA = "1c43b5d4883354705dc6b45d7ec8e5ecad6b2a2e";
+	public static final String IMC_BRANCH = "2014-09-23 1c43b5d (HEAD, origin/feature/turbidity, feature/turbidity)";
+	public static final String IMC_COMMIT = "José Braga (eejbraga@gmail.com), Tue Sep 23 14:35:09 WEST 2014, Added Turbidity message and units (NTU, Nephelometric Turbidity Unit)";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -376,6 +376,7 @@ public class ImcStringDefs {
 		sb.append("    <unit abbrev=\"\u00B5s\" name=\"Microsecond\"/>\n");
 		sb.append("    <unit abbrev=\"S/m\" name=\"Siemens per meter\"/>\n");
 		sb.append("    <unit abbrev=\"Nm\" name=\"Newton meter\"/>\n");
+		sb.append("    <unit abbrev=\"NTU\" name=\"Nephelometric Turbidity Unit\"/>\n");
 		sb.append("    <unit abbrev=\"N\" name=\"Newton\"/>\n");
 		sb.append("    <unit abbrev=\"Pa\" name=\"Pascal\"/>\n");
 		sb.append("    <unit abbrev=\"%\" name=\"Percent\"/>\n");
@@ -2869,6 +2870,16 @@ public class ImcStringDefs {
 		sb.append("    </field>\n");
 		sb.append("  </message>\n");
 		sb.append("\n");
+		sb.append("  <message id=\"288\" name=\"Turbidity\" abbrev=\"Turbidity\" source=\"vehicle\" flags=\"periodic\">\n");
+		sb.append("    <description>\n");
+		sb.append("      Turbidity measurement.\n");
+		sb.append("    </description>\n");
+		sb.append("    <field name=\"Value\" abbrev=\"value\" type=\"fp32_t\" unit=\"NTU\">\n");
+		sb.append("      <description>\n");
+		sb.append("        Turbidity reading.\n");
+		sb.append("      </description>\n");
+		sb.append("    </field>\n");
+		sb.append("  </message>\n");
 		sb.append("\n");
 		sb.append("  <!-- Actuation -->\n");
 		sb.append("  <message id=\"300\" name=\"Camera Zoom\" abbrev=\"CameraZoom\" source=\"vehicle\">\n");

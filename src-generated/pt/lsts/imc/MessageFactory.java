@@ -220,6 +220,8 @@ public class MessageFactory {
 				return new CrudeOil(defs);
 			case FineOil.ID_STATIC:
 				return new FineOil(defs);
+			case Turbidity.ID_STATIC:
+				return new Turbidity(defs);
 			case CameraZoom.ID_STATIC:
 				return new CameraZoom(defs);
 			case SetThrusterActuation.ID_STATIC:
