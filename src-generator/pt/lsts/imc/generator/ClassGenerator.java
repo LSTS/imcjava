@@ -104,6 +104,7 @@ public class ClassGenerator {
 		bw.close();
 	}
 
+	@Deprecated
 	public static void generateImcState(IMCDefinition definitions,
 			File outputFolder) throws Exception {
 		File outputDir = getOutputDir(outputFolder, "pt.lsts.imc.state");
@@ -1177,7 +1178,7 @@ public class ClassGenerator {
 					commitDetails, new File("src-generated"),
 					GenerationUtils.getImcXml(repo));
 			generateImcFactory(defs, new File("src-generated"));
-			generateImcState(defs, new File("src-generated"));
+			//generateImcState(defs, new File("src-generated"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);

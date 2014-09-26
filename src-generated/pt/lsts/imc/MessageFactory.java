@@ -214,12 +214,6 @@ public class MessageFactory {
 				return new BeamConfig(defs);
 			case DataSanity.ID_STATIC:
 				return new DataSanity(defs);
-			case RhodamineDye.ID_STATIC:
-				return new RhodamineDye(defs);
-			case CrudeOil.ID_STATIC:
-				return new CrudeOil(defs);
-			case FineOil.ID_STATIC:
-				return new FineOil(defs);
 			case CameraZoom.ID_STATIC:
 				return new CameraZoom(defs);
 			case SetThrusterActuation.ID_STATIC:
@@ -272,6 +266,8 @@ public class MessageFactory {
 				return new LblRangeAcceptance(defs);
 			case DvlRejection.ID_STATIC:
 				return new DvlRejection(defs);
+			case NavigationReset.ID_STATIC:
+				return new NavigationReset(defs);
 			case LblEstimate.ID_STATIC:
 				return new LblEstimate(defs);
 			case AlignmentState.ID_STATIC:
@@ -508,12 +504,6 @@ public class MessageFactory {
 				return new NeptusBlob(defs);
 			case Aborted.ID_STATIC:
 				return new Aborted(defs);
-			case UsblAngles.ID_STATIC:
-				return new UsblAngles(defs);
-			case UsblPosition.ID_STATIC:
-				return new UsblPosition(defs);
-			case UsblFix.ID_STATIC:
-				return new UsblFix(defs);
 			default:
 				return new IMCMessage(defs);
 		}
