@@ -20,7 +20,7 @@ import pt.lsts.imc.PlanSpecification;
 import pt.lsts.imc.Reference;
 import pt.lsts.imc.VehicleState;
 import pt.lsts.imc.net.IMCProtocol;
-import pt.lsts.imc.state.ImcSysState;
+import pt.lsts.imc.state.ImcSystemState;
 import pt.lsts.util.WGS84Utilities;
 
 public class ControlLink {
@@ -29,32 +29,35 @@ public class ControlLink {
 	private static ScheduledThreadPoolExecutor executor = null;
 	private Reference lastReference = null;
 	private String vehicle;
-	//private boolean acousticLink = false;
-	
+
+	// private boolean acousticLink = false;
+
 	public static String[] listVehicles(Announce.SYS_TYPE type) {
-		
+
 		Vector<String> validVehicles = new Vector<String>();
-		//String[] sys = getImc().lookupService("x");
+		// String[] sys = getImc().lookupService("x");
 		for (String s : getImc().systems()) {
-			if (getImc().state(s).lastAnnounce().getSysType() == type) {
-				if (getImc().state(s).lastVehicleState() != null && getImc().state(s).lastVehicleState().getOpMode() == VehicleState.OP_MODE.SERVICE)
+			if (getImc().state(s).last(Announce.class).getSysType() == type) {
+				if (getImc().state(s).last(VehicleState.class) != null
+						&& getImc().state(s).last(VehicleState.class)
+								.getOpMode() == VehicleState.OP_MODE.SERVICE)
 					validVehicles.add(s);
 			}
 		}
-		
+
 		return validVehicles.toArray(new String[0]);
 	}
-	
+
 	public static ControlLink acquire(String vehicle, long timeoutMillis)
 			throws Exception {
-		
-		ImcSysState state = getImc().state(vehicle);
+
+		ImcSystemState state = getImc().state(vehicle);
 
 		long startTime = System.currentTimeMillis();
 
 		while (System.currentTimeMillis() - startTime < timeoutMillis) {
 			state = getImc().state(vehicle);
-			if (state != null && state.lastVehicleState() != null)
+			if (state != null && state.last(VehicleState.class) != null)
 				break;
 			Thread.sleep(100);
 		}
@@ -62,8 +65,8 @@ public class ControlLink {
 			throw new Exception("Vehicle " + vehicle
 					+ " is not currently connected");
 
-		if (state.lastVehicleState() == null
-				|| state.lastVehicleState().getOpMode() != VehicleState.OP_MODE.SERVICE)
+		if (state.last(VehicleState.class) == null
+				|| state.last(VehicleState.class).getOpMode() != VehicleState.OP_MODE.SERVICE)
 			throw new Exception("Vehicle " + vehicle
 					+ " cannot be associated with this controller");
 
@@ -104,7 +107,8 @@ public class ControlLink {
 
 				if (lastReference == null) {
 					EstimatedState lastState = getImc().state(
-							ControlLink.this.vehicle).lastEstimatedState();
+							ControlLink.this.vehicle)
+							.last(EstimatedState.class);
 					if (lastState != null && lastState.getLat() != 0) {
 						double[] lld = WGS84Utilities.toLatLonDepth(lastState);
 						Reference ref = new Reference();
@@ -119,22 +123,22 @@ public class ControlLink {
 					}
 				}
 				sendReference();
-				//System.out.println(arrivedXY() + ", " + arrivedZ());
+				// System.out.println(arrivedXY() + ", " + arrivedZ());
 			}
 		}, 5, 5, TimeUnit.SECONDS);
 	}
 
 	private void sendReference() {
-		
+
 		try {
-			getImc().sendMessage(ControlLink.this.vehicle,
-					lastReference);
+			getImc().sendMessage(ControlLink.this.vehicle, lastReference);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void guide(double lat_degs, double lon_degs, double z_meters, double speed_mps) {
+
+	public void guide(double lat_degs, double lon_degs, double z_meters,
+			double speed_mps) {
 		DesiredZ desZ = null;
 		if (!Double.isNaN(z_meters)) {
 			if (z_meters >= 0)
@@ -171,9 +175,9 @@ public class ControlLink {
 		Reference ref = new Reference();
 		ref.setFlags(Reference.FLAG_MANDONE);
 		lastReference = ref;
-		sendReference();		
+		sendReference();
 	}
-	
+
 	public void shutdown() {
 		proto.stop();
 		executor.shutdown();
@@ -183,8 +187,8 @@ public class ControlLink {
 
 	public boolean arrived() {
 		try {
-			FollowRefState refState = getImc().state(vehicle)
-					.lastFollowRefState();
+			FollowRefState refState = getImc().state(vehicle).last(
+					FollowRefState.class);
 			if (refState.getReference().isNull())
 				return false;
 			// FIXME check if followed reference is last sent one
@@ -197,8 +201,8 @@ public class ControlLink {
 
 	public boolean arrivedXY() {
 		try {
-			FollowRefState refState = getImc().state(vehicle)
-					.lastFollowRefState();
+			FollowRefState refState = getImc().state(vehicle).last(
+					FollowRefState.class);
 			if (refState.getReference().isNull())
 				return false;
 			// FIXME check if followed reference is last sent one
@@ -210,8 +214,8 @@ public class ControlLink {
 
 	public boolean arrivedZ() {
 		try {
-			FollowRefState refState = getImc().state(vehicle)
-					.lastFollowRefState();
+			FollowRefState refState = getImc().state(vehicle).last(
+					FollowRefState.class);
 			if (refState.getReference().isNull())
 				return false;
 			// FIXME check if followed reference is last sent one
@@ -222,11 +226,12 @@ public class ControlLink {
 	}
 
 	public double[] getPosition() {
-		return WGS84Utilities.toLatLonDepth(getImc().state(vehicle).lastEstimatedState());
+		return WGS84Utilities.toLatLonDepth(getImc().state(vehicle).last(
+				EstimatedState.class));
 	}
-	
+
 	public EstimatedState getState() {
-		return getImc().state(vehicle).lastEstimatedState();
+		return getImc().state(vehicle).last(EstimatedState.class);
 	}
 
 	private static IMCProtocol getImc() {

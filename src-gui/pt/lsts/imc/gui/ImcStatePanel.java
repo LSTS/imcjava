@@ -54,9 +54,9 @@ import javax.swing.event.ListSelectionListener;
 
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.Heartbeat;
+import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.IMCUtil;
-import pt.lsts.imc.state.ImcSysState;
 import pt.lsts.imc.state.ImcSystemState;
 
 public class ImcStatePanel extends JPanel {
@@ -262,7 +262,7 @@ public class ImcStatePanel extends JPanel {
 //            
 //        }
 //        
-        ImcSysState state = new ImcSysState();
+        ImcSystemState state = new ImcSystemState(IMCDefinition.getInstance());
 //        LsfIndex index = new LsfIndex(new File("D:\\LSTS-Logs\\2012-11-13-apdl-imc5\\lauv-noptilus-1\\20121115-154158_rows_-2m\\Data.lsf"),
 //                IMCDefinition.getInstance());
 //        

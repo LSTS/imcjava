@@ -34,9 +34,10 @@ import java.util.Arrays;
 
 import pt.lsts.imc.EntityList;
 import pt.lsts.imc.EntityList.OP;
+import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.Heartbeat;
+import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
-import pt.lsts.imc.state.ImcSysState;
 import pt.lsts.imc.state.ImcSystemState;
 import pt.lsts.neptus.messages.listener.MessageInfo;
 import pt.lsts.neptus.messages.listener.MessageListener;
@@ -70,7 +71,7 @@ public class StaticIMCConnection {
 	private int remotePort;
 	private UDPTransport trans;
 	private boolean polling = false;
-	private ImcSysState state;
+	private ImcSystemState state;
 	
 	private MessageListener<MessageInfo, IMCMessage> pollingListener = new MessageListener<MessageInfo, IMCMessage>() {
 		@Override
@@ -94,7 +95,7 @@ public class StaticIMCConnection {
 
 		this.remoteHost = remoteHost;
 		this.remotePort = remotePort;
-		this.state = new ImcSysState();
+		this.state = new ImcSystemState(IMCDefinition.getInstance());
 		trans = new UDPTransport(localPort, 1);
 		trans.sendMessage(remoteHost, remotePort, new Heartbeat());
 		trans.sendMessage(remoteHost, remotePort, new EntityList(OP.QUERY, null));
@@ -263,14 +264,14 @@ public class StaticIMCConnection {
 	 * @return the state
 	 * @see ImcSystemState
 	 */
-	public ImcSysState state() {
+	public ImcSystemState state() {
 		return state;
 	}
 
 	public static void main(String[] args) throws Exception {
 		IMCProtocol proto = new IMCProtocol(6006);
 		while(true) {
-			System.out.println(proto.state("lauv-xtreme-2").lastEstimatedState());			
+			System.out.println(proto.state("lauv-xtreme-2").last(EstimatedState.class));			
 			Thread.sleep(3000);
 		}
 	}

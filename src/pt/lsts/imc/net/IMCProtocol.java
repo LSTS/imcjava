@@ -49,7 +49,7 @@ import pt.lsts.imc.Heartbeat;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.lsf.LsfIndex;
-import pt.lsts.imc.state.ImcSysState;
+import pt.lsts.imc.state.ImcSystemState;
 import pt.lsts.neptus.messages.listener.ImcConsumer;
 import pt.lsts.neptus.messages.listener.MessageInfo;
 import pt.lsts.neptus.messages.listener.MessageListener;
@@ -66,7 +66,7 @@ public class IMCProtocol implements IMessageBus {
 	protected UDPTransport comms;
 	protected LinkedHashMap<Integer, IMCNode> announces = new LinkedHashMap<Integer, IMCNode>();
 	protected int bindPort = 7001;
-	protected LinkedHashMap<String, ImcSysState> sysStates = new LinkedHashMap<String, ImcSysState>();
+	protected LinkedHashMap<String, ImcSystemState> sysStates = new LinkedHashMap<String, ImcSystemState>();
 	protected String localName = "imcj_" + System.currentTimeMillis() / 500;
 	protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
 	private ImcConsumer listener = ImcConsumer.create(this);
@@ -113,7 +113,7 @@ public class IMCProtocol implements IMessageBus {
 			name = ((Announce) msg).getSysName();
 
 		if (!sysStates.containsKey(name))
-			sysStates.put(name, new ImcSysState());
+			sysStates.put(name, new ImcSystemState(IMCDefinition.getInstance()));
 
 		sysStates.get(name).setMessage(msg);
 	}
@@ -413,7 +413,7 @@ public class IMCProtocol implements IMessageBus {
 		Vector<String> systems = new Vector<String>();
 
 		for (String sys : systems()) {
-			Announce last = state(sys).lastAnnounce();
+			Announce last = state(sys).last(Announce.class);
 			System.out.println(last.getServices());
 		}
 		return systems.toArray(new String[0]);
@@ -427,9 +427,9 @@ public class IMCProtocol implements IMessageBus {
 	 * @return The existing system state or a newly created state (inactive) if
 	 *         that system is not yet known
 	 */
-	public ImcSysState state(String name) {
+	public ImcSystemState state(String name) {
 		if (!sysStates.containsKey(name)) {
-			sysStates.put(name, new ImcSysState());
+			sysStates.put(name, new ImcSystemState(IMCDefinition.getInstance()));
 		}
 		return sysStates.get(name);
 	}
