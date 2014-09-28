@@ -50,6 +50,7 @@ public class PlanUtilities {
 				System.err.println("This should not be used in cyclic plans");
 				return locations;
 			}
+			visited.add(man);
 			Maneuver m = maneuvers.get(man);
 			locations.addAll(computeLocations(m));
 			man = transitions.get(man);
