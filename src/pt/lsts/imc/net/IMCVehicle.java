@@ -18,12 +18,13 @@ import pt.lsts.util.WGS84Utilities;
 
 public class IMCVehicle {
 
-	private IMCProtocol proto;
+	private static IMCProtocol proto = null;
 	private String vehicle;
 
 	public IMCVehicle(String vehicle) {
 		this.vehicle = vehicle;
-		proto = new IMCProtocol();
+		if (proto == null)
+			proto = new IMCProtocol();
 	}
 
 	public ImcSystemState state() {
@@ -91,5 +92,4 @@ public class IMCVehicle {
 		Thread.sleep(10000);
 		v.move(41, -8.001, 4, 1.2);
 	}
-
 }
