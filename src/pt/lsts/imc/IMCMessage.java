@@ -303,6 +303,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	 * Returns all the values in this message. The returned map may not be
 	 * modified, otherwise a {@link UnsupportedOperationException} will be
 	 * thrown
+	 * 
 	 * @return All the values in this message
 	 */
 	public Map<String, Object> getValues() {
@@ -370,7 +371,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	public String getSourceName() {
 		return definitions.getResolver().resolve(getSrc());
 	}
-	
+
 	public String getEntityName() {
 		return definitions.getResolver().resolveEntity(getSrc(), getSrcEnt());
 	}
@@ -1379,7 +1380,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 				for (int i = 0; i < bytes.length; i++) {
 					dataHex.append(String.format("%02X", bytes[i]));
 				}
-				sb.append(",\"" + fieldName + "\":\""+dataHex+"\"");				
+				sb.append(",\"" + fieldName + "\":\"" + dataHex + "\"");
 			}
 
 			else if (getTypeOf(fieldName).equals("message")) {
@@ -1396,13 +1397,14 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 		sb.append("}\n");
 		return sb.toString();
 	}
+
 	public String asXmlStripped(int tabAmount, boolean isInline) {
 		StringBuilder sb = new StringBuilder();
 		String tabs = "";
 		for (int i = 0; i < tabAmount; i++)
 			tabs += "  ";
-		sb.append(tabs+"<" + getAbbrev());
-		
+		sb.append(tabs + "<" + getAbbrev());
+
 		if (!isInline) {
 			sb.append(" imcv=\"" + definitions.getVersion() + "\"");
 			sb.append(" time=\"" + getTimestamp() + "\"");
@@ -1412,16 +1414,21 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 			sb.append(" dst_ent=\"" + getDstEnt() + "\"");
 		}
 		sb.append(">\n");
-		//tabs += "  ";
-		
+		// tabs += "  ";
+
 		for (String fieldName : getMessageType().getFieldNames()) {
-			//sb.append("<" + fieldName + ">");
+			// sb.append("<" + fieldName + ">");
 			switch (getMessageType().getFieldType(fieldName)) {
 			case TYPE_FP32:
 			case TYPE_FP64:
 				double val = getDouble(fieldName);
 				if (val != 0)
-					sb.append(tabs+"  <"+fieldName+">"+getString(fieldName, false).replaceAll("\\.0+$", ".0")+"</"+fieldName+">\n");
+					sb.append(tabs
+							+ "  <"
+							+ fieldName
+							+ ">"
+							+ getString(fieldName, false).replaceAll("\\.0+$",
+									".0") + "</" + fieldName + ">\n");
 				break;
 			case TYPE_INT16:
 			case TYPE_INT32:
@@ -1432,40 +1439,48 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 			case TYPE_UINT8:
 				long longVal = getLong(fieldName);
 				if (longVal != 0)
-					sb.append(tabs+"  <"+fieldName+">"+getString(fieldName, false)+"</"+fieldName+">\n");
+					sb.append(tabs + "  <" + fieldName + ">"
+							+ getString(fieldName, false) + "</" + fieldName
+							+ ">\n");
 				break;
 			case TYPE_PLAINTEXT:
 				if (!getString(fieldName).isEmpty())
-					sb.append(tabs+"  <"+fieldName+">"+getString(fieldName, false)+"</"+fieldName+">\n");
+					sb.append(tabs + "  <" + fieldName + ">"
+							+ getString(fieldName, false) + "</" + fieldName
+							+ ">\n");
 				break;
 			case TYPE_MESSAGE:
 				IMCMessage msg = getMessage(fieldName);
 				if (msg != null)
-					sb.append(tabs+"  <"+fieldName+">\n" + msg.asXmlStripped(tabAmount+2,true)+tabs+"  </"+fieldName+">\n");
+					sb.append(tabs + "  <" + fieldName + ">\n"
+							+ msg.asXmlStripped(tabAmount + 2, true) + tabs
+							+ "  </" + fieldName + ">\n");
 				break;
 			case TYPE_RAWDATA:
-				if (getRawData(fieldName) != null) 
-					sb.append(tabs+"  <"+fieldName+">\n"+Base64.encode(getRawData(fieldName))+"  </"+fieldName+">\n");
+				if (getRawData(fieldName) != null)
+					sb.append(tabs + "  <" + fieldName + ">\n"
+							+ Base64.encode(getRawData(fieldName)) + "  </"
+							+ fieldName + ">\n");
 				break;
 			case TYPE_MESSAGELIST:
 				if (!getMessageList(fieldName).isEmpty()) {
-					sb.append(tabs+"  <"+fieldName+">\n");
+					sb.append(tabs + "  <" + fieldName + ">\n");
 					for (IMCMessage m : getMessageList(fieldName))
-						sb.append(m.asXmlStripped(tabAmount+2, true));
-					sb.append(tabs+"  </"+fieldName+">\n");	
+						sb.append(m.asXmlStripped(tabAmount + 2, true));
+					sb.append(tabs + "  </" + fieldName + ">\n");
 				}
 				break;
 			}
 		}
 
-		sb.append(tabs+"</" + getAbbrev() + ">\n");
+		sb.append(tabs + "</" + getAbbrev() + ">\n");
 
 		return sb.toString();
 	}
-	
+
 	public Map<String, Object> asMap(boolean inner) {
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-		
+
 		if (!inner) {
 			map.put("timestamp", getTimestamp());
 			map.put("src", getSrc());
@@ -1473,11 +1488,11 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 			map.put("dst", getDst());
 			map.put("dst_ent", getDstEnt());
 		}
-		
+
 		for (String fieldName : getMessageType().getFieldNames()) {
 			switch (getMessageType().getFieldType(fieldName)) {
 			case TYPE_FP32:
-			case TYPE_FP64:				
+			case TYPE_FP64:
 			case TYPE_INT16:
 			case TYPE_INT32:
 			case TYPE_INT64:
@@ -1496,18 +1511,18 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 				else
 					map.put(fieldName, null);
 			case TYPE_MESSAGELIST:
-				Vector<Map<String, Object>> msgs = new Vector<Map<String,Object>>();
+				Vector<Map<String, Object>> msgs = new Vector<Map<String, Object>>();
 				for (IMCMessage m : getMessageList(fieldName)) {
 					msgs.add(m.asMap(true));
 				}
 				map.put(fieldName, msgs);
 			}
 		}
-		
+
 		return map;
-		
+
 	}
-	
+
 	public String asXml(boolean isInline) {
 		StringBuilder sb = new StringBuilder();
 		if (!isInline)
@@ -1552,7 +1567,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 					sb.append("\n" + msg.asXml(true));
 				break;
 			case TYPE_RAWDATA:
-				if (getRawData(fieldName) != null) 
+				if (getRawData(fieldName) != null)
 					sb.append(Base64.encode(getRawData(fieldName)));
 				break;
 			case TYPE_MESSAGELIST:
@@ -1664,7 +1679,10 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 					msg.setValue(field, el.getTextContent());
 					break;
 				case TYPE_RAWDATA:
-					msg.setValue(field, Base64.decode(el.getTextContent().replaceAll("\n", "")));
+					msg.setValue(
+							field,
+							Base64.decode(el.getTextContent().replaceAll("\n",
+									"")));
 					break;
 				case TYPE_MESSAGE:
 					NodeList inner = el.getChildNodes();
@@ -1724,6 +1742,17 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	}
 
 	/**
+	 * Calculates the difference between current time and the timestamp in this
+	 * message
+	 * 
+	 * @return The difference between current time and the timestamp in this
+	 *         message, in seconds
+	 */
+	public double getAgeInSeconds() {
+		return (System.currentTimeMillis() - getTimestampMillis()) / 1000.0;
+	}
+
+	/**
 	 * This method enforces all values in this message as immutable. Will give
 	 * run time exceptions if someone tries to change the values.
 	 */
@@ -1736,7 +1765,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	public static void main(String[] args) throws Exception {
 		EstimatedState state = new EstimatedState();
 		state.setX(10);
-		
+
 		System.out.println(state.asMap(false));
 	}
 
