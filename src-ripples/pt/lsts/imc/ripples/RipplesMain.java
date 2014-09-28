@@ -1,17 +1,20 @@
 package pt.lsts.imc.ripples;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import pt.lsts.imc.Announce;
 import pt.lsts.imc.EstimatedState;
-import pt.lsts.imc.LogBookEntry;
 import pt.lsts.imc.PlanControlState;
 import pt.lsts.imc.PlanDB;
 import pt.lsts.imc.PlanSpecification;
 import pt.lsts.imc.net.Consume;
 import pt.lsts.imc.net.IMCProtocol;
+import pt.lsts.neptus.messages.listener.PeriodicCallbacks;
 import pt.lsts.util.PlanUtilities;
 import pt.lsts.util.WGS84Utilities;
+
+import com.firebase.client.DataSnapshot;
 
 
 public class RipplesMain {
@@ -24,16 +27,19 @@ public class RipplesMain {
 		System.out.println("[Ripples] Binding to port "+port+"...");
 		proto = new IMCProtocol("FireImc", port);
 		proto.register(this);		
+		PeriodicCallbacks.register(this);
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
 				System.out.println("[Ripples] Stopping IMC protocol.");
 				proto.stop();
+				PeriodicCallbacks.stopAll();
 			}
 		});
 	}
-		
+	
+	@SuppressWarnings("unchecked")
 	@Consume
 	public void on(Announce ann) {
 		
@@ -42,22 +48,17 @@ public class RipplesMain {
 		if (lat == 0 && lon == 0.0)
 			return;
 		
-		FirebaseDB.setValue("assets/"+ann.getSysName()+"/position/latitude", lat);
-		FirebaseDB.setValue("assets/"+ann.getSysName()+"/position/longitude", lon);
+		DataSnapshot posOnline = FirebaseDB.get("assets/"+ann.getSysName()+"/position");
+		Map<Object, Object> data = new LinkedHashMap<Object, Object>();
+		
+		if (posOnline != null)
+			data.putAll((Map<Object,Object>)posOnline.getValue());
+		data.put("latitude", lat);
+		data.put("longitude", lon);
+		FirebaseDB.setValue("assets/"+ann.getSysName()+"/position", data);
 		FirebaseDB.setValue("assets/"+ann.getSourceName()+"/updated_at", ann.getTimestampMillis());
 		FirebaseDB.setValue("assets/"+ann.getSourceName()+"/type", ann.getSysType().toString());
 		
-	}
-	
-	@Consume
-	public void on(LogBookEntry entry) {
-		if (entry.getType() != LogBookEntry.TYPE.INFO && entry.getType() != LogBookEntry.TYPE.DEBUG) {
-			LinkedHashMap<String, Object> logEntry = new LinkedHashMap<String, Object>();
-			logEntry.put("src", entry.getSourceName());
-			logEntry.put("entry", entry.getText());
-			logEntry.put("context", entry.getContext());
-			FirebaseDB.setValue("logbook/"+entry.getTimestampMillis(), logEntry);
-		}
 	}
 
 	@Consume
