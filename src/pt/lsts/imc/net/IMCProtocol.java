@@ -258,6 +258,23 @@ public class IMCProtocol implements IMessageBus {
 				.random() * 1000);
 	}
 
+	public boolean broadcast(IMCMessage msg) {
+		msg.setValue("src", localId);
+		boolean sent = false;
+		for (IMCNode nd : announces.values()) {
+			if (nd.address != null) {
+				msg.setValue("dst", nd.imcId);
+				msg.setTimestamp(System.currentTimeMillis() / 1000.0);
+				comms.sendMessage(nd.address, nd.port, msg);
+				post(msg);
+			}
+			sent = true;
+		}
+		return sent;
+	}
+	
+	
+	
 	/**
 	 * Send message to a remote system
 	 * 
@@ -304,6 +321,8 @@ public class IMCProtocol implements IMessageBus {
 
 		pojoSubscribers.put(consumer, listener);
 	}
+	
+	
 
 	public void unregister(Object consumer) {
 		if (pojoSubscribers.containsKey(consumer))
