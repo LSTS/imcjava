@@ -36,13 +36,13 @@ public class TcpTransport {
 		}
 	}
 
-	public Future<Boolean> send(final String host, final int port, final IMCMessage msg) {		
+	public Future<Boolean> send(final String host, final int port, final IMCMessage msg, final int timeoutMillis) {		
 		return executor.submit(new Callable<Boolean>() {
 
 			@Override
 			public Boolean call() throws Exception {
 				Socket socket = new Socket(host, port);
-				socket.setSoTimeout(10000);
+				socket.setSoTimeout(timeoutMillis);
 				IMCOutputStream ios = new IMCOutputStream(socket.getOutputStream());
 				msg.serialize(ios);
 				socket.close();
@@ -117,7 +117,7 @@ public class TcpTransport {
 		long start = System.currentTimeMillis();
 		int count = 0;
 		while(System.currentTimeMillis() - start < 1000) {
-			transport.send("localhost", 6001, new Abort());
+			transport.send("localhost", 6001, new Abort(), 5000);
 			count++;
 		}
 		System.out.println(count);

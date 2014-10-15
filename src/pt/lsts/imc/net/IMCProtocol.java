@@ -317,13 +317,15 @@ public class IMCProtocol implements IMessageBus {
 	 *            The name of the destination of this message
 	 * @param msg
 	 *            The message to send to the destination
+	 * @param timeoutMillis
+	 *            Maximum amount of time, in milliseconds to wait for delivery.
 	 * @return <code>true</code> on success.
 	 * @throws Exception
 	 *             In case the destination is not known, is nor currently
 	 *             reachable or there was an error in the communication.
 	 */
-	public boolean sendReliably(String sysName, IMCMessage msg)
-			throws Exception {
+	public boolean sendReliably(String sysName, IMCMessage msg,
+			int timeoutMillis) throws Exception {
 		fillUp(msg, sysName);
 
 		Vector<Future<Boolean>> tries = new Vector<Future<Boolean>>();
@@ -331,7 +333,8 @@ public class IMCProtocol implements IMessageBus {
 			if (nd.getSys_name().equals(sysName)) {
 				if (nd.getTcpAddress() != null) {
 					msg.setValue("dst", nd.getImcId());
-					tries.add(tcp.send(nd.getTcpAddress(), nd.getTcpPort(), msg));
+					tries.add(tcp.send(nd.getTcpAddress(), nd.getTcpPort(),
+							msg, timeoutMillis));
 				}
 			}
 		}
@@ -355,7 +358,8 @@ public class IMCProtocol implements IMessageBus {
 	private LinkedHashMap<Object, ImcConsumer> pojoSubscribers = new LinkedHashMap<Object, ImcConsumer>();
 
 	/**
-	 * Register a POJO consumer. 
+	 * Register a POJO consumer.
+	 * 
 	 * @see ImcConsumer
 	 */
 	public void register(Object consumer) {
@@ -578,9 +582,9 @@ public class IMCProtocol implements IMessageBus {
 
 		IMCProtocol proto = new IMCProtocol(7001);
 		Thread.sleep(15000);
-		proto.sendReliably("ccu-zp-1-5", new Abort());
+		proto.sendReliably("ccu-zp-1-5", new Abort(), 2000);
 		Thread.sleep(5000);
-		proto.sendReliably("ccu-zp-1-5", new Abort());
+		proto.sendReliably("ccu-zp-1-5", new Abort(), 2000);
 		Thread.sleep(5000);
 		proto.stop();
 	}
