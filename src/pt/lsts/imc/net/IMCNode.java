@@ -42,8 +42,12 @@ public class IMCNode {
 	protected String sys_type;
 	protected long last_heard;
 	protected IMCMessage lastAnnounce;
+	
 	protected String address;
 	protected int port;
+	
+	protected int tcpport = -1;
+	protected String tcpAddress = null;
 	
 	public int getImcId() {
 		return imcId;
@@ -88,17 +92,30 @@ public class IMCNode {
 		this.imcId = lastAnnounce.getHeader().getInteger("src");
 		this.last_heard = System.currentTimeMillis();
 		
-		Pattern p = Pattern.compile("imc\\+udp\\:\\/\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\\:(\\d+)/");
+		Pattern pUdp = Pattern.compile("imc\\+udp\\:\\/\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\\:(\\d+)/");
+		Pattern pTcp = Pattern.compile("imc\\+tcp\\:\\/\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\\:(\\d+)/");
 		
 		String[] services = lastAnnounce.getString("services").split(";");
 		
 		for (String serv : services) {
-			Matcher m = p.matcher(serv); 
-			if(m.matches()) {
-				this.address = m.group(1)+"."+m.group(2)+"."+m.group(3)+"."+m.group(4);
-				this.port = Integer.parseInt(m.group(5));
+			Matcher mUdp = pUdp.matcher(serv); 
+			if(mUdp.matches()) {
+				this.address = mUdp.group(1)+"."+mUdp.group(2)+"."+mUdp.group(3)+"."+mUdp.group(4);
+				this.port = Integer.parseInt(mUdp.group(5));
 			}
-		}		
+			
+			Matcher mTcp = pTcp.matcher(serv);
+			if (mTcp.matches()) {
+				this.tcpAddress = mTcp.group(1)+"."+mTcp.group(2)+"."+mTcp.group(3)+"."+mTcp.group(4);
+				this.tcpport = Integer.parseInt(mTcp.group(5));
+			}
+		}
+		
+		if (tcpport == -1) {
+			tcpport = port;
+			tcpAddress = address;
+		}
+		
 	}
 
 	public String getAddress() {
@@ -107,6 +124,12 @@ public class IMCNode {
 
 	public void setAddress(String address) {
 		this.address = address;
+		if (tcpAddress == null)
+			tcpAddress = address;
+	}
+	
+	public void setTcpAddress(String address) {
+		this.tcpAddress = address;
 	}
 
 	public int getPort() {
@@ -115,6 +138,20 @@ public class IMCNode {
 
 	public void setPort(int port) {
 		this.port = port;
+		if (tcpport == -1)
+			tcpport = port;
+	}
+	
+	public void setTcpPort(int port) {
+		this.tcpport = port;
+	}
+	
+	public int getTcpPort() {
+		return tcpport;
+	}
+	
+	public String getTcpAddress() {
+		return tcpAddress;
 	}
 	
 	public IMCNode(IMCMessage announceMessage) {

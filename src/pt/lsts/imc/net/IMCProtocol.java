@@ -38,13 +38,14 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Vector;
+import java.util.concurrent.Future;
 
+import pt.lsts.imc.Abort;
 import pt.lsts.imc.Announce;
 import pt.lsts.imc.Announce.SYS_TYPE;
 import pt.lsts.imc.EntityInfo;
 import pt.lsts.imc.EntityList;
 import pt.lsts.imc.EntityList.OP;
-import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.Heartbeat;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
@@ -58,12 +59,14 @@ import pt.lsts.util.NetworkUtilities;
 /**
  * This class implements the IMC protocol allowing sending / receiving messages
  * and also discovery of IMC peers
+ * 
  * @author zp
  */
 public class IMCProtocol implements IMessageBus {
 
 	protected UDPTransport discovery;
 	protected UDPTransport comms;
+	protected TcpTransport tcp;
 	protected LinkedHashMap<Integer, IMCNode> announces = new LinkedHashMap<Integer, IMCNode>();
 	protected int bindPort = 7001;
 	protected LinkedHashMap<String, ImcSystemState> sysStates = new LinkedHashMap<String, ImcSystemState>();
@@ -75,25 +78,22 @@ public class IMCProtocol implements IMessageBus {
 	private void on(Announce msg) {
 		int src_id = msg.getSrc();
 		if (!announces.containsKey(src_id)) {
-			System.out.println("[IMCProtocol] New node within range: "+msg.getSysName());
+			System.out.println("[IMCProtocol] New node within range: "
+					+ msg.getSysName());
 			announces.put(src_id, new IMCNode(msg));
 			IMCDefinition.getInstance().getResolver()
 					.addEntry(msg.getSrc(), msg.getSysName());
 			sendMessage(msg.getSysName(), buildAnnounce());
-			sendMessage(msg.getSysName(),
-					new EntityList().setOp(OP.QUERY));
+			sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
 		} else
 			announces.get(src_id).setLastAnnounce(msg);
 
 		if (sysStates.containsKey(msg.getSysName())) {
 			if (!state(msg.getSysName()).availableMessages().contains(
 					"EntityList")) {
-				sendMessage(msg.getSysName(),
-						new EntityList().setOp(OP.QUERY));
-			}
-			else {
-				sendMessage(msg.getSysName(),
-						new Heartbeat());
+				sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
+			} else {
+				sendMessage(msg.getSysName(), new Heartbeat());
 			}
 		}
 	}
@@ -113,7 +113,8 @@ public class IMCProtocol implements IMessageBus {
 			name = ((Announce) msg).getSysName();
 
 		if (!sysStates.containsKey(name))
-			sysStates.put(name, new ImcSystemState(IMCDefinition.getInstance()));
+			sysStates
+					.put(name, new ImcSystemState(IMCDefinition.getInstance()));
 
 		sysStates.get(name).setMessage(msg);
 	}
@@ -131,7 +132,7 @@ public class IMCProtocol implements IMessageBus {
 	public int getLocalId() {
 		return localId;
 	}
-	
+
 	private Announce buildAnnounce() {
 		Announce announce = new Announce();
 		announce.setSysType(SYS_TYPE.CCU);
@@ -227,8 +228,15 @@ public class IMCProtocol implements IMessageBus {
 		IMCDefinition.getInstance();
 		this.bindPort = localPort;
 		comms = new UDPTransport(bindPort, 1);
+		tcp = new TcpTransport();
+		try {
+			tcp.bind(bindPort);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		comms.setImcId(localId);
-		
+
 		this.localName = localName;
 		discoveryThread.start();
 
@@ -266,15 +274,12 @@ public class IMCProtocol implements IMessageBus {
 				msg.setValue("dst", nd.imcId);
 				msg.setTimestamp(System.currentTimeMillis() / 1000.0);
 				comms.sendMessage(nd.address, nd.port, msg);
-				post(msg);
 			}
 			sent = true;
 		}
 		return sent;
 	}
-	
-	
-	
+
 	/**
 	 * Send message to a remote system
 	 * 
@@ -286,16 +291,14 @@ public class IMCProtocol implements IMessageBus {
 	 *         <strong>false</strong> if no such system is known yet.
 	 */
 	public boolean sendMessage(String sysName, IMCMessage msg) {
-		msg.setValue("src", localId);
-		msg.setTimestamp(System.currentTimeMillis() / 1000.0);
-		msg.setValue("dst",
-				IMCDefinition.getInstance().getResolver().resolve(sysName));
+		fillUp(msg, sysName);
+
 		for (IMCNode nd : announces.values()) {
 			if (nd.sys_name.equals(sysName)) {
 				if (nd.address != null) {
-					msg.setValue("dst", nd.imcId);
-					comms.sendMessage(nd.address, nd.port, msg);
-					post(msg);
+					msg.setValue("dst", nd.getImcId());
+					comms.sendMessage(nd.getAddress(), nd.getPort(), msg);
+
 					return true;
 				} else
 					return false;
@@ -305,8 +308,56 @@ public class IMCProtocol implements IMessageBus {
 		return false;
 	}
 
+	/**
+	 * This method tries to send a message to given destination with
+	 * reliability. If the message is not acknowledged by the remote host, this
+	 * method will thrown an Exception.
+	 * 
+	 * @param sysName
+	 *            The name of the destination of this message
+	 * @param msg
+	 *            The message to send to the destination
+	 * @return <code>true</code> on success.
+	 * @throws Exception
+	 *             In case the destination is not known, is nor currently
+	 *             reachable or there was an error in the communication.
+	 */
+	public boolean sendReliably(String sysName, IMCMessage msg)
+			throws Exception {
+		fillUp(msg, sysName);
+
+		Vector<Future<Boolean>> tries = new Vector<Future<Boolean>>();
+		for (IMCNode nd : announces.values()) {
+			if (nd.getSys_name().equals(sysName)) {
+				if (nd.getTcpAddress() != null) {
+					msg.setValue("dst", nd.getImcId());
+					tries.add(tcp.send(nd.getTcpAddress(), nd.getTcpPort(), msg));
+				}
+			}
+		}
+
+		if (tries.isEmpty())
+			throw new Exception("Destination not reachable");
+		for (Future<Boolean> t : tries)
+			if (t.get())
+				return true;
+
+		throw new Exception("Destination not reachable");
+	}
+
+	private void fillUp(IMCMessage msg, String dst) {
+		msg.setValue("src", localId);
+		msg.setTimestamp(System.currentTimeMillis() / 1000.0);
+		msg.setValue("dst",
+				IMCDefinition.getInstance().getResolver().resolve(dst));
+	}
+
 	private LinkedHashMap<Object, ImcConsumer> pojoSubscribers = new LinkedHashMap<Object, ImcConsumer>();
 
+	/**
+	 * Register a POJO consumer. 
+	 * @see ImcConsumer
+	 */
 	public void register(Object consumer) {
 		unregister(consumer);
 
@@ -321,20 +372,14 @@ public class IMCProtocol implements IMessageBus {
 
 		pojoSubscribers.put(consumer, listener);
 	}
-	
-	
 
+	/**
+	 * Unregister a previously registered POJO consumer.
+	 */
 	public void unregister(Object consumer) {
 		if (pojoSubscribers.containsKey(consumer))
 			removeMessageListener(pojoSubscribers.get(consumer));
 		pojoSubscribers.remove(consumer);
-	}
-
-	public void post(Object event) {
-		// FIXME post locally
-		if (event instanceof IMCMessage) {
-
-		}
 	}
 
 	/**
@@ -448,7 +493,8 @@ public class IMCProtocol implements IMessageBus {
 	 */
 	public ImcSystemState state(String name) {
 		if (!sysStates.containsKey(name)) {
-			sysStates.put(name, new ImcSystemState(IMCDefinition.getInstance()));
+			sysStates
+					.put(name, new ImcSystemState(IMCDefinition.getInstance()));
 		}
 		return sysStates.get(name);
 	}
@@ -524,23 +570,18 @@ public class IMCProtocol implements IMessageBus {
 
 		if (discovery != null)
 			discovery.stop();
+
+		tcp.shutdown();
 	}
 
 	public static void main(String[] args) throws Exception {
 
-		 
 		IMCProtocol proto = new IMCProtocol(7001);
-		proto.register(new Object() {
-
-			@Consume
-			public void on(EstimatedState state) {
-				System.out.println("Got an estimated state from "
-						+ state.getSourceName());
-			}
-		});
-
-		Thread.sleep(30000);
-		
+		Thread.sleep(15000);
+		proto.sendReliably("ccu-zp-1-5", new Abort());
+		Thread.sleep(5000);
+		proto.sendReliably("ccu-zp-1-5", new Abort());
+		Thread.sleep(5000);
 		proto.stop();
 	}
 }

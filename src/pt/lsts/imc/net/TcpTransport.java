@@ -117,7 +117,7 @@ public class TcpTransport {
 		long start = System.currentTimeMillis();
 		int count = 0;
 		while(System.currentTimeMillis() - start < 1000) {
-			transport.send("localhost", 9001, new Abort());
+			transport.send("localhost", 6001, new Abort());
 			count++;
 		}
 		System.out.println(count);
