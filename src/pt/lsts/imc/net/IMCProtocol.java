@@ -427,6 +427,7 @@ public class IMCProtocol implements IMessageBus {
 	public void removeMessageListener(MessageListener<MessageInfo, IMCMessage> l) {
 		comms.removeMessageListener(l);
 		discovery.removeMessageListener(l);
+		tcp.removeMessageListener(l);
 	}
 
 	/**
@@ -439,6 +440,7 @@ public class IMCProtocol implements IMessageBus {
 	public void addMessageListener(MessageListener<MessageInfo, IMCMessage> l) {
 		comms.addMessageListener(l);
 		discovery.addMessageListener(l);
+		tcp.addMessageListener(l);
 	}
 
 	/**
