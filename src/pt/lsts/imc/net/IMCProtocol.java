@@ -39,6 +39,7 @@ import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Vector;
 import java.util.concurrent.Future;
+import java.util.regex.Pattern;
 
 import pt.lsts.imc.Abort;
 import pt.lsts.imc.Announce;
@@ -74,17 +75,25 @@ public class IMCProtocol implements IMessageBus {
 	protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
 	private ImcConsumer listener = ImcConsumer.create(this);
 
+	private String autoConnect = ".*";
+
 	@Consume
 	private void on(Announce msg) {
 		int src_id = msg.getSrc();
+		IMCDefinition.getInstance().getResolver()
+				.addEntry(msg.getSrc(), msg.getSysName());
+
 		if (!announces.containsKey(src_id)) {
 			System.out.println("[IMCProtocol] New node within range: "
 					+ msg.getSysName());
 			announces.put(src_id, new IMCNode(msg));
-			IMCDefinition.getInstance().getResolver()
-					.addEntry(msg.getSrc(), msg.getSysName());
-			sendMessage(msg.getSysName(), buildAnnounce());
-			sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
+
+			if (Pattern.matches(autoConnect, msg.getSysName())) {
+				System.out.println("[IMCProtocol] Starting session with "+msg.getSysName());
+				sendMessage(msg.getSysName(), new Abort());
+				sendMessage(msg.getSysName(), buildAnnounce());
+				sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
+			}
 		} else
 			announces.get(src_id).setLastAnnounce(msg);
 
@@ -578,14 +587,23 @@ public class IMCProtocol implements IMessageBus {
 		tcp.shutdown();
 	}
 
+	/**
+	 * @param autoConnect the autoConnect to set
+	 */
+	public void setAutoConnect(String autoConnect) {
+		this.autoConnect = autoConnect;
+	}
+
 	public static void main(String[] args) throws Exception {
 
 		IMCProtocol proto = new IMCProtocol(7001);
-		Thread.sleep(15000);
-		proto.sendReliably("ccu-zp-1-5", new Abort(), 2000);
-		Thread.sleep(5000);
-		proto.sendReliably("ccu-zp-1-5", new Abort(), 2000);
-		Thread.sleep(5000);
-		proto.stop();
+		proto.setAutoConnect("lauv.*");
+		proto.addMessageListener(new MessageListener<MessageInfo, IMCMessage>() {
+			
+			@Override
+			public void onMessage(MessageInfo info, IMCMessage msg) {
+			//	System.out.println(msg);
+			}
+		});
 	}
 }
