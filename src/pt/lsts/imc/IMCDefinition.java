@@ -84,7 +84,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	protected LinkedHashMap<String, LinkedHashMap<Long, String>> globalEnumerations = new LinkedHashMap<String, LinkedHashMap<Long, String>>();
 	protected LinkedHashMap<String, String> globalEnumPrefixes = new LinkedHashMap<String, String>();
 	protected LinkedHashMap<String, Vector<String>> subTypes = new LinkedHashMap<String, Vector<String>>();
-
+	
 	/**
 	 * Create a new IMCDefinition, loading the definitions from <b>f</b>
 	 * 
@@ -145,7 +145,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 * @return new IMCDefinition, loading the XML definitions from the given
 	 *         {@link InputStream}
 	 */
-	public static IMCDefinition getInstance(InputStream isDefinitions) {
+	public synchronized static IMCDefinition getInstance(InputStream isDefinitions) {
 		try {
 			if (isDefinitions != null) {
 				instance = new IMCDefinition(isDefinitions);
