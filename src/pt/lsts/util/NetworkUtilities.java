@@ -9,6 +9,14 @@ import java.util.Vector;
 
 public class NetworkUtilities {
 
+	public static Collection<String> getNetworkInterfaces() {
+		Collection<String> itfs = getNetworkInterfaces(false);
+		if (itfs.isEmpty())
+			return getNetworkInterfaces(true);
+		else
+			return itfs;
+	}
+	
 	public static Collection<String> getNetworkInterfaces(
 			boolean includeLoopback) {
 		Vector<String> itfs = new Vector<String>();
@@ -36,5 +44,9 @@ public class NetworkUtilities {
 		}
 
 		return itfs;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(getNetworkInterfaces());
 	}
 }
