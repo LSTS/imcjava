@@ -32,7 +32,7 @@ package pt.lsts.imc;
 public class ImcStringDefs {
 
 	public static final String IMC_SHA = "593dc18da1ab5b9d80149a2f49ae5dcd4034d6ee";
-	public static final String IMC_BRANCH = "2014-09-30 593dc18 (HEAD, origin/master, origin/HEAD, master, feature/agents)";
+	public static final String IMC_BRANCH = "2014-09-30 593dc18 (HEAD, origin/master, origin/HEAD, master)";
 	public static final String IMC_COMMIT = "Ricardo Martins (rasm@lsts.pt), Tue Sep 30 20:32:34 WEST 2014, Added lauv-oceaneco-1 and lauv-oceaneco-2.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
@@ -7861,25 +7861,6 @@ public class ImcStringDefs {
 		sb.append("      </description>\n");
 		sb.append("    </field>\n");
 		sb.append("  </message>\n");
-		sb.append("  \n");
-		sb.append("  <message abbrev=\"Agent\" name=\"Agent\" id=\"850\">\n");
-		sb.append("  \t<field name=\"Agent Class\" abbrev=\"agent_class\" type=\"plaintext\"/>\n");
-		sb.append("  \t<field name=\"Agent Name\" abbrev=\"agent_name\" type=\"plaintext\"/>\n");
-		sb.append("  \t<field name=\"Agent State\" abbrev=\"agent_state\" type=\"plaintext\" unit=\"TupleList\"/>  \t\n");
-		sb.append("  </message>\n");
-		sb.append("  \n");
-		sb.append("  <message abbrev=\"AgentCommand\" name=\"Agent Command\" id=\"851\">\n");
-		sb.append("  \t<field name=\"Command\" abbrev=\"cmd\" type=\"uint8_t\" unit=\"Enumerated\" prefix=\"ACMD\">\n");
-		sb.append("  \t\t<value abbrev=\"INSTANTIATION_REQUEST\" name=\"Instantiation Request\" id=\"1\"/>\n");
-		sb.append("  \t\t<value abbrev=\"INSTANTIATION_SUCCESS\" name=\"Instantiation Success\" id=\"2\"/>\n");
-		sb.append("  \t\t<value abbrev=\"INSTANTIATION_FAILURE\" name=\"Instantiation Failure\" id=\"3\"/>\n");
-		sb.append("  \t\t<value abbrev=\"STATE_REQUEST\" name=\"State Request\" id=\"4\"/> \n");
-		sb.append("  \t\t<value abbrev=\"STATE_REPLY\" name=\"State Reply\" id=\"5\"/>\n");
-		sb.append("  \t</field>\n");
-		sb.append("  \t<field name=\"Request Identifier\" abbrev=\"request_id\" type=\"uint16_t\"/>\n");
-		sb.append("  \t<field name=\"Extra Information\" abbrev=\"info\" type=\"plaintext\"/>\n");
-		sb.append("  \t<field name=\"Arguments\" abbrev=\"args\" type=\"message-list\" subtype=\"Agent\"/>  \t\n");
-		sb.append("  </message>  \n");
 		sb.append("</messages>\n");
 		return sb.toString();
 	}

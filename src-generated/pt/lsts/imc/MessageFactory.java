@@ -514,10 +514,6 @@ public class MessageFactory {
 				return new UsblPosition(defs);
 			case UsblFix.ID_STATIC:
 				return new UsblFix(defs);
-			case Agent.ID_STATIC:
-				return new Agent(defs);
-			case AgentCommand.ID_STATIC:
-				return new AgentCommand(defs);
 			default:
 				return new IMCMessage(defs);
 		}
