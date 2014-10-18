@@ -35,6 +35,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Random;
 import java.util.Vector;
@@ -73,6 +74,7 @@ public class IMCProtocol implements IMessageBus {
 	protected String localName = "imcj_" + System.currentTimeMillis() / 500;
 	protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
 	private ImcConsumer listener = ImcConsumer.create(this);
+	private HashSet<String> services = new HashSet<String>();
 
 	private String autoConnect = ".*";
 
@@ -85,10 +87,16 @@ public class IMCProtocol implements IMessageBus {
 		if (!announces.containsKey(src_id)) {
 			System.out.println("[IMCProtocol] New node within range: "
 					+ msg.getSysName());
-			announces.put(src_id, new IMCNode(msg));
+			
+			// Check if this is a peer (a name we should auto connect to)
+			boolean peer = Pattern.matches(autoConnect, msg.getSysName()); 
+			IMCNode node = new IMCNode(msg);
+			node.setPeer(peer);
+			announces.put(src_id, node);
 
-			if (Pattern.matches(autoConnect, msg.getSysName())) {
-				System.out.println("[IMCProtocol] Starting session with "+msg.getSysName());
+			if (peer) {
+				System.out.println("[IMCProtocol] Starting session with "
+						+ msg.getSysName());
 				sendMessage(msg.getSysName(), buildAnnounce());
 				sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
 			}
@@ -140,6 +148,10 @@ public class IMCProtocol implements IMessageBus {
 		return localId;
 	}
 
+	public void addService(String service) {
+		services.add(service);
+	}
+
 	private Announce buildAnnounce() {
 		Announce announce = new Announce();
 		announce.setSysType(SYS_TYPE.CCU);
@@ -148,10 +160,13 @@ public class IMCProtocol implements IMessageBus {
 
 		String services = "";
 
-		for (String itf : NetworkUtilities.getNetworkInterfaces(true)) {
+		for (String itf : NetworkUtilities.getNetworkInterfaces()) {
 			services += "imc+udp://" + itf + ":" + bindPort + "/;";
 			services += "imc+tcp://" + itf + ":" + bindPort + "/;";
 		}
+		for (String s : this.services)
+			services += s + ";";
+
 		if (services.length() > 0)
 			services = services.substring(0, services.length() - 1);
 
@@ -274,6 +289,14 @@ public class IMCProtocol implements IMessageBus {
 				.random() * 1000);
 	}
 
+	/**
+	 * Send a message to all known (via receiced announces) systems.
+	 * 
+	 * @param msg
+	 *            The message to be sent.
+	 * @return <code>true</code> if the message was tentatively sent to at least
+	 *         one system.
+	 */
 	public boolean broadcast(IMCMessage msg) {
 		msg.setValue("src", localId);
 		boolean sent = false;
@@ -289,7 +312,29 @@ public class IMCProtocol implements IMessageBus {
 	}
 
 	/**
-	 * Send message to a remote system
+	 * Send a message to the peers that this proto should auto-connect to.
+	 * 
+	 * @param msg
+	 *            The message to be sent
+	 * @return <code>true</code> if the message was tentatively sent to at least
+	 *         one peer.
+	 */
+	public boolean sendToPeers(IMCMessage msg) {
+		msg.setValue("src", localId);
+		boolean sent = false;
+		for (IMCNode nd : announces.values()) {
+			if (nd.address != null && Pattern.matches(autoConnect, nd.sys_name)) {
+				msg.setValue("dst", nd.imcId);
+				msg.setTimestamp(System.currentTimeMillis() / 1000.0);
+				comms.sendMessage(nd.address, nd.port, msg);
+			}
+			sent = true;
+		}
+		return sent;
+	}
+
+	/**
+	 * Send message to a remote system, specifying its name.
 	 * 
 	 * @param sysName
 	 *            The name of the system where to send the message
@@ -589,7 +634,8 @@ public class IMCProtocol implements IMessageBus {
 	}
 
 	/**
-	 * @param autoConnect the autoConnect to set
+	 * @param autoConnect
+	 *            the autoConnect to set
 	 */
 	public void setAutoConnect(String autoConnect) {
 		this.autoConnect = autoConnect;
@@ -600,10 +646,10 @@ public class IMCProtocol implements IMessageBus {
 		IMCProtocol proto = new IMCProtocol(7001);
 		proto.setAutoConnect("lauv.*");
 		proto.addMessageListener(new MessageListener<MessageInfo, IMCMessage>() {
-			
+
 			@Override
 			public void onMessage(MessageInfo info, IMCMessage msg) {
-			//	System.out.println(msg);
+				// System.out.println(msg);
 			}
 		});
 	}

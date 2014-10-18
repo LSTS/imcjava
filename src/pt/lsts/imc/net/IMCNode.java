@@ -42,7 +42,7 @@ public class IMCNode {
 	protected String sys_type;
 	protected long last_heard;
 	protected IMCMessage lastAnnounce;
-	
+	protected boolean peer = false;
 	protected String address;
 	protected int port;
 	
@@ -160,6 +160,20 @@ public class IMCNode {
 
 	protected long getAgeMillis() {
 		return System.currentTimeMillis() - last_heard; 
+	}
+
+	/**
+	 * @return the peer
+	 */
+	public boolean isPeer() {
+		return peer;
+	}
+
+	/**
+	 * @param peer the peer to set
+	 */
+	public void setPeer(boolean peer) {
+		this.peer = peer;
 	}
 	
 }
