@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,16 +15,32 @@ import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCInputStream;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.IMCOutputStream;
+import pt.lsts.neptus.messages.listener.MessageInfo;
+import pt.lsts.neptus.messages.listener.MessageInfoImpl;
+import pt.lsts.neptus.messages.listener.MessageListener;
 
 public class TcpTransport {
 
 	protected boolean bound = false;
 	protected ServerSocket socket;
 	protected ExecutorService executor = Executors.newCachedThreadPool();
+	
+	protected HashSet<MessageListener<MessageInfo, IMCMessage>> messageListeners = new HashSet<MessageListener<MessageInfo, IMCMessage>>();
 
 	protected void dispatch(IMCMessage msg) {
-		//msg.dump(System.err);
+		MessageInfoImpl info = new MessageInfoImpl();
+		info.setTimeReceivedSec(System.currentTimeMillis()/1000.0);
+		for (MessageListener<MessageInfo, IMCMessage> l : messageListeners)
+			l.onMessage(info, msg);
 	}
+	
+    public void addMessageListener(MessageListener<MessageInfo, IMCMessage> l) {
+        messageListeners.add(l);       
+    }
+
+    public void removeMessageListener(MessageListener<MessageInfo, IMCMessage> l) {
+        messageListeners.remove(l);
+    }
 
 	public void shutdown() {
 		bound = false;
