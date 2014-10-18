@@ -41,7 +41,6 @@ import java.util.Vector;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
-import pt.lsts.imc.Abort;
 import pt.lsts.imc.Announce;
 import pt.lsts.imc.Announce.SYS_TYPE;
 import pt.lsts.imc.EntityInfo;
@@ -90,7 +89,6 @@ public class IMCProtocol implements IMessageBus {
 
 			if (Pattern.matches(autoConnect, msg.getSysName())) {
 				System.out.println("[IMCProtocol] Starting session with "+msg.getSysName());
-				sendMessage(msg.getSysName(), new Abort());
 				sendMessage(msg.getSysName(), buildAnnounce());
 				sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
 			}
