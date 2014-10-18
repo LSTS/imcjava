@@ -150,6 +150,7 @@ public class IMCProtocol implements IMessageBus {
 
 		for (String itf : NetworkUtilities.getNetworkInterfaces(true)) {
 			services += "imc+udp://" + itf + ":" + bindPort + "/;";
+			services += "imc+tcp://" + itf + ":" + bindPort + "/;";
 		}
 		if (services.length() > 0)
 			services = services.substring(0, services.length() - 1);
