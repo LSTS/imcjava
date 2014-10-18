@@ -258,6 +258,10 @@
     <javac encoding="UTF-8" classpath="lib/commons-lang3-3.1.jar" srcdir="src-generator"  destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" />
     
   	<java classname="pt.lsts.imc.generator.ClassGenerator" args="${imc.dir}" classpath="build;lib/commons-lang3-3.1.jar" />
+  	
+  	<!-- compile newly generated classes -->
+    <antcall target="compile"/>
+  	
   </target>
 
   <target name="javadoc" description="Create javadoc documentation">
