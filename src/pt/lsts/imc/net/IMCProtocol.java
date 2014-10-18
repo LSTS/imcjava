@@ -139,7 +139,7 @@ public class IMCProtocol implements IMessageBus {
 		IMCDefinition.getInstance().getResolver()
 				.setEntityName(el.getSrc(), el.getId(), el.getLabel());
 	}
-
+	
 	public final String getLocalName() {
 		return localName;
 	}
@@ -149,7 +149,15 @@ public class IMCProtocol implements IMessageBus {
 	}
 
 	public void addService(String service) {
-		services.add(service);
+		if (service.startsWith("imc+any://")) {
+			service = service.substring("imc+any://".length());
+			for (String itf : NetworkUtilities.getNetworkInterfaces()) {
+				services.add("imc+udp://"+itf+":"+bindPort+"/"+service+"/");
+				services.add("imc+tcp://"+itf+":"+bindPort+"/"+service+"/");
+			}
+		}
+		else
+			services.add(service);
 	}
 
 	private Announce buildAnnounce() {
@@ -193,12 +201,12 @@ public class IMCProtocol implements IMessageBus {
 			System.out.println("[IMCProtocol] Discovery thread bound to port "
 					+ port + ".");
 
-			final Announce announce = buildAnnounce();
+			//final Announce announce = buildAnnounce();
 
 			long lastSent = System.currentTimeMillis();
 			while (true) {
 				for (int p = 30100; p < 30105; p++)
-					discovery.sendMessage("224.0.75.69", p, announce);
+					discovery.sendMessage("224.0.75.69", p, buildAnnounce());
 
 				lastSent = System.currentTimeMillis();
 				try {
