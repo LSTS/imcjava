@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "550440cbc77abde0ea5a85a3f78fd60caac980f6";
-	public static final String IMC_BRANCH = "2014-09-18 550440c (HEAD, tag: imc-5.4.3, origin/master, origin/HEAD, master)";
-	public static final String IMC_COMMIT = "Ricardo Martins (rasm@lsts.pt), Thu Sep 18 22:13:03 WEST 2014, IMC v5.4.3\n\nChanges since IMC v5.4.2:\n\n- Added units PPM and PPB.\n\n- Increased maximum message id of GroupDevelopment from 849 to 900.\n\n- Added messages RhodamineDye, CrudeOil, FineOil, PlanStatistics, UsblAngles,\n  UsblPosition, and UsblFix\n\n- Removed obsolete message NavigationReset.";
+	public static final String IMC_SHA = "4b56478772f85e90537445ab52bee989ad25b426";
+	public static final String IMC_BRANCH = "2014-10-18 4b56478 (HEAD, feature/agents)";
+	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Sat Oct 18 16:10:21 WEST 2014, Added Agent and AgentCommand messages.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -58,6 +58,8 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-lupis-1", 258);
 		IMC_ADDRESSES.put("lauv-dolphin-2", 259);
 		IMC_ADDRESSES.put("lauv-dolphin-3", 260);
+		IMC_ADDRESSES.put("lauv-oceaneco-1", 261);
+		IMC_ADDRESSES.put("lauv-oceaneco-2", 262);
 		IMC_ADDRESSES.put("rov-ies", 1025);
 		IMC_ADDRESSES.put("adamastor", 1026);
 		IMC_ADDRESSES.put("swordfish", 2049);
@@ -69,6 +71,8 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-dolphin-1-doam", 24577);
 		IMC_ADDRESSES.put("lauv-seacon-1-aux", 24578);
 		IMC_ADDRESSES.put("lauv-noptilus-3-aux", 24579);
+		IMC_ADDRESSES.put("lauv-dolphin-2-aux", 24580);
+		IMC_ADDRESSES.put("lauv-dolphin-3-aux", 24581);
 		IMC_ADDRESSES.put("star", 32768);
 		IMC_ADDRESSES.put("benthos-mgateway", 32784);
 		IMC_ADDRESSES.put("manta-1", 32786);
@@ -80,6 +84,8 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("manta-10", 32795);
 		IMC_ADDRESSES.put("manta-11", 32796);
 		IMC_ADDRESSES.put("manta-12", 32797);
+		IMC_ADDRESSES.put("manta-13", 32798);
+		IMC_ADDRESSES.put("manta-14", 32799);
 		IMC_ADDRESSES.put("piccolo-gs1", 32832);
 		IMC_ADDRESSES.put("piccolo-gs2", 32833);
 		IMC_ADDRESSES.put("piccolo-gs3", 32834);
@@ -7855,6 +7861,25 @@ public class ImcStringDefs {
 		sb.append("      </description>\n");
 		sb.append("    </field>\n");
 		sb.append("  </message>\n");
+		sb.append("  \n");
+		sb.append("  <message abbrev=\"Agent\" name=\"Agent\" id=\"850\">\n");
+		sb.append("  \t<field name=\"Agent Class\" abbrev=\"agent_class\" type=\"plaintext\"/>\n");
+		sb.append("  \t<field name=\"Agent Name\" abbrev=\"agent_name\" type=\"plaintext\"/>\n");
+		sb.append("  \t<field name=\"Agent State\" abbrev=\"agent_state\" type=\"plaintext\" unit=\"TupleList\"/>  \t\n");
+		sb.append("  </message>\n");
+		sb.append("  \n");
+		sb.append("  <message abbrev=\"AgentCommand\" name=\"Agent Command\" id=\"851\">\n");
+		sb.append("  \t<field name=\"Command\" abbrev=\"cmd\" type=\"uint8_t\" unit=\"Enumerated\" prefix=\"ACMD\">\n");
+		sb.append("  \t\t<value abbrev=\"INSTANTIATION_REQUEST\" name=\"Instantiation Request\" id=\"1\"/>\n");
+		sb.append("  \t\t<value abbrev=\"INSTANTIATION_SUCCESS\" name=\"Instantiation Success\" id=\"2\"/>\n");
+		sb.append("  \t\t<value abbrev=\"INSTANTIATION_FAILURE\" name=\"Instantiation Failure\" id=\"3\"/>\n");
+		sb.append("  \t\t<value abbrev=\"STATE_REQUEST\" name=\"State Request\" id=\"4\"/> \n");
+		sb.append("  \t\t<value abbrev=\"STATE_REPLY\" name=\"State Reply\" id=\"5\"/>\n");
+		sb.append("  \t</field>\n");
+		sb.append("  \t<field name=\"Request Identifier\" abbrev=\"request_id\" type=\"uint16_t\"/>\n");
+		sb.append("  \t<field name=\"Extra Information\" abbrev=\"info\" type=\"plaintext\"/>\n");
+		sb.append("  \t<field name=\"Arguments\" abbrev=\"args\" type=\"message-list\" subtype=\"Agent\"/>  \t\n");
+		sb.append("  </message>  \n");
 		sb.append("</messages>\n");
 		return sb.toString();
 	}
