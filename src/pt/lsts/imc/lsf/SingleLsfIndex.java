@@ -25,30 +25,87 @@
  * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *  
  */
 package pt.lsts.imc.lsf;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteOrder;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileChannel.MapMode;
+import java.text.DateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.TimeZone;
 import java.util.Vector;
 
 import pt.lsts.imc.Announce;
 import pt.lsts.imc.IMCDefinition;
+import pt.lsts.imc.IMCFieldType;
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.IMCMessageType;
+import pt.lsts.imc.gz.MultiMemberGZIPInputStream;
+import pt.lsts.imc.net.UDPTransport;
 
 /**
- * This class processes multiple lsf log files and generates a respective indexes which
+ * This class processes a single lsf log file and generates a respective index which
  * can be used for a more efficient access to the messages in the log<br/>
  * 
  * @author zp
  * @author pdias
  */
-public class LsfIndex {
+public class SingleLsfIndex {
 
-	Vector<SingleLsfIndex> indexes = new Vector<SingleLsfIndex>();
-	
+	/*
+	 * IMPORTANT NOTE ON MappedByteBuffer: You'll notice that there is no unmap(
+	 * )method. Once established, a mapping remains in effect until the
+	 * MappedByteBufferobject is garbage collected. Unlike locks, mapped buffers
+	 * are not tied to the channel that created them. Closing the associated
+	 * FileChanneldoes not destroy the mapping; only disposal of the buffer
+	 * object itself breaks the mapping.
+	 */
+
+	protected static final String FILENAME = "mra/lsf.index";
+
+	protected IMCDefinition defs;
+
+	protected File lsfFile;
+	// protected MappedByteBuffer lsfBuffer;
+	protected BigByteBuffer buffer;
+	protected LinkedHashMap<Long, MappedByteBuffer> buffers = new LinkedHashMap<Long, MappedByteBuffer>();
+
+	protected double startTime, curTime, endTime;
+	protected MappedByteBuffer index;
+	protected long indexSize;
+	protected int numMessages;
+	protected int generatorSrcId;
+
+	protected RandomAccessFile lsfInputStream;
+	protected FileInputStream indexInputStream;
+	protected FileChannel lsfChannel;
+	protected FileChannel indexChannel;
+	protected LsfIndexListener listener = null;
+
+	protected int HEADER_SIZE = 12;
+	protected int ENTRY_SIZE = 14;
+	protected int OFFSET_OF_TIME = 0, OFFSET_OF_MGID = 4, OFFSET_OF_POS = 6;
+
+	/*
+	 * [Header]: 12 bytes 0 - 'I' 1 - 'D' 2 - 'X' 3 - '1' 4 - start timestamp
+	 * (double)
+	 * 
+	 * [Entry]: 10 bytes 0 - time (int) 4 - mgid (short) 6 - pos (long)
+	 */
+
 	/**
 	 * This method calculates an hashcode based on source and entity of the
 	 * message at index i
@@ -65,7 +122,6 @@ public class LsfIndex {
 		int desired_source = sourceOf(0);
 		int curIndex = startIndex;
 
-		int numMessages = getNumberOfMessages();
 		while (curIndex < numMessages) {
 			if (sourceOf(curIndex) != desired_source) {
 				curIndex++;
@@ -79,41 +135,66 @@ public class LsfIndex {
 	}
 
 	public void load(File lsfFile, IMCDefinition defs) throws Exception {
-		indexes.clear();
-		SingleLsfIndex index = new SingleLsfIndex(lsfFile, defs);
-		indexes.add(index);
+		this.lsfFile = lsfFile;
+		if (!lsfFile.getName().endsWith(".lsf")
+				&& !lsfFile.getName().endsWith(".lsf.gz")) {
+			throw new Exception("The file is not lsf!");
+		}
+		if (defs == null) {
+			if (new File(lsfFile.getParent(), "IMC.xml.gz").canRead()) {
+				defs = new IMCDefinition(new File(lsfFile.getParent(),
+						"IMC.xml.gz"));
+			} else if (new File(lsfFile.getParent(), "IMC.xml").canRead()) {
+				defs = new IMCDefinition(new File(lsfFile.getParent(),
+						"IMC.xml"));
+			} else {
+				defs = IMCDefinition.getInstance();
+			}
+		}
+
+		this.defs = defs;
+
+		if (lsfFile.getName().endsWith(".lsf.gz")) {
+
+			MultiMemberGZIPInputStream mmgis = new MultiMemberGZIPInputStream(
+					new FileInputStream(this.lsfFile));
+			File outFile = new File(this.lsfFile.getAbsolutePath().replaceAll(
+					"\\.gz$", ""));
+			outFile.createNewFile();
+			FileOutputStream outStream = new FileOutputStream(outFile);
+			try {
+				byte[] extra = new byte[50000];
+				int ret = 0;
+				for (;;) {
+					ret = mmgis.read(extra);
+					if (ret != -1) {
+						byte[] extra1 = new byte[ret];
+						System.arraycopy(extra, 0, extra1, 0, ret);
+						outStream.write(extra1);
+						outStream.flush();
+					} else {
+						break;
+					}
+				}
+				lsfFile = this.lsfFile = outFile;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		lsfInputStream = new RandomAccessFile(lsfFile, "r");
+		lsfChannel = lsfInputStream.getChannel();
+		buffer = new BigByteBuffer(lsfChannel, lsfFile.length());
+
+		loadIndex();
+
+		listener = null;
 	}
 
-	public LsfIndex(File lsfFile, IMCDefinition defs, LsfIndexListener listener)
+	public SingleLsfIndex(File lsfFile, IMCDefinition defs, LsfIndexListener listener)
 			throws Exception {
-		indexes.clear();
-		SingleLsfIndex index = new SingleLsfIndex(lsfFile, defs, listener);
-		indexes.add(index);		
-	}
-	
-	
-	public SingleLsfIndex lsfIndexOf(int index) {
-		int count = 0;
-		for (SingleLsfIndex i : indexes) {
-			if (index < count+i.getNumberOfMessages())
-				return i;
-			else
-				count += i.getNumberOfMessages();
-		}
-		if (!indexes.isEmpty())
-			return indexes.lastElement();
-		return null;
-	}
-	
-	public int messagesToSkip(int index) {
-		int count = 0;
-		for (SingleLsfIndex i : indexes) {
-			if (count+i.getNumberOfMessages() < index)
-				count += i.getNumberOfMessages();
-			else
-				return count;
-		}
-		return 0;
+		this.listener = listener;
+		load(lsfFile, defs);
 	}
 
 	/**
@@ -129,7 +210,7 @@ public class LsfIndex {
 	 * @throws Exception
 	 *             If the log file is not valid / cannot be read.
 	 */
-	public LsfIndex(File lsfFile, IMCDefinition defs) throws Exception {
+	public SingleLsfIndex(File lsfFile, IMCDefinition defs) throws Exception {
 		this(lsfFile, defs, new LsfIndexListener() {
 
 			@Override
@@ -139,34 +220,52 @@ public class LsfIndex {
 			}
 		});
 	}
-	
-	public LsfIndex(File[] lsfFiles) throws Exception {
-		indexes.clear();
-		for (File f : lsfFiles) {
-			try {
-				SingleLsfIndex index = new SingleLsfIndex(f);
-				addIndex(index);
-			}
-			catch (Exception e) {
-				e.printStackTrace();				
-			}
+
+	public SingleLsfIndex(File lsfFile) throws Exception {
+		if (lsfFile.isDirectory()) {
+			if (new File(lsfFile, "Data.lsf").canRead())
+				lsfFile = new File(lsfFile, "Data.lsf");
+			else if (new File(lsfFile, "Data.lsf.gz").canRead())
+				lsfFile = new File(lsfFile, "Data.lsf.gz");
 		}
+		IMCDefinition defs = null;
+		try {
+			if (new File(lsfFile.getParent(), "IMC.xml").canRead())
+				defs = new IMCDefinition(new FileInputStream(new File(
+						lsfFile.getParent(), "IMC.xml")));
+			else if (new File(lsfFile.getParent(), "IMC.xml.gz").canRead())
+				defs = new IMCDefinition(new MultiMemberGZIPInputStream(
+						new FileInputStream(new File(lsfFile.getParent(),
+								"IMC.xml.gz"))));
+		} catch (Exception e) {
+			
+		}
+		if (defs == null)
+			defs = IMCDefinition.getInstance();
+		
+		this.lsfFile = lsfFile;
+
+		load(lsfFile, defs);
 	}
 
-	public LsfIndex(File lsfFile) throws Exception {
-		indexes.clear();
-		SingleLsfIndex index = new SingleLsfIndex(lsfFile);
-		addIndex(index);	
-	}	
-	
-	public void addIndex(SingleLsfIndex index) {
-		for (int i = 0; i < indexes.size(); i++) {
-			if (indexes.get(i).getStartTime() > index.getStartTime()) {
-				indexes.add(i, index);
-				return;
-			}
+	protected void loadIndex() throws Exception {
+		checkIndex();
+		new File(lsfFile.getParent(), "mra").mkdirs();
+
+		indexInputStream = new FileInputStream(new File(lsfFile.getParent(),
+				FILENAME));
+		indexSize = new File(lsfFile.getParent(), FILENAME).length();
+		indexChannel = indexInputStream.getChannel();
+		index = indexChannel.map(MapMode.READ_ONLY, 0, indexSize);
+		if (index.get() != 'I' || index.get() != 'D' || index.get() != 'X'
+				|| index.get() != '1') {
+			throw new Exception(
+					"The index file is not valid. Please regenerate the index.");
 		}
-		indexes.add(index);
+		curTime = startTime = index.getDouble();
+		numMessages = (int) indexSize / ENTRY_SIZE;
+		endTime = getEndTime();
+		generatorSrcId = getMessage(0).getHeader().getInteger("src");
 	}
 
 	/**
@@ -178,9 +277,16 @@ public class LsfIndex {
 	 * @return The bytes, in the log file respective to the message
 	 */
 	public byte[] getMessageBytes(int ind) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(ind).getMessageBytes(ind - messagesToSkip(ind));
-		return null;
+		int len;
+		if (ind < getNumberOfMessages() - 1)
+			len = (int) (positionOf(ind + 1) - positionOf(ind));
+		else
+			len = (int) (lsfFile.length() - positionOf(ind));
+		byte[] arr = new byte[len];
+
+		buffer.position(positionOf(ind));
+		buffer.getBuffer().get(arr);
+		return arr;
 	}
 
 	/**
@@ -191,9 +297,10 @@ public class LsfIndex {
 	 * @return The IMC type (id) for the message at given index
 	 */
 	public int typeOf(int messageNumber) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).typeOf(messageNumber - messagesToSkip(messageNumber));
-		return -1;
+		if (messageNumber > numMessages)
+			return -1;
+		return index.getShort(HEADER_SIZE + messageNumber * ENTRY_SIZE
+				+ OFFSET_OF_MGID) & 0xFFFF;
 	}
 
 	/**
@@ -205,50 +312,82 @@ public class LsfIndex {
 	 * @return Time, in seconds since January 1st 1970 UTC of the given message
 	 */
 	public double timeOf(int messageNumber) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).timeOf(messageNumber - messagesToSkip(messageNumber));
-		return Double.NaN;
+		if (messageNumber > numMessages)
+			return Double.NaN;
+		return startTime
+				+ index.getInt(HEADER_SIZE + messageNumber * ENTRY_SIZE
+						+ OFFSET_OF_TIME) / 1000.0;
 	}
 
 	public synchronized boolean isBigEndian(int messageNumber) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).isBigEndian(messageNumber - messagesToSkip(messageNumber));
-		return false;
+		// offset for the sync number in the header is 0
+		if (messageNumber < 0 || messageNumber >= numMessages)
+			return false;
+
+		buffer.position(positionOf(messageNumber) + 0);
+		return !((buffer.getBuffer().get() & 0xFF) == 0xFE);
 	}
 
 	public String sourceNameOf(int messageNumber) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).sourceNameOf(messageNumber - messagesToSkip(messageNumber));
-		return null;
+		int src = sourceOf(messageNumber);
+		if (src == -1)
+			return null;
+
+		return defs.getResolver().resolve(src);
 	}
 
 	public String entityNameOf(int messageNumber) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).entityNameOf(messageNumber - messagesToSkip(messageNumber));
-		return null;
+		int src = sourceOf(messageNumber);
+		int src_ent = entityOf(messageNumber);
+
+		return getEntityName(src, src_ent);
 	}
 
 	public int sizeOf(int messageNumber) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).sizeOf(messageNumber - messagesToSkip(messageNumber));
-		return 0;
+		if (messageNumber < getNumberOfMessages() - 1)
+			return (int) (positionOf(messageNumber + 1) - positionOf(messageNumber));
+		else
+			return (int) (lsfFile.length() - positionOf(messageNumber));
 	}
 
 	public synchronized int sourceOf(int messageNumber) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).sourceOf(messageNumber - messagesToSkip(messageNumber));
-		return -1;
+		if (messageNumber < 0 || messageNumber >= numMessages)
+			return -1;
+
+		// offset for the sync number in the header is 0
+		buffer.position(positionOf(messageNumber) + 0);
+		boolean bigEndian = !((buffer.getBuffer().get() & 0xFF) == 0xFE);
+
+		// offset for the source in the header is 14
+		buffer.position(positionOf(messageNumber) + 14);
+
+		if (bigEndian)
+			return buffer.getBuffer().getShort() & 0xFFFF;
+		else
+			return Short.reverseBytes(buffer.getBuffer().getShort()) & 0xFFFF;
 	}
 
 	public synchronized int entityOf(int messageNumber) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).entityOf(messageNumber - messagesToSkip(messageNumber));
-		return -1;
+		if (messageNumber < 0 || messageNumber >= numMessages)
+			return -1;
+
+		// offset for src_ent in the header is 16
+		buffer.position(positionOf(messageNumber) + 16);
+
+		return buffer.getBuffer().get() & 0xFF;
 	}
 
 	public synchronized int fieldIdOf(int messageNumber) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).fieldIdOf(messageNumber - messagesToSkip(messageNumber));
+		if (messageNumber < 0 || messageNumber >= numMessages)
+			return -1;
+
+		IMCMessageType type = defs.getType(typeOf(messageNumber));
+
+		if (type.getOffsetOf("id") == 0
+				&& type.getFieldType("id") == IMCFieldType.TYPE_UINT8) {
+			buffer.position(positionOf(messageNumber) + defs.headerLength());
+			return buffer.getBuffer().get() & 0xFF;
+		}
 		return -1;
 	}
 
@@ -260,9 +399,10 @@ public class LsfIndex {
 	 * @return The offset in the lsf File for message at given index
 	 */
 	public long positionOf(int messageNumber) {
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).positionOf(messageNumber - messagesToSkip(messageNumber));
-		return -1;
+		if (messageNumber > numMessages)
+			return -1;
+		return index.getLong(HEADER_SIZE + messageNumber * ENTRY_SIZE
+				+ OFFSET_OF_POS);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -278,43 +418,6 @@ public class LsfIndex {
 	}
 
 	/**
-	 * Get an iterator to traverse all messages in the log from a selected
-	 * entity name
-	 * 
-	 * @param entityName The entity to be iterated
-	 * @return A message iterator that 
-	 */
-	public Iterable<IMCMessage> iterateEntityMessages(String entityName) {
-		return new LsfIndexEntityInterator(this, entityName);
-	}
-
-	public Iterable<IMCMessage> getIterator(String msgType) {
-		return new LsfGenericIterator(this, msgType, 0, 0);
-	}
-
-	public Iterable<IMCMessage> getIterator(String msgType, int fromIndex) {
-		return new LsfGenericIterator(this, msgType, fromIndex, 0);
-	}
-
-	public Iterable<IMCMessage> getIterator(String msgType, int fromIndex,
-			long timestepMillis) {
-		return new LsfGenericIterator(this, msgType, fromIndex, timestepMillis);
-	}
-
-	public <T> LsfIterator<T> getIterator(Class<T> msgType) {
-		return new LsfIterator<T>(this, msgType);
-	}
-
-	public <T> LsfIterator<T> getIterator(Class<T> msgType, int fromIndex) {
-		return new LsfIterator<T>(this, msgType, fromIndex);
-	}
-
-	public <T> LsfIterator<T> getIterator(Class<T> msgType,
-			long millisBetweenMessages) {
-		return new LsfIterator<T>(this, msgType, millisBetweenMessages);
-	}
-
-	/**
 	 * Deserializes and retrieves the message at given index
 	 * 
 	 * @param messageNumber
@@ -323,35 +426,151 @@ public class LsfIndex {
 	 *         message at given index
 	 */
 	public synchronized IMCMessage getMessage(int messageNumber) {
-		
-		if (!indexes.isEmpty())
-			return lsfIndexOf(messageNumber).getMessage(messageNumber - messagesToSkip(messageNumber));
-		return null;
+		if (messageNumber > numMessages)
+			return null;
+
+		buffer.position(positionOf(messageNumber));
+
+		try {
+			return defs.nextMessage(buffer.getBuffer());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
-	
-	
 	/**
 	 * @return Total number of messages in the log
 	 */
 	public int getNumberOfMessages() {
-		int count = 0;
-		for (SingleLsfIndex i : indexes)
-			count += i.getNumberOfMessages();
-		return count;
-		
+		return numMessages;
 	}
-	
-	public int getFirstMessageOfType(String abbrev) {
-		int first = -1;
-		int count = 0;
-		for (SingleLsfIndex i : indexes) {
-			first = i.getFirstMessageOfType(abbrev);
-			if (first != -1)
-				return count + first;
-			count += i.getNumberOfMessages();
+
+	protected void createIndex() throws Exception {
+		if (listener != null)
+			listener.updateStatus("Creating mra/lsf.index...");
+
+		buffer.position(0);
+		new File(lsfFile.getParent(), "mra").mkdirs();
+		new File(lsfFile.getParent(), FILENAME).delete();
+		long progress = 0;
+		DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(
+				new FileOutputStream(new File(lsfFile.getParent(), FILENAME))));
+
+		double startTime = 0, time;
+		long pos, newPos;
+		int mgid, size, sync;
+		int counter = 0;
+
+		long len = lsfFile.length();
+
+		while (buffer.getBuffer().remaining() > defs.headerLength()) {
+			pos = buffer.position();
+			if (pos == 0) {
+				sync = buffer.getBuffer().getShort() & 0xFFFF;
+				if (sync == defs.getSwappedWord())
+					buffer.order(ByteOrder.LITTLE_ENDIAN);
+			} else
+				buffer.position(buffer.position() + 2);
+
+			mgid = buffer.getBuffer().getShort() & 0xFFFF;
+			size = buffer.getBuffer().getShort() & 0xFFFF;
+			time = buffer.getBuffer().getDouble();
+
+			if (pos == 0) {
+				dos.write(new byte[] { 'I', 'D', 'X', '1' });
+				dos.writeDouble(time);
+				startTime = time;
+			}
+
+			dos.writeInt((int) ((time - startTime) * 1000.0));
+			dos.writeShort(mgid);
+			dos.writeLong(pos);
+
+			counter++;
+			newPos = buffer.position() + (defs.headerLength() - 12) + size;
+			if (newPos > len - HEADER_SIZE)
+				break;
+			else
+				buffer.position(newPos);
+
+			long prog = (long) (pos * 100.0 / len);
+			if (prog != progress) {
+				if (listener != null)
+					listener.updateStatus("Creating lsf.index... " + prog + "%");
+				progress = prog;
+			}
 		}
-		return -1;
+
+		dos.close();
+		System.out.println("Indexed "+counter + " messages from "+lsfFile.getAbsolutePath()+".");
+		listener = null;
+	}
+
+	/**
+	 * Same as {@link #startReplay(long) startReplay(1)}
+	 */
+	public void startReplay() {
+		startReplay(1, "127.0.0.1", 6002);
+	}
+
+	/**
+	 * Just for testing purposes. This method will start broadcasting all
+	 * messages in the log according to time separations.
+	 * 
+	 * @param timeMultiplier
+	 *            If 1.0 is used, the separation between messages will be
+	 *            approximately the same as real-time. If this value is higher,
+	 *            the replay will be done faster in the same proportion.
+	 */
+	public void startReplay(long timeMultiplier, String host, int port) {
+		long localStartTime = System.currentTimeMillis();
+		long lastPrint = 0;
+		UDPTransport transport = new UDPTransport(defs);
+
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+
+		DateFormat dfGMT = DateFormat.getTimeInstance(DateFormat.DEFAULT);
+		dfGMT.setTimeZone(tz);
+
+		for (int i = 0; i < numMessages - 1; i++) {
+			long curTime = ((long) (1000 / timeMultiplier * (timeOf(i) - startTime)))
+					+ localStartTime;
+			long sleep_millis = curTime - System.currentTimeMillis();
+			IMCMessage m = getMessage(i);
+
+			transport.sendMessage("127.0.0.1", 6002, m);
+			int src = m.getHeader().getInteger("src");
+
+			if (src == generatorSrcId && sleep_millis > 5
+					&& timeOf(i + 1) > timeOf(i)) {
+				try {
+					Thread.sleep(sleep_millis);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			long time = 1000 * (long) timeOf(i);
+			if (src == generatorSrcId && time > lastPrint) {
+				System.out.println(dfGMT.format(new Date(time)));
+				lastPrint = time;
+			}
+		}
+	}
+
+	protected void checkIndex() throws Exception {
+		if (!new File(lsfFile.getParent(), FILENAME).canRead())
+			createIndex();
+		else {
+			if (listener != null)
+				listener.updateStatus("Using existing lsf.index...");
+		}
+
+	}
+
+	public int getFirstMessageOfType(String abbrev) {
+		int type = defs.getMessageId(abbrev);
+		return getFirstMessageOfType(type);
 	}
 
 	public <T> T getFirst(Class<T> clazz) {
@@ -379,7 +598,7 @@ public class LsfIndex {
 	}
 
 	public int getFirstMessageOfType(int type) {
-		for (int i = 0; i < getNumberOfMessages(); i++) {
+		for (int i = 0; i < numMessages; i++) {
 			if (typeOf(i) == type)
 				return i;
 		}
@@ -387,12 +606,11 @@ public class LsfIndex {
 	}
 
 	public int getLastMessageOfType(String abbrev) {
-		int type = getDefinitions().getMessageId(abbrev);
+		int type = defs.getMessageId(abbrev);
 		return getLastMessageOfType(type);
 	}
 
 	public int getLastMessageOfType(int type) {
-		int numMessages = getNumberOfMessages();
 		for (int i = numMessages - 1; i >= 0; i--) {
 			if (typeOf(i) == type)
 				return i;
@@ -404,7 +622,6 @@ public class LsfIndex {
 		if (startIndex == -1)
 			return -1;
 
-		int numMessages = getNumberOfMessages();
 		for (int i = startIndex + 1; i < numMessages; i++) {
 			if (typeOf(i) == type)
 				return i;
@@ -426,7 +643,7 @@ public class LsfIndex {
 	public int getNextMessageOfEntity(String entity, int startIndex) {
 		if (startIndex == -1)
 			return -1;
-		int numMessages = getNumberOfMessages();
+
 		for (int i = startIndex + 1; i < numMessages; i++) {
 			if (entityNameOf(i).equals(entity))
 				return i;
@@ -487,16 +704,8 @@ public class LsfIndex {
 	}
 
 	public int getNextMessageOfType(String abbrev, int startIndex) {
-		int type = getDefinitions().getMessageId(abbrev);
+		int type = defs.getMessageId(abbrev);
 		return getNextMessageOfType(type, startIndex);
-	}
-
-	public Iterable<IMCMessage> messagesOfType(int type) {
-		return getIterator(getDefinitions().getMessageName(type));
-	}
-
-	public Iterable<IMCMessage> messagesOfType(String abbrev) {
-		return messagesOfType(getDefinitions().getMessageId(abbrev));
 	}
 
 	/**
@@ -505,10 +714,7 @@ public class LsfIndex {
 	 * @return the IMC definitions used by this LsfIndex object
 	 */
 	public IMCDefinition getDefinitions() {
-		if (indexes.isEmpty())
-			return IMCDefinition.getInstance();
-		else
-			return indexes.firstElement().getDefinitions();
+		return defs;
 	}
 
 	public boolean hasMultipleVehicles() {
@@ -604,7 +810,7 @@ public class LsfIndex {
 
 		loadSystems();
 
-		int type = getDefinitions().getMessageId("EntityInfo");
+		int type = defs.getMessageId("EntityInfo");
 		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
 				type, i)) {
 			IMCMessage einfo = getMessage(i);
@@ -622,8 +828,8 @@ public class LsfIndex {
 			systemEntityNames.get(src).put(einfo.getInteger("id"),
 					einfo.getString("label"));
 			
-			if (getDefinitions() != IMCDefinition.getInstance())
-				getDefinitions().getResolver().setEntityName(src, einfo.getInteger("id"),
+			if (defs != IMCDefinition.getInstance())
+				defs.getResolver().setEntityName(src, einfo.getInteger("id"),
 						einfo.getString("label"));
 		}
 	}
@@ -640,7 +846,7 @@ public class LsfIndex {
 		systemEntityIds = new LinkedHashMap<Integer, LinkedHashMap<String, Integer>>();
 		systemEntityNames = new LinkedHashMap<Integer, LinkedHashMap<Integer, String>>();
 
-		int type = getDefinitions().getMessageId("Announce");
+		int type = defs.getMessageId("Announce");
 		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
 				type, i + 1)) {
 			IMCMessage m = getMessage(i);
@@ -650,7 +856,7 @@ public class LsfIndex {
 			if (!sysNames.containsKey(src))
 				sysNames.put(src, sys_name);
 
-			getDefinitions().getResolver().addEntry(src, sys_name);
+			defs.getResolver().addEntry(src, sys_name);
 
 			if (src < 0x4001) {
 				systemEntityNames
@@ -670,16 +876,54 @@ public class LsfIndex {
 	 * This must be called to break the mapping and free memory.
 	 */
 	public void cleanup() {
-		for (SingleLsfIndex i : indexes)
-			i.cleanup();
-		indexes.clear();
+		if (buffer != null)
+			buffer = null;
+		if (index != null)
+			index = null;
+		if (lsfChannel != null) {
+			try {
+				lsfChannel.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (indexChannel != null) {
+			try {
+				indexChannel.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (lsfInputStream != null) {
+			try {
+				lsfInputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (indexInputStream != null) {
+			try {
+				indexInputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		System.gc(); // To force the unmapping
 	}
 
 	public Collection<Announce> getAvailableSystems() {
+		int announce_id = getDefinitions().getMessageId("Announce");
 		LinkedHashMap<String, Announce> announces = new LinkedHashMap<String, Announce>();
-		for (SingleLsfIndex i : indexes) {
-			for (Announce a : i.getAvailableSystems())
-				announces.put(a.getSysName(), a);
+
+		for (int i = getFirstMessageOfType(announce_id); i != -1; i = getNextMessageOfType(
+				announce_id, i)) {
+			try {
+				Announce an = new Announce();
+				an.copyFrom(getMessage(i));
+				announces.put(an.getSysName(), an);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		return announces.values();
@@ -718,7 +962,7 @@ public class LsfIndex {
 	}
 
 	public double getEndTime() {
-		int idx = getNumberOfMessages() - 1;
+		int idx = numMessages - 1;
 		return timeOf(idx);
 	}
 
@@ -733,7 +977,7 @@ public class LsfIndex {
 		}
 	}
 
-	protected LinkedHashMap<Integer, IndexCache> latestRetrievals = new LinkedHashMap<Integer, LsfIndex.IndexCache>();
+	protected LinkedHashMap<Integer, IndexCache> latestRetrievals = new LinkedHashMap<Integer, SingleLsfIndex.IndexCache>();
 
 	class IndexCache implements Comparable<IndexCache> {
 		public int index;
@@ -751,11 +995,11 @@ public class LsfIndex {
 	}
 
 	public int getMsgIndexAt(String type, double timestamp) {
-		if (timestamp < getStartTime() || timestamp > getEndTime())
+		if (timestamp < startTime || timestamp > endTime)
 			return -1;
 
-		int msgType = getDefinitions().getMessageId(type);
-		int finderPos = (int) (((timestamp - getStartTime()) / (getEndTime() - getStartTime())) * getNumberOfMessages());
+		int msgType = defs.getMessageId(type);
+		int finderPos = (int) (((timestamp - startTime) / (endTime - startTime)) * numMessages);
 
 		if (latestRetrievals.get(msgType) != null) {
 			if (Math.abs(latestRetrievals.get(msgType).timestamp - timestamp) <= 1)
@@ -843,15 +1087,18 @@ public class LsfIndex {
 	 * @return the lsfFile
 	 */
 	public File getLsfFile() {
-		
-		if (indexes.isEmpty())
-			return null;
-		return indexes.firstElement().getLsfFile();
+		return lsfFile;
 	}
 
 	public static void main(String[] args) throws Exception {
-		LsfIndex i = new LsfIndex(new File("/home/zp/Desktop/logs").listFiles());
-		System.out.println(i.getNumberOfMessages());
-		System.out.println(i.getMessage(i.getNumberOfMessages()-1));
+		LsfIndex index = new LsfIndex(new File(
+				"/home/zp/Desktop/batida/Data.lsf"));
+		System.out.printf("%f\n", index.getStartTime());
+		System.out.printf("%f\n", index.getEndTime());
+
+		for (double time = index.getStartTime(); time < index.getEndTime(); time += 0.1) {
+			int idx = index.getMsgIndexAt("EstimatedState", time);
+			System.out.println(index.timeOf(idx));
+		}
 	}
 }

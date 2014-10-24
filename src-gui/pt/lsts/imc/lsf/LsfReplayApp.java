@@ -47,7 +47,7 @@ public class LsfReplayApp {
         
         File choice = chooser.getSelectedFile();
         System.out.println(choice);
-        LsfIndex index = new LsfIndex(choice);
+        SingleLsfIndex index = new SingleLsfIndex(choice);
         
         String input = JOptionPane.showInputDialog("Enter time multiplier", "1");
         if (input == null)
