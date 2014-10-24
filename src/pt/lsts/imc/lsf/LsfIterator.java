@@ -123,7 +123,7 @@ public class LsfIterator<T> implements Iterator<T>, Iterable<T>{
 	}
 
 	public static void main(String[] args) throws Exception {
-        LsfIndex index = new LsfIndex(new File("/home/zp/Desktop/log-imc5/Data.lsf"),
+        LsfIndex index = new LsfIndex(new File("/home/zp/Desktop/log-imc5/Data.lsf"), null,
                 IMCDefinition.getInstance());
 
         for (int i = index.getFirstMessageOfType(Current.ID_STATIC); i != -1; 

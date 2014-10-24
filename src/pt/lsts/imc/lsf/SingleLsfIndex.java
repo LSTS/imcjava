@@ -197,31 +197,11 @@ public class SingleLsfIndex {
 		load(lsfFile, defs);
 	}
 
-	/**
-	 * Class constructor. Creates a new index from given lsf File and IMC
-	 * definitions.<br/>
-	 * This method will first look for an lsf.index file and load it. If none is
-	 * found, the index is generated first.
-	 * 
-	 * @param lsfFile
-	 *            The file, in lsf format with the messages log
-	 * @param defs
-	 *            The IMC definitions for that log
-	 * @throws Exception
-	 *             If the log file is not valid / cannot be read.
-	 */
-	public SingleLsfIndex(File lsfFile, IMCDefinition defs) throws Exception {
-		this(lsfFile, defs, new LsfIndexListener() {
-
-			@Override
-			public void updateStatus(String messageToDisplay) {
-				System.out.println("[LsfIndex] " + messageToDisplay);
-
-			}
-		});
+	public SingleLsfIndex(File lsfFile) throws Exception {
+		this(lsfFile, null);
 	}
 
-	public SingleLsfIndex(File lsfFile) throws Exception {
+	public SingleLsfIndex(File lsfFile, LsfIndexListener listener) throws Exception {
 		if (lsfFile.isDirectory()) {
 			if (new File(lsfFile, "Data.lsf").canRead())
 				lsfFile = new File(lsfFile, "Data.lsf");

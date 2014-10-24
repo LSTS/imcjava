@@ -572,7 +572,7 @@ public class IMCProtocol implements IMessageBus {
 	 */
 	public void startReplay(String dirToReplay, double speed) throws Exception {
 
-		final LsfIndex index = new LsfIndex(new File(dirToReplay, "Data.lsf"),
+		final LsfIndex index = new LsfIndex(new File(dirToReplay, "Data.lsf"), null,
 				IMCDefinition.getInstance(new FileInputStream(new File(
 						dirToReplay, "IMC.xml"))));
 

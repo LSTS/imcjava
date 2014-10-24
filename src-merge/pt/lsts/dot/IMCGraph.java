@@ -560,7 +560,7 @@ public class IMCGraph {
             InFile2 = new File(chooser.getSelectedFile(), "IMC.xml").getAbsolutePath();
         }
 
-        LsfIndex index = new LsfIndex(new File(InFile1), new IMCDefinition(new File(InFile2)));
+        LsfIndex index = new LsfIndex(new File(InFile1), null, new IMCDefinition(new File(InFile2)));
 
         IMCGraph p = new IMCGraph(index);
         // GraphViz g = p.generateInterface("Autonomy.TREX");

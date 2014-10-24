@@ -603,7 +603,7 @@ public class ImcSystemState {
 	public static void main(String[] args) throws Exception {
 		ImcSystemState state = new ImcSystemState(IMCDefinition.getInstance());
 		LsfIndex index = new LsfIndex(new File(
-				"/home/zp/Desktop/112538_rows_wreck_-3m/Data.lsf"),
+				"/home/zp/Desktop/112538_rows_wreck_-3m/Data.lsf"), null,
 				IMCDefinition.getInstance());
 
 		for (int i = 0; i < index.getNumberOfMessages(); i++) {

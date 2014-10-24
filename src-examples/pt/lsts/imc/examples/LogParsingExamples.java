@@ -162,7 +162,7 @@ public class LogParsingExamples {
             String lsfPath = args[0];
             File lsfFile = new File(lsfPath);
             File defsFile = new File(lsfFile.getParentFile(),"IMC.xml");
-            LsfIndex index = new LsfIndex(lsfFile, new IMCDefinition(new FileInputStream(defsFile)));
+            LsfIndex index = new LsfIndex(lsfFile, null, new IMCDefinition(new FileInputStream(defsFile)));
             System.out.println("Mean stream speed: "+meanStreamSpeed(index)+" m/s");
             double[] deepest = deepestLocation(index);
             

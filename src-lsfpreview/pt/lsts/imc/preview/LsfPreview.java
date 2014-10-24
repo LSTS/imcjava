@@ -101,11 +101,11 @@ public class LsfPreview {
         LsfIndex index = null;
         if (new File(folder, "Data.lsf").canRead()) {
             if (new File(folder, "IMC.xml").canRead())
-                index = new LsfIndex(new File(folder, "Data.lsf"), new IMCDefinition(new FileInputStream(new File(
+                index = new LsfIndex(new File(folder, "Data.lsf"), null, new IMCDefinition(new FileInputStream(new File(
                         folder, "IMC.xml"))));
 
             else {
-                index = new LsfIndex(new File(folder, "Data.lsf"), IMCDefinition.getInstance());
+                index = new LsfIndex(new File(folder, "Data.lsf"), null, IMCDefinition.getInstance());
             }
 
             LsfPreview preview = new LsfPreview(index);

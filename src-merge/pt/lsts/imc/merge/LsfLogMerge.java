@@ -233,8 +233,8 @@ public class LsfLogMerge {
         
         
         
-        LsfIndex index1 = new LsfIndex(new File(InFile1), null);
-        LsfIndex index2 = new LsfIndex(new File(InFile2), null);
+        LsfIndex index1 = new LsfIndex(new File(InFile1));
+        LsfIndex index2 = new LsfIndex(new File(InFile2));
 
         filedelete(OutFile1);
         

@@ -51,8 +51,8 @@ public class MergeBattle {
         
         System.out.println(startMillis);
         
-        LsfIndex index1 = new LsfIndex(new File(dir_input1+"Data.lsf"), null);
-        LsfIndex index2 = new LsfIndex(new File(dir_input1+"Data.lsf"), null);
+        LsfIndex index1 = new LsfIndex(new File(dir_input1+"Data.lsf"));
+        LsfIndex index2 = new LsfIndex(new File(dir_input1+"Data.lsf"));
         
         new File(dir_output_ribcar).mkdirs();
         new File(dir_output_rsilva).mkdirs();
