@@ -106,9 +106,9 @@ public class IMCProtocol implements IMessageBus {
 		if (sysStates.containsKey(msg.getSysName())) {
 			if (!state(msg.getSysName()).availableMessages().contains(
 					"EntityList")) {
-				sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
+				sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));				
 			} else {
-				sendMessage(msg.getSysName(), new Heartbeat());
+				sendMessage(msg.getSysName(), new Heartbeat());				
 			}
 		}
 	}
@@ -204,10 +204,24 @@ public class IMCProtocol implements IMessageBus {
 			//final Announce announce = buildAnnounce();
 
 			long lastSent = System.currentTimeMillis();
+			
+			String broadcastAddress = NetworkUtilities.getBroadcastAddress();
+			System.out.println("[IMCProtocol] Broadcast: "+broadcastAddress);
+			
 			while (true) {
+				Announce ann = buildAnnounce();
+				
 				for (int p = 30100; p < 30105; p++)
-					discovery.sendMessage("224.0.75.69", p, buildAnnounce());
-
+					discovery.sendMessage("224.0.75.69", p, ann);
+				
+				if (broadcastAddress != null) {
+					for (int p = 30100; p < 30105; p++)
+						discovery.sendMessage(broadcastAddress, p, ann);
+					discovery.sendMessage(broadcastAddress, 8001, ann); // send to agents
+					discovery.sendMessage(broadcastAddress, 6001, ann); // send to neptus				
+					discovery.sendMessage(broadcastAddress, 6002, ann); // send to dune
+				}
+								
 				lastSent = System.currentTimeMillis();
 				try {
 					Thread.sleep(10000 - (System.currentTimeMillis() - lastSent));
@@ -359,7 +373,7 @@ public class IMCProtocol implements IMessageBus {
 				if (nd.address != null) {
 					msg.setValue("dst", nd.getImcId());
 					comms.sendMessage(nd.getAddress(), nd.getPort(), msg);
-
+					
 					return true;
 				} else
 					return false;
@@ -653,11 +667,10 @@ public class IMCProtocol implements IMessageBus {
 
 		IMCProtocol proto = new IMCProtocol(7001);
 		proto.setAutoConnect("lauv.*");
-		proto.addMessageListener(new MessageListener<MessageInfo, IMCMessage>() {
-
-			@Override
-			public void onMessage(MessageInfo info, IMCMessage msg) {
-				// System.out.println(msg);
+		proto.register(new Object() {
+			@Consume
+			public void on(IMCMessage m) {
+				System.out.println(m);
 			}
 		});
 	}

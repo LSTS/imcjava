@@ -46,12 +46,14 @@ import java.util.LinkedHashMap;
 import java.util.Vector;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import pt.lsts.imc.Abort;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.IMCOutputStream;
 import pt.lsts.neptus.messages.listener.MessageInfo;
 import pt.lsts.neptus.messages.listener.MessageInfoImpl;
 import pt.lsts.neptus.messages.listener.MessageListener;
+import pt.lsts.util.NetworkUtilities;
 
 public class UDPTransport {
 
@@ -84,7 +86,7 @@ public class UDPTransport {
     private boolean multicastActive = false;
 
     private String multicastAddress = "224.0.75.69";
-
+    
     private boolean isOnBindError = false;
     private boolean isMessageInfoNeeded = true;
     private int receptionCount = 0;
@@ -810,8 +812,7 @@ public class UDPTransport {
                 System.out.println(message.toString());
             }
         });
-        transport.sendMessage("127.0.0.1", 6002, IMCDefinition.getInstance().create("EstimatedState", "x", 10.3, "y", 45));
-        //Thread.sleep(100);
-        //transport.stop();
+        transport.sendMessage(NetworkUtilities.getBroadcastAddress(), 6001, new Abort());
+        Thread.sleep(10000);
     }
 }
