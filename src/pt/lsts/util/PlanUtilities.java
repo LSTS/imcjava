@@ -149,19 +149,12 @@ public class PlanUtilities {
 		}
 		
 		if (m.getTypeOf(zfield) != null && m.getTypeOf(zunitsField) != null) {
-			switch (m.getString(zunitsField)) {
-			case "ALTITUDE":
+			if ("ALTITUDE".equals(m.getString(zunitsField)))
 				wpt.setAltitude(m.getFloat(zfield));
-				break;
-			case "DEPTH":
+			else if ("DEPTH".equals(m.getString(zunitsField)))
 				wpt.setDepth(m.getFloat(zfield));
-				break;
-			case "HEIGHT":
+			else if ("HEIGHT".equals(m.getString(zunitsField)))
 				wpt.setHeight(m.getFloat(zfield));
-				break;
-			default:
-				break;
-			}
 		}			
 		return wpt;
 	}
