@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Vector;
 
 import pt.lsts.imc.CommsRelay;
@@ -23,10 +24,26 @@ import pt.lsts.imc.Rows;
 import pt.lsts.imc.StationKeeping;
 import pt.lsts.imc.TrajectoryPoint;
 import pt.lsts.imc.YoYo;
+import pt.lsts.util.PlanUtilities.Waypoint.TYPE;
 
+/**
+ * This class provides some utility methods to work with IMC plans
+ * 
+ * @author zp
+ */
 public class PlanUtilities {
 
-	public static Collection<double[]> computeLocations(PlanSpecification plan) {
+	/**
+	 * This method calculates the maneuver sequence present in a plan. In case
+	 * of cyclic plans, it will retrieve the first non-repeating sequence of
+	 * maneuvers.
+	 * 
+	 * @param plan The plan to parsed.
+	 * @return a maneuver sequence.
+	 */
+	public static List<Maneuver> getManeuverSequence(PlanSpecification plan) {
+		ArrayList<Maneuver> ret = new ArrayList<Maneuver>();
+		
 		LinkedHashMap<String, Maneuver> maneuvers = new LinkedHashMap<String, Maneuver>();
 		LinkedHashMap<String, String> transitions = new LinkedHashMap<String, String>();
 
@@ -44,41 +61,93 @@ public class PlanUtilities {
 
 		Vector<String> visited = new Vector<String>();
 		String man = plan.getStartManId();
-		Vector<double[]> locations = new Vector<double[]>();
-
+		
 		while (man != null) {
 			if (visited.contains(man)) {
 				System.err.println("This should not be used in cyclic plans");
-				return locations;
+				return ret;
 			}
 			visited.add(man);
 			Maneuver m = maneuvers.get(man);
-			locations.addAll(computeLocations(m));
+			ret.add(m);
 			man = transitions.get(man);
 		}
 		
+		return ret;
+	}
+	
+	/**
+	 * Given a PlanSpecification message, computes its list of WGS84 locations
+	 * 
+	 * @param plan
+	 *            a PlanSpecification message
+	 * @return a Collection of locations of the type double[2] = {latitude,
+	 *         longitude}. <br/>
+	 *         Latitude and Longitude are represented in decimal degrees.
+	 */
+	public static Collection<double[]> computeLocations(PlanSpecification plan) {
+		ArrayList<double[]> locations = new ArrayList<double[]>();
+		
+		for (Maneuver m : getManeuverSequence(plan))
+			locations.addAll(computeLocations(m));
+
 		return locations;
 	}
 	
+	/**
+	 * This method parses an IMC plan and calculates its waypoints.
+	 * @param plan An IMC plan to be parsed
+	 * @return A list of waypoints found in the plan.
+	 * @see PlanUtilities.Waypoint
+	 */
+	public static List<Waypoint> computeWaypoints(PlanSpecification plan) {
+		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
+		
+		for (Maneuver m : getManeuverSequence(plan))
+			waypoints.addAll(computeWaypoints(m));
+
+		return waypoints;
+	}
+
+	/**
+	 * Similar to {@link #computeLocations(Maneuver)} but in this case returning
+	 * waypoint structures
+	 * 
+	 * @param m
+	 *            The Maneuver to be converted to a list of waypoints
+	 * @return a Collection of waypoints
+	 * @see PlanUtilities.Waypoint
+	 */
 	public static Collection<Waypoint> computeWaypoints(Maneuver m) {
 		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
 		Collection<double[]> path = null;
 		Waypoint start = getStartLocation(m);
-		
+
 		if (start == null)
 			return waypoints;
-		
+
 		switch (m.getMgid()) {
 		case Goto.ID_STATIC:
 		case YoYo.ID_STATIC:
+		case PopUp.ID_STATIC:
+			start.setType(TYPE.REGULAR);
+			waypoints.add(start);
+			return waypoints;
 		case Loiter.ID_STATIC:
 		case CompassCalibration.ID_STATIC:
+			start.setType(TYPE.LOITER);
+			waypoints.add(start);
+			return waypoints;			
 		case StationKeeping.ID_STATIC:
+			start.setType(TYPE.STATION_KEEP);
+			waypoints.add(start);
+			return waypoints;
 		case CommsRelay.ID_STATIC:
-		case PopUp.ID_STATIC:
+			start.setType(TYPE.OTHER);
 			waypoints.add(start);
 			return waypoints;
 		case Elevator.ID_STATIC:
+			start.setType(TYPE.LOITER);
 			waypoints.add(start);
 			Waypoint end = start.copy();
 			end.setDepth(Float.NaN);
@@ -87,19 +156,19 @@ public class PlanUtilities {
 			Elevator elev = (Elevator) m;
 			switch (elev.getEndZUnits()) {
 			case ALTITUDE:
-				end.setAltitude((float)elev.getEndZ());
+				end.setAltitude((float) elev.getEndZ());
 				break;
 			case DEPTH:
-				end.setDepth((float)elev.getEndZ());
+				end.setDepth((float) elev.getEndZ());
 				break;
 			case HEIGHT:
-				end.setHeight((float)elev.getEndZ());
+				end.setHeight((float) elev.getEndZ());
 				break;
 			default:
 				break;
-			}			
+			}
 			waypoints.add(end);
-			return waypoints;		
+			return waypoints;
 		case FollowPath.ID_STATIC:
 			path = computePath((FollowPath) m);
 			break;
@@ -107,29 +176,38 @@ public class PlanUtilities {
 			path = computePath((FollowTrajectory) m);
 			break;
 		case Rows.ID_STATIC:
-			path = computePath((Rows)m);
+			path = computePath((Rows) m);
 			break;
 		default:
 			// return empty set of waypoints for other maneuvers
 			return waypoints;
 		}
-		
+
+		start.setType(TYPE.REGULAR);
 		for (double[] p : path) {
 			Waypoint wpt = start.copy();
 			wpt.setLatitude(p[0]);
 			wpt.setLongitude(p[1]);
 			if (!Float.isNaN(wpt.getDepth()))
-				wpt.setDepth((float)(wpt.getDepth()+p[2]));
+				wpt.setDepth((float) (wpt.getDepth() + p[2]));
 			if (!Float.isNaN(wpt.getAltitude()))
-				wpt.setAltitude((float)(wpt.getAltitude()+p[2]));
+				wpt.setAltitude((float) (wpt.getAltitude() + p[2]));
 			if (!Float.isNaN(wpt.getHeight()))
-				wpt.setHeight((float)(wpt.getHeight()+p[2]));			
+				wpt.setHeight((float) (wpt.getHeight() + p[2]));
 			waypoints.add(wpt);
 		}
-		
+
 		return waypoints;
 	}
-	
+
+	/**
+	 * Compute the start location for a given maneuver
+	 * 
+	 * @param m
+	 *            The maneuver
+	 * @return The first waypoint for the maneuver or <code>null</code> if no
+	 *         waypoint can be calculated.
+	 */
 	public static Waypoint getStartLocation(Maneuver m) {
 		Waypoint wpt = new Waypoint();
 		if (m.getTypeOf("lat") == null)
@@ -141,13 +219,13 @@ public class PlanUtilities {
 		wpt.setDepth(Float.NaN);
 		wpt.setAltitude(Float.NaN);
 		wpt.setHeight(Float.NaN);
-				
+
 		String zfield = "z", zunitsField = "z_units";
 		if (m.getTypeOf("start_z") != null) {
 			zfield = "start_z";
 			zunitsField = "start_z_units";
 		}
-		
+
 		if (m.getTypeOf(zfield) != null && m.getTypeOf(zunitsField) != null) {
 			if ("ALTITUDE".equals(m.getString(zunitsField)))
 				wpt.setAltitude(m.getFloat(zfield));
@@ -155,10 +233,10 @@ public class PlanUtilities {
 				wpt.setDepth(m.getFloat(zfield));
 			else if ("HEIGHT".equals(m.getString(zunitsField)))
 				wpt.setHeight(m.getFloat(zfield));
-		}			
+		}
 		return wpt;
 	}
-	
+
 	private static Collection<double[]> computeSingleLoc(Maneuver m) {
 		return Arrays.asList(new double[] { Math.toDegrees(m.getDouble("lat")),
 				Math.toDegrees(m.getDouble("lon")) });
@@ -277,19 +355,28 @@ public class PlanUtilities {
 		boolean squareCurve = (man.getFlags() & Rows.FLG_SQUARE_CURVE) != 0;
 		boolean invertY = (man.getFlags() & Rows.FLG_CURVE_RIGHT) == 0;
 		Vector<double[]> offsetPoints = calcRowsPoints(man.getWidth(),
-				man.getLength(), man.getHstep(), man.getAlternation()/100.0,
+				man.getLength(), man.getHstep(), man.getAlternation() / 100.0,
 				man.getCoff(), squareCurve, man.getBearing(),
 				man.getCrossAngle(), invertY);
-		
+
 		Vector<double[]> ret = new Vector<double[]>();
 		for (double p[] : offsetPoints)
-			ret.add(WGS84Utilities.WGS84displace(refLat, refLon, 0, p[0],
-					p[1], 0));
+			ret.add(WGS84Utilities.WGS84displace(refLat, refLon, 0, p[0], p[1],
+					0));
 
 		return ret;
 
 	}
-	
+
+	/**
+	 * Compute all the locations for a given maneuver message
+	 * 
+	 * @param m
+	 *            The maneuver
+	 * @return a Collection of locations of the type double[2] = {latitude,
+	 *         longitude}. <br/>
+	 *         Latitude and Longitude are represented in decimal degrees.
+	 */
 	public static Collection<double[]> computeLocations(Maneuver m) {
 		switch (m.getMgid()) {
 
@@ -315,107 +402,165 @@ public class PlanUtilities {
 		case FollowTrajectory.ID_STATIC:
 			return computePath((FollowTrajectory) m);
 		case Rows.ID_STATIC:
-			return computePath((Rows)m);
+			return computePath((Rows) m);
 		default:
 			return new Vector<double[]>();
 		}
 	}
-	
+
+	/**
+	 * This inner class represents a IMC plan waypoint. <br/>
+	 * An IMC maneuver may contain more than one waypoints.
+	 * 
+	 * @author zp
+	 *
+	 */
 	public static class Waypoint {
 		private double latitude, longitude;
 		private float altitude, depth, height, radius, time;
 		
-		public enum TYPE {REGULAR, LOITER, STATION_KEEP, OTHER}
+		public enum TYPE {
+			// Go directly to the waypoint
+			REGULAR, 
+			// Move around the waypoint
+			LOITER, 
+			// Stop at the waypoint
+			STATION_KEEP, 
+			// Other waypoint behavior
+			OTHER
+		}
 		
+		private TYPE type = TYPE.OTHER;
+
 		/**
 		 * @return the latitude in degrees of the waypoint
 		 */
 		public double getLatitude() {
 			return latitude;
 		}
+
 		/**
-		 * @param latitude the latitude in degrees of the waypoint
+		 * @param latitude
+		 *            the latitude in degrees of the waypoint
 		 */
 		public void setLatitude(double latitude) {
 			this.latitude = latitude;
 		}
+
 		/**
 		 * @return the longitude in degrees of the waypoint
 		 */
 		public double getLongitude() {
 			return longitude;
 		}
+
 		/**
-		 * @param longitude the longitude in degrees of the waypoint
+		 * @param longitude
+		 *            the longitude in degrees of the waypoint
 		 */
 		public void setLongitude(double longitude) {
 			this.longitude = longitude;
 		}
 
 		/**
-		 * @return the altitude in meters or {@link java.lang.Float#NaN} if not set
+		 * @return the altitude in meters or {@link java.lang.Float#NaN} if not
+		 *         set
 		 */
 		public float getAltitude() {
-			
+
 			return altitude;
 		}
+
 		/**
-		 * @param altitude the altitude in meters or {@link java.lang.Float#NaN} to unset
+		 * @param altitude
+		 *            the altitude in meters or {@link java.lang.Float#NaN} to
+		 *            unset
 		 */
 		public void setAltitude(float altitude) {
 			this.altitude = altitude;
 		}
+
 		/**
 		 * @return the depth in meters or {@link java.lang.Float#NaN} if not set
 		 */
 		public float getDepth() {
 			return depth;
 		}
+
 		/**
-		 * @param depth the depth in meters or {@link java.lang.Float#NaN} to unset
+		 * @param depth
+		 *            the depth in meters or {@link java.lang.Float#NaN} to
+		 *            unset
 		 */
 		public void setDepth(float depth) {
 			this.depth = depth;
 		}
+
 		/**
-		 * @return the WGS84 height in meters or {@link java.lang.Float#NaN} if not set
+		 * @return the WGS84 height in meters or {@link java.lang.Float#NaN} if
+		 *         not set
 		 */
 		public float getHeight() {
 			return height;
 		}
+
 		/**
-		 * @param height the WGS84 height in meters or {@link java.lang.Float#NaN} to unset
+		 * @param height
+		 *            the WGS84 height in meters or {@link java.lang.Float#NaN}
+		 *            to unset
 		 */
 		public void setHeight(float height) {
 			this.height = height;
 		}
+
 		/**
 		 * @return the radius the radius in meters or 0 if not applicable
 		 */
 		public float getRadius() {
 			return radius;
 		}
+
 		/**
-		 * @param radius the radius in meters or 0 if not applicable
+		 * @param radius
+		 *            the radius in meters or 0 if not applicable
 		 */
 		public void setRadius(float radius) {
 			this.radius = radius;
 		}
+
 		/**
 		 * @return the time in seconds to stay at this waypoint
 		 */
 		public float getTime() {
 			return time;
 		}
+
 		/**
-		 * @param time time in seconds to stay at this waypoint
+		 * @param time
+		 *            time in seconds to stay at this waypoint
 		 */
 		public void setTime(float time) {
 			this.time = time;
-		}	
-		
+		}
+
+		/**
+		 * @return this waypoint type
+		 */
+		public TYPE getType() {
+			return type;
+		}
+
+		/**
+		 * @param type 
+		 *            the type of waypoint to set
+		 */
+		public void setType(TYPE type) {
+			this.type = type;
+		}
+
 		public Waypoint copy() {
 			Waypoint copy = new Waypoint();
+			copy.setType(getType());
 			copy.setLatitude(getLatitude());
 			copy.setLongitude(getLongitude());
 			copy.setAltitude(getAltitude());
