@@ -3,14 +3,25 @@
   <property name="test-dir" location="src-junit" />
 
   <path id="classpath.base">
+  	<pathelement location="build" />
   </path>
   <path id="classpath.test">
     <pathelement location="${test.dir}" />
-    <pathelement location="build" />
     <pathelement location="lib/junit-4.10.jar" />
     <pathelement location="lib/commons-io-2.0.1.jar" />
     <path refid="classpath.base" />
   </path>
+  <path id="classpath.full">
+  	<pathelement location="lib/asg.cliche-110413.jar" />
+  	<pathelement location="lib/commons-io-2.0.1.jar" />
+  	<pathelement location="lib/commons-lang3-3.1.jar" />
+  	<pathelement location="lib/firebase-client-jvm-LATEST.jar" />
+  	<pathelement location="lib/javax.servlet-3.0.0.v201112011016.jar" />
+  	<pathelement location="lib/jchart2d-3.2.0.jar" />
+  	<pathelement location="lib/jetty-all-9.0.0.v20130308.jar" />
+  	<pathelement location="lib/js.jar" />  	 
+  	<path refid="classpath.base"/>
+  </path>		
 
   <target name="compile-test" depends="compile-all">
     <javac encoding="UTF-8" srcdir="src-junit" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
@@ -265,8 +276,9 @@
   	
   </target>
 
-  <target name="javadoc" description="Create javadoc documentation">
-    <javadoc charset="UTF-8" encoding="UTF-8" access="public" author="true" classpath="lib/commons-lang3-3.1.jar:lib/js.jar:lib/jchart2d-3.2.0.jar:lib/commons-lang3-3.1.jar:lib/commons-io-2.0.1.jar" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
+  <target name="javadoc" description="Create javadoc documentation" depends="compile-all">
+    <javadoc charset="UTF-8" encoding="UTF-8" access="public" author="true" classpathref="classpath.full" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
+  	<zip destfile="dist/doc.zip" basedir="doc"></zip>
   </target>
 
   <target name="lsfcat" description="Create a program for extracting and simplifying lsf files" depends="compile">
