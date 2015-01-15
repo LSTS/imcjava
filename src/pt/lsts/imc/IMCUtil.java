@@ -32,10 +32,10 @@ package pt.lsts.imc;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Random;
-import java.util.Set;
 import java.util.TimeZone;
 import java.util.Vector;
 
@@ -348,8 +348,9 @@ public class IMCUtil {
                     break;                    
             }
             if (msg.getMessageType().getFieldPossibleValues(field) != null) {
-                Set<Long> allPossibleValues = msg.getMessageType().getFieldPossibleValues(field).keySet();
-                msg.setValue(field, allPossibleValues.iterator().next());
+            	ArrayList<Long> values = new ArrayList<>();
+            	values.addAll(msg.getMessageType().getFieldPossibleValues(field).keySet());
+            	msg.setValue(field, values.get(rnd.nextInt(values.size())));
             }            
         }
     }
