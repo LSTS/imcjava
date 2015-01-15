@@ -348,7 +348,7 @@ public class IMCUtil {
                     break;                    
             }
             if (msg.getMessageType().getFieldPossibleValues(field) != null) {
-            	ArrayList<Long> values = new ArrayList<>();
+            	ArrayList<Long> values = new ArrayList<Long>();
             	values.addAll(msg.getMessageType().getFieldPossibleValues(field).keySet());
             	msg.setValue(field, values.get(rnd.nextInt(values.size())));
             }            

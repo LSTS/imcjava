@@ -61,7 +61,7 @@ public class PlanUtilities {
 	}
 	
 	public static Collection<Waypoint> computeWaypoints(Maneuver m) {
-		ArrayList<Waypoint> waypoints = new ArrayList<>();
+		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
 		Collection<double[]> path = null;
 		Waypoint start = getStartLocation(m);
 		
