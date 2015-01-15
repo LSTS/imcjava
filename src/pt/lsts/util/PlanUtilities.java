@@ -1,5 +1,6 @@
 package pt.lsts.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -58,7 +59,113 @@ public class PlanUtilities {
 		
 		return locations;
 	}
-
+	
+	public static Collection<Waypoint> computeWaypoints(Maneuver m) {
+		ArrayList<Waypoint> waypoints = new ArrayList<>();
+		Collection<double[]> path = null;
+		Waypoint start = getStartLocation(m);
+		
+		if (start == null)
+			return waypoints;
+		
+		switch (m.getMgid()) {
+		case Goto.ID_STATIC:
+		case YoYo.ID_STATIC:
+		case Loiter.ID_STATIC:
+		case CompassCalibration.ID_STATIC:
+		case StationKeeping.ID_STATIC:
+		case CommsRelay.ID_STATIC:
+		case PopUp.ID_STATIC:
+			waypoints.add(start);
+			return waypoints;
+		case Elevator.ID_STATIC:
+			waypoints.add(start);
+			Waypoint end = start.copy();
+			end.setDepth(Float.NaN);
+			end.setAltitude(Float.NaN);
+			end.setHeight(Float.NaN);
+			Elevator elev = (Elevator) m;
+			switch (elev.getEndZUnits()) {
+			case ALTITUDE:
+				end.setAltitude((float)elev.getEndZ());
+				break;
+			case DEPTH:
+				end.setDepth((float)elev.getEndZ());
+				break;
+			case HEIGHT:
+				end.setHeight((float)elev.getEndZ());
+				break;
+			default:
+				break;
+			}			
+			waypoints.add(end);
+			return waypoints;		
+		case FollowPath.ID_STATIC:
+			path = computePath((FollowPath) m);
+			break;
+		case FollowTrajectory.ID_STATIC:
+			path = computePath((FollowTrajectory) m);
+			break;
+		case Rows.ID_STATIC:
+			path = computePath((Rows)m);
+			break;
+		default:
+			// return empty set of waypoints for other maneuvers
+			return waypoints;
+		}
+		
+		for (double[] p : path) {
+			Waypoint wpt = start.copy();
+			wpt.setLatitude(p[0]);
+			wpt.setLongitude(p[1]);
+			if (!Float.isNaN(wpt.getDepth()))
+				wpt.setDepth((float)(wpt.getDepth()+p[2]));
+			if (!Float.isNaN(wpt.getAltitude()))
+				wpt.setAltitude((float)(wpt.getAltitude()+p[2]));
+			if (!Float.isNaN(wpt.getHeight()))
+				wpt.setHeight((float)(wpt.getHeight()+p[2]));			
+			waypoints.add(wpt);
+		}
+		
+		return waypoints;
+	}
+	
+	public static Waypoint getStartLocation(Maneuver m) {
+		Waypoint wpt = new Waypoint();
+		if (m.getTypeOf("lat") == null)
+			return null;
+		wpt.setLatitude(Math.toDegrees(m.getDouble("lat")));
+		wpt.setLongitude(Math.toDegrees(m.getDouble("lon")));
+		wpt.setRadius(m.getFloat("radius"));
+		wpt.setTime(m.getFloat("duration"));
+		wpt.setDepth(Float.NaN);
+		wpt.setAltitude(Float.NaN);
+		wpt.setHeight(Float.NaN);
+				
+		String zfield = "z", zunitsField = "z_units";
+		if (m.getTypeOf("start_z") != null) {
+			zfield = "start_z";
+			zunitsField = "start_z_units";
+		}
+		
+		if (m.getTypeOf(zfield) != null && m.getTypeOf(zunitsField) != null) {
+			switch (m.getString(zunitsField)) {
+			case "ALTITUDE":
+				wpt.setAltitude(m.getFloat(zfield));
+				break;
+			case "DEPTH":
+				wpt.setDepth(m.getFloat(zfield));
+				break;
+			case "HEIGHT":
+				wpt.setHeight(m.getFloat(zfield));
+				break;
+			default:
+				break;
+			}
+		}			
+		return wpt;
+	}
+	
 	private static Collection<double[]> computeSingleLoc(Maneuver m) {
 		return Arrays.asList(new double[] { Math.toDegrees(m.getDouble("lat")),
 				Math.toDegrees(m.getDouble("lon")) });
@@ -72,7 +179,7 @@ public class PlanUtilities {
 		Vector<double[]> ret = new Vector<double[]>();
 		for (PathPoint p : path)
 			ret.add(WGS84Utilities.WGS84displace(refLat, refLon, 0, p.getX(),
-					p.getY(), 0));
+					p.getY(), p.getZ()));
 
 		return ret;
 	}
@@ -85,7 +192,7 @@ public class PlanUtilities {
 		Vector<double[]> ret = new Vector<double[]>();
 		for (TrajectoryPoint p : path)
 			ret.add(WGS84Utilities.WGS84displace(refLat, refLon, 0, p.getX(),
-					p.getY(), 0));
+					p.getY(), p.getZ()));
 
 		return ret;
 	}
@@ -189,7 +296,7 @@ public class PlanUtilities {
 		return ret;
 
 	}
-
+	
 	public static Collection<double[]> computeLocations(Maneuver m) {
 		switch (m.getMgid()) {
 
@@ -218,6 +325,112 @@ public class PlanUtilities {
 			return computePath((Rows)m);
 		default:
 			return new Vector<double[]>();
+		}
+	}
+	
+	public static class Waypoint {
+		private double latitude, longitude;
+		private float altitude, depth, height, radius, time;
+		
+		public enum TYPE {REGULAR, LOITER, STATION_KEEP, OTHER}
+		
+		/**
+		 * @return the latitude in degrees of the waypoint
+		 */
+		public double getLatitude() {
+			return latitude;
+		}
+		/**
+		 * @param latitude the latitude in degrees of the waypoint
+		 */
+		public void setLatitude(double latitude) {
+			this.latitude = latitude;
+		}
+		/**
+		 * @return the longitude in degrees of the waypoint
+		 */
+		public double getLongitude() {
+			return longitude;
+		}
+		/**
+		 * @param longitude the longitude in degrees of the waypoint
+		 */
+		public void setLongitude(double longitude) {
+			this.longitude = longitude;
+		}
+
+		/**
+		 * @return the altitude in meters or {@link java.lang.Float#NaN} if not set
+		 */
+		public float getAltitude() {
+			
+			return altitude;
+		}
+		/**
+		 * @param altitude the altitude in meters or {@link java.lang.Float#NaN} to unset
+		 */
+		public void setAltitude(float altitude) {
+			this.altitude = altitude;
+		}
+		/**
+		 * @return the depth in meters or {@link java.lang.Float#NaN} if not set
+		 */
+		public float getDepth() {
+			return depth;
+		}
+		/**
+		 * @param depth the depth in meters or {@link java.lang.Float#NaN} to unset
+		 */
+		public void setDepth(float depth) {
+			this.depth = depth;
+		}
+		/**
+		 * @return the WGS84 height in meters or {@link java.lang.Float#NaN} if not set
+		 */
+		public float getHeight() {
+			return height;
+		}
+		/**
+		 * @param height the WGS84 height in meters or {@link java.lang.Float#NaN} to unset
+		 */
+		public void setHeight(float height) {
+			this.height = height;
+		}
+		/**
+		 * @return the radius the radius in meters or 0 if not applicable
+		 */
+		public float getRadius() {
+			return radius;
+		}
+		/**
+		 * @param radius the radius in meters or 0 if not applicable
+		 */
+		public void setRadius(float radius) {
+			this.radius = radius;
+		}
+		/**
+		 * @return the time in seconds to stay at this waypoint
+		 */
+		public float getTime() {
+			return time;
+		}
+		/**
+		 * @param time time in seconds to stay at this waypoint
+		 */
+		public void setTime(float time) {
+			this.time = time;
+		}	
+		
+		public Waypoint copy() {
+			Waypoint copy = new Waypoint();
+			copy.setLatitude(getLatitude());
+			copy.setLongitude(getLongitude());
+			copy.setAltitude(getAltitude());
+			copy.setDepth(getDepth());
+			copy.setHeight(getHeight());
+			copy.setRadius(getRadius());
+			copy.setTime(getTime());
+			return copy;
 		}
 	}
 }
