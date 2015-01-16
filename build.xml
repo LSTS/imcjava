@@ -277,7 +277,7 @@
   </target>
 
   <target name="javadoc" description="Create javadoc documentation" depends="compile-all">
-    <javadoc charset="UTF-8" encoding="UTF-8" access="public" author="true" classpathref="classpath.full" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
+    <javadoc charset="UTF-8" encoding="UTF-8" access="public" author="true" classpathref="classpath.full" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.util,pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
   	<zip destfile="dist/doc.zip" basedir="doc"></zip>
   </target>
 
