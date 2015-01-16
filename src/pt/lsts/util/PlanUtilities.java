@@ -38,12 +38,13 @@ public class PlanUtilities {
 	 * of cyclic plans, it will retrieve the first non-repeating sequence of
 	 * maneuvers.
 	 * 
-	 * @param plan The plan to parsed.
+	 * @param plan
+	 *            The plan to parsed.
 	 * @return a maneuver sequence.
 	 */
 	public static List<Maneuver> getManeuverSequence(PlanSpecification plan) {
 		ArrayList<Maneuver> ret = new ArrayList<Maneuver>();
-		
+
 		LinkedHashMap<String, Maneuver> maneuvers = new LinkedHashMap<String, Maneuver>();
 		LinkedHashMap<String, String> transitions = new LinkedHashMap<String, String>();
 
@@ -61,7 +62,7 @@ public class PlanUtilities {
 
 		Vector<String> visited = new Vector<String>();
 		String man = plan.getStartManId();
-		
+
 		while (man != null) {
 			if (visited.contains(man)) {
 				System.err.println("This should not be used in cyclic plans");
@@ -72,10 +73,10 @@ public class PlanUtilities {
 			ret.add(m);
 			man = transitions.get(man);
 		}
-		
+
 		return ret;
 	}
-	
+
 	/**
 	 * Given a PlanSpecification message, computes its list of WGS84 locations
 	 * 
@@ -87,22 +88,24 @@ public class PlanUtilities {
 	 */
 	public static Collection<double[]> computeLocations(PlanSpecification plan) {
 		ArrayList<double[]> locations = new ArrayList<double[]>();
-		
+
 		for (Maneuver m : getManeuverSequence(plan))
 			locations.addAll(computeLocations(m));
 
 		return locations;
 	}
-	
+
 	/**
 	 * This method parses an IMC plan and calculates its waypoints.
-	 * @param plan An IMC plan to be parsed
+	 * 
+	 * @param plan
+	 *            An IMC plan to be parsed
 	 * @return A list of waypoints found in the plan.
 	 * @see PlanUtilities.Waypoint
 	 */
 	public static List<Waypoint> computeWaypoints(PlanSpecification plan) {
 		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
-		
+
 		for (Maneuver m : getManeuverSequence(plan))
 			waypoints.addAll(computeWaypoints(m));
 
@@ -134,10 +137,19 @@ public class PlanUtilities {
 			waypoints.add(start);
 			return waypoints;
 		case Loiter.ID_STATIC:
-		case CompassCalibration.ID_STATIC:
-			start.setType(TYPE.LOITER);
+			if (((Loiter) m).getDirection() == Loiter.DIRECTION.CLOCKW)
+				start.setType(TYPE.LOITER_CW);
+			else
+				start.setType(TYPE.LOITER_CCW);
 			waypoints.add(start);
-			return waypoints;			
+			return waypoints;
+		case CompassCalibration.ID_STATIC:
+			if (((CompassCalibration) m).getDirection() == CompassCalibration.DIRECTION.CLOCKW)
+				start.setType(TYPE.LOITER_CW);
+			else
+				start.setType(TYPE.LOITER_CCW);
+			waypoints.add(start);
+			return waypoints;
 		case StationKeeping.ID_STATIC:
 			start.setType(TYPE.STATION_KEEP);
 			waypoints.add(start);
@@ -147,7 +159,7 @@ public class PlanUtilities {
 			waypoints.add(start);
 			return waypoints;
 		case Elevator.ID_STATIC:
-			start.setType(TYPE.LOITER);
+			start.setType(TYPE.LOITER_CW);
 			waypoints.add(start);
 			Waypoint end = start.copy();
 			end.setDepth(Float.NaN);
@@ -418,18 +430,20 @@ public class PlanUtilities {
 	public static class Waypoint {
 		private double latitude, longitude;
 		private float altitude, depth, height, radius, time;
-		
+
 		public enum TYPE {
 			// Go directly to the waypoint
-			REGULAR, 
-			// Move around the waypoint
-			LOITER, 
+			REGULAR,
+			// Move around the waypoint clockwise
+			LOITER_CW,
+			// Move around the waypoint counter-clockwise
+			LOITER_CCW,
 			// Stop at the waypoint
-			STATION_KEEP, 
+			STATION_KEEP,
 			// Other waypoint behavior
 			OTHER
 		}
-		
+
 		private TYPE type = TYPE.OTHER;
 
 		/**
@@ -551,7 +565,7 @@ public class PlanUtilities {
 		}
 
 		/**
-		 * @param type 
+		 * @param type
 		 *            the type of waypoint to set
 		 */
 		public void setType(TYPE type) {
