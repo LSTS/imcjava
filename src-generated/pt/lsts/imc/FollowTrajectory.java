@@ -34,6 +34,7 @@ package pt.lsts.imc;
  *  Maneuver constituted by a list of Trajectory Points.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class FollowTrajectory extends Maneuver {
 
 	public enum Z_UNITS {

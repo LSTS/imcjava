@@ -34,6 +34,7 @@ package pt.lsts.imc;
  *  Desired Roll angle reference value for the control layer.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class DesiredRoll extends ControlCommand {
 
 	public static final int ID_STATIC = 403;

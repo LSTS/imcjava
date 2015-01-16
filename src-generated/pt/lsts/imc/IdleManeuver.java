@@ -34,6 +34,7 @@ package pt.lsts.imc;
  *  Causes the vehicle to stay idle for some time.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class IdleManeuver extends Maneuver {
 
 	public static final int ID_STATIC = 454;

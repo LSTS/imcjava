@@ -36,6 +36,7 @@ package pt.lsts.imc;
  *  reference between a minimum and maximum value.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class CompassCalibration extends Maneuver {
 
 	public enum Z_UNITS {

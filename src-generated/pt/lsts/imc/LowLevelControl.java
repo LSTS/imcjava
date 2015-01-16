@@ -36,6 +36,7 @@ package pt.lsts.imc;
  *  lingers for some time.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class LowLevelControl extends Maneuver {
 
 	public static final int ID_STATIC = 455;

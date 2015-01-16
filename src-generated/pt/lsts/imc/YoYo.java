@@ -36,6 +36,7 @@ package pt.lsts.imc;
  *  between two values with a desired pitch angle.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class YoYo extends Maneuver {
 
 	public enum Z_UNITS {

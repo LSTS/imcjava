@@ -33,6 +33,7 @@ package pt.lsts.imc;
  *  IMC Message Control Command (-1)<br/>
  */
 
+@SuppressWarnings("unchecked")
 public abstract class ControlCommand extends IMCMessage {
 
 	public ControlCommand(int type) {

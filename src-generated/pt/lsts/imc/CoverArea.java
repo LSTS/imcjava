@@ -35,6 +35,7 @@ package pt.lsts.imc;
  *  area.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class CoverArea extends Maneuver {
 
 	public enum Z_UNITS {

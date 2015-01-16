@@ -37,6 +37,7 @@ package pt.lsts.imc;
  *  slope and radius can also be optionally specified.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class Elevator extends Maneuver {
 
 	public static final short FLG_CURR_POS = 0x01;

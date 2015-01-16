@@ -34,6 +34,7 @@ package pt.lsts.imc;
  *  Desired Speed reference value for the control layer.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class DesiredSpeed extends ControlCommand {
 
 	public enum SPEED_UNITS {

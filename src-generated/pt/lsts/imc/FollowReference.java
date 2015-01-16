@@ -34,6 +34,7 @@ package pt.lsts.imc;
  *  This maneuver follows a reference given by an external entity.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class FollowReference extends Maneuver {
 
 	public static final int ID_STATIC = 478;

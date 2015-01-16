@@ -35,6 +35,7 @@ package pt.lsts.imc;
  *  external human operator.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class Teleoperation extends Maneuver {
 
 	public static final int ID_STATIC = 452;

@@ -42,6 +42,7 @@ package pt.lsts.imc;
  *  of the execution of this type of maneuver.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class Goto extends Maneuver {
 
 	public enum Z_UNITS {

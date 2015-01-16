@@ -261,7 +261,7 @@ public class ClassGenerator {
 	public static void generateStringDefinitions(String packageName,
 			Map<String, Integer> addresses, String sha, String branch,
 			String commitDetails, File outputFolder, InputStream originalDefs)
-			throws Exception {
+					throws Exception {
 		File outputDir = getOutputDir(outputFolder, packageName);
 		File outputFile = new File(outputDir, "ImcStringDefs.java");
 
@@ -302,7 +302,7 @@ public class ClassGenerator {
 		while ((line = reader.readLine()) != null) {
 			bw.write("\t\tsb.append(\""
 					+ org.apache.commons.lang3.StringEscapeUtils
-							.escapeJava(line.toString()) + "\\n\");\n");
+					.escapeJava(line.toString()) + "\\n\");\n");
 		}
 		bw.write("\t\treturn sb.toString();\n");
 		bw.write("\t}\n}\n");
@@ -319,10 +319,10 @@ public class ClassGenerator {
 	public static void generateClasses(String packageName, File outputFolder,
 			IMCDefinition definitions) throws Exception {
 
-		 for (File f : outputFolder.listFiles()) {
-			 f.delete();
-		 }
-		 outputFolder.delete();
+		for (File f : outputFolder.listFiles()) {
+			f.delete();
+		}
+		outputFolder.delete();
 
 		generateHeader(packageName, outputFolder, definitions);
 
@@ -366,11 +366,11 @@ public class ClassGenerator {
 
 		sb.append("\tpublic ").append(msgName).append("(");
 		sb.append(imcTypeToJava(type, fields.firstElement())).append(" ")
-				.append(fields.firstElement());
+		.append(fields.firstElement());
 
 		for (int i = 1; i < fields.size(); i++) {
 			sb.append(", ").append(imcTypeToJava(type, fields.get(i)))
-					.append(" ").append(fields.get(i));
+			.append(" ").append(fields.get(i));
 		}
 
 		sb.append(") {\n\t\tsuper(ID_STATIC);\n");
@@ -385,7 +385,7 @@ public class ClassGenerator {
 				sb.append("\t\tif (" + fields.get(i) + " != null)\n\t");
 			default:
 				sb.append("\t\tset").append(capitalize(fields.get(i)))
-						.append("(").append(fields.get(i)).append(");\n");
+				.append("(").append(fields.get(i)).append(");\n");
 
 			}
 		}
@@ -1059,8 +1059,12 @@ public class ClassGenerator {
 
 		if (type.getSupertype() != null) {
 			superType = type.getSupertype();
+			bw.write("@SuppressWarnings(\"unchecked\")\n");
 			superClass = " extends " + superType.getShortName();
 		}
+
+		if (type.isAbstract())
+			bw.write("@SuppressWarnings(\"unchecked\")\n");
 
 		bw.write("public " + abstractClass + "class " + msgName + superClass
 				+ " {\n\n");

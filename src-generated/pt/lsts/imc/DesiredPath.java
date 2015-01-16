@@ -54,6 +54,7 @@ package pt.lsts.imc;
  *  counter-clockwise direction ('CCLOCKW' flag).<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class DesiredPath extends ControlCommand {
 
 	public static final short FL_START = 0x01;

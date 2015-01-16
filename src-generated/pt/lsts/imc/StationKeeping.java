@@ -36,6 +36,7 @@ package pt.lsts.imc;
  *  for a certain amount of time.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class StationKeeping extends Maneuver {
 
 	public enum Z_UNITS {

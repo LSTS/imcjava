@@ -35,6 +35,7 @@ package pt.lsts.imc;
  *  specific waypoint. This maneuver is restricted to underwater vehicles.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class PopUp extends Maneuver {
 
 	public static final short FLG_CURR_POS = 0x01;

@@ -33,6 +33,7 @@ package pt.lsts.imc;
  *  IMC Message Maneuver (-1)<br/>
  */
 
+@SuppressWarnings("unchecked")
 public abstract class Maneuver extends IMCMessage {
 
 	public Maneuver(int type) {

@@ -35,6 +35,7 @@ package pt.lsts.imc;
  *  waypoint with fixed depth reference.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class Loiter extends Maneuver {
 
 	public enum Z_UNITS {

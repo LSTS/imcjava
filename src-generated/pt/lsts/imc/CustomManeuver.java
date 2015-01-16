@@ -37,6 +37,7 @@ package pt.lsts.imc;
  *  settings encoded as a tuple list.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class CustomManeuver extends Maneuver {
 
 	public static final int ID_STATIC = 465;

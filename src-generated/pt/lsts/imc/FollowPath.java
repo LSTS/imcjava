@@ -34,6 +34,7 @@ package pt.lsts.imc;
  *  Maneuver constituted by a list of Path Points.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class FollowPath extends Maneuver {
 
 	public enum Z_UNITS {

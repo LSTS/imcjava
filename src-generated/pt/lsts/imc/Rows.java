@@ -34,6 +34,7 @@ package pt.lsts.imc;
  *  Rows maneuver (i.e: lawn mower type maneuver)<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class Rows extends Maneuver {
 
 	public static final short FLG_SQUARE_CURVE = 0x01;

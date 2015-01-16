@@ -41,6 +41,7 @@ package pt.lsts.imc;
  *  - Supervision settings<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class FormationPlanExecution extends Maneuver {
 
 	public static final int ID_STATIC = 477;

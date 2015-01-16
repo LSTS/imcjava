@@ -34,6 +34,7 @@ package pt.lsts.imc;
  *  Desired Z reference value for the control layer.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class DesiredZ extends ControlCommand {
 
 	public enum Z_UNITS {

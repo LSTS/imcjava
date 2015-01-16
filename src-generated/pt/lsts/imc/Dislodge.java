@@ -39,6 +39,7 @@ package pt.lsts.imc;
  *  forward, backward or auto (letting the vehicle decide).<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class Dislodge extends Maneuver {
 
 	public enum DIRECTION {

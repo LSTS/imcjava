@@ -34,6 +34,7 @@ package pt.lsts.imc;
  *  Coordinate maneuver using two or more cooperating systems.<br/>
  */
 
+@SuppressWarnings("unchecked")
 public class VehicleFormation extends Maneuver {
 
 	public enum Z_UNITS {
