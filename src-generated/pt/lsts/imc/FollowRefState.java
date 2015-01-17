@@ -180,6 +180,14 @@ public class FollowRefState extends IMCMessage {
 		}
 	}
 
+	public String getStateStr() {
+		return getString("state");
+	}
+
+	public short getStateVal() {
+		return (short) getInteger("state");
+	}
+
 	/**
 	 *  @param state State (enumerated)
 	 */
@@ -191,7 +199,7 @@ public class FollowRefState extends IMCMessage {
 	/**
 	 *  @param state State (as a String)
 	 */
-	public FollowRefState setState(String state) {
+	public FollowRefState setStateStr(String state) {
 		setValue("state", state);
 		return this;
 	}
@@ -199,7 +207,7 @@ public class FollowRefState extends IMCMessage {
 	/**
 	 *  @param state State (integer value)
 	 */
-	public FollowRefState setState(short state) {
+	public FollowRefState setStateVal(short state) {
 		setValue("state", state);
 		return this;
 	}

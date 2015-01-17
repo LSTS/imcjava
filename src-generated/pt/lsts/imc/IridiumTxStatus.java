@@ -133,6 +133,14 @@ public class IridiumTxStatus extends IMCMessage {
 		}
 	}
 
+	public String getStatusStr() {
+		return getString("status");
+	}
+
+	public short getStatusVal() {
+		return (short) getInteger("status");
+	}
+
 	/**
 	 *  @param status Status Code (enumerated)
 	 */
@@ -144,7 +152,7 @@ public class IridiumTxStatus extends IMCMessage {
 	/**
 	 *  @param status Status Code (as a String)
 	 */
-	public IridiumTxStatus setStatus(String status) {
+	public IridiumTxStatus setStatusStr(String status) {
 		setValue("status", status);
 		return this;
 	}
@@ -152,7 +160,7 @@ public class IridiumTxStatus extends IMCMessage {
 	/**
 	 *  @param status Status Code (integer value)
 	 */
-	public IridiumTxStatus setStatus(short status) {
+	public IridiumTxStatus setStatusVal(short status) {
 		setValue("status", status);
 		return this;
 	}

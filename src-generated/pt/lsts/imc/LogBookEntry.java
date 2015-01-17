@@ -121,6 +121,14 @@ public class LogBookEntry extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Type (enumerated)
 	 */
@@ -132,7 +140,7 @@ public class LogBookEntry extends IMCMessage {
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public LogBookEntry setType(String type) {
+	public LogBookEntry setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -140,7 +148,7 @@ public class LogBookEntry extends IMCMessage {
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public LogBookEntry setType(short type) {
+	public LogBookEntry setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}

@@ -139,6 +139,14 @@ public class VehicleCommand extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Type (enumerated)
 	 */
@@ -150,7 +158,7 @@ public class VehicleCommand extends IMCMessage {
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public VehicleCommand setType(String type) {
+	public VehicleCommand setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -158,7 +166,7 @@ public class VehicleCommand extends IMCMessage {
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public VehicleCommand setType(short type) {
+	public VehicleCommand setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}
@@ -191,6 +199,14 @@ public class VehicleCommand extends IMCMessage {
 		}
 	}
 
+	public String getCommandStr() {
+		return getString("command");
+	}
+
+	public short getCommandVal() {
+		return (short) getInteger("command");
+	}
+
 	/**
 	 *  @param command Command (enumerated)
 	 */
@@ -202,7 +218,7 @@ public class VehicleCommand extends IMCMessage {
 	/**
 	 *  @param command Command (as a String)
 	 */
-	public VehicleCommand setCommand(String command) {
+	public VehicleCommand setCommandStr(String command) {
 		setValue("command", command);
 		return this;
 	}
@@ -210,7 +226,7 @@ public class VehicleCommand extends IMCMessage {
 	/**
 	 *  @param command Command (integer value)
 	 */
-	public VehicleCommand setCommand(short command) {
+	public VehicleCommand setCommandVal(short command) {
 		setValue("command", command);
 		return this;
 	}

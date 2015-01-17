@@ -152,6 +152,14 @@ public class VehicleState extends IMCMessage {
 		}
 	}
 
+	public String getOpModeStr() {
+		return getString("op_mode");
+	}
+
+	public short getOpModeVal() {
+		return (short) getInteger("op_mode");
+	}
+
 	/**
 	 *  @param op_mode Operation Mode (enumerated)
 	 */
@@ -163,7 +171,7 @@ public class VehicleState extends IMCMessage {
 	/**
 	 *  @param op_mode Operation Mode (as a String)
 	 */
-	public VehicleState setOpMode(String op_mode) {
+	public VehicleState setOpModeStr(String op_mode) {
 		setValue("op_mode", op_mode);
 		return this;
 	}
@@ -171,7 +179,7 @@ public class VehicleState extends IMCMessage {
 	/**
 	 *  @param op_mode Operation Mode (integer value)
 	 */
-	public VehicleState setOpMode(short op_mode) {
+	public VehicleState setOpModeVal(short op_mode) {
 		setValue("op_mode", op_mode);
 		return this;
 	}

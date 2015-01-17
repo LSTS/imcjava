@@ -122,6 +122,14 @@ public class EntityState extends IMCMessage {
 		}
 	}
 
+	public String getStateStr() {
+		return getString("state");
+	}
+
+	public short getStateVal() {
+		return (short) getInteger("state");
+	}
+
 	/**
 	 *  @param state State (enumerated)
 	 */
@@ -133,7 +141,7 @@ public class EntityState extends IMCMessage {
 	/**
 	 *  @param state State (as a String)
 	 */
-	public EntityState setState(String state) {
+	public EntityState setStateStr(String state) {
 		setValue("state", state);
 		return this;
 	}
@@ -141,7 +149,7 @@ public class EntityState extends IMCMessage {
 	/**
 	 *  @param state State (integer value)
 	 */
-	public EntityState setState(short state) {
+	public EntityState setStateVal(short state) {
 		setValue("state", state);
 		return this;
 	}

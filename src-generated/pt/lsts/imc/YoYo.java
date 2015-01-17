@@ -204,6 +204,14 @@ public class YoYo extends Maneuver {
 		}
 	}
 
+	public String getZUnitsStr() {
+		return getString("z_units");
+	}
+
+	public short getZUnitsVal() {
+		return (short) getInteger("z_units");
+	}
+
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
@@ -215,7 +223,7 @@ public class YoYo extends Maneuver {
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public YoYo setZUnits(String z_units) {
+	public YoYo setZUnitsStr(String z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -223,7 +231,7 @@ public class YoYo extends Maneuver {
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public YoYo setZUnits(short z_units) {
+	public YoYo setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -286,6 +294,14 @@ public class YoYo extends Maneuver {
 		}
 	}
 
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
@@ -297,7 +313,7 @@ public class YoYo extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public YoYo setSpeedUnits(String speed_units) {
+	public YoYo setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -305,7 +321,7 @@ public class YoYo extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public YoYo setSpeedUnits(short speed_units) {
+	public YoYo setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}

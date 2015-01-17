@@ -115,6 +115,14 @@ public class LeakSimulation extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -126,7 +134,7 @@ public class LeakSimulation extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public LeakSimulation setOp(String op) {
+	public LeakSimulation setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -134,7 +142,7 @@ public class LeakSimulation extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public LeakSimulation setOp(short op) {
+	public LeakSimulation setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

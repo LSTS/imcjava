@@ -115,6 +115,14 @@ public class IoEvent extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Type (enumerated)
 	 */
@@ -126,7 +134,7 @@ public class IoEvent extends IMCMessage {
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public IoEvent setType(String type) {
+	public IoEvent setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -134,7 +142,7 @@ public class IoEvent extends IMCMessage {
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public IoEvent setType(short type) {
+	public IoEvent setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}

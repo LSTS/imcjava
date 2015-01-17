@@ -140,6 +140,14 @@ public class MapFeature extends IMCMessage {
 		}
 	}
 
+	public String getFeatureTypeStr() {
+		return getString("feature_type");
+	}
+
+	public short getFeatureTypeVal() {
+		return (short) getInteger("feature_type");
+	}
+
 	/**
 	 *  @param feature_type FeatureType (enumerated)
 	 */
@@ -151,7 +159,7 @@ public class MapFeature extends IMCMessage {
 	/**
 	 *  @param feature_type FeatureType (as a String)
 	 */
-	public MapFeature setFeatureType(String feature_type) {
+	public MapFeature setFeatureTypeStr(String feature_type) {
 		setValue("feature_type", feature_type);
 		return this;
 	}
@@ -159,7 +167,7 @@ public class MapFeature extends IMCMessage {
 	/**
 	 *  @param feature_type FeatureType (integer value)
 	 */
-	public MapFeature setFeatureType(short feature_type) {
+	public MapFeature setFeatureTypeVal(short feature_type) {
 		setValue("feature_type", feature_type);
 		return this;
 	}

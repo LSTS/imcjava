@@ -120,6 +120,14 @@ public class TrexOperation extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -131,7 +139,7 @@ public class TrexOperation extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public TrexOperation setOp(String op) {
+	public TrexOperation setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -139,7 +147,7 @@ public class TrexOperation extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public TrexOperation setOp(short op) {
+	public TrexOperation setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

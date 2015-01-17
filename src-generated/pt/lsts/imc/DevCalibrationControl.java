@@ -117,6 +117,14 @@ public class DevCalibrationControl extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -128,7 +136,7 @@ public class DevCalibrationControl extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public DevCalibrationControl setOp(String op) {
+	public DevCalibrationControl setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -136,7 +144,7 @@ public class DevCalibrationControl extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public DevCalibrationControl setOp(short op) {
+	public DevCalibrationControl setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

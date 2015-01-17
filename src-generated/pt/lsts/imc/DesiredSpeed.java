@@ -131,6 +131,14 @@ public class DesiredSpeed extends ControlCommand {
 		}
 	}
 
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
@@ -142,7 +150,7 @@ public class DesiredSpeed extends ControlCommand {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public DesiredSpeed setSpeedUnits(String speed_units) {
+	public DesiredSpeed setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -150,7 +158,7 @@ public class DesiredSpeed extends ControlCommand {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public DesiredSpeed setSpeedUnits(short speed_units) {
+	public DesiredSpeed setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}

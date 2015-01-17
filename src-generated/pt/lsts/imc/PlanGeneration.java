@@ -135,6 +135,14 @@ public class PlanGeneration extends IMCMessage {
 		}
 	}
 
+	public String getCmdStr() {
+		return getString("cmd");
+	}
+
+	public short getCmdVal() {
+		return (short) getInteger("cmd");
+	}
+
 	/**
 	 *  @param cmd Command (enumerated)
 	 */
@@ -146,7 +154,7 @@ public class PlanGeneration extends IMCMessage {
 	/**
 	 *  @param cmd Command (as a String)
 	 */
-	public PlanGeneration setCmd(String cmd) {
+	public PlanGeneration setCmdStr(String cmd) {
 		setValue("cmd", cmd);
 		return this;
 	}
@@ -154,7 +162,7 @@ public class PlanGeneration extends IMCMessage {
 	/**
 	 *  @param cmd Command (integer value)
 	 */
-	public PlanGeneration setCmd(short cmd) {
+	public PlanGeneration setCmdVal(short cmd) {
 		setValue("cmd", cmd);
 		return this;
 	}
@@ -172,6 +180,14 @@ public class PlanGeneration extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -183,7 +199,7 @@ public class PlanGeneration extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public PlanGeneration setOp(String op) {
+	public PlanGeneration setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -191,7 +207,7 @@ public class PlanGeneration extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public PlanGeneration setOp(short op) {
+	public PlanGeneration setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

@@ -119,6 +119,14 @@ public class ClockControl extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -130,7 +138,7 @@ public class ClockControl extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public ClockControl setOp(String op) {
+	public ClockControl setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -138,7 +146,7 @@ public class ClockControl extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public ClockControl setOp(short op) {
+	public ClockControl setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

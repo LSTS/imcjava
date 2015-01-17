@@ -168,6 +168,14 @@ public class CommsRelay extends Maneuver {
 		}
 	}
 
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
@@ -179,7 +187,7 @@ public class CommsRelay extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public CommsRelay setSpeedUnits(String speed_units) {
+	public CommsRelay setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -187,7 +195,7 @@ public class CommsRelay extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public CommsRelay setSpeedUnits(short speed_units) {
+	public CommsRelay setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}

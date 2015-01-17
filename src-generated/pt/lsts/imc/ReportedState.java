@@ -245,6 +245,14 @@ public class ReportedState extends IMCMessage {
 		}
 	}
 
+	public String getSTypeStr() {
+		return getString("s_type");
+	}
+
+	public short getSTypeVal() {
+		return (short) getInteger("s_type");
+	}
+
 	/**
 	 *  @param s_type Source Type (enumerated)
 	 */
@@ -256,7 +264,7 @@ public class ReportedState extends IMCMessage {
 	/**
 	 *  @param s_type Source Type (as a String)
 	 */
-	public ReportedState setSType(String s_type) {
+	public ReportedState setSTypeStr(String s_type) {
 		setValue("s_type", s_type);
 		return this;
 	}
@@ -264,7 +272,7 @@ public class ReportedState extends IMCMessage {
 	/**
 	 *  @param s_type Source Type (integer value)
 	 */
-	public ReportedState setSType(short s_type) {
+	public ReportedState setSTypeVal(short s_type) {
 		setValue("s_type", s_type);
 		return this;
 	}

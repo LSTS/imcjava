@@ -113,6 +113,14 @@ public class Brake extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -124,7 +132,7 @@ public class Brake extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public Brake setOp(String op) {
+	public Brake setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -132,7 +140,7 @@ public class Brake extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public Brake setOp(short op) {
+	public Brake setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

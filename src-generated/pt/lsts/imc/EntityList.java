@@ -116,6 +116,14 @@ public class EntityList extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op operation (enumerated)
 	 */
@@ -127,7 +135,7 @@ public class EntityList extends IMCMessage {
 	/**
 	 *  @param op operation (as a String)
 	 */
-	public EntityList setOp(String op) {
+	public EntityList setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -135,7 +143,7 @@ public class EntityList extends IMCMessage {
 	/**
 	 *  @param op operation (integer value)
 	 */
-	public EntityList setOp(short op) {
+	public EntityList setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

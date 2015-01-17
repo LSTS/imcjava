@@ -118,6 +118,14 @@ public class ManeuverControlState extends IMCMessage {
 		}
 	}
 
+	public String getStateStr() {
+		return getString("state");
+	}
+
+	public short getStateVal() {
+		return (short) getInteger("state");
+	}
+
 	/**
 	 *  @param state State (enumerated)
 	 */
@@ -129,7 +137,7 @@ public class ManeuverControlState extends IMCMessage {
 	/**
 	 *  @param state State (as a String)
 	 */
-	public ManeuverControlState setState(String state) {
+	public ManeuverControlState setStateStr(String state) {
 		setValue("state", state);
 		return this;
 	}
@@ -137,7 +145,7 @@ public class ManeuverControlState extends IMCMessage {
 	/**
 	 *  @param state State (integer value)
 	 */
-	public ManeuverControlState setState(short state) {
+	public ManeuverControlState setStateVal(short state) {
 		setValue("state", state);
 		return this;
 	}

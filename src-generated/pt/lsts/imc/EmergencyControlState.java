@@ -119,6 +119,14 @@ public class EmergencyControlState extends IMCMessage {
 		}
 	}
 
+	public String getStateStr() {
+		return getString("state");
+	}
+
+	public short getStateVal() {
+		return (short) getInteger("state");
+	}
+
 	/**
 	 *  @param state State (enumerated)
 	 */
@@ -130,7 +138,7 @@ public class EmergencyControlState extends IMCMessage {
 	/**
 	 *  @param state State (as a String)
 	 */
-	public EmergencyControlState setState(String state) {
+	public EmergencyControlState setStateStr(String state) {
 		setValue("state", state);
 		return this;
 	}
@@ -138,7 +146,7 @@ public class EmergencyControlState extends IMCMessage {
 	/**
 	 *  @param state State (integer value)
 	 */
-	public EmergencyControlState setState(short state) {
+	public EmergencyControlState setStateVal(short state) {
 		setValue("state", state);
 		return this;
 	}

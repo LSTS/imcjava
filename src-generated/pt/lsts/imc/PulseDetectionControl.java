@@ -113,6 +113,14 @@ public class PulseDetectionControl extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -124,7 +132,7 @@ public class PulseDetectionControl extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public PulseDetectionControl setOp(String op) {
+	public PulseDetectionControl setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -132,7 +140,7 @@ public class PulseDetectionControl extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public PulseDetectionControl setOp(short op) {
+	public PulseDetectionControl setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

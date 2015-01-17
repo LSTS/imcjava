@@ -118,6 +118,14 @@ public class LogBookControl extends IMCMessage {
 		}
 	}
 
+	public String getCommandStr() {
+		return getString("command");
+	}
+
+	public short getCommandVal() {
+		return (short) getInteger("command");
+	}
+
 	/**
 	 *  @param command Command (enumerated)
 	 */
@@ -129,7 +137,7 @@ public class LogBookControl extends IMCMessage {
 	/**
 	 *  @param command Command (as a String)
 	 */
-	public LogBookControl setCommand(String command) {
+	public LogBookControl setCommandStr(String command) {
 		setValue("command", command);
 		return this;
 	}
@@ -137,7 +145,7 @@ public class LogBookControl extends IMCMessage {
 	/**
 	 *  @param command Command (integer value)
 	 */
-	public LogBookControl setCommand(short command) {
+	public LogBookControl setCommandVal(short command) {
 		setValue("command", command);
 		return this;
 	}

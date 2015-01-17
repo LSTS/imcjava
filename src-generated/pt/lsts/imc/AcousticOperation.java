@@ -133,6 +133,14 @@ public class AcousticOperation extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -144,7 +152,7 @@ public class AcousticOperation extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public AcousticOperation setOp(String op) {
+	public AcousticOperation setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -152,7 +160,7 @@ public class AcousticOperation extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public AcousticOperation setOp(short op) {
+	public AcousticOperation setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

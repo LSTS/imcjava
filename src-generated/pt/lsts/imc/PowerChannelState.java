@@ -130,6 +130,14 @@ public class PowerChannelState extends IMCMessage {
 		}
 	}
 
+	public String getStateStr() {
+		return getString("state");
+	}
+
+	public short getStateVal() {
+		return (short) getInteger("state");
+	}
+
 	/**
 	 *  @param state State (enumerated)
 	 */
@@ -141,7 +149,7 @@ public class PowerChannelState extends IMCMessage {
 	/**
 	 *  @param state State (as a String)
 	 */
-	public PowerChannelState setState(String state) {
+	public PowerChannelState setStateStr(String state) {
 		setValue("state", state);
 		return this;
 	}
@@ -149,7 +157,7 @@ public class PowerChannelState extends IMCMessage {
 	/**
 	 *  @param state State (integer value)
 	 */
-	public PowerChannelState setState(short state) {
+	public PowerChannelState setStateVal(short state) {
 		setValue("state", state);
 		return this;
 	}

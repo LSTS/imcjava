@@ -183,6 +183,14 @@ public class FollowSystem extends IMCMessage {
 		}
 	}
 
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
@@ -194,7 +202,7 @@ public class FollowSystem extends IMCMessage {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public FollowSystem setSpeedUnits(String speed_units) {
+	public FollowSystem setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -202,7 +210,7 @@ public class FollowSystem extends IMCMessage {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public FollowSystem setSpeedUnits(short speed_units) {
+	public FollowSystem setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -265,6 +273,14 @@ public class FollowSystem extends IMCMessage {
 		}
 	}
 
+	public String getZUnitsStr() {
+		return getString("z_units");
+	}
+
+	public short getZUnitsVal() {
+		return (short) getInteger("z_units");
+	}
+
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
@@ -276,7 +292,7 @@ public class FollowSystem extends IMCMessage {
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public FollowSystem setZUnits(String z_units) {
+	public FollowSystem setZUnitsStr(String z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -284,7 +300,7 @@ public class FollowSystem extends IMCMessage {
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public FollowSystem setZUnits(short z_units) {
+	public FollowSystem setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}

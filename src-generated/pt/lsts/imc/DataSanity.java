@@ -113,6 +113,14 @@ public class DataSanity extends IMCMessage {
 		}
 	}
 
+	public String getSaneStr() {
+		return getString("sane");
+	}
+
+	public short getSaneVal() {
+		return (short) getInteger("sane");
+	}
+
 	/**
 	 *  @param sane Sanity (enumerated)
 	 */
@@ -124,7 +132,7 @@ public class DataSanity extends IMCMessage {
 	/**
 	 *  @param sane Sanity (as a String)
 	 */
-	public DataSanity setSane(String sane) {
+	public DataSanity setSaneStr(String sane) {
 		setValue("sane", sane);
 		return this;
 	}
@@ -132,7 +140,7 @@ public class DataSanity extends IMCMessage {
 	/**
 	 *  @param sane Sanity (integer value)
 	 */
-	public DataSanity setSane(short sane) {
+	public DataSanity setSaneVal(short sane) {
 		setValue("sane", sane);
 		return this;
 	}

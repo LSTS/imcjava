@@ -153,6 +153,14 @@ public class LblRangeAcceptance extends IMCMessage {
 		}
 	}
 
+	public String getAcceptanceStr() {
+		return getString("acceptance");
+	}
+
+	public short getAcceptanceVal() {
+		return (short) getInteger("acceptance");
+	}
+
 	/**
 	 *  @param acceptance Acceptance (enumerated)
 	 */
@@ -164,7 +172,7 @@ public class LblRangeAcceptance extends IMCMessage {
 	/**
 	 *  @param acceptance Acceptance (as a String)
 	 */
-	public LblRangeAcceptance setAcceptance(String acceptance) {
+	public LblRangeAcceptance setAcceptanceStr(String acceptance) {
 		setValue("acceptance", acceptance);
 		return this;
 	}
@@ -172,7 +180,7 @@ public class LblRangeAcceptance extends IMCMessage {
 	/**
 	 *  @param acceptance Acceptance (integer value)
 	 */
-	public LblRangeAcceptance setAcceptance(short acceptance) {
+	public LblRangeAcceptance setAcceptanceVal(short acceptance) {
 		setValue("acceptance", acceptance);
 		return this;
 	}

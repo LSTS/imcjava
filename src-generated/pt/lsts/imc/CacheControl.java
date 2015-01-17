@@ -120,6 +120,14 @@ public class CacheControl extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Control Operation (enumerated)
 	 */
@@ -131,7 +139,7 @@ public class CacheControl extends IMCMessage {
 	/**
 	 *  @param op Control Operation (as a String)
 	 */
-	public CacheControl setOp(String op) {
+	public CacheControl setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -139,7 +147,7 @@ public class CacheControl extends IMCMessage {
 	/**
 	 *  @param op Control Operation (integer value)
 	 */
-	public CacheControl setOp(short op) {
+	public CacheControl setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

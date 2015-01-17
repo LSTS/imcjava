@@ -147,6 +147,14 @@ public class FormationParameters extends IMCMessage {
 		}
 	}
 
+	public String getReferenceFrameStr() {
+		return getString("reference_frame");
+	}
+
+	public short getReferenceFrameVal() {
+		return (short) getInteger("reference_frame");
+	}
+
 	/**
 	 *  @param reference_frame Formation Reference Frame (enumerated)
 	 */
@@ -158,7 +166,7 @@ public class FormationParameters extends IMCMessage {
 	/**
 	 *  @param reference_frame Formation Reference Frame (as a String)
 	 */
-	public FormationParameters setReferenceFrame(String reference_frame) {
+	public FormationParameters setReferenceFrameStr(String reference_frame) {
 		setValue("reference_frame", reference_frame);
 		return this;
 	}
@@ -166,7 +174,7 @@ public class FormationParameters extends IMCMessage {
 	/**
 	 *  @param reference_frame Formation Reference Frame (integer value)
 	 */
-	public FormationParameters setReferenceFrame(short reference_frame) {
+	public FormationParameters setReferenceFrameVal(short reference_frame) {
 		setValue("reference_frame", reference_frame);
 		return this;
 	}

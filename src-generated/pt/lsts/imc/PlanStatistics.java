@@ -145,6 +145,14 @@ public class PlanStatistics extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Type (enumerated)
 	 */
@@ -156,7 +164,7 @@ public class PlanStatistics extends IMCMessage {
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public PlanStatistics setType(String type) {
+	public PlanStatistics setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -164,7 +172,7 @@ public class PlanStatistics extends IMCMessage {
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public PlanStatistics setType(short type) {
+	public PlanStatistics setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}

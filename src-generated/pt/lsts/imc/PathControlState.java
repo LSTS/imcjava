@@ -216,6 +216,14 @@ public class PathControlState extends IMCMessage {
 		}
 	}
 
+	public String getStartZUnitsStr() {
+		return getString("start_z_units");
+	}
+
+	public short getStartZUnitsVal() {
+		return (short) getInteger("start_z_units");
+	}
+
 	/**
 	 *  @param start_z_units Start Point -- Z Units (enumerated)
 	 */
@@ -227,7 +235,7 @@ public class PathControlState extends IMCMessage {
 	/**
 	 *  @param start_z_units Start Point -- Z Units (as a String)
 	 */
-	public PathControlState setStartZUnits(String start_z_units) {
+	public PathControlState setStartZUnitsStr(String start_z_units) {
 		setValue("start_z_units", start_z_units);
 		return this;
 	}
@@ -235,7 +243,7 @@ public class PathControlState extends IMCMessage {
 	/**
 	 *  @param start_z_units Start Point -- Z Units (integer value)
 	 */
-	public PathControlState setStartZUnits(short start_z_units) {
+	public PathControlState setStartZUnitsVal(short start_z_units) {
 		setValue("start_z_units", start_z_units);
 		return this;
 	}
@@ -298,6 +306,14 @@ public class PathControlState extends IMCMessage {
 		}
 	}
 
+	public String getEndZUnitsStr() {
+		return getString("end_z_units");
+	}
+
+	public short getEndZUnitsVal() {
+		return (short) getInteger("end_z_units");
+	}
+
 	/**
 	 *  @param end_z_units End Point -- Z Units (enumerated)
 	 */
@@ -309,7 +325,7 @@ public class PathControlState extends IMCMessage {
 	/**
 	 *  @param end_z_units End Point -- Z Units (as a String)
 	 */
-	public PathControlState setEndZUnits(String end_z_units) {
+	public PathControlState setEndZUnitsStr(String end_z_units) {
 		setValue("end_z_units", end_z_units);
 		return this;
 	}
@@ -317,7 +333,7 @@ public class PathControlState extends IMCMessage {
 	/**
 	 *  @param end_z_units End Point -- Z Units (integer value)
 	 */
-	public PathControlState setEndZUnits(short end_z_units) {
+	public PathControlState setEndZUnitsVal(short end_z_units) {
 		setValue("end_z_units", end_z_units);
 		return this;
 	}

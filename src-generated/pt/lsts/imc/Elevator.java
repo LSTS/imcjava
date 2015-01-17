@@ -241,6 +241,14 @@ public class Elevator extends Maneuver {
 		}
 	}
 
+	public String getStartZUnitsStr() {
+		return getString("start_z_units");
+	}
+
+	public short getStartZUnitsVal() {
+		return (short) getInteger("start_z_units");
+	}
+
 	/**
 	 *  @param start_z_units Start Point -- Z Units (enumerated)
 	 */
@@ -252,7 +260,7 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @param start_z_units Start Point -- Z Units (as a String)
 	 */
-	public Elevator setStartZUnits(String start_z_units) {
+	public Elevator setStartZUnitsStr(String start_z_units) {
 		setValue("start_z_units", start_z_units);
 		return this;
 	}
@@ -260,7 +268,7 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @param start_z_units Start Point -- Z Units (integer value)
 	 */
-	public Elevator setStartZUnits(short start_z_units) {
+	public Elevator setStartZUnitsVal(short start_z_units) {
 		setValue("start_z_units", start_z_units);
 		return this;
 	}
@@ -293,6 +301,14 @@ public class Elevator extends Maneuver {
 		}
 	}
 
+	public String getEndZUnitsStr() {
+		return getString("end_z_units");
+	}
+
+	public short getEndZUnitsVal() {
+		return (short) getInteger("end_z_units");
+	}
+
 	/**
 	 *  @param end_z_units End Point -- Z Units (enumerated)
 	 */
@@ -304,7 +320,7 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @param end_z_units End Point -- Z Units (as a String)
 	 */
-	public Elevator setEndZUnits(String end_z_units) {
+	public Elevator setEndZUnitsStr(String end_z_units) {
 		setValue("end_z_units", end_z_units);
 		return this;
 	}
@@ -312,7 +328,7 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @param end_z_units End Point -- Z Units (integer value)
 	 */
-	public Elevator setEndZUnits(short end_z_units) {
+	public Elevator setEndZUnitsVal(short end_z_units) {
 		setValue("end_z_units", end_z_units);
 		return this;
 	}
@@ -360,6 +376,14 @@ public class Elevator extends Maneuver {
 		}
 	}
 
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
@@ -371,7 +395,7 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public Elevator setSpeedUnits(String speed_units) {
+	public Elevator setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -379,7 +403,7 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public Elevator setSpeedUnits(short speed_units) {
+	public Elevator setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}

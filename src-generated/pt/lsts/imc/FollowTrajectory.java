@@ -202,6 +202,14 @@ public class FollowTrajectory extends Maneuver {
 		}
 	}
 
+	public String getZUnitsStr() {
+		return getString("z_units");
+	}
+
+	public short getZUnitsVal() {
+		return (short) getInteger("z_units");
+	}
+
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
@@ -213,7 +221,7 @@ public class FollowTrajectory extends Maneuver {
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public FollowTrajectory setZUnits(String z_units) {
+	public FollowTrajectory setZUnitsStr(String z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -221,7 +229,7 @@ public class FollowTrajectory extends Maneuver {
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public FollowTrajectory setZUnits(short z_units) {
+	public FollowTrajectory setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -254,6 +262,14 @@ public class FollowTrajectory extends Maneuver {
 		}
 	}
 
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
@@ -265,7 +281,7 @@ public class FollowTrajectory extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public FollowTrajectory setSpeedUnits(String speed_units) {
+	public FollowTrajectory setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -273,7 +289,7 @@ public class FollowTrajectory extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public FollowTrajectory setSpeedUnits(short speed_units) {
+	public FollowTrajectory setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}

@@ -116,6 +116,14 @@ public class LblConfig extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -127,7 +135,7 @@ public class LblConfig extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public LblConfig setOp(String op) {
+	public LblConfig setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -135,7 +143,7 @@ public class LblConfig extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public LblConfig setOp(short op) {
+	public LblConfig setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

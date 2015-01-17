@@ -138,6 +138,14 @@ public class DvlRejection extends IMCMessage {
 		}
 	}
 
+	public String getReasonStr() {
+		return getString("reason");
+	}
+
+	public short getReasonVal() {
+		return (short) getInteger("reason");
+	}
+
 	/**
 	 *  @param reason Reason (enumerated)
 	 */
@@ -149,7 +157,7 @@ public class DvlRejection extends IMCMessage {
 	/**
 	 *  @param reason Reason (as a String)
 	 */
-	public DvlRejection setReason(String reason) {
+	public DvlRejection setReasonStr(String reason) {
 		setValue("reason", reason);
 		return this;
 	}
@@ -157,7 +165,7 @@ public class DvlRejection extends IMCMessage {
 	/**
 	 *  @param reason Reason (integer value)
 	 */
-	public DvlRejection setReason(short reason) {
+	public DvlRejection setReasonVal(short reason) {
 		setValue("reason", reason);
 		return this;
 	}

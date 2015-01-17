@@ -144,6 +144,14 @@ public class PlanDB extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Type (enumerated)
 	 */
@@ -155,7 +163,7 @@ public class PlanDB extends IMCMessage {
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public PlanDB setType(String type) {
+	public PlanDB setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -163,7 +171,7 @@ public class PlanDB extends IMCMessage {
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public PlanDB setType(short type) {
+	public PlanDB setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}
@@ -181,6 +189,14 @@ public class PlanDB extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -192,7 +208,7 @@ public class PlanDB extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public PlanDB setOp(String op) {
+	public PlanDB setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -200,7 +216,7 @@ public class PlanDB extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public PlanDB setOp(short op) {
+	public PlanDB setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

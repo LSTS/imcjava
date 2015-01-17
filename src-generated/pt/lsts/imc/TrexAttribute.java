@@ -136,6 +136,14 @@ public class TrexAttribute extends IMCMessage {
 		}
 	}
 
+	public String getAttrTypeStr() {
+		return getString("attr_type");
+	}
+
+	public short getAttrTypeVal() {
+		return (short) getInteger("attr_type");
+	}
+
 	/**
 	 *  @param attr_type Attribute type (enumerated)
 	 */
@@ -147,7 +155,7 @@ public class TrexAttribute extends IMCMessage {
 	/**
 	 *  @param attr_type Attribute type (as a String)
 	 */
-	public TrexAttribute setAttrType(String attr_type) {
+	public TrexAttribute setAttrTypeStr(String attr_type) {
 		setValue("attr_type", attr_type);
 		return this;
 	}
@@ -155,7 +163,7 @@ public class TrexAttribute extends IMCMessage {
 	/**
 	 *  @param attr_type Attribute type (integer value)
 	 */
-	public TrexAttribute setAttrType(short attr_type) {
+	public TrexAttribute setAttrTypeVal(short attr_type) {
 		setValue("attr_type", attr_type);
 		return this;
 	}

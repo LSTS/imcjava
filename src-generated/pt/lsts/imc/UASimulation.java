@@ -117,6 +117,14 @@ public class UASimulation extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Type (enumerated)
 	 */
@@ -128,7 +136,7 @@ public class UASimulation extends IMCMessage {
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public UASimulation setType(String type) {
+	public UASimulation setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -136,7 +144,7 @@ public class UASimulation extends IMCMessage {
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public UASimulation setType(short type) {
+	public UASimulation setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}

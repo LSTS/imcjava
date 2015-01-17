@@ -224,6 +224,14 @@ public class CompassCalibration extends Maneuver {
 		}
 	}
 
+	public String getZUnitsStr() {
+		return getString("z_units");
+	}
+
+	public short getZUnitsVal() {
+		return (short) getInteger("z_units");
+	}
+
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
@@ -235,7 +243,7 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public CompassCalibration setZUnits(String z_units) {
+	public CompassCalibration setZUnitsStr(String z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -243,7 +251,7 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public CompassCalibration setZUnits(short z_units) {
+	public CompassCalibration setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -321,6 +329,14 @@ public class CompassCalibration extends Maneuver {
 		}
 	}
 
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
@@ -332,7 +348,7 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public CompassCalibration setSpeedUnits(String speed_units) {
+	public CompassCalibration setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -340,7 +356,7 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public CompassCalibration setSpeedUnits(short speed_units) {
+	public CompassCalibration setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -373,6 +389,14 @@ public class CompassCalibration extends Maneuver {
 		}
 	}
 
+	public String getDirectionStr() {
+		return getString("direction");
+	}
+
+	public short getDirectionVal() {
+		return (short) getInteger("direction");
+	}
+
 	/**
 	 *  @param direction Direction (enumerated)
 	 */
@@ -384,7 +408,7 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @param direction Direction (as a String)
 	 */
-	public CompassCalibration setDirection(String direction) {
+	public CompassCalibration setDirectionStr(String direction) {
 		setValue("direction", direction);
 		return this;
 	}
@@ -392,7 +416,7 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @param direction Direction (integer value)
 	 */
-	public CompassCalibration setDirection(short direction) {
+	public CompassCalibration setDirectionVal(short direction) {
 		setValue("direction", direction);
 		return this;
 	}

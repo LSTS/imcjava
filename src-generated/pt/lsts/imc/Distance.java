@@ -118,6 +118,14 @@ public class Distance extends IMCMessage {
 		}
 	}
 
+	public String getValidityStr() {
+		return getString("validity");
+	}
+
+	public short getValidityVal() {
+		return (short) getInteger("validity");
+	}
+
 	/**
 	 *  @param validity Validity (enumerated)
 	 */
@@ -129,7 +137,7 @@ public class Distance extends IMCMessage {
 	/**
 	 *  @param validity Validity (as a String)
 	 */
-	public Distance setValidity(String validity) {
+	public Distance setValidityStr(String validity) {
 		setValue("validity", validity);
 		return this;
 	}
@@ -137,7 +145,7 @@ public class Distance extends IMCMessage {
 	/**
 	 *  @param validity Validity (integer value)
 	 */
-	public Distance setValidity(short validity) {
+	public Distance setValidityVal(short validity) {
 		setValue("validity", validity);
 		return this;
 	}

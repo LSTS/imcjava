@@ -136,6 +136,14 @@ public class PowerChannelControl extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -147,7 +155,7 @@ public class PowerChannelControl extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public PowerChannelControl setOp(String op) {
+	public PowerChannelControl setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -155,7 +163,7 @@ public class PowerChannelControl extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public PowerChannelControl setOp(short op) {
+	public PowerChannelControl setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

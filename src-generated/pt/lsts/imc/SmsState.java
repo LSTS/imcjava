@@ -135,6 +135,14 @@ public class SmsState extends IMCMessage {
 		}
 	}
 
+	public String getStateStr() {
+		return getString("state");
+	}
+
+	public short getStateVal() {
+		return (short) getInteger("state");
+	}
+
 	/**
 	 *  @param state State (enumerated)
 	 */
@@ -146,7 +154,7 @@ public class SmsState extends IMCMessage {
 	/**
 	 *  @param state State (as a String)
 	 */
-	public SmsState setState(String state) {
+	public SmsState setStateStr(String state) {
 		setValue("state", state);
 		return this;
 	}
@@ -154,7 +162,7 @@ public class SmsState extends IMCMessage {
 	/**
 	 *  @param state State (integer value)
 	 */
-	public SmsState setState(short state) {
+	public SmsState setStateVal(short state) {
 		setValue("state", state);
 		return this;
 	}

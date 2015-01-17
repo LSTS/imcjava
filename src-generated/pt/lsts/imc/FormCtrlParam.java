@@ -119,6 +119,14 @@ public class FormCtrlParam extends IMCMessage {
 		}
 	}
 
+	public String getActionStr() {
+		return getString("Action");
+	}
+
+	public short getActionVal() {
+		return (short) getInteger("Action");
+	}
+
 	/**
 	 *  @param Action Action (enumerated)
 	 */
@@ -130,7 +138,7 @@ public class FormCtrlParam extends IMCMessage {
 	/**
 	 *  @param Action Action (as a String)
 	 */
-	public FormCtrlParam setAction(String Action) {
+	public FormCtrlParam setActionStr(String Action) {
 		setValue("Action", Action);
 		return this;
 	}
@@ -138,7 +146,7 @@ public class FormCtrlParam extends IMCMessage {
 	/**
 	 *  @param Action Action (integer value)
 	 */
-	public FormCtrlParam setAction(short Action) {
+	public FormCtrlParam setActionVal(short Action) {
 		setValue("Action", Action);
 		return this;
 	}

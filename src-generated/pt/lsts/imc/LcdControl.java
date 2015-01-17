@@ -118,6 +118,14 @@ public class LcdControl extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -129,7 +137,7 @@ public class LcdControl extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public LcdControl setOp(String op) {
+	public LcdControl setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -137,7 +145,7 @@ public class LcdControl extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public LcdControl setOp(short op) {
+	public LcdControl setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

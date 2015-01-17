@@ -120,6 +120,14 @@ public class RemoteActionsRequest extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op operation (enumerated)
 	 */
@@ -131,7 +139,7 @@ public class RemoteActionsRequest extends IMCMessage {
 	/**
 	 *  @param op operation (as a String)
 	 */
-	public RemoteActionsRequest setOp(String op) {
+	public RemoteActionsRequest setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -139,7 +147,7 @@ public class RemoteActionsRequest extends IMCMessage {
 	/**
 	 *  @param op operation (integer value)
 	 */
-	public RemoteActionsRequest setOp(short op) {
+	public RemoteActionsRequest setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

@@ -479,7 +479,7 @@ public class ClassGenerator {
 						+ type.getFullFieldName(field)
 						+ " (as a String)\n\t */\n");
 				sb.append("\tpublic " + type.getShortName() + " set"
-						+ capitalizedField + "(String " + field + ") {\n");
+						+ capitalizedField + "Str(String " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
 				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
@@ -488,7 +488,7 @@ public class ClassGenerator {
 						+ type.getFullFieldName(field)
 						+ " (integer value)\n\t */\n");
 				sb.append("\tpublic " + type.getShortName() + " set"
-						+ capitalizedField + "(byte " + field + ") {\n");
+						+ capitalizedField + "Val(byte " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
 				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
@@ -516,7 +516,7 @@ public class ClassGenerator {
 						+ type.getFullFieldName(field)
 						+ " (as a String)\n\t */\n");
 				sb.append("\tpublic " + type.getShortName() + " set"
-						+ capitalizedField + "(String " + field + ") {\n");
+						+ capitalizedField + "Str(String " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
 				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
@@ -525,7 +525,7 @@ public class ClassGenerator {
 						+ type.getFullFieldName(field)
 						+ " (integer value)\n\t */\n");
 				sb.append("\tpublic " + type.getShortName() + " set"
-						+ capitalizedField + "(short " + field + ") {\n");
+						+ capitalizedField + "Val(short " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
 				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
@@ -553,7 +553,7 @@ public class ClassGenerator {
 						+ type.getFullFieldName(field)
 						+ " (as a String)\n\t */\n");
 				sb.append("\tpublic " + type.getShortName() + " set"
-						+ capitalizedField + "(String " + field + ") {\n");
+						+ capitalizedField + "Str(String " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
 				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
@@ -562,7 +562,7 @@ public class ClassGenerator {
 						+ type.getFullFieldName(field)
 						+ " (integer value)\n\t */\n");
 				sb.append("\tpublic " + type.getShortName() + " set"
-						+ capitalizedField + "(int " + field + ") {\n");
+						+ capitalizedField + "Val(int " + field + ") {\n");
 				sb.append("\t\tsetValue(\"" + field + "\", " + field + ");\n");
 				sb.append("\t\treturn this;\n");
 				sb.append("\t}\n\n");
@@ -740,6 +740,17 @@ public class ClassGenerator {
 				sb.append("\t\t\treturn null;\n");
 				sb.append("\t\t}\n");
 				sb.append("\t}\n\n");
+				
+				sb.append("\tpublic String get" + capitalizedField
+						+ "Str() {\n");
+				sb.append("\t\treturn getString(\"" + field + "\");\n");
+				sb.append("\t}\n\n");
+				
+				sb.append("\tpublic byte get" + capitalizedField
+						+ "Val() {\n");
+				sb.append("\t\treturn (byte) getInteger(\"" + field + "\");\n");
+				sb.append("\t}\n\n");
+				
 			} else {
 				sb.append("\tpublic byte get" + capitalizedField + "() {\n");
 				sb.append("\t\treturn (byte) getInteger(\"" + field + "\");\n");
@@ -762,6 +773,17 @@ public class ClassGenerator {
 				sb.append("\t\t\treturn null;\n");
 				sb.append("\t\t}\n");
 				sb.append("\t}\n\n");
+				
+				sb.append("\tpublic String get" + capitalizedField
+						+ "Str() {\n");
+				sb.append("\t\treturn getString(\"" + field + "\");\n");
+				sb.append("\t}\n\n");
+				
+				sb.append("\tpublic short get" + capitalizedField
+						+ "Val() {\n");
+				sb.append("\t\treturn (short) getInteger(\"" + field + "\");\n");
+				sb.append("\t}\n\n");
+				
 			} else {
 				sb.append("\tpublic short get" + capitalizedField + "() {\n");
 				sb.append("\t\treturn (short) getInteger(\"" + field + "\");\n");
@@ -784,6 +806,17 @@ public class ClassGenerator {
 				sb.append("\t\t\treturn null;\n");
 				sb.append("\t\t}\n");
 				sb.append("\t}\n\n");
+				
+				sb.append("\tpublic String get" + capitalizedField
+						+ "Str() {\n");
+				sb.append("\t\treturn getString(\"" + field + "\");\n");
+				sb.append("\t}\n\n");
+				
+				sb.append("\tpublic int get" + capitalizedField
+						+ "Val() {\n");
+				sb.append("\t\treturn getInteger(\"" + field + "\");\n");
+				sb.append("\t}\n\n");
+				
 			} else {
 				sb.append("\tpublic int get" + capitalizedField + "() {\n");
 				sb.append("\t\treturn getInteger(\"" + field + "\");\n");

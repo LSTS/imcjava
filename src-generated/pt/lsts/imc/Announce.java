@@ -143,6 +143,14 @@ public class Announce extends IMCMessage {
 		}
 	}
 
+	public String getSysTypeStr() {
+		return getString("sys_type");
+	}
+
+	public short getSysTypeVal() {
+		return (short) getInteger("sys_type");
+	}
+
 	/**
 	 *  @param sys_type System Type (enumerated)
 	 */
@@ -154,7 +162,7 @@ public class Announce extends IMCMessage {
 	/**
 	 *  @param sys_type System Type (as a String)
 	 */
-	public Announce setSysType(String sys_type) {
+	public Announce setSysTypeStr(String sys_type) {
 		setValue("sys_type", sys_type);
 		return this;
 	}
@@ -162,7 +170,7 @@ public class Announce extends IMCMessage {
 	/**
 	 *  @param sys_type System Type (integer value)
 	 */
-	public Announce setSysType(short sys_type) {
+	public Announce setSysTypeVal(short sys_type) {
 		setValue("sys_type", sys_type);
 		return this;
 	}

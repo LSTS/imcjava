@@ -182,6 +182,14 @@ public class Target extends IMCMessage {
 		}
 	}
 
+	public String getZUnitsStr() {
+		return getString("z_units");
+	}
+
+	public short getZUnitsVal() {
+		return (short) getInteger("z_units");
+	}
+
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
@@ -193,7 +201,7 @@ public class Target extends IMCMessage {
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public Target setZUnits(String z_units) {
+	public Target setZUnitsStr(String z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -201,7 +209,7 @@ public class Target extends IMCMessage {
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public Target setZUnits(short z_units) {
+	public Target setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}

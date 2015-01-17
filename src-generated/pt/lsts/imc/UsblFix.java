@@ -165,6 +165,14 @@ public class UsblFix extends IMCMessage {
 		}
 	}
 
+	public String getZUnitsStr() {
+		return getString("z_units");
+	}
+
+	public short getZUnitsVal() {
+		return (short) getInteger("z_units");
+	}
+
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
@@ -176,7 +184,7 @@ public class UsblFix extends IMCMessage {
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public UsblFix setZUnits(String z_units) {
+	public UsblFix setZUnitsStr(String z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -184,7 +192,7 @@ public class UsblFix extends IMCMessage {
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public UsblFix setZUnits(short z_units) {
+	public UsblFix setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}

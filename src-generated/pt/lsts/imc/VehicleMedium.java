@@ -116,6 +116,14 @@ public class VehicleMedium extends IMCMessage {
 		}
 	}
 
+	public String getMediumStr() {
+		return getString("medium");
+	}
+
+	public short getMediumVal() {
+		return (short) getInteger("medium");
+	}
+
 	/**
 	 *  @param medium Medium (enumerated)
 	 */
@@ -127,7 +135,7 @@ public class VehicleMedium extends IMCMessage {
 	/**
 	 *  @param medium Medium (as a String)
 	 */
-	public VehicleMedium setMedium(String medium) {
+	public VehicleMedium setMediumStr(String medium) {
 		setValue("medium", medium);
 		return this;
 	}
@@ -135,7 +143,7 @@ public class VehicleMedium extends IMCMessage {
 	/**
 	 *  @param medium Medium (integer value)
 	 */
-	public VehicleMedium setMedium(short medium) {
+	public VehicleMedium setMediumVal(short medium) {
 		setValue("medium", medium);
 		return this;
 	}

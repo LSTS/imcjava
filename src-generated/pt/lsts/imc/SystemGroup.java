@@ -136,6 +136,14 @@ public class SystemGroup extends IMCMessage {
 		}
 	}
 
+	public String getActionStr() {
+		return getString("Action");
+	}
+
+	public short getActionVal() {
+		return (short) getInteger("Action");
+	}
+
 	/**
 	 *  @param Action Group List Action (enumerated)
 	 */
@@ -147,7 +155,7 @@ public class SystemGroup extends IMCMessage {
 	/**
 	 *  @param Action Group List Action (as a String)
 	 */
-	public SystemGroup setAction(String Action) {
+	public SystemGroup setActionStr(String Action) {
 		setValue("Action", Action);
 		return this;
 	}
@@ -155,7 +163,7 @@ public class SystemGroup extends IMCMessage {
 	/**
 	 *  @param Action Group List Action (integer value)
 	 */
-	public SystemGroup setAction(short Action) {
+	public SystemGroup setActionVal(short Action) {
 		setValue("Action", Action);
 		return this;
 	}

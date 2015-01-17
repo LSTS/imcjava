@@ -118,6 +118,14 @@ public class EmergencyControl extends IMCMessage {
 		}
 	}
 
+	public String getCommandStr() {
+		return getString("command");
+	}
+
+	public short getCommandVal() {
+		return (short) getInteger("command");
+	}
+
 	/**
 	 *  @param command Command (enumerated)
 	 */
@@ -129,7 +137,7 @@ public class EmergencyControl extends IMCMessage {
 	/**
 	 *  @param command Command (as a String)
 	 */
-	public EmergencyControl setCommand(String command) {
+	public EmergencyControl setCommandStr(String command) {
 		setValue("command", command);
 		return this;
 	}
@@ -137,7 +145,7 @@ public class EmergencyControl extends IMCMessage {
 	/**
 	 *  @param command Command (integer value)
 	 */
-	public EmergencyControl setCommand(short command) {
+	public EmergencyControl setCommandVal(short command) {
 		setValue("command", command);
 		return this;
 	}

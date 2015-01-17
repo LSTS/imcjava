@@ -132,6 +132,14 @@ public class DesiredZ extends ControlCommand {
 		}
 	}
 
+	public String getZUnitsStr() {
+		return getString("z_units");
+	}
+
+	public short getZUnitsVal() {
+		return (short) getInteger("z_units");
+	}
+
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
@@ -143,7 +151,7 @@ public class DesiredZ extends ControlCommand {
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public DesiredZ setZUnits(String z_units) {
+	public DesiredZ setZUnitsStr(String z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -151,7 +159,7 @@ public class DesiredZ extends ControlCommand {
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public DesiredZ setZUnits(short z_units) {
+	public DesiredZ setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}

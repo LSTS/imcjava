@@ -188,6 +188,14 @@ public class StationKeeping extends Maneuver {
 		}
 	}
 
+	public String getZUnitsStr() {
+		return getString("z_units");
+	}
+
+	public short getZUnitsVal() {
+		return (short) getInteger("z_units");
+	}
+
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
@@ -199,7 +207,7 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public StationKeeping setZUnits(String z_units) {
+	public StationKeeping setZUnitsStr(String z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -207,7 +215,7 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public StationKeeping setZUnits(short z_units) {
+	public StationKeeping setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -270,6 +278,14 @@ public class StationKeeping extends Maneuver {
 		}
 	}
 
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
@@ -281,7 +297,7 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public StationKeeping setSpeedUnits(String speed_units) {
+	public StationKeeping setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -289,7 +305,7 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public StationKeeping setSpeedUnits(short speed_units) {
+	public StationKeeping setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}

@@ -119,6 +119,14 @@ public class LoggingControl extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Control Operation (enumerated)
 	 */
@@ -130,7 +138,7 @@ public class LoggingControl extends IMCMessage {
 	/**
 	 *  @param op Control Operation (as a String)
 	 */
-	public LoggingControl setOp(String op) {
+	public LoggingControl setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -138,7 +146,7 @@ public class LoggingControl extends IMCMessage {
 	/**
 	 *  @param op Control Operation (integer value)
 	 */
-	public LoggingControl setOp(short op) {
+	public LoggingControl setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

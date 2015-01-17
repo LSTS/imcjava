@@ -161,6 +161,14 @@ public class LeaderState extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Action on the leader state (enumerated)
 	 */
@@ -172,7 +180,7 @@ public class LeaderState extends IMCMessage {
 	/**
 	 *  @param op Action on the leader state (as a String)
 	 */
-	public LeaderState setOp(String op) {
+	public LeaderState setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -180,7 +188,7 @@ public class LeaderState extends IMCMessage {
 	/**
 	 *  @param op Action on the leader state (integer value)
 	 */
-	public LeaderState setOp(short op) {
+	public LeaderState setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

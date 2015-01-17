@@ -134,6 +134,14 @@ public class UamTxStatus extends IMCMessage {
 		}
 	}
 
+	public String getValueStr() {
+		return getString("value");
+	}
+
+	public short getValueVal() {
+		return (short) getInteger("value");
+	}
+
 	/**
 	 *  @param value Value (enumerated)
 	 */
@@ -145,7 +153,7 @@ public class UamTxStatus extends IMCMessage {
 	/**
 	 *  @param value Value (as a String)
 	 */
-	public UamTxStatus setValue(String value) {
+	public UamTxStatus setValueStr(String value) {
 		setValue("value", value);
 		return this;
 	}
@@ -153,7 +161,7 @@ public class UamTxStatus extends IMCMessage {
 	/**
 	 *  @param value Value (integer value)
 	 */
-	public UamTxStatus setValue(short value) {
+	public UamTxStatus setValueVal(short value) {
 		setValue("value", value);
 		return this;
 	}

@@ -250,6 +250,14 @@ public class DesiredPath extends ControlCommand {
 		}
 	}
 
+	public String getStartZUnitsStr() {
+		return getString("start_z_units");
+	}
+
+	public short getStartZUnitsVal() {
+		return (short) getInteger("start_z_units");
+	}
+
 	/**
 	 *  @param start_z_units Start Point -- Z Units (enumerated)
 	 */
@@ -261,7 +269,7 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @param start_z_units Start Point -- Z Units (as a String)
 	 */
-	public DesiredPath setStartZUnits(String start_z_units) {
+	public DesiredPath setStartZUnitsStr(String start_z_units) {
 		setValue("start_z_units", start_z_units);
 		return this;
 	}
@@ -269,7 +277,7 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @param start_z_units Start Point -- Z Units (integer value)
 	 */
-	public DesiredPath setStartZUnits(short start_z_units) {
+	public DesiredPath setStartZUnitsVal(short start_z_units) {
 		setValue("start_z_units", start_z_units);
 		return this;
 	}
@@ -332,6 +340,14 @@ public class DesiredPath extends ControlCommand {
 		}
 	}
 
+	public String getEndZUnitsStr() {
+		return getString("end_z_units");
+	}
+
+	public short getEndZUnitsVal() {
+		return (short) getInteger("end_z_units");
+	}
+
 	/**
 	 *  @param end_z_units End Point -- Z Units (enumerated)
 	 */
@@ -343,7 +359,7 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @param end_z_units End Point -- Z Units (as a String)
 	 */
-	public DesiredPath setEndZUnits(String end_z_units) {
+	public DesiredPath setEndZUnitsStr(String end_z_units) {
 		setValue("end_z_units", end_z_units);
 		return this;
 	}
@@ -351,7 +367,7 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @param end_z_units End Point -- Z Units (integer value)
 	 */
-	public DesiredPath setEndZUnits(short end_z_units) {
+	public DesiredPath setEndZUnitsVal(short end_z_units) {
 		setValue("end_z_units", end_z_units);
 		return this;
 	}
@@ -384,6 +400,14 @@ public class DesiredPath extends ControlCommand {
 		}
 	}
 
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
@@ -395,7 +419,7 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public DesiredPath setSpeedUnits(String speed_units) {
+	public DesiredPath setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -403,7 +427,7 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public DesiredPath setSpeedUnits(short speed_units) {
+	public DesiredPath setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}

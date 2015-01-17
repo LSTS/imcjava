@@ -194,6 +194,14 @@ public class FormState extends IMCMessage {
 		}
 	}
 
+	public String getPosSimMonStr() {
+		return getString("PosSimMon");
+	}
+
+	public short getPosSimMonVal() {
+		return (short) getInteger("PosSimMon");
+	}
+
 	/**
 	 *  @param PosSimMon Position Mismatch Monitor (enumerated)
 	 */
@@ -205,7 +213,7 @@ public class FormState extends IMCMessage {
 	/**
 	 *  @param PosSimMon Position Mismatch Monitor (as a String)
 	 */
-	public FormState setPosSimMon(String PosSimMon) {
+	public FormState setPosSimMonStr(String PosSimMon) {
 		setValue("PosSimMon", PosSimMon);
 		return this;
 	}
@@ -213,7 +221,7 @@ public class FormState extends IMCMessage {
 	/**
 	 *  @param PosSimMon Position Mismatch Monitor (integer value)
 	 */
-	public FormState setPosSimMon(short PosSimMon) {
+	public FormState setPosSimMonVal(short PosSimMon) {
 		setValue("PosSimMon", PosSimMon);
 		return this;
 	}
@@ -231,6 +239,14 @@ public class FormState extends IMCMessage {
 		}
 	}
 
+	public String getCommMonStr() {
+		return getString("CommMon");
+	}
+
+	public short getCommMonVal() {
+		return (short) getInteger("CommMon");
+	}
+
 	/**
 	 *  @param CommMon Communications Monitor (enumerated)
 	 */
@@ -242,7 +258,7 @@ public class FormState extends IMCMessage {
 	/**
 	 *  @param CommMon Communications Monitor (as a String)
 	 */
-	public FormState setCommMon(String CommMon) {
+	public FormState setCommMonStr(String CommMon) {
 		setValue("CommMon", CommMon);
 		return this;
 	}
@@ -250,7 +266,7 @@ public class FormState extends IMCMessage {
 	/**
 	 *  @param CommMon Communications Monitor (integer value)
 	 */
-	public FormState setCommMon(short CommMon) {
+	public FormState setCommMonVal(short CommMon) {
 		setValue("CommMon", CommMon);
 		return this;
 	}
@@ -268,6 +284,14 @@ public class FormState extends IMCMessage {
 		}
 	}
 
+	public String getConvergMonStr() {
+		return getString("ConvergMon");
+	}
+
+	public short getConvergMonVal() {
+		return (short) getInteger("ConvergMon");
+	}
+
 	/**
 	 *  @param ConvergMon Convergence (enumerated)
 	 */
@@ -279,7 +303,7 @@ public class FormState extends IMCMessage {
 	/**
 	 *  @param ConvergMon Convergence (as a String)
 	 */
-	public FormState setConvergMon(String ConvergMon) {
+	public FormState setConvergMonStr(String ConvergMon) {
 		setValue("ConvergMon", ConvergMon);
 		return this;
 	}
@@ -287,7 +311,7 @@ public class FormState extends IMCMessage {
 	/**
 	 *  @param ConvergMon Convergence (integer value)
 	 */
-	public FormState setConvergMon(short ConvergMon) {
+	public FormState setConvergMonVal(short ConvergMon) {
 		setValue("ConvergMon", ConvergMon);
 		return this;
 	}

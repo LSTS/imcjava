@@ -242,6 +242,14 @@ public class Loiter extends Maneuver {
 		}
 	}
 
+	public String getZUnitsStr() {
+		return getString("z_units");
+	}
+
+	public short getZUnitsVal() {
+		return (short) getInteger("z_units");
+	}
+
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
@@ -253,7 +261,7 @@ public class Loiter extends Maneuver {
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public Loiter setZUnits(String z_units) {
+	public Loiter setZUnitsStr(String z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -261,7 +269,7 @@ public class Loiter extends Maneuver {
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public Loiter setZUnits(short z_units) {
+	public Loiter setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -309,6 +317,14 @@ public class Loiter extends Maneuver {
 		}
 	}
 
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
@@ -320,7 +336,7 @@ public class Loiter extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public Loiter setSpeedUnits(String speed_units) {
+	public Loiter setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -328,7 +344,7 @@ public class Loiter extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public Loiter setSpeedUnits(short speed_units) {
+	public Loiter setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -346,6 +362,14 @@ public class Loiter extends Maneuver {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Loiter Type (enumerated)
 	 */
@@ -357,7 +381,7 @@ public class Loiter extends Maneuver {
 	/**
 	 *  @param type Loiter Type (as a String)
 	 */
-	public Loiter setType(String type) {
+	public Loiter setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -365,7 +389,7 @@ public class Loiter extends Maneuver {
 	/**
 	 *  @param type Loiter Type (integer value)
 	 */
-	public Loiter setType(short type) {
+	public Loiter setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}
@@ -428,6 +452,14 @@ public class Loiter extends Maneuver {
 		}
 	}
 
+	public String getDirectionStr() {
+		return getString("direction");
+	}
+
+	public short getDirectionVal() {
+		return (short) getInteger("direction");
+	}
+
 	/**
 	 *  @param direction Direction (enumerated)
 	 */
@@ -439,7 +471,7 @@ public class Loiter extends Maneuver {
 	/**
 	 *  @param direction Direction (as a String)
 	 */
-	public Loiter setDirection(String direction) {
+	public Loiter setDirectionStr(String direction) {
 		setValue("direction", direction);
 		return this;
 	}
@@ -447,7 +479,7 @@ public class Loiter extends Maneuver {
 	/**
 	 *  @param direction Direction (integer value)
 	 */
-	public Loiter setDirection(short direction) {
+	public Loiter setDirectionVal(short direction) {
 		setValue("direction", direction);
 		return this;
 	}

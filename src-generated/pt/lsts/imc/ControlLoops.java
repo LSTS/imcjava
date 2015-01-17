@@ -132,6 +132,14 @@ public class ControlLoops extends IMCMessage {
 		}
 	}
 
+	public String getEnableStr() {
+		return getString("enable");
+	}
+
+	public short getEnableVal() {
+		return (short) getInteger("enable");
+	}
+
 	/**
 	 *  @param enable Enable (enumerated)
 	 */
@@ -143,7 +151,7 @@ public class ControlLoops extends IMCMessage {
 	/**
 	 *  @param enable Enable (as a String)
 	 */
-	public ControlLoops setEnable(String enable) {
+	public ControlLoops setEnableStr(String enable) {
 		setValue("enable", enable);
 		return this;
 	}
@@ -151,7 +159,7 @@ public class ControlLoops extends IMCMessage {
 	/**
 	 *  @param enable Enable (integer value)
 	 */
-	public ControlLoops setEnable(short enable) {
+	public ControlLoops setEnableVal(short enable) {
 		setValue("enable", enable);
 		return this;
 	}

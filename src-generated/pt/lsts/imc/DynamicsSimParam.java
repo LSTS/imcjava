@@ -116,6 +116,14 @@ public class DynamicsSimParam extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Action on the Vehicle Simulation Parameters (enumerated)
 	 */
@@ -127,7 +135,7 @@ public class DynamicsSimParam extends IMCMessage {
 	/**
 	 *  @param op Action on the Vehicle Simulation Parameters (as a String)
 	 */
-	public DynamicsSimParam setOp(String op) {
+	public DynamicsSimParam setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -135,7 +143,7 @@ public class DynamicsSimParam extends IMCMessage {
 	/**
 	 *  @param op Action on the Vehicle Simulation Parameters (integer value)
 	 */
-	public DynamicsSimParam setOp(short op) {
+	public DynamicsSimParam setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

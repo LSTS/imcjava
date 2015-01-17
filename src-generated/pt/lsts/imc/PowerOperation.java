@@ -120,6 +120,14 @@ public class PowerOperation extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -131,7 +139,7 @@ public class PowerOperation extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public PowerOperation setOp(String op) {
+	public PowerOperation setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -139,7 +147,7 @@ public class PowerOperation extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public PowerOperation setOp(short op) {
+	public PowerOperation setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

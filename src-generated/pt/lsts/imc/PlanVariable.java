@@ -166,6 +166,14 @@ public class PlanVariable extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Type (enumerated)
 	 */
@@ -177,7 +185,7 @@ public class PlanVariable extends IMCMessage {
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public PlanVariable setType(String type) {
+	public PlanVariable setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -185,7 +193,7 @@ public class PlanVariable extends IMCMessage {
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public PlanVariable setType(short type) {
+	public PlanVariable setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}
@@ -203,6 +211,14 @@ public class PlanVariable extends IMCMessage {
 		}
 	}
 
+	public String getAccessStr() {
+		return getString("access");
+	}
+
+	public short getAccessVal() {
+		return (short) getInteger("access");
+	}
+
 	/**
 	 *  @param access Access Type (enumerated)
 	 */
@@ -214,7 +230,7 @@ public class PlanVariable extends IMCMessage {
 	/**
 	 *  @param access Access Type (as a String)
 	 */
-	public PlanVariable setAccess(String access) {
+	public PlanVariable setAccessStr(String access) {
 		setValue("access", access);
 		return this;
 	}
@@ -222,7 +238,7 @@ public class PlanVariable extends IMCMessage {
 	/**
 	 *  @param access Access Type (integer value)
 	 */
-	public PlanVariable setAccess(short access) {
+	public PlanVariable setAccessVal(short access) {
 		setValue("access", access);
 		return this;
 	}

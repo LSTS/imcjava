@@ -129,6 +129,14 @@ public class SessionStatus extends IMCMessage {
 		}
 	}
 
+	public String getStatusStr() {
+		return getString("status");
+	}
+
+	public short getStatusVal() {
+		return (short) getInteger("status");
+	}
+
 	/**
 	 *  @param status Status (enumerated)
 	 */
@@ -140,7 +148,7 @@ public class SessionStatus extends IMCMessage {
 	/**
 	 *  @param status Status (as a String)
 	 */
-	public SessionStatus setStatus(String status) {
+	public SessionStatus setStatusStr(String status) {
 		setValue("status", status);
 		return this;
 	}
@@ -148,7 +156,7 @@ public class SessionStatus extends IMCMessage {
 	/**
 	 *  @param status Status (integer value)
 	 */
-	public SessionStatus setStatus(short status) {
+	public SessionStatus setStatusVal(short status) {
 		setValue("status", status);
 		return this;
 	}

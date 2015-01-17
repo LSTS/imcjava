@@ -124,6 +124,14 @@ public class SonarData extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Type (enumerated)
 	 */
@@ -135,7 +143,7 @@ public class SonarData extends IMCMessage {
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public SonarData setType(String type) {
+	public SonarData setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -143,7 +151,7 @@ public class SonarData extends IMCMessage {
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public SonarData setType(short type) {
+	public SonarData setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}

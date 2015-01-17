@@ -121,6 +121,14 @@ public class TrexCommand extends IMCMessage {
 		}
 	}
 
+	public String getCommandStr() {
+		return getString("command");
+	}
+
+	public short getCommandVal() {
+		return (short) getInteger("command");
+	}
+
 	/**
 	 *  @param command Command (enumerated)
 	 */
@@ -132,7 +140,7 @@ public class TrexCommand extends IMCMessage {
 	/**
 	 *  @param command Command (as a String)
 	 */
-	public TrexCommand setCommand(String command) {
+	public TrexCommand setCommandStr(String command) {
 		setValue("command", command);
 		return this;
 	}
@@ -140,7 +148,7 @@ public class TrexCommand extends IMCMessage {
 	/**
 	 *  @param command Command (integer value)
 	 */
-	public TrexCommand setCommand(short command) {
+	public TrexCommand setCommandVal(short command) {
 		setValue("command", command);
 		return this;
 	}

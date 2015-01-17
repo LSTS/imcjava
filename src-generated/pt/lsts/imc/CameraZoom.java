@@ -147,6 +147,14 @@ public class CameraZoom extends IMCMessage {
 		}
 	}
 
+	public String getActionStr() {
+		return getString("action");
+	}
+
+	public short getActionVal() {
+		return (short) getInteger("action");
+	}
+
 	/**
 	 *  @param action Action (enumerated)
 	 */
@@ -158,7 +166,7 @@ public class CameraZoom extends IMCMessage {
 	/**
 	 *  @param action Action (as a String)
 	 */
-	public CameraZoom setAction(String action) {
+	public CameraZoom setActionStr(String action) {
 		setValue("action", action);
 		return this;
 	}
@@ -166,7 +174,7 @@ public class CameraZoom extends IMCMessage {
 	/**
 	 *  @param action Action (integer value)
 	 */
-	public CameraZoom setAction(short action) {
+	public CameraZoom setActionVal(short action) {
 		setValue("action", action);
 		return this;
 	}

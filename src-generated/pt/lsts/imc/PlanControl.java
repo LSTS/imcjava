@@ -144,6 +144,14 @@ public class PlanControl extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Type (enumerated)
 	 */
@@ -155,7 +163,7 @@ public class PlanControl extends IMCMessage {
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public PlanControl setType(String type) {
+	public PlanControl setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -163,7 +171,7 @@ public class PlanControl extends IMCMessage {
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public PlanControl setType(short type) {
+	public PlanControl setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}
@@ -181,6 +189,14 @@ public class PlanControl extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Operation (enumerated)
 	 */
@@ -192,7 +208,7 @@ public class PlanControl extends IMCMessage {
 	/**
 	 *  @param op Operation (as a String)
 	 */
-	public PlanControl setOp(String op) {
+	public PlanControl setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -200,7 +216,7 @@ public class PlanControl extends IMCMessage {
 	/**
 	 *  @param op Operation (integer value)
 	 */
-	public PlanControl setOp(short op) {
+	public PlanControl setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

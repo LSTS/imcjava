@@ -140,6 +140,14 @@ public class PlanControlState extends IMCMessage {
 		}
 	}
 
+	public String getStateStr() {
+		return getString("state");
+	}
+
+	public short getStateVal() {
+		return (short) getInteger("state");
+	}
+
 	/**
 	 *  @param state State (enumerated)
 	 */
@@ -151,7 +159,7 @@ public class PlanControlState extends IMCMessage {
 	/**
 	 *  @param state State (as a String)
 	 */
-	public PlanControlState setState(String state) {
+	public PlanControlState setStateStr(String state) {
 		setValue("state", state);
 		return this;
 	}
@@ -159,7 +167,7 @@ public class PlanControlState extends IMCMessage {
 	/**
 	 *  @param state State (integer value)
 	 */
-	public PlanControlState setState(short state) {
+	public PlanControlState setStateVal(short state) {
 		setValue("state", state);
 		return this;
 	}
@@ -267,6 +275,14 @@ public class PlanControlState extends IMCMessage {
 		}
 	}
 
+	public String getLastOutcomeStr() {
+		return getString("last_outcome");
+	}
+
+	public short getLastOutcomeVal() {
+		return (short) getInteger("last_outcome");
+	}
+
 	/**
 	 *  @param last_outcome Last Plan Outcome (enumerated)
 	 */
@@ -278,7 +294,7 @@ public class PlanControlState extends IMCMessage {
 	/**
 	 *  @param last_outcome Last Plan Outcome (as a String)
 	 */
-	public PlanControlState setLastOutcome(String last_outcome) {
+	public PlanControlState setLastOutcomeStr(String last_outcome) {
 		setValue("last_outcome", last_outcome);
 		return this;
 	}
@@ -286,7 +302,7 @@ public class PlanControlState extends IMCMessage {
 	/**
 	 *  @param last_outcome Last Plan Outcome (integer value)
 	 */
-	public PlanControlState setLastOutcome(short last_outcome) {
+	public PlanControlState setLastOutcomeVal(short last_outcome) {
 		setValue("last_outcome", last_outcome);
 		return this;
 	}

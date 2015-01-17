@@ -156,6 +156,14 @@ public class GpsFix extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Type (enumerated)
 	 */
@@ -167,7 +175,7 @@ public class GpsFix extends IMCMessage {
 	/**
 	 *  @param type Type (as a String)
 	 */
-	public GpsFix setType(String type) {
+	public GpsFix setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -175,7 +183,7 @@ public class GpsFix extends IMCMessage {
 	/**
 	 *  @param type Type (integer value)
 	 */
-	public GpsFix setType(short type) {
+	public GpsFix setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}

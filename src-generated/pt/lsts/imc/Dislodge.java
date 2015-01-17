@@ -154,6 +154,14 @@ public class Dislodge extends Maneuver {
 		}
 	}
 
+	public String getDirectionStr() {
+		return getString("direction");
+	}
+
+	public short getDirectionVal() {
+		return (short) getInteger("direction");
+	}
+
 	/**
 	 *  @param direction Direction (enumerated)
 	 */
@@ -165,7 +173,7 @@ public class Dislodge extends Maneuver {
 	/**
 	 *  @param direction Direction (as a String)
 	 */
-	public Dislodge setDirection(String direction) {
+	public Dislodge setDirectionStr(String direction) {
 		setValue("direction", direction);
 		return this;
 	}
@@ -173,7 +181,7 @@ public class Dislodge extends Maneuver {
 	/**
 	 *  @param direction Direction (integer value)
 	 */
-	public Dislodge setDirection(short direction) {
+	public Dislodge setDirectionVal(short direction) {
 		setValue("direction", direction);
 		return this;
 	}

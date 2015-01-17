@@ -87,9 +87,9 @@ public class IMCProtocol implements IMessageBus {
 		if (!announces.containsKey(src_id)) {
 			System.out.println("[IMCProtocol] New node within range: "
 					+ msg.getSysName());
-			
+
 			// Check if this is a peer (a name we should auto connect to)
-			boolean peer = Pattern.matches(autoConnect, msg.getSysName()); 
+			boolean peer = Pattern.matches(autoConnect, msg.getSysName());
 			IMCNode node = new IMCNode(msg);
 			node.setPeer(peer);
 			announces.put(src_id, node);
@@ -639,6 +639,31 @@ public class IMCProtocol implements IMessageBus {
 	 */
 	public void setAutoConnect(String autoConnect) {
 		this.autoConnect = autoConnect;
+	}
+
+	/**
+	 * This method blocks until a system whose name matches a regular expression
+	 * is found on the network or <code>null</code> if time has expired.
+	 * 
+	 * @param systemExpr The regular expression to look for
+	 * @param timeoutMillis The maximum amount of time to block
+	 * @return The name of the system found
+	 */
+	public String waitFor(String systemExpr, long timeoutMillis) {
+		long start = System.currentTimeMillis();
+		while (System.currentTimeMillis() - start < timeoutMillis) {
+			for (String s : systems()) {
+				if (s.matches(systemExpr))
+					return s;
+			}
+			try {
+				Thread.sleep(333);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 	public static void main(String[] args) throws Exception {

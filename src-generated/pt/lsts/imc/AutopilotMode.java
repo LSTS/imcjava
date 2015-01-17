@@ -116,6 +116,14 @@ public class AutopilotMode extends IMCMessage {
 		}
 	}
 
+	public String getAutonomyStr() {
+		return getString("autonomy");
+	}
+
+	public short getAutonomyVal() {
+		return (short) getInteger("autonomy");
+	}
+
 	/**
 	 *  @param autonomy Autonomy Level (enumerated)
 	 */
@@ -127,7 +135,7 @@ public class AutopilotMode extends IMCMessage {
 	/**
 	 *  @param autonomy Autonomy Level (as a String)
 	 */
-	public AutopilotMode setAutonomy(String autonomy) {
+	public AutopilotMode setAutonomyStr(String autonomy) {
 		setValue("autonomy", autonomy);
 		return this;
 	}
@@ -135,7 +143,7 @@ public class AutopilotMode extends IMCMessage {
 	/**
 	 *  @param autonomy Autonomy Level (integer value)
 	 */
-	public AutopilotMode setAutonomy(short autonomy) {
+	public AutopilotMode setAutonomyVal(short autonomy) {
 		setValue("autonomy", autonomy);
 		return this;
 	}

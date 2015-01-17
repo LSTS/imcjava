@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 public class PeriodicCallbacks {
 
 	private static ScheduledExecutorService executor = Executors
-			.newScheduledThreadPool(0);
+			.newScheduledThreadPool(1);
 
 	public static void stopAll() {
 		executor.shutdownNow();
@@ -27,6 +27,7 @@ public class PeriodicCallbacks {
 				m.setAccessible(true);
 				final Method method = m;
 				final Object client = pojo;
+				
 				Runnable callback = new Runnable() {
 
 					@Override

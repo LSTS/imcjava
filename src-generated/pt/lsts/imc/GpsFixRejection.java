@@ -131,6 +131,14 @@ public class GpsFixRejection extends IMCMessage {
 		}
 	}
 
+	public String getReasonStr() {
+		return getString("reason");
+	}
+
+	public short getReasonVal() {
+		return (short) getInteger("reason");
+	}
+
 	/**
 	 *  @param reason Reason (enumerated)
 	 */
@@ -142,7 +150,7 @@ public class GpsFixRejection extends IMCMessage {
 	/**
 	 *  @param reason Reason (as a String)
 	 */
-	public GpsFixRejection setReason(String reason) {
+	public GpsFixRejection setReasonStr(String reason) {
 		setValue("reason", reason);
 		return this;
 	}
@@ -150,7 +158,7 @@ public class GpsFixRejection extends IMCMessage {
 	/**
 	 *  @param reason Reason (integer value)
 	 */
-	public GpsFixRejection setReason(short reason) {
+	public GpsFixRejection setReasonVal(short reason) {
 		setValue("reason", reason);
 		return this;
 	}

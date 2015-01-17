@@ -132,6 +132,14 @@ public class VehicleOperationalLimits extends IMCMessage {
 		}
 	}
 
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
 	/**
 	 *  @param op Action on the vehicle operational limits (enumerated)
 	 */
@@ -143,7 +151,7 @@ public class VehicleOperationalLimits extends IMCMessage {
 	/**
 	 *  @param op Action on the vehicle operational limits (as a String)
 	 */
-	public VehicleOperationalLimits setOp(String op) {
+	public VehicleOperationalLimits setOpStr(String op) {
 		setValue("op", op);
 		return this;
 	}
@@ -151,7 +159,7 @@ public class VehicleOperationalLimits extends IMCMessage {
 	/**
 	 *  @param op Action on the vehicle operational limits (integer value)
 	 */
-	public VehicleOperationalLimits setOp(short op) {
+	public VehicleOperationalLimits setOpVal(short op) {
 		setValue("op", op);
 		return this;
 	}

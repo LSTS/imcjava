@@ -114,6 +114,14 @@ public class AlignmentState extends IMCMessage {
 		}
 	}
 
+	public String getStateStr() {
+		return getString("state");
+	}
+
+	public short getStateVal() {
+		return (short) getInteger("state");
+	}
+
 	/**
 	 *  @param state State (enumerated)
 	 */
@@ -125,7 +133,7 @@ public class AlignmentState extends IMCMessage {
 	/**
 	 *  @param state State (as a String)
 	 */
-	public AlignmentState setState(String state) {
+	public AlignmentState setStateStr(String state) {
 		setValue("state", state);
 		return this;
 	}
@@ -133,7 +141,7 @@ public class AlignmentState extends IMCMessage {
 	/**
 	 *  @param state State (integer value)
 	 */
-	public AlignmentState setState(short state) {
+	public AlignmentState setStateVal(short state) {
 		setValue("state", state);
 		return this;
 	}

@@ -118,6 +118,14 @@ public class MonitorEntityState extends IMCMessage {
 		}
 	}
 
+	public String getCommandStr() {
+		return getString("command");
+	}
+
+	public short getCommandVal() {
+		return (short) getInteger("command");
+	}
+
 	/**
 	 *  @param command Command (enumerated)
 	 */
@@ -129,7 +137,7 @@ public class MonitorEntityState extends IMCMessage {
 	/**
 	 *  @param command Command (as a String)
 	 */
-	public MonitorEntityState setCommand(String command) {
+	public MonitorEntityState setCommandStr(String command) {
 		setValue("command", command);
 		return this;
 	}
@@ -137,7 +145,7 @@ public class MonitorEntityState extends IMCMessage {
 	/**
 	 *  @param command Command (integer value)
 	 */
-	public MonitorEntityState setCommand(short command) {
+	public MonitorEntityState setCommandVal(short command) {
 		setValue("command", command);
 		return this;
 	}

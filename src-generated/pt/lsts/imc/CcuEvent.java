@@ -124,6 +124,14 @@ public class CcuEvent extends IMCMessage {
 		}
 	}
 
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
 	/**
 	 *  @param type Event Type (enumerated)
 	 */
@@ -135,7 +143,7 @@ public class CcuEvent extends IMCMessage {
 	/**
 	 *  @param type Event Type (as a String)
 	 */
-	public CcuEvent setType(String type) {
+	public CcuEvent setTypeStr(String type) {
 		setValue("type", type);
 		return this;
 	}
@@ -143,7 +151,7 @@ public class CcuEvent extends IMCMessage {
 	/**
 	 *  @param type Event Type (integer value)
 	 */
-	public CcuEvent setType(short type) {
+	public CcuEvent setTypeVal(short type) {
 		setValue("type", type);
 		return this;
 	}
