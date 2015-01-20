@@ -308,7 +308,7 @@
       <arg value="dist/lsfmerge.jar"/>
     </exec>
 
-    <delete file="dist/lsfmerge.jar"/>
+    <!-- delete file="dist/lsfmerge.jar"/ -->
   </target>
 
   <target name="lsffilter" description="Create a program for filtering lsf files" depends="compile">
