@@ -75,6 +75,7 @@ public class IMCProtocol implements IMessageBus {
 	protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
 	private ImcConsumer listener = ImcConsumer.create(this);
 	private HashSet<String> services = new HashSet<String>();
+	private boolean quiet = true;
 
 	private String autoConnect = ".*";
 
@@ -85,7 +86,8 @@ public class IMCProtocol implements IMessageBus {
 				.addEntry(msg.getSrc(), msg.getSysName());
 
 		if (!announces.containsKey(src_id)) {
-			System.out.println("[IMCProtocol] New node within range: "
+			if (!quiet)
+				System.out.println("[IMCProtocol] New node within range: "
 					+ msg.getSysName());
 
 			// Check if this is a peer (a name we should auto connect to)
@@ -95,22 +97,24 @@ public class IMCProtocol implements IMessageBus {
 			announces.put(src_id, node);
 
 			if (peer) {
-				System.out.println("[IMCProtocol] Starting session with "
+				if (!quiet)
+					System.out.println("[IMCProtocol] Starting session with "
 						+ msg.getSysName());
 				sendMessage(msg.getSysName(), buildAnnounce());
-				sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
+				
+				if (sysStates.containsKey(msg.getSysName())) {
+					if (!state(msg.getSysName()).availableMessages().contains(
+							"EntityList")) {
+						sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
+					} else {
+						sendMessage(msg.getSysName(), new Heartbeat());
+					}
+				}
 			}
 		} else
 			announces.get(src_id).setLastAnnounce(msg);
 
-		if (sysStates.containsKey(msg.getSysName())) {
-			if (!state(msg.getSysName()).availableMessages().contains(
-					"EntityList")) {
-				sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
-			} else {
-				sendMessage(msg.getSysName(), new Heartbeat());
-			}
-		}
+		
 	}
 
 	@Consume
@@ -190,7 +194,8 @@ public class IMCProtocol implements IMessageBus {
 				} else
 					break;
 			}
-			System.out.println("[IMCProtocol] Discovery thread bound to port "
+			if (!quiet)
+				System.out.println("[IMCProtocol] Discovery thread bound to port "
 					+ port + ".");
 
 			final Announce announce = buildAnnounce();
