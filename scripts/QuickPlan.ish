@@ -1,6 +1,0 @@
-#!/usr/bin/imcshell
-
-# Create a quick plan which consists of a single maneuver and command it to the vehicle
-create go1 Goto lat=`41.185*(Math.PI/180)` lon=`-8.705*(Math.PI/180)` z=2 z_units=DEPTH speed=1.2
-create pc PlanControl arg=go1 type=REQUEST op=START flags=0 plan_id="go_apdl"
-send localhost 6002 pc
