@@ -312,7 +312,7 @@ public class ClassGenerator {
 	}
 
 	public static void generateClasses() throws Exception {
-		generateClasses("pt.lsts.imc", new File("src-generated"),
+		generateClasses("pt.lsts.imc", new File("src/generated"),
 				IMCDefinition.getInstance());
 	}
 
@@ -1207,15 +1207,15 @@ public class ClassGenerator {
 					GenerationUtils.getImcXml(repo));
 			Map<String, Integer> addrs = GenerationUtils.getImcAddresses(repo);
 
-			File output = getOutputDir(new File("src-generated"), "pt.lsts.imc");
+			File output = getOutputDir(new File("src/generated"), "pt.lsts.imc");
 			clearDir(output);
 
-			generateClasses("pt.lsts.imc", new File("src-generated"), defs);
+			generateClasses("pt.lsts.imc", new File("src/generated"), defs);
 			generateStringDefinitions("pt.lsts.imc", addrs, sha, branch,
-					commitDetails, new File("src-generated"),
+					commitDetails, new File("src/generated"),
 					GenerationUtils.getImcXml(repo));
-			generateImcFactory(defs, new File("src-generated"));
-			//generateImcState(defs, new File("src-generated"));
+			generateImcFactory(defs, new File("src/generated"));
+			//generateImcState(defs, new File("src/generated"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);

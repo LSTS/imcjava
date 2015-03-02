@@ -1,0 +1,44 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+}
+
+
+sourceSets {
+	main {
+		java {
+			srcDir 'src/main'
+			srcDir 'src/generated'
+		}			
+	}
+	
+	generator {
+		java {
+			srcDir 'src/main'
+			srcDir 'src/generated'
+			srcDir 'src/generator'
+		}
+	}
+}
+
+dependencies {
+	generatorCompile 'org.apache.commons:commons-lang3:3.1'
+	generatorRuntime 'org.apache.commons:commons-lang3:3.1'
+}
+
+task(generate, dependsOn: 'classes', type: JavaExec) {
+   description 'Generate source code for NMP protocol'
+   main 'pt.lsts.imc.generator.ClassGenerator'
+   classpath sourceSets.generator.runtimeClasspath
+   doFirst {
+     if (project.hasProperty("IMC")) {
+       args "$IMC"
+     }
+     else {
+       ant.fail("You should pass the path to IMC repository as build parameter. Example: 'gradle generate -PIMC=../imc'")
+     }
+   }
+}
+
