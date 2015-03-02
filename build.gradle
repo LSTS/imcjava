@@ -1,17 +1,17 @@
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'eclipse'
 
 repositories {
     mavenCentral()
 }
-
 
 sourceSets {
 	main {
 		java {
 			srcDir 'src/main'
 			srcDir 'src/generated'
-		}			
+		}
 	}
 	
 	generator {
@@ -23,13 +23,27 @@ sourceSets {
 	}
 }
 
+jar {
+	from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+}
+
 dependencies {
+	compile 'org.apache.commons:commons-lang3:3.1'
 	generatorCompile 'org.apache.commons:commons-lang3:3.1'
 	generatorRuntime 'org.apache.commons:commons-lang3:3.1'
 }
 
 task(generate, dependsOn: 'classes', type: JavaExec) {
-   description 'Generate source code for NMP protocol'
+   description 'Generate source code for IMC protocol'
    main 'pt.lsts.imc.generator.ClassGenerator'
    classpath sourceSets.generator.runtimeClasspath
    doFirst {

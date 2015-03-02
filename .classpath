@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main"/>
-	<classpathentry kind="src" path="src/resources"/>
-	<classpathentry kind="src" path="src/generated"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/commons-io-2.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang3-3.1.jar"/>
-	<classpathentry kind="lib" path="lib/jchart2d-3.2.0.jar"/>
-	<classpathentry kind="lib" path="lib/js.jar"/>
-	<classpathentry kind="lib" path="lib/junit-4.10.jar"/>
-	<classpathentry kind="lib" path="lib/jetty-all-9.0.0.v20130308.jar"/>
-	<classpathentry kind="lib" path="lib/javax.servlet-3.0.0.v201112011016.jar"/>
-	<classpathentry kind="lib" path="lib/firebase-client-jvm-LATEST.jar"/>
-	<classpathentry kind="lib" path="lib/asg.cliche-110413.jar"/>
 	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/generated"/>
+	<classpathentry kind="src" path="src/generator"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
+	<classpathentry sourcepath="/home/zp/.gradle/caches/artifacts-23/filestore/org.apache.commons/commons-lang3/3.1/source/8d30b90ae8bda4fbac8363161c8a9b5a99e23baf/commons-lang3-3.1-sources.jar" kind="lib" path="/home/zp/.gradle/caches/artifacts-23/filestore/org.apache.commons/commons-lang3/3.1/jar/905075e6c80f206bbe6cf1e809d2caa69f420c76/commons-lang3-3.1.jar" exported="true"/>
 </classpath>
