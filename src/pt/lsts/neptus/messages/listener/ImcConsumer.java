@@ -107,8 +107,8 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 	}
 
 	public void onMessage(MessageInfo i, IMCMessage m) {
+		m.setMessageInfo(i);
 		Class<?> c = m.getClass();
-
 		ArrayList<Method> consumers = new ArrayList<Method>();
 
 		while (c != Object.class) {

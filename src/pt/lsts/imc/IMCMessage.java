@@ -55,6 +55,7 @@ import org.w3c.dom.NodeList;
 import pt.lsts.neptus.messages.IMessage;
 import pt.lsts.neptus.messages.IMessageProtocol;
 import pt.lsts.neptus.messages.InvalidMessageException;
+import pt.lsts.neptus.messages.listener.MessageInfo;
 
 /**
  * This class holds a message structure, including header and payload.<br/>
@@ -73,6 +74,8 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	public static final int DEFAULT_SYSTEM_ID = 65535;
 	protected IMCDefinition definitions = null;
 
+	private MessageInfo messageInfo = null;
+	
 	/**
 	 * Creates a new (dummy) message
 	 */
@@ -1759,6 +1762,20 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 		if (header != null)
 			header.makeImmutable();
 		values = Collections.unmodifiableMap(values);
+	}
+
+	/**
+	 * @return the messageInfo
+	 */
+	public final MessageInfo getMessageInfo() {
+		return messageInfo;
+	}
+
+	/**
+	 * @param messageInfo the messageInfo to set
+	 */
+	public final void setMessageInfo(MessageInfo messageInfo) {
+		this.messageInfo = messageInfo;
 	}
 
 	public static void main(String[] args) throws Exception {

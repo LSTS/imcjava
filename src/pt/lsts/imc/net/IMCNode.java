@@ -30,18 +30,17 @@
  */
 package pt.lsts.imc.net;
 
+import java.util.LinkedHashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import pt.lsts.imc.Announce;
 import pt.lsts.imc.IMCMessage;
 
 public class IMCNode {
 
-	protected int imcId = 0xFFFF;
-	protected String sys_name;
-	protected String sys_type;
 	protected long last_heard;
-	protected IMCMessage lastAnnounce;
+	protected Announce lastAnnounce;
 	protected boolean peer = false;
 	protected String address;
 	protected int port;
@@ -50,72 +49,89 @@ public class IMCNode {
 	protected String tcpAddress = null;
 	
 	public int getImcId() {
-		return imcId;
+		return lastAnnounce != null? lastAnnounce.getSrc() : 0;
 	}
 
-	public void setImcId(int imcId) {
-		this.imcId = imcId;
+	public String getSysName() {
+		return lastAnnounce != null? lastAnnounce.getSysName() : null;
 	}
-
-	public String getSys_name() {
-		return sys_name;
-	}
-
-	public void setSys_name(String sys_name) {
-		this.sys_name = sys_name;
-	}
-
-	public String getSys_type() {
-		return sys_type;
-	}
-
-	public void setSys_type(String sys_type) {
-		this.sys_type = sys_type;
+	
+	public String getSysType() {
+		return lastAnnounce != null? lastAnnounce.getSysType().name() : null;
 	}
 
 	public long getLast_heard() {
-		return last_heard;
-	}
-
-	public void setLast_heard(long last_heard) {
-		this.last_heard = last_heard;
+		return lastAnnounce != null? lastAnnounce.getTimestampMillis() : 0;
 	}
 
 	public IMCMessage getLastAnnounce() {
 		return lastAnnounce;
 	}
 
-	public void setLastAnnounce(IMCMessage lastAnnounce) {
-		this.lastAnnounce = lastAnnounce;		
-		this.sys_name = lastAnnounce.getString("sys_name");
-		this.sys_type = lastAnnounce.getString("sys_type");
-		this.imcId = lastAnnounce.getHeader().getInteger("src");
+	private Pattern pUdp = Pattern.compile("imc\\+udp\\:\\/\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\\:(\\d+)/");
+	private Pattern pTcp = Pattern.compile("imc\\+tcp\\:\\/\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\\:(\\d+)/");
+	
+	public void setLastAnnounce(Announce announce) {
+
+		// ignore receiving several announces in a row
+		if (getAgeMillis() < 100)
+			return;
+		
+		if (lastAnnounce == null || !announce.getServices().equals(lastAnnounce))
+			processAnnounce(announce);
+		
+		lastAnnounce = announce;
 		this.last_heard = System.currentTimeMillis();
+	}
+	
+	private void processAnnounce(Announce announce) {
+		String[] services = announce.getString("services").split(";");
+		String newAddress;
 		
-		Pattern pUdp = Pattern.compile("imc\\+udp\\:\\/\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\\:(\\d+)/");
-		Pattern pTcp = Pattern.compile("imc\\+tcp\\:\\/\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\\:(\\d+)/");
-		
-		String[] services = lastAnnounce.getString("services").split(";");
+		LinkedHashSet<String> udpAddresses = new LinkedHashSet<String>();
+		LinkedHashSet<String> tcpAddresses = new LinkedHashSet<String>();
 		
 		for (String serv : services) {
 			Matcher mUdp = pUdp.matcher(serv); 
 			if(mUdp.matches()) {
-				this.address = mUdp.group(1)+"."+mUdp.group(2)+"."+mUdp.group(3)+"."+mUdp.group(4);
+				newAddress = mUdp.group(1)+"."+mUdp.group(2)+"."+mUdp.group(3)+"."+mUdp.group(4);
+				udpAddresses.add(newAddress);
 				this.port = Integer.parseInt(mUdp.group(5));
 			}
 			
 			Matcher mTcp = pTcp.matcher(serv);
 			if (mTcp.matches()) {
-				this.tcpAddress = mTcp.group(1)+"."+mTcp.group(2)+"."+mTcp.group(3)+"."+mTcp.group(4);
+				newAddress = mTcp.group(1)+"."+mTcp.group(2)+"."+mTcp.group(3)+"."+mTcp.group(4);
 				this.tcpport = Integer.parseInt(mTcp.group(5));
+				tcpAddresses.add(newAddress);
 			}
 		}
 		
-		if (tcpport == -1) {
-			tcpport = port;
-			tcpAddress = address;
+		if (udpAddresses.size() == 1) {
+			address = udpAddresses.iterator().next();
+		}
+		else if (udpAddresses.contains(announce.getMessageInfo().getPublisherInetAddress())) {
+			address = announce.getMessageInfo().getPublisherInetAddress();
+		}
+		else if (udpAddresses.size() > 1){
+			System.err.println("Multiple possible addresses found in announce message: "+udpAddresses);
+			address = udpAddresses.iterator().next();
+		}
+		else {
+			System.err.println("Could not determine address from Announce message.");
+			address = announce.getMessageInfo().getPublisherInetAddress();
 		}
 		
+		if (tcpAddresses.size() == 1) {
+			tcpAddress = tcpAddresses.iterator().next();
+		}
+		else if (tcpAddresses.contains(announce.getMessageInfo().getPublisherInetAddress())) {
+			tcpAddress = announce.getMessageInfo().getPublisherInetAddress();
+		}
+		else if (tcpAddresses.size() > 1){
+			System.err.println("Multiple possible TCP addresses found in announce message: "+tcpAddresses);
+			tcpAddress = tcpAddresses.iterator().next();
+		}		
 	}
 
 	public String getAddress() {
@@ -154,7 +170,7 @@ public class IMCNode {
 		return tcpAddress;
 	}
 	
-	public IMCNode(IMCMessage announceMessage) {
+	public IMCNode(Announce announceMessage) {
 		setLastAnnounce(announceMessage);
 	}
 

@@ -234,7 +234,7 @@ public class IMCProtocol implements IMessageBus {
 
 	protected IMCNode getNode(String sys_name) {
 		for (IMCNode node : announces.values()) {
-			if (node.getSys_name().equals(sys_name))
+			if (node.getSysName().equals(sys_name))
 				return node;
 		}
 		return null;
@@ -307,7 +307,7 @@ public class IMCProtocol implements IMessageBus {
 		boolean sent = false;
 		for (IMCNode nd : announces.values()) {
 			if (nd.address != null) {
-				msg.setValue("dst", nd.imcId);
+				msg.setValue("dst", nd.getImcId());
 				msg.setTimestamp(System.currentTimeMillis() / 1000.0);
 				comms.sendMessage(nd.address, nd.port, msg);
 			}
@@ -328,8 +328,8 @@ public class IMCProtocol implements IMessageBus {
 		msg.setValue("src", localId);
 		boolean sent = false;
 		for (IMCNode nd : announces.values()) {
-			if (nd.address != null && Pattern.matches(autoConnect, nd.sys_name)) {
-				msg.setValue("dst", nd.imcId);
+			if (nd.address != null && Pattern.matches(autoConnect, nd.getSysName())) {
+				msg.setValue("dst", nd.getImcId());
 				msg.setTimestamp(System.currentTimeMillis() / 1000.0);
 				comms.sendMessage(nd.address, nd.port, msg);
 			}
@@ -352,7 +352,7 @@ public class IMCProtocol implements IMessageBus {
 		fillUp(msg, sysName);
 
 		for (IMCNode nd : announces.values()) {
-			if (nd.sys_name.equals(sysName)) {
+			if (nd.getSysName().equals(sysName)) {
 				if (nd.address != null) {
 					msg.setValue("dst", nd.getImcId());
 					comms.sendMessage(nd.getAddress(), nd.getPort(), msg);
@@ -388,7 +388,7 @@ public class IMCProtocol implements IMessageBus {
 
 		Vector<Future<Boolean>> tries = new Vector<Future<Boolean>>();
 		for (IMCNode nd : announces.values()) {
-			if (nd.getSys_name().equals(sysName)) {
+			if (nd.getSysName().equals(sysName)) {
 				if (nd.getTcpAddress() != null) {
 					msg.setValue("dst", nd.getImcId());
 					tries.add(tcp.send(nd.getTcpAddress(), nd.getTcpPort(),
@@ -679,7 +679,7 @@ public class IMCProtocol implements IMessageBus {
 
 			@Override
 			public void onMessage(MessageInfo info, IMCMessage msg) {
-				// System.out.println(msg);
+				System.out.println(msg);
 			}
 		});
 	}
