@@ -301,7 +301,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 		beater.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				ArrayList<IMCNode> peers = new ArrayList<>();
+				ArrayList<IMCNode> peers = new ArrayList<IMCNode>();
 				peers.addAll(nodes.values());
 				for (IMCNode node : peers) {
 					if (node.isPeer()) {
