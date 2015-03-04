@@ -71,20 +71,28 @@ public class IMCNode {
 	private Pattern pUdp = Pattern.compile("imc\\+udp\\:\\/\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\\:(\\d+)/");
 	private Pattern pTcp = Pattern.compile("imc\\+tcp\\:\\/\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)\\:(\\d+)/");
 	
-	public void setLastAnnounce(Announce announce) {
+	public void setAnnounce(Announce announce) {
 
-		// ignore receiving several announces in a row
-		if (getAgeMillis() < 100)
+		long lastHeard = getAgeMillis();
+		
+		// only process relevant announces 
+		if (lastAnnounce != null && lastHeard < 30000)
 			return;
 		
-		if (lastAnnounce == null || !announce.getServices().equals(lastAnnounce))
-			processAnnounce(announce);
-		
-		lastAnnounce = announce;
-		this.last_heard = System.currentTimeMillis();
+		// only process it if it is different
+		if (announce.getServices().equals(lastAnnounce) || processAnnounce(announce)) {
+			lastAnnounce = announce;
+			this.last_heard = System.currentTimeMillis();	
+			
+			System.out.println("Address set to "+address);
+		}
 	}
 	
-	private void processAnnounce(Announce announce) {
+	/**
+	 * @param announce The announce to be processed
+	 * @return <code>true</code> if could find an address from this announce
+	 */
+	private boolean processAnnounce(Announce announce) {
 		String[] services = announce.getString("services").split(";");
 		String newAddress;
 		
@@ -114,12 +122,10 @@ public class IMCNode {
 			address = announce.getMessageInfo().getPublisherInetAddress();
 		}
 		else if (udpAddresses.size() > 1){
-			System.err.println("Multiple possible addresses found in announce message: "+udpAddresses);
 			address = udpAddresses.iterator().next();
-		}
+		}		
 		else {
-			System.err.println("Could not determine address from Announce message.");
-			address = announce.getMessageInfo().getPublisherInetAddress();
+			return false;
 		}
 		
 		if (tcpAddresses.size() == 1) {
@@ -129,9 +135,10 @@ public class IMCNode {
 			tcpAddress = announce.getMessageInfo().getPublisherInetAddress();
 		}
 		else if (tcpAddresses.size() > 1){
-			System.err.println("Multiple possible TCP addresses found in announce message: "+tcpAddresses);
 			tcpAddress = tcpAddresses.iterator().next();
-		}		
+		}
+
+		return true;
 	}
 
 	public String getAddress() {
@@ -171,7 +178,7 @@ public class IMCNode {
 	}
 	
 	public IMCNode(Announce announceMessage) {
-		setLastAnnounce(announceMessage);
+		setAnnounce(announceMessage);
 	}
 
 	protected long getAgeMillis() {

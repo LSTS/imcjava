@@ -699,7 +699,7 @@ public class UDPTransport {
     	if (purging) {
             System.err.println("Not accepting any more messages. Terminating");
             return false;
-        }        
+        }
         sendmessageList.add(new SendRequest(destination, port, message));
         return true;
     }

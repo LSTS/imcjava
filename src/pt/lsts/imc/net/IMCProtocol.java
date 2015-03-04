@@ -38,6 +38,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
@@ -54,6 +56,7 @@ import pt.lsts.imc.lsf.LsfIndex;
 import pt.lsts.imc.state.ImcSystemState;
 import pt.lsts.neptus.messages.listener.ImcConsumer;
 import pt.lsts.neptus.messages.listener.MessageInfo;
+import pt.lsts.neptus.messages.listener.MessageInfoImpl;
 import pt.lsts.neptus.messages.listener.MessageListener;
 import pt.lsts.util.NetworkUtilities;
 
@@ -63,61 +66,88 @@ import pt.lsts.util.NetworkUtilities;
  * 
  * @author zp
  */
-public class IMCProtocol implements IMessageBus {
+public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IMCMessage> {
 
 	protected UDPTransport discovery;
 	protected UDPTransport comms;
 	protected TcpTransport tcp;
-	protected LinkedHashMap<Integer, IMCNode> announces = new LinkedHashMap<Integer, IMCNode>();
+	protected LinkedHashMap<String, IMCNode> nodes = new LinkedHashMap<String, IMCNode>();
 	protected int bindPort = 7001;
 	protected LinkedHashMap<String, ImcSystemState> sysStates = new LinkedHashMap<String, ImcSystemState>();
 	protected String localName = "imcj_" + System.currentTimeMillis() / 500;
 	protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
-	private ImcConsumer listener = ImcConsumer.create(this);
 	private HashSet<String> services = new HashSet<String>();
 	private boolean quiet = true;
-
 	private String autoConnect = ".*";
-
-	@Consume
+	private Timer beater = new Timer();
+	
+	@Override
+	public void onMessage(MessageInfo info, IMCMessage msg) {
+		msg.setMessageInfo(info);
+		switch (msg.getMgid()) {
+		case Announce.ID_STATIC:
+			on((Announce)msg);
+			break;
+		case EntityInfo.ID_STATIC:
+			on((EntityInfo)msg);
+			break;
+		case EntityList.ID_STATIC:
+			on((EntityList)msg);
+			break;
+		default:
+			msgReceived(msg);
+			break;
+		}
+	}
+	
+	public void connect(String system) {
+		IMCNode node = nodes.get(system);
+		if (node != null)
+			node.setPeer(true);
+	}
+	
+	public void disconnect(String system) {
+		IMCNode node = nodes.get(system);
+		if (node != null)
+			node.setPeer(false);
+	}
+	
+	
 	private void on(Announce msg) {
-		int src_id = msg.getSrc();
+		String src = msg.getSysName();
 		IMCDefinition.getInstance().getResolver()
 				.addEntry(msg.getSrc(), msg.getSysName());
 
-		if (!announces.containsKey(src_id)) {
+		if (!nodes.containsKey(src)) {
 			if (!quiet)
 				System.out.println("[IMCProtocol] New node within range: "
 					+ msg.getSysName());
 
 			// Check if this is a peer (a name we should auto connect to)
-			boolean peer = Pattern.matches(autoConnect, msg.getSysName());
+			boolean peer = Pattern.matches(autoConnect, src);
 			IMCNode node = new IMCNode(msg);
 			node.setPeer(peer);
-			announces.put(src_id, node);
+			nodes.put(src, node);
 
 			if (peer) {
 				if (!quiet)
 					System.out.println("[IMCProtocol] Starting session with "
-						+ msg.getSysName());
-				sendMessage(msg.getSysName(), buildAnnounce());
+						+ src);
+				sendMessage(src, buildAnnounce());				
 				
 				if (sysStates.containsKey(msg.getSysName())) {
 					if (!state(msg.getSysName()).availableMessages().contains(
 							"EntityList")) {
 						sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
-					} else {
-						sendMessage(msg.getSysName(), new Heartbeat());
 					}
 				}
 			}
 		} else
-			announces.get(src_id).setLastAnnounce(msg);
+			nodes.get(src).setAnnounce(msg);
 
 		
 	}
 
-	@Consume
 	private void on(EntityList el) {
 		if (el.getOp() == OP.REPORT) {
 			IMCDefinition.getInstance().getResolver()
@@ -125,8 +155,8 @@ public class IMCProtocol implements IMessageBus {
 		}
 	}
 
-	@Consume
-	private void on(IMCMessage msg) {
+	
+	private void msgReceived(IMCMessage msg) {
 		String name = msg.getSourceName();
 		if (msg.getMgid() == Announce.ID_STATIC)
 			name = ((Announce) msg).getSysName();
@@ -233,7 +263,7 @@ public class IMCProtocol implements IMessageBus {
 	}
 
 	protected IMCNode getNode(String sys_name) {
-		for (IMCNode node : announces.values()) {
+		for (IMCNode node : nodes.values()) {
 			if (node.getSysName().equals(sys_name))
 				return node;
 		}
@@ -267,6 +297,19 @@ public class IMCProtocol implements IMessageBus {
 
 		this.localName = localName;
 		discoveryThread.start();
+		
+		beater.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				ArrayList<IMCNode> peers = new ArrayList<>();
+				peers.addAll(nodes.values());
+				for (IMCNode node : peers) {
+					if (node.isPeer()) {
+						sendMessage(node.getSysName(), new Heartbeat());
+					}
+				}
+			}
+		}, 1000, 1000);
 
 		try {
 			while (discovery == null) {
@@ -275,7 +318,7 @@ public class IMCProtocol implements IMessageBus {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		addMessageListener(listener);
+		addMessageListener(this);
 	}
 
 	/**
@@ -305,7 +348,7 @@ public class IMCProtocol implements IMessageBus {
 	public boolean broadcast(IMCMessage msg) {
 		msg.setValue("src", localId);
 		boolean sent = false;
-		for (IMCNode nd : announces.values()) {
+		for (IMCNode nd : nodes.values()) {
 			if (nd.address != null) {
 				msg.setValue("dst", nd.getImcId());
 				msg.setTimestamp(System.currentTimeMillis() / 1000.0);
@@ -327,7 +370,7 @@ public class IMCProtocol implements IMessageBus {
 	public boolean sendToPeers(IMCMessage msg) {
 		msg.setValue("src", localId);
 		boolean sent = false;
-		for (IMCNode nd : announces.values()) {
+		for (IMCNode nd : nodes.values()) {
 			if (nd.address != null && Pattern.matches(autoConnect, nd.getSysName())) {
 				msg.setValue("dst", nd.getImcId());
 				msg.setTimestamp(System.currentTimeMillis() / 1000.0);
@@ -349,9 +392,12 @@ public class IMCProtocol implements IMessageBus {
 	 *         <strong>false</strong> if no such system is known yet.
 	 */
 	public boolean sendMessage(String sysName, IMCMessage msg) {
+		
+		System.out.println("Send "+msg.getAbbrev()+" to "+sysName);
+		
 		fillUp(msg, sysName);
 
-		for (IMCNode nd : announces.values()) {
+		for (IMCNode nd : nodes.values()) {
 			if (nd.getSysName().equals(sysName)) {
 				if (nd.address != null) {
 					msg.setValue("dst", nd.getImcId());
@@ -387,7 +433,7 @@ public class IMCProtocol implements IMessageBus {
 		fillUp(msg, sysName);
 
 		Vector<Future<Boolean>> tries = new Vector<Future<Boolean>>();
-		for (IMCNode nd : announces.values()) {
+		for (IMCNode nd : nodes.values()) {
 			if (nd.getSysName().equals(sysName)) {
 				if (nd.getTcpAddress() != null) {
 					msg.setValue("dst", nd.getImcId());
@@ -605,7 +651,12 @@ public class IMCProtocol implements IMessageBus {
 									/ sec + start;
 						}
 					}
-					listener.onMessage(null, m);
+					MessageInfoImpl mi = new MessageInfoImpl();
+					mi.setTimeSentSec(m.getTimestamp());
+					mi.setTimeReceivedSec(System.currentTimeMillis()/1000.0);
+					mi.setPublisherInetAddress("");
+					mi.setPublisherPort(-1);
+					onMessage(mi, m);
 				}
 			}
 		};
@@ -625,7 +676,8 @@ public class IMCProtocol implements IMessageBus {
 	 */
 	public void stop() {
 		stopReplay();
-
+		beater.cancel();
+		
 		if (discoveryThread != null)
 			discoveryThread.interrupt();
 
@@ -635,6 +687,7 @@ public class IMCProtocol implements IMessageBus {
 		if (discovery != null)
 			discovery.stop();
 
+		
 		tcp.shutdown();
 	}
 

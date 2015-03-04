@@ -38,11 +38,8 @@ import java.util.Vector;
 public class NetworkUtilities {
 
 	public static Collection<String> getNetworkInterfaces() {
-		Collection<String> itfs = getNetworkInterfaces(false);
-		if (itfs.isEmpty())
-			return getNetworkInterfaces(true);
-		else
-			return itfs;
+		Collection<String> itfs = getNetworkInterfaces(true);
+		return itfs;
 	}
 	
 	public static Collection<String> getNetworkInterfaces(
