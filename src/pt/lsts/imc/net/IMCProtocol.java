@@ -741,8 +741,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 
 		IMCProtocol proto = new IMCProtocol(7001);
 		proto.setAutoConnect("lauv.*");
-		
-		proto.register(new Object() {
+		Object o = new Object() {
 			
 			@Consume
 			public void on(EstimatedState msg) {
@@ -754,13 +753,38 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 				System.out.println("ANNOUNCE: "+msg.getAbbrev());
 			}
 			
-			@Periodic(1500)
+			@Periodic(1000)
+			private void periodic2() {
+				System.out.println("PERIODIC 2 "+System.currentTimeMillis());
+				
+			}	
+			
+			@Periodic(500)
 			private void periodic() {
-				System.out.println("PERIODIC "+System.currentTimeMillis());
+				System.out.println("PERIODIC START "+System.currentTimeMillis());
+				try {
+					Thread.sleep(2000);
+				}
+				catch (Exception e) {
+					
+				}
+				System.out.println("PERIODIC END "+System.currentTimeMillis());
 			}			
-		});
+		};
 		
-		Thread.sleep(60000);
+		Object o2 = new Object() {
+			@Periodic(1000)
+			private void periodic2() {
+				System.out.println("OBJECT 2 "+System.currentTimeMillis());				
+			}	
+		};
+		System.out.println("Registering");
+		proto.register(o);
+		proto.register(o2);
+		Thread.sleep(30000);
+		System.out.println("Unregistering");
+		proto.unregister(o);
+		Thread.sleep(30000);
 		System.out.println("Stopping");
 		proto.stop();
 	}

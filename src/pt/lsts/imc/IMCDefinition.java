@@ -1056,6 +1056,6 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(IMCDefinition.getInstance());
+		System.out.println(ImcStringDefs.getDefinitions());
 	}
 }

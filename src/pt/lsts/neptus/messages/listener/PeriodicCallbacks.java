@@ -30,25 +30,31 @@ package pt.lsts.neptus.messages.listener;
 
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Vector;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class PeriodicCallbacks {
-
-	private static Timer executor = new Timer();
+	private static ScheduledThreadPoolExecutor _exec = null;
 	
-	private static LinkedHashMap<Integer, Vector<TimerTask>> callbacks = new LinkedHashMap<Integer, Vector<TimerTask>>();
+	private static ScheduledThreadPoolExecutor executor() {
+		if (_exec == null)
+			_exec = new ScheduledThreadPoolExecutor(2);
+		return _exec;
+	}
+	
+	private static LinkedHashMap<Integer, Vector<ScheduledFuture<?>>> callbacks = new LinkedHashMap<Integer, Vector<ScheduledFuture<?>>>();
 	
 	public static void stopAll() {
-		executor.cancel();
+		executor().shutdown();
 	}
 	
 	public static void unregister(Object pojo) {
-		Vector<TimerTask> calls = callbacks.remove(pojo.hashCode());
+		Vector<ScheduledFuture<?>> calls = callbacks.remove(pojo.hashCode());
 		if (calls != null)
-			for (TimerTask t : calls)
-				t.cancel();		
+			for (ScheduledFuture<?> t : calls)
+				t.cancel(true);
 	}
 	
 	public static void register(Object pojo) {
@@ -65,7 +71,7 @@ public class PeriodicCallbacks {
 				final Method method = m;
 				final Object client = pojo;
 				
-				TimerTask callback = new TimerTask() {
+				Runnable callback = new Runnable() {
 
 					@Override
 					public void run() {
@@ -80,7 +86,11 @@ public class PeriodicCallbacks {
 				long period = method.getAnnotation(Periodic.class)
 						.value();
 				
-				executor.scheduleAtFixedRate(callback, period, period);				
+				ScheduledFuture<?> c = executor().scheduleAtFixedRate(callback, period, period, TimeUnit.MILLISECONDS);
+				
+				if (!callbacks.containsKey(pojo.hashCode()))
+					callbacks.put(pojo.hashCode(), new Vector<ScheduledFuture<?>>());
+				callbacks.get(pojo.hashCode()).add(c);
 			}
 		}
 	}
