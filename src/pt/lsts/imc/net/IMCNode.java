@@ -190,7 +190,7 @@ public class IMCNode {
 	 * @return the peer
 	 */
 	public boolean isPeer() {
-		return peer;
+		return getSysName() != null && peer;
 	}
 
 	/**

@@ -388,7 +388,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 
 		for (IMCNode nd : nodes.values()) {
 			
-			if (nd.getSysName().equals(sysName)) {
+			if (sysName.equals(nd.getSysName())) {
 				if (nd.address != null) {
 					msg.setValue("dst", nd.getImcId());
 					comms.sendMessage(nd.getAddress(), nd.getPort(), msg);
