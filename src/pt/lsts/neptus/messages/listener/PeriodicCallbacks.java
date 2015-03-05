@@ -29,17 +29,26 @@
 package pt.lsts.neptus.messages.listener;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.LinkedHashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Vector;
 
 public class PeriodicCallbacks {
 
-	private static ScheduledExecutorService executor = Executors
-			.newScheduledThreadPool(1);
-
+	private static Timer executor = new Timer();
+	
+	private static LinkedHashMap<Integer, Vector<TimerTask>> callbacks = new LinkedHashMap<Integer, Vector<TimerTask>>();
+	
 	public static void stopAll() {
-		executor.shutdownNow();
+		executor.cancel();
+	}
+	
+	public static void unregister(Object pojo) {
+		Vector<TimerTask> calls = callbacks.remove(pojo.hashCode());
+		if (calls != null)
+			for (TimerTask t : calls)
+				t.cancel();		
 	}
 	
 	public static void register(Object pojo) {
@@ -56,7 +65,7 @@ public class PeriodicCallbacks {
 				final Method method = m;
 				final Object client = pojo;
 				
-				Runnable callback = new Runnable() {
+				TimerTask callback = new TimerTask() {
 
 					@Override
 					public void run() {
@@ -67,10 +76,11 @@ public class PeriodicCallbacks {
 						}
 					}
 				};
+
 				long period = method.getAnnotation(Periodic.class)
 						.millisBetweenUpdates();
-				executor.scheduleAtFixedRate(callback, period, period,
-						TimeUnit.MILLISECONDS);
+				
+				executor.scheduleAtFixedRate(callback, period, period);				
 			}
 		}
 	}
