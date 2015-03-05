@@ -81,7 +81,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 	protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
 	private HashSet<String> services = new HashSet<String>();
 	private boolean quiet = true;
-	private String autoConnect = ".*";
+	private String autoConnect = null;
 	private Timer beater = new Timer();
 	
 	@Override
@@ -126,25 +126,14 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 				System.out.println("[IMCProtocol] New node within range: "
 					+ msg.getSysName());
 
+			boolean peer = false;
+			
 			// Check if this is a peer (a name we should auto connect to)
-			boolean peer = Pattern.matches(autoConnect, src);
+			if (this.autoConnect != null)
+				peer = Pattern.matches(autoConnect, src);
 			IMCNode node = new IMCNode(msg);
 			node.setPeer(peer);
 			nodes.put(src, node);
-
-			if (peer) {
-				if (!quiet)
-					System.out.println("[IMCProtocol] Starting session with "
-						+ src);
-				sendMessage(src, buildAnnounce());				
-				
-				if (sysStates.containsKey(msg.getSysName())) {
-					if (!state(msg.getSysName()).availableMessages().contains(
-							"EntityList")) {
-						sendMessage(msg.getSysName(), new EntityList().setOp(OP.QUERY));
-					}
-				}
-			}
 		} else
 			nodes.get(src).setAnnounce(msg);
 
@@ -171,7 +160,6 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 		sysStates.get(name).setMessage(msg);
 	}
 
-	@Consume
 	private void on(EntityInfo el) {
 		IMCDefinition.getInstance().getResolver()
 				.setEntityName(el.getSrc(), el.getId(), el.getLabel());
@@ -374,7 +362,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 		msg.setValue("src", localId);
 		boolean sent = false;
 		for (IMCNode nd : nodes.values()) {
-			if (nd.address != null && Pattern.matches(autoConnect, nd.getSysName())) {
+			if (nd.address != null && nd.isPeer()) {
 				msg.setValue("dst", nd.getImcId());
 				msg.setTimestamp(System.currentTimeMillis() / 1000.0);
 				comms.sendMessage(nd.address, nd.port, msg);
@@ -703,6 +691,15 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 	 *            the autoConnect to set
 	 */
 	public void setAutoConnect(String autoConnect) {
+		
+		if (autoConnect != null) {
+			for (IMCNode node : nodes.values()) {
+				boolean peer = Pattern.matches(autoConnect, node.getSysName());
+				if (peer)
+					node.setPeer(true);
+			}
+		}
+		
 		this.autoConnect = autoConnect;
 	}
 
@@ -735,7 +732,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 
 		IMCProtocol proto = new IMCProtocol(7001);
 		proto.setAutoConnect("lauv.*");
-
+		
 		proto.register(new Object() {
 			
 			@Consume
