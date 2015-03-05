@@ -614,7 +614,7 @@ public class UDPTransport {
                         }
                     }
                     catch (InterruptedException e) {
-                        System.err.println("Receiver thread stopped.");
+                        //System.err.println("Receiver thread stopped.");
                     }
                     catch (NullPointerException e) {
                         e.printStackTrace();
@@ -664,14 +664,15 @@ public class UDPTransport {
                             getDefinition().serialize(req.message, new IMCOutputStream(getDefinition(), buff));
                             byte[] data = buff.toByteArray();
                             dgram = new DatagramPacket(data, data.length, req.destination, req.port);
-                            sock.send(dgram);
+                            if (!sock.isClosed())
+                            	sock.send(dgram);
                         } catch (Exception e) {                            
                             e.printStackTrace();
                         }
                     }
                 }
                 catch (InterruptedException e) {
-                    System.err.println("Sender thread stopped.");                   
+                    //System.err.println("Sender thread stopped.");                   
                 }
 
 

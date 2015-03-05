@@ -209,9 +209,18 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 				discovery = new UDPTransport(true, true, port, 1);
 				discovery.setImcId(localId);
 				if (discovery.isOnBindError()) {
+					discovery.stop();
+					try {
+						Thread.sleep(500);
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+					}
 					port++;
-					if (port > 30104)
+					if (port > 30104) {
+						System.err.println("no available ports to listen to advertisements.");
 						port = 30100;
+					}
 				} else
 					break;
 			}
