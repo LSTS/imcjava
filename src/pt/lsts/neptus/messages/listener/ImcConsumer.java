@@ -103,6 +103,10 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 				types.addAll(IMCDefinition.getInstance().subtypesOf(name));
 			types.add(name);
 		}
+		
+		if (types.contains("IMCMessage"))
+			return null;
+		
 		return types;
 	}
 
