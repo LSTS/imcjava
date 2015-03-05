@@ -40,5 +40,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Periodic {
-    int millisBetweenUpdates() default 1000;
+	/**
+	 * @return Periodicity, in milliseconds
+	 */
+    int value() default 1000;
 }

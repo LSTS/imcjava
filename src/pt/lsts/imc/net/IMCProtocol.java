@@ -49,6 +49,7 @@ import pt.lsts.imc.Announce.SYS_TYPE;
 import pt.lsts.imc.EntityInfo;
 import pt.lsts.imc.EntityList;
 import pt.lsts.imc.EntityList.OP;
+import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.Heartbeat;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
@@ -58,6 +59,8 @@ import pt.lsts.neptus.messages.listener.ImcConsumer;
 import pt.lsts.neptus.messages.listener.MessageInfo;
 import pt.lsts.neptus.messages.listener.MessageInfoImpl;
 import pt.lsts.neptus.messages.listener.MessageListener;
+import pt.lsts.neptus.messages.listener.Periodic;
+import pt.lsts.neptus.messages.listener.PeriodicCallbacks;
 import pt.lsts.util.NetworkUtilities;
 
 /**
@@ -393,11 +396,10 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 	 */
 	public boolean sendMessage(String sysName, IMCMessage msg) {
 		
-		System.out.println("Send "+msg.getAbbrev()+" to "+sysName);
-		
 		fillUp(msg, sysName);
 
 		for (IMCNode nd : nodes.values()) {
+			
 			if (nd.getSysName().equals(sysName)) {
 				if (nd.address != null) {
 					msg.setValue("dst", nd.getImcId());
@@ -468,7 +470,9 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 	 */
 	public void register(Object consumer) {
 		unregister(consumer);
-
+		
+		PeriodicCallbacks.register(consumer);
+		
 		ImcConsumer listener = ImcConsumer.create(consumer);
 
 		if (listener.getTypesToListen() == null)
@@ -488,6 +492,8 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 		if (pojoSubscribers.containsKey(consumer))
 			removeMessageListener(pojoSubscribers.get(consumer));
 		pojoSubscribers.remove(consumer);
+		
+		PeriodicCallbacks.unregister(consumer);
 	}
 
 	/**
@@ -677,6 +683,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 	public void stop() {
 		stopReplay();
 		beater.cancel();
+		PeriodicCallbacks.stopAll();
 		
 		if (discoveryThread != null)
 			discoveryThread.interrupt();
@@ -728,12 +735,27 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 
 		IMCProtocol proto = new IMCProtocol(7001);
 		proto.setAutoConnect("lauv.*");
-		proto.addMessageListener(new MessageListener<MessageInfo, IMCMessage>() {
 
-			@Override
-			public void onMessage(MessageInfo info, IMCMessage msg) {
-				System.out.println(msg);
+		proto.register(new Object() {
+			
+			@Consume
+			public void on(EstimatedState msg) {
+				System.out.println("STATE: "+msg.getAbbrev());
 			}
+			
+			@Consume
+			public void on(Announce msg) {
+				System.out.println("ANNOUNCE: "+msg.getAbbrev());
+			}
+			
+			@Periodic(1500)
+			private void periodic() {
+				System.out.println("PERIODIC "+System.currentTimeMillis());
+			}			
 		});
+		
+		Thread.sleep(60000);
+		System.out.println("Stopping");
+		proto.stop();
 	}
 }

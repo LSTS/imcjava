@@ -78,7 +78,7 @@ public class PeriodicCallbacks {
 				};
 
 				long period = method.getAnnotation(Periodic.class)
-						.millisBetweenUpdates();
+						.value();
 				
 				executor.scheduleAtFixedRate(callback, period, period);				
 			}

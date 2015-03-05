@@ -68,7 +68,7 @@ public class AgentExample extends SimpleAgent {
 	/**
 	 * This method will be called every 10 seconds
 	 */
-	@Periodic(millisBetweenUpdates = 10 * 1000)
+	@Periodic(10 * 1000)
 	public void doIt() {
 		
 		// Send a message to all known systems (including ourself)
