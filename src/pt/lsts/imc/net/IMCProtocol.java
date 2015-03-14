@@ -107,6 +107,8 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 		IMCNode node = nodes.get(system);
 		if (node != null)
 			node.setPeer(true);
+		else
+			setAutoConnect(autoConnect == null? system : autoConnect+"|"+system);
 	}
 	
 	public void disconnect(String system) {
@@ -740,7 +742,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 	public static void main(String[] args) throws Exception {
 
 		IMCProtocol proto = new IMCProtocol(7001);
-		proto.setAutoConnect("lauv.*");
+		proto.connect("lauv-seacon-1");
 		Object o = new Object() {
 			
 			@Consume

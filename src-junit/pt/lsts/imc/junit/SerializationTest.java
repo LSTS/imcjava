@@ -74,7 +74,24 @@ public class SerializationTest {
     }
     
     public static void main(String[] args) throws Exception{
-        new SerializationTest().testLsfSerialization();
+        new SerializationTest().testJsonSerialization();
+    }
+    
+    @Test
+    public void testJsonSerialization() throws Exception {
+        IMCDefinition defs = IMCDefinition.getInstance();
+        
+        for (String abbrev: defs.getConcreteMessages()) {
+            IMCMessage original = defs.create(abbrev);
+            IMCUtil.fillWithRandomData(original);
+            
+            String json1 = original.asJSON(true);
+            System.out.println(json1);
+            IMCMessage msg = IMCMessage.parseJson(json1);
+            String json2 = msg.asJSON(true);
+            System.out.println(json2);
+            Assert.assertEquals(json1, json2);
+        }
     }
     
     @Test
@@ -87,8 +104,7 @@ public class SerializationTest {
             String xml = m.asXml(false);
             try {
                 IMCMessage unser = IMCMessage.parseXml(xml);
-                Assert.assertEquals(xml, unser.asXml(false));
-                
+                Assert.assertEquals(xml, unser.asXml(false));                
             }
             catch (Exception e) {
                 e.printStackTrace();

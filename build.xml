@@ -1,9 +1,14 @@
 <project name="IMCJava" default="dist">
 
   <property name="test-dir" location="src-junit" />
-
+	
+	<path id="classpath.dependencies">
+		<pathelement location="lib/minimal-json-0.9.2.jar" />
+	</path>	
+	
   <path id="classpath.base">
-  	<pathelement location="build" />
+  	<path refid="classpath.dependencies" />
+  	<pathelement location="build" />  	
   </path>
   <path id="classpath.test">
     <pathelement location="${test.dir}" />
@@ -71,7 +76,9 @@
       <fileset dir="src" includes="**/*.png"/>
     </copy>
     <javac encoding="UTF-8" srcdir="src;src-generated"  destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
+    	<classpath refid="classpath.dependencies"/>
     </javac>
+   	<unjar src="lib/minimal-json-0.9.2.jar" dest="build"/>
   </target>
   
   <target name="compile-all" depends="compile-merge, compile-gui, compile-sniffer, compile-teleop, compile-preview">

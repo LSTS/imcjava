@@ -84,12 +84,11 @@ public class Base64 {
      */
 
     public static String encode(byte[] src, int start, int length) {
-        byte[] dst = new byte[(length + 2) / 3 * 4 + length / 72];
+        byte[] dst = new byte[(length + 2) / 3 * 4];
         int x = 0;
         int dstIndex = 0;
         int state = 0; // which char in pattern
         int old = 0; // previous byte
-        int len = 0; // length decoded so far
         int max = length + start;
         for (int srcIndex = start; srcIndex < max; srcIndex++) {
             x = src[srcIndex];
@@ -106,11 +105,7 @@ public class Base64 {
                     state = 0;
                     break;
             }
-            old = x;
-            if (++len >= 72) {
-                dst[dstIndex++] = (byte) '\n';
-                len = 0;
-            }
+            old = x;            
         }
 
         /*

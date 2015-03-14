@@ -35,8 +35,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -57,6 +59,10 @@ import pt.lsts.neptus.messages.IMessageProtocol;
 import pt.lsts.neptus.messages.InvalidMessageException;
 import pt.lsts.neptus.messages.listener.MessageInfo;
 
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonObject.Member;
+
 /**
  * This class holds a message structure, including header and payload.<br/>
  * The message structure can be accessed with {@link #getMessageType()} and
@@ -75,7 +81,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	protected IMCDefinition definitions = null;
 
 	private MessageInfo messageInfo = null;
-	
+
 	/**
 	 * Creates a new (dummy) message
 	 */
@@ -564,8 +570,8 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.err
-							.println("Trying to set a bitmask with an LinkedHashMap other"
-									+ " than LinkedHashMap<String, Boolean>!!!");
+					.println("Trying to set a bitmask with an LinkedHashMap other"
+							+ " than LinkedHashMap<String, Boolean>!!!");
 				}
 			}
 			return this;
@@ -844,7 +850,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 					long bitVal = (long) Math.pow(2, i);
 					if ((val & bitVal) > 0)
 						ret += getMessageType().getFieldPossibleValues(field)
-								.get(bitVal) + "|";
+						.get(bitVal) + "|";
 				}
 				ret = ret.replaceAll("null\\|", "");
 				ret = ret.replaceAll("\\|null", "");
@@ -990,8 +996,8 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 					ret.add(inner);
 				else
 					ret.add(list); // For supporting old ManeuverSpecification,
-									// PathPoint, and other messages that had
-									// 'next' fields
+				// PathPoint, and other messages that had
+				// 'next' fields
 				list = list.getMessage("next");
 				if (list == null)
 					break;
@@ -1090,12 +1096,12 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 
 			for (String f : getHeader().getMessageType().getFieldNames()) {
 				sb.append("\t\t").append(f).append(": \t").append(getString(f))
-						.append('\n');
+				.append('\n');
 			}
 			sb.append("\t}\n\tpayload {\n");
 			for (String f : getMessageType().getFieldNames()) {
 				sb.append("\t\t").append(f).append(": \t").append(getString(f))
-						.append('\n');
+				.append('\n');
 			}
 			sb.append("\t}\n}\n");
 			return sb.toString();
@@ -1104,7 +1110,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 
 			for (String f : getMessageType().getFieldNames()) {
 				sb.append("\t").append(f).append(": \t").append(getString(f))
-						.append('\n');
+				.append('\n');
 			}
 			sb.append("}\n");
 			return sb.toString();
@@ -1216,7 +1222,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 			return sb.toString();
 		case TYPE_MESSAGE:
 			return "%INLINE{"
-					+ ((IMCMessage) o).getMessageType().getShortName() + "}";
+			+ ((IMCMessage) o).getMessageType().getShortName() + "}";
 		case TYPE_MESSAGELIST:
 			String ret = "%MESSAGE-LIST[";
 			Collection<?> vec = (Collection<?>) o;
@@ -1330,74 +1336,129 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 
 	}
 
-	protected String escapeJava2JSON(String javaString) {
-		// javaString = javaString.replaceAll("\\", "\\\\");
-		javaString = javaString.replaceAll("\"", "\\\"");
-		javaString = javaString.replaceAll("\n", "\\n");
-		javaString = javaString.replaceAll("\r", "\\r");
-		javaString = javaString.replaceAll("\f", "\\f");
-		javaString = javaString.replaceAll("\b", "\\b");
-		javaString = javaString.replaceAll("\t", "\\t");
-		javaString = javaString.replaceAll("/", "\\/");
-		return "\"" + javaString + "\"";
+	private static IMCMessage parseJsonObject(JsonObject obj) {
+		IMCMessage msg = IMCDefinition.getInstance().create(obj.getString("abbrev", null));
+		for (Member m : obj) {
+			if (m.getName().equals("abbrev"))
+				continue;
+			
+			IMCFieldType type = msg.getMessageType().getFieldType(m.getName());
+			if (type == null)
+				type = msg.getHeader().getMessageType().getFieldType(m.getName());
+			
+			switch (type) {
+			case TYPE_PLAINTEXT:
+				msg.setValue(m.getName(), m.getValue().asString());
+				break;
+			case TYPE_RAWDATA:
+				msg.setValue(m.getName(), Base64.decode(m.getValue().asString()));
+				break;
+			case TYPE_MESSAGE:
+				msg.setValue(m.getName(), parseJsonObject(m.getValue().asObject()));
+				break;
+			case TYPE_MESSAGELIST:
+				JsonArray arr = m.getValue().asArray();
+				ArrayList<IMCMessage> msgs = new ArrayList<IMCMessage>();
+				for (int i = 0; i < arr.size(); i++) {
+					msgs.add(parseJsonObject(arr.get(i).asObject()));
+				}
+				msg.setValue(m.getName(), msgs);
+				break;
+			case TYPE_FP32:
+				msg.setValue(m.getName(), m.getValue().asFloat());
+				break;
+			case TYPE_FP64:
+				msg.setValue(m.getName(), m.getValue().asDouble());
+				break;
+			default:
+				msg.setValue(m.getName(), m.getValue().asLong());				
+				break;
+			}
+		}
+		return msg;
 	}
 
-	protected String unescapeJSON2Java(String jsonString) {
-		jsonString = jsonString.replaceAll("\\\"", "\"");
-		jsonString = jsonString.replaceAll("\\n", "\n");
-		jsonString = jsonString.replaceAll("\\r", "\r");
-		jsonString = jsonString.replaceAll("\\f", "\f");
-		jsonString = jsonString.replaceAll("\\b", "\b");
-		jsonString = jsonString.replaceAll("\\t", "\t");
-		jsonString = jsonString.replaceAll("\\/", "/");
-		jsonString = jsonString.replaceAll("\\\\", "\\");
-		if (jsonString.charAt(0) == '"') {
-			jsonString = jsonString.substring(1, jsonString.length() - 1);
+	public static IMCMessage parseJson(String json) {
+		JsonObject obj = JsonObject.readFrom(json);
+		return parseJsonObject(obj);
+	}
+
+	private JsonObject asJsonObject(boolean includeHeader) {
+		JsonObject obj = new JsonObject();
+		obj.add("abbrev", getMessageType().getShortName());
+
+		if (includeHeader) {
+			for (String fieldName : header.getFieldNames()) {
+				if (fieldName.equals("mgid") || fieldName.equals("size")
+						|| fieldName.equals("sync"))
+					continue;
+				else if (fieldName.equals("timestamp"))
+					obj.add(fieldName, getDouble(fieldName));
+				else
+					obj.add(fieldName, getLong(fieldName));				
+			}
 		}
 
-		return jsonString;
+		for (String fieldName : getMessageType().getFieldNames()) {
+
+			IMCFieldType fieldType = getMessageType().getFieldType(fieldName);
+
+			switch (fieldType) {
+			case TYPE_PLAINTEXT:
+				obj.add(fieldName, getValue(fieldName).toString());
+				break;
+			case TYPE_RAWDATA:
+				byte[] bytes = getRawData(fieldName);
+				if (bytes == null) {
+					obj.add(fieldName, "");					
+				} 
+				else {
+					obj.add(fieldName, Base64.encode(bytes));
+				}
+				break;
+			case TYPE_MESSAGE:
+				IMCMessage msg = null;
+				msg = getMessage(fieldName);
+				if (msg != null)
+					obj.add(fieldName, msg.asJsonObject(false));
+				else
+					obj.add(fieldName, new JsonObject());
+				break;
+			case TYPE_MESSAGELIST:
+				Vector<IMCMessage> msgs = null;
+				msgs = getMessageList(fieldName);
+				if (msgs == null)
+					msgs = new Vector<IMCMessage>();
+				JsonArray arr = new JsonArray();
+				for (IMCMessage m : msgs) {
+					arr.add(m.asJsonObject(false));
+				}
+				obj.add(fieldName, arr);
+				break;
+			case TYPE_FP32:
+				obj.add(fieldName, getFloat(fieldName));
+				break;
+			case TYPE_FP64:
+				obj.add(fieldName, getDouble(fieldName));
+				break;				
+			default:
+				obj.add(fieldName, getLong(fieldName));
+				break;
+			}
+		}
+		return obj;
 	}
+
+
+
 
 	/**
 	 * Retrieve this message as a JSON string
 	 * 
 	 * @return this message as a JSON string
 	 */
-	public String asJSON() {
-		StringBuilder sb = new StringBuilder("{");
-		sb.append("\"_imcv\":\"" + getMessageType().getImcVersion() + "\"");
-		sb.append(",\"_name\":\"" + getMessageType().getShortName() + "\"");
-
-		for (String fieldName : getMessageType().getFieldNames()) {
-
-			if (getTypeOf(fieldName).equals("plaintext")) {
-				sb.append(",\"" + fieldName + "\":"
-						+ escapeJava2JSON(getValue(fieldName).toString()));
-			}
-
-			else if (getTypeOf(fieldName).equals("rawdata")) {
-
-				byte[] bytes = getRawData(fieldName);
-				StringBuilder dataHex = new StringBuilder();
-				for (int i = 0; i < bytes.length; i++) {
-					dataHex.append(String.format("%02X", bytes[i]));
-				}
-				sb.append(",\"" + fieldName + "\":\"" + dataHex + "\"");
-			}
-
-			else if (getTypeOf(fieldName).equals("message")) {
-				IMCMessage msg = null;
-				msg = getMessage(fieldName);
-				if (msg != null)
-					sb.append(",\"" + fieldName + "\":" + msg.asJSON());
-				else
-					sb.append(",\"" + fieldName + "\":{}");
-			} else {
-				sb.append(",\"" + fieldName + "\":" + getAsString(fieldName));
-			}
-		}
-		sb.append("}\n");
-		return sb.toString();
+	public String asJSON(boolean includeHeader) {		
+		return asJsonObject(includeHeader).toString();
 	}
 
 	public String asXmlStripped(int tabAmount, boolean isInline) {
@@ -1771,8 +1832,23 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 		return messageInfo;
 	}
 
+	public int serialize(ByteBuffer destination, int offset) {
+		destination.position(offset);
+		int size = header.serializePayload(destination, offset);
+		size += serializePayload(destination, offset + size);
+		int crc = IMCUtil.computeCrc16(destination.array(), offset, size, 0);
+		destination.putShort((short) crc);
+		return size + 2;
+	}
+
+	public int serializePayload(ByteBuffer destination, int offset) {
+		destination.position(offset);
+		return 0;
+	}
+
 	/**
-	 * @param messageInfo the messageInfo to set
+	 * @param messageInfo
+	 *            the messageInfo to set
 	 */
 	public final void setMessageInfo(MessageInfo messageInfo) {
 		this.messageInfo = messageInfo;

@@ -29,6 +29,8 @@
  */
 package pt.lsts.imc;
 
+import java.nio.ByteBuffer;
+
 /**
  *  IMC Message Acceleration (257)<br/>
  *  Vector quantifying the direction and magnitude of the measured<br/>
@@ -39,6 +41,16 @@ public class Acceleration extends IMCMessage {
 
 	public static final int ID_STATIC = 257;
 
+	public double time;
+	public double x;
+	public double y;
+	public double z;
+	
+	public int serialize(ByteBuffer buff) {
+		buff.putDouble(time);
+		return 0;
+	}
+	
 	public Acceleration() {
 		super(ID_STATIC);
 	}
