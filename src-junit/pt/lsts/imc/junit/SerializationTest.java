@@ -86,10 +86,8 @@ public class SerializationTest {
             IMCUtil.fillWithRandomData(original);
             
             String json1 = original.asJSON(true);
-            System.out.println(json1);
             IMCMessage msg = IMCMessage.parseJson(json1);
             String json2 = msg.asJSON(true);
-            System.out.println(json2);
             Assert.assertEquals(json1, json2);
         }
     }
