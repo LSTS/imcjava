@@ -1457,6 +1457,10 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	 * 
 	 * @return this message as a JSON string
 	 */
+	public String asJSON() {
+		return asJSON(true);
+	}
+	
 	public String asJSON(boolean includeHeader) {		
 		return asJsonObject(includeHeader).toString();
 	}
