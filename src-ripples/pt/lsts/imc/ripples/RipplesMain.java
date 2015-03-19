@@ -51,10 +51,14 @@ public class RipplesMain {
 	private LinkedHashMap<String, PlanSpecification> plans = new LinkedHashMap<String, PlanSpecification>();
 	private static int count = 0;
 	
+	private LinkedHashMap<String, Long> planRequests = new LinkedHashMap<String, Long>();
+	
+	
 	public RipplesMain(int port) {
 		System.out.println("[Ripples] Binding to port "+port+"...");
-		proto = new IMCProtocol("FireImc", port);
-		proto.register(this);		
+		proto = new IMCProtocol("RipplesUpdater", port);
+		proto.register(this);
+		proto.setAutoConnect(".*");
 		PeriodicCallbacks.register(this);
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -79,20 +83,20 @@ public class RipplesMain {
 		DataSnapshot posOnline = FirebaseDB.get("assets/"+ann.getSysName()+"/position");
 		Map<Object, Object> data = new LinkedHashMap<Object, Object>();
 		
-		if (posOnline != null)
+		if (posOnline != null && posOnline.getValue() != null)
 			data.putAll((Map<Object,Object>)posOnline.getValue());
 		data.put("latitude", lat);
 		data.put("longitude", lon);
 		FirebaseDB.setValue("assets/"+ann.getSysName()+"/position", data);
 		FirebaseDB.setValue("assets/"+ann.getSourceName()+"/updated_at", ann.getTimestampMillis());
-		FirebaseDB.setValue("assets/"+ann.getSourceName()+"/type", ann.getSysType().toString());
-		
+		FirebaseDB.setValue("assets/"+ann.getSourceName()+"/type", ann.getSysType().toString());		
 	}
 
 	@Consume
 	public void on(PlanDB m) {
 		if (m.getType() == PlanDB.TYPE.SUCCESS && m.getOp() == PlanDB.OP.GET) {
 			plans.put(m.getPlanId(), (PlanSpecification)m.getArg());
+			System.out.println("Received plan "+m.getPlanId()+" from "+m.getSourceName());
 			Collection<double[]> locs = PlanUtilities.computeLocations((PlanSpecification)m.getArg());
 			FirebaseDB.setValue("assets/"+m.getSourceName()+"/plan/path", locs);
 		}
@@ -102,16 +106,23 @@ public class RipplesMain {
 	public void on(PlanControlState pcs) {
 		
 		if (pcs.getState() == PlanControlState.STATE.EXECUTING) {
-			
 			if (!pcs.getPlanId().isEmpty()) {
 				FirebaseDB.setValue("assets/"+pcs.getSourceName()+"/plan/id", pcs.getPlanId());
-				
 				if (!plans.containsKey(pcs.getPlanId())) {
+					
+					if (planRequests.containsKey(pcs.getSourceName())) {
+						 long timeRequested = planRequests.get(pcs.getSourceName());
+						 if (System.currentTimeMillis() - timeRequested < 5000)
+							 return;
+					}
+					planRequests.put(pcs.getSourceName(), System.currentTimeMillis());
+					
 					PlanDB req = new PlanDB();
 					req.setType(PlanDB.TYPE.REQUEST);
 					req.setOp(PlanDB.OP.GET);
 					req.setPlanId(pcs.getPlanId());
 					req.setRequestId(count++);
+					System.out.println("Requesting plan "+pcs.getPlanId()+" to "+pcs.getSourceName());
 					proto.sendMessage(pcs.getSourceName(), req);
 				}
 			}
