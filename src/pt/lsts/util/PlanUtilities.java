@@ -157,11 +157,13 @@ public class PlanUtilities {
 		if (start == null)
 			return waypoints;
 
+		start.setSpeed(getSpeed(m));
+		
 		switch (m.getMgid()) {
 		case Goto.ID_STATIC:
 		case YoYo.ID_STATIC:
 		case PopUp.ID_STATIC:
-			start.setType(TYPE.REGULAR);
+			start.setType(TYPE.REGULAR);			
 			waypoints.add(start);
 			return waypoints;
 		case Loiter.ID_STATIC:
@@ -190,6 +192,7 @@ public class PlanUtilities {
 			start.setType(TYPE.LOITER_CW);
 			waypoints.add(start);
 			Waypoint end = start.copy();
+			end.setSpeed(getSpeed(m));
 			end.setDepth(Float.NaN);
 			end.setAltitude(Float.NaN);
 			end.setHeight(Float.NaN);
@@ -228,6 +231,7 @@ public class PlanUtilities {
 			Waypoint wpt = start.copy();
 			wpt.setLatitude(p[0]);
 			wpt.setLongitude(p[1]);
+			wpt.setSpeed(getSpeed(m));
 			if (!Float.isNaN(wpt.getDepth()))
 				wpt.setDepth((float) (wpt.getDepth() + p[2]));
 			if (!Float.isNaN(wpt.getAltitude()))
@@ -240,6 +244,19 @@ public class PlanUtilities {
 		return waypoints;
 	}
 
+	public static float getSpeed(Maneuver m) {
+		if (m.getTypeOf("speed") == null)
+			return 0;
+		
+		if (m.getTypeOf("speed_units") == null)
+			return 0;
+		if (m.getString("speed_units").equals("RPM"))
+			return m.getFloat("speed") / 900.0f;		
+		else if (m.getString("speed_units").equals("METERS_PS"))
+			return m.getFloat("speed");
+		return 0;
+	}
+	
 	/**
 	 * Compute the start location for a given maneuver
 	 * 
@@ -457,7 +474,7 @@ public class PlanUtilities {
 	 */
 	public static class Waypoint {
 		private double latitude, longitude;
-		private float altitude, depth, height, radius, time;
+		private float altitude, depth, height, radius, time, speed;
 
 		public enum TYPE {
 			// Go directly to the waypoint
@@ -598,6 +615,20 @@ public class PlanUtilities {
 		 */
 		public void setType(TYPE type) {
 			this.type = type;
+		}
+
+		/**
+		 * @return the speed in meters per second
+		 */
+		public float getSpeed() {
+			return speed;
+		}
+
+		/**
+		 * @param speed the speed to set in meters per second
+		 */
+		public void setSpeed(float speed) {
+			this.speed = speed;
 		}
 
 		public Waypoint copy() {
