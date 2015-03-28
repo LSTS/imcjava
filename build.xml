@@ -270,7 +270,7 @@
   <target name="generated" description="Generate java code for given IMC protocol (git repository)." depends="compile">
    	<input
    	    message="Path to IMC repository:"
-   		defaultvalue="../imc"
+   		defaultvalue="../imc/"
    	    addproperty="imc.dir"
   	  />
   	
