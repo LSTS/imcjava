@@ -30,21 +30,19 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message UamRxFrame (815)<br/>
+ *  IMC Message Turbidity (288)<br/>
+ *  Turbidity measurement.<br/>
  */
 
-public class UamRxFrame extends IMCMessage {
+public class Turbidity extends IMCMessage {
 
-	public static final short URF_PROMISCUOUS = 0x01;
-	public static final short URF_DELAYED = 0x02;
+	public static final int ID_STATIC = 288;
 
-	public static final int ID_STATIC = 815;
-
-	public UamRxFrame() {
+	public Turbidity() {
 		super(ID_STATIC);
 	}
 
-	public UamRxFrame(IMCMessage msg) {
+	public Turbidity(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -54,20 +52,20 @@ public class UamRxFrame extends IMCMessage {
 		}
 	}
 
-	public UamRxFrame(IMCDefinition defs) {
+	public Turbidity(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxFrame create(Object... values) {
-		UamRxFrame m = new UamRxFrame();
+	public static Turbidity create(Object... values) {
+		Turbidity m = new Turbidity();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxFrame clone(IMCMessage msg) throws Exception {
+	public static Turbidity clone(IMCMessage msg) throws Exception {
 
-		UamRxFrame m = new UamRxFrame();
+		Turbidity m = new Turbidity();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -82,74 +80,23 @@ public class UamRxFrame extends IMCMessage {
 		return m;
 	}
 
-	public UamRxFrame(String sys_src, String sys_dst, short flags, byte[] data) {
+	public Turbidity(float value) {
 		super(ID_STATIC);
-		if (sys_src != null)
-			setSysSrc(sys_src);
-		if (sys_dst != null)
-			setSysDst(sys_dst);
-		setFlags(flags);
-		if (data != null)
-			setData(data);
+		setValue(value);
 	}
 
 	/**
-	 *  @return Source System - plaintext
+	 *  @return Value (ntu) - fp32_t
 	 */
-	public String getSysSrc() {
-		return getString("sys_src");
+	public double getValue() {
+		return getDouble("value");
 	}
 
 	/**
-	 *  @param sys_src Source System
+	 *  @param value Value (ntu)
 	 */
-	public UamRxFrame setSysSrc(String sys_src) {
-		values.put("sys_src", sys_src);
-		return this;
-	}
-
-	/**
-	 *  @return Destination System - plaintext
-	 */
-	public String getSysDst() {
-		return getString("sys_dst");
-	}
-
-	/**
-	 *  @param sys_dst Destination System
-	 */
-	public UamRxFrame setSysDst(String sys_dst) {
-		values.put("sys_dst", sys_dst);
-		return this;
-	}
-
-	/**
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @param flags Flags (bitfield)
-	 */
-	public UamRxFrame setFlags(short flags) {
-		values.put("flags", flags);
-		return this;
-	}
-
-	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
-	 *  @param data Data
-	 */
-	public UamRxFrame setData(byte[] data) {
-		values.put("data", data);
+	public Turbidity setValue(double value) {
+		values.put("value", value);
 		return this;
 	}
 

@@ -30,21 +30,20 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message UamRxFrame (815)<br/>
+ *  IMC Message Get Parameters XML (894)<br/>
+ *  Request the destination system to send its parameters XML file via a<br/>
+ *  {@link ParametersXml} message.<br/>
  */
 
-public class UamRxFrame extends IMCMessage {
+public class GetParametersXml extends IMCMessage {
 
-	public static final short URF_PROMISCUOUS = 0x01;
-	public static final short URF_DELAYED = 0x02;
+	public static final int ID_STATIC = 894;
 
-	public static final int ID_STATIC = 815;
-
-	public UamRxFrame() {
+	public GetParametersXml() {
 		super(ID_STATIC);
 	}
 
-	public UamRxFrame(IMCMessage msg) {
+	public GetParametersXml(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -54,20 +53,20 @@ public class UamRxFrame extends IMCMessage {
 		}
 	}
 
-	public UamRxFrame(IMCDefinition defs) {
+	public GetParametersXml(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxFrame create(Object... values) {
-		UamRxFrame m = new UamRxFrame();
+	public static GetParametersXml create(Object... values) {
+		GetParametersXml m = new GetParametersXml();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxFrame clone(IMCMessage msg) throws Exception {
+	public static GetParametersXml clone(IMCMessage msg) throws Exception {
 
-		UamRxFrame m = new UamRxFrame();
+		GetParametersXml m = new GetParametersXml();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -80,77 +79,6 @@ public class UamRxFrame extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
-	}
-
-	public UamRxFrame(String sys_src, String sys_dst, short flags, byte[] data) {
-		super(ID_STATIC);
-		if (sys_src != null)
-			setSysSrc(sys_src);
-		if (sys_dst != null)
-			setSysDst(sys_dst);
-		setFlags(flags);
-		if (data != null)
-			setData(data);
-	}
-
-	/**
-	 *  @return Source System - plaintext
-	 */
-	public String getSysSrc() {
-		return getString("sys_src");
-	}
-
-	/**
-	 *  @param sys_src Source System
-	 */
-	public UamRxFrame setSysSrc(String sys_src) {
-		values.put("sys_src", sys_src);
-		return this;
-	}
-
-	/**
-	 *  @return Destination System - plaintext
-	 */
-	public String getSysDst() {
-		return getString("sys_dst");
-	}
-
-	/**
-	 *  @param sys_dst Destination System
-	 */
-	public UamRxFrame setSysDst(String sys_dst) {
-		values.put("sys_dst", sys_dst);
-		return this;
-	}
-
-	/**
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @param flags Flags (bitfield)
-	 */
-	public UamRxFrame setFlags(short flags) {
-		values.put("flags", flags);
-		return this;
-	}
-
-	/**
-	 *  @return Data - rawdata
-	 */
-	public byte[] getData() {
-		return getRawData("data");
-	}
-
-	/**
-	 *  @param data Data
-	 */
-	public UamRxFrame setData(byte[] data) {
-		values.put("data", data);
-		return this;
 	}
 
 }

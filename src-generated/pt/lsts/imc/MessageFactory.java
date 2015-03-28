@@ -220,6 +220,8 @@ public class MessageFactory {
 				return new CrudeOil(defs);
 			case FineOil.ID_STATIC:
 				return new FineOil(defs);
+			case Turbidity.ID_STATIC:
+				return new Turbidity(defs);
 			case CameraZoom.ID_STATIC:
 				return new CameraZoom(defs);
 			case SetThrusterActuation.ID_STATIC:
@@ -374,6 +376,8 @@ public class MessageFactory {
 				return new RelativeState(defs);
 			case Dislodge.ID_STATIC:
 				return new Dislodge(defs);
+			case Formation.ID_STATIC:
+				return new Formation(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
@@ -398,6 +402,8 @@ public class MessageFactory {
 				return new FormState(defs);
 			case AutopilotMode.ID_STATIC:
 				return new AutopilotMode(defs);
+			case FormationState.ID_STATIC:
+				return new FormationState(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
@@ -502,6 +508,10 @@ public class MessageFactory {
 				return new FormCtrlParam(defs);
 			case FormationEval.ID_STATIC:
 				return new FormationEval(defs);
+			case FormationControlParams.ID_STATIC:
+				return new FormationControlParams(defs);
+			case FormationEvaluation.ID_STATIC:
+				return new FormationEvaluation(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
 			case NeptusBlob.ID_STATIC:
@@ -514,6 +524,10 @@ public class MessageFactory {
 				return new UsblPosition(defs);
 			case UsblFix.ID_STATIC:
 				return new UsblFix(defs);
+			case ParametersXml.ID_STATIC:
+				return new ParametersXml(defs);
+			case GetParametersXml.ID_STATIC:
+				return new GetParametersXml(defs);
 			default:
 				return new IMCMessage(defs);
 		}
