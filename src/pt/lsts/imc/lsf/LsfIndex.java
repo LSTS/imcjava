@@ -46,6 +46,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.Vector;
 
@@ -867,6 +868,33 @@ public class LsfIndex {
 					einfo.getInteger("id"));
 			systemEntityNames.get(src).put(einfo.getInteger("id"),
 					einfo.getString("label"));
+			
+			if (defs != IMCDefinition.getInstance())
+				defs.getResolver().setEntityName(src, einfo.getInteger("id"),
+						einfo.getString("label"));
+		}
+		
+		type = defs.getMessageId("EntityList");
+		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
+				type, i)) {
+			IMCMessage einfo = getMessage(i);
+
+			int src = einfo.getInteger("src");
+
+			if (!(systemEntityIds.containsKey(src))) {
+				systemEntityIds.put(src, new LinkedHashMap<String, Integer>());
+				systemEntityNames
+						.put(src, new LinkedHashMap<Integer, String>());
+			}
+			
+			LinkedHashMap<String, String> entities = einfo.getTupleList("list");
+			
+			for (Entry<String, String> entry : entities.entrySet()) {
+				systemEntityIds.get(src).put(entry.getKey(),
+						Integer.parseInt(entry.getValue()));
+				systemEntityNames.get(src).put(Integer.parseInt(entry.getValue()),
+						entry.getKey());
+			}
 			
 			if (defs != IMCDefinition.getInstance())
 				defs.getResolver().setEntityName(src, einfo.getInteger("id"),
