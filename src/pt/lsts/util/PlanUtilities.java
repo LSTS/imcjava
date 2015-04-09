@@ -465,6 +465,27 @@ public class PlanUtilities {
 		}
 	}
 
+
+	/**
+	 * Check if Plan is Cyclic (last maneuver transits to first one)
+	 * 
+	 * @param plan
+	 *            The plan
+	 * @return true if last maneuver transits to first one, false otherwise
+	 */
+	public static boolean isCyclic(PlanSpecification plan){
+		String maneuverFirstID = plan.getManeuvers().get(0).getManeuverId();
+		String maneuverLastID = plan.getManeuvers().get(plan.getManeuvers().size()-1).getManeuverId();
+		
+		for (PlanTransition pt : plan.getTransitions()) {
+			if (pt.getSourceMan().equals(maneuverLastID)
+					&& pt.getDestMan().equals(maneuverFirstID)){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * This inner class represents a IMC plan waypoint. <br/>
 	 * An IMC maneuver may contain more than one waypoints.
