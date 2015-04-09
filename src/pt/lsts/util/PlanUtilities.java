@@ -61,6 +61,49 @@ import pt.lsts.util.PlanUtilities.Waypoint.TYPE;
  */
 public class PlanUtilities {
 
+
+	/**
+	 * This method calculates the maneuver sequence present in a plan. In case
+	 * of cyclic plans, it will retrieve the first sequence of maneuvers that
+	 * include one repeated maneuver.
+	 * 
+	 * @param plan
+	 *            The plan to parsed.         
+	 * @return a maneuver sequence.
+	 * @see #getManeuverSequence(PlanSpecification)
+	 */
+	public static List<Maneuver> getManeuverCycleOrSequence(PlanSpecification plan) {
+		ArrayList<Maneuver> ret = new ArrayList<Maneuver>();
+
+		LinkedHashMap<String, Maneuver> maneuvers = new LinkedHashMap<String, Maneuver>();
+		LinkedHashMap<String, String> transitions = new LinkedHashMap<String, String>();
+
+		for (PlanManeuver m : plan.getManeuvers())
+			maneuvers.put(m.getManeuverId(), m.getData());
+
+		for (PlanTransition pt : plan.getTransitions()) {
+			if (transitions.containsKey(pt.getSourceMan()))				
+				continue;
+			transitions.put(pt.getSourceMan(), pt.getDestMan());
+		}
+
+		Vector<String> visited = new Vector<String>();
+		String man = plan.getStartManId();
+
+		while (man != null) {
+			if (visited.contains(man)) {
+				ret.add(maneuvers.get(man));
+				return ret;
+			}
+			visited.add(man);
+			Maneuver m = maneuvers.get(man);
+			ret.add(m);
+			man = transitions.get(man);
+		}
+
+		return ret;
+		
+	}
 	/**
 	 * This method calculates the maneuver sequence present in a plan. In case
 	 * of cyclic plans, it will retrieve the first non-repeating sequence of
@@ -117,7 +160,7 @@ public class PlanUtilities {
 	public static Collection<double[]> computeLocations(PlanSpecification plan) {
 		ArrayList<double[]> locations = new ArrayList<double[]>();
 
-		for (Maneuver m : getManeuverSequence(plan))
+		for (Maneuver m : getManeuverCycleOrSequence(plan))
 			locations.addAll(computeLocations(m));
 
 		return locations;
@@ -134,7 +177,7 @@ public class PlanUtilities {
 	public static List<Waypoint> computeWaypoints(PlanSpecification plan) {
 		ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
 
-		for (Maneuver m : getManeuverSequence(plan))
+		for (Maneuver m : getManeuverCycleOrSequence(plan))
 			waypoints.addAll(computeWaypoints(m));
 
 		return waypoints;

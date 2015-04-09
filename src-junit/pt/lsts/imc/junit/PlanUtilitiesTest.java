@@ -28,12 +28,15 @@
  */
 package pt.lsts.imc.junit;
 
+import java.util.Collection;
+
 import org.junit.Test;
 
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCUtil;
 import pt.lsts.imc.Maneuver;
 import pt.lsts.util.PlanUtilities;
+import pt.lsts.util.PlanUtilities.Waypoint;
 
 public class PlanUtilitiesTest {
 
@@ -42,7 +45,11 @@ public class PlanUtilitiesTest {
 		for (String maneuver : IMCDefinition.getInstance().subtypesOf("Maneuver")) {
 			Maneuver man = (Maneuver) IMCDefinition.getInstance().create(maneuver);
 			IMCUtil.fillWithRandomData(man);
-			PlanUtilities.computeWaypoints(man);			
+			Collection<Waypoint> wpts = PlanUtilities.computeWaypoints(man);
+			System.out.println(man);
+			for (Waypoint w : wpts) {
+				System.out.println(w.getSpeed());
+			}
 		}
 	}
 }
