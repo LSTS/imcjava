@@ -263,8 +263,10 @@ public class ControlLink {
 	}
 
 	private static IMCProtocol getImc() {
-		if (proto == null)
+		if (proto == null) {
 			proto = new IMCProtocol();
+			proto.setAutoConnect(".*");
+		}
 		return proto;
 	}
 
