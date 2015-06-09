@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "c2c436b9d8bfb0d937904e2fbd11d6451b41a02a";
-	public static final String IMC_BRANCH = "2015-03-27 c2c436b (HEAD, tag: imc-5.4.4, origin/master, origin/HEAD, master)";
-	public static final String IMC_COMMIT = "Ricardo Martins (rasm@oceanscan-mst.com), Fri Mar 27 10:41:16 WET 2015, IMC v5.4.4\n\nChanges since IMC v5.4.3:\n\n- Added units NTU.\n\n- Added flag DELAYED to UamTxFrame and UamRxFrame.\n\n- Added messages Turbidity, ParametersXml, GetParametersXml, Formation,\n  FormationState, FormationControlParams, and FormationEvaluation.";
+	public static final String IMC_SHA = "c0e2c881f8cd16539340e5ef2331c395d64d623d";
+	public static final String IMC_BRANCH = "2015-06-04 c0e2c88 (HEAD, origin/master, origin/HEAD, necsave_01, master)";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), Thu Jun 04 18:31:18 WEST 2015, Update IMC_Addresses.xml";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -122,6 +122,8 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("ntnu-penguin-003", 11331);
 		IMC_ADDRESSES.put("ntnu-penguin-004", 11332);
 		IMC_ADDRESSES.put("ccu-lsts-1-1", 16641);
+		IMC_ADDRESSES.put("ccu-lsts-1-14", 16654);
+		IMC_ADDRESSES.put("ccu-lsts-1-20", 16660);
 		IMC_ADDRESSES.put("ccu-zp-1-106", 16746);
 		IMC_ADDRESSES.put("ccu-pitvant-laptop-01-1-10", 16650);
 		IMC_ADDRESSES.put("ccu-lsts-0-108", 16492);
@@ -146,6 +148,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("manta-14", 32799);
 		IMC_ADDRESSES.put("manta-15", 32800);
 		IMC_ADDRESSES.put("manta-16", 32801);
+		IMC_ADDRESSES.put("manta-21", 32806);
 		IMC_ADDRESSES.put("piccolo-gs1", 32832);
 		IMC_ADDRESSES.put("piccolo-gs2", 32833);
 		IMC_ADDRESSES.put("piccolo-gs3", 32834);
@@ -8279,6 +8282,19 @@ public class ImcStringDefs {
 		sb.append("      :ref:`ParametersXml` message.\n");
 		sb.append("    </description>\n");
 		sb.append("  </message>\n");
+		sb.append("  \n");
+		sb.append("  <!-- BEGIN NECSAVE Messages -->\n");
+		sb.append("  \n");
+		sb.append("  <message id=\"2001\" abbrev=\"NecMsg\" name=\"NECSAVE Message\">\n");
+		sb.append("  \t<field abbrev=\"data\" name=\"Data\" type=\"RawData\"/>\n");
+		sb.append("  </message>\n");
+		sb.append("  \n");
+		sb.append("  <message id=\"2002\" abbrev=\"JsonObject\" name=\"JSON Object\">\n");
+		sb.append("  \t<field abbrev=\"json\" name=\"JSON Data\" type=\"plaintext\"/>\n");
+		sb.append("  </message>\n");
+		sb.append("    \n");
+		sb.append("  <!-- END   NECSAVE Messages -->\n");
+		sb.append("  \n");
 		sb.append("</messages>\n");
 		return sb.toString();
 	}
