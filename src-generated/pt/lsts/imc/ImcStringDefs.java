@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "c0e2c881f8cd16539340e5ef2331c395d64d623d";
-	public static final String IMC_BRANCH = "2015-06-04 c0e2c88 (HEAD, origin/master, origin/HEAD, necsave_01, master)";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), Thu Jun 04 18:31:18 WEST 2015, Update IMC_Addresses.xml";
+	public static final String IMC_SHA = "a8d20ff26589bd22bd1b252e339ed67da5634028";
+	public static final String IMC_BRANCH = "2015-06-09 a8d20ff (HEAD, origin/necsave_01, necsave_01)";
+	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Tue Jun 09 09:22:01 WEST 2015, Fixed type of field (rawdata).";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -8286,7 +8286,7 @@ public class ImcStringDefs {
 		sb.append("  <!-- BEGIN NECSAVE Messages -->\n");
 		sb.append("  \n");
 		sb.append("  <message id=\"2001\" abbrev=\"NecMsg\" name=\"NECSAVE Message\">\n");
-		sb.append("  \t<field abbrev=\"data\" name=\"Data\" type=\"RawData\"/>\n");
+		sb.append("  \t<field abbrev=\"data\" name=\"Data\" type=\"rawdata\"/>\n");
 		sb.append("  </message>\n");
 		sb.append("  \n");
 		sb.append("  <message id=\"2002\" abbrev=\"JsonObject\" name=\"JSON Object\">\n");
