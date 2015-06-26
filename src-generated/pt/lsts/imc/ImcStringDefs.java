@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "c2c436b9d8bfb0d937904e2fbd11d6451b41a02a";
-	public static final String IMC_BRANCH = "2015-03-27 c2c436b (HEAD, tag: imc-5.4.4, origin/master, origin/HEAD, master)";
-	public static final String IMC_COMMIT = "Ricardo Martins (rasm@oceanscan-mst.com), Fri Mar 27 10:41:16 WET 2015, IMC v5.4.4\n\nChanges since IMC v5.4.3:\n\n- Added units NTU.\n\n- Added flag DELAYED to UamTxFrame and UamRxFrame.\n\n- Added messages Turbidity, ParametersXml, GetParametersXml, Formation,\n  FormationState, FormationControlParams, and FormationEvaluation.";
+	public static final String IMC_SHA = "f46e572220b3b20d5cbd26d6ab28efdba673bf2a";
+	public static final String IMC_BRANCH = "2015-06-26 f46e572 (HEAD, origin/master, origin/HEAD, master)";
+	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Fri Jun 26 17:13:52 WEST 2015, Addresses: Added address of lauv-xplore-2.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -53,6 +53,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-noptilus-3", 28);
 		IMC_ADDRESSES.put("lauv-lsts-1", 29);
 		IMC_ADDRESSES.put("lauv-xplore-1", 30);
+		IMC_ADDRESSES.put("lauv-xplore-2", 31);
 		IMC_ADDRESSES.put("lauv-simulator-1", 209);
 		IMC_ADDRESSES.put("lauv-dolphin-1", 257);
 		IMC_ADDRESSES.put("lauv-lupis-1", 258);
@@ -122,6 +123,8 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("ntnu-penguin-003", 11331);
 		IMC_ADDRESSES.put("ntnu-penguin-004", 11332);
 		IMC_ADDRESSES.put("ccu-lsts-1-1", 16641);
+		IMC_ADDRESSES.put("ccu-lsts-1-14", 16654);
+		IMC_ADDRESSES.put("ccu-lsts-1-20", 16660);
 		IMC_ADDRESSES.put("ccu-zp-1-106", 16746);
 		IMC_ADDRESSES.put("ccu-pitvant-laptop-01-1-10", 16650);
 		IMC_ADDRESSES.put("ccu-lsts-0-108", 16492);
@@ -146,6 +149,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("manta-14", 32799);
 		IMC_ADDRESSES.put("manta-15", 32800);
 		IMC_ADDRESSES.put("manta-16", 32801);
+		IMC_ADDRESSES.put("manta-21", 32806);
 		IMC_ADDRESSES.put("piccolo-gs1", 32832);
 		IMC_ADDRESSES.put("piccolo-gs2", 32833);
 		IMC_ADDRESSES.put("piccolo-gs3", 32834);
