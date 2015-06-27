@@ -471,21 +471,21 @@ public class UDPTransport {
                                 sock = (!useMulticast)?new DatagramSocket():new MulticastSocket();
 
                                 if (useMulticast) {
-                                    ((MulticastSocket)sock).joinGroup(resolveAddress(getMulticastAddress()));
-                                    multicastGroup = getMulticastAddress();
+                                	multicastGroup = getMulticastAddress();
+                                	((MulticastSocket)sock).joinGroup(resolveAddress(multicastGroup));                                	
+                                    
                                 }
                                 setMulticastActive(useMulticast);
-                                //                                sock.setSoTimeout(timeoutMillis);
                                 sock.setSoTimeout(0);
-                                if (isBroadcastEnable()) {
-                                    try {
-                                        sock.setBroadcast(true);
-                                        setBroadcastActive(true);
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        setBroadcastActive(false);
-                                    }
-                                }
+//                                if (isBroadcastEnable()) {
+//                                    try {
+//                                        sock.setBroadcast(true);
+//                                        setBroadcastActive(true);
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                        setBroadcastActive(false);
+//                                    }
+//                                }
                     } catch (Exception e) {
                         setOnBindError(true);
                         return;

@@ -125,9 +125,6 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 				.addEntry(msg.getSrc(), msg.getSysName());
 
 		if (!nodes.containsKey(src)) {
-			if (!quiet)
-				System.out.println("[IMCProtocol] New node within range: "
-					+ msg.getSysName());
 
 			boolean peer = false;
 			
@@ -137,6 +134,11 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 			IMCNode node = new IMCNode(msg);
 			node.setPeer(peer);
 			nodes.put(src, node);
+			
+			if (peer)
+				System.out.println("[IMCProtocol] New peer within range: "
+					+ msg.getSysName()+", "+node.address+":"+node.port);
+
 		} else
 			nodes.get(src).setAnnounce(msg);
 	}
@@ -207,7 +209,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 			int port = 30100;
 
 			while (true) {
-				discovery = new UDPTransport(true, true, port, 1);
+				discovery = new UDPTransport("224.0.75.69", port);
 				discovery.setImcId(localId);
 				discovery.addMessageListener(IMCProtocol.this);
 				if (discovery.isOnBindError()) {
@@ -234,9 +236,14 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 
 			long lastSent = System.currentTimeMillis();
 			while (true) {
-				for (int p = 30100; p < 30105; p++)
+				for (int p = 30100; p < 30105; p++) {
 					discovery.sendMessage("224.0.75.69", p, announce);
-
+					discovery.sendMessage("255.255.255.255", p, announce);
+					
+					for (IMCNode node : nodes.values())
+						discovery.sendMessage(node.address, p, announce);					
+				}
+				
 				lastSent = System.currentTimeMillis();
 				try {
 					Thread.sleep(10000 - (System.currentTimeMillis() - lastSent));
