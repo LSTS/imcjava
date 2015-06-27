@@ -28,6 +28,7 @@
  */
 package pt.lsts.imc.lsf;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -100,6 +101,10 @@ public class LsfMerge {
 				messages.put(minFile, msg);
 				timestamps.put(minFile, msg.getTimestamp());
 			}
+			catch (EOFException eof) {
+				inputs.remove(minFile);
+				timestamps.remove(minFile);
+			}
 			catch (Exception e) {
 				e.printStackTrace();
 				inputs.remove(minFile);
@@ -110,18 +115,19 @@ public class LsfMerge {
 	}
 	
 	public static void main(String[] args) throws Exception {
+		
 		LsfMerge merge = new LsfMerge();
 		
 		if (args.length < 2) {
-			System.out.println("Usage: lsfmerge <destination.lsf> <file1.lsf> [<file2.lsf> ...]");
+			System.out.println("Usage: lsfmerge <file1.lsf> [<file2.lsf> ...] <destination.lsf>");
 			System.exit(1);
 		}
 		
 		File[] files = new File[args.length - 1];
-		for (int i = 1; i < args.length; i++)
-			files[i-1] = new File(args[i]);
+		for (int i = 0; i < args.length-1; i++)
+			files[i] = new File(args[i]);
 		
-		merge.merge(files, new File(args[0]));
+		merge.merge(files, new File(args[args.length-1]));
 		System.exit(0);
 	}
 	
