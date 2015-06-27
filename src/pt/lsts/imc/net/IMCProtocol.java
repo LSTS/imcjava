@@ -80,7 +80,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 	protected String localName = "imcj_" + System.currentTimeMillis() / 500;
 	protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
 	private HashSet<String> services = new HashSet<String>();
-	private boolean quiet = true;
+	private boolean quiet = false;
 	private String autoConnect = null;
 	private Timer beater = new Timer();
 	
@@ -120,6 +120,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 	
 	private void on(Announce msg) {
 		String src = msg.getSysName();
+		
 		IMCDefinition.getInstance().getResolver()
 				.addEntry(msg.getSrc(), msg.getSysName());
 
@@ -132,14 +133,12 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 			
 			// Check if this is a peer (a name we should auto connect to)
 			if (this.autoConnect != null)
-				peer = Pattern.matches(autoConnect, src);
+				peer = !src.equals(getLocalName()) && Pattern.matches(autoConnect, src);
 			IMCNode node = new IMCNode(msg);
 			node.setPeer(peer);
 			nodes.put(src, node);
 		} else
 			nodes.get(src).setAnnounce(msg);
-
-		
 	}
 
 	private void on(EntityList el) {
@@ -210,6 +209,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 			while (true) {
 				discovery = new UDPTransport(true, true, port, 1);
 				discovery.setImcId(localId);
+				discovery.addMessageListener(IMCProtocol.this);
 				if (discovery.isOnBindError()) {
 					discovery.stop();
 					try {
