@@ -182,6 +182,8 @@ public class LsfIndex {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			outStream.close();
+			mmgis.close();
 		}
 
 		// FIXME
