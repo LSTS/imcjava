@@ -162,4 +162,8 @@ public class LsfMessageLogger {
 			LsfMessageLogger.log(new EstimatedState());
 		}
 	}
+
+    public void changeLogBaseDir(String newPath){
+        getInstance().logBaseDir = newPath;
+    }
 }
