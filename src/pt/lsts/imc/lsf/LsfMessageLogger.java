@@ -163,7 +163,7 @@ public class LsfMessageLogger {
 		}
 	}
 
-    public void changeLogBaseDir(String newPath){
+    public static void changeLogBaseDir(String newPath){
         getInstance().logBaseDir = newPath;
     }
 }
