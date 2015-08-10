@@ -156,14 +156,37 @@ public class LsfMessageLogger {
         return getInstance().logMessage(msg);
     }
     
-    public static void main(String[] args) throws Exception {
-		while(true) {
-			Thread.sleep(100);
-			LsfMessageLogger.log(new EstimatedState());
-		}
-	}
+
+    
+    public synchronized boolean closeStream() {
+    	try {
+            if (ios != null) {
+            	ios.close();            	            
+            }
+        }
+    	catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean close() {
+    	LsfMessageLogger ins = getInstance();
+    	instance = null;
+    	return ins.closeStream();
+    }
 
     public static void changeLogBaseDir(String newPath){
         getInstance().logBaseDir = newPath;
     }
+    
+    public static void main(String[] args) throws Exception {
+		for (int i = 0; i < 1000; i++) {
+			Thread.yield();
+			LsfMessageLogger.log(new EstimatedState());
+		}
+		System.out.println("done");
+		LsfMessageLogger.close();
+	}
 }
