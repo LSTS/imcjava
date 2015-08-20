@@ -41,6 +41,8 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
@@ -54,6 +56,7 @@ import pt.lsts.imc.Heartbeat;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.lsf.LsfIndex;
+import pt.lsts.imc.lsf.LsfMessageLogger;
 import pt.lsts.imc.state.ImcSystemState;
 import pt.lsts.neptus.messages.listener.ImcConsumer;
 import pt.lsts.neptus.messages.listener.MessageInfo;
@@ -83,10 +86,13 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 	private boolean quiet = false;
 	private String autoConnect = null;
 	private Timer beater = new Timer();
+	private IMessageLogger logger = null;
+	private ExecutorService logExec = Executors.newSingleThreadExecutor();
 	
 	@Override
 	public void onMessage(MessageInfo info, IMCMessage msg) {
 		msg.setMessageInfo(info);
+		logMessage(msg);
 		switch (msg.getMgid()) {
 		case Announce.ID_STATIC:
 			on((Announce)msg);
@@ -233,7 +239,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 					+ port + ".");
 
 			final Announce announce = buildAnnounce();
-
+			logMessage(announce);
 			long lastSent = System.currentTimeMillis();
 			while (true) {
 				for (int p = 30100; p < 30105; p++) {
@@ -243,6 +249,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 					for (IMCNode node : nodes.values())
 						discovery.sendMessage(node.address, p, announce);					
 				}
+				
 				
 				lastSent = System.currentTimeMillis();
 				try {
@@ -288,7 +295,9 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 				"src", localId, "dst", node.getImcId(), "timestamp",
 				System.currentTimeMillis() / 1000.0);
 
-		return comms.sendMessage(node.getAddress(), node.getPort(), msg);
+		boolean result = comms.sendMessage(node.getAddress(), node.getPort(), msg);
+		logMessage(msg);
+		return result;
 	}
 
 	public IMCProtocol(String localName, int localPort) {
@@ -314,7 +323,9 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 				peers.addAll(nodes.values());
 				for (IMCNode node : peers) {
 					if (node.isPeer()) {
-						sendMessage(node.getSysName(), new Heartbeat());
+						IMCMessage hbeat = new Heartbeat();
+						sendMessage(node.getSysName(), hbeat);
+						logMessage(hbeat);						
 					}
 				}
 			}
@@ -347,7 +358,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 	}
 
 	/**
-	 * Send a message to all known (via receiced announces) systems.
+	 * Send a message to all known (via received announces) systems.
 	 * 
 	 * @param msg
 	 *            The message to be sent.
@@ -362,6 +373,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 				msg.setValue("dst", nd.getImcId());
 				msg.setTimestamp(System.currentTimeMillis() / 1000.0);
 				comms.sendMessage(nd.address, nd.port, msg);
+				logMessage(msg);
 			}
 			sent = true;
 		}
@@ -384,6 +396,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 				msg.setValue("dst", nd.getImcId());
 				msg.setTimestamp(System.currentTimeMillis() / 1000.0);
 				comms.sendMessage(nd.address, nd.port, msg);
+				logMessage(msg);
 			}
 			sent = true;
 		}
@@ -410,7 +423,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 				if (nd.address != null) {
 					msg.setValue("dst", nd.getImcId());
 					comms.sendMessage(nd.getAddress(), nd.getPort(), msg);
-
+					logMessage(msg);
 					return true;
 				} else
 					return false;
@@ -700,8 +713,8 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 		if (discovery != null)
 			discovery.stop();
 
-		
 		tcp.shutdown();
+		logExec.shutdown();		
 	}
 
 	/**
@@ -745,6 +758,49 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 		}
 		return null;
 	}
+	
+	/**
+	 * Change the active message logger (no logger is activated by default)
+	 * @param logger The logger that will handle all sent / received messages.
+	 * @see #setLsfMessageLogger()
+	 */
+	public void setMessageLogger(IMessageLogger logger) {
+		this.logger = logger;
+	}
+	
+	/**
+	 * Activate Lsf message logging
+	 * @see #setMessageLogger(IMessageLogger)
+	 */
+	public void setLsfMessageLogger() {
+		logger = new IMessageLogger() {
+			@Override
+			public void logMessage(IMCMessage message) throws Exception {
+				LsfMessageLogger.log(message);
+			}
+		};
+	}
+	
+	private void logMessage(final IMCMessage msg) {
+		final IMessageLogger curLogger = logger; 
+		
+		if (curLogger == null)
+			return;
+		
+		logExec.submit(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					curLogger.logMessage(msg);
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+
 
 	public static void main(String[] args) throws Exception {
 
@@ -784,6 +840,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 		Object o2 = new Object() {
 			@Periodic(1000)
 			private void periodic2() {
+				proto.broadcast(new Heartbeat());
 				System.out.println("OBJECT 2 "+System.currentTimeMillis());				
 			}	
 		};
