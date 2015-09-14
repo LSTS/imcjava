@@ -222,6 +222,8 @@ public class MessageFactory {
 				return new FineOil(defs);
 			case Turbidity.ID_STATIC:
 				return new Turbidity(defs);
+			case Chlorophyll.ID_STATIC:
+				return new Chlorophyll(defs);
 			case CameraZoom.ID_STATIC:
 				return new CameraZoom(defs);
 			case SetThrusterActuation.ID_STATIC:
@@ -378,6 +380,8 @@ public class MessageFactory {
 				return new Dislodge(defs);
 			case Formation.ID_STATIC:
 				return new Formation(defs);
+			case Launch.ID_STATIC:
+				return new Launch(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
@@ -528,6 +532,10 @@ public class MessageFactory {
 				return new ParametersXml(defs);
 			case GetParametersXml.ID_STATIC:
 				return new GetParametersXml(defs);
+			case NecMsg.ID_STATIC:
+				return new NecMsg(defs);
+			case JsonObject.ID_STATIC:
+				return new JsonObject(defs);
 			default:
 				return new IMCMessage(defs);
 		}
