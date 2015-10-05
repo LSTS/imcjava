@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "d951ad4ece5ce2fb2ff53403bcbf2daee1768ff4";
-	public static final String IMC_BRANCH = "2015-09-09 d951ad4 (HEAD, origin/master, origin/HEAD, master)";
-	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Wed Sep 09 18:04:18 WEST 2015, Merged branch necsave_01.";
+	public static final String IMC_SHA = "fc65a93734197d85c6e6227d7f5f1a752236ab5f";
+	public static final String IMC_BRANCH = "2015-09-27 fc65a93 (HEAD, tag: imc-5.4.6, origin/master, origin/HEAD, master)";
+	public static final String IMC_COMMIT = "Jose Braga (eejbraga@gmail.com), Sun Sep 27 11:30:39 WEST 2015, Merge remote-tracking branch 'origin/feature/lbl-cleanup'";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -1792,21 +1792,6 @@ public class ImcStringDefs {
 		sb.append("    <field name=\"Depth\" abbrev=\"depth\" type=\"fp32_t\" unit=\"m\">\n");
 		sb.append("      <description>\n");
 		sb.append("        The beacon's depth.\n");
-		sb.append("      </description>\n");
-		sb.append("    </field>\n");
-		sb.append("    <field name=\"Interrogation channel\" abbrev=\"query_channel\" type=\"uint8_t\">\n");
-		sb.append("      <description>\n");
-		sb.append("        Interrogation channel.\n");
-		sb.append("      </description>\n");
-		sb.append("    </field>\n");
-		sb.append("    <field name=\"Reply channel\" abbrev=\"reply_channel\" type=\"uint8_t\">\n");
-		sb.append("      <description>\n");
-		sb.append("        Reply channel.\n");
-		sb.append("      </description>\n");
-		sb.append("    </field>\n");
-		sb.append("    <field name=\"Transponder delay\" abbrev=\"transponder_delay\" type=\"uint8_t\" unit=\"ms\">\n");
-		sb.append("      <description>\n");
-		sb.append("        Transponder delay.\n");
 		sb.append("      </description>\n");
 		sb.append("    </field>\n");
 		sb.append("  </message>\n");
