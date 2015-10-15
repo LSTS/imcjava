@@ -80,13 +80,16 @@ public class LblBeacon extends IMCMessage {
 		return m;
 	}
 
-	public LblBeacon(String beacon, double lat, double lon, float depth) {
+	public LblBeacon(String beacon, double lat, double lon, float depth, short query_channel, short reply_channel, short transponder_delay) {
 		super(ID_STATIC);
 		if (beacon != null)
 			setBeacon(beacon);
 		setLat(lat);
 		setLon(lon);
 		setDepth(depth);
+		setQueryChannel(query_channel);
+		setReplyChannel(reply_channel);
+		setTransponderDelay(transponder_delay);
 	}
 
 	/**
@@ -146,6 +149,51 @@ public class LblBeacon extends IMCMessage {
 	 */
 	public LblBeacon setDepth(double depth) {
 		values.put("depth", depth);
+		return this;
+	}
+
+	/**
+	 *  @return Interrogation channel - uint8_t
+	 */
+	public short getQueryChannel() {
+		return (short) getInteger("query_channel");
+	}
+
+	/**
+	 *  @param query_channel Interrogation channel
+	 */
+	public LblBeacon setQueryChannel(short query_channel) {
+		values.put("query_channel", query_channel);
+		return this;
+	}
+
+	/**
+	 *  @return Reply channel - uint8_t
+	 */
+	public short getReplyChannel() {
+		return (short) getInteger("reply_channel");
+	}
+
+	/**
+	 *  @param reply_channel Reply channel
+	 */
+	public LblBeacon setReplyChannel(short reply_channel) {
+		values.put("reply_channel", reply_channel);
+		return this;
+	}
+
+	/**
+	 *  @return Transponder delay (ms) - uint8_t
+	 */
+	public short getTransponderDelay() {
+		return (short) getInteger("transponder_delay");
+	}
+
+	/**
+	 *  @param transponder_delay Transponder delay (ms)
+	 */
+	public LblBeacon setTransponderDelay(short transponder_delay) {
+		values.put("transponder_delay", transponder_delay);
 		return this;
 	}
 

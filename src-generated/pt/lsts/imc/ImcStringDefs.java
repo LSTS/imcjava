@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "fc65a93734197d85c6e6227d7f5f1a752236ab5f";
-	public static final String IMC_BRANCH = "2015-09-27 fc65a93 (HEAD, tag: imc-5.4.6, origin/master, origin/HEAD, master)";
-	public static final String IMC_COMMIT = "Jose Braga (eejbraga@gmail.com), Sun Sep 27 11:30:39 WEST 2015, Merge remote-tracking branch 'origin/feature/lbl-cleanup'";
+	public static final String IMC_SHA = "e82d9629e7cd6b213dd36b2b9b70c5822124104e";
+	public static final String IMC_BRANCH = "2015-10-13 e82d962 (HEAD, origin/master, origin/HEAD, master)";
+	public static final String IMC_COMMIT = "Ricardo Martins (rasm@oceanscan-mst.com), Tue Oct 13 19:09:26 WEST 2015, Fixing commit a0694c7ebbeb4c6bfb93a333ced08fcc032663a6, the fields were from LblBeacon.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -55,12 +55,6 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-xplore-1", 30);
 		IMC_ADDRESSES.put("lauv-xplore-2", 31);
 		IMC_ADDRESSES.put("lauv-simulator-1", 209);
-		IMC_ADDRESSES.put("lauv-dolphin-1", 257);
-		IMC_ADDRESSES.put("lauv-lupis-1", 258);
-		IMC_ADDRESSES.put("lauv-dolphin-2", 259);
-		IMC_ADDRESSES.put("lauv-dolphin-3", 260);
-		IMC_ADDRESSES.put("lauv-oceaneco-1", 261);
-		IMC_ADDRESSES.put("lauv-oceaneco-2", 262);
 		IMC_ADDRESSES.put("rov-ies", 1025);
 		IMC_ADDRESSES.put("adamastor", 1026);
 		IMC_ADDRESSES.put("swordfish", 2049);
@@ -132,11 +126,8 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("ccu-lsts-0-108", 16492);
 		IMC_ADDRESSES.put("europtus", 24575);
 		IMC_ADDRESSES.put("doam", 24576);
-		IMC_ADDRESSES.put("lauv-dolphin-1-doam", 24577);
 		IMC_ADDRESSES.put("lauv-seacon-1-aux", 24578);
 		IMC_ADDRESSES.put("lauv-noptilus-3-aux", 24579);
-		IMC_ADDRESSES.put("lauv-dolphin-2-aux", 24580);
-		IMC_ADDRESSES.put("lauv-dolphin-3-aux", 24581);
 		IMC_ADDRESSES.put("star", 32768);
 		IMC_ADDRESSES.put("benthos-mgateway", 32784);
 		IMC_ADDRESSES.put("manta-1", 32786);
@@ -145,11 +136,8 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("manta-4", 32789);
 		IMC_ADDRESSES.put("manta-5", 32790);
 		IMC_ADDRESSES.put("manta-9", 32794);
-		IMC_ADDRESSES.put("manta-10", 32795);
 		IMC_ADDRESSES.put("manta-11", 32796);
 		IMC_ADDRESSES.put("manta-12", 32797);
-		IMC_ADDRESSES.put("manta-13", 32798);
-		IMC_ADDRESSES.put("manta-14", 32799);
 		IMC_ADDRESSES.put("manta-15", 32800);
 		IMC_ADDRESSES.put("manta-16", 32801);
 		IMC_ADDRESSES.put("manta-21", 32806);
@@ -216,7 +204,7 @@ public class ImcStringDefs {
 		sb.append("          xsi:noNamespaceSchemaLocation=\"IMC.xsd\"\n");
 		sb.append("          name=\"IMC\"\n");
 		sb.append("          long-name=\"Inter Module Communication\"\n");
-		sb.append("          version=\"5.4.5\">\n");
+		sb.append("          version=\"5.4.6\">\n");
 		sb.append("\n");
 		sb.append("  <description>\n");
 		sb.append("    This document describes the communications protocol associated\n");
@@ -1792,6 +1780,21 @@ public class ImcStringDefs {
 		sb.append("    <field name=\"Depth\" abbrev=\"depth\" type=\"fp32_t\" unit=\"m\">\n");
 		sb.append("      <description>\n");
 		sb.append("        The beacon's depth.\n");
+		sb.append("      </description>\n");
+		sb.append("    </field>\n");
+		sb.append("    <field name=\"Interrogation channel\" abbrev=\"query_channel\" type=\"uint8_t\">\n");
+		sb.append("      <description>\n");
+		sb.append("        Interrogation channel.\n");
+		sb.append("      </description>\n");
+		sb.append("    </field>\n");
+		sb.append("    <field name=\"Reply channel\" abbrev=\"reply_channel\" type=\"uint8_t\">\n");
+		sb.append("      <description>\n");
+		sb.append("        Reply channel.\n");
+		sb.append("      </description>\n");
+		sb.append("    </field>\n");
+		sb.append("    <field name=\"Transponder delay\" abbrev=\"transponder_delay\" type=\"uint8_t\" unit=\"ms\">\n");
+		sb.append("      <description>\n");
+		sb.append("        Transponder delay.\n");
 		sb.append("      </description>\n");
 		sb.append("    </field>\n");
 		sb.append("  </message>\n");
@@ -8338,19 +8341,19 @@ public class ImcStringDefs {
 		sb.append("      :ref:`ParametersXml` message.\n");
 		sb.append("    </description>\n");
 		sb.append("  </message>\n");
-		sb.append("  \n");
+		sb.append("\n");
 		sb.append("  <!-- BEGIN NECSAVE Messages -->\n");
-		sb.append("  \n");
+		sb.append("\n");
 		sb.append("  <message id=\"2001\" abbrev=\"NecMsg\" name=\"NECSAVE Message\">\n");
 		sb.append("  \t<field abbrev=\"data\" name=\"Data\" type=\"rawdata\"/>\n");
 		sb.append("  </message>\n");
-		sb.append("  \n");
+		sb.append("\n");
 		sb.append("  <message id=\"2002\" abbrev=\"JsonObject\" name=\"JSON Object\">\n");
 		sb.append("  \t<field abbrev=\"json\" name=\"JSON Data\" type=\"plaintext\"/>\n");
 		sb.append("  </message>\n");
-		sb.append("    \n");
+		sb.append("\n");
 		sb.append("  <!-- END   NECSAVE Messages -->\n");
-		sb.append("  \n");
+		sb.append("\n");
 		sb.append("</messages>\n");
 		return sb.toString();
 	}
