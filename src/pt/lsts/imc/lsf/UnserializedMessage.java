@@ -28,16 +28,19 @@
  */
 package pt.lsts.imc.lsf;
 
+import java.io.ByteArrayInputStream;
 import java.io.DataInput;
 import java.io.IOException;
+import java.util.Date;
 
 import pt.lsts.imc.IMCDefinition;
+import pt.lsts.imc.IMCMessage;
 
 public class UnserializedMessage implements Comparable<UnserializedMessage> {
 
 	private byte[] data;
 	private boolean bigEndian = false;
-	
+	private IMCDefinition defs;
 	
 	
 	public static UnserializedMessage readMessage(IMCDefinition defs, DataInput in) throws IOException {
@@ -73,12 +76,13 @@ public class UnserializedMessage implements Comparable<UnserializedMessage> {
 		data[4] = (byte)((origSize & 0xFF00) >> 8);
 		data[5] = (byte)((origSize & 0x00FF));
 
-		return new UnserializedMessage(be, data);
+		return new UnserializedMessage(be, data, defs);
 	}
 
-	public UnserializedMessage(boolean bigEndian, byte[] message) {
+	public UnserializedMessage(boolean bigEndian, byte[] message, IMCDefinition def) {
 		this.data = message;
 		this.bigEndian = bigEndian;
+		this.defs = def;
 	}
 	
 	private int getShort(int msb, int lsb) {
@@ -103,6 +107,14 @@ public class UnserializedMessage implements Comparable<UnserializedMessage> {
 			result = Long.reverseBytes(result);
 		
 		return Double.longBitsToDouble(result);
+	}
+	
+	public Date getDate() {
+		return new Date((long)(1000.0 * getTimestamp()));
+	}
+	
+	public IMCMessage deserialize() throws IOException {
+		return defs.nextMessage(new ByteArrayInputStream(data));
 	}
 	
 	public byte[] getData() {
