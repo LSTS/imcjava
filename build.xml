@@ -174,6 +174,7 @@
   <target name="copygenerated" depends="compile">
     <copy todir="build">
       <fileset dir="src-generated" includes="**/*.java"/>
+      <fileset dir="src-generated" includes="xml/IMC.xml"/>
     </copy>
   </target>
 

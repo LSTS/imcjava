@@ -30,14 +30,15 @@
  */
 package pt.lsts.imc.generator;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Formatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -260,7 +261,7 @@ public class ClassGenerator {
 
 	public static void generateStringDefinitions(String packageName,
 			Map<String, Integer> addresses, String sha, String branch,
-			String commitDetails, File outputFolder, InputStream originalDefs)
+			String commitDetails, File outputFolder)
 					throws Exception {
 		File outputDir = getOutputDir(outputFolder, packageName);
 		File outputFile = new File(outputDir, "ImcStringDefs.java");
@@ -294,20 +295,23 @@ public class ClassGenerator {
 		bw.write("\n\t\tIMC_ADDRESSES = java.util.Collections.unmodifiableMap(IMC_ADDRESSES);\n");
 		bw.write("\t}\n\n");
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				originalDefs));
 		bw.write("\tpublic static String getDefinitions() {\n\n");
-		bw.write("\t\tStringBuilder sb = new StringBuilder();\n");
-		String line;
-		while ((line = reader.readLine()) != null) {
-			bw.write("\t\tsb.append(\""
-					+ org.apache.commons.lang3.StringEscapeUtils
-					.escapeJava(line.toString()) + "\\n\");\n");
-		}
-		bw.write("\t\treturn sb.toString();\n");
+		bw.write("\t\tjava.io.InputStream xmlStream = ImcStringDefs.class.getResourceAsStream(\"/xml/IMC.xml\");\n");
+		bw.write("\t\tjava.io.InputStreamReader isreader = new java.io.InputStreamReader(xmlStream);\n");
+		bw.write("\t\tjava.io.BufferedReader reader = new java.io.BufferedReader(isreader);\n");
+		bw.write("\t\tjava.lang.StringBuilder builder = new java.lang.StringBuilder();\n");
+		bw.write("\t\tString line = null;\n");		
+		bw.write("\n");
+		bw.write("\t\ttry {\n");
+		bw.write("\t\t\twhile ((line = reader.readLine()) != null)\n");
+		bw.write("\t\t\t\tbuilder.append(line+\"\\n\");\n");
+		bw.write("\t\t} catch (java.lang.Exception e) {\n");
+		bw.write("\t\t\te.printStackTrace();\n");
+		bw.write("\t\t\treturn null;\n");
+		bw.write("\t\t}\n");
+		bw.write("\n");
+		bw.write("\t\treturn builder.toString();\n");
 		bw.write("\t}\n}\n");
-		reader.close();
-
 		bw.close();
 	}
 
@@ -1203,8 +1207,14 @@ public class ClassGenerator {
 		}
 
 		try {
+			
 			IMCDefinition defs = new IMCDefinition(
 					GenerationUtils.getImcXml(repo));
+			// copy IMC.xml to generated source folder
+			Path source = FileSystems.getDefault().getPath(repo.getAbsolutePath(), "IMC.xml");
+			Path target = FileSystems.getDefault().getPath("./src-generated", "xml", "IMC.xml");
+			Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+			
 			Map<String, Integer> addrs = GenerationUtils.getImcAddresses(repo);
 
 			File output = getOutputDir(new File("src-generated"), "pt.lsts.imc");
@@ -1212,8 +1222,7 @@ public class ClassGenerator {
 
 			generateClasses("pt.lsts.imc", new File("src-generated"), defs);
 			generateStringDefinitions("pt.lsts.imc", addrs, sha, branch,
-					commitDetails, new File("src-generated"),
-					GenerationUtils.getImcXml(repo));
+					commitDetails, new File("src-generated"));
 			generateImcFactory(defs, new File("src-generated"));
 			//generateImcState(defs, new File("src-generated"));
 		} catch (Exception e) {

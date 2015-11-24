@@ -55,7 +55,7 @@ import pt.lsts.neptus.messages.listener.MessageInfoImpl;
  */
 public class LsfBatch {
 
-	private TreeSet<LsfLog> logs = new TreeSet<>();
+	private TreeSet<LsfLog> logs = new TreeSet<LsfLog>();
 
 	private LsfBatch() {
 
@@ -68,7 +68,7 @@ public class LsfBatch {
 			if (logs.add(log))
 				System.out.println("Added " + root.getAbsolutePath());
 			else
-				System.err.println("Duplicate " + root.getAbsolutePath()+" not added.");
+				System.err.println("Duplicate " + root.getAbsolutePath() + " not added.");
 		}
 
 		for (File f : root.listFiles()) {
@@ -165,10 +165,10 @@ public class LsfBatch {
 	}
 
 	public void process(Object... consumers) {
-		LinkedHashMap<ImcConsumer, Vector<Integer>> pojos = new LinkedHashMap<>();
+		LinkedHashMap<ImcConsumer, Vector<Integer>> pojos = new LinkedHashMap<ImcConsumer, Vector<Integer>>();
 		for (Object pojo : consumers) {
 			ImcConsumer consumer = ImcConsumer.create(pojo);
-			Vector<Integer> types = new Vector<>();
+			Vector<Integer> types = new Vector<Integer>();
 			for (String type : consumer.getTypesToListen())
 				types.add(IMCDefinition.getInstance().getMessageId(type));
 			pojos.put(consumer, types);
@@ -188,8 +188,7 @@ public class LsfBatch {
 							info = new MessageInfoImpl();
 							info.setTimeSentSec(m.getTimestamp());
 							info.setPublisher(m.getSourceName());
-						} 
-						catch (Exception e) {
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
 						c.getKey().onMessage(info, m);
