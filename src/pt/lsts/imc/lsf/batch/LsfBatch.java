@@ -33,13 +33,21 @@ import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.TreeSet;
+import java.util.Vector;
+
+import javax.swing.JFileChooser;
 
 import pt.lsts.imc.IMCDefinition;
+import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.UamRxFrame;
 import pt.lsts.imc.UamTxFrame;
 import pt.lsts.imc.gz.MultiMemberGZIPInputStream;
 import pt.lsts.imc.lsf.UnserializedMessage;
+import pt.lsts.neptus.messages.listener.ImcConsumer;
+import pt.lsts.neptus.messages.listener.MessageInfoImpl;
 
 /**
  * @author zp
@@ -49,12 +57,18 @@ public class LsfBatch {
 
 	private TreeSet<LsfLog> logs = new TreeSet<>();
 
+	private LsfBatch() {
+
+	}
+
 	public void addRecursively(File root) {
 
 		LsfLog log = LsfLog.create(root);
 		if (log != null) {
-			logs.add(log);
-			System.out.println("Added " + root.getAbsolutePath());
+			if (logs.add(log))
+				System.out.println("Added " + root.getAbsolutePath());
+			else
+				System.err.println("Duplicate " + root.getAbsolutePath()+" not added.");
 		}
 
 		for (File f : root.listFiles()) {
@@ -63,23 +77,25 @@ public class LsfBatch {
 			}
 		}
 	}
-	
+
 	public UnserializedMessage next() {
 		LsfLog lower = logs.pollFirst();
+		if (lower == null)
+			return null;
+
 		UnserializedMessage msg = lower.curMessage;
 		try {
 			lower.curMessage = UnserializedMessage.readMessage(lower.definitions, lower.input);
 			logs.add(lower);
-		}
-		catch (EOFException e) {
+		} catch (EOFException e) {
 			// expected...
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			return next();
 		}
 		return msg;
 	}
-	
+
 	public LsfBatch(File root) {
 		addRecursively(root);
 	}
@@ -88,12 +104,19 @@ public class LsfBatch {
 		public IMCDefinition definitions;
 		public DataInput input;
 		public UnserializedMessage curMessage;
+		public String root;
 
-		private LsfLog() {
+		private LsfLog(String root) {
+			this.root = root;
+		}
+
+		@Override
+		public int hashCode() {
+			return root.hashCode();
 		}
 
 		public static LsfLog create(File root) {
-			LsfLog log = new LsfLog();
+			LsfLog log = new LsfLog(root.getAbsolutePath());
 			try {
 				if (new File(root, "IMC.xml").canRead())
 					log.definitions = new IMCDefinition(new File(root, "IMC.xml"));
@@ -124,21 +147,73 @@ public class LsfBatch {
 		}
 	}
 
+	public static LsfBatch selectFolders() {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setMultiSelectionEnabled(true);
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		chooser.setDialogTitle("Select top-level log directory");
+		int op = chooser.showOpenDialog(null);
+
+		if (op != JFileChooser.APPROVE_OPTION)
+			return null;
+
+		LsfBatch batch = new LsfBatch();
+		for (File f : chooser.getSelectedFiles())
+			batch.addRecursively(f);
+
+		return batch;
+	}
+
+	public void process(Object... consumers) {
+		LinkedHashMap<ImcConsumer, Vector<Integer>> pojos = new LinkedHashMap<>();
+		for (Object pojo : consumers) {
+			ImcConsumer consumer = ImcConsumer.create(pojo);
+			Vector<Integer> types = new Vector<>();
+			for (String type : consumer.getTypesToListen())
+				types.add(IMCDefinition.getInstance().getMessageId(type));
+			pojos.put(consumer, types);
+		}
+
+		UnserializedMessage msg;
+		while ((msg = next()) != null) {
+			IMCMessage m = null;
+			MessageInfoImpl info = null;
+			for (Entry<ImcConsumer, Vector<Integer>> c : pojos.entrySet()) {
+				if (c.getValue().contains(msg.getMgId())) {
+					if (m != null)
+						c.getKey().onMessage(info, m);
+					else {
+						try {
+							m = msg.deserialize();
+							info = new MessageInfoImpl();
+							info.setTimeSentSec(m.getTimestamp());
+							info.setPublisher(m.getSourceName());
+						} 
+						catch (Exception e) {
+							e.printStackTrace();
+						}
+						c.getKey().onMessage(info, m);
+					}
+				}
+			}
+		}
+
+	}
+
 	public static void main(String[] args) {
-		LsfBatch batch = new LsfBatch(new File("/home/zp/Desktop/to_upload_20151115"));
-		
-		while (true) {
-			UnserializedMessage msg = batch.next();
+		LsfBatch batch = LsfBatch.selectFolders();
+		UnserializedMessage msg;
+		while ((msg = batch.next()) != null) {
+
 			switch (msg.getMgId()) {
 			case UamTxFrame.ID_STATIC:
 			case UamRxFrame.ID_STATIC:
 				try {
-					System.out.print(msg.deserialize()+",");
-				}
-				catch (Exception e) {
+					System.out.print(msg.deserialize() + ",");
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				break;			
+				break;
 			default:
 				break;
 			}

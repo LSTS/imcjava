@@ -121,6 +121,10 @@ public class UnserializedMessage implements Comparable<UnserializedMessage> {
 		return data;
 	}
 
+	public String getMessageName() {
+		return defs.getMessageName(getMgId());
+	}
+	
 	public int getMgId() {
 		if (bigEndian)
 			return getShort(2, 3);
