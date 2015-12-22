@@ -30,18 +30,19 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message NECSAVE Message (2001)<br/>
+ *  IMC Message Airflow (363)<br/>
+ *  Airspeed along with airflow angles.<br/>
  */
 
-public class NecMsg extends IMCMessage {
+public class Airflow extends IMCMessage {
 
-	public static final int ID_STATIC = 2001;
+	public static final int ID_STATIC = 363;
 
-	public NecMsg() {
+	public Airflow() {
 		super(ID_STATIC);
 	}
 
-	public NecMsg(IMCMessage msg) {
+	public Airflow(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -51,20 +52,20 @@ public class NecMsg extends IMCMessage {
 		}
 	}
 
-	public NecMsg(IMCDefinition defs) {
+	public Airflow(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static NecMsg create(Object... values) {
-		NecMsg m = new NecMsg();
+	public static Airflow create(Object... values) {
+		Airflow m = new Airflow();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static NecMsg clone(IMCMessage msg) throws Exception {
+	public static Airflow clone(IMCMessage msg) throws Exception {
 
-		NecMsg m = new NecMsg();
+		Airflow m = new Airflow();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,24 +80,55 @@ public class NecMsg extends IMCMessage {
 		return m;
 	}
 
-	public NecMsg(byte[] data) {
+	public Airflow(float va, float aoa, float ssa) {
 		super(ID_STATIC);
-		if (data != null)
-			setData(data);
+		setVa(va);
+		setAoa(aoa);
+		setSsa(ssa);
 	}
 
 	/**
-	 *  @return Data - rawdata
+	 *  @return Airspeed (m/s) - fp32_t
 	 */
-	public byte[] getData() {
-		return getRawData("data");
+	public double getVa() {
+		return getDouble("va");
 	}
 
 	/**
-	 *  @param data Data
+	 *  @param va Airspeed (m/s)
 	 */
-	public NecMsg setData(byte[] data) {
-		values.put("data", data);
+	public Airflow setVa(double va) {
+		values.put("va", va);
+		return this;
+	}
+
+	/**
+	 *  @return Angle of attack (rad) - fp32_t
+	 */
+	public double getAoa() {
+		return getDouble("aoa");
+	}
+
+	/**
+	 *  @param aoa Angle of attack (rad)
+	 */
+	public Airflow setAoa(double aoa) {
+		values.put("aoa", aoa);
+		return this;
+	}
+
+	/**
+	 *  @return Sideslip angle (rad) - fp32_t
+	 */
+	public double getSsa() {
+		return getDouble("ssa");
+	}
+
+	/**
+	 *  @param ssa Sideslip angle (rad)
+	 */
+	public Airflow setSsa(double ssa) {
+		values.put("ssa", ssa);
 		return this;
 	}
 

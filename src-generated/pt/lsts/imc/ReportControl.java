@@ -30,33 +30,24 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Control Loops (507)<br/>
- *  Enable or disable control loops.<br/>
+ *  IMC Message Report Control (513)<br/>
+ *  This message is sent to trigger reports to a destination system.<br/>
  */
 
-public class ControlLoops extends IMCMessage {
+public class ReportControl extends IMCMessage {
 
-	public static final long CL_NONE = 0x00000000;
-	public static final long CL_PATH = 0x00000001;
-	public static final long CL_TELEOPERATION = 0x00000002;
-	public static final long CL_ALTITUDE = 0x00000004;
-	public static final long CL_DEPTH = 0x00000008;
-	public static final long CL_ROLL = 0x00000010;
-	public static final long CL_PITCH = 0x00000020;
-	public static final long CL_YAW = 0x00000040;
-	public static final long CL_SPEED = 0x00000080;
-	public static final long CL_YAW_RATE = 0x00000100;
-	public static final long CL_VERTICAL_RATE = 0x00000200;
-	public static final long CL_TORQUE = 0x00000400;
-	public static final long CL_FORCE = 0x00000800;
-	public static final long CL_VELOCITY = 0x00001000;
-	public static final long CL_EXTERNAL = 0x40000000;
-	public static final long CL_NO_OVERRIDE = 0x80000000;
-	public static final long CL_ALL = 0xFFFFFFFF;
+	public static final short CI_ACOUSTIC = 0x01;
+	public static final short CI_SATELLITE = 0x02;
+	public static final short CI_GSM = 0x04;
+	public static final short CI_MOBILE = 0x08;
 
-	public enum ENABLE {
-		DISABLE(0),
-		ENABLE(1);
+	public enum OP {
+		REQUEST_START(0),
+		STARTED(1),
+		REQUEST_STOP(2),
+		STOPPED(3),
+		REQUEST_REPORT(4),
+		REPORT_SENT(5);
 
 		protected long value;
 
@@ -64,18 +55,18 @@ public class ControlLoops extends IMCMessage {
 			return value;
 		}
 
-		ENABLE(long value) {
+		OP(long value) {
 			this.value = value;
 		}
 	}
 
-	public static final int ID_STATIC = 507;
+	public static final int ID_STATIC = 513;
 
-	public ControlLoops() {
+	public ReportControl() {
 		super(ID_STATIC);
 	}
 
-	public ControlLoops(IMCMessage msg) {
+	public ReportControl(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -85,20 +76,20 @@ public class ControlLoops extends IMCMessage {
 		}
 	}
 
-	public ControlLoops(IMCDefinition defs) {
+	public ReportControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ControlLoops create(Object... values) {
-		ControlLoops m = new ControlLoops();
+	public static ReportControl create(Object... values) {
+		ReportControl m = new ReportControl();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ControlLoops clone(IMCMessage msg) throws Exception {
+	public static ReportControl clone(IMCMessage msg) throws Exception {
 
-		ControlLoops m = new ControlLoops();
+		ReportControl m = new ReportControl();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -113,19 +104,21 @@ public class ControlLoops extends IMCMessage {
 		return m;
 	}
 
-	public ControlLoops(ENABLE enable, long mask, long scope_ref) {
+	public ReportControl(OP op, short comm_interface, int period, String sys_dst) {
 		super(ID_STATIC);
-		setEnable(enable);
-		setMask(mask);
-		setScopeRef(scope_ref);
+		setOp(op);
+		setCommInterface(comm_interface);
+		setPeriod(period);
+		if (sys_dst != null)
+			setSysDst(sys_dst);
 	}
 
 	/**
-	 *  @return Enable (enumerated) - uint8_t
+	 *  @return Operation (enumerated) - uint8_t
 	 */
-	public ENABLE getEnable() {
+	public OP getOp() {
 		try {
-			ENABLE o = ENABLE.valueOf(getMessageType().getFieldPossibleValues("enable").get(getLong("enable")));
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
 			return o;
 		}
 		catch (Exception e) {
@@ -133,65 +126,80 @@ public class ControlLoops extends IMCMessage {
 		}
 	}
 
-	public String getEnableStr() {
-		return getString("enable");
+	public String getOpStr() {
+		return getString("op");
 	}
 
-	public short getEnableVal() {
-		return (short) getInteger("enable");
+	public short getOpVal() {
+		return (short) getInteger("op");
 	}
 
 	/**
-	 *  @param enable Enable (enumerated)
+	 *  @param op Operation (enumerated)
 	 */
-	public ControlLoops setEnable(ENABLE enable) {
-		values.put("enable", enable.value());
+	public ReportControl setOp(OP op) {
+		values.put("op", op.value());
 		return this;
 	}
 
 	/**
-	 *  @param enable Enable (as a String)
+	 *  @param op Operation (as a String)
 	 */
-	public ControlLoops setEnableStr(String enable) {
-		setValue("enable", enable);
+	public ReportControl setOpStr(String op) {
+		setValue("op", op);
 		return this;
 	}
 
 	/**
-	 *  @param enable Enable (integer value)
+	 *  @param op Operation (integer value)
 	 */
-	public ControlLoops setEnableVal(short enable) {
-		setValue("enable", enable);
+	public ReportControl setOpVal(short op) {
+		setValue("op", op);
 		return this;
 	}
 
 	/**
-	 *  @return Control Loop Mask (bitfield) - uint32_t
+	 *  @return Communication Interface (bitfield) - uint8_t
 	 */
-	public long getMask() {
-		return getLong("mask");
+	public short getCommInterface() {
+		return (short) getInteger("comm_interface");
 	}
 
 	/**
-	 *  @param mask Control Loop Mask (bitfield)
+	 *  @param comm_interface Communication Interface (bitfield)
 	 */
-	public ControlLoops setMask(long mask) {
-		values.put("mask", mask);
+	public ReportControl setCommInterface(short comm_interface) {
+		values.put("comm_interface", comm_interface);
 		return this;
 	}
 
 	/**
-	 *  @return Scope Time Reference - uint32_t
+	 *  @return Period (s) - uint16_t
 	 */
-	public long getScopeRef() {
-		return getLong("scope_ref");
+	public int getPeriod() {
+		return getInteger("period");
 	}
 
 	/**
-	 *  @param scope_ref Scope Time Reference
+	 *  @param period Period (s)
 	 */
-	public ControlLoops setScopeRef(long scope_ref) {
-		values.put("scope_ref", scope_ref);
+	public ReportControl setPeriod(int period) {
+		values.put("period", period);
+		return this;
+	}
+
+	/**
+	 *  @return Destination System - plaintext
+	 */
+	public String getSysDst() {
+		return getString("sys_dst");
+	}
+
+	/**
+	 *  @param sys_dst Destination System
+	 */
+	public ReportControl setSysDst(String sys_dst) {
+		values.put("sys_dst", sys_dst);
 		return this;
 	}
 

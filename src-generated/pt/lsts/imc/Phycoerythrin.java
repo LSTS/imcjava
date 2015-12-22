@@ -30,20 +30,19 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Receive Signal Strength Information (153)<br/>
- *  Measure of the RSSI by a networking device.<br/>
- *  Indicates the gain or loss in the signal strength due to the transmission and reception equipment and the transmission medium and distance.<br/>
+ *  IMC Message Phycoerythrin (292)<br/>
+ *  Phycoerythrin measurement.<br/>
  */
 
-public class RSSI extends IMCMessage {
+public class Phycoerythrin extends IMCMessage {
 
-	public static final int ID_STATIC = 153;
+	public static final int ID_STATIC = 292;
 
-	public RSSI() {
+	public Phycoerythrin() {
 		super(ID_STATIC);
 	}
 
-	public RSSI(IMCMessage msg) {
+	public Phycoerythrin(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +52,20 @@ public class RSSI extends IMCMessage {
 		}
 	}
 
-	public RSSI(IMCDefinition defs) {
+	public Phycoerythrin(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static RSSI create(Object... values) {
-		RSSI m = new RSSI();
+	public static Phycoerythrin create(Object... values) {
+		Phycoerythrin m = new Phycoerythrin();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static RSSI clone(IMCMessage msg) throws Exception {
+	public static Phycoerythrin clone(IMCMessage msg) throws Exception {
 
-		RSSI m = new RSSI();
+		Phycoerythrin m = new Phycoerythrin();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,22 +80,22 @@ public class RSSI extends IMCMessage {
 		return m;
 	}
 
-	public RSSI(float value) {
+	public Phycoerythrin(float value) {
 		super(ID_STATIC);
 		setValue(value);
 	}
 
 	/**
-	 *  @return Value (%) - fp32_t
+	 *  @return Value (ppb) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (%)
+	 *  @param value Value (ppb)
 	 */
-	public RSSI setValue(double value) {
+	public Phycoerythrin setValue(double value) {
 		values.put("value", value);
 		return this;
 	}

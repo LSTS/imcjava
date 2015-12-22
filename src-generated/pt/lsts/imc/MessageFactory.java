@@ -132,6 +132,10 @@ public class MessageFactory {
 				return new GroupMembershipState(defs);
 			case SystemGroup.ID_STATIC:
 				return new SystemGroup(defs);
+			case LinkLatency.ID_STATIC:
+				return new LinkLatency(defs);
+			case ExtendedRSSI.ID_STATIC:
+				return new ExtendedRSSI(defs);
 			case LblRange.ID_STATIC:
 				return new LblRange(defs);
 			case LblBeacon.ID_STATIC:
@@ -224,6 +228,14 @@ public class MessageFactory {
 				return new Turbidity(defs);
 			case Chlorophyll.ID_STATIC:
 				return new Chlorophyll(defs);
+			case Fluorescein.ID_STATIC:
+				return new Fluorescein(defs);
+			case Phycocyanin.ID_STATIC:
+				return new Phycocyanin(defs);
+			case Phycoerythrin.ID_STATIC:
+				return new Phycoerythrin(defs);
+			case GpsFixRtk.ID_STATIC:
+				return new GpsFixRtk(defs);
 			case CameraZoom.ID_STATIC:
 				return new CameraZoom(defs);
 			case SetThrusterActuation.ID_STATIC:
@@ -282,6 +294,8 @@ public class MessageFactory {
 				return new AlignmentState(defs);
 			case GroupStreamVelocity.ID_STATIC:
 				return new GroupStreamVelocity(defs);
+			case Airflow.ID_STATIC:
+				return new Airflow(defs);
 			case DesiredHeading.ID_STATIC:
 				return new DesiredHeading(defs);
 			case DesiredZ.ID_STATIC:
@@ -310,6 +324,8 @@ public class MessageFactory {
 				return new ControlParcel(defs);
 			case Brake.ID_STATIC:
 				return new Brake(defs);
+			case DesiredLinearState.ID_STATIC:
+				return new DesiredLinearState(defs);
 			case Goto.ID_STATIC:
 				return new Goto(defs);
 			case PopUp.ID_STATIC:
@@ -382,6 +398,8 @@ public class MessageFactory {
 				return new Formation(defs);
 			case Launch.ID_STATIC:
 				return new Launch(defs);
+			case Drop.ID_STATIC:
+				return new Drop(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
@@ -408,6 +426,8 @@ public class MessageFactory {
 				return new AutopilotMode(defs);
 			case FormationState.ID_STATIC:
 				return new FormationState(defs);
+			case ReportControl.ID_STATIC:
+				return new ReportControl(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
@@ -532,10 +552,6 @@ public class MessageFactory {
 				return new ParametersXml(defs);
 			case GetParametersXml.ID_STATIC:
 				return new GetParametersXml(defs);
-			case NecMsg.ID_STATIC:
-				return new NecMsg(defs);
-			case JsonObject.ID_STATIC:
-				return new JsonObject(defs);
 			default:
 				return new IMCMessage(defs);
 		}

@@ -39,6 +39,8 @@ public class Reference extends IMCMessage {
 	public static final short FLAG_SPEED = 0x02;
 	public static final short FLAG_Z = 0x04;
 	public static final short FLAG_RADIUS = 0x08;
+	public static final short FLAG_START_POINT = 0x10;
+	public static final short FLAG_DIRECT = 0x20;
 	public static final short FLAG_MANDONE = 0x80;
 
 	public static final int ID_STATIC = 479;

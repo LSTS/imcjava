@@ -30,18 +30,36 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message JSON Object (2002)<br/>
+ *  IMC Message Extended Receive Signal Strength Information (183)<br/>
+ *  Measure of the RSSI by a networking device.<br/>
+ *  Indicates the gain or loss in the signal strenght due to the transmission<br/>
+ *  and reception equipment and the transmission medium and distance.<br/>
  */
 
-public class JsonObject extends IMCMessage {
+public class ExtendedRSSI extends IMCMessage {
 
-	public static final int ID_STATIC = 2002;
+	public enum UNITS {
+		DB(0),
+		PERCENTAGE(1);
 
-	public JsonObject() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		UNITS(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 183;
+
+	public ExtendedRSSI() {
 		super(ID_STATIC);
 	}
 
-	public JsonObject(IMCMessage msg) {
+	public ExtendedRSSI(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -51,20 +69,20 @@ public class JsonObject extends IMCMessage {
 		}
 	}
 
-	public JsonObject(IMCDefinition defs) {
+	public ExtendedRSSI(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static JsonObject create(Object... values) {
-		JsonObject m = new JsonObject();
+	public static ExtendedRSSI create(Object... values) {
+		ExtendedRSSI m = new ExtendedRSSI();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static JsonObject clone(IMCMessage msg) throws Exception {
+	public static ExtendedRSSI clone(IMCMessage msg) throws Exception {
 
-		JsonObject m = new JsonObject();
+		ExtendedRSSI m = new ExtendedRSSI();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,24 +97,69 @@ public class JsonObject extends IMCMessage {
 		return m;
 	}
 
-	public JsonObject(String json) {
+	public ExtendedRSSI(float value, UNITS units) {
 		super(ID_STATIC);
-		if (json != null)
-			setJson(json);
+		setValue(value);
+		setUnits(units);
 	}
 
 	/**
-	 *  @return JSON Data - plaintext
+	 *  @return Value - fp32_t
 	 */
-	public String getJson() {
-		return getString("json");
+	public double getValue() {
+		return getDouble("value");
 	}
 
 	/**
-	 *  @param json JSON Data
+	 *  @param value Value
 	 */
-	public JsonObject setJson(String json) {
-		values.put("json", json);
+	public ExtendedRSSI setValue(double value) {
+		values.put("value", value);
+		return this;
+	}
+
+	/**
+	 *  @return RSSI Units (enumerated) - uint8_t
+	 */
+	public UNITS getUnits() {
+		try {
+			UNITS o = UNITS.valueOf(getMessageType().getFieldPossibleValues("units").get(getLong("units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getUnitsStr() {
+		return getString("units");
+	}
+
+	public short getUnitsVal() {
+		return (short) getInteger("units");
+	}
+
+	/**
+	 *  @param units RSSI Units (enumerated)
+	 */
+	public ExtendedRSSI setUnits(UNITS units) {
+		values.put("units", units.value());
+		return this;
+	}
+
+	/**
+	 *  @param units RSSI Units (as a String)
+	 */
+	public ExtendedRSSI setUnitsStr(String units) {
+		setValue("units", units);
+		return this;
+	}
+
+	/**
+	 *  @param units RSSI Units (integer value)
+	 */
+	public ExtendedRSSI setUnitsVal(short units) {
+		setValue("units", units);
 		return this;
 	}
 

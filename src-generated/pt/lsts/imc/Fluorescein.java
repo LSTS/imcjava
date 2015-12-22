@@ -30,20 +30,19 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Receive Signal Strength Information (153)<br/>
- *  Measure of the RSSI by a networking device.<br/>
- *  Indicates the gain or loss in the signal strength due to the transmission and reception equipment and the transmission medium and distance.<br/>
+ *  IMC Message Fluorescein (290)<br/>
+ *  Fluorescein measurement.<br/>
  */
 
-public class RSSI extends IMCMessage {
+public class Fluorescein extends IMCMessage {
 
-	public static final int ID_STATIC = 153;
+	public static final int ID_STATIC = 290;
 
-	public RSSI() {
+	public Fluorescein() {
 		super(ID_STATIC);
 	}
 
-	public RSSI(IMCMessage msg) {
+	public Fluorescein(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +52,20 @@ public class RSSI extends IMCMessage {
 		}
 	}
 
-	public RSSI(IMCDefinition defs) {
+	public Fluorescein(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static RSSI create(Object... values) {
-		RSSI m = new RSSI();
+	public static Fluorescein create(Object... values) {
+		Fluorescein m = new Fluorescein();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static RSSI clone(IMCMessage msg) throws Exception {
+	public static Fluorescein clone(IMCMessage msg) throws Exception {
 
-		RSSI m = new RSSI();
+		Fluorescein m = new Fluorescein();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,22 +80,22 @@ public class RSSI extends IMCMessage {
 		return m;
 	}
 
-	public RSSI(float value) {
+	public Fluorescein(float value) {
 		super(ID_STATIC);
 		setValue(value);
 	}
 
 	/**
-	 *  @return Value (%) - fp32_t
+	 *  @return Value (ppb) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (%)
+	 *  @param value Value (ppb)
 	 */
-	public RSSI setValue(double value) {
+	public Fluorescein setValue(double value) {
 		values.put("value", value);
 		return this;
 	}

@@ -30,20 +30,19 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Receive Signal Strength Information (153)<br/>
- *  Measure of the RSSI by a networking device.<br/>
- *  Indicates the gain or loss in the signal strength due to the transmission and reception equipment and the transmission medium and distance.<br/>
+ *  IMC Message Link Latency (182)<br/>
+ *  Communications latency between two systems.<br/>
  */
 
-public class RSSI extends IMCMessage {
+public class LinkLatency extends IMCMessage {
 
-	public static final int ID_STATIC = 153;
+	public static final int ID_STATIC = 182;
 
-	public RSSI() {
+	public LinkLatency() {
 		super(ID_STATIC);
 	}
 
-	public RSSI(IMCMessage msg) {
+	public LinkLatency(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +52,20 @@ public class RSSI extends IMCMessage {
 		}
 	}
 
-	public RSSI(IMCDefinition defs) {
+	public LinkLatency(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static RSSI create(Object... values) {
-		RSSI m = new RSSI();
+	public static LinkLatency create(Object... values) {
+		LinkLatency m = new LinkLatency();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static RSSI clone(IMCMessage msg) throws Exception {
+	public static LinkLatency clone(IMCMessage msg) throws Exception {
 
-		RSSI m = new RSSI();
+		LinkLatency m = new LinkLatency();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,23 +80,39 @@ public class RSSI extends IMCMessage {
 		return m;
 	}
 
-	public RSSI(float value) {
+	public LinkLatency(float value, int sys_src) {
 		super(ID_STATIC);
 		setValue(value);
+		setSysSrc(sys_src);
 	}
 
 	/**
-	 *  @return Value (%) - fp32_t
+	 *  @return Value (s) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (%)
+	 *  @param value Value (s)
 	 */
-	public RSSI setValue(double value) {
+	public LinkLatency setValue(double value) {
 		values.put("value", value);
+		return this;
+	}
+
+	/**
+	 *  @return Communications Source System ID - uint16_t
+	 */
+	public int getSysSrc() {
+		return getInteger("sys_src");
+	}
+
+	/**
+	 *  @param sys_src Communications Source System ID
+	 */
+	public LinkLatency setSysSrc(int sys_src) {
+		values.put("sys_src", sys_src);
 		return this;
 	}
 
