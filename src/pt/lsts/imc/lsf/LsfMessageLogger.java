@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2015, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2016, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -89,11 +89,11 @@ public class LsfMessageLogger {
     }
 
     public static String getLogDirSingleton() {
-        return instance.logPath;
+        return getInstance().logPath;
     }
     
     public static boolean changeLogSingleton() {
-        return instance.changeLog();
+        return getInstance().changeLog();
     }
 
     /**
