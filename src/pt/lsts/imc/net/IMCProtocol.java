@@ -238,10 +238,11 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 				System.out.println("[IMCProtocol] Discovery thread bound to port "
 					+ port + ".");
 
-			final Announce announce = buildAnnounce();
-			logMessage(announce);
 			long lastSent = System.currentTimeMillis();
 			while (true) {
+				Announce announce = buildAnnounce();
+				logMessage(announce);
+				
 				for (int p = 30100; p < 30105; p++) {
 					discovery.sendMessage("224.0.75.69", p, announce);
 					discovery.sendMessage("255.255.255.255", p, announce);
