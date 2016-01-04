@@ -30,6 +30,10 @@
  */
 package pt.lsts.imc;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -54,14 +58,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonObject.Member;
+import com.eclipsesource.json.JsonValue;
+
 import pt.lsts.neptus.messages.IMessage;
 import pt.lsts.neptus.messages.IMessageProtocol;
 import pt.lsts.neptus.messages.InvalidMessageException;
 import pt.lsts.neptus.messages.listener.MessageInfo;
-
-import com.eclipsesource.json.JsonArray;
-import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.JsonObject.Member;
 
 /**
  * This class holds a message structure, including header and payload.<br/>
@@ -1464,7 +1469,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	public String asJSON(boolean includeHeader) {		
 		return asJsonObject(includeHeader).toString();
 	}
-
+	
 	public String asXmlStripped(int tabAmount, boolean isInline) {
 		StringBuilder sb = new StringBuilder();
 		String tabs = "";
@@ -1849,7 +1854,39 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 		destination.position(offset);
 		return 0;
 	}
-
+		
+	/**
+	 * This method will copy this message to system clipboard (as XML)
+	 */
+	public void copyToClipoard() {
+		StringSelection stringSelection = new StringSelection(asXml(false));
+		Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+		clpbrd.setContents(stringSelection, null);
+	}
+	
+	/**
+	 * This method will try to get a message from the system clipboard
+	 * @return The message in the system clipboard. Both IMC-XML and JSON formats are accepted.
+	 * @throws Exception In case there is no valid message in the clipboard.
+	 */
+	public static IMCMessage pasteFromClipoard() throws Exception {
+		Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+		String txt = clpbrd.getData(DataFlavor.stringFlavor).toString();
+		
+		try {
+			if (txt.startsWith("<?xml"))
+				return IMCMessage.parseXml(txt);
+			
+			if (txt.startsWith("{"))
+				return IMCMessage.parseJson(txt);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		throw new Exception("Invalid clipboard contents");
+	}
+	
 	/**
 	 * @param messageInfo
 	 *            the messageInfo to set
@@ -1859,10 +1896,10 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	}
 
 	public static void main(String[] args) throws Exception {
-		EstimatedState state = new EstimatedState();
-		state.setX(10);
-
-		System.out.println(state.asMap(false));
+			EstimatedState state = new EstimatedState();
+			IMCUtil.fillWithRandomData(state);
+			System.out.println(state.asPrettyJSON(true));
+			System.out.println(IMCMessage.pasteFromClipoard());
 	}
 
 }
