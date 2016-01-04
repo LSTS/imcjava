@@ -61,7 +61,6 @@ import org.w3c.dom.NodeList;
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonObject.Member;
-import com.eclipsesource.json.JsonValue;
 
 import pt.lsts.neptus.messages.IMessage;
 import pt.lsts.neptus.messages.IMessageProtocol;
@@ -1894,12 +1893,4 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	public final void setMessageInfo(MessageInfo messageInfo) {
 		this.messageInfo = messageInfo;
 	}
-
-	public static void main(String[] args) throws Exception {
-			EstimatedState state = new EstimatedState();
-			IMCUtil.fillWithRandomData(state);
-			System.out.println(state.asPrettyJSON(true));
-			System.out.println(IMCMessage.pasteFromClipoard());
-	}
-
 }
