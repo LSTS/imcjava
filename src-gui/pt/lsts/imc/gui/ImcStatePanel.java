@@ -90,7 +90,7 @@ public class ImcStatePanel extends JPanel {
                 selectedMessage = messagesList.getSelectedValue().toString();
                 tabs.removeAll();
                 
-                LinkedHashMap<String, IMCMessage> msgs = new LinkedHashMap<>();
+                LinkedHashMap<String, IMCMessage> msgs = new LinkedHashMap<String, IMCMessage>();
                 
                 for (IMCMessage m : ImcStatePanel.this.state.get(selectedMessage, IMCMessage[].class))
                 	msgs.put(ImcStatePanel.this.state.getEntityName(m.getSrcEnt()), m);
