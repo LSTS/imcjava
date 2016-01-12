@@ -36,6 +36,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
@@ -49,6 +50,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToggleButton;
 import javax.swing.JViewport;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -70,27 +72,37 @@ public class ImcStatePanel extends JPanel {
     protected IMCMessage lastMsg = null;
     protected Timer timer = null;
     protected StateListModel stateListModel = null;
+    private String selectedMessage = null;
     
     public ImcStatePanel(ImcSystemState state) {
         this.state = state;
         setLayout(new BorderLayout());
         stateListModel = new StateListModel(state);
         messagesList = new JList<String>(stateListModel);
+        messagesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
         add(new JScrollPane(messagesList), BorderLayout.WEST);
+        
         messagesList.addListSelectionListener(new ListSelectionListener() {
             
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                String msgName = messagesList.getSelectedValue().toString();
+                selectedMessage = messagesList.getSelectedValue().toString();
                 tabs.removeAll();
-                IMCMessage[] msgs = ImcStatePanel.this.state.get(msgName, IMCMessage[].class);
-                for (IMCMessage m: msgs) {
-                    JLabel html = new JLabel(IMCUtil.getAsHtml(m));
+                
+                LinkedHashMap<String, IMCMessage> msgs = new LinkedHashMap<>();
+                
+                for (IMCMessage m : ImcStatePanel.this.state.get(selectedMessage, IMCMessage[].class))
+                	msgs.put(ImcStatePanel.this.state.getEntityName(m.getSrcEnt()), m);
+                
+                for (Entry<String, IMCMessage> m: msgs.entrySet()) {
+                    JLabel html = new JLabel(IMCUtil.getAsHtml(m.getValue()));
                     html.setHorizontalAlignment(JLabel.CENTER);
                     html.setBackground(Color.white);
                     html.setOpaque(true);
-                    tabs.add(ImcStatePanel.this.state.getEntityName(m.getSrcEnt()), new JScrollPane(html));            
+                    tabs.add(m.getKey(), new JScrollPane(html));            
                 }
+                
             }
         });
         
@@ -222,8 +234,10 @@ public class ImcStatePanel extends JPanel {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if (refreshList()) {
+                	String previouslySelected = selectedMessage;
+                	if (refreshList()) {
                         fireContentsChanged(this, 0, messages.size()-1);
+                        messagesList.setSelectedValue(previouslySelected, false);
                     }
                 }
             }, 500, 500);
