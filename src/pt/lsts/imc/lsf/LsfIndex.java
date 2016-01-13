@@ -100,6 +100,10 @@ public class LsfIndex {
 	protected int HEADER_SIZE = 12;
 	protected int ENTRY_SIZE = 14;
 	protected int OFFSET_OF_TIME = 0, OFFSET_OF_MGID = 4, OFFSET_OF_POS = 6;
+	
+	// cache indexes for first and last occurrence of messages
+	private LinkedHashMap<Integer, Integer> firstMessagesOfType = new LinkedHashMap<Integer, Integer>();
+	private LinkedHashMap<Integer, Integer> lastMessagesOfType = new LinkedHashMap<Integer, Integer>();
 
 	/*
 	 * [Header]: 12 bytes 0 - 'I' 1 - 'D' 2 - 'X' 3 - '1' 4 - start timestamp
@@ -631,12 +635,19 @@ public class LsfIndex {
 		}
 		return null;
 	}
+	
 
 	public int getFirstMessageOfType(int type) {
+		if (firstMessagesOfType.containsKey(type))
+			return firstMessagesOfType.get(type);
+		
 		for (int i = 0; i < numMessages; i++) {
-			if (typeOf(i) == type)
+			if (typeOf(i) == type) {
+				firstMessagesOfType.put(type, i);
 				return i;
+			}
 		}
+		firstMessagesOfType.put(type, -1);
 		return -1;
 	}
 
@@ -646,10 +657,16 @@ public class LsfIndex {
 	}
 
 	public int getLastMessageOfType(int type) {
+		if (lastMessagesOfType.containsKey(type))
+			return lastMessagesOfType.get(type);
+		
 		for (int i = numMessages - 1; i >= 0; i--) {
-			if (typeOf(i) == type)
+			if (typeOf(i) == type) {
+				lastMessagesOfType.put(type, i);
 				return i;
+			}
 		}
+		lastMessagesOfType.put(type, -1);
 		return -1;
 	}
 
@@ -727,11 +744,18 @@ public class LsfIndex {
 		return ret;
 	}
 
-	public int getPreviousMessageOfType(int type, int startIndex) {
-		if (startIndex == -1)
-			return getLastMessageOfType(type);
+	public int getPreviousMessageOfType(String type, int lastIndex) {
+		int mgid = defs.getMessageId(type);
+		return getPreviousMessageOfType(mgid, lastIndex);		
+	}
+	
+	public int getPreviousMessageOfType(int type, int lastIndex) {
+		if (lastIndex == -1)
+			return -1;
 
-		for (int i = startIndex - 1; i >= 0; i--) {
+		lastIndex = Math.min(getNumberOfMessages(), lastIndex);
+		
+		for (int i = lastIndex - 1; i >= 0; i--) {
 			if (typeOf(i) == type)
 				return i;
 		}
@@ -1026,6 +1050,18 @@ public class LsfIndex {
 		}
 		return -1;
 	}
+	
+	public int getMessageBeforeOrAt(int type, int entity, int lastIndex, double timestamp) {
+		for (int i = getPreviousMessageOfType(type, lastIndex); i >= 0; i = getPreviousMessageOfType(type, i)) {
+			if (entity != 255 && entityOf(i) != entity)
+				continue;
+			if (timeOf(i) > timestamp)
+				continue;
+			return i;
+		}
+		return -1;
+	}
+
 
 	public double getStartTime() {
 		return timeOf(0);
@@ -1038,7 +1074,6 @@ public class LsfIndex {
 
 	public IMCMessage getMessageAtOrAfter(String type, String entity,
 			int startIndex, double timestamp) {
-
 		if (entity != null) {
 			int entityId = getEntityId(entity);
 			return getMessageAtOrAfter(type, startIndex, entityId, timestamp);
@@ -1046,7 +1081,16 @@ public class LsfIndex {
 			return getMessageAtOrAfter(type, startIndex, timestamp);
 		}
 	}
-
+	
+	public IMCMessage getMessageBeforeOrAt(String type, String entity, int lastIndex, double timestamp) {
+		if (entity != null) {
+			int entityId = getEntityId(entity);
+			return getMessageBeforeOrAt(type, entityId, lastIndex, timestamp);
+		} else {
+			return getMessageBeforeOrAt(type, 0xFF, lastIndex, timestamp);
+		}
+	}
+	
 	protected LinkedHashMap<Integer, IndexCache> latestRetrievals = new LinkedHashMap<Integer, LsfIndex.IndexCache>();
 
 	class IndexCache implements Comparable<IndexCache> {
@@ -1135,6 +1179,11 @@ public class LsfIndex {
 		}
 	}
 
+	public IMCMessage getMessageBeforeOrAt(String type, int lastIndex,
+			double timestamp) {
+		return getMessageBeforeOrAt(type, lastIndex, 0xFF, timestamp);
+	}
+	
 	public IMCMessage getMessageAtOrAfter(String type, int startIndex,
 			double timestamp) {
 		return getMessageAtOrAfter(type, startIndex, 0xFF, timestamp);
@@ -1152,6 +1201,15 @@ public class LsfIndex {
 		}
 		return null;
 	}
+	
+	public IMCMessage getMessageBeforeOrAt(String type, int entityId, int lastIndex, double timestamp) {
+		int mgid = defs.getMessageId(type);
+		int idx = getMessageBeforeOrAt(mgid, entityId, lastIndex, timestamp);
+		if (idx == -1)
+			return null;
+		else
+			return getMessage(idx);
+	}
 
 	/**
 	 * @return the lsfFile
@@ -1162,13 +1220,11 @@ public class LsfIndex {
 
 	public static void main(String[] args) throws Exception {
 		LsfIndex index = new LsfIndex(new File(
-				"/home/zp/Desktop/batida/Data.lsf"));
+				"/home/zp/Desktop/yonca/routing from Yonca/sea/2015-12-16-apdl-routing/logs/lauv-noptilus-3/20151216/122556_SK_NOP3/Data.lsf"));
 		System.out.printf("%f\n", index.getStartTime());
 		System.out.printf("%f\n", index.getEndTime());
 
-		for (double time = index.getStartTime(); time < index.getEndTime(); time += 0.1) {
-			int idx = index.getMsgIndexAt("EstimatedState", time);
-			System.out.println(index.timeOf(idx));
-		}
+		System.out.println(index.getMessageBeforeOrAt("EstimatedState", "Navigation", 200000, 1450269696.272066));
+
 	}
 }
