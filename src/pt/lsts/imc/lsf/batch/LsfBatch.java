@@ -60,6 +60,14 @@ public class LsfBatch {
 	private LsfBatch() {
 
 	}
+	
+	public LsfLog getLower() {
+		return logs.first();
+	}
+	
+	public IMCDefinition getImcDefs() {
+		return getLower().definitions;
+	}
 
 	public void addRecursively(File root) {
 
@@ -78,6 +86,7 @@ public class LsfBatch {
 		}
 	}
 
+
 	public UnserializedMessage next() {
 		LsfLog lower = logs.pollFirst();
 		if (lower == null)
@@ -88,6 +97,7 @@ public class LsfBatch {
 			lower.curMessage = UnserializedMessage.readMessage(lower.definitions, lower.input);
 			logs.add(lower);
 		} catch (EOFException e) {
+			System.out.println(lower.root+" ended.");
 			// expected...
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -169,8 +179,14 @@ public class LsfBatch {
 		for (Object pojo : consumers) {
 			ImcConsumer consumer = ImcConsumer.create(pojo);
 			Vector<Integer> types = new Vector<Integer>();
-			for (String type : consumer.getTypesToListen())
-				types.add(IMCDefinition.getInstance().getMessageId(type));
+			if (consumer.getTypesToListen() == null)
+				// listen to all messages
+				for (String name : IMCDefinition.getInstance().getMessageNames())
+					types.add(IMCDefinition.getInstance().getMessageId(name));
+			else
+				for (String type : consumer.getTypesToListen())
+					types.add(IMCDefinition.getInstance().getMessageId(type));
+			
 			pojos.put(consumer, types);
 		}
 
