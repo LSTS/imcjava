@@ -1181,7 +1181,7 @@ public class LsfIndex {
 
 	public IMCMessage getMessageBeforeOrAt(String type, int lastIndex,
 			double timestamp) {
-		return getMessageBeforeOrAt(type, lastIndex, 0xFF, timestamp);
+		return getMessageBeforeOrAt(type, 0xFF, lastIndex, timestamp);
 	}
 	
 	public IMCMessage getMessageAtOrAfter(String type, int startIndex,
@@ -1219,12 +1219,14 @@ public class LsfIndex {
 	}
 
 	public static void main(String[] args) throws Exception {
-		LsfIndex index = new LsfIndex(new File(
-				"/home/zp/Desktop/yonca/routing from Yonca/sea/2015-12-16-apdl-routing/logs/lauv-noptilus-3/20151216/122556_SK_NOP3/Data.lsf"));
-		System.out.printf("%f\n", index.getStartTime());
-		System.out.printf("%f\n", index.getEndTime());
-
-		System.out.println(index.getMessageBeforeOrAt("EstimatedState", "Navigation", 200000, 1450269696.272066));
-
+		LsfIndex index = new LsfIndex(new File(""));
+		double endTime = index.getEndTime();
+		double startTime = index.getStartTime();
+		double pivot = (endTime + startTime) / 2.0;
+		System.out.printf("%f --> %f --> %f\n", endTime, pivot, startTime);
+		
+		System.out.println(index.getMessageBeforeOrAt("EstimatedState", index.getNumberOfMessages(), pivot));
+		System.out.println(index.getMessageAtOrAfter("EstimatedState", 0, pivot));
+		
 	}
 }
