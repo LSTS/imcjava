@@ -40,7 +40,7 @@
   </target>
 	
   <target name="test" depends="compile-test, retrieve-samples">
-	<junit haltonerror="true" haltonfailure="true">
+	<junit fork="yes" haltonerror="true" haltonfailure="true">
   	   <classpath refid="classpath.test" />
   	   <formatter type="brief" usefile="false" />
   	   <test name="pt.lsts.imc.junit.ImcStringDefsTest" />
@@ -52,7 +52,7 @@
 	   <test name="pt.lsts.imc.junit.LsfIndexTest" />
     </junit>
   </target>
-	
+
   <target name="dist" depends="generated,libimc.jar" description="Updates IMC protocol from given repository and generates libimc.jar"/>
 
   <target name="scminfo" depends="gitinfo"/>
