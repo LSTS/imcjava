@@ -40,18 +40,18 @@
   </target>
 	
   <target name="test" depends="compile-test, retrieve-samples">
-    <junit>
-      <classpath refid="classpath.test" />
-      <formatter type="brief" usefile="false" />
-      <test name="pt.lsts.imc.junit.ImcStringDefsTest" />
-      <test name="pt.lsts.imc.junit.MessageCreationTest" />
-      <test name="pt.lsts.imc.junit.SerializationTest" />
-      <test name="pt.lsts.imc.junit.ImcSynchTest" />
-      <test name="pt.lsts.imc.junit.ImcFragmentsTest" />
-      <test name="pt.lsts.imc.junit.PlanUtilitiesTest" />
+	<junit haltonerror="true" haltonfailure="true">
+  	   <classpath refid="classpath.test" />
+  	   <formatter type="brief" usefile="false" />
+  	   <test name="pt.lsts.imc.junit.ImcStringDefsTest" />
+  	   <test name="pt.lsts.imc.junit.MessageCreationTest" />
+  	   <test name="pt.lsts.imc.junit.SerializationTest" />
+  	   <test name="pt.lsts.imc.junit.ImcSynchTest" />
+  	   <test name="pt.lsts.imc.junit.ImcFragmentsTest" />
+  	   <test name="pt.lsts.imc.junit.PlanUtilitiesTest" />
     </junit>
   </target>
-
+	
   <target name="dist" depends="generated,libimc.jar" description="Updates IMC protocol from given repository and generates libimc.jar"/>
 
   <target name="scminfo" depends="gitinfo"/>
@@ -76,7 +76,7 @@
     <mkdir dir="build"/>
     <delete dir="build"/>
     <mkdir dir="build"/>
-    <copy todir="build">
+    <copy verbose="true" todir="build">
       <fileset dir="src" includes="**/*.xml"/>
       <fileset dir="src" includes="**/*.png"/>
     </copy>
@@ -89,8 +89,8 @@
   <target name="compile-all" depends="compile-merge, compile-gui, compile-sniffer, compile-teleop, compile-preview">
     <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
     </javac>
-    <copy todir="build">
-      <fileset dir="src" includes="**/*.xml"/>
+    <copy verbose="true" todir="build">
+      <fileset dir="src-generated" includes="**/*.xml"/>
       <fileset dir="src" includes="**/*.png"/>
     </copy>
   </target>
@@ -119,7 +119,7 @@
 
   <target name="compile-sniffer" depends="compile, compile-gui">
     <mkdir dir="build"/>
-    <copy todir="build">
+    <copy verbose="true" todir="build">
       <fileset dir="src-sniffer" includes="**/*.png"/>
     </copy>
     <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
@@ -165,19 +165,19 @@
   </target>
 
   <target name="copysrc" depends="compile">
-    <copy todir="build">
+    <copy verbose="true" todir="build">
       <fileset dir="src" includes="**/*.java"/>
     </copy>
   </target>
 
   <target name="copylicense" depends="compile">
-    <copy todir="build">
+    <copy verbose="true" todir="build">
       <fileset dir="." includes="COPYRIGHT.TXT"/>
     </copy>
   </target>
 
   <target name="copygenerated" depends="compile">
-    <copy todir="build">
+    <copy verbose="true" todir="build">
       <fileset dir="src-generated" includes="**/*.java"/>
       <fileset dir="src-generated" includes="xml/IMC.xml"/>
     </copy>
