@@ -34,7 +34,12 @@
     </javac>
   </target>
 
-  <target name="test" depends="compile-test">
+  <target name="retrieve-samples" >
+    <get src="http://lsts.github.io/imcjava/downloads/samples.zip" dest="."/>
+  	<unzip src="samples.zip" dest="samples"></unzip>
+  </target>
+	
+  <target name="test" depends="compile-test, retrieve-samples">
     <junit>
       <classpath refid="classpath.test" />
       <formatter type="brief" usefile="false" />
