@@ -53,6 +53,8 @@ import pt.lsts.imc.IMCMessageType;
 
 public class DefaultProtocolParser extends AbstractProtocolParser {
 
+	String specification = null;
+	
 	@Override
 	public ProtocolDefinition parseDefinitions(InputStream is) throws Exception {
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -173,6 +175,8 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 			String subType = attr.getAttributes().getNamedItem("abbrev").getTextContent();
 			messages.get(subType).setSuperType(messages.get(superType));
 		}
+		
+		specification = baos.toString("UTF-8");
 		
 		return this;
 	}
@@ -357,6 +361,13 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 		}
 
 		return desc;
+	}
+
+	/**
+	 * @return the specification
+	 */
+	public String getSpecification() {
+		return specification;
 	}
 
 	public static void main(String[] args) throws Exception {

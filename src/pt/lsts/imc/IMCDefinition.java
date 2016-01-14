@@ -85,6 +85,8 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	protected LinkedHashMap<String, String> globalEnumPrefixes = new LinkedHashMap<String, String>();
 	protected LinkedHashMap<String, Vector<String>> subTypes = new LinkedHashMap<String, Vector<String>>();
 	
+	protected String specification = null;
+	
 	/**
 	 * Create a new IMCDefinition, loading the definitions from <b>f</b>
 	 * 
@@ -183,10 +185,14 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	public final IMCMessageType getHeaderType() {
 		return headerType;
 	}
+	
+	
+	
 
 	protected void readDefs(InputStream is) throws Exception {
-		ProtocolDefinition def = new DefaultProtocolParser()
-				.parseDefinitions(is);
+		DefaultProtocolParser parser = new DefaultProtocolParser();
+		ProtocolDefinition def = parser.parseDefinitions(is);
+		specification = parser.getSpecification();
 		this.version = def.getVersion();
 		this.syncWord = def.getSyncWord();
 		this.swappedWord = (syncWord & 0xFF) << 8 | ((syncWord & 0xFF00) >> 8);
@@ -318,6 +324,13 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 */
 	public String getMd5String() {
 		return md5String;
+	}
+
+	/**
+	 * @return the specification
+	 */
+	public String getSpecification() {
+		return specification;
 	}
 
 	/**
@@ -1056,6 +1069,6 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(ImcStringDefs.getDefinitions());
+		System.out.println(IMCDefinition.getInstance().getSpecification());		
 	}
 }
