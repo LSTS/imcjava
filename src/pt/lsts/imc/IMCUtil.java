@@ -322,7 +322,7 @@ public class IMCUtil {
                     break;
                 case TYPE_MESSAGELIST:
                     Vector<IMCMessage> messages = new Vector<IMCMessage>();
-                    int numMsgs = rnd.nextInt(30);
+                    int numMsgs = rnd.nextInt(5);
                     subtype = msg.getMessageType().getFieldSubtype(field);
                     for (int i = 0; i < numMsgs; i++) {                        
                         if (subtype != null) {
