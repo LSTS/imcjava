@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 public class UIUtils {
 	static public void exceptionDialog(Component parent, Exception ex, String message, String title) {
@@ -58,5 +59,30 @@ public class UIUtils {
 				ex1.printStackTrace();
 			}
 		}
+	}
+	
+	public static FileFilter createFileFilter(final String description, final String[] extensions) {
+		return new FileFilter() {
+			
+			@Override
+			public String getDescription() {
+				return description;
+			}
+			
+			@Override
+			public boolean accept(File f) {
+				if (!f.canRead())
+					return false;
+				if (f.isDirectory())
+					return true;
+				
+				 String name = f.getName().toLowerCase();
+				 for (String extension : extensions)
+					 if (name.endsWith("."+extension.toLowerCase()))
+						 return true;
+				 
+				 return false;
+			}
+		};
 	}
 }

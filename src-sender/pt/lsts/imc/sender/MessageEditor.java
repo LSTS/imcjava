@@ -33,6 +33,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -47,6 +49,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import pt.lsts.imc.Abort;
 import pt.lsts.imc.Goto;
+import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.PlanControl;
 import pt.lsts.imc.net.UDPTransport;
@@ -97,6 +100,46 @@ public class MessageEditor extends JPanel {
 
 		add(scroll, BorderLayout.CENTER);
 
+		JButton addMsg = new JButton("Insert");
+
+		addMsg.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			
+				ArrayList<String> msgs = new ArrayList<String>();
+				msgs.addAll(IMCDefinition.getInstance().getConcreteMessages());
+				Collections.sort(msgs);
+				Object res = JOptionPane.showInputDialog(MessageEditor.this, "Select message to insert", "Insert message",
+						JOptionPane.QUESTION_MESSAGE, null, msgs.toArray(new String[0]), msgs.iterator().next());
+				
+				if (res == null)
+					return;
+				
+				IMCMessage msg = IMCDefinition.getInstance().create(res.toString());
+				
+				if (textArea.getText().trim().isEmpty()) {
+					setMessage(msg);	
+				}
+				else {
+					switch (mode) {
+					case JSON:
+						String text = msg.asJSON();
+						textArea.replaceSelection(text);
+						break;
+					case XML:
+						String txt = msg.asXml(true);
+						textArea.replaceSelection(txt);
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		});
+		addMsg.setToolTipText("Insert message with default values at current position");
+		top.add(addMsg);
+		
 		JButton validate = new JButton("Validate");
 
 		validate.addActionListener(new ActionListener() {
@@ -104,6 +147,7 @@ public class MessageEditor extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					validateMessage();
 					msg = getMessage();					
 				}
 				catch (Exception ex) {
@@ -116,18 +160,36 @@ public class MessageEditor extends JPanel {
 		});
 
 		top.add(validate);
-	}
+		
 
-	public IMCMessage getMessage() throws Exception {
+	}
+	
+	public void validateMessage() throws Exception {
 		switch (mode) {
 		case JSON:
-			this.msg = IMCMessage.parseJson(textArea.getText());
+			IMCMessage.parseJson(textArea.getText());
 			break;
 		case XML:
-			this.msg = IMCMessage.parseXml(textArea.getText());
+			IMCMessage.parseXml(textArea.getText());
 			break;
 		}
-		return this.msg;
+	}
+
+	public IMCMessage getMessage() {
+		try {
+			switch (mode) {
+			case JSON:
+				this.msg = IMCMessage.parseJson(textArea.getText());
+				break;
+			case XML:
+				this.msg = IMCMessage.parseXml(textArea.getText());
+				break;
+			}
+		}
+		catch (Exception e) {
+			
+		}
+		return this.msg;		
 	}
 
 	public void setMode(MODE mode) {
