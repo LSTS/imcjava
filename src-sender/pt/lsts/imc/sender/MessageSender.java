@@ -29,7 +29,9 @@
 package pt.lsts.imc.sender;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,13 +41,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.xml.sax.SAXParseException;
 
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.net.TcpTransport;
+import pt.lsts.imc.net.UDPTransport;
 
 /**
  * @author zp
@@ -55,12 +67,86 @@ public class MessageSender extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private MessageEditor editor = new MessageEditor();
-
+	private JTextField txtHostname;
+	private JFormattedTextField txtPort;
+	private JComboBox<String> comboTransport = new JComboBox<>(new String[] {"UDP", "TCP"});
+	
 	public MessageSender() {
 		setLayout(new BorderLayout());
 		add(editor, BorderLayout.CENTER);
+		add(bottomPanel(), BorderLayout.SOUTH);
 	}
-
+	
+	public JPanel bottomPanel() {
+		JPanel bottom = new JPanel(new FlowLayout());
+		bottom.add(comboTransport);
+		bottom.add(new JLabel("IP:"));
+		try {
+			txtHostname = new JTextField("127.0.0.1");
+			txtHostname.setColumns(20);
+			bottom.add(txtHostname);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		bottom.add(new JLabel("   port:"));
+		txtPort = new JFormattedTextField("0");
+		txtPort.setValue(6002);
+		txtPort.setColumns(5);	
+		bottom.add(txtPort);
+		
+		JButton send = new JButton("Send!");
+		send.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendMessage();
+			}
+		});
+		
+		bottom.add(send);
+		return bottom;		
+	}
+	
+	void sendMessage() {
+		int port;
+		String host;
+		IMCMessage msg;		
+		try {
+			port = Integer.parseInt(txtPort.getText());
+			if (txtHostname.getText().isEmpty())
+				throw new IllegalArgumentException("Please set hostname");
+			host = txtHostname.getText();
+			
+			editor.validateMessage();
+			msg = editor.getMessage();
+			
+			if (comboTransport.getSelectedItem().equals("UDP"))
+				sendViaUdp(msg, host, port);
+			else
+				sendViaTcp(msg, host, port);
+						
+		}
+		catch (SAXParseException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(MessageSender.this, "<html>XML error at line "+e.getLineNumber()+", column "+e.getColumnNumber()+": <ul><li>"+e.getMessage(), "Send message", JOptionPane.ERROR_MESSAGE);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(MessageSender.this, e.getClass().getSimpleName()+": "+e.getMessage(), "Send message", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	void sendViaUdp(IMCMessage message, String host, int port) throws Exception {
+		UDPTransport.sendMessage(message, host, port);
+	}
+	
+	void sendViaTcp(IMCMessage message, String host, int port) throws Exception {
+		TcpTransport.sendMessage(host, port, message, 10000);
+	}
+	
 	private void openFile(File f) throws Exception {
 
 		BufferedReader reader = new BufferedReader(new FileReader(f));

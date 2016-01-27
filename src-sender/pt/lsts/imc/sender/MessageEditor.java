@@ -160,8 +160,6 @@ public class MessageEditor extends JPanel {
 		});
 
 		top.add(validate);
-		
-
 	}
 	
 	public void validateMessage() throws Exception {

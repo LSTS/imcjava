@@ -95,6 +95,15 @@ public class TcpTransport {
 			}
 		});
 	}
+	
+	public static void sendMessage(final String host, final int port, final IMCMessage msg, final int timeoutMillis)
+			throws Exception {
+		Socket socket = new Socket(host, port);
+		socket.setSoTimeout(timeoutMillis);
+		IMCOutputStream ios = new IMCOutputStream(socket.getOutputStream());
+		msg.serialize(ios);
+		socket.close();
+	}
 
 	public void bind(int port) throws Exception {
 		bound = true;
