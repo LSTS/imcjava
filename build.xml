@@ -86,6 +86,10 @@
       <fileset dir="src" includes="**/*.xml"/>
       <fileset dir="src" includes="**/*.png"/>
     </copy>
+  	<copy verbose="true" todir="build">
+	  <fileset dir="src-generated" includes="xml/IMC.xml"/>
+  	</copy>
+  	    
     <javac encoding="UTF-8" srcdir="src;src-generated"  destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
     	<classpath refid="classpath.dependencies"/>
     </javac>
@@ -166,7 +170,7 @@
 
   <target name="compile-kraken" depends="compile">
     <mkdir dir="build"/>
-    <javac encoding="UTF-8" debug="true" srcdir="src-scripting" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/js.jar">
+  	<javac encoding="UTF-8" debug="true" srcdir="src-scripting" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/js.jar">
     </javac>
   </target>
 	
@@ -177,6 +181,7 @@
   </target>
 	
   <target name="msgsender" depends="compile-sender">
+  	
   	<jar destfile="dist/msgsender.jar" basedir="build" index="true">
 	  <manifest>
   		<attribute name="Main-Class" value="pt.lsts.imc.sender.MessageSender"/>

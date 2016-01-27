@@ -224,7 +224,7 @@ public class MessageSender extends JPanel {
 	}
 
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("Message Sender");
+		JFrame frame = new JFrame("IMC Message Sender");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 		MessageSender sender = new MessageSender();
@@ -234,6 +234,16 @@ public class MessageSender extends JPanel {
 		JMenu file = menubar.add(new JMenu("File"));
 		for (AbstractAction action : sender.fileActions()) {
 			file.add(action);
+		}
+		
+		if (args.length > 0) {
+			File f = new File(args[0]);
+			try {
+				sender.openFile(f);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		frame.setVisible(true);
 	}
