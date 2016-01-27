@@ -28,7 +28,6 @@
  */
 package pt.lsts.imc.process;
 
-import pt.lsts.imc.EulerAngles;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.lsf.batch.LsfBatch;
 import pt.lsts.imc.net.Consume;
