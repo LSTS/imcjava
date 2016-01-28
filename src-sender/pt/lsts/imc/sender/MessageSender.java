@@ -67,18 +67,20 @@ import pt.lsts.imc.net.UDPTransport;
  * @author zp
  *
  */
-public class MessageSender extends JPanel {
+public class MessageSender extends JPanel implements MessageDrawer.MessageSelectionListener {
 
 	private static final long serialVersionUID = 1L;
 	private MessageEditor editor = new MessageEditor();
 	private JTextField txtHostname;
 	private JFormattedTextField txtPort;
 	private JComboBox<String> comboTransport = new JComboBox<>(new String[] {"UDP", "TCP"});
+	private MessageDrawer drawer = new MessageDrawer();
 	
 	public MessageSender() {
 		setLayout(new BorderLayout());
 		add(editor, BorderLayout.CENTER);
 		add(bottomPanel(), BorderLayout.SOUTH);
+		drawer.loadMessages(new File("msg"));
 	}
 	
 	public JPanel bottomPanel() {
@@ -250,21 +252,53 @@ public class MessageSender extends JPanel {
 
 		return actions;
 	}
+	
+	@Override
+	public void messageSelected(String name, IMCMessage msg) {
+		editor.setMessage(msg);
+	}
+	
+	@Override
+	public void storeCurrentMessage() {
+		try {
+			editor.validateMessage();
+			IMCMessage msg = editor.getMessage();
+			String name = msg.getAbbrev();
+			int i = 0;
+			while (drawer.getMessages().containsKey(name)) {
+				i++;
+				name = msg.getAbbrev()+"."+i;
+			}
+			name = JOptionPane.showInputDialog(this, "Enter message name", name);
+			
+			if (name == null)
+				return;
+			drawer.addMessage(name, msg);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(MessageSender.this, e.getClass().getSimpleName()+": "+e.getMessage(), "Store message", JOptionPane.ERROR_MESSAGE);
+		}
+	}
 
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		JFrame frame = new JFrame("IMC Message Sender");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 		MessageSender sender = new MessageSender();
 		try {
 			frame.setIconImage(ImageIO.read(sender.getClass().getClassLoader().getResourceAsStream("images/bottle32.png")));	
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-
 		frame.getContentPane().add(sender);
 		JMenuBar menubar = new JMenuBar();
 		frame.setJMenuBar(menubar);
@@ -272,6 +306,9 @@ public class MessageSender extends JPanel {
 		for (AbstractAction action : sender.fileActions()) {
 			file.add(action);
 		}
+		
+		sender.drawer.addSelectionListener(sender);
+		menubar.add(sender.drawer.getMessagesMenu());
 		
 		if (args.length > 0) {
 			File f = new File(args[0]);
