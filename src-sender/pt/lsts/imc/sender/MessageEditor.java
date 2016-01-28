@@ -31,6 +31,7 @@ package pt.lsts.imc.sender;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -87,6 +88,7 @@ public class MessageEditor extends JPanel {
 		jsonScroll = new RTextScrollPane(jsonTextArea);
 		hexEditor = new JHexEditor(new byte[0]);
 		hexEditor.setEnabled(false);
+		hexEditor.setBackground(Color.white);
 		JPanel hexEditorPanel = new JPanel(new BorderLayout());
 		hexEditorPanel.add(hexEditor, BorderLayout.CENTER);
 

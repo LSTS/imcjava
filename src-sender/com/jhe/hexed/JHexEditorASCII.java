@@ -26,6 +26,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
 		addMouseListener(this);
 		addKeyListener(this);
 		addFocusListener(he);
+		setBackground(Color.white);
 	}
 
 	public Dimension getPreferredSize() {

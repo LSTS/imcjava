@@ -16,6 +16,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
@@ -52,29 +54,35 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
 		JPanel p1, p2, p3;
 		// center
 		p1 = new JPanel(new BorderLayout(1, 1));
+		p1.setBackground(Color.white);
+		p1.setBorder(BorderFactory.createLineBorder(Color.gray));
 		p1.add(new JHexEditorHEX(this), BorderLayout.CENTER);
 		p1.add(new Columns(), BorderLayout.NORTH);
 
 		// left
 		p2 = new JPanel(new BorderLayout(1, 1));
+		p2.setBackground(Color.white);
 		p2.add(new Rows(), BorderLayout.CENTER);
-		p2.add(new Box(), BorderLayout.NORTH);
+		p2.add(new Box(""), BorderLayout.NORTH);
 
 		// right
 		p3 = new JPanel(new BorderLayout(1, 1));
+		p3.setBackground(Color.white);
 		p3.add(sb, BorderLayout.EAST);
 		p3.add(new JHexEditorASCII(this), BorderLayout.CENTER);
-		p3.add(new Box(), BorderLayout.NORTH);
+		p3.add(new Box("ASCII"), BorderLayout.NORTH);
 
 		panel = new JPanel();
+		panel.setBackground(Color.white);
 		panel.setLayout(new BorderLayout(1, 1));
 		panel.add(p1, BorderLayout.CENTER);
 		panel.add(p2, BorderLayout.WEST);
 		panel.add(p3, BorderLayout.EAST);
+		
 
 		this.setLayout(new BorderLayout(1, 1));
 		this.add(panel, BorderLayout.CENTER);
-		
+		setBackground(Color.white);
 		revalidate();
 		repaint();
 	}
@@ -233,12 +241,14 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
 		}
 	}
 
-	private class Box extends JPanel {
-		/**
-		 * 
-		 */
+	private class Box extends JLabel {
 		private static final long serialVersionUID = -6124062720565016834L;
 
+		public Box(String text) {
+			super(text);
+			setHorizontalAlignment(JLabel.CENTER);
+		}
+		
 		public Dimension getPreferredSize() {
 			return getMinimumSize();
 		}
@@ -250,7 +260,6 @@ public class JHexEditor extends JPanel implements FocusListener, AdjustmentListe
 			d.setSize((fn.stringWidth(" ") + 1) + (border * 2) + 1, h + (border * 2) + 1);
 			return d;
 		}
-
 	}
 
 	private class Rows extends JPanel {
