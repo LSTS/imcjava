@@ -35,11 +35,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -84,8 +84,12 @@ public class MessageDrawer implements ActionListener {
 		menu.add(store);
 		menu.addSeparator();
 		
-		for (Entry<String, IMCMessage> m : messages.entrySet()) {
-			JMenuItem item = new JMenuItem(m.getKey());
+		ArrayList<String> msgNames = new ArrayList<String>();
+		msgNames.addAll(messages.keySet());
+		Collections.sort(msgNames);
+		
+		for (String msgName : msgNames) {
+			JMenuItem item = new JMenuItem(msgName);
 			item.addActionListener(this);
 			menu.add(item);
 		}		
@@ -126,10 +130,11 @@ public class MessageDrawer implements ActionListener {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(new File(folder, name+".json")));
 			writer.write(FormatUtils.formatJSON(msg.asJSON(true)));
 			writer.close();
-			messages.put(name, msg);
-			JMenuItem item = new JMenuItem(name);
-			item.addActionListener(this);
-			menu.add(item);
+			if (messages.put(name, msg) == null) {
+				JMenuItem item = new JMenuItem(name);
+				item.addActionListener(this);
+				menu.add(item);
+			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
