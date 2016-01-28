@@ -39,6 +39,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -57,6 +58,7 @@ import javax.swing.UIManager;
 
 import org.xml.sax.SAXParseException;
 
+import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.net.TcpTransport;
 import pt.lsts.imc.net.UDPTransport;
@@ -202,7 +204,7 @@ public class MessageSender extends JPanel {
 					}
 			}
 		};
-		actions.add(open);
+		
 
 		AbstractAction save = new AbstractAction("Save") {
 			@Override
@@ -220,7 +222,31 @@ public class MessageSender extends JPanel {
 
 			}
 		};
-		actions.add(save);
+		
+		
+		AbstractAction newAct = new AbstractAction("New") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<String> msgs = new ArrayList<String>();
+				msgs.addAll(IMCDefinition.getInstance().getConcreteMessages());
+				Collections.sort(msgs);
+				msgs.add(0, "(Blank)");
+				Object res = JOptionPane.showInputDialog(MessageSender.this, "Select a message template", "Create new message",
+						JOptionPane.QUESTION_MESSAGE, null, msgs.toArray(new String[0]), msgs.iterator().next());
+				
+				if (res == null)
+					return;
+				if (res.equals("(Blank"))
+					editor.setMessage(null);
+				else
+					editor.setMessage(IMCDefinition.getInstance().create(res.toString()));
+			}
+		};
+		
+		
+		actions.add(newAct);
+		actions.add(open);
+		actions.add(save);		
 
 		return actions;
 	}
