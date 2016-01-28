@@ -40,6 +40,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -52,6 +53,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import org.xml.sax.SAXParseException;
 
@@ -91,7 +93,7 @@ public class MessageSender extends JPanel {
 		}
 		
 		
-		bottom.add(new JLabel("   port:"));
+		bottom.add(new JLabel("   Port:"));
 		txtPort = new JFormattedTextField("0");
 		txtPort.setValue(6002);
 		txtPort.setColumns(5);	
@@ -228,6 +230,15 @@ public class MessageSender extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 		MessageSender sender = new MessageSender();
+		try {
+			frame.setIconImage(ImageIO.read(sender.getClass().getClassLoader().getResourceAsStream("images/bottle32.png")));	
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+
 		frame.getContentPane().add(sender);
 		JMenuBar menubar = new JMenuBar();
 		frame.setJMenuBar(menubar);

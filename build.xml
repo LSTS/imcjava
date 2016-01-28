@@ -175,7 +175,10 @@
   </target>
 	
   <target name="compile-sender" depends="compile">
-	<unjar src="lib/gson-2.5.jar" dest="build"/>
+      <copy verbose="true" todir="build">
+        <fileset dir="src-sender" includes="**/*.png"/>
+      </copy>
+    <unjar src="lib/gson-2.5.jar" dest="build"/>
   	<unjar src="lib/rsyntaxtextarea-2.5.8.jar" dest="build"/>
 	<javac encoding="UTF-8" srcdir="src-sender" destdir="build" includes="**/*.java" fork="false" classpathref="classpath.sender" />	
   </target>
