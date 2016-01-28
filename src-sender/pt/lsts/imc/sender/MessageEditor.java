@@ -30,9 +30,11 @@ package pt.lsts.imc.sender;
 
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -47,10 +49,13 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
+import com.jhe.hexed.JHexEditor;
+
 import pt.lsts.imc.Abort;
 import pt.lsts.imc.Goto;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.IMCOutputStream;
 import pt.lsts.imc.PlanControl;
 import pt.lsts.imc.net.UDPTransport;
 
@@ -58,26 +63,46 @@ public class MessageEditor extends JPanel {
 
 	private static final long serialVersionUID = -449856037981913932L;
 
-	public enum MODE {JSON, XML}
+	public enum MODE {JSON, XML, HEX}
 
 	private IMCMessage msg; 
 	private MODE mode;
 	private JToggleButton xmlToggle = new JToggleButton("XML");
 	private JToggleButton jsonToggle = new JToggleButton("JSON");
-	RSyntaxTextArea textArea;
+	private JToggleButton hexToggle = new JToggleButton("HEX");
+	private JButton addMsg = new JButton("Insert");
+
+	private JPanel centerPanel = new JPanel(new CardLayout());
+	private RSyntaxTextArea xmlTextArea, jsonTextArea;
+	private RTextScrollPane xmlScroll, jsonScroll;
+	private JHexEditor hexEditor;
 
 	public MessageEditor() {
 		setLayout(new BorderLayout());
-		textArea = new RSyntaxTextArea();
-		RTextScrollPane scroll = new RTextScrollPane(textArea);
+		xmlTextArea = new RSyntaxTextArea();
+		jsonTextArea = new RSyntaxTextArea();
+		jsonTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JSON);
+		xmlTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
+		xmlScroll = new RTextScrollPane(xmlTextArea);
+		jsonScroll = new RTextScrollPane(jsonTextArea);
+		hexEditor = new JHexEditor(new byte[0]);
+		hexEditor.setEnabled(false);
+		JPanel hexEditorPanel = new JPanel(new BorderLayout());
+		hexEditorPanel.add(hexEditor, BorderLayout.CENTER);
+
 		ButtonGroup bgGroup = new ButtonGroup();
 		bgGroup.add(xmlToggle);
 		bgGroup.add(jsonToggle);
-		setMode(MODE.JSON);
+		bgGroup.add(hexToggle);
+
 		JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		top.add(xmlToggle);
 		top.add(jsonToggle);
+		top.add(hexToggle);
 		add(top, BorderLayout.NORTH);
+
+		setMode(MODE.XML);
+
 
 		ActionListener toggleListener = new ActionListener() {
 			@Override
@@ -90,56 +115,66 @@ public class MessageEditor extends JPanel {
 
 				if (jsonToggle.isSelected())
 					setMode(MODE.JSON);
-				else
+				if (xmlToggle.isSelected())
 					setMode(MODE.XML);
+				if (hexToggle.isSelected())
+					setMode(MODE.HEX);
 			}
 		};
 
 		jsonToggle.addActionListener(toggleListener);
 		xmlToggle.addActionListener(toggleListener);
+		hexToggle.addActionListener(toggleListener);
+		
+		centerPanel.add(xmlScroll, "xml");
+		centerPanel.add(jsonScroll, "json");
+		centerPanel.add(hexEditorPanel, "hex");
 
-		add(scroll, BorderLayout.CENTER);
-
-		JButton addMsg = new JButton("Insert");
+		add(centerPanel, BorderLayout.CENTER);
 
 		addMsg.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
+
 				ArrayList<String> msgs = new ArrayList<String>();
 				msgs.addAll(IMCDefinition.getInstance().getConcreteMessages());
 				Collections.sort(msgs);
 				Object res = JOptionPane.showInputDialog(MessageEditor.this, "Select message to insert", "Insert message",
 						JOptionPane.QUESTION_MESSAGE, null, msgs.toArray(new String[0]), msgs.iterator().next());
-				
+
 				if (res == null)
 					return;
-				
+
 				IMCMessage msg = IMCDefinition.getInstance().create(res.toString());
-				
-				if (textArea.getText().trim().isEmpty()) {
-					setMessage(msg);	
-				}
-				else {
-					switch (mode) {
-					case JSON:
+
+				switch (mode) {
+				case JSON:
+					if (jsonTextArea.getText().trim().isEmpty())
+						setMessage(msg);	
+					else {
 						String text = msg.asJSON();
-						textArea.replaceSelection(text);
-						break;
-					case XML:
-						String txt = msg.asXml(true);
-						textArea.replaceSelection(txt);
-						break;
-					default:
-						break;
+						jsonTextArea.replaceSelection(text);
 					}
+					break;
+				case XML:
+					if (xmlTextArea.getText().trim().isEmpty())
+						setMessage(msg);
+					else {
+						String txt = msg.asXml(true);
+						xmlTextArea.replaceSelection(txt);
+					}
+					break;
+				case HEX:
+					break;
+				default:
+					break;
 				}
 			}
 		});
 		addMsg.setToolTipText("Insert message with default values at current position");
 		top.add(addMsg);
-		
+
 		JButton validate = new JButton("Validate");
 
 		validate.addActionListener(new ActionListener() {
@@ -161,14 +196,16 @@ public class MessageEditor extends JPanel {
 
 		top.add(validate);
 	}
-	
+
 	public void validateMessage() throws Exception {
 		switch (mode) {
 		case JSON:
-			IMCMessage.parseJson(textArea.getText());
+			IMCMessage.parseJson(jsonTextArea.getText());
 			break;
 		case XML:
-			IMCMessage.parseXml(textArea.getText());
+			IMCMessage.parseXml(xmlTextArea.getText());
+			break;
+		default:
 			break;
 		}
 	}
@@ -177,15 +214,22 @@ public class MessageEditor extends JPanel {
 		try {
 			switch (mode) {
 			case JSON:
-				this.msg = IMCMessage.parseJson(textArea.getText());
+				if (jsonTextArea.getText().trim().isEmpty())
+					return null;
+				
+				this.msg = IMCMessage.parseJson(jsonTextArea.getText());
 				break;
 			case XML:
-				this.msg = IMCMessage.parseXml(textArea.getText());
+				if (xmlTextArea.getText().trim().isEmpty())
+					return null;
+				this.msg = IMCMessage.parseXml(xmlTextArea.getText());
+				break;
+			default:
 				break;
 			}
 		}
 		catch (Exception e) {
-			
+
 		}
 		return this.msg;		
 	}
@@ -194,54 +238,72 @@ public class MessageEditor extends JPanel {
 		this.mode = mode;
 		switch (mode) {
 		case JSON:
-			textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JSON);
+			((CardLayout)centerPanel.getLayout()).show(centerPanel, "json");
 			break;
 		case XML:
-			textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
+			((CardLayout)centerPanel.getLayout()).show(centerPanel, "xml");
 			break;
+		case HEX:
+			((CardLayout)centerPanel.getLayout()).show(centerPanel, "hex");
+			break;
+		default:
+			break;	
 		}
 
 		jsonToggle.setSelected(mode == MODE.JSON);
 		xmlToggle.setSelected(mode == MODE.XML);
+		hexToggle.setSelected(mode == MODE.HEX);
+		addMsg.setEnabled(mode != MODE.HEX);
+
 		setMessage(msg);
 	}
 
 	public void setMessage(IMCMessage msg) {
 		if (msg == null) {
-			textArea.setText("");
-			return;
+			jsonTextArea.setText("");
+			xmlTextArea.setText("");
+			hexEditor.setBytes(new byte[0]);			
 		}
-		switch (mode) {
-		case JSON:
+		else {
 			try {
-				textArea.setText(FormatUtils.formatJSON(msg.asJSON()));
+				jsonTextArea.setText(FormatUtils.formatJSON(msg.asJSON()));
 			}
 			catch(Exception e) {
 				e.printStackTrace();
-				textArea.setText("");
+				jsonTextArea.setText("");
 			}
-			break;
-		case XML:
+		
 			try {
-				textArea.setText(FormatUtils.formatXML(msg.asXml(false)));
+				xmlTextArea.setText(FormatUtils.formatXML(msg.asXml(false)));
 			}
 			catch(Exception e) {
-				textArea.setText("");
+				e.printStackTrace();
+				xmlTextArea.setText("");
 			}
-			break;
+			try {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				IMCOutputStream ios = new IMCOutputStream(baos);
+				ios.writeMessage(msg);
+				hexEditor.setBytes(baos.toByteArray());				
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+				hexEditor.setBytes(new byte[0]);
+			}
 		}
 	}
-	
-	public static void main(String[] args) throws Exception  {
-		UDPTransport.sendMessage(new Abort(), "127.0.0.1", 6002);
-		JFrame frm = new JFrame("Test MessageEditor");
-		MessageEditor editor = new MessageEditor();
-		PlanControl pc = new PlanControl();
-		pc.setArg(new Goto());
-		editor.setMessage(pc);
-		frm.getContentPane().add(editor);
-		frm.setSize(800, 600);
-		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frm.setVisible(true);
+
+		public static void main(String[] args) throws Exception  {
+			UDPTransport.sendMessage(new Abort(), "127.0.0.1", 6002);
+			JFrame frm = new JFrame("Test MessageEditor");
+			MessageEditor editor = new MessageEditor();
+			PlanControl pc = new PlanControl();
+			pc.setInfo("teste");
+			pc.setArg(new Goto());
+			editor.setMessage(pc);
+			frm.getContentPane().add(editor);
+			frm.setSize(800, 600);
+			frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frm.setVisible(true);
+		}
 	}
-}
