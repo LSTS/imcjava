@@ -37,6 +37,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -60,6 +63,7 @@ import org.xml.sax.SAXParseException;
 
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.IMCOutputStream;
 import pt.lsts.imc.net.TcpTransport;
 import pt.lsts.imc.net.UDPTransport;
 
@@ -73,7 +77,7 @@ public class MessageSender extends JPanel implements MessageDrawer.MessageSelect
 	private MessageEditor editor = new MessageEditor();
 	private JTextField txtHostname;
 	private JFormattedTextField txtPort;
-	private JComboBox<String> comboTransport = new JComboBox<>(new String[] {"UDP", "TCP"});
+	private JComboBox<String> comboTransport = new JComboBox<>(new String[] {"UDP", "TCP", "HTTP"});
 	private MessageDrawer drawer = new MessageDrawer();
 	
 	public MessageSender() {
@@ -129,11 +133,19 @@ public class MessageSender extends JPanel implements MessageDrawer.MessageSelect
 			editor.validateMessage();
 			msg = editor.getMessage();
 			
-			if (comboTransport.getSelectedItem().equals("UDP"))
-				sendViaUdp(msg, host, port);
-			else
+			switch (comboTransport.getSelectedItem().toString()) {
+			case "TCP":
 				sendViaTcp(msg, host, port);
-						
+				break;
+			case "UDP":
+				sendViaUdp(msg, host, port);
+				break;
+			case "HTTP":
+				sendViaHttp(msg, host, port);
+				break;
+			default:
+				break;
+			}
 		}
 		catch (SAXParseException e) {
 			e.printStackTrace();
@@ -143,6 +155,24 @@ public class MessageSender extends JPanel implements MessageDrawer.MessageSelect
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(MessageSender.this, e.getClass().getSimpleName()+": "+e.getMessage(), "Send message", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	void sendViaHttp(IMCMessage message, String host, int port) throws Exception {
+		URL url = new URL("http://"+host+":"+port+"/dune/messages/imc/");
+		System.out.println(url.toString());
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		
+		conn.setDoOutput(true);
+		
+		IMCOutputStream ios = new IMCOutputStream(conn.getOutputStream());
+		message.serialize(ios);
+		conn.getOutputStream().flush();
+		conn.getOutputStream().close();
+		
+		int responseCode = conn.getResponseCode();
+		if (responseCode != 200)
+			throw new Exception("Bad response code: "+responseCode);
 	}
 	
 	void sendViaUdp(IMCMessage message, String host, int port) throws Exception {
