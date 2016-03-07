@@ -171,7 +171,7 @@ public class DataStore {
 			Thread.sleep(15);
 		}
 
-		System.out.println("Polling all data splitted in 1000B messages...");
+		System.out.println("Polling all data split into 1000B messages...");
 		while (true) {
 			try {
 				HistoricData data = store.pollData(0, 1000);
