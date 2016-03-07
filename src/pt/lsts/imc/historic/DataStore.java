@@ -54,7 +54,7 @@ public class DataStore {
 	public final int HISTORIC_DATA_BASE_SIZE = 14 + IMCDefinition.getInstance().headerLength();
 	public static final int HISTORIC_SAMPLE_BASE_SIZE = 15;
 
-	private PriorityQueue<DataSample> history = new PriorityQueue<DataSample>(Collections.reverseOrder());
+	private PriorityQueue<DataSample> history = new PriorityQueue<DataSample>(11, Collections.reverseOrder());
 
 	public void addData(HistoricData data) {
 		for (DataSample sample : DataSample.parse(data))
