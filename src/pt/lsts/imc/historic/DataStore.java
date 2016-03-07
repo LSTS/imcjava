@@ -30,11 +30,19 @@ package pt.lsts.imc.historic;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.PriorityQueue;
+import java.util.Random;
 
+import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.HistoricData;
 import pt.lsts.imc.HistoricSample;
 import pt.lsts.imc.IMCDefinition;
+import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.IMCUtil;
+import pt.lsts.imc.LogBookEntry;
+import pt.lsts.imc.LogBookEntry.TYPE;
+import pt.lsts.imc.PlanSpecification;
 import pt.lsts.util.WGS84Utilities;
 
 /**
@@ -45,20 +53,25 @@ public class DataStore {
 
 	public final int HISTORIC_DATA_BASE_SIZE = 14 + IMCDefinition.getInstance().headerLength();
 	public static final int HISTORIC_SAMPLE_BASE_SIZE = 15;
-	
+
 	private PriorityQueue<DataSample> history = new PriorityQueue<DataSample>(Collections.reverseOrder());
-	
-	public void setData(HistoricData data) {
-		synchronized (history) {
-			history.addAll(DataSample.parse(data));	
-		}		
+
+	public void addData(HistoricData data) {
+		for (DataSample sample : DataSample.parse(data))
+			addSample(sample);		
 	}
-	
+
+	public void addSample(DataSample sample) {
+		synchronized (history) {
+			history.add(sample);	
+		}
+	}
+
 	public HistoricData pollData(int destination, int size) throws Exception {
-		
+
 		HistoricData ret = new HistoricData();
 		size -= HISTORIC_DATA_BASE_SIZE ;
-		
+
 		ArrayList<DataSample> samples = new ArrayList<DataSample>();
 		ArrayList<DataSample> rejected = new ArrayList<DataSample>();
 		synchronized (history) {
@@ -75,13 +88,19 @@ public class DataStore {
 			}
 			history.addAll(rejected);
 		}
-		
+
 		if (samples.isEmpty())
 			throw new Exception("No data to be transmitted");
 		
 		double baseLat = samples.get(0).getLatDegs();
 		double baseLon = samples.get(0).getLonDegs();
 		long baseTime = samples.get(0).getTimestampMillis();
+		
+		for (DataSample sample : samples) {
+			if (sample.getTimestampMillis() < baseTime)
+				baseTime = sample.getTimestampMillis();
+		}
+		
 		ret.setBaseLat(baseLat);
 		ret.setBaseLon(baseLon);
 		ret.setBaseTime(baseTime/1000.0);
@@ -102,9 +121,65 @@ public class DataStore {
 		ret.setData(msgList);
 		return ret;
 	}
-	
+
 	// unitary test
-	public static void main(String[] args) {
-		//TODO
+	public static void main(String[] args) throws Exception {
+		Random r = new Random(System.currentTimeMillis());
+		double lat = 41, lon = -8;
+		DataStore store = new DataStore();
+
+		System.out.println("Adding 500 random samples...");
+		for (int i = 0; i < 500; i++) {
+			int v = r.nextInt(5);
+			double newPos[] = WGS84Utilities.WGS84displace(lat, lon, 0, 1.34, 0.27, 0);
+			lat = newPos[0];
+			lon = newPos[1];
+			IMCMessage msg;
+			byte priority = 0;
+			switch (v) {
+			case 0:			
+				PlanSpecification spec = new PlanSpecification();
+				IMCUtil.fillWithRandomData(spec);
+				msg = spec;
+				priority = 100;
+				break;
+			case 1:
+				LogBookEntry logBook = new LogBookEntry();
+				logBook.setHtime(System.currentTimeMillis()/1000.0);
+				logBook.setContext("UnitaryTest");
+				logBook.setType(TYPE.INFO);
+				logBook.setText(new Date().toString());
+				msg = logBook;
+				priority = 50;
+				break;
+			default:
+				EstimatedState state = new EstimatedState();
+				IMCUtil.fillWithRandomData(state);
+				msg = state;
+				priority = -50;
+				break;
+			}
+			DataSample sample = new DataSample();
+			sample.setLatDegs(lat);
+			sample.setLonDegs(lon);
+			sample.setPriority(priority);
+			sample.setSource(28);
+			sample.setzMeters(0);
+			sample.setSample(msg);
+			sample.setTimestampMillis(System.currentTimeMillis());
+			store.addSample(sample);
+			Thread.sleep(15);
+		}
+
+		System.out.println("Polling all data splitted in 1000B messages...");
+		while (true) {
+			try {
+				HistoricData data = store.pollData(0, 1000);
+				System.out.println(data.getPayloadSize());
+			}
+			catch (Exception  e) {
+				break;
+			}
+		}
 	}
 }
