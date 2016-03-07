@@ -51,7 +51,7 @@ import pt.lsts.util.WGS84Utilities;
  */
 public class DataStore {
 
-	public final int HISTORIC_DATA_BASE_SIZE = 14 + IMCDefinition.getInstance().headerLength();
+	public final int HISTORIC_DATA_BASE_SIZE = 16 + IMCDefinition.getInstance().headerLength();
 	public static final int HISTORIC_SAMPLE_BASE_SIZE = 15;
 
 	private PriorityQueue<DataSample> history = new PriorityQueue<DataSample>(11, Collections.reverseOrder());
@@ -174,8 +174,8 @@ public class DataStore {
 		System.out.println("Polling all data split into 1000B messages...");
 		while (true) {
 			try {
-				HistoricData data = store.pollData(0, 1000);
-				System.out.println(data.getPayloadSize());
+				HistoricData data = store.pollData(0, 750);
+				System.out.println(data.getPayloadSize() + IMCDefinition.getInstance().headerLength()+2);
 			}
 			catch (Exception  e) {
 				break;
