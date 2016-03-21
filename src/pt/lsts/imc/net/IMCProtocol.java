@@ -86,6 +86,67 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     private IMessageLogger logger = null;
     private ExecutorService logExec = Executors.newSingleThreadExecutor();
 
+    public IMCProtocol(String localName, int localPort) {
+        this(localName, localPort, Integer.MIN_VALUE);
+    }
+
+    public IMCProtocol(String localName, int localPort, int localId) {
+        if (localId != Integer.MIN_VALUE)
+            this.localId = localId;
+        
+        IMCDefinition.getInstance();
+        this.bindPort = localPort;
+        comms = new UDPTransport(bindPort, 1);
+        tcp = new TcpTransport();
+        try {
+            tcp.bind(bindPort);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        comms.setImcId(localId);
+
+        this.localName = localName;
+        discoveryThread.start();
+
+        beater.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                ArrayList<IMCNode> peers = new ArrayList<IMCNode>();
+                peers.addAll(nodes.values());
+                for (IMCNode node : peers) {
+                    if (node.isPeer()) {
+                        IMCMessage hbeat = new Heartbeat();
+                        sendMessage(node.getSysName(), hbeat);
+                        logMessage(hbeat);
+                    }
+                }
+            }
+        }, 1000, 1000);
+
+        try {
+            while (discovery == null) {
+                Thread.sleep(500);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        addMessageListener(this);
+    }
+
+    /** Create a new IMCProtocol instance and bind it to given local port
+     * 
+     * @param bindPort
+     *            The port where to bind for listening to incoming messages (also advertised using
+     *            multicast) */
+    public IMCProtocol(int bindPort) {
+        this("imcj_" + System.currentTimeMillis() / 500, bindPort);
+    }
+
+    public IMCProtocol() {
+        this("imcj_" + System.currentTimeMillis() / 500, 8000 + (int) Math.random() * 1000);
+    }
+
     @Override
     public void onMessage(MessageInfo info, IMCMessage msg) {
         msg.setMessageInfo(info);
@@ -284,60 +345,6 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         boolean result = comms.sendMessage(node.getAddress(), node.getPort(), msg);
         logMessage(msg);
         return result;
-    }
-
-    public IMCProtocol(String localName, int localPort) {
-        IMCDefinition.getInstance();
-        this.bindPort = localPort;
-        comms = new UDPTransport(bindPort, 1);
-        tcp = new TcpTransport();
-        try {
-            tcp.bind(bindPort);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        comms.setImcId(localId);
-
-        this.localName = localName;
-        discoveryThread.start();
-
-        beater.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                ArrayList<IMCNode> peers = new ArrayList<IMCNode>();
-                peers.addAll(nodes.values());
-                for (IMCNode node : peers) {
-                    if (node.isPeer()) {
-                        IMCMessage hbeat = new Heartbeat();
-                        sendMessage(node.getSysName(), hbeat);
-                        logMessage(hbeat);
-                    }
-                }
-            }
-        }, 1000, 1000);
-
-        try {
-            while (discovery == null) {
-                Thread.sleep(500);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        addMessageListener(this);
-    }
-
-    /** Create a new IMCProtocol instance and bind it to given local port
-     * 
-     * @param bindPort
-     *            The port where to bind for listening to incoming messages (also advertised using
-     *            multicast) */
-    public IMCProtocol(int bindPort) {
-        this("imcj_" + System.currentTimeMillis() / 500, bindPort);
-    }
-
-    public IMCProtocol() {
-        this("imcj_" + System.currentTimeMillis() / 500, 8000 + (int) Math.random() * 1000);
     }
 
     /** Send a message to all known (via received announces) systems.
