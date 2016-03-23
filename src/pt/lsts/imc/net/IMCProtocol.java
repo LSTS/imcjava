@@ -65,6 +65,7 @@ import pt.lsts.neptus.messages.listener.MessageListener;
 import pt.lsts.neptus.messages.listener.Periodic;
 import pt.lsts.neptus.messages.listener.PeriodicCallbacks;
 import pt.lsts.util.NetworkUtilities;
+import pt.lsts.util.WGS84Utilities;
 
 /** This class implements the IMC protocol allowing sending / receiving messages and also discovery
  * of IMC peers
@@ -90,6 +91,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     private final long initialTimeMillis = System.currentTimeMillis();
     private final long initialTimeNanos = System.nanoTime();
     
+    private EstimatedState estState = null;
 
     public IMCProtocol(String localName, int localPort) {
         this(localName, localPort, Integer.MIN_VALUE, (SYS_TYPE) null);
@@ -265,6 +267,14 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         announce.setSysName(localName);
         announce.setSrc(localId);
 
+        if (estState != null) {
+            EstimatedState es = estState;
+            double[] pos = WGS84Utilities.toLatLonDepth(es);
+            announce.setLat(Math.toRadians(pos[0]));
+            announce.setLon(Math.toRadians(pos[1]));
+            announce.setHeight(-pos[2]);
+        }
+        
         String services = "imcjava://0.0.0.0/uid/" + getUID() + "/;";
         services += "imc+info://0.0.0.0/version/" + IMCDefinition.getInstance().getVersion() + "/;";
 
@@ -378,8 +388,9 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         boolean sent = false;
         for (IMCNode nd : nodes.values()) {
             if (nd.address != null) {
-                msg.setValue("dst", nd.getImcId());
-                msg.setTimestamp(System.currentTimeMillis() / 1000.0);
+                fillUp(msg, nd.getSysName());
+//                msg.setValue("dst", nd.getImcId());
+//                msg.setTimestamp(System.currentTimeMillis() / 1000.0);
                 comms.sendMessage(nd.address, nd.port, msg);
                 logMessage(msg);
             }
@@ -398,8 +409,9 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         boolean sent = false;
         for (IMCNode nd : nodes.values()) {
             if (nd.address != null && nd.isPeer()) {
-                msg.setValue("dst", nd.getImcId());
-                msg.setTimestamp(System.currentTimeMillis() / 1000.0);
+                fillUp(msg, nd.getSysName());
+//                msg.setValue("dst", nd.getImcId());
+//                msg.setTimestamp(System.currentTimeMillis() / 1000.0);
                 comms.sendMessage(nd.address, nd.port, msg);
                 logMessage(msg);
             }
@@ -476,6 +488,10 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         msg.setValue("src", localId);
         msg.setTimestamp(System.currentTimeMillis() / 1000.0);
         msg.setValue("dst", IMCDefinition.getInstance().getResolver().resolve(dst));
+        
+        if (msg instanceof EstimatedState) {
+            estState = (EstimatedState) msg;
+        }
     }
 
     private LinkedHashMap<Object, ImcConsumer> pojoSubscribers = new LinkedHashMap<Object, ImcConsumer>();
