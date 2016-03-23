@@ -79,6 +79,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     protected LinkedHashMap<String, ImcSystemState> sysStates = new LinkedHashMap<String, ImcSystemState>();
     protected String localName = "imcj_" + System.currentTimeMillis() / 500;
     protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
+    protected SYS_TYPE sysType = SYS_TYPE.CCU;
     private HashSet<String> services = new HashSet<String>();
     private boolean quiet = false;
     private String autoConnect = null;
@@ -87,12 +88,19 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     private ExecutorService logExec = Executors.newSingleThreadExecutor();
 
     public IMCProtocol(String localName, int localPort) {
-        this(localName, localPort, Integer.MIN_VALUE);
+        this(localName, localPort, Integer.MIN_VALUE, (SYS_TYPE) null);
     }
 
     public IMCProtocol(String localName, int localPort, int localId) {
+        this(localName, localPort, localId, (SYS_TYPE) null);
+    }
+
+    public IMCProtocol(String localName, int localPort, int localId, SYS_TYPE sysType) {
         if (localId != Integer.MIN_VALUE)
             this.localId = localId;
+        
+        if (sysType != null)
+            this.sysType = sysType;
         
         IMCDefinition.getInstance();
         this.bindPort = localPort;
@@ -234,6 +242,10 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     public int getLocalId() {
         return localId;
     }
+    
+    public SYS_TYPE getSysType() {
+        return sysType;
+    }
 
     public void addService(String service) {
         services.add(service);
@@ -241,7 +253,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 
     private Announce buildAnnounce() {
         Announce announce = new Announce();
-        announce.setSysType(SYS_TYPE.CCU);
+        announce.setSysType(sysType);
         announce.setSysName(localName);
         announce.setSrc(localId);
 
