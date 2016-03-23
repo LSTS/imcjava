@@ -86,6 +86,10 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     private Timer beater = new Timer();
     private IMessageLogger logger = null;
     private ExecutorService logExec = Executors.newSingleThreadExecutor();
+    
+    private final long initialTimeMillis = System.currentTimeMillis();
+    private final long initialTimeNanos = System.nanoTime();
+    
 
     public IMCProtocol(String localName, int localPort) {
         this(localName, localPort, Integer.MIN_VALUE, (SYS_TYPE) null);
@@ -251,13 +255,18 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         services.add(service);
     }
 
-    private Announce buildAnnounce() {
+    private String getUID() {
+        return ""+(initialTimeMillis * 1000000 + (initialTimeNanos % 1000000));
+    }
+
+    protected Announce buildAnnounce() {
         Announce announce = new Announce();
         announce.setSysType(sysType);
         announce.setSysName(localName);
         announce.setSrc(localId);
 
-        String services = "";
+        String services = "imcjava://0.0.0.0/uid/" + getUID() + "/;";
+        services += "imc+info://0.0.0.0/version/" + IMCDefinition.getInstance().getVersion() + "/;";
 
         for (String itf : NetworkUtilities.getNetworkInterfaces()) {
             services += "imc+udp://" + itf + ":" + bindPort + "/;";
