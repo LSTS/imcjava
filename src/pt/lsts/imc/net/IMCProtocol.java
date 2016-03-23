@@ -278,7 +278,10 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         String services = "imcjava://0.0.0.0/uid/" + getUID() + "/;";
         services += "imc+info://0.0.0.0/version/" + IMCDefinition.getInstance().getVersion() + "/;";
 
-        for (String itf : NetworkUtilities.getNetworkInterfaces()) {
+        Collection<String> netInt = NetworkUtilities.getNetworkInterfaces(false);
+        if (netInt.isEmpty())
+            netInt = NetworkUtilities.getNetworkInterfaces(true);
+        for (String itf : netInt) {
             services += "imc+udp://" + itf + ":" + bindPort + "/;";
             services += "imc+tcp://" + itf + ":" + bindPort + "/;";
         }
