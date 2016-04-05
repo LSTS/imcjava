@@ -28,17 +28,22 @@
  */
 package pt.lsts.imc.historic;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.zip.GZIPOutputStream;
 
+import pt.lsts.imc.CompressedHistory;
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.HistoricData;
 import pt.lsts.imc.HistoricSample;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.IMCOutputStream;
 import pt.lsts.imc.IMCUtil;
 import pt.lsts.imc.LogBookEntry;
 import pt.lsts.imc.LogBookEntry.TYPE;
@@ -66,6 +71,99 @@ public class DataStore {
 			history.add(sample);	
 		}
 	}
+	
+	/**
+	 * Retrieve but do not remove from history a given number of samples
+	 * @param numberOfSamples The number of samples to retrieve
+	 * @return A list of samples with the desired size or all remaining samples (if less than desired number) 
+	 */
+	public ArrayList<DataSample> peakData(int numberOfSamples) {
+		
+		ArrayList<DataSample> samples = new ArrayList<DataSample>();
+		
+		synchronized (history) {
+			for (int i = 0; !history.isEmpty() && i < numberOfSamples; i++)
+				samples.add(history.poll());
+			history.addAll(samples);
+		}
+		
+		return samples;
+	}
+	
+	/**
+	 * Poll a given number of samples
+	 * @param numberOfSamples The number of samples to retrieve
+	 * @return A list of samples with the desired size or all remaining samples (if less than desired number) 
+	 */
+	public ArrayList<DataSample> pollData(int numberOfSamples) throws Exception  {
+		
+		ArrayList<DataSample> samples = new ArrayList<DataSample>();
+		
+		synchronized (history) {
+			for (int i = 0; !history.isEmpty() && i < numberOfSamples; i++)
+				samples.add(history.poll());
+		}
+		
+		return samples;
+	}
+	
+	public HistoricSample translate(DataSample sample, double baseLat, double baseLon, long baseTime) {
+		HistoricSample s = new HistoricSample();
+		double[] offsets = WGS84Utilities.WGS84displacement(baseLat, baseLon, 0, sample.getLatDegs(),
+				sample.getLonDegs(), 0);
+		s.setX((short) offsets[0]);
+		s.setY((short) offsets[1]);
+		s.setZ((short) (sample.getzMeters() * 10));
+		s.setT((short) ((sample.getTimestampMillis() - baseTime) / 1000.0));
+		s.setSysId(sample.getSource());
+		s.setSample(sample.getSample());
+		return s;
+	}
+	
+	
+	public CompressedHistory pollCompressedData(int destination, int size) throws Exception {
+		
+		CompressedHistory ret = new CompressedHistory();
+		size -= HISTORIC_DATA_BASE_SIZE;
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		GZIPOutputStream zipOut = new GZIPOutputStream(baos, true);
+		IMCOutputStream ios = new IMCOutputStream(zipOut);
+		ArrayList<DataSample> samples = new ArrayList<DataSample>();
+		
+		DataSample pivot = history.peek();
+		if (pivot == null)
+			throw new Exception("No data to be transmitted");
+		
+		double baseLat = pivot.getLatDegs();
+		double baseLon = pivot.getLonDegs();
+		long baseTime = pivot.getTimestampMillis();
+		
+		ret.setBaseLat(baseLat);
+		ret.setBaseLon(baseLon);
+		ret.setBaseTime(baseTime/1000.0);
+		
+		int last_position = 0;
+		
+		synchronized (history) {
+			while (history.size() > 0) {
+				HistoricSample s = translate(history.peek(), baseLat, baseLon, baseTime);
+				ios.writeInlineMessage(s);
+				zipOut.flush();
+				baos.flush();
+				if (baos.size() <= size) {
+					last_position = baos.size();
+					samples.add(history.poll());
+				}
+				else
+					break;
+			}
+		}
+		if (samples.isEmpty())
+			throw new Exception("No data to be transmitted");
+		ret.setData(Arrays.copyOfRange(baos.toByteArray(), 0, last_position));
+		return ret;
+	}
 
 	public HistoricData pollData(int destination, int size) throws Exception {
 
@@ -91,43 +189,30 @@ public class DataStore {
 
 		if (samples.isEmpty())
 			throw new Exception("No data to be transmitted");
-		
+
 		double baseLat = samples.get(0).getLatDegs();
 		double baseLon = samples.get(0).getLonDegs();
 		long baseTime = samples.get(0).getTimestampMillis();
-		
-		for (DataSample sample : samples) {
-			if (sample.getTimestampMillis() < baseTime)
-				baseTime = sample.getTimestampMillis();
-		}
-		
+
 		ret.setBaseLat(baseLat);
 		ret.setBaseLon(baseLon);
 		ret.setBaseTime(baseTime/1000.0);
 
 		ArrayList<HistoricSample> msgList = new ArrayList<HistoricSample>();
 		for (DataSample sample : samples) {
-			HistoricSample s = new HistoricSample();
-			double[] offsets = WGS84Utilities.WGS84displacement(baseLat, baseLon, 0, sample.getLatDegs(), sample.getLonDegs(), 0);
-			s.setSysId(sample.getSource());
-			s.setPriority(sample.getPriority());
-			s.setT((int)((sample.getTimestampMillis()-baseTime)/1000));
-			s.setX((short)offsets[0]);
-			s.setY((short)offsets[1]);
-			s.setZ((short)(sample.getzMeters() * 10));
-			s.setSample(sample.getSample());
+			HistoricSample s = translate(sample, baseLat, baseLon, baseTime);
 			msgList.add(s);
 		}
 		ret.setData(msgList);
 		return ret;
 	}
 
-	// unitary test
+	// unit test
 	public static void main(String[] args) throws Exception {
 		Random r = new Random(System.currentTimeMillis());
 		double lat = 41, lon = -8;
-		DataStore store = new DataStore();
-
+		DataStore store1 = new DataStore();
+		DataStore store2 = new DataStore();
 		System.out.println("Adding 500 random samples...");
 		for (int i = 0; i < 500; i++) {
 			int v = r.nextInt(5);
@@ -167,15 +252,31 @@ public class DataStore {
 			sample.setzMeters(0);
 			sample.setSample(msg);
 			sample.setTimestampMillis(System.currentTimeMillis());
-			store.addSample(sample);
+			store1.addSample(sample);
+			store2.addSample(sample);
 			Thread.sleep(15);
 		}
+		int size = 1000;
 
-		System.out.println("Polling all data split into 1000B messages...");
+		System.out.println("Polling all data compressed and split into "+size+"B messages...");
+		int count = 0;
 		while (true) {
 			try {
-				HistoricData data = store.pollData(0, 750);
-				System.out.println(data.getPayloadSize() + IMCDefinition.getInstance().headerLength()+2);
+				CompressedHistory data = store1.pollCompressedData(0, size);
+				System.out.println(++count+" size: "+(data.getPayloadSize() + IMCDefinition.getInstance().headerLength()+2));
+				
+			}
+			catch (Exception  e) {
+				break;
+			}
+		}
+		
+		System.out.println("Polling all data split into "+size+"B messages...");
+		count = 0;
+		while (true) {
+			try {
+				HistoricData data = store2.pollData(0, size);
+				System.out.println(++count+" size: "+(data.getPayloadSize() + IMCDefinition.getInstance().headerLength()+2));
 			}
 			catch (Exception  e) {
 				break;

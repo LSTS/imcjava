@@ -30,18 +30,20 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Historic Data Sample (186)<br/>
+ *  IMC Message Compressed Historic Data Series (185)<br/>
+ *  This message holds a list of inline data samples produced by one or more vehicles in the past.<br/>
+ *  It is used to transfer data over disruption tolerant networks.<br/>
  */
 
-public class HistoricSample extends IMCMessage {
+public class CompressedHistory extends IMCMessage {
 
-	public static final int ID_STATIC = 186;
+	public static final int ID_STATIC = 185;
 
-	public HistoricSample() {
+	public CompressedHistory() {
 		super(ID_STATIC);
 	}
 
-	public HistoricSample(IMCMessage msg) {
+	public CompressedHistory(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -51,20 +53,20 @@ public class HistoricSample extends IMCMessage {
 		}
 	}
 
-	public HistoricSample(IMCDefinition defs) {
+	public CompressedHistory(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static HistoricSample create(Object... values) {
-		HistoricSample m = new HistoricSample();
+	public static CompressedHistory create(Object... values) {
+		CompressedHistory m = new CompressedHistory();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static HistoricSample clone(IMCMessage msg) throws Exception {
+	public static CompressedHistory clone(IMCMessage msg) throws Exception {
 
-		HistoricSample m = new HistoricSample();
+		CompressedHistory m = new CompressedHistory();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,124 +81,72 @@ public class HistoricSample extends IMCMessage {
 		return m;
 	}
 
-	public HistoricSample(int sys_id, byte priority, short x, short y, short z, short t, IMCMessage sample) {
+	public CompressedHistory(float base_lat, float base_lon, float base_time, byte[] data) {
 		super(ID_STATIC);
-		setSysId(sys_id);
-		setPriority(priority);
-		setX(x);
-		setY(y);
-		setZ(z);
-		setT(t);
-		if (sample != null)
-			setSample(sample);
+		setBaseLat(base_lat);
+		setBaseLon(base_lon);
+		setBaseTime(base_time);
+		if (data != null)
+			setData(data);
 	}
 
 	/**
-	 *  @return Original System Id - uint16_t
+	 *  @return Base Latitude (°) - fp32_t
 	 */
-	public int getSysId() {
-		return getInteger("sys_id");
+	public double getBaseLat() {
+		return getDouble("base_lat");
 	}
 
 	/**
-	 *  @param sys_id Original System Id
+	 *  @param base_lat Base Latitude (°)
 	 */
-	public HistoricSample setSysId(int sys_id) {
-		values.put("sys_id", sys_id);
+	public CompressedHistory setBaseLat(double base_lat) {
+		values.put("base_lat", base_lat);
 		return this;
 	}
 
 	/**
-	 *  @return Priority - int8_t
+	 *  @return Base Longitude (°) - fp32_t
 	 */
-	public byte getPriority() {
-		return (byte) getInteger("priority");
+	public double getBaseLon() {
+		return getDouble("base_lon");
 	}
 
 	/**
-	 *  @param priority Priority
+	 *  @param base_lon Base Longitude (°)
 	 */
-	public HistoricSample setPriority(byte priority) {
-		values.put("priority", priority);
+	public CompressedHistory setBaseLon(double base_lon) {
+		values.put("base_lon", base_lon);
 		return this;
 	}
 
 	/**
-	 *  @return X offset (m) - int16_t
+	 *  @return Base Timestamp (s) - fp32_t
 	 */
-	public short getX() {
-		return (short) getInteger("x");
+	public double getBaseTime() {
+		return getDouble("base_time");
 	}
 
 	/**
-	 *  @param x X offset (m)
+	 *  @param base_time Base Timestamp (s)
 	 */
-	public HistoricSample setX(short x) {
-		values.put("x", x);
+	public CompressedHistory setBaseTime(double base_time) {
+		values.put("base_time", base_time);
 		return this;
 	}
 
 	/**
-	 *  @return Y offset (m) - int16_t
+	 *  @return Data - rawdata
 	 */
-	public short getY() {
-		return (short) getInteger("y");
+	public byte[] getData() {
+		return getRawData("data");
 	}
 
 	/**
-	 *  @param y Y offset (m)
+	 *  @param data Data
 	 */
-	public HistoricSample setY(short y) {
-		values.put("y", y);
-		return this;
-	}
-
-	/**
-	 *  @return Z offset (dm) - int16_t
-	 */
-	public short getZ() {
-		return (short) getInteger("z");
-	}
-
-	/**
-	 *  @param z Z offset (dm)
-	 */
-	public HistoricSample setZ(short z) {
-		values.put("z", z);
-		return this;
-	}
-
-	/**
-	 *  @return Time offset (s) - int16_t
-	 */
-	public short getT() {
-		return (short) getInteger("t");
-	}
-
-	/**
-	 *  @param t Time offset (s)
-	 */
-	public HistoricSample setT(short t) {
-		values.put("t", t);
-		return this;
-	}
-
-	/**
-	 *  @return Data Sample - message
-	 */
-	public IMCMessage getSample() {
-		return getMessage("sample");
-	}
-
-	public <T extends IMCMessage> T getSample(Class<T> clazz) throws Exception {
-		return getMessage(clazz, "sample");
-	}
-
-	/**
-	 *  @param sample Data Sample
-	 */
-	public HistoricSample setSample(IMCMessage sample) {
-		values.put("sample", sample);
+	public CompressedHistory setData(byte[] data) {
+		values.put("data", data);
 		return this;
 	}
 
