@@ -136,6 +136,12 @@ public class MessageFactory {
 				return new LinkLatency(defs);
 			case ExtendedRSSI.ID_STATIC:
 				return new ExtendedRSSI(defs);
+			case HistoricData.ID_STATIC:
+				return new HistoricData(defs);
+			case CompressedHistory.ID_STATIC:
+				return new CompressedHistory(defs);
+			case HistoricSample.ID_STATIC:
+				return new HistoricSample(defs);
 			case LblRange.ID_STATIC:
 				return new LblRange(defs);
 			case LblBeacon.ID_STATIC:
