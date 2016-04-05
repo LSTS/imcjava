@@ -156,6 +156,8 @@ public class MessageFactory {
 				return new AcousticSystemsQuery(defs);
 			case AcousticSystems.ID_STATIC:
 				return new AcousticSystems(defs);
+			case AcousticLink.ID_STATIC:
+				return new AcousticLink(defs);
 			case Rpm.ID_STATIC:
 				return new Rpm(defs);
 			case Voltage.ID_STATIC:
@@ -406,6 +408,8 @@ public class MessageFactory {
 				return new Launch(defs);
 			case Drop.ID_STATIC:
 				return new Drop(defs);
+			case ScheduledGoto.ID_STATIC:
+				return new ScheduledGoto(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
