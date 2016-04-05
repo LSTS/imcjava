@@ -65,6 +65,7 @@ import pt.lsts.neptus.messages.listener.MessageListener;
 import pt.lsts.neptus.messages.listener.Periodic;
 import pt.lsts.neptus.messages.listener.PeriodicCallbacks;
 import pt.lsts.util.NetworkUtilities;
+import pt.lsts.util.WGS84Utilities;
 
 /** This class implements the IMC protocol allowing sending / receiving messages and also discovery
  * of IMC peers
@@ -79,12 +80,86 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     protected LinkedHashMap<String, ImcSystemState> sysStates = new LinkedHashMap<String, ImcSystemState>();
     protected String localName = "imcj_" + System.currentTimeMillis() / 500;
     protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
+    protected SYS_TYPE sysType = SYS_TYPE.CCU;
     private HashSet<String> services = new HashSet<String>();
     private boolean quiet = false;
     private String autoConnect = null;
     private Timer beater = new Timer();
     private IMessageLogger logger = null;
     private ExecutorService logExec = Executors.newSingleThreadExecutor();
+    
+    private final long initialTimeMillis = System.currentTimeMillis();
+    private final long initialTimeNanos = System.nanoTime();
+    
+    private EstimatedState estState = null;
+
+    public IMCProtocol(String localName, int localPort) {
+        this(localName, localPort, Integer.MIN_VALUE, (SYS_TYPE) null);
+    }
+
+    public IMCProtocol(String localName, int localPort, int localId) {
+        this(localName, localPort, localId, (SYS_TYPE) null);
+    }
+
+    public IMCProtocol(String localName, int localPort, int localId, SYS_TYPE sysType) {
+        if (localId != Integer.MIN_VALUE)
+            this.localId = localId;
+        
+        if (sysType != null)
+            this.sysType = sysType;
+        
+        IMCDefinition.getInstance();
+        this.bindPort = localPort;
+        comms = new UDPTransport(bindPort, 1);
+        tcp = new TcpTransport();
+        try {
+            tcp.bind(bindPort);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        comms.setImcId(localId);
+
+        this.localName = localName;
+        discoveryThread.start();
+
+        beater.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                ArrayList<IMCNode> peers = new ArrayList<IMCNode>();
+                peers.addAll(nodes.values());
+                for (IMCNode node : peers) {
+                    if (node.isPeer()) {
+                        IMCMessage hbeat = new Heartbeat();
+                        sendMessage(node.getSysName(), hbeat);
+                        logMessage(hbeat);
+                    }
+                }
+            }
+        }, 1000, 1000);
+
+        try {
+            while (discovery == null) {
+                Thread.sleep(500);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        addMessageListener(this);
+    }
+
+    /** Create a new IMCProtocol instance and bind it to given local port
+     * 
+     * @param bindPort
+     *            The port where to bind for listening to incoming messages (also advertised using
+     *            multicast) */
+    public IMCProtocol(int bindPort) {
+        this("imcj_" + System.currentTimeMillis() / 500, bindPort);
+    }
+
+    public IMCProtocol() {
+        this("imcj_" + System.currentTimeMillis() / 500, 8000 + (int) Math.random() * 1000);
+    }
 
     @Override
     public void onMessage(MessageInfo info, IMCMessage msg) {
@@ -173,20 +248,40 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     public int getLocalId() {
         return localId;
     }
+    
+    public SYS_TYPE getSysType() {
+        return sysType;
+    }
 
     public void addService(String service) {
         services.add(service);
     }
 
-    private Announce buildAnnounce() {
+    private String getUID() {
+        return ""+(initialTimeMillis * 1000000 + (initialTimeNanos % 1000000));
+    }
+
+    protected Announce buildAnnounce() {
         Announce announce = new Announce();
-        announce.setSysType(SYS_TYPE.CCU);
+        announce.setSysType(sysType);
         announce.setSysName(localName);
         announce.setSrc(localId);
 
-        String services = "";
+        if (estState != null) {
+            EstimatedState es = estState;
+            double[] pos = WGS84Utilities.toLatLonDepth(es);
+            announce.setLat(Math.toRadians(pos[0]));
+            announce.setLon(Math.toRadians(pos[1]));
+            announce.setHeight(-pos[2]);
+        }
+        
+        String services = "imcjava://0.0.0.0/uid/" + getUID() + "/;";
+        services += "imc+info://0.0.0.0/version/" + IMCDefinition.getInstance().getVersion() + "/;";
 
-        for (String itf : NetworkUtilities.getNetworkInterfaces()) {
+        Collection<String> netInt = NetworkUtilities.getNetworkInterfaces(false);
+        if (netInt.isEmpty())
+            netInt = NetworkUtilities.getNetworkInterfaces(true);
+        for (String itf : netInt) {
             services += "imc+udp://" + itf + ":" + bindPort + "/;";
             services += "imc+tcp://" + itf + ":" + bindPort + "/;";
         }
@@ -286,60 +381,6 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         return result;
     }
 
-    public IMCProtocol(String localName, int localPort) {
-        IMCDefinition.getInstance();
-        this.bindPort = localPort;
-        comms = new UDPTransport(bindPort, 1);
-        tcp = new TcpTransport();
-        try {
-            tcp.bind(bindPort);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        comms.setImcId(localId);
-
-        this.localName = localName;
-        discoveryThread.start();
-
-        beater.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                ArrayList<IMCNode> peers = new ArrayList<IMCNode>();
-                peers.addAll(nodes.values());
-                for (IMCNode node : peers) {
-                    if (node.isPeer()) {
-                        IMCMessage hbeat = new Heartbeat();
-                        sendMessage(node.getSysName(), hbeat);
-                        logMessage(hbeat);
-                    }
-                }
-            }
-        }, 1000, 1000);
-
-        try {
-            while (discovery == null) {
-                Thread.sleep(500);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        addMessageListener(this);
-    }
-
-    /** Create a new IMCProtocol instance and bind it to given local port
-     * 
-     * @param bindPort
-     *            The port where to bind for listening to incoming messages (also advertised using
-     *            multicast) */
-    public IMCProtocol(int bindPort) {
-        this("imcj_" + System.currentTimeMillis() / 500, bindPort);
-    }
-
-    public IMCProtocol() {
-        this("imcj_" + System.currentTimeMillis() / 500, 8000 + (int) Math.random() * 1000);
-    }
-
     /** Send a message to all known (via received announces) systems.
      * 
      * @param msg
@@ -350,8 +391,9 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         boolean sent = false;
         for (IMCNode nd : nodes.values()) {
             if (nd.address != null) {
-                msg.setValue("dst", nd.getImcId());
-                msg.setTimestamp(System.currentTimeMillis() / 1000.0);
+                fillUp(msg, nd.getSysName());
+//                msg.setValue("dst", nd.getImcId());
+//                msg.setTimestamp(System.currentTimeMillis() / 1000.0);
                 comms.sendMessage(nd.address, nd.port, msg);
                 logMessage(msg);
             }
@@ -370,8 +412,9 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         boolean sent = false;
         for (IMCNode nd : nodes.values()) {
             if (nd.address != null && nd.isPeer()) {
-                msg.setValue("dst", nd.getImcId());
-                msg.setTimestamp(System.currentTimeMillis() / 1000.0);
+                fillUp(msg, nd.getSysName());
+//                msg.setValue("dst", nd.getImcId());
+//                msg.setTimestamp(System.currentTimeMillis() / 1000.0);
                 comms.sendMessage(nd.address, nd.port, msg);
                 logMessage(msg);
             }
@@ -448,6 +491,10 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         msg.setValue("src", localId);
         msg.setTimestamp(System.currentTimeMillis() / 1000.0);
         msg.setValue("dst", IMCDefinition.getInstance().getResolver().resolve(dst));
+        
+        if (msg instanceof EstimatedState) {
+            estState = (EstimatedState) msg;
+        }
     }
 
     private LinkedHashMap<Object, ImcConsumer> pojoSubscribers = new LinkedHashMap<Object, ImcConsumer>();

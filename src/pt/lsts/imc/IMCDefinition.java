@@ -458,7 +458,18 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	public IMCMessage nextMessage(IMCInputStream input) throws IOException {
 		Header header = createHeader();
 		input.resetCrc();
-		long sync = input.readUnsignedShort();
+
+		// Let us try to check if the first byte could be the synch number
+		// This avoids desynchronization if we are reading a continuous stream with errors
+		long syncFirstByte = input.readUnsignedByte();
+		if (!(syncFirstByte == ((syncWord & 0xFF00) >> 8)
+		        || syncFirstByte == ((swappedWord & 0xFF00) >> 8))) {
+		    // If we are here probably this is not a synch word
+		    throw new IOException("Unrecognized Sync word: "
+                    + String.format("%02X", syncFirstByte) + "??");
+		}
+		
+		long sync = ((syncFirstByte & 0xFF) << 8) + input.readUnsignedByte(); // input.readUnsignedShort();
 		if (sync == syncWord)
 			input.setBigEndian(true);
 		else if (sync == swappedWord)
