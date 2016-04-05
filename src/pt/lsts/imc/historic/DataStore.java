@@ -28,13 +28,16 @@
  */
 package pt.lsts.imc.historic;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import pt.lsts.imc.CompressedHistory;
@@ -42,6 +45,7 @@ import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.HistoricData;
 import pt.lsts.imc.HistoricSample;
 import pt.lsts.imc.IMCDefinition;
+import pt.lsts.imc.IMCInputStream;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.IMCOutputStream;
 import pt.lsts.imc.IMCUtil;
@@ -64,6 +68,31 @@ public class DataStore {
 	public void addData(HistoricData data) {
 		for (DataSample sample : DataSample.parse(data))
 			addSample(sample);		
+	}
+	
+	public void addData(CompressedHistory data) throws Exception {
+		
+		HistoricData msg = new HistoricData();
+		msg.setBaseLat(data.getBaseLat());
+		msg.setBaseLon(data.getBaseLon());
+		msg.setBaseTime(data.getBaseTime());
+		IMCInputStream iis = new IMCInputStream(new GZIPInputStream(new ByteArrayInputStream(data.getData())), IMCDefinition.getInstance());
+		iis.setBigEndian(false);
+		ArrayList<HistoricSample> messages = new ArrayList<HistoricSample>();
+
+		while (iis.available() > 0) {
+			try {
+				HistoricSample sample = (HistoricSample) iis.readInlineMessage();				
+				messages.add(sample);
+			}
+			catch (EOFException e) {
+				break;
+			}
+		}
+		iis.close();
+		
+		msg.setData(messages);
+		addData(msg);		
 	}
 
 	public void addSample(DataSample sample) {
@@ -213,6 +242,7 @@ public class DataStore {
 		double lat = 41, lon = -8;
 		DataStore store1 = new DataStore();
 		DataStore store2 = new DataStore();
+		DataStore store3 = new DataStore();
 		System.out.println("Adding 500 random samples...");
 		for (int i = 0; i < 500; i++) {
 			int v = r.nextInt(5);
@@ -263,10 +293,11 @@ public class DataStore {
 		while (true) {
 			try {
 				CompressedHistory data = store1.pollCompressedData(0, size);
-				System.out.println(++count+" size: "+(data.getPayloadSize() + IMCDefinition.getInstance().headerLength()+2));
-				
+				store3.addData(data);
+				System.out.println(++count+" size: "+(data.getPayloadSize() + IMCDefinition.getInstance().headerLength()+2));				
 			}
 			catch (Exception  e) {
+				e.printStackTrace();
 				break;
 			}
 		}
@@ -275,7 +306,7 @@ public class DataStore {
 		count = 0;
 		while (true) {
 			try {
-				HistoricData data = store2.pollData(0, size);
+				HistoricData data = store3.pollData(0, size);
 				System.out.println(++count+" size: "+(data.getPayloadSize() + IMCDefinition.getInstance().headerLength()+2));
 			}
 			catch (Exception  e) {

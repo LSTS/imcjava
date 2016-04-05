@@ -290,9 +290,9 @@ public class IMCInputStream extends FilterInputStream implements DataInput {
 		return new String(data, "UTF-8");
 	}
 	
-	public IMCMessage readInlineMessage() throws IOException {
+	public IMCMessage readInlineMessage() throws Exception {
 		int type = readUnsignedShort();
-		IMCMessage msg = new IMCMessage(type);
+		IMCMessage msg = IMCDefinition.getInstance().newMessage(type);
 		defs.deserializeFields(msg, this);
 		return msg;
 	}
