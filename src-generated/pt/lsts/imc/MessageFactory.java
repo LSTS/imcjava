@@ -100,6 +100,14 @@ public class MessageFactory {
 				return new ReplayControl(defs);
 			case ClockControl.ID_STATIC:
 				return new ClockControl(defs);
+			case HistoricCTD.ID_STATIC:
+				return new HistoricCTD(defs);
+			case HistoricTelemetry.ID_STATIC:
+				return new HistoricTelemetry(defs);
+			case HistoricSonarData.ID_STATIC:
+				return new HistoricSonarData(defs);
+			case HistoricEvent.ID_STATIC:
+				return new HistoricEvent(defs);
 			case Heartbeat.ID_STATIC:
 				return new Heartbeat(defs);
 			case Announce.ID_STATIC:
@@ -142,6 +150,10 @@ public class MessageFactory {
 				return new CompressedHistory(defs);
 			case HistoricSample.ID_STATIC:
 				return new HistoricSample(defs);
+			case HistoricDataQuery.ID_STATIC:
+				return new HistoricDataQuery(defs);
+			case RemoteCommand.ID_STATIC:
+				return new RemoteCommand(defs);
 			case LblRange.ID_STATIC:
 				return new LblRange(defs);
 			case LblBeacon.ID_STATIC:
