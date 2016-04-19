@@ -52,6 +52,7 @@ import pt.lsts.imc.IMCUtil;
 import pt.lsts.imc.LogBookEntry;
 import pt.lsts.imc.LogBookEntry.TYPE;
 import pt.lsts.imc.PlanSpecification;
+import pt.lsts.imc.RemoteData;
 import pt.lsts.util.WGS84Utilities;
 
 /**
@@ -78,7 +79,7 @@ public class DataStore {
 		msg.setBaseTime(data.getBaseTime());
 		IMCInputStream iis = new IMCInputStream(new GZIPInputStream(new ByteArrayInputStream(data.getData())), IMCDefinition.getInstance());
 		iis.setBigEndian(false);
-		ArrayList<HistoricSample> messages = new ArrayList<HistoricSample>();
+		ArrayList<RemoteData> messages = new ArrayList<RemoteData>();
 
 		while (iis.available() > 0) {
 			try {
@@ -227,7 +228,7 @@ public class DataStore {
 		ret.setBaseLon(baseLon);
 		ret.setBaseTime(baseTime/1000.0);
 
-		ArrayList<HistoricSample> msgList = new ArrayList<HistoricSample>();
+		ArrayList<RemoteData> msgList = new ArrayList<RemoteData>();
 		for (DataSample sample : samples) {
 			HistoricSample s = translate(sample, baseLat, baseLon, baseTime);
 			msgList.add(s);

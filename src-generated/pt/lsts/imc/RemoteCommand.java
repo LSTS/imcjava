@@ -35,7 +35,8 @@ package pt.lsts.imc;
  *  resend it.<br/>
  */
 
-public class RemoteCommand extends IMCMessage {
+@SuppressWarnings("unchecked")
+public class RemoteCommand extends RemoteData {
 
 	public static final int ID_STATIC = 188;
 

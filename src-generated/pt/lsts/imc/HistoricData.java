@@ -81,7 +81,7 @@ public class HistoricData extends IMCMessage {
 		return m;
 	}
 
-	public HistoricData(float base_lat, float base_lon, float base_time, java.util.Collection<HistoricSample> data) {
+	public HistoricData(float base_lat, float base_lon, float base_time, java.util.Collection<RemoteData> data) {
 		super(ID_STATIC);
 		setBaseLat(base_lat);
 		setBaseLon(base_lon);
@@ -138,9 +138,9 @@ public class HistoricData extends IMCMessage {
 	/**
 	 *  @return Data - message-list
 	 */
-	public java.util.Vector<HistoricSample> getData() {
+	public java.util.Vector<RemoteData> getData() {
 		try {
-			return getMessageList("data", HistoricSample.class);
+			return getMessageList("data", RemoteData.class);
 		}
 		catch (Exception e) {
 			return null;
@@ -151,7 +151,7 @@ public class HistoricData extends IMCMessage {
 	/**
 	 *  @param data Data
 	 */
-	public HistoricData setData(java.util.Collection<HistoricSample> data) {
+	public HistoricData setData(java.util.Collection<RemoteData> data) {
 		values.put("data", data);
 		return this;
 	}

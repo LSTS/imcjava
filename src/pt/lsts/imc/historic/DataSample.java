@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import pt.lsts.imc.HistoricData;
 import pt.lsts.imc.HistoricSample;
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.RemoteCommand;
+import pt.lsts.imc.RemoteData;
 import pt.lsts.util.WGS84Utilities;
 
 /**
@@ -154,17 +156,23 @@ public class DataSample implements Comparable<DataSample> {
 	
 	public static ArrayList<DataSample> parse(HistoricData data) {
 		ArrayList<DataSample> ret = new ArrayList<DataSample>();
-		for (HistoricSample sample : data.getData()) {
-			DataSample s = new DataSample();
-			double[] pos = WGS84Utilities.WGS84displace(data.getBaseLat(), data.getBaseLon(), 0, sample.getX(), sample.getY(), 0);
-			s.source = sample.getSysId();
-			s.timestampMillis = (long)(data.getBaseTime() * 1000.0 + sample.getT() * 1000.0);
-			s.priority = sample.getPriority();
-			s.latDegs = pos[0];
-			s.lonDegs = pos[1];
-			s.zMeters = sample.getZ() / 10.0;
-			s.sample = sample.getSample();
-			ret.add(s);
+		for (RemoteData hdata : data.getData()) {
+			if (hdata instanceof RemoteCommand) {
+				// TODO
+			}
+			else if (hdata instanceof HistoricSample) {
+				HistoricSample sample = (HistoricSample) hdata;
+				DataSample s = new DataSample();
+				double[] pos = WGS84Utilities.WGS84displace(data.getBaseLat(), data.getBaseLon(), 0, sample.getX(), sample.getY(), 0);
+				s.source = sample.getSysId();
+				s.timestampMillis = (long)(data.getBaseTime() * 1000.0 + sample.getT() * 1000.0);
+				s.priority = sample.getPriority();
+				s.latDegs = pos[0];
+				s.lonDegs = pos[1];
+				s.zMeters = sample.getZ() / 10.0;
+				s.sample = sample.getSample();
+				ret.add(s);
+			}
 		}
 		return ret;
 	}

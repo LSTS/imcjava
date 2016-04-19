@@ -33,7 +33,8 @@ package pt.lsts.imc;
  *  IMC Message Historic Data Sample (186)<br/>
  */
 
-public class HistoricSample extends IMCMessage {
+@SuppressWarnings("unchecked")
+public class HistoricSample extends RemoteData {
 
 	public static final int ID_STATIC = 186;
 
