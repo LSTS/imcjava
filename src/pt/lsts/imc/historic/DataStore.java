@@ -94,7 +94,7 @@ public class DataStore {
 
 		while (iis.available() > 0) {
 			try {
-				HistoricSample sample = (HistoricSample) iis.readInlineMessage();				
+				RemoteData sample = (RemoteData) iis.readInlineMessage();				
 				messages.add(sample);
 			}
 			catch (EOFException e) {
@@ -109,7 +109,7 @@ public class DataStore {
 
 	public void addSample(DataSample sample) {
 		synchronized (history) {
-			history.add(sample);	
+			history.add(sample);
 		}
 	}
 
@@ -165,6 +165,31 @@ public class DataStore {
 		ret.setBaseTime(baseTime/1000.0);
 
 		int last_position = 0;
+		
+		synchronized (commands) {
+			if (commands.containsKey(destination)) {
+				while (!commands.get(destination).isEmpty()) {
+					RemoteCommand cmd = commands.get(destination).first();
+					
+					if (cmd.getTimeout() < System.currentTimeMillis() / 1000.0) {
+						commands.get(destination).pollFirst();
+						System.err.println("Remote command has expired and won't be sent:\n"+cmd);
+						continue;
+					}
+					
+					ios.writeInlineMessage(cmd);
+					zipOut.flush();
+					baos.flush();
+					if (baos.size() <= size) {
+						last_position = baos.size();
+						commands.get(destination).pollFirst();
+					}
+					else
+						break;
+				}
+			}
+		}
+		
 
 		synchronized (history) {
 			while (history.size() > 0) {
