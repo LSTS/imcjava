@@ -44,4 +44,20 @@ public abstract class RemoteData extends IMCMessage {
 		super(defs, type);
 	}
 
+	public static RemoteData clone(IMCMessage msg) throws Exception {
+		IMCMessage m = IMCDefinition.getInstance().create(msg.getAbbrev());
+		if (!RemoteData.class.isAssignableFrom(m.getClass()))
+			throw new Exception(m.getClass().getSimpleName()+" is not a subclass");
+
+		if(msg.definitions != m.definitions){
+			msg = msg.cloneMessage();
+			IMCUtil.updateMessage(msg, m.definitions);
+		}
+
+		m.getHeader().values.putAll(msg.getHeader().values);
+		m.values.putAll(msg.values);
+
+		return (RemoteData)m;
+	}
+
 }

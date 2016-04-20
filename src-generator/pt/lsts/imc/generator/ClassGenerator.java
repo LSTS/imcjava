@@ -434,7 +434,7 @@ public class ClassGenerator {
 				return "java.util.Collection<IMCMessage>";
 			} else {
 				return "java.util.Collection<" + type.getFieldSubtype(field)
-						+ ">";
+				+ ">";
 			}
 
 		}
@@ -744,17 +744,17 @@ public class ClassGenerator {
 				sb.append("\t\t\treturn null;\n");
 				sb.append("\t\t}\n");
 				sb.append("\t}\n\n");
-				
+
 				sb.append("\tpublic String get" + capitalizedField
 						+ "Str() {\n");
 				sb.append("\t\treturn getString(\"" + field + "\");\n");
 				sb.append("\t}\n\n");
-				
+
 				sb.append("\tpublic byte get" + capitalizedField
 						+ "Val() {\n");
 				sb.append("\t\treturn (byte) getInteger(\"" + field + "\");\n");
 				sb.append("\t}\n\n");
-				
+
 			} else {
 				sb.append("\tpublic byte get" + capitalizedField + "() {\n");
 				sb.append("\t\treturn (byte) getInteger(\"" + field + "\");\n");
@@ -777,17 +777,17 @@ public class ClassGenerator {
 				sb.append("\t\t\treturn null;\n");
 				sb.append("\t\t}\n");
 				sb.append("\t}\n\n");
-				
+
 				sb.append("\tpublic String get" + capitalizedField
 						+ "Str() {\n");
 				sb.append("\t\treturn getString(\"" + field + "\");\n");
 				sb.append("\t}\n\n");
-				
+
 				sb.append("\tpublic short get" + capitalizedField
 						+ "Val() {\n");
 				sb.append("\t\treturn (short) getInteger(\"" + field + "\");\n");
 				sb.append("\t}\n\n");
-				
+
 			} else {
 				sb.append("\tpublic short get" + capitalizedField + "() {\n");
 				sb.append("\t\treturn (short) getInteger(\"" + field + "\");\n");
@@ -810,17 +810,17 @@ public class ClassGenerator {
 				sb.append("\t\t\treturn null;\n");
 				sb.append("\t\t}\n");
 				sb.append("\t}\n\n");
-				
+
 				sb.append("\tpublic String get" + capitalizedField
 						+ "Str() {\n");
 				sb.append("\t\treturn getString(\"" + field + "\");\n");
 				sb.append("\t}\n\n");
-				
+
 				sb.append("\tpublic int get" + capitalizedField
 						+ "Val() {\n");
 				sb.append("\t\treturn getInteger(\"" + field + "\");\n");
 				sb.append("\t}\n\n");
-				
+
 			} else {
 				sb.append("\tpublic int get" + capitalizedField + "() {\n");
 				sb.append("\t\treturn getInteger(\"" + field + "\");\n");
@@ -1074,7 +1074,7 @@ public class ClassGenerator {
 
 		bw.write("/**\n");
 		bw.write(" *  IMC Message " + type.getFullName() + " (" + type.getId()
-				+ ")<br/>\n");
+		+ ")<br/>\n");
 
 		if (type.getMessageDescription() != null) {
 			String desc = DescriptionToHtml.descToHtml(type
@@ -1114,9 +1114,23 @@ public class ClassGenerator {
 			bw.write("\tpublic "
 					+ msgName
 					+ "(IMCDefinition defs, int type) {\n\t\tsuper(defs, type);\n\t}\n\n");
+
+
+			bw.write("\tpublic static "+msgName+" clone(IMCMessage msg) throws Exception {\n" +
+					"\t\tIMCMessage m = IMCDefinition.getInstance().create(msg.getAbbrev());\n" +
+					"\t\tif (!"+msgName+".class.isAssignableFrom(m.getClass()))\n"+
+					"\t\t\tthrow new Exception(m.getClass().getSimpleName()+\" is not a subclass\");\n\n" +
+					"\t\tif(msg.definitions != m.definitions){\n" +
+					"\t\t\tmsg = msg.cloneMessage();\n" +
+					"\t\t\tIMCUtil.updateMessage(msg, m.definitions);\n"+
+					"\t\t}\n\n"+
+					"\t\tm.getHeader().values.putAll(msg.getHeader().values);\n"+
+					"\t\tm.values.putAll(msg.values);\n\n"+
+					"\t\treturn ("+msgName+")m;\n"+
+					"\t}\n\n");
 		} else {
 			bw.write("\tpublic static final int ID_STATIC = " + type.getId()
-					+ ";\n\n");
+			+ ";\n\n");
 			bw.write("\tpublic " + msgName
 					+ "() {\n\t\tsuper(ID_STATIC);\n\t}\n\n");
 			bw.write("\tpublic " + msgName + "(IMCMessage msg) {\n");
@@ -1207,14 +1221,14 @@ public class ClassGenerator {
 		}
 
 		try {
-			
+
 			IMCDefinition defs = new IMCDefinition(
 					GenerationUtils.getImcXml(repo));
 			// copy IMC.xml to generated source folder
 			Path source = FileSystems.getDefault().getPath(repo.getAbsolutePath(), "IMC.xml");
 			Path target = FileSystems.getDefault().getPath("./src-generated", "xml", "IMC.xml");
 			Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
-			
+
 			Map<String, Integer> addrs = GenerationUtils.getImcAddresses(repo);
 
 			File output = getOutputDir(new File("src-generated"), "pt.lsts.imc");
