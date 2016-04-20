@@ -1083,7 +1083,6 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 				ret.add((T) clazz.getMethod("clone", IMCMessage.class).invoke(
 						null, m));
 		}
-		System.out.println(ret.size());
 		return ret;
 	}
 

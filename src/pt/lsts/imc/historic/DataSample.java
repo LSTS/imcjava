@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import pt.lsts.imc.HistoricData;
 import pt.lsts.imc.HistoricSample;
 import pt.lsts.imc.IMCMessage;
-import pt.lsts.imc.RemoteCommand;
 import pt.lsts.imc.RemoteData;
 import pt.lsts.util.WGS84Utilities;
 
@@ -154,13 +153,10 @@ public class DataSample implements Comparable<DataSample> {
 		this.sample = sample;
 	}
 	
-	public static ArrayList<DataSample> parse(HistoricData data) {
+	public static ArrayList<DataSample> parseSamples(HistoricData data) {
 		ArrayList<DataSample> ret = new ArrayList<DataSample>();
 		for (RemoteData hdata : data.getData()) {
-			if (hdata instanceof RemoteCommand) {
-				// TODO
-			}
-			else if (hdata instanceof HistoricSample) {
+			if (hdata instanceof HistoricSample) {
 				HistoricSample sample = (HistoricSample) hdata;
 				DataSample s = new DataSample();
 				double[] pos = WGS84Utilities.WGS84displace(data.getBaseLat(), data.getBaseLon(), 0, sample.getX(), sample.getY(), 0);

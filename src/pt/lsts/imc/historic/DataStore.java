@@ -34,12 +34,16 @@ import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.TreeSet;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import pt.lsts.imc.Abort;
 import pt.lsts.imc.CompressedHistory;
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.HistoricData;
@@ -52,6 +56,7 @@ import pt.lsts.imc.IMCUtil;
 import pt.lsts.imc.LogBookEntry;
 import pt.lsts.imc.LogBookEntry.TYPE;
 import pt.lsts.imc.PlanSpecification;
+import pt.lsts.imc.RemoteCommand;
 import pt.lsts.imc.RemoteData;
 import pt.lsts.util.WGS84Utilities;
 
@@ -65,14 +70,20 @@ public class DataStore {
 	public static final int HISTORIC_SAMPLE_BASE_SIZE = 15;
 
 	private PriorityQueue<DataSample> history = new PriorityQueue<DataSample>(11, Collections.reverseOrder());
+	private LinkedHashMap<Integer, TreeSet<RemoteCommand>> commands = new LinkedHashMap<Integer, TreeSet<RemoteCommand>>();
 
 	public void addData(HistoricData data) {
-		for (DataSample sample : DataSample.parse(data))
+		for (DataSample sample : DataSample.parseSamples(data))
 			addSample(sample);		
+
+		for (RemoteData hdata : data.getData()) {
+			if (hdata instanceof RemoteCommand)
+				addCommand((RemoteCommand)hdata);
+		}
 	}
-	
+
 	public void addData(CompressedHistory data) throws Exception {
-		
+
 		HistoricData msg = new HistoricData();
 		msg.setBaseLat(data.getBaseLat());
 		msg.setBaseLon(data.getBaseLon());
@@ -91,7 +102,7 @@ public class DataStore {
 			}
 		}
 		iis.close();
-		
+
 		msg.setData(messages);
 		addData(msg);		
 	}
@@ -101,42 +112,22 @@ public class DataStore {
 			history.add(sample);	
 		}
 	}
-	
-	/**
-	 * Retrieve but do not remove from history a given number of samples
-	 * @param numberOfSamples The number of samples to retrieve
-	 * @return A list of samples with the desired size or all remaining samples (if less than desired number) 
-	 */
-	public ArrayList<DataSample> peakData(int numberOfSamples) {
-		
-		ArrayList<DataSample> samples = new ArrayList<DataSample>();
-		
-		synchronized (history) {
-			for (int i = 0; !history.isEmpty() && i < numberOfSamples; i++)
-				samples.add(history.poll());
-			history.addAll(samples);
+
+
+	public void addCommand(RemoteCommand cmd) {
+		synchronized (commands) {
+			if (!commands.containsKey(cmd.getDestination())) {
+				commands.put(cmd.getDestination(), new TreeSet<RemoteCommand>(new Comparator<RemoteCommand>() {
+					@Override
+					public int compare(RemoteCommand o1, RemoteCommand o2) {
+						return new Double(o1.getTimestamp()).compareTo(new Double(o2.getTimestamp()));
+					}
+				}));
+			}
+			commands.get(cmd.getDestination()).add(cmd);
 		}
-		
-		return samples;
 	}
-	
-	/**
-	 * Poll a given number of samples
-	 * @param numberOfSamples The number of samples to retrieve
-	 * @return A list of samples with the desired size or all remaining samples (if less than desired number) 
-	 */
-	public ArrayList<DataSample> pollData(int numberOfSamples) throws Exception  {
-		
-		ArrayList<DataSample> samples = new ArrayList<DataSample>();
-		
-		synchronized (history) {
-			for (int i = 0; !history.isEmpty() && i < numberOfSamples; i++)
-				samples.add(history.poll());
-		}
-		
-		return samples;
-	}
-	
+
 	public HistoricSample translate(DataSample sample, double baseLat, double baseLon, long baseTime) {
 		HistoricSample s = new HistoricSample();
 		double[] offsets = WGS84Utilities.WGS84displacement(baseLat, baseLon, 0, sample.getLatDegs(),
@@ -149,32 +140,32 @@ public class DataStore {
 		s.setSample(sample.getSample());
 		return s;
 	}
-	
-	
+
+
 	public CompressedHistory pollCompressedData(int destination, int size) throws Exception {
-		
+
 		CompressedHistory ret = new CompressedHistory();
 		size -= HISTORIC_DATA_BASE_SIZE;
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		GZIPOutputStream zipOut = new GZIPOutputStream(baos, true);
 		IMCOutputStream ios = new IMCOutputStream(zipOut);
 		ArrayList<DataSample> samples = new ArrayList<DataSample>();
-		
+
 		DataSample pivot = history.peek();
 		if (pivot == null)
 			throw new Exception("No data to be transmitted");
-		
+
 		double baseLat = pivot.getLatDegs();
 		double baseLon = pivot.getLonDegs();
 		long baseTime = pivot.getTimestampMillis();
-		
+
 		ret.setBaseLat(baseLat);
 		ret.setBaseLon(baseLon);
 		ret.setBaseTime(baseTime/1000.0);
-		
+
 		int last_position = 0;
-		
+
 		synchronized (history) {
 			while (history.size() > 0) {
 				HistoricSample s = translate(history.peek(), baseLat, baseLon, baseTime);
@@ -198,7 +189,30 @@ public class DataStore {
 	public HistoricData pollData(int destination, int size) throws Exception {
 
 		HistoricData ret = new HistoricData();
-		size -= HISTORIC_DATA_BASE_SIZE ;
+		ArrayList<RemoteData> msgList = new ArrayList<RemoteData>();
+
+		size -= HISTORIC_DATA_BASE_SIZE;
+
+		// commands take precedence over historic data
+		synchronized (commands) {
+
+			if (commands.containsKey(destination)) {
+				ArrayList<RemoteCommand> remove = new ArrayList<RemoteCommand>();
+
+				for (RemoteCommand cmd : commands.get(destination)) {
+					if (cmd.getTimeout() <= System.currentTimeMillis()/1000.0) {
+						System.err.println("Remote command has expired and won't be sent:\n"+cmd);
+						remove.add(cmd); // expired commands are simply dropped
+					}
+					else if (cmd.getPayloadSize()+2 < size) {
+						msgList.add(cmd);
+						size -= cmd.getPayloadSize()+2;
+						remove.add(cmd);
+					}
+				}			
+				commands.get(destination).removeAll(remove);
+			}
+		}
 
 		ArrayList<DataSample> samples = new ArrayList<DataSample>();
 		ArrayList<DataSample> rejected = new ArrayList<DataSample>();
@@ -228,7 +242,7 @@ public class DataStore {
 		ret.setBaseLon(baseLon);
 		ret.setBaseTime(baseTime/1000.0);
 
-		ArrayList<RemoteData> msgList = new ArrayList<RemoteData>();
+
 		for (DataSample sample : samples) {
 			HistoricSample s = translate(sample, baseLat, baseLon, baseTime);
 			msgList.add(s);
@@ -287,6 +301,9 @@ public class DataStore {
 			store2.addSample(sample);
 			Thread.sleep(15);
 		}
+
+		store1.addCommand(new RemoteCommand(0, 31, 3600, new Abort()));
+
 		int size = 1000;
 
 		System.out.println("Polling all data compressed and split into "+size+"B messages...");
@@ -302,7 +319,7 @@ public class DataStore {
 				break;
 			}
 		}
-		
+
 		System.out.println("Polling all data split into "+size+"B messages...");
 		count = 0;
 		while (true) {
