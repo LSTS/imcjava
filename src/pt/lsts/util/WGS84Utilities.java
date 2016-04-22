@@ -195,6 +195,8 @@ public class WGS84Utilities {
     }
     
     public static double[] toLatLonDepth(EstimatedState msg) {
+    	if (msg == null)
+    		return null;
     	return WGS84displace(Math.toDegrees(msg.getLat()), Math.toDegrees(msg.getLon()), msg.getDepth(), msg.getX(), msg.getY(), 0);
     }
 }
