@@ -79,7 +79,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     protected int bindPort = 7001;
     protected LinkedHashMap<String, ImcSystemState> sysStates = new LinkedHashMap<String, ImcSystemState>();
     protected String localName = "imcj_" + System.currentTimeMillis() / 500;
-    protected int localId = 0x4000 + new Random().nextInt(0x1FFF);
+    protected int localId;
     protected SYS_TYPE sysType = SYS_TYPE.CCU;
     private HashSet<String> services = new HashSet<String>();
     private boolean quiet = false;
@@ -94,7 +94,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     private EstimatedState estState = null;
 
     public IMCProtocol(String localName, int localPort) {
-        this(localName, localPort, Integer.MIN_VALUE, (SYS_TYPE) null);
+        this(localName, localPort, 0x4000 + new Random().nextInt(0x1FFF), (SYS_TYPE) null);
     }
 
     public IMCProtocol(String localName, int localPort, int localId) {
@@ -102,15 +102,17 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     }
 
     public IMCProtocol(String localName, int localPort, int localId, SYS_TYPE sysType) {
-        if (localId != Integer.MIN_VALUE)
-            this.localId = localId;
-        
+        if (localId <= 0)
+            this.localId = 0x4000 + new Random().nextInt(0x1FFF);
+        else
+        	this.localId = 0x4000 + new Random().nextInt(0x1FFF);
         if (sysType != null)
             this.sysType = sysType;
         
         IMCDefinition.getInstance();
         this.bindPort = localPort;
         comms = new UDPTransport(bindPort, 1);
+        comms.setImcId(getLocalId());
         tcp = new TcpTransport();
         try {
             tcp.bind(bindPort);
@@ -118,7 +120,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
             e.printStackTrace();
         }
 
-        comms.setImcId(localId);
+        comms.setImcId(getLocalId());
 
         this.localName = localName;
         discoveryThread.start();
@@ -261,7 +263,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         return ""+(initialTimeMillis * 1000000 + (initialTimeNanos % 1000000));
     }
 
-    protected Announce buildAnnounce() {
+    protected Announce buildAnnounce(boolean includeLoopback) {
         Announce announce = new Announce();
         announce.setSysType(sysType);
         announce.setSysName(localName);
@@ -277,10 +279,8 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         
         String services = "imcjava://0.0.0.0/uid/" + getUID() + "/;";
         services += "imc+info://0.0.0.0/version/" + IMCDefinition.getInstance().getVersion() + "/;";
-
-        Collection<String> netInt = NetworkUtilities.getNetworkInterfaces(false);
-        if (netInt.isEmpty())
-            netInt = NetworkUtilities.getNetworkInterfaces(true);
+        
+        Collection<String> netInt = NetworkUtilities.getNetworkInterfaces(includeLoopback);
         for (String itf : netInt) {
             services += "imc+udp://" + itf + ":" + bindPort + "/;";
             services += "imc+tcp://" + itf + ":" + bindPort + "/;";
@@ -325,7 +325,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 
             long lastSent = System.currentTimeMillis();
             while (true) {
-                Announce announce = buildAnnounce();
+                Announce announce = buildAnnounce(true);
                 logMessage(announce);
 
                 for (int p = 30100; p < 30105; p++) {
@@ -434,7 +434,6 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     public boolean sendMessage(String sysName, IMCMessage msg) {
 
         fillUp(msg, sysName);
-
         for (IMCNode nd : nodes.values()) {
 
             if (sysName.equals(nd.getSysName())) {
@@ -775,7 +774,14 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         });
     }
 
-    public static void main(String[] args) throws Exception {
+    /**
+	 * @return the autoConnect
+	 */
+	public String getAutoConnect() {
+		return autoConnect;
+	}
+
+	public static void main(String[] args) throws Exception {
 
         final IMCProtocol proto = new IMCProtocol(7001);
         proto.connect("lauv-seacon-1");

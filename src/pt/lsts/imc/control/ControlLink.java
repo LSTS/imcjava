@@ -79,13 +79,13 @@ public class ControlLink {
 	public static ControlLink acquire(String vehicle, long timeoutMillis)
 			throws Exception {
 
-		ImcSystemState state = getImc().state(vehicle);
+		ImcSystemState state = getImc(vehicle).state(vehicle);
 
 		long startTime = System.currentTimeMillis();
 
 		while (System.currentTimeMillis() - startTime < timeoutMillis) {
 			state = getImc().state(vehicle);
-			if (state != null && state.last(VehicleState.class) != null)
+			if (state != null && state.last(VehicleState.class) != null && state.last(EstimatedState.class) != null)
 				break;
 			Thread.sleep(100);
 		}
@@ -164,6 +164,12 @@ public class ControlLink {
 			e.printStackTrace();
 		}
 	}
+	
+	public void move(double north, double east, double z, double speed) {
+		double curPosition[] = getPosition();
+		double[] newPos = WGS84Utilities.WGS84displace(curPosition[0], curPosition[1], 0, north, east, 0);
+		guide(newPos[0], newPos[1], z, speed);		
+	}
 
 	public void guide(double lat_degs, double lon_degs, double z_meters,
 			double speed_mps) {
@@ -220,6 +226,12 @@ public class ControlLink {
 			if (refState.getReference().isNull())
 				return false;
 			// FIXME check if followed reference is last sent one
+			if (lastReference.getLat() != refState.getReference().getLat())
+				return false;
+			if (lastReference.getLon() != refState.getReference().getLon())
+				return false;
+			
+			
 			return (refState.getProximity() & FollowRefState.PROX_XY_NEAR) != 0
 					&& (refState.getProximity() & FollowRefState.PROX_Z_NEAR) != 0;
 		} catch (Exception e) {
@@ -261,11 +273,22 @@ public class ControlLink {
 	public EstimatedState getState() {
 		return getImc().state(vehicle).last(EstimatedState.class);
 	}
-
+	
 	private static IMCProtocol getImc() {
 		if (proto == null) {
 			proto = new IMCProtocol();
-			proto.setAutoConnect(".*");
+			proto.setAutoConnect("");
+		}
+			return proto;
+	}
+	
+	private static IMCProtocol getImc(String vehicle) {
+		if (proto == null) {
+			proto = new IMCProtocol();
+			proto.setAutoConnect(vehicle);
+		}
+		else {
+			proto.setAutoConnect(proto.getAutoConnect()+"|"+vehicle);
 		}
 		return proto;
 	}
@@ -277,7 +300,22 @@ public class ControlLink {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ControlLink xp1 = ControlLink.acquire("lauv-seacon-2", 20000);
-		System.out.println(xp1);
+		String vehicle = "lauv-seacon-2";
+		int timeoutMillis = 20000;
+		ControlLink auv = ControlLink.acquire(vehicle, timeoutMillis);
+		if (auv == null) {
+			System.err.println("Not possible to acquire control of "+vehicle);
+			System.exit(1);
+		}
+		
+		while (true) {
+			auv.move(0, -100, 2, 1.2);
+			while(!auv.arrived())
+				Thread.sleep(1000);
+			auv.move(0, 100, 2, 1.2);
+			while(!auv.arrived())
+				Thread.sleep(1000);			
+		}
+		
 	}
 }
