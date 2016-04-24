@@ -346,6 +346,8 @@ public class MessageFactory {
 				return new Brake(defs);
 			case DesiredLinearState.ID_STATIC:
 				return new DesiredLinearState(defs);
+			case DesiredThrottle.ID_STATIC:
+				return new DesiredThrottle(defs);
 			case Goto.ID_STATIC:
 				return new Goto(defs);
 			case PopUp.ID_STATIC:

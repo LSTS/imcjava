@@ -50,6 +50,7 @@ public class ControlLoops extends IMCMessage {
 	public static final long CL_TORQUE = 0x00000400;
 	public static final long CL_FORCE = 0x00000800;
 	public static final long CL_VELOCITY = 0x00001000;
+	public static final long CL_THROTTLE = 0x00002000;
 	public static final long CL_EXTERNAL = 0x40000000;
 	public static final long CL_NO_OVERRIDE = 0x80000000;
 	public static final long CL_ALL = 0xFFFFFFFF;
