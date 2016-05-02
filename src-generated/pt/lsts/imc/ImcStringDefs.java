@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "6a2bc384b45b35fd38daff0ca5244b6e6c48d05b";
-	public static final String IMC_BRANCH = "2016-04-23 6a2bc38 (HEAD -> master, origin/master, origin/HEAD)";
-	public static final String IMC_COMMIT = "Jose Pinto (zepinto@users.noreply.github.com), Sat Apr 23 10:10:39 WEST 2016, Merge pull request #12 from krisklau/pr/feature/ardupilot_fbwa\n\nNew message DesiredThrottle and control-loop CL_THROTTLE";
+	public static final String IMC_SHA = "9e29140ec2aace05fbef0ef9b79a2e06333316e2";
+	public static final String IMC_BRANCH = "2016-04-29 9e29140 (HEAD -> master, origin/master)";
+	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Fri Apr 29 18:44:52 WEST 2016, Merge branch 'feature/tracking' into master.\n\nThis modification adds the messages SetImageCoords, GetImageCoords and\nGetWorldCoordinates which will be used by the vision algorithms.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 

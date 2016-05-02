@@ -256,6 +256,8 @@ public class MessageFactory {
 				return new Phycoerythrin(defs);
 			case GpsFixRtk.ID_STATIC:
 				return new GpsFixRtk(defs);
+			case ExternalNavData.ID_STATIC:
+				return new ExternalNavData(defs);
 			case CameraZoom.ID_STATIC:
 				return new CameraZoom(defs);
 			case SetThrusterActuation.ID_STATIC:
@@ -576,6 +578,12 @@ public class MessageFactory {
 				return new ParametersXml(defs);
 			case GetParametersXml.ID_STATIC:
 				return new GetParametersXml(defs);
+			case SetImageCoords.ID_STATIC:
+				return new SetImageCoords(defs);
+			case GetImageCoords.ID_STATIC:
+				return new GetImageCoords(defs);
+			case GetWorldCoordinates.ID_STATIC:
+				return new GetWorldCoordinates(defs);
 			default:
 				return new IMCMessage(defs);
 		}
