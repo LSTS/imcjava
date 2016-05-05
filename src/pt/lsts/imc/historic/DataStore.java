@@ -81,7 +81,17 @@ public class DataStore {
 				addCommand((RemoteCommand)hdata);
 		}
 	}
-
+	
+	public void clearData() {
+		synchronized (history) {
+			history.clear();
+		}
+	}
+	
+	public int numSamples() {
+		return history.size();
+	}
+	
 	public void addData(CompressedHistory data) throws Exception {
 
 		HistoricData msg = new HistoricData();
@@ -112,7 +122,6 @@ public class DataStore {
 			history.add(sample);
 		}
 	}
-
 
 	public void addCommand(RemoteCommand cmd) {
 		synchronized (commands) {
