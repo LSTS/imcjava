@@ -95,7 +95,7 @@ public class GetWorldCoordinates extends IMCMessage {
 		return m;
 	}
 
-	public GetWorldCoordinates(TRACKING tracking, double lat, double lon, int x, int y, int z) {
+	public GetWorldCoordinates(TRACKING tracking, double lat, double lon, float x, float y, float z) {
 		super(ID_STATIC);
 		setTracking(tracking);
 		setLat(lat);
@@ -181,46 +181,46 @@ public class GetWorldCoordinates extends IMCMessage {
 	}
 
 	/**
-	 *  @return X (m) - uint16_t
+	 *  @return X (m) - fp32_t
 	 */
-	public int getX() {
-		return getInteger("x");
+	public double getX() {
+		return getDouble("x");
 	}
 
 	/**
 	 *  @param x X (m)
 	 */
-	public GetWorldCoordinates setX(int x) {
+	public GetWorldCoordinates setX(double x) {
 		values.put("x", x);
 		return this;
 	}
 
 	/**
-	 *  @return Y (m) - uint16_t
+	 *  @return Y (m) - fp32_t
 	 */
-	public int getY() {
-		return getInteger("y");
+	public double getY() {
+		return getDouble("y");
 	}
 
 	/**
 	 *  @param y Y (m)
 	 */
-	public GetWorldCoordinates setY(int y) {
+	public GetWorldCoordinates setY(double y) {
 		values.put("y", y);
 		return this;
 	}
 
 	/**
-	 *  @return Z (m) - uint16_t
+	 *  @return Z (m) - fp32_t
 	 */
-	public int getZ() {
-		return getInteger("z");
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**
 	 *  @param z Z (m)
 	 */
-	public GetWorldCoordinates setZ(int z) {
+	public GetWorldCoordinates setZ(double z) {
 		values.put("z", z);
 		return this;
 	}
