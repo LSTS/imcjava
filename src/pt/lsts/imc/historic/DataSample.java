@@ -179,9 +179,17 @@ public class DataSample implements Comparable<DataSample> {
 	
 	@Override
 	public int compareTo(DataSample o) {
-		if (o.getPriority() == getPriority())
-			return new Long(getTimestampMillis()).compareTo(new Long(o.getTimestampMillis()));
-		else
-			return getPriority() - o.getPriority();
+		if (o.getPriority() == getPriority()) {
+			if (o.getSource() == getSource() && o.getSample().getMgid() == getSample().getMgid()) {
+				return new Long(Math.round(getTimestampMillis()/250.0)).compareTo(Math.round(o.getTimestampMillis()/250.0));
+			}
+			return new Long(getTimestampMillis()).compareTo(o.getTimestampMillis());
+		}
+		return new Byte(getPriority()).compareTo(o.getPriority());						
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof DataSample && compareTo((DataSample) obj) == 0;
 	}
 }

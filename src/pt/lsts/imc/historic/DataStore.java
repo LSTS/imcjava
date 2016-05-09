@@ -37,7 +37,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.TreeSet;
 import java.util.zip.GZIPInputStream;
@@ -69,7 +68,8 @@ public class DataStore {
 	public final int HISTORIC_DATA_BASE_SIZE = 16 + IMCDefinition.getInstance().headerLength();
 	public static final int HISTORIC_SAMPLE_BASE_SIZE = 15;
 
-	private PriorityQueue<DataSample> history = new PriorityQueue<DataSample>(11, Collections.reverseOrder());
+	private TreeSet<DataSample> history = new TreeSet<DataSample>(Collections.reverseOrder());
+
 	private LinkedHashMap<Integer, TreeSet<RemoteCommand>> commands = new LinkedHashMap<Integer, TreeSet<RemoteCommand>>();
 
 	public void addData(HistoricData data) {
@@ -116,6 +116,12 @@ public class DataStore {
 		msg.setData(messages);
 		addData(msg);		
 	}
+	
+	public boolean contains(DataSample sample) {
+		synchronized (history) {
+			return history.contains(sample);
+		}
+	}
 
 	public void addSample(DataSample sample) {
 		synchronized (history) {
@@ -161,7 +167,7 @@ public class DataStore {
 		IMCOutputStream ios = new IMCOutputStream(zipOut);
 		ArrayList<DataSample> samples = new ArrayList<DataSample>();
 
-		DataSample pivot = history.peek();
+		DataSample pivot = history.first();
 		if (pivot == null)
 			throw new Exception("No data to be transmitted");
 
@@ -202,13 +208,13 @@ public class DataStore {
 
 		synchronized (history) {
 			while (history.size() > 0) {
-				HistoricSample s = translate(history.peek(), baseLat, baseLon, baseTime);
+				HistoricSample s = translate(history.first(), baseLat, baseLon, baseTime);
 				ios.writeInlineMessage(s);
 				zipOut.flush();
 				baos.flush();
 				if (baos.size() <= size) {
 					last_position = baos.size();
-					samples.add(history.poll());
+					samples.add(history.pollFirst());
 				}
 				else
 					break;
@@ -252,7 +258,7 @@ public class DataStore {
 		ArrayList<DataSample> rejected = new ArrayList<DataSample>();
 		synchronized (history) {
 			while (size > HISTORIC_SAMPLE_BASE_SIZE) {
-				DataSample sample = history.poll();
+				DataSample sample = history.pollFirst();
 				if (sample == null)
 					break;
 				if (sample.getSerializationSize() > size)
