@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "e45bef5601ffb0c32a8cdd08ddb2a2fa3ab39cd8";
-	public static final String IMC_BRANCH = "2016-05-06 e45bef5 (HEAD -> master, origin/master)";
-	public static final String IMC_COMMIT = "Jose Pinto (zepinto@users.noreply.github.com), Fri May 06 18:52:31 WEST 2016, Merge pull request #13 from LSTS/feature/tracking\n\nIMC: update type of IMC msg GetWorldCoordinates";
+	public static final String IMC_SHA = "bc459920b66758dfcb3e1b02270e74a116bcefdd";
+	public static final String IMC_BRANCH = "2016-05-06 bc45992 (HEAD -> feature/mission_auto, origin/feature/mission_auto)";
+	public static final String IMC_COMMIT = "mariacosta (mariacosta_89@hotmail.com), Fri May 06 23:07:36 WEST 2016, Corrected 'UAV Type' enumeration definition (name and abbrev were switched).";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 

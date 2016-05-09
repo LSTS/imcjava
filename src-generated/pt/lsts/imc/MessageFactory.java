@@ -426,6 +426,10 @@ public class MessageFactory {
 				return new Drop(defs);
 			case ScheduledGoto.ID_STATIC:
 				return new ScheduledGoto(defs);
+			case Takeoff.ID_STATIC:
+				return new Takeoff(defs);
+			case Land.ID_STATIC:
+				return new Land(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
