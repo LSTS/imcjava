@@ -59,7 +59,8 @@ public class LsfMessageLogger {
     
     private String logBaseDir = "log/messages/";
 
-    private LsfMessageLogger() {
+    private LsfMessageLogger(String logBaseDir) {
+    	this.logBaseDir = logBaseDir;
         changeLog();
 
         try {
@@ -133,9 +134,15 @@ public class LsfMessageLogger {
         return false;
     }
 
+    private static LsfMessageLogger getInstance(String logBaseDir) {
+    	if (instance == null)
+    		instance = new LsfMessageLogger(logBaseDir);
+    	return instance;    	
+    }
+    
     private static LsfMessageLogger getInstance() {
         if (instance == null)
-            instance = new LsfMessageLogger();
+            instance = new LsfMessageLogger("log/Messages");
 
         return instance;
     }
@@ -178,7 +185,10 @@ public class LsfMessageLogger {
     }
 
     public static void changeLogBaseDir(String newPath){
-        getInstance().logBaseDir = newPath;
+    	if (instance == null)
+    		getInstance(newPath);
+    	else
+    		getInstance().logBaseDir = newPath;
     }
     
     public static void main(String[] args) throws Exception {
