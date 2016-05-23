@@ -73,6 +73,22 @@ public class Takeoff extends Maneuver {
 		}
 	}
 
+	public enum SPEED_UNITS {
+		METERS_PS(0),
+		RPM(1),
+		PERCENTAGE(2);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		SPEED_UNITS(long value) {
+			this.value = value;
+		}
+	}
+
 	public static final int ID_STATIC = 488;
 
 	public Takeoff() {
@@ -117,13 +133,15 @@ public class Takeoff extends Maneuver {
 		return m;
 	}
 
-	public Takeoff(UAV_TYPE uav_type, double land_lat, double land_lon, float takeoff_z, Z_UNITS z_units, float takeoff_pitch, String custom) {
+	public Takeoff(UAV_TYPE uav_type, double lat, double lon, float takeoff_z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, float takeoff_pitch, String custom) {
 		super(ID_STATIC);
 		setUavType(uav_type);
-		setLandLat(land_lat);
-		setLandLon(land_lon);
+		setLat(lat);
+		setLon(lon);
 		setTakeoffZ(takeoff_z);
 		setZUnits(z_units);
+		setSpeed(speed);
+		setSpeedUnits(speed_units);
 		setTakeoffPitch(takeoff_pitch);
 		if (custom != null)
 			setCustom(custom);
@@ -177,30 +195,30 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @return Latitude WGS-84 (rad) - fp64_t
 	 */
-	public double getLandLat() {
-		return getDouble("land_lat");
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
-	 *  @param land_lat Latitude WGS-84 (rad)
+	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public Takeoff setLandLat(double land_lat) {
-		values.put("land_lat", land_lat);
+	public Takeoff setLat(double lat) {
+		values.put("lat", lat);
 		return this;
 	}
 
 	/**
 	 *  @return Longitude WGS-84 (rad) - fp64_t
 	 */
-	public double getLandLon() {
-		return getDouble("land_lon");
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
-	 *  @param land_lon Longitude WGS-84 (rad)
+	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public Takeoff setLandLon(double land_lon) {
-		values.put("land_lon", land_lon);
+	public Takeoff setLon(double lon) {
+		values.put("lon", lon);
 		return this;
 	}
 
@@ -261,6 +279,66 @@ public class Takeoff extends Maneuver {
 	 */
 	public Takeoff setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
+		return this;
+	}
+
+	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
+	 *  @param speed Speed
+	 */
+	public Takeoff setSpeed(double speed) {
+		values.put("speed", speed);
+		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
+	/**
+	 *  @param speed_units Speed Units (enumerated)
+	 */
+	public Takeoff setSpeedUnits(SPEED_UNITS speed_units) {
+		values.put("speed_units", speed_units.value());
+		return this;
+	}
+
+	/**
+	 *  @param speed_units Speed Units (as a String)
+	 */
+	public Takeoff setSpeedUnitsStr(String speed_units) {
+		setValue("speed_units", speed_units);
+		return this;
+	}
+
+	/**
+	 *  @param speed_units Speed Units (integer value)
+	 */
+	public Takeoff setSpeedUnitsVal(short speed_units) {
+		setValue("speed_units", speed_units);
 		return this;
 	}
 

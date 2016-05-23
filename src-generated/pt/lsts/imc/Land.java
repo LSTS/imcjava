@@ -32,7 +32,7 @@ package pt.lsts.imc;
 /**
  *  IMC Message Land Maneuver (489)<br/>
  *  Automatic landing on the ground, for UAVs.<br/>
- *  This maneuver specifies the target toutchdown location and sets the final approach based on the maneuver bearing and glide slope parameters.<br/>
+ *  This maneuver specifies the target touchdown location and sets the final approach based on the maneuver bearing and glide slope parameters.<br/>
  */
 
 @SuppressWarnings("unchecked")
@@ -67,6 +67,22 @@ public class Land extends Maneuver {
 		}
 
 		Z_UNITS(long value) {
+			this.value = value;
+		}
+	}
+
+	public enum SPEED_UNITS {
+		METERS_PS(0),
+		RPM(1),
+		PERCENTAGE(2);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		SPEED_UNITS(long value) {
 			this.value = value;
 		}
 	}
@@ -115,13 +131,16 @@ public class Land extends Maneuver {
 		return m;
 	}
 
-	public Land(UAV_TYPE uav_type, double land_lat, double land_lon, float abort_z, Z_UNITS z_units, double bearing, short glide_slope, float glide_slope_alt, String custom) {
+	public Land(UAV_TYPE uav_type, double lat, double lon, float land_z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, float abort_z, double bearing, short glide_slope, float glide_slope_alt, String custom) {
 		super(ID_STATIC);
 		setUavType(uav_type);
-		setLandLat(land_lat);
-		setLandLon(land_lon);
-		setAbortZ(abort_z);
+		setLat(lat);
+		setLon(lon);
+		setLandZ(land_z);
 		setZUnits(z_units);
+		setSpeed(speed);
+		setSpeedUnits(speed_units);
+		setAbortZ(abort_z);
 		setBearing(bearing);
 		setGlideSlope(glide_slope);
 		setGlideSlopeAlt(glide_slope_alt);
@@ -177,45 +196,45 @@ public class Land extends Maneuver {
 	/**
 	 *  @return Latitude WGS-84 (rad) - fp64_t
 	 */
-	public double getLandLat() {
-		return getDouble("land_lat");
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
-	 *  @param land_lat Latitude WGS-84 (rad)
+	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public Land setLandLat(double land_lat) {
-		values.put("land_lat", land_lat);
+	public Land setLat(double lat) {
+		values.put("lat", lat);
 		return this;
 	}
 
 	/**
 	 *  @return Longitude WGS-84 (rad) - fp64_t
 	 */
-	public double getLandLon() {
-		return getDouble("land_lon");
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
-	 *  @param land_lon Longitude WGS-84 (rad)
+	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public Land setLandLon(double land_lon) {
-		values.put("land_lon", land_lon);
+	public Land setLon(double lon) {
+		values.put("lon", lon);
 		return this;
 	}
 
 	/**
-	 *  @return Abort Z Reference (m) - fp32_t
+	 *  @return Z Reference (m) - fp32_t
 	 */
-	public double getAbortZ() {
-		return getDouble("abort_z");
+	public double getLandZ() {
+		return getDouble("land_z");
 	}
 
 	/**
-	 *  @param abort_z Abort Z Reference (m)
+	 *  @param land_z Z Reference (m)
 	 */
-	public Land setAbortZ(double abort_z) {
-		values.put("abort_z", abort_z);
+	public Land setLandZ(double land_z) {
+		values.put("land_z", land_z);
 		return this;
 	}
 
@@ -261,6 +280,81 @@ public class Land extends Maneuver {
 	 */
 	public Land setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
+		return this;
+	}
+
+	/**
+	 *  @return Speed - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
+	 *  @param speed Speed
+	 */
+	public Land setSpeed(double speed) {
+		values.put("speed", speed);
+		return this;
+	}
+
+	/**
+	 *  @return Speed Units (enumerated) - uint8_t
+	 */
+	public SPEED_UNITS getSpeedUnits() {
+		try {
+			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getSpeedUnitsStr() {
+		return getString("speed_units");
+	}
+
+	public short getSpeedUnitsVal() {
+		return (short) getInteger("speed_units");
+	}
+
+	/**
+	 *  @param speed_units Speed Units (enumerated)
+	 */
+	public Land setSpeedUnits(SPEED_UNITS speed_units) {
+		values.put("speed_units", speed_units.value());
+		return this;
+	}
+
+	/**
+	 *  @param speed_units Speed Units (as a String)
+	 */
+	public Land setSpeedUnitsStr(String speed_units) {
+		setValue("speed_units", speed_units);
+		return this;
+	}
+
+	/**
+	 *  @param speed_units Speed Units (integer value)
+	 */
+	public Land setSpeedUnitsVal(short speed_units) {
+		setValue("speed_units", speed_units);
+		return this;
+	}
+
+	/**
+	 *  @return Abort Z Reference (m) - fp32_t
+	 */
+	public double getAbortZ() {
+		return getDouble("abort_z");
+	}
+
+	/**
+	 *  @param abort_z Abort Z Reference (m)
+	 */
+	public Land setAbortZ(double abort_z) {
+		values.put("abort_z", abort_z);
 		return this;
 	}
 
