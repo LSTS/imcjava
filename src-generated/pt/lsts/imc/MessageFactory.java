@@ -258,6 +258,10 @@ public class MessageFactory {
 				return new GpsFixRtk(defs);
 			case ExternalNavData.ID_STATIC:
 				return new ExternalNavData(defs);
+			case DissolvedOxygen.ID_STATIC:
+				return new DissolvedOxygen(defs);
+			case AirSaturation.ID_STATIC:
+				return new AirSaturation(defs);
 			case CameraZoom.ID_STATIC:
 				return new CameraZoom(defs);
 			case SetThrusterActuation.ID_STATIC:
@@ -426,6 +430,8 @@ public class MessageFactory {
 				return new Drop(defs);
 			case ScheduledGoto.ID_STATIC:
 				return new ScheduledGoto(defs);
+			case RowsCoverage.ID_STATIC:
+				return new RowsCoverage(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
@@ -584,6 +590,12 @@ public class MessageFactory {
 				return new GetImageCoords(defs);
 			case GetWorldCoordinates.ID_STATIC:
 				return new GetWorldCoordinates(defs);
+			case UsblAnglesExtended.ID_STATIC:
+				return new UsblAnglesExtended(defs);
+			case UsblPositionExtended.ID_STATIC:
+				return new UsblPositionExtended(defs);
+			case UsblFixExtended.ID_STATIC:
+				return new UsblFixExtended(defs);
 			default:
 				return new IMCMessage(defs);
 		}
