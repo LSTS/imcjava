@@ -142,7 +142,7 @@ public class LsfMessageLogger {
     
     private static LsfMessageLogger getInstance() {
         if (instance == null)
-            instance = new LsfMessageLogger("log/Messages");
+            instance = new LsfMessageLogger("log/messages/");
 
         return instance;
     }
