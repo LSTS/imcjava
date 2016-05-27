@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import pt.lsts.imc.HistoricData;
 import pt.lsts.imc.HistoricSample;
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.RemoteCommand;
 import pt.lsts.imc.RemoteData;
 import pt.lsts.util.WGS84Utilities;
 
@@ -153,6 +154,30 @@ public class DataSample implements Comparable<DataSample> {
 		this.sample = sample;
 	}
 	
+	public static ArrayList<RemoteCommand> parseCommands(HistoricData data) {
+		return parseCommands(data, 65535);
+	}
+	
+	/**
+	 * Extract commands from HistoricData message
+	 * @param data an HistoricData message
+	 * @param destination The IMC identifier of a destination system. Use 65535 to retrieve commands to any vehicle.
+	 * @return All commands destinated to the given destination and which are part of data. If no commands are found, returns an empty list
+	 */
+	public static ArrayList<RemoteCommand> parseCommands(HistoricData data, int destination) {
+		ArrayList<RemoteCommand> ret = new ArrayList<RemoteCommand>();
+		for (RemoteData hdata : data.getData())
+			if (hdata instanceof RemoteCommand) {
+				RemoteCommand cmd = (RemoteCommand) hdata;
+				if (destination == 65535 || cmd.getDestination() == destination)
+					ret.add(cmd);
+			}		
+		return ret;
+	}
+	
+	/**
+	 * Extract all samples contained in the given HistoricData message
+	 */
 	public static ArrayList<DataSample> parseSamples(HistoricData data) {
 		ArrayList<DataSample> ret = new ArrayList<DataSample>();
 		for (RemoteData hdata : data.getData()) {
@@ -173,6 +198,9 @@ public class DataSample implements Comparable<DataSample> {
 		return ret;
 	}
 	
+	/**
+	 * Calculate the size of this sample when serialized inside an HistoricData message.
+	 */
 	public int getSerializationSize() {
 		return sample.getPayloadSize() + DataStore.HISTORIC_SAMPLE_BASE_SIZE;
 	}
