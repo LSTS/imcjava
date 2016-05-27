@@ -1892,4 +1892,31 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	public final void setMessageInfo(MessageInfo messageInfo) {
 		this.messageInfo = messageInfo;
 	}
+	
+	/**
+	 * Serialize this message to byte array using current IMC definitions
+	 * @return Byte array with message serialized
+	 */
+	public byte[] toByteArray() {
+		return toByteArray(IMCDefinition.getInstance());		
+	}
+	
+	/**
+	 * Serialize this message to byte array using provided IMC definitions
+	 * @param def The IMC definitions to use to serialize the message
+	 * @return Byte array with message serialized
+	 */
+	public byte[] toByteArray(IMCDefinition def) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		IMCOutputStream out = new IMCOutputStream(def, baos);
+		try {
+			out.writeMessage(this);
+			out.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return new byte[0];
+		}		
+		return baos.toByteArray();
+	}
 }
