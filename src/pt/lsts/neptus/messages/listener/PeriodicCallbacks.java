@@ -48,6 +48,7 @@ public class PeriodicCallbacks {
 	
 	public static void stopAll() {
 		executor().shutdown();
+		_exec = null;
 	}
 	
 	public static void unregister(Object pojo) {
