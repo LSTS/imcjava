@@ -57,7 +57,7 @@ public class ImcSystemState {
 	protected IMCDefinition definitions = null;
 	protected HashSet<String> receivedMessages = new HashSet<String>();
 	protected boolean gotData = false;
-
+	protected long lastReceivedTimestamp = 0;
 	protected boolean ignoreEntities = false;
 
 	/**
@@ -230,7 +230,7 @@ public class ImcSystemState {
 	 *         received)
 	 */
 	public boolean isActive() {
-		return gotData;
+		return gotData && millisSinceLastMessage() < 30000;
 	}
 
 	/**
@@ -306,6 +306,7 @@ public class ImcSystemState {
 		receivedMessages.add(msg.getAbbrev());
 		lastMessages.put(msg.getAbbrev(), msg);
 
+		lastReceivedTimestamp = System.currentTimeMillis();
 		gotData = true;
 	}
 
@@ -598,6 +599,10 @@ public class ImcSystemState {
 
 	public void setIgnoreEntities(boolean ignoreEntities) {
 		this.ignoreEntities = ignoreEntities;
+	}
+	
+	public long millisSinceLastMessage() {
+		return System.currentTimeMillis() - lastReceivedTimestamp;
 	}
 
 	public static void main(String[] args) throws Exception {
