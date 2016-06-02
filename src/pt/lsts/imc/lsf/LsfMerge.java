@@ -33,6 +33,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.zip.GZIPInputStream;
 
@@ -41,13 +43,27 @@ import pt.lsts.imc.IMCInputStream;
 
 
 public class LsfMerge {
+	
+	
+	public static interface ProgressListener {
+		public void progressUpdate(String message, int percent);
+	}
 
-	public void merge(File[] files, File destination) throws Exception {
+	public void merge(ArrayList<File> files, File destination, Collection<String> options, ProgressListener listener) throws Exception {
+		
+		
+		boolean dropExternalMessages = options.contains("-d");
+		options.remove("-d");
+		
+		if (!options.isEmpty()) {
+			System.err.println("Option not recognized: "+options.iterator().next());
+			return;
+		}
 		
 		OutputStream fos = new FileOutputStream(destination);
-		System.out.println("Writing to "+destination.getAbsolutePath()+"...");
+		listener.progressUpdate("Writing to "+destination.getAbsolutePath()+"...", 0);
 		IMCDefinition defs = null;
-		File pivot = files[0].getParentFile();
+		File pivot = files.get(0).getParentFile();
 		if (new File(pivot, "IMC.xml").canRead())
 			defs = new IMCDefinition(new File(pivot, "IMC.xml"));
 		else if (new File(pivot, "IMC.xml.gz").canRead())
@@ -74,7 +90,7 @@ public class LsfMerge {
 			inputs.put(f, input);
 		}
 		
-		System.out.println("Merging "+inputs.size()+" files...");
+		listener.progressUpdate("Merging "+inputs.size()+" files...", 1);
 		double curTime = Double.MAX_VALUE;
 		
 		
@@ -96,8 +112,14 @@ public class LsfMerge {
 				}
 			}
 			fos.write(messages.get(minFile).getData());
+			int id = messages.get(minFile).getSrc();
+			
 			try {
-				UnserializedMessage msg = UnserializedMessage.readMessage(defs, inputs.get(minFile));
+				UnserializedMessage msg;
+				do {
+					msg = UnserializedMessage.readMessage(defs, inputs.get(minFile));
+				} while (dropExternalMessages && msg.getSrc() != id);
+				
 				messages.put(minFile, msg);
 				timestamps.put(minFile, msg.getTimestamp());
 			}
@@ -119,15 +141,30 @@ public class LsfMerge {
 		LsfMerge merge = new LsfMerge();
 		
 		if (args.length < 2) {
-			System.out.println("Usage: lsfmerge <file1.lsf> [<file2.lsf> ...] <destination.lsf>");
+			System.out.println("Usage: lsfmerge <options>? <file1.lsf> [<file2.lsf> ...] <destination.lsf>");
+			System.out.println();
+			System.out.println("Options:");
+			System.out.println("\t-d:\tDrop external messages.");			
 			System.exit(1);
 		}
 		
-		File[] files = new File[args.length - 1];
-		for (int i = 0; i < args.length-1; i++)
-			files[i] = new File(args[i]);
 		
-		merge.merge(files, new File(args[args.length-1]));
+		
+		ArrayList<File> files = new ArrayList<File>();
+		ArrayList<String> options = new ArrayList<String>();
+		for (int i = 0; i < args.length-1; i++) {
+			if (args[i].startsWith("-"))
+				options.add(args[i]);
+			else
+				files.add(new File(args[i]));
+		}
+		
+		merge.merge(files, new File(args[args.length-1]), options, new ProgressListener() {
+			@Override
+			public void progressUpdate(String message, int percent) {
+				System.out.printf("[%02d%%] %s\n", percent, message);
+			}
+		});
 		System.exit(0);
 	}
 	
