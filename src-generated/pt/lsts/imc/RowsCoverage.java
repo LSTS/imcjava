@@ -30,31 +30,15 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Takeoff Maneuver (489)<br/>
- *  Automatic takeoff for UAVs.<br/>
- *  This maneuver specifies a target waypoint where to takeoff.<br/>
- *  Takeoff direction is set from the direction the plane is pointing when the auto takeoff command is started.<br/>
- *  It will remain that way until the vehicle reaches the target z reference. After that it will go to the target waypoint.<br/>
+ *  IMC Message Rows Coverage (488)<br/>
+ *  Rows coverage (i.e: lawn mower type maneuver) but with adaptive cover<br/>
  */
 
 @SuppressWarnings("unchecked")
-public class Takeoff extends Maneuver {
+public class RowsCoverage extends Maneuver {
 
-	public enum UAV_TYPE {
-		FIXEDWING(0),
-		COPTER(1),
-		VTOL(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		UAV_TYPE(long value) {
-			this.value = value;
-		}
-	}
+	public static final short FLG_SQUARE_CURVE = 0x01;
+	public static final short FLG_CURVE_RIGHT = 0x02;
 
 	public enum Z_UNITS {
 		NONE(0),
@@ -89,13 +73,13 @@ public class Takeoff extends Maneuver {
 		}
 	}
 
-	public static final int ID_STATIC = 489;
+	public static final int ID_STATIC = 488;
 
-	public Takeoff() {
+	public RowsCoverage() {
 		super(ID_STATIC);
 	}
 
-	public Takeoff(IMCMessage msg) {
+	public RowsCoverage(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -105,20 +89,20 @@ public class Takeoff extends Maneuver {
 		}
 	}
 
-	public Takeoff(IMCDefinition defs) {
+	public RowsCoverage(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Takeoff create(Object... values) {
-		Takeoff m = new Takeoff();
+	public static RowsCoverage create(Object... values) {
+		RowsCoverage m = new RowsCoverage();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Takeoff clone(IMCMessage msg) throws Exception {
+	public static RowsCoverage clone(IMCMessage msg) throws Exception {
 
-		Takeoff m = new Takeoff();
+		RowsCoverage m = new RowsCoverage();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -133,63 +117,25 @@ public class Takeoff extends Maneuver {
 		return m;
 	}
 
-	public Takeoff(UAV_TYPE uav_type, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, float takeoff_pitch, String custom) {
+	public RowsCoverage(double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, double bearing, double cross_angle, float width, float length, short coff, float angAperture, int range, short overlap, short flags, String custom) {
 		super(ID_STATIC);
-		setUavType(uav_type);
 		setLat(lat);
 		setLon(lon);
 		setZ(z);
 		setZUnits(z_units);
 		setSpeed(speed);
 		setSpeedUnits(speed_units);
-		setTakeoffPitch(takeoff_pitch);
+		setBearing(bearing);
+		setCrossAngle(cross_angle);
+		setWidth(width);
+		setLength(length);
+		setCoff(coff);
+		setAngAperture(angAperture);
+		setRange(range);
+		setOverlap(overlap);
+		setFlags(flags);
 		if (custom != null)
 			setCustom(custom);
-	}
-
-	/**
-	 *  @return UAV Type (enumerated) - uint8_t
-	 */
-	public UAV_TYPE getUavType() {
-		try {
-			UAV_TYPE o = UAV_TYPE.valueOf(getMessageType().getFieldPossibleValues("uav_type").get(getLong("uav_type")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getUavTypeStr() {
-		return getString("uav_type");
-	}
-
-	public short getUavTypeVal() {
-		return (short) getInteger("uav_type");
-	}
-
-	/**
-	 *  @param uav_type UAV Type (enumerated)
-	 */
-	public Takeoff setUavType(UAV_TYPE uav_type) {
-		values.put("uav_type", uav_type.value());
-		return this;
-	}
-
-	/**
-	 *  @param uav_type UAV Type (as a String)
-	 */
-	public Takeoff setUavTypeStr(String uav_type) {
-		setValue("uav_type", uav_type);
-		return this;
-	}
-
-	/**
-	 *  @param uav_type UAV Type (integer value)
-	 */
-	public Takeoff setUavTypeVal(short uav_type) {
-		setValue("uav_type", uav_type);
-		return this;
 	}
 
 	/**
@@ -202,7 +148,7 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public Takeoff setLat(double lat) {
+	public RowsCoverage setLat(double lat) {
 		values.put("lat", lat);
 		return this;
 	}
@@ -217,7 +163,7 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public Takeoff setLon(double lon) {
+	public RowsCoverage setLon(double lon) {
 		values.put("lon", lon);
 		return this;
 	}
@@ -232,7 +178,7 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param z Z Reference (m)
 	 */
-	public Takeoff setZ(double z) {
+	public RowsCoverage setZ(double z) {
 		values.put("z", z);
 		return this;
 	}
@@ -261,7 +207,7 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public Takeoff setZUnits(Z_UNITS z_units) {
+	public RowsCoverage setZUnits(Z_UNITS z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}
@@ -269,7 +215,7 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param z_units Z Units (as a String)
 	 */
-	public Takeoff setZUnitsStr(String z_units) {
+	public RowsCoverage setZUnitsStr(String z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -277,7 +223,7 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param z_units Z Units (integer value)
 	 */
-	public Takeoff setZUnitsVal(short z_units) {
+	public RowsCoverage setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
 		return this;
 	}
@@ -292,7 +238,7 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param speed Speed
 	 */
-	public Takeoff setSpeed(double speed) {
+	public RowsCoverage setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
 	}
@@ -321,7 +267,7 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public Takeoff setSpeedUnits(SPEED_UNITS speed_units) {
+	public RowsCoverage setSpeedUnits(SPEED_UNITS speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}
@@ -329,7 +275,7 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public Takeoff setSpeedUnitsStr(String speed_units) {
+	public RowsCoverage setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -337,23 +283,143 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public Takeoff setSpeedUnitsVal(short speed_units) {
+	public RowsCoverage setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
 
 	/**
-	 *  @return Pitch Angle (rad) - fp32_t
+	 *  @return Bearing (rad) - fp64_t
 	 */
-	public double getTakeoffPitch() {
-		return getDouble("takeoff_pitch");
+	public double getBearing() {
+		return getDouble("bearing");
 	}
 
 	/**
-	 *  @param takeoff_pitch Pitch Angle (rad)
+	 *  @param bearing Bearing (rad)
 	 */
-	public Takeoff setTakeoffPitch(double takeoff_pitch) {
-		values.put("takeoff_pitch", takeoff_pitch);
+	public RowsCoverage setBearing(double bearing) {
+		values.put("bearing", bearing);
+		return this;
+	}
+
+	/**
+	 *  @return Cross Angle (rad) - fp64_t
+	 */
+	public double getCrossAngle() {
+		return getDouble("cross_angle");
+	}
+
+	/**
+	 *  @param cross_angle Cross Angle (rad)
+	 */
+	public RowsCoverage setCrossAngle(double cross_angle) {
+		values.put("cross_angle", cross_angle);
+		return this;
+	}
+
+	/**
+	 *  @return Width (m) - fp32_t
+	 */
+	public double getWidth() {
+		return getDouble("width");
+	}
+
+	/**
+	 *  @param width Width (m)
+	 */
+	public RowsCoverage setWidth(double width) {
+		values.put("width", width);
+		return this;
+	}
+
+	/**
+	 *  @return Length (m) - fp32_t
+	 */
+	public double getLength() {
+		return getDouble("length");
+	}
+
+	/**
+	 *  @param length Length (m)
+	 */
+	public RowsCoverage setLength(double length) {
+		values.put("length", length);
+		return this;
+	}
+
+	/**
+	 *  @return Curve Offset (m) - uint8_t
+	 */
+	public short getCoff() {
+		return (short) getInteger("coff");
+	}
+
+	/**
+	 *  @param coff Curve Offset (m)
+	 */
+	public RowsCoverage setCoff(short coff) {
+		values.put("coff", coff);
+		return this;
+	}
+
+	/**
+	 *  @return Angular Aperture (rad) - fp32_t
+	 */
+	public double getAngAperture() {
+		return getDouble("angAperture");
+	}
+
+	/**
+	 *  @param angAperture Angular Aperture (rad)
+	 */
+	public RowsCoverage setAngAperture(double angAperture) {
+		values.put("angAperture", angAperture);
+		return this;
+	}
+
+	/**
+	 *  @return Range (m) - uint16_t
+	 */
+	public int getRange() {
+		return getInteger("range");
+	}
+
+	/**
+	 *  @param range Range (m)
+	 */
+	public RowsCoverage setRange(int range) {
+		values.put("range", range);
+		return this;
+	}
+
+	/**
+	 *  @return Overlap (%) - uint8_t
+	 */
+	public short getOverlap() {
+		return (short) getInteger("overlap");
+	}
+
+	/**
+	 *  @param overlap Overlap (%)
+	 */
+	public RowsCoverage setOverlap(short overlap) {
+		values.put("overlap", overlap);
+		return this;
+	}
+
+	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
+	}
+
+	/**
+	 *  @param flags Flags (bitfield)
+	 */
+	public RowsCoverage setFlags(short flags) {
+		values.put("flags", flags);
 		return this;
 	}
 
@@ -367,13 +433,13 @@ public class Takeoff extends Maneuver {
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public Takeoff setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public RowsCoverage setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
 		return this;
 	}
 
-	public Takeoff setCustom(String custom) {
+	public RowsCoverage setCustom(String custom) {
 		values.put("custom", custom);
 		return this;
 	}

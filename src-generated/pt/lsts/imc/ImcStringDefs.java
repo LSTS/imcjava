@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "f020323cab47a21d77fa34d5249655d22de74e85";
-	public static final String IMC_BRANCH = "2016-05-23 f020323 (HEAD -> feature/mission_auto, origin/feature/mission_auto)";
-	public static final String IMC_COMMIT = "mariacosta (mariacosta_89@hotmail.com), Mon May 23 19:08:42 WEST 2016, Land Maneuver: Added fields 'Speed', 'Speed Units', 'Z Reference', 'Z Units' and removed field 'Abort Z Units.";
+	public static final String IMC_SHA = "5b0e512bca80b55a173a0d9c70ad1fc1088bb3dd";
+	public static final String IMC_BRANCH = "2016-06-07 5b0e512 (HEAD -> feature/mission_auto, origin/feature/mission_auto)";
+	public static final String IMC_COMMIT = "mariacosta (mariacosta_89@hotmail.com), Tue Jun 07 15:42:20 WEST 2016, Land Maneuver: Message ID corrected.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 

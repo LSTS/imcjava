@@ -30,7 +30,7 @@
 package pt.lsts.imc;
 
 /**
- *  IMC Message Land Maneuver (489)<br/>
+ *  IMC Message Land Maneuver (490)<br/>
  *  Automatic landing on the ground, for UAVs.<br/>
  *  This maneuver specifies the target touchdown location and sets the final approach based on the maneuver bearing and glide slope parameters.<br/>
  */
@@ -87,7 +87,7 @@ public class Land extends Maneuver {
 		}
 	}
 
-	public static final int ID_STATIC = 489;
+	public static final int ID_STATIC = 490;
 
 	public Land() {
 		super(ID_STATIC);
@@ -131,12 +131,12 @@ public class Land extends Maneuver {
 		return m;
 	}
 
-	public Land(UAV_TYPE uav_type, double lat, double lon, float land_z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, float abort_z, double bearing, short glide_slope, float glide_slope_alt, String custom) {
+	public Land(UAV_TYPE uav_type, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, float abort_z, double bearing, short glide_slope, float glide_slope_alt, String custom) {
 		super(ID_STATIC);
 		setUavType(uav_type);
 		setLat(lat);
 		setLon(lon);
-		setLandZ(land_z);
+		setZ(z);
 		setZUnits(z_units);
 		setSpeed(speed);
 		setSpeedUnits(speed_units);
@@ -226,15 +226,15 @@ public class Land extends Maneuver {
 	/**
 	 *  @return Z Reference (m) - fp32_t
 	 */
-	public double getLandZ() {
-		return getDouble("land_z");
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**
-	 *  @param land_z Z Reference (m)
+	 *  @param z Z Reference (m)
 	 */
-	public Land setLandZ(double land_z) {
-		values.put("land_z", land_z);
+	public Land setZ(double z) {
+		values.put("z", z);
 		return this;
 	}
 
