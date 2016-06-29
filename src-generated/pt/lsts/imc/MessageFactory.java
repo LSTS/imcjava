@@ -262,6 +262,8 @@ public class MessageFactory {
 				return new DissolvedOxygen(defs);
 			case AirSaturation.ID_STATIC:
 				return new AirSaturation(defs);
+			case Throttle.ID_STATIC:
+				return new Throttle(defs);
 			case CameraZoom.ID_STATIC:
 				return new CameraZoom(defs);
 			case SetThrusterActuation.ID_STATIC:
@@ -432,6 +434,8 @@ public class MessageFactory {
 				return new ScheduledGoto(defs);
 			case RowsCoverage.ID_STATIC:
 				return new RowsCoverage(defs);
+			case Sample.ID_STATIC:
+				return new Sample(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
