@@ -436,6 +436,12 @@ public class MessageFactory {
 				return new RowsCoverage(defs);
 			case Sample.ID_STATIC:
 				return new Sample(defs);
+			case ImageTracking.ID_STATIC:
+				return new ImageTracking(defs);
+			case Takeoff.ID_STATIC:
+				return new Takeoff(defs);
+			case Land.ID_STATIC:
+				return new Land(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
