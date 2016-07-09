@@ -264,6 +264,10 @@ public class MessageFactory {
 				return new AirSaturation(defs);
 			case Throttle.ID_STATIC:
 				return new Throttle(defs);
+			case PH.ID_STATIC:
+				return new PH(defs);
+			case Redox.ID_STATIC:
+				return new Redox(defs);
 			case CameraZoom.ID_STATIC:
 				return new CameraZoom(defs);
 			case SetThrusterActuation.ID_STATIC:
