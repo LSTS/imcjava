@@ -77,6 +77,8 @@ public class MessageEditor extends JPanel {
 	private RSyntaxTextArea xmlTextArea, jsonTextArea;
 	private RTextScrollPane xmlScroll, jsonScroll;
 	private JHexEditor hexEditor;
+	
+	private ArrayList<MessageTemplate> templates = new ArrayList<>();
 
 	public MessageEditor() {
 		setLayout(new BorderLayout());
@@ -91,6 +93,12 @@ public class MessageEditor extends JPanel {
 		hexEditor.setBackground(Color.white);
 		JPanel hexEditorPanel = new JPanel(new BorderLayout());
 		hexEditorPanel.add(hexEditor, BorderLayout.CENTER);
+		
+		for (String name : IMCDefinition.getInstance().getConcreteMessages())
+			templates.add(new MessageTemplate(name, IMCDefinition.getInstance().create(name)));
+		
+		templates.add(new MessageTemplate("(Blank)", null));
+		Collections.sort(templates);
 
 		ButtonGroup bgGroup = new ButtonGroup();
 		bgGroup.add(xmlToggle);
@@ -139,16 +147,11 @@ public class MessageEditor extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				ArrayList<String> msgs = new ArrayList<String>();
-				msgs.addAll(IMCDefinition.getInstance().getConcreteMessages());
-				Collections.sort(msgs);
-				Object res = JOptionPane.showInputDialog(MessageEditor.this, "Select message to insert", "Insert message",
-						JOptionPane.QUESTION_MESSAGE, null, msgs.toArray(new String[0]), msgs.iterator().next());
-
-				if (res == null)
+				MessageTemplate template = (MessageEditor.MessageTemplate) JOptionPane.showInputDialog(MessageEditor.this, "Select a message template", "Create new message",
+						JOptionPane.QUESTION_MESSAGE, null, templates.toArray(new MessageEditor.MessageTemplate[0]), templates.iterator().next());
+				if (template == null)
 					return;
-
-				IMCMessage msg = IMCDefinition.getInstance().create(res.toString());
+				IMCMessage msg = template.message;
 
 				switch (mode) {
 				case JSON:
@@ -294,18 +297,51 @@ public class MessageEditor extends JPanel {
 			}
 		}
 	}
-
-		public static void main(String[] args) throws Exception  {
-			UDPTransport.sendMessage(new Abort(), "127.0.0.1", 6002);
-			JFrame frm = new JFrame("Test MessageEditor");
-			MessageEditor editor = new MessageEditor();
-			PlanControl pc = new PlanControl();
-			pc.setInfo("teste");
-			pc.setArg(new Goto());
-			editor.setMessage(pc);
-			frm.getContentPane().add(editor);
-			frm.setSize(800, 600);
-			frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frm.setVisible(true);
+	
+	static class MessageTemplate implements Comparable<MessageTemplate> {
+		public final String name;
+		public final IMCMessage message;
+		
+		public MessageTemplate(String name, IMCMessage msg) {
+			this.name = name;
+			this.message = msg;
+		}
+		
+		@Override
+		public int compareTo(MessageTemplate o) {
+			return name.compareTo(o.name);
+		}
+		
+		@Override
+		public String toString() {
+			return name;
 		}
 	}
+	
+	public void addTemplate(String name, IMCMessage msg) {
+		templates.add(new MessageTemplate(name, msg));
+		Collections.sort(templates);
+	}
+	
+	public void newMessage() {
+		MessageTemplate template = (MessageEditor.MessageTemplate) JOptionPane.showInputDialog(MessageEditor.this, "Select a message template", "Create new message",
+				JOptionPane.QUESTION_MESSAGE, null, templates.toArray(new MessageEditor.MessageTemplate[0]), templates.iterator().next());
+		if (template == null)
+			return;
+		setMessage(template.message);
+	}
+
+	public static void main(String[] args) throws Exception  {
+		UDPTransport.sendMessage(new Abort(), "127.0.0.1", 6002);
+		JFrame frm = new JFrame("Test MessageEditor");
+		MessageEditor editor = new MessageEditor();
+		PlanControl pc = new PlanControl();
+		pc.setInfo("teste");
+		pc.setArg(new Goto());
+		editor.setMessage(pc);
+		frm.getContentPane().add(editor);
+		frm.setSize(800, 600);
+		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frm.setVisible(true);
+	}
+}

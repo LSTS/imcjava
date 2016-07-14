@@ -37,12 +37,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -61,7 +59,6 @@ import javax.swing.UIManager;
 
 import org.xml.sax.SAXParseException;
 
-import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.IMCOutputStream;
 import pt.lsts.imc.net.TcpTransport;
@@ -79,6 +76,7 @@ public class MessageSender extends JPanel implements MessageDrawer.MessageSelect
 	private JFormattedTextField txtPort;
 	private JComboBox<String> comboTransport = new JComboBox<>(new String[] {"UDP", "TCP", "HTTP"});
 	private MessageDrawer drawer = new MessageDrawer();
+	
 	
 	public MessageSender() {
 		setLayout(new BorderLayout());
@@ -253,28 +251,14 @@ public class MessageSender extends JPanel implements MessageDrawer.MessageSelect
 					}
 
 			}
-		};
-		
+		};		
 		
 		AbstractAction newAct = new AbstractAction("New") {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<String> msgs = new ArrayList<String>();
-				msgs.addAll(IMCDefinition.getInstance().getConcreteMessages());
-				Collections.sort(msgs);
-				msgs.add(0, "(Blank)");
-				Object res = JOptionPane.showInputDialog(MessageSender.this, "Select a message template", "Create new message",
-						JOptionPane.QUESTION_MESSAGE, null, msgs.toArray(new String[0]), msgs.iterator().next());
-				
-				if (res == null)
-					return;
-				if (res.equals("(Blank"))
-					editor.setMessage(null);
-				else
-					editor.setMessage(IMCDefinition.getInstance().create(res.toString()));
+				editor.newMessage();
 			}
-		};
-		
+		};		
 		
 		actions.add(newAct);
 		actions.add(open);
@@ -351,4 +335,7 @@ public class MessageSender extends JPanel implements MessageDrawer.MessageSelect
 		}
 		frame.setVisible(true);
 	}
+	
+	
+	
 }
