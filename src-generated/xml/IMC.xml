@@ -10,7 +10,7 @@
           xsi:noNamespaceSchemaLocation="IMC.xsd"
           name="IMC"
           long-name="Inter Module Communication"
-          version="5.4.8">
+          version="5.4.9">
 
   <description>
     This document describes the communications protocol associated
@@ -203,6 +203,7 @@
     <unit abbrev="%" name="Percent"/>
     <unit abbrev="PPM" name="Parts per million"/>
     <unit abbrev="PPB" name="Parts per billion"/>
+    <unit abbrev="1/m" name="Inverse Meter"/>
     <unit abbrev="px" name="Pixel"/>
     <unit abbrev="µg/L" name="Microgram per liter"/>
     <unit abbrev="µM" name="Micromolar"/>
@@ -270,7 +271,7 @@
       <value id="0" name="Decibel" abbrev="dB"/>
       <value id="1" name="Percentage" abbrev="PERCENTAGE"/>
     </def>
-    
+
     <def name="UAV Type" abbrev="UAVType" prefix="UAVTYPE">
       <value id="0" name="Fixed-Wing" abbrev="FIXEDWING"/>
       <value id="1" name="Copter" abbrev="COPTER"/>
@@ -569,7 +570,7 @@
     <description>
       Report of software CPU usage.
     </description>
-    <field name="Usage percentage" abbrev="value" type="uint8_t" min="0" max="100" unit="%">
+    <field name="Usage percentage" abbrev="value" type="uint8_t" max="100" unit="%">
       <description>
         The CPU usage, in percentage, of the sending software.
       </description>
@@ -1031,7 +1032,7 @@
         The available storage of the reporting device.
       </description>
     </field>
-    <field name="Usage" abbrev="value" type="uint8_t" min="0" max="100" unit="%">
+    <field name="Usage" abbrev="value" type="uint8_t" max="100" unit="%">
       <description>
         The percentage of storage used by the reporting device.
       </description>
@@ -1275,7 +1276,7 @@
 
   <message id="107" name="Historic CTD" abbrev="HistoricCTD" used-by="vehicle">
     <description>
-    	This message is used to store historic (transmitted afterwards) CTD data .
+      This message is used to store historic (transmitted afterwards) CTD data .
     </description>
     <field name="Conductivity" abbrev="conductivity" type="fp32_t" unit="S/m"/>
     <field name="Temperature" abbrev="temperature" type="fp32_t" unit="°C"/>
@@ -1284,56 +1285,56 @@
 
   <message id="108" name="Historic Telemetry" abbrev="HistoricTelemetry" used-by="vehicle">
     <description>
-    	This message is used to store historic (transmitted afterwards) telemetry information.
+      This message is used to store historic (transmitted afterwards) telemetry information.
     </description>
     <field name="Altitude" abbrev="altitude" type="fp32_t" unit="m"/>
     <field name="Roll" abbrev="roll" type="uint16_t">
-    	<description>
-    		Roll encoded as α.(65535/(2.π))
-    	</description>
+      <description>
+        Roll encoded as α.(65535/(2.π))
+      </description>
     </field>
     <field name="Pitch" abbrev="pitch" type="uint16_t">
-        <description>
-    		Pitch encoded as α.(65535/(2.π))
-    	</description>
+      <description>
+        Pitch encoded as α.(65535/(2.π))
+      </description>
     </field>
     <field name="Yaw" abbrev="yaw" type="uint16_t">
-    	<description>
-    		Yaw encoded as α.(65535/(2.π))
-    	</description>
+      <description>
+        Yaw encoded as α.(65535/(2.π))
+      </description>
     </field>
     <field name="Speed" abbrev="speed" type="int16_t" unit="dm"/>
   </message>
 
   <message id="109" name="Historic Sonar Data" abbrev="HistoricSonarData" used-by="vehicle">
     <description>
-    	This message is used to store historic (transmitted afterwards) sonar data.
+      This message is used to store historic (transmitted afterwards) sonar data.
     </description>
     <field name="Altitude" abbrev="altitude" type="fp32_t" unit="m"/>
     <field name="Width" abbrev="width" type="fp32_t" unit="m"/>
     <field name="Length" abbrev="length" type="fp32_t" unit="m"/>
     <field name="Bearing" abbrev="bearing" type="fp32_t"/>
     <field name="Pixels Per Line" abbrev="pxl" type="int16_t">
-    	<description>
-    		The number of pixels per line as the data in 'sonar_data' may
-    		correspond to more than one sequential sidescan lines.
-    	</description>
+      <description>
+        The number of pixels per line as the data in 'sonar_data' may
+        correspond to more than one sequential sidescan lines.
+      </description>
     </field>
     <field name="Encoding" abbrev="encoding" type="uint8_t" unit="Enumerated" prefix="ENC">
-    	<value abbrev="ONE_BYTE_PER_PIXEL" name="One Byte Per Pixel" id="0"/>
-    	<value abbrev="PNG" name="PNG compressed image" id="1"/>
-    	<value abbrev="JPEG" name="JPEG compressed image" id="2"/>
+      <value abbrev="ONE_BYTE_PER_PIXEL" name="One Byte Per Pixel" id="0"/>
+      <value abbrev="PNG" name="PNG compressed image" id="1"/>
+      <value abbrev="JPEG" name="JPEG compressed image" id="2"/>
     </field>
     <field name="SonarData" abbrev="sonar_data" type="rawdata">
-    	<description>
-    		Sonar data encoded as in 'encoding'.
-    	</description>
+      <description>
+        Sonar data encoded as in 'encoding'.
+      </description>
     </field>
   </message>
 
   <message id="110" name="Historic Event" abbrev="HistoricEvent" used-by="vehicle">
     <description>
-    	This message is used to store historic event log entries.
+      This message is used to store historic event log entries.
     </description>
     <field name="Event" abbrev="text" type="plaintext"/>
     <field name="Event Type" abbrev="type" type="uint8_t" unit="Enumerated" prefix="EVTYPE">
@@ -1681,8 +1682,8 @@
 
   <message id="184" abbrev="HistoricData" name="Historic Data Series">
     <description>
-	  This message holds a list of inline data samples produced by one or more vehicles in the past.
-	  It is used to transfer data over disruption tolerant networks.
+      This message holds a list of inline data samples produced by one or more vehicles in the past.
+      It is used to transfer data over disruption tolerant networks.
     </description>
     <field name="Base Latitude" abbrev="base_lat" type="fp32_t" unit="°">
       <description>
@@ -1695,8 +1696,8 @@
     </description>
     </field>
     <field name="Base Timestamp" abbrev="base_time" type="fp32_t" unit="s">
-	  <description>
-      	All data sent inside this message will use this time as the origin (0).
+      <description>
+        All data sent inside this message will use this time as the origin (0).
       </description>
     </field>
     <field name="Data" abbrev="data" type="message-list" message-type="RemoteData"/>
@@ -1704,8 +1705,8 @@
 
   <message id="185" abbrev="CompressedHistory" name="Compressed Historic Data Series">
     <description>
-	  This message holds a list of inline data samples produced by one or more vehicles in the past.
-	  It is used to transfer data over disruption tolerant networks.
+      This message holds a list of inline data samples produced by one or more vehicles in the past.
+      It is used to transfer data over disruption tolerant networks.
     </description>
     <field name="Base Latitude" abbrev="base_lat" type="fp32_t" unit="°">
       <description>
@@ -1718,15 +1719,15 @@
     </description>
     </field>
     <field name="Base Timestamp" abbrev="base_time" type="fp32_t" unit="s">
-	  <description>
-      	All data sent inside this message will use this time as the origin (0).
+      <description>
+        All data sent inside this message will use this time as the origin (0).
       </description>
     </field>
     <field name="Data" abbrev="data" type="rawdata">
       <description>
         A message-list of HistoricSample messages compressed with GZip algorithm.
       </description>
-	</field>
+    </field>
   </message>
 
   <message id="186" abbrev="HistoricSample" name="Historic Data Sample">
@@ -1745,18 +1746,18 @@
     </field>
     <field name="X offset" abbrev="x" type="int16_t" unit="m">
       <description>
-	    Northing offsets relative to base latitude / longitude expressed in the enclosing `HistoricData` message.
+        Northing offsets relative to base latitude / longitude expressed in the enclosing `HistoricData` message.
       </description>
     </field>
     <field name="Y offset" abbrev="y" type="int16_t" unit="m">
       <description>
-	    Easting offsets relative to base latitude / longitude expressed in the enclosing `HistoricData` message.
+        Easting offsets relative to base latitude / longitude expressed in the enclosing `HistoricData` message.
       </description>
     </field>
-	<field name="Z offset" abbrev="z" type="int16_t" unit="dm">
+    <field name="Z offset" abbrev="z" type="int16_t" unit="dm">
       <description>
-	    Altitude / depth offsets relative to sea level expressed in decimeters.
-	    Negative values mean depth and positive values mean altitude.
+        Altitude / depth offsets relative to sea level expressed in decimeters.
+        Negative values mean depth and positive values mean altitude.
       </description>
     </field>
     <field name="Time offset" abbrev="t" type="int16_t" unit="s">
@@ -1764,21 +1765,21 @@
         Time offset in seconds relative to the base time expressed in the enclosing `HistoricData` message.
       </description>
     </field>
-	  <field name="Data Sample" abbrev="sample" type="message"/>
+      <field name="Data Sample" abbrev="sample" type="message"/>
   </message>
 
   <message id="187" abbrev="HistoricDataQuery" name="Historic Data Query">
     <field name="Request Id" abbrev="req_id" type="uint16_t" />
     <field name="Request Type" abbrev="type" type="uint8_t" unit="Enumerated"  prefix="HRTYPE">
-    	<value abbrev="QUERY" name="Query" id="1">
-    		<description>Request data from the Data Store</description>
-    	</value>
-    	<value abbrev="REPLY" name="Reply" id="2">
-    		<description>Data Store response with Data (using field 'data')</description>
-    	</value>
-    	<value abbrev="CLEAR" name="Clear" id="3">
-    		<description>Clear 'data' from the Data Store</description>
-    	</value>
+        <value abbrev="QUERY" name="Query" id="1">
+            <description>Request data from the Data Store</description>
+        </value>
+        <value abbrev="REPLY" name="Reply" id="2">
+            <description>Data Store response with Data (using field 'data')</description>
+        </value>
+        <value abbrev="CLEAR" name="Clear" id="3">
+            <description>Clear 'data' from the Data Store</description>
+        </value>
     </field>
     <field name="Maximum Size" abbrev="max_size" type="uint16_t"/>
     <field name="Data" abbrev="data" type="message" message-type="HistoricData"/>
@@ -3478,7 +3479,7 @@
         The name of the power channel.
       </description>
     </field>
-    <field name="Operation" abbrev="op" type="uint8_t" unit="Enumerated" min="0" max="6" prefix="PCC_OP">
+    <field name="Operation" abbrev="op" type="uint8_t" unit="Enumerated" max="6" prefix="PCC_OP">
       <description>
         Operation to perform.
       </description>
@@ -5140,7 +5141,7 @@
         Speed units.
       </description>
     </field>
-    <field name="Loiter Type" abbrev="type" type="uint8_t" unit="Enumerated" prefix="LT" min="0" max="4">
+    <field name="Loiter Type" abbrev="type" type="uint8_t" unit="Enumerated" prefix="LT" max="4">
       <description>
         Loiter maneuver type.
       </description>
@@ -5165,7 +5166,7 @@
         Bearing of the maneuver.
       </description>
     </field>
-    <field name="Direction" abbrev="direction" type="uint8_t" unit="Enumerated" prefix="LD" min="0" max="3">
+    <field name="Direction" abbrev="direction" type="uint8_t" unit="Enumerated" prefix="LD" max="3">
       <description>
         Desired direction.
       </description>
@@ -5285,12 +5286,12 @@
         Horizontal step.
       </description>
     </field>
-    <field name="Curve Offset" abbrev="coff" type="uint8_t" unit="m" min="0">
+    <field name="Curve Offset" abbrev="coff" type="uint8_t" unit="m">
       <description>
         Desired curve offset.
       </description>
     </field>
-    <field name="Alternation Parameter" abbrev="alternation" type="uint8_t" unit="%" min="0" max="100" value="50">
+    <field name="Alternation Parameter" abbrev="alternation" type="uint8_t" unit="%" max="100" value="50">
       <description>
         Alternation parameter.
       </description>
@@ -6051,7 +6052,7 @@
         Radius of the maneuver.
       </description>
     </field>
-    <field name="Direction" abbrev="direction" type="uint8_t" unit="Enumerated" prefix="LD" min="0" max="3">
+    <field name="Direction" abbrev="direction" type="uint8_t" unit="Enumerated" prefix="LD" max="3">
       <description>
         Direction of the maneuver.
       </description>
@@ -6877,26 +6878,26 @@
         What to do if the vehicle fails to arrive before or at the requested time.
       </description>
       <value abbrev="RESUME" name="Resume" id="0">
-      	<description>
-      	  If the vehicle fails to arrive at the specified time, it will keep going to the destination
-      	  at top speed and only then consider this maneuver completed.
-      	</description>
+        <description>
+          If the vehicle fails to arrive at the specified time, it will keep going to the destination
+          at top speed and only then consider this maneuver completed.
+        </description>
       </value>
       <value abbrev="SKIP" name="Skip" id="1">
-      	<description>
-      	  If the vehicle fails to arrive at the specified time, it will stop the current maneuver and
-      	  advance to the next one (independently of how far it is from destination).
-      	</description>
+        <description>
+          If the vehicle fails to arrive at the specified time, it will stop the current maneuver and
+          advance to the next one (independently of how far it is from destination).
+        </description>
       </value>
       <value abbrev="FAIL" name="Fail" id="2">
-      	<description>
-      	  If the vehicle fails to arrive at the specified time, it will stop the execution of this
-      	  maneuver with a FAILED result (the entire plan will be stopped).
-      	</description>
+        <description>
+          If the vehicle fails to arrive at the specified time, it will stop the execution of this
+          maneuver with a FAILED result (the entire plan will be stopped).
+        </description>
       </value>
     </field>
   </message>
-  
+
   <message id="488" name="Rows Coverage" abbrev="RowsCoverage" source="ccu">
     <description>Rows coverage (i.e: lawn mower type maneuver) but with adaptive cover</description>
     <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
@@ -6975,14 +6976,14 @@
         Maneuver optional flags.
       </description>
       <value id="0x01" name="Square Curve" abbrev="SQUARE_CURVE">
-      	<description>
-      	  Whether to move between transects using an additional perpendicular transect.
-      	</description>
+        <description>
+          Whether to move between transects using an additional perpendicular transect.
+        </description>
       </value>
       <value id="0x02" name="First Curve Right" abbrev="CURVE_RIGHT">
-      	<description>
-      	  Shall the vehicle turn towards the right after the first transect (alternatively it will turn left).
-      	</description>
+        <description>
+          Shall the vehicle turn towards the right after the first transect (alternatively it will turn left).
+        </description>
       </value>
     </field>
     <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
@@ -7070,7 +7071,7 @@
     <description>
       Automatic takeoff for UAVs.
       This maneuver specifies a target waypoint where to takeoff.
-      
+
       Takeoff direction is set from the direction the plane is pointing when the auto takeoff command is started.
       It will remain that way until the vehicle reaches the target z reference. After that it will go to the target waypoint.
     </description>
@@ -7086,7 +7087,7 @@
     </field>
     <field name="Z Reference" abbrev="z" type="fp32_t" unit="m">
       <description>
-        Target altitude or height for the automatic takeoff. 
+        Target altitude or height for the automatic takeoff.
       </description>
     </field>
     <field name="Z Units" abbrev="z_units" type="uint8_t" value="0" unit="Enumerated" enum-def="ZUnits">
@@ -7115,7 +7116,7 @@
       </description>
     </field>
   </message>
-  
+
   <message id="492" name="Land Maneuver" abbrev="Land">
     <description>
       Automatic landing on the ground, for UAVs.
@@ -7161,7 +7162,7 @@
         Land bearing angle.
       </description>
     </field>
-    <field name="Glide Slope" abbrev="glide_slope" type="uint8_t" unit="%" min="0" max="10">
+    <field name="Glide Slope" abbrev="glide_slope" type="uint8_t" unit="%" max="10">
       <description>
         Ratio of the distance from the last waypoint to the landing point (touchdown) and the height difference between them.
       </description>
@@ -7170,7 +7171,7 @@
       <description>
         Height difference between the last waypoint to the landing point (touchdown).
       </description>
-    </field> 
+    </field>
     <field name="Custom settings for maneuver" abbrev="custom" unit="TupleList" type="plaintext">
       <description>
         Custom settings for maneuver.
@@ -7861,7 +7862,7 @@
       <value id="5" name="Stopping" abbrev="STOPPING"/>
     </field>
     <field name="Plan Id" abbrev="plan_id" type="plaintext"/>
-    <field name="Communications Level" abbrev="comm_level" type="uint8_t" unit="%" min="0" max="100"/>
+    <field name="Communications Level" abbrev="comm_level" type="uint8_t" unit="%" max="100"/>
   </message>
 
   <message id="556" name="Plan DB" abbrev="PlanDB">
@@ -9542,5 +9543,88 @@
     </field>
   </message>
 
+  <message id="901" name="USBL Modem Configuration" abbrev="UsblModem" source="ccu,vehicle">
+    <description>
+      Position and configuration of an Ultra-Short Base Line modem.
+    </description>
+    <field name="Modem Name" abbrev="name" type="plaintext">
+      <description>
+        Name/Label of the acoustic modem.
+      </description>
+    </field>
+    <field name="Latitude WGS-84" abbrev="lat" type="fp64_t" unit="rad" min="-1.5707963267948966" max="1.5707963267948966">
+      <description>
+        WGS-84 Latitude coordinate.
+      </description>
+    </field>
+    <field name="Longitude WGS-84" abbrev="lon" type="fp64_t" unit="rad" min="-3.141592653589793" max="3.141592653589793">
+      <description>
+        WGS-84 Longitude coordinate.
+      </description>
+    </field>
+    <field name="Z Reference" abbrev="z" type="fp32_t" unit="m">
+      <description>
+        Target reference in the z axis. Use z_units to specify
+        whether z represents depth, altitude or other.
+      </description>
+    </field>
+    <field name="Z Units" abbrev="z_units" type="uint8_t" value="0" unit="Enumerated" enum-def="ZUnits">
+      <description>
+        Units of the z reference.
+      </description>
+    </field>
+  </message>
 
+  <message id="902" name="USBL Configuration" abbrev="UsblConfig" source="ccu,vehicle">
+    <description>
+      Ultra-Short Base Line configuration.
+    </description>
+    <field name="Operation" abbrev="op" type="uint8_t" unit="Enumerated" prefix="OP">
+      <description>
+        Used to define the type of the operation this message holds.
+      </description>
+      <value abbrev="SET_CFG" name="Set LBL Configuration" id="0">
+        <description>Set the beacons configuration aboard the vehicle.</description>
+      </value>
+      <value abbrev="GET_CFG" name="Retrieve LBL Configuration" id="1">
+        <description>Request the vehicle to send its current beacons configuration.</description>
+      </value>
+      <value abbrev="CUR_CFG" name="Reply to a GET command" id="2"></value>
+    </field>
+    <field name="Modems" abbrev="modems" type="message-list" message-type="UsblModem">
+      <description>
+        A list of USBL modem configuration messages.
+      </description>
+    </field>
+  </message>
+
+  <message id="903" name="Dissolved Organic Matter" abbrev="DissolvedOrganicMatter" source="vehicle" flags="periodic">
+    <description>
+      Dissolved Organic Matter measurement.
+    </description>
+    <field name="Value" abbrev="value" type="fp32_t" unit="PPB">
+      <description>
+        Dissolved Organic Matter reading.
+      </description>
+    </field>
+    <field name="Type of measurement" abbrev="type" type="uint8_t" unit="Enumerated" prefix="DT">
+      <description>
+    Type of measurement.
+      </description>
+      <value id="0" abbrev="COLORED" name="Colored"/>
+      <value id="1" abbrev="FLUORESCENT" name="Fluorescent"/>
+    </field>
+  </message>
+
+  <message id="904" name="Optical Backscattering Coefficient" abbrev="OpticalBackscatter" source="vehicle" flags="periodic">
+    <description>
+      The optical backscattering coefficient refers to all the photons that have been redirected in the backward directions
+      when a photon of light propagates in water and interacts with a "particle" (varying from water molecules to fish).
+    </description>
+    <field name="Value" abbrev="value" type="fp32_t" unit="1/m">
+      <description>
+        Optical Backscattering Coefficient.
+      </description>
+    </field>
+  </message>
 </messages>

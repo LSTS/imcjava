@@ -151,7 +151,7 @@ public class MessageEditor extends JPanel {
 						JOptionPane.QUESTION_MESSAGE, null, templates.toArray(new MessageEditor.MessageTemplate[0]), templates.iterator().next());
 				if (template == null)
 					return;
-				IMCMessage msg = template.message;
+				IMCMessage msg = template.message.cloneMessage();
 
 				switch (mode) {
 				case JSON:

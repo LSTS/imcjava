@@ -610,6 +610,14 @@ public class MessageFactory {
 				return new UsblPositionExtended(defs);
 			case UsblFixExtended.ID_STATIC:
 				return new UsblFixExtended(defs);
+			case UsblModem.ID_STATIC:
+				return new UsblModem(defs);
+			case UsblConfig.ID_STATIC:
+				return new UsblConfig(defs);
+			case DissolvedOrganicMatter.ID_STATIC:
+				return new DissolvedOrganicMatter(defs);
+			case OpticalBackscatter.ID_STATIC:
+				return new OpticalBackscatter(defs);
 			default:
 				return new IMCMessage(defs);
 		}
