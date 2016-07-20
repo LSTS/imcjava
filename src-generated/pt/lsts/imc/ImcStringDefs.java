@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "57d4ed0c0ab95147877ba3156332d677c999d444";
-	public static final String IMC_BRANCH = "2016-07-14 57d4ed0 (HEAD -> master, tag: imc-5.4.9, origin/master, origin/HEAD)";
-	public static final String IMC_COMMIT = "Ricardo Martins (rasm@oceanscan-mst.com), Thu Jul 14 11:33:00 WEST 2016, Removed executable bit from XML file...";
+	public static final String IMC_SHA = "826738d86ac4c27b98df6caaa1ffa1640a7d5aad";
+	public static final String IMC_BRANCH = "2016-07-20 826738d (HEAD -> master, origin/master, origin/HEAD)";
+	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Wed Jul 20 10:39:11 WEST 2016, Addresses: Added VTOL-01 vehicle.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -76,6 +76,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("mariner-02", 3088);
 		IMC_ADDRESSES.put("x8-05", 3098);
 		IMC_ADDRESSES.put("x8-06", 3099);
+		IMC_ADDRESSES.put("vtol-01", 3100);
 		IMC_ADDRESSES.put("hexa-00", 3091);
 		IMC_ADDRESSES.put("alfa-02", 3106);
 		IMC_ADDRESSES.put("alfa-03", 3107);
@@ -135,6 +136,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("doam", 24576);
 		IMC_ADDRESSES.put("lauv-seacon-1-aux", 24578);
 		IMC_ADDRESSES.put("lauv-noptilus-3-aux", 24579);
+		IMC_ADDRESSES.put("lauv-xtreme-2-aux", 24580);
 		IMC_ADDRESSES.put("star", 32768);
 		IMC_ADDRESSES.put("benthos-mgateway", 32784);
 		IMC_ADDRESSES.put("manta-1", 32786);
