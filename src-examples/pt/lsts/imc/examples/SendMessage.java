@@ -48,6 +48,9 @@ public class SendMessage {
 		// Send message to localhost, port 7000
 		transport.sendMessage("localhost", 7000, m);
 		
+		// give time to deliver the message before exiting...
+		Thread.sleep(1000);
+		
 		// Clean up and terminate receiving threads
 		transport.stop();
 	}	

@@ -48,7 +48,7 @@ public class ReceiveMessages implements MessageListener<MessageInfo, IMCMessage>
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 
 		// Create a transport and bind it to port 7000 (using 1 sending threads)
 		UDPTransport transport = new UDPTransport(7000, 1);
@@ -57,8 +57,13 @@ public class ReceiveMessages implements MessageListener<MessageInfo, IMCMessage>
 		transport.addMessageListener(new ReceiveMessages());
 
 		System.out.println("Now listening for messages...");
-
-		// The program will not end until transport.stop() is called
+		
+		
+		// Listen for 20 seconds and then exit
+		long timeout = System.currentTimeMillis() + 20000;
+		while(System.currentTimeMillis() < timeout) {
+			Thread.sleep(100);
+		}		
 	}
 }
 
