@@ -446,6 +446,8 @@ public class MessageFactory {
 				return new Takeoff(defs);
 			case Land.ID_STATIC:
 				return new Land(defs);
+			case AutonomousSection.ID_STATIC:
+				return new AutonomousSection(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
