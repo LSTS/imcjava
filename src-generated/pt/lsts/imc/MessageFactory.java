@@ -618,6 +618,8 @@ public class MessageFactory {
 				return new DissolvedOrganicMatter(defs);
 			case OpticalBackscatter.ID_STATIC:
 				return new OpticalBackscatter(defs);
+			case Tachograph.ID_STATIC:
+				return new Tachograph(defs);
 			default:
 				return new IMCMessage(defs);
 		}
