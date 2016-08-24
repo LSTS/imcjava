@@ -30,9 +30,9 @@ package pt.lsts.imc.adapter;
 
 import pt.lsts.imc.Abort;
 import pt.lsts.imc.Announce.SYS_TYPE;
-import pt.lsts.imc.Heartbeat;
 import pt.lsts.imc.IMCMessage;
-import pt.lsts.imc.net.Consume;
+import pt.lsts.imc.LogBookEntry;
+import pt.lsts.imc.LogBookEntry.TYPE;
 import pt.lsts.imc.net.IMCProtocol;
 
 /**
@@ -53,11 +53,30 @@ public class ImcAdapter {
 		imc.sendToPeers(message);
 	}
 	
-	@Consume
-	public void on(Heartbeat msg) {
-		System.out.println("Received "+msg.getAbbrev()+" from "+msg.getSourceName());
+	private void report(LogBookEntry.TYPE type, String message) {
+		LogBookEntry entry = new LogBookEntry();
+		entry.setType(type);
+		entry.setText(message);
+		entry.setHtime(System.currentTimeMillis()/1000.0);
+		dispatch(entry);
 	}
 	
+	public void inf(String text) {
+		report(TYPE.INFO, text);
+	}
+	
+	public void err(String text) {
+		report(TYPE.ERROR, text);		
+	}
+	
+	public void war(String text) {
+		report(TYPE.WARNING, text);
+	}
+	
+	public void debug(String text) {
+		report(TYPE.DEBUG, text);
+	}
+
 	public static void main(String[] args) throws Exception {
 		ImcAdapter adapter = new ImcAdapter("DummyVehicle", 0x8043, 7009, SYS_TYPE.UUV);
 		while (true) {

@@ -31,7 +31,12 @@ package pt.lsts.imc.adapter;
 import pt.lsts.imc.Abort;
 import pt.lsts.imc.Announce.SYS_TYPE;
 import pt.lsts.imc.EstimatedState;
+import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.PlanControl;
+import pt.lsts.imc.PlanControlState;
+import pt.lsts.imc.PlanControlState.STATE;
+import pt.lsts.imc.PlanDB;
+import pt.lsts.imc.PlanSpecification;
 import pt.lsts.imc.VehicleState;
 import pt.lsts.imc.VehicleState.OP_MODE;
 import pt.lsts.imc.net.Consume;
@@ -39,20 +44,34 @@ import pt.lsts.neptus.messages.listener.Periodic;
 import pt.lsts.util.WGS84Utilities;
 
 /**
+ * This class is a simple implementation of an IMC vehicle adapter
  * @author zp
- *
  */
 public class VehicleAdapter extends ImcAdapter {
 	
 	protected double latRads = 0, lonRads = 0, height = 0, depth = 0;
 	protected double rollRads = 0, pitchRads = 0, yawRads = 0, speed = 0;
 	protected double startLat = 0, startLon = 0, startTime = 0;
-	
-	
+	protected PlanDbManager planDbManager = new PlanDbManager();
+	protected PlanControlState planControl = new PlanControlState();
+
+	/**
+	 * Class constructor. Announces sent to the network will use given settings.
+	 * @param name The name of the system
+	 * @param imcid The IMC ID of the system
+	 */
 	public VehicleAdapter(String name, int imcid) {
 		super(name, imcid, 7010, SYS_TYPE.UUV);
+		planControl.setState(STATE.READY);
 	}
 	
+	/**
+	 * Change the vehicle's position
+	 * @param latDegs Latitude of the system, in degrees
+	 * @param lonDegs Longitude of the system, in degrees
+	 * @param height Height above WGS84 ellipsoid
+	 * @param depth Depth below water
+	 */
 	public void setPosition(double latDegs, double lonDegs, double height, double depth) {
 		this.startLat = this.latRads = Math.toRadians(latDegs);
 		this.startLon = this.lonRads = Math.toRadians(lonDegs);
@@ -61,26 +80,83 @@ public class VehicleAdapter extends ImcAdapter {
 		this.startTime = System.currentTimeMillis()/1000.0;
 	}
 	
+	/**
+	 * Change the vehicle's attitude
+	 * @param rollDegs Roll angle in degrees
+	 * @param pitchDegs Pitch angle in degrees
+	 * @param yawDegs Yaw angle in degrees
+	 */
 	public void setEuler(double rollDegs, double pitchDegs, double yawDegs) {
 		this.rollRads = Math.toRadians(rollDegs);
 		this.pitchRads = Math.toRadians(pitchDegs);
 		this.yawRads = Math.toRadians(yawDegs);
 	}
 	
+	/**
+	 * Change the vehicle's speed. This will also be integrated to update the vehicle position
+	 * @param speed The vehicle speed, in m/s.
+	 */
 	public void setSpeed(double speed) {
 		this.speed = speed;
 	}
 	
+	/**
+	 * Method called whenever an Abort message is sent (from Neptus). 
+	 * It will interrupt ongoing plan if applicable. 
+	 * @param abort Abort message sent by operator
+	 */
 	@Consume
 	void on(Abort abort) {
 		System.err.println("Received abort message!");
+		planControl.setPlanId("");
+		planControl.setState(STATE.READY);
 	}
 	
+	/**
+	 * Method called whenever a PlanDB request is sent by the operator
+	 * @param request The request to be handled by the vehicle
+	 */
+	@Consume
+	void on(PlanDB request) {
+		IMCMessage response = planDbManager.query(request);
+		dispatch(response);		
+	}
+	
+	/**
+	 * Handler for PlanControl requests
+	 * @param command The command sent by the operator
+	 */
 	@Consume
 	void on(PlanControl command) {
-		System.out.println(command);
+		PlanControl reply = new PlanControl();
+		try {
+			reply.copyFrom(command);
+		}
+		catch (Exception e) { }
+		
+		planDbManager.setPlanControl(command);
+		if (command.getType() == PlanControl.TYPE.REQUEST && command.getOp() == PlanControl.OP.START) {
+			PlanSpecification spec = planDbManager.getSpec(command.getPlanId());
+			if (spec == null) {
+				reply.setType(PlanControl.TYPE.FAILURE);
+				err("Unknown plan id: "+command.getPlanId());
+			}
+			else {
+				planControl.setPlanId(command.getPlanId());
+				planControl.setState(STATE.EXECUTING);
+				reply.setType(PlanControl.TYPE.SUCCESS);
+			}
+		}
+		else if (command.getType() == PlanControl.TYPE.REQUEST && command.getOp() == PlanControl.OP.STOP) {
+			planControl.setPlanId("");
+			planControl.setState(STATE.READY);
+			reply.setType(PlanControl.TYPE.SUCCESS);
+		}		
 	}	
 		
+	/**
+	 * Every 500ms, the current state is published to the IMC network
+	 */
 	@Periodic(500)
 	void sendEstimatedState() {
 		EstimatedState state = new EstimatedState();
@@ -91,17 +167,37 @@ public class VehicleAdapter extends ImcAdapter {
 		state.setPsi(yawRads);
 		state.setDepth(depth);
 		state.setHeight(height);
+		state.setU(speed);
 		dispatch(state);
 	}
 	
+	/**
+	 * Every 1s, the VehicleState is published to the IMC network
+	 */
 	@Periodic(1000)
 	void sendVehicleState() {
 		VehicleState state = new VehicleState();
-		state.setOpMode(OP_MODE.SERVICE);
+
+		if (planControl.getState() == STATE.READY)
+			state.setOpMode(OP_MODE.SERVICE);
+		else if (planControl.getState() == STATE.EXECUTING)
+			state.setOpMode(OP_MODE.MANEUVER);
+		
 		dispatch(state);
 	}
 	
-	@Periodic(333)
+	/**
+	 * Every 1s, the PlanControlState is sent to the IMC network
+	 */
+	@Periodic(1000)
+	void sendPlanControlState() {
+		dispatch(planControl);
+	}
+	
+	/**
+	 * Integrate vehicle's speed at 10Hz
+	 */
+	@Periodic(100)
 	void updatePosition() {
 		if (startTime == 0 || speed == 0)
 			return;
@@ -114,13 +210,14 @@ public class VehicleAdapter extends ImcAdapter {
 		setPosition(pos[0], pos[1], height, depth);
 	}
 
-	
+	/**
+	 * This example starts an existing vehicle (lauv-seacon-3) and starts updating its position.
+	 */
 	public static void main(String[] args) throws Exception {
 		VehicleAdapter adapter = new VehicleAdapter("lauv-seacon-3", 0x0017);
 		double startLat = 41, startLon = -8;
 		adapter.setPosition(startLat, startLon, 0, 0);
 		adapter.setEuler(0, 0, -45);
-		adapter.setSpeed(0.7);
+		adapter.setSpeed(1.25);
 	}
-
 }
