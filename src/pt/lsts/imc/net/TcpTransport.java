@@ -32,7 +32,10 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Vector;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -53,17 +56,68 @@ public class TcpTransport {
 	protected ServerSocket socket;
 	protected ExecutorService executor = Executors.newCachedThreadPool();
 	
-	protected HashSet<MessageListener<MessageInfo, IMCMessage>> messageListeners = new HashSet<MessageListener<MessageInfo, IMCMessage>>();
+	protected LinkedHashMap<MessageListener<MessageInfo, IMCMessage>, HashSet<Integer>> messageListeners = new LinkedHashMap<MessageListener<MessageInfo, IMCMessage>, HashSet<Integer>>();
+	protected LinkedHashMap<Integer, HashSet<MessageListener<MessageInfo, IMCMessage>>> messagesListened = new LinkedHashMap<Integer, HashSet<MessageListener<MessageInfo, IMCMessage>>>();
 
 	protected void dispatch(IMCMessage msg) {
 		MessageInfoImpl info = new MessageInfoImpl();
-		info.setTimeReceivedSec(System.currentTimeMillis()/1000.0);
-		for (MessageListener<MessageInfo, IMCMessage> l : messageListeners)
-			l.onMessage(info, msg);
+		info.setTimeReceivedSec(System.currentTimeMillis() / 1000.0);
+
+		Vector<MessageListener<MessageInfo, IMCMessage>> listeners = new Vector<MessageListener<MessageInfo, IMCMessage>>();
+		listeners.addAll(messageListeners.keySet());
+		for (MessageListener<MessageInfo, IMCMessage> lst : listeners) {
+			try {
+				if (messageListeners.containsKey(lst) && (messageListeners.get(lst).isEmpty()
+						|| messageListeners.get(lst).contains(msg.getHeader().getInteger("mgid"))))
+					lst.onMessage(info, msg);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} catch (Error e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
+    public void addMessageListener(MessageListener<MessageInfo, IMCMessage> l, Collection<Integer> typesToListen) {
+    	HashSet<Integer> types = new HashSet<Integer>();
+        types.addAll(typesToListen);
+
+        for (int id : typesToListen) {
+            if (!messagesListened.containsKey(id))
+                messagesListened.put(id, new HashSet<MessageListener<MessageInfo, IMCMessage>>());
+            messagesListened.get(id).add(l);
+        }		
+
+        messageListeners.put(l, types);
+    }	
+
+    public void addListener(MessageListener<MessageInfo, IMCMessage> l, Collection<String> typesToListen) {
+        Vector<Integer> types = new Vector<Integer>();
+        for (String s : typesToListen) {
+            try {
+                types.add(IMCDefinition.getInstance().getMessageId(s));
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }		
+        addMessageListener(l, types);		
+    }
+
     public void addMessageListener(MessageListener<MessageInfo, IMCMessage> l) {
-        messageListeners.add(l);       
+        messageListeners.put(l, new HashSet<Integer>()); // empty means all
+        for (String s : IMCDefinition.getInstance().getMessageNames()) {
+            try {
+                int id = IMCDefinition.getInstance().getMessageId(s);
+                if (!messagesListened.containsKey(id))
+                    messagesListened.put(id, new HashSet<MessageListener<MessageInfo, IMCMessage>>());
+                messagesListened.get(id).add(l);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }			
+        }
     }
 
     public void removeMessageListener(MessageListener<MessageInfo, IMCMessage> l) {
@@ -147,7 +201,8 @@ public class TcpTransport {
 			while (!clientConnection.isClosed()) {
 				try {
 					IMCMessage msg = IMCDefinition.getInstance().nextMessage(input);
-					transport.dispatch(msg);
+					if (msg != null)
+						transport.dispatch(msg);
 				}
 				catch (EOFException e) {
 					try {

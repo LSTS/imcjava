@@ -464,8 +464,11 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		long syncFirstByte = input.readUnsignedByte();
 		if (!(syncFirstByte == ((syncWord & 0xFF00) >> 8)
 		        || syncFirstByte == ((swappedWord & 0xFF00) >> 8))) {
-		    // If we are here probably this is not a synch word
-		    throw new IOException("Unrecognized Sync word: "
+			// If we are here probably this is not a synch word
+			if (input.available() == 0 && syncFirstByte == 0xFF)
+				return null;
+			else
+				throw new IOException("Unrecognized Sync word: "
                     + String.format("%02X", syncFirstByte) + "??");
 		}
 		
