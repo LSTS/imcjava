@@ -84,6 +84,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     private HashSet<String> services = new HashSet<String>();
     private boolean quiet = false;
     private String autoConnect = null;
+    private boolean connectOnHeartBeat = false;
     private Timer beater = new Timer();
     private IMessageLogger logger = null;
     private ExecutorService logExec = Executors.newSingleThreadExecutor();
@@ -105,7 +106,8 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         if (localId <= 0)
             this.localId = 0x4000 + new Random().nextInt(0x1FFF);
         else
-        	this.localId = 0x4000 + new Random().nextInt(0x1FFF);
+        	this.localId = localId;
+        
         if (sysType != null)
             this.sysType = sysType;
         
@@ -177,6 +179,9 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         case EntityList.ID_STATIC:
             on((EntityList) msg);
             break;
+        case Heartbeat.ID_STATIC:
+        	on((Heartbeat) msg);
+        	break;
         default:
             msgReceived(msg);
             break;
@@ -241,6 +246,18 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     private void on(EntityInfo el) {
         IMCDefinition.getInstance().getResolver().setEntityName(el.getSrc(), el.getId(),
                 el.getLabel());
+    }
+    
+    private void on(Heartbeat msg) {
+    	if (connectOnHeartBeat) {
+    		String name = msg.getSourceName();
+    		if (nodes.containsKey(name)) {
+    			boolean wasPeer = nodes.get(name).isPeer();
+    			nodes.get(name).setPeer(true);
+    			if (!wasPeer)
+    				System.out.println("Activating transmission to "+name+".");    			
+    		}    			    			
+    	}
     }
 
     public final String getLocalName() {
@@ -413,8 +430,6 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         for (IMCNode nd : nodes.values()) {
             if (nd.address != null && nd.isPeer()) {
                 fillUp(msg, nd.getSysName());
-//                msg.setValue("dst", nd.getImcId());
-//                msg.setTimestamp(System.currentTimeMillis() / 1000.0);
                 comms.sendMessage(nd.address, nd.port, msg);
                 logMessage(msg);
             }
@@ -548,6 +563,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
             Collection<String> typesToListen) {
         comms.addListener(l, typesToListen);
         discovery.addListener(l, typesToListen);
+        tcp.addMessageListener(l);
     }
 
     /** Remove a previously added message listener
@@ -709,6 +725,13 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         }
 
         this.autoConnect = autoConnect;
+    }
+    
+    public void setConnectOnHeartBeat() {
+    	autoConnect = null;
+    	connectOnHeartBeat = true;
+    	for (IMCNode node : nodes.values())
+    		node.setPeer(false);    	
     }
 
     /** This method blocks until a system whose name matches a regular expression is found on the
