@@ -28,6 +28,8 @@
  */
 package pt.lsts.imc.adapter;
 
+import java.util.Collection;
+
 import pt.lsts.imc.Abort;
 import pt.lsts.imc.Announce.SYS_TYPE;
 import pt.lsts.imc.EstimatedState;
@@ -41,6 +43,7 @@ import pt.lsts.imc.VehicleState;
 import pt.lsts.imc.VehicleState.OP_MODE;
 import pt.lsts.imc.net.Consume;
 import pt.lsts.neptus.messages.listener.Periodic;
+import pt.lsts.util.PlanUtilities;
 import pt.lsts.util.WGS84Utilities;
 
 /**
@@ -142,6 +145,13 @@ public class VehicleAdapter extends ImcAdapter {
 				err("Unknown plan id: "+command.getPlanId());
 			}
 			else {
+				Collection<double[]> locs = PlanUtilities.computeLocations(spec);
+				
+				System.out.println("Plan waypoints: "); 
+				for (double[] loc : locs)
+					System.out.println("   * "+loc[0]+", "+loc[1]+", "+loc[2]);
+				
+				
 				planControl.setPlanId(command.getPlanId());
 				planControl.setState(STATE.EXECUTING);
 				reply.setType(PlanControl.TYPE.SUCCESS);
