@@ -114,13 +114,17 @@ public class FollowPoint extends Maneuver {
 		return m;
 	}
 
-	public FollowPoint(int target, float max_speed, SPEED_UNITS speed_units, float z, Z_UNITS z_units) {
+	public FollowPoint(int target, float max_speed, SPEED_UNITS speed_units, double lat, double lon, float z, Z_UNITS z_units, String custom) {
 		super(ID_STATIC);
 		setTarget(target);
 		setMaxSpeed(max_speed);
 		setSpeedUnits(speed_units);
+		setLat(lat);
+		setLon(lon);
 		setZ(z);
 		setZUnits(z_units);
+		if (custom != null)
+			setCustom(custom);
 	}
 
 	/**
@@ -199,6 +203,36 @@ public class FollowPoint extends Maneuver {
 	}
 
 	/**
+	 *  @return Latitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLat() {
+		return getDouble("lat");
+	}
+
+	/**
+	 *  @param lat Latitude WGS-84 (rad)
+	 */
+	public FollowPoint setLat(double lat) {
+		values.put("lat", lat);
+		return this;
+	}
+
+	/**
+	 *  @return Longitude WGS-84 (rad) - fp64_t
+	 */
+	public double getLon() {
+		return getDouble("lon");
+	}
+
+	/**
+	 *  @param lon Longitude WGS-84 (rad)
+	 */
+	public FollowPoint setLon(double lon) {
+		values.put("lon", lon);
+		return this;
+	}
+
+	/**
 	 *  @return Z (m) - fp32_t
 	 */
 	public double getZ() {
@@ -255,6 +289,27 @@ public class FollowPoint extends Maneuver {
 	 */
 	public FollowPoint setZUnitsVal(short z_units) {
 		setValue("z_units", z_units);
+		return this;
+	}
+
+	/**
+	 *  @return Custom settings for maneuver (tuplelist) - plaintext
+	 */
+	public java.util.LinkedHashMap<String, String> getCustom() {
+		return getTupleList("custom");
+	}
+
+	/**
+	 *  @param custom Custom settings for maneuver (tuplelist)
+	 */
+	public FollowPoint setCustom(java.util.LinkedHashMap<String, ?> custom) {
+		String val = encodeTupleList(custom);
+		values.put("custom", val);
+		return this;
+	}
+
+	public FollowPoint setCustom(String custom) {
+		values.put("custom", custom);
 		return this;
 	}
 
