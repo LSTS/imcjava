@@ -114,9 +114,10 @@ public class FollowPoint extends Maneuver {
 		return m;
 	}
 
-	public FollowPoint(int target, float max_speed, SPEED_UNITS speed_units, double lat, double lon, float z, Z_UNITS z_units, String custom) {
+	public FollowPoint(String target, float max_speed, SPEED_UNITS speed_units, double lat, double lon, float z, Z_UNITS z_units, String custom) {
 		super(ID_STATIC);
-		setTarget(target);
+		if (target != null)
+			setTarget(target);
 		setMaxSpeed(max_speed);
 		setSpeedUnits(speed_units);
 		setLat(lat);
@@ -128,16 +129,16 @@ public class FollowPoint extends Maneuver {
 	}
 
 	/**
-	 *  @return Id To Follow - uint16_t
+	 *  @return Source To Follow - plaintext
 	 */
-	public int getTarget() {
-		return getInteger("target");
+	public String getTarget() {
+		return getString("target");
 	}
 
 	/**
-	 *  @param target Id To Follow
+	 *  @param target Source To Follow
 	 */
-	public FollowPoint setTarget(int target) {
+	public FollowPoint setTarget(String target) {
 		values.put("target", target);
 		return this;
 	}

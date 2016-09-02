@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "4877e8ea296e1665d8853290ce3616d87e6a4cd8";
-	public static final String IMC_BRANCH = "2016-09-02 4877e8e (HEAD -> feature/follow_point, origin/feature/follow_point)";
-	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Fri Sep 02 17:28:09 WEST 2016, FollowPoint: Added location and custom settings for extensibility.";
+	public static final String IMC_SHA = "9f2c2c5033ab1563d6c6608e2aa0498e7b8de303";
+	public static final String IMC_BRANCH = "2016-09-02 9f2c2c5 (HEAD -> feature/follow_point, origin/feature/follow_point)";
+	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Fri Sep 02 18:29:13 WEST 2016, FollowPoint: target is now 'plaintext' instead of 'uint16_t'.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
