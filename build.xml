@@ -1,10 +1,14 @@
 <project name="IMCJava" default="dist">
 
+  <property name="compile-source" value="1.7" />
+  <property name="compile-target" value="1.7" />
+  <property name="compile-encoding" value="UTF-8" />
+	
   <property name="test-dir" location="src-junit" />
 	
-	<path id="classpath.dependencies">
-		<pathelement location="lib/minimal-json-0.9.2.jar" />
-	</path>	
+  <path id="classpath.dependencies">
+    <pathelement location="lib/minimal-json-0.9.2.jar" />
+  </path>	
 	
   <path id="classpath.base">
   	<path refid="classpath.dependencies" />
@@ -34,7 +38,7 @@
   </path>		
 
   <target name="compile-test" depends="compile-all">
-    <javac encoding="UTF-8" srcdir="src-junit" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
+    <javac encoding="${compile-encoding}" srcdir="src-junit" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
       <classpath refid="classpath.test"/>
     </javac>
   </target>
@@ -90,14 +94,14 @@
 	  <fileset dir="src-generated" includes="xml/IMC.xml"/>
   	</copy>
   	    
-    <javac encoding="UTF-8" srcdir="src;src-generated"  destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
+    <javac encoding="${compile-encoding}" srcdir="src;src-generated"  destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
     	<classpath refid="classpath.dependencies"/>
     </javac>
    	<unjar src="lib/minimal-json-0.9.2.jar" dest="build"/>
   </target>
   
   <target name="compile-all" depends="compile-merge, compile-gui, compile-sniffer, compile-teleop, compile-preview">
-    <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
+    <javac encoding="${compile-encoding}" srcdir="src-sniffer" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
     </javac>
     <copy verbose="true" todir="build">
       <fileset dir="src-generated" includes="**/*.xml"/>
@@ -106,24 +110,24 @@
   </target>
 
   <target name="compile-merge" depends="compile">
-	<javac encoding="UTF-8" srcdir="src-merge" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
+	<javac encoding="${compile-encoding}" srcdir="src-merge" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
 	</javac>
   </target>
 
   <target name="compile-gui" depends="compile">
-	<javac encoding="UTF-8" srcdir="src-gui" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
+	<javac encoding="${compile-encoding}" srcdir="src-gui" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
 	</javac>
   </target>	
 
   <target name="compile-shell" depends="compile">
   	<unjar src="lib/asg.cliche-110413.jar" dest="build"/>
-	<javac encoding="UTF-8" srcdir="src-shell" destdir="build" includes="**/*.java" fork="false">
+	<javac encoding="${compile-encoding}" srcdir="src-shell" destdir="build" includes="**/*.java" fork="false">
 	</javac>
   </target>
 
   <target name="compile-generator" depends="compile">
     <mkdir dir="build"/>
-    <javac encoding="UTF-8" srcdir="src-generator" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/commons-lang3-3.1.jar">
+    <javac encoding="${compile-encoding}" srcdir="src-generator" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false" classpath="lib/commons-lang3-3.1.jar">
     </javac>
   </target>
 
@@ -132,12 +136,12 @@
     <copy verbose="true" todir="build">
       <fileset dir="src-sniffer" includes="**/*.png"/>
     </copy>
-    <javac encoding="UTF-8" srcdir="src-sniffer" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
+    <javac encoding="${compile-encoding}" srcdir="src-sniffer" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
     </javac>
   </target>
 
   <target name="compile-preview" depends="compile">
-    <javac encoding="UTF-8" srcdir="src-lsfpreview" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
+    <javac encoding="${compile-encoding}" srcdir="src-lsfpreview" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false" classpath="lib/jchart2d-3.2.0.jar">
     </javac>
   </target>
 
@@ -164,13 +168,13 @@
 
   <target name="compile-teleop" depends="compile, compile-gui">
     <mkdir dir="build"/>
-    <javac encoding="UTF-8" debug="true" srcdir="src-teleop" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false">
+    <javac encoding="${compile-encoding}" debug="true" srcdir="src-teleop" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
     </javac>
   </target>
 
   <target name="compile-kraken" depends="compile">
     <mkdir dir="build"/>
-  	<javac encoding="UTF-8" debug="true" srcdir="src-scripting" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/js.jar">
+  	<javac encoding="${compile-encoding}" debug="true" srcdir="src-scripting" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false" classpath="lib/js.jar">
     </javac>
   </target>
 	
@@ -180,7 +184,7 @@
       </copy>
     <unjar src="lib/gson-2.5.jar" dest="build"/>
   	<unjar src="lib/rsyntaxtextarea-2.5.8.jar" dest="build"/>
-	<javac encoding="UTF-8" srcdir="src-sender" destdir="build" includes="**/*.java" fork="false" classpathref="classpath.sender" />	
+	<javac encoding="${compile-encoding}" srcdir="src-sender" destdir="build" includes="**/*.java" fork="false" classpathref="classpath.sender" />	
   </target>
 	
   <target name="msgsender" depends="compile-sender">
@@ -313,7 +317,7 @@
    	    addproperty="imc.dir"
   	  />
   	
-    <javac encoding="UTF-8" classpath="lib/commons-lang3-3.1.jar" srcdir="src-generator"  destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" />
+    <javac encoding="${compile-encoding}" classpath="lib/commons-lang3-3.1.jar" srcdir="src-generator"  destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false" />
     
   	<java classname="pt.lsts.imc.generator.ClassGenerator" args="${imc.dir}" classpath="build;lib/commons-lang3-3.1.jar" />
   	
@@ -323,7 +327,7 @@
   </target>
 
   <target name="javadoc" description="Create javadoc documentation" depends="compile-all">
-    <javadoc additionalparam="-Xdoclint:none" charset="UTF-8" encoding="UTF-8" access="public" author="true" classpathref="classpath.full" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.util,pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="1.6"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
+    <javadoc additionalparam="-Xdoclint:none" charset="UTF-8" encoding="${compile-encoding}" access="public" author="true" classpathref="classpath.full" destdir="doc" doctitle="IMCJava API" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="pt.lsts.util,pt.lsts.imc,pt.lsts.colormap,pt.lsts.neptus.messages,pt.lsts.imc.llf,pt.lsts.imc.merge,pt.lsts.imc.generator,pt.lsts.imc.scripting,pt.lsts.imc.gz,pt.lsts.imc.state,pt.lsts.imc.net,pt.lsts.dot,pt.lsts.imc.examples,pt.lsts.imc.inspector,pt.lsts.imc.lsf,pt.lsts.imc.sniffer,pt.lsts.imc.preview,pt.lsts.messages.listener" source="${compile-source}"  sourcepath="src-generated:src-generator:lsf-preview:src-sniffer:src-merge:src-scripting:src:src-bathymetry:src-generated:src-examples" splitindex="true" use="true" version="true"/>
   	<zip destfile="dist/doc.zip" basedir="doc"></zip>
   </target>
 
@@ -374,7 +378,7 @@
 
 
   <target name="ripples" description="Create ripples.jar" depends="compile">
-    <javac encoding="UTF-8" debug="true" srcdir="src-ripples" destdir="build" target="1.6" source="1.6" includes="**/*.java" fork="false" classpath="lib/firebase-client-jvm-LATEST.jar">
+    <javac encoding="${compile-encoding}" debug="true" srcdir="src-ripples" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false" classpath="lib/firebase-client-jvm-LATEST.jar">
     </javac>
     <unjar src="lib/firebase-client-jvm-LATEST.jar" dest="build"/>
 
