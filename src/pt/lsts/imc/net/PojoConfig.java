@@ -116,10 +116,19 @@ public class PojoConfig {
 			if (value == null)
 				continue;
 			
-			if (value instanceof byte[])
+			if (value instanceof byte[]) {
 				value = DatatypeConverter.printHexBinary((byte[])value);
-			else if (value instanceof String[])
-				value = String.join(", ", (String[])value);
+			}
+			else if (value instanceof String[]) {
+				// value = String.join(", ", (String[])value); Not Java 7!
+			    StringBuilder tmpValue = new StringBuilder();
+			    for (String field : (String[]) value) {
+                    if (tmpValue.length() != 0)
+                        tmpValue.append(", ");
+                    
+                    tmpValue.append(field);
+                }
+			}
 			
 			props.setProperty(key, String.valueOf(value));
 		}
