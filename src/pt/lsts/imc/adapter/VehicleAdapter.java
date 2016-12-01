@@ -109,7 +109,7 @@ public class VehicleAdapter extends ImcAdapter {
 	 * @param abort Abort message sent by operator
 	 */
 	@Consume
-	void on(Abort abort) {
+	protected void on(Abort abort) {
 		System.err.println("Received abort message!");
 		planControl.setPlanId("");
 		planControl.setState(STATE.READY);
@@ -120,7 +120,7 @@ public class VehicleAdapter extends ImcAdapter {
 	 * @param request The request to be handled by the vehicle
 	 */
 	@Consume
-	void on(PlanDB request) {
+	protected void on(PlanDB request) {
 		IMCMessage response = planDbManager.query(request);
 		dispatch(response);		
 	}
@@ -130,7 +130,7 @@ public class VehicleAdapter extends ImcAdapter {
 	 * @param command The command sent by the operator
 	 */
 	@Consume
-	void on(PlanControl command) {
+	protected void on(PlanControl command) {
 		PlanControl reply = new PlanControl();
 		try {
 			reply.copyFrom(command);
@@ -168,7 +168,7 @@ public class VehicleAdapter extends ImcAdapter {
 	 * Every 500ms, the current state is published to the IMC network
 	 */
 	@Periodic(500)
-	void sendEstimatedState() {
+	protected void sendEstimatedState() {
 		EstimatedState state = new EstimatedState();
 		state.setLat(latRads);
 		state.setLon(lonRads);
@@ -185,7 +185,7 @@ public class VehicleAdapter extends ImcAdapter {
 	 * Every 1s, the VehicleState is published to the IMC network
 	 */
 	@Periodic(1000)
-	void sendVehicleState() {
+	protected void sendVehicleState() {
 		VehicleState state = new VehicleState();
 
 		if (planControl.getState() == STATE.READY)
@@ -200,7 +200,7 @@ public class VehicleAdapter extends ImcAdapter {
 	 * Every 1s, the PlanControlState is sent to the IMC network
 	 */
 	@Periodic(1000)
-	void sendPlanControlState() {
+	protected void sendPlanControlState() {
 		dispatch(planControl);
 	}
 	
@@ -208,7 +208,7 @@ public class VehicleAdapter extends ImcAdapter {
 	 * Integrate vehicle's speed at 10Hz
 	 */
 	@Periodic(100)
-	void updatePosition() {
+	protected void updatePosition() {
 		if (startTime == 0 || speed == 0)
 			return;
 		
