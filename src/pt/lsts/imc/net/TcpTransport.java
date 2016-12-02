@@ -32,6 +32,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -204,7 +205,7 @@ public class TcpTransport {
 					if (msg != null)
 						transport.dispatch(msg);
 				}
-				catch (EOFException e) {
+				catch (EOFException|SocketException e) {
 					try {
 						clientConnection.close();						
 					}
