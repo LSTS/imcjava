@@ -6958,7 +6958,7 @@
         Desired curve offset.
       </description>
     </field>
-    <field name="Angular Aperture" abbrev="angAperture" type="fp32_t" unit="rad" min="-3.141592653589793" max="3.141592653589793" value="‪2.094395‬">
+    <field name="Angular Aperture" abbrev="angAperture" type="fp32_t" unit="rad" min="-3.141592653589793" max="3.141592653589793" value="2.094395">
       <description>
          Angular aperture of the sensor (looking downwards).
       </description>
@@ -9828,6 +9828,30 @@
     <field name="Recorded Depth - Maximum" abbrev="depth_max" type="fp32_t" unit="m">
       <description>
         The maximum recorded depth value.
+      </description>
+    </field>
+  </message>
+
+  <message id="906" name="APM Status" abbrev="ApmStatus" source="vehicle">
+    <description>
+      StatusText message from ardupilot.
+    </description>
+    <field name="Severity" abbrev="severity" type="uint8_t" unit="Enumerated" prefix="APM">
+      <description>
+        Severity of status.
+      </description>
+      <value id="0" name="Emergency" abbrev="EMERGENCY"/>
+      <value id="1" name="Alert" abbrev="ALERT"/>
+      <value id="2" name="Critical" abbrev="CRITICAL"/>
+      <value id="3" name="Error" abbrev="ERROR"/>
+      <value id="4" name="Warning" abbrev="WARNING"/>
+      <value id="5" name="Notice" abbrev="NOTICE"/>
+      <value id="6" name="Info" abbrev="INFO"/>
+      <value id="7" name="Debug" abbrev="DEBUG"/>
+    </field>
+    <field name="Text" abbrev="text" type="plaintext">
+      <description>
+        Status text message.
       </description>
     </field>
   </message>

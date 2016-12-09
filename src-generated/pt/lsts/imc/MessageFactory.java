@@ -624,6 +624,8 @@ public class MessageFactory {
 				return new OpticalBackscatter(defs);
 			case Tachograph.ID_STATIC:
 				return new Tachograph(defs);
+			case ApmStatus.ID_STATIC:
+				return new ApmStatus(defs);
 			default:
 				return new IMCMessage(defs);
 		}
