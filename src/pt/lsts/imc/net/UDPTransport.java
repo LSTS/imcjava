@@ -457,26 +457,33 @@ public class UDPTransport {
         if (sockedListenerThread == null) {
             Thread listenerThread = new Thread(UDPTransport.class.getSimpleName() + ": Listener Thread " + this.hashCode()) {			
                 byte[] sBuffer = new byte[maxBufferSize];
-                //DatagramSocket sock;
                 String multicastGroup = "";
 
                 @Override
 				public synchronized void start() {
-                    //ConfigFetch.logPub.info("Listener Thread Started");
                     try {
                         boolean useMulticast = isMulticastEnable();
-                        if (bindPort != 0)
-                            sock = (!useMulticast)?new DatagramSocket(bindPort):new MulticastSocket(bindPort);
-                            else
-                                sock = (!useMulticast)?new DatagramSocket():new MulticastSocket();
+                        sock = (!useMulticast) ? new DatagramSocket(null) : new MulticastSocket(null);
+                        sock.setReuseAddress(false);
 
-                                if (useMulticast) {
-                                	multicastGroup = getMulticastAddress();
-                                	((MulticastSocket)sock).joinGroup(resolveAddress(multicastGroup));                                	
-                                    
-                                }
-                                setMulticastActive(useMulticast);
-                                sock.setSoTimeout(0);
+                        if (bindPort != 0)
+                            sock.bind(new InetSocketAddress(bindPort));
+                        else
+                            sock.bind(new InetSocketAddress(0));
+
+                        try {
+                            if (useMulticast) {
+                                multicastGroup = getMulticastAddress();
+                                ((MulticastSocket) sock).joinGroup(resolveAddress(multicastGroup));
+                            }
+                            setMulticastActive(useMulticast);
+                        }
+                        catch (Exception e) {
+                            System.out.println("Multicast socket join :: " + e.getMessage());
+                            setMulticastActive(false);
+                        }
+
+                        sock.setSoTimeout(0);
 //                                if (isBroadcastEnable()) {
 //                                    try {
 //                                        sock.setBroadcast(true);
@@ -486,7 +493,8 @@ public class UDPTransport {
 //                                        setBroadcastActive(false);
 //                                    }
 //                                }
-                    } catch (Exception e) {
+                    } 
+                    catch (Exception e) {
                         setOnBindError(true);
                         return;
                     }
