@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "d284d4ec98a6317592d2235db3d11b879d574399";
-	public static final String IMC_BRANCH = "2016-12-06 d284d4e (HEAD -> master, origin/master, origin/HEAD)";
-	public static final String IMC_COMMIT = "mariacosta (mariacosta_89@hotmail.com), Tue Dec 06 23:35:29 WET 2016, Added 'APM Status' message.";
+	public static final String IMC_SHA = "28a15dca204493fa0c76aa108e4bcee830495bab";
+	public static final String IMC_BRANCH = "2017-02-09 28a15dc (HEAD -> master, origin/master, origin/HEAD)";
+	public static final String IMC_COMMIT = "João Teixeira (joao_teixeira@lsts.pt), Thu Feb 09 15:55:39 WET 2017, IMC_Addresses: added lauv-arpao address";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -48,6 +48,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-seacon-2", 22);
 		IMC_ADDRESSES.put("lauv-seacon-3", 23);
 		IMC_ADDRESSES.put("lauv-xtreme-2", 24);
+		IMC_ADDRESSES.put("lauv-arpao", 25);
 		IMC_ADDRESSES.put("lauv-noptilus-1", 26);
 		IMC_ADDRESSES.put("lauv-noptilus-2", 27);
 		IMC_ADDRESSES.put("lauv-noptilus-3", 28);
@@ -155,6 +156,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("manta-dmsmw-02", 32807);
 		IMC_ADDRESSES.put("manta-dmsmw-03", 32808);
 		IMC_ADDRESSES.put("manta-rugged", 32809);
+		IMC_ADDRESSES.put("nest-1", 32816);
 		IMC_ADDRESSES.put("piccolo-gs1", 32832);
 		IMC_ADDRESSES.put("piccolo-gs2", 32833);
 		IMC_ADDRESSES.put("piccolo-gs3", 32834);
