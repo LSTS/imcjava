@@ -41,6 +41,8 @@ import pt.lsts.imc.Elevator;
 import pt.lsts.imc.FollowPath;
 import pt.lsts.imc.FollowTrajectory;
 import pt.lsts.imc.Goto;
+import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.Launch;
 import pt.lsts.imc.Loiter;
 import pt.lsts.imc.Maneuver;
 import pt.lsts.imc.PathPoint;
@@ -49,6 +51,7 @@ import pt.lsts.imc.PlanSpecification;
 import pt.lsts.imc.PlanTransition;
 import pt.lsts.imc.PopUp;
 import pt.lsts.imc.Rows;
+import pt.lsts.imc.ScheduledGoto;
 import pt.lsts.imc.StationKeeping;
 import pt.lsts.imc.TrajectoryPoint;
 import pt.lsts.imc.YoYo;
@@ -206,6 +209,8 @@ public class PlanUtilities {
 		case Goto.ID_STATIC:
 		case YoYo.ID_STATIC:
 		case PopUp.ID_STATIC:
+		case ScheduledGoto.ID_STATIC:
+		case Launch.ID_STATIC:
 			start.setType(TYPE.REGULAR);			
 			waypoints.add(start);
 			return waypoints;
@@ -528,7 +533,40 @@ public class PlanUtilities {
 		}
 		return false;
 	}
+	
+	/**
+	 * Creates an IMC plan corresponding to given maneuver sequence
+	 * @param id The id of the generated plan
+	 * @param maneuvers The maneuvers contained in the plan
+	 * @return IMC plan corresponding to given maneuver sequence
+	 */
+	public static PlanSpecification createPlan(String id, Maneuver... maneuvers) {
+		if (id == null || maneuvers == null || maneuvers.length == 0)
+			return null;
 
+		int count = 1;
+		PlanSpecification spec = new PlanSpecification();
+		spec.setPlanId(id);
+		spec.setStartManId("" + count);
+		ArrayList<PlanManeuver> pmans = new ArrayList<PlanManeuver>();
+		for (Maneuver m : maneuvers) {
+			PlanManeuver pm = new PlanManeuver();
+			pm.setManeuverId("" + (count++));
+			pm.setData(m);
+			pmans.add(pm);
+		}
+
+		ArrayList<PlanTransition> ptrans = new ArrayList<PlanTransition>();
+
+		for (int i = 2; i <= maneuvers.length; i++)
+			ptrans.add(new PlanTransition("" + (i - 1), "" + i, "", new ArrayList<IMCMessage>()));
+
+		spec.setManeuvers(pmans);
+		spec.setTransitions(ptrans);
+
+		return spec;
+	}
+	
 	/**
 	 * This inner class represents a IMC plan waypoint. <br/>
 	 * An IMC maneuver may contain more than one waypoints.
