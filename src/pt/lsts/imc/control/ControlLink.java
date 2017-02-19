@@ -47,6 +47,7 @@ import pt.lsts.imc.PlanManeuver;
 import pt.lsts.imc.PlanSpecification;
 import pt.lsts.imc.Reference;
 import pt.lsts.imc.VehicleState;
+import pt.lsts.imc.net.ConnectFilter;
 import pt.lsts.imc.net.IMCProtocol;
 import pt.lsts.imc.state.ImcSystemState;
 import pt.lsts.util.WGS84Utilities;
@@ -79,7 +80,7 @@ public class ControlLink {
 	public static ControlLink acquire(String vehicle, long timeoutMillis)
 			throws Exception {
 
-		ImcSystemState state = getImc(vehicle).state(vehicle);
+		ImcSystemState state = getImc().state(vehicle);
 
 		long startTime = System.currentTimeMillis();
 
@@ -277,22 +278,11 @@ public class ControlLink {
 	private static IMCProtocol getImc() {
 		if (proto == null) {
 			proto = new IMCProtocol();
-			proto.setAutoConnect("");
+			proto.setAutoConnect(ConnectFilter.VEHICLES_ONLY);
 		}
 			return proto;
 	}
 	
-	private static IMCProtocol getImc(String vehicle) {
-		if (proto == null) {
-			proto = new IMCProtocol();
-			proto.setAutoConnect(vehicle);
-		}
-		else {
-			proto.setAutoConnect(proto.getAutoConnect()+"|"+vehicle);
-		}
-		return proto;
-	}
-
 	private static ScheduledThreadPoolExecutor getExec() {
 		if (executor == null)
 			executor = new ScheduledThreadPoolExecutor(1);

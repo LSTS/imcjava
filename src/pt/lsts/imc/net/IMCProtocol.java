@@ -83,8 +83,9 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     protected SYS_TYPE sysType = SYS_TYPE.CCU;
     private HashSet<String> services = new HashSet<String>();
     private boolean quiet = false;
-    private String autoConnect = null;
+    //private String autoConnect = null;
     private boolean connectOnHeartBeat = false;
+    private ConnectFilter autoConnect = ConnectFilter.NEVER;
     private Timer beater = new Timer();
     private IMessageLogger logger = null;
     private ExecutorService logExec = Executors.newSingleThreadExecutor();
@@ -213,7 +214,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 
             // Check if this is a peer (a name we should auto connect to)
             if (this.autoConnect != null)
-                peer = !src.equals(getLocalName()) && Pattern.matches(autoConnect, src);
+                peer = !src.equals(getLocalName()) && autoConnect.shouldConnect(msg);
             IMCNode node = new IMCNode(msg);
             node.setPeer(peer);
             nodes.put(src, node);
@@ -714,24 +715,37 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
 
     /** @param autoConnect
      *            the autoConnect to set */
-    public void setAutoConnect(String autoConnect) {
+    public void setAutoConnect(final String autoConnect) {
 
-        if (autoConnect != null) {
-            for (IMCNode node : nodes.values()) {
-                boolean peer = Pattern.matches(autoConnect, node.getSysName());
-                if (peer)
-                    node.setPeer(true);
-            }
-        }
-
-        this.autoConnect = autoConnect;
+    	setAutoConnect(new ConnectFilter() {
+			
+			@Override
+			public boolean shouldConnect(Announce announce) {
+				return Pattern.matches(autoConnect, announce.getSysName());
+			}
+		}); 
+    	       
     }
     
     public void setConnectOnHeartBeat() {
-    	autoConnect = null;
+    	autoConnect = ConnectFilter.ALWAYS;
     	connectOnHeartBeat = true;
     	for (IMCNode node : nodes.values())
     		node.setPeer(false);    	
+    }
+    
+    public void setAutoConnect(ConnectFilter filter) {
+    	autoConnect = filter;
+    	for (IMCNode node : nodes.values()) {
+    		if (node.lastAnnounce.getAgeInSeconds() > 30)
+    			continue;
+    		
+            boolean peer = filter.shouldConnect(node.lastAnnounce);
+            if (peer)
+                node.setPeer(true);
+            else
+            	node.setPeer(false);
+        }
     }
 
     /** This method blocks until a system whose name matches a regular expression is found on the
@@ -796,13 +810,6 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
             }
         });
     }
-
-    /**
-	 * @return the autoConnect
-	 */
-	public String getAutoConnect() {
-		return autoConnect;
-	}
 
 	public static void main(String[] args) throws Exception {
 
