@@ -559,7 +559,7 @@ public class PlanUtilities {
 		ArrayList<PlanTransition> ptrans = new ArrayList<PlanTransition>();
 
 		for (int i = 2; i <= maneuvers.length; i++)
-			ptrans.add(new PlanTransition("" + (i - 1), "" + i, "", new ArrayList<IMCMessage>()));
+			ptrans.add(new PlanTransition("" + (i - 1), "" + i, "ManeuverIsDone", new ArrayList<IMCMessage>()));
 
 		spec.setManeuvers(pmans);
 		spec.setTransitions(ptrans);

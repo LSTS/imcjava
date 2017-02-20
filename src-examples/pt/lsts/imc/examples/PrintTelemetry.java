@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2016, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2017, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -28,47 +28,60 @@
  */
 package pt.lsts.imc.examples;
 
-import pt.lsts.imc.Abort;
-import pt.lsts.imc.Goto;
-import pt.lsts.imc.IMCDefinition;
-import pt.lsts.imc.IMCMessage;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+
+import pt.lsts.imc.EstimatedState;
+import pt.lsts.imc.net.ConnectFilter;
+import pt.lsts.imc.net.Consume;
 import pt.lsts.imc.net.IMCProtocol;
-import pt.lsts.imc.types.PlanSpecificationAdapter;
+import pt.lsts.neptus.messages.listener.Periodic;
+import pt.lsts.util.WGS84Utilities;
 
-public class SendLblAndPlanExample {
+/**
+ * @author zp
+ *
+ */
+public class PrintTelemetry {
 
-	public static void main(String[] args) throws Exception {
-		IMCProtocol protocol = new IMCProtocol(6001);
-		while (protocol.announceAgeMillis("lauv-seacon-4") > 10000) {
-			Thread.sleep(1000);
-			System.out.println("Waiting for an announce from LAUV-SEACON-4...");
+	private LinkedHashMap<Integer, EstimatedState> estates = new LinkedHashMap<Integer, EstimatedState>();
+	
+	@Consume
+	public void on(EstimatedState state) {
+		synchronized (estates) {
+			estates.put(state.getSrc(), state);
 		}
-		PlanSpecificationAdapter adapter = new PlanSpecificationAdapter();
-
-		Goto gt = new Goto()
-			.setLat(Math.toRadians(41))
-			.setLon(Math.toRadians(-8))
-			.setZ(2)
-			.setZUnits(Goto.Z_UNITS.DEPTH)
-			.setSpeed(1000)
-			.setSpeedUnits(Goto.SPEED_UNITS.RPM);
-		
-		adapter.addManeuver("goto1", gt);
-		
-		Goto gt2 = new Goto(gt)
-			.setLat(Math.toRadians(41.0001));
-		
-		adapter.addManeuver("goto2", gt2);
-
-		adapter.addTransition("goto1", "goto2", "ManeuverIsDone", null);
-		IMCMessage msg = adapter.getData(IMCDefinition.getInstance());
-		protocol.sendMessage("lauv-seacon-4", msg);
-		System.out.println(msg.getSrc());
-		System.out.println("sent: ");
-		System.out.println(msg.asXml(false));
-
-		protocol.sendMessage("lauv-seacon-4", new Abort());
-		protocol.stop();
 	}
-
+	
+	@Periodic(3000)
+	public void every3secs() {
+		
+		ArrayList<EstimatedState> states = new ArrayList<EstimatedState>(); 
+		
+		synchronized (estates) {
+			states.addAll(estates.values());
+			estates.clear();
+		}
+		System.out.println(new Date());
+		for (EstimatedState state : states) {
+			double lld[] = WGS84Utilities.toLatLonDepth(state);
+			System.out.printf("\t[%s] \tLAT: %.5f, LON: %.5f, DEPTH: %.1f, ALT: %.1f\n", state.getSourceName(), lld[0],
+					lld[1], state.getDepth(), state.getAlt());
+		}
+		System.out.println();
+	}
+	
+	public static void main(String[] args) throws InterruptedException {
+		
+		PrintTelemetry tel = new PrintTelemetry();
+		IMCProtocol proto = new IMCProtocol();
+		proto.setAutoConnect(ConnectFilter.VEHICLES_ONLY);
+		proto.register(tel);
+		
+		Thread.sleep(120 * 1000);
+		
+		proto.stop();
+	}
+	
 }
