@@ -187,6 +187,12 @@
 	<javac encoding="${compile-encoding}" srcdir="src-sender" destdir="build" includes="**/*.java" fork="false" classpathref="classpath.sender" />	
   </target>
 	
+  <target name="compile-autonomy" depends="compile">
+	<mkdir dir="build"/>
+	<javac encoding="${compile-encoding}" srcdir="src-autonomy" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
+	</javac>
+  </target>
+	
   <target name="msgsender" depends="compile-sender">
   	
   	<jar destfile="dist/msgsender.jar" basedir="build" index="true">
@@ -408,5 +414,15 @@
           <attribute name="Main-Class" value="pt.lsts.imc.cli.ImcShell"/>
         </manifest>
       </jar>
+  </target>
+	
+  <target name="PlanSequence.jar" depends="compile,compile-autonomy">
+	<description>Create library jar (no source).</description>
+		<jar destfile="dist/PlanSequence.jar" basedir="build" index="true">
+	    	<manifest>
+	        	<attribute name="Main-Class" value="pt.lsts.autonomy.SequentialPlanExecution"/>
+	      	</manifest>
+	    </jar>
+	  	<echo message="The file 'dist/PlanSequence.jar' was generated"/>
   </target>
 </project>
