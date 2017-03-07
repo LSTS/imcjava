@@ -37,6 +37,14 @@ package pt.lsts.imc;
 
 public class OperationalLimits extends IMCMessage {
 
+	public static final short OPL_MAX_DEPTH = 0x01;
+	public static final short OPL_MIN_ALT = 0x02;
+	public static final short OPL_MAX_ALT = 0x04;
+	public static final short OPL_MIN_SPEED = 0x08;
+	public static final short OPL_MAX_SPEED = 0x10;
+	public static final short OPL_MAX_VRATE = 0x20;
+	public static final short OPL_AREA = 0x40;
+
 	public static final int ID_STATIC = 504;
 
 	public OperationalLimits() {

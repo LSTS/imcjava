@@ -42,6 +42,25 @@ package pt.lsts.imc;
 
 public class VehicleState extends IMCMessage {
 
+	public static final long CL_NONE = 0x00000000;
+	public static final long CL_PATH = 0x00000001;
+	public static final long CL_TELEOPERATION = 0x00000002;
+	public static final long CL_ALTITUDE = 0x00000004;
+	public static final long CL_DEPTH = 0x00000008;
+	public static final long CL_ROLL = 0x00000010;
+	public static final long CL_PITCH = 0x00000020;
+	public static final long CL_YAW = 0x00000040;
+	public static final long CL_SPEED = 0x00000080;
+	public static final long CL_YAW_RATE = 0x00000100;
+	public static final long CL_VERTICAL_RATE = 0x00000200;
+	public static final long CL_TORQUE = 0x00000400;
+	public static final long CL_FORCE = 0x00000800;
+	public static final long CL_VELOCITY = 0x00001000;
+	public static final long CL_THROTTLE = 0x00002000;
+	public static final long CL_EXTERNAL = 0x40000000;
+	public static final long CL_NO_OVERRIDE = 0x80000000;
+	public static final long CL_ALL = 0xFFFFFFFF;
+
 	public static final short VFLG_MANEUVER_DONE = 0x01;
 
 	public enum OP_MODE {

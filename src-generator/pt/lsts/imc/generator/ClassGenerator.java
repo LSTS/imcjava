@@ -947,10 +947,10 @@ public class ClassGenerator {
 	protected static void generateGlobalDefinitions(String packageName, File outputFolder,
 			IMCDefinition defs) throws Exception {
 
-		for (String name : defs.getGlobalBitfieldPrefixes().keySet()) {
-			LinkedHashMap<Long, String> values = defs.getGlobalBitfields().get(name);
-			generateEnumDef(packageName+".def", outputFolder, name, values);
-		}
+//		for (String name : defs.getGlobalBitfieldPrefixes().keySet()) {
+//			LinkedHashMap<Long, String> values = defs.getGlobalBitfields().get(name);
+//			generateEnumDef(packageName+".def", outputFolder, name, values);
+//		}
 		
 		for (String name : defs.getGlobalEnumerations().keySet()) {
 			LinkedHashMap<Long, String> values = defs.getGlobalEnumerations().get(name);
@@ -1079,10 +1079,6 @@ public class ClassGenerator {
 				continue;
 			}
 			
-			if (type.getFieldValueDefs(field) != null) {
-				continue;
-			}
-
 			if ("bitfield".equals(type.getFieldUnits(field))) {
 
 				if (type.getFieldPossibleValues(field) == null)
