@@ -29,45 +29,15 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.SpeedUnits;
+import pt.lsts.imc.def.ZUnits;
+
 /**
  *  IMC Message Follow System (471)<br/>
  *  System-following maneuver.<br/>
  */
 
 public class FollowSystem extends IMCMessage {
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 471;
 
@@ -113,7 +83,7 @@ public class FollowSystem extends IMCMessage {
 		return m;
 	}
 
-	public FollowSystem(int system, int duration, float speed, SPEED_UNITS speed_units, float x, float y, float z, Z_UNITS z_units) {
+	public FollowSystem(int system, int duration, float speed, SpeedUnits speed_units, float x, float y, float z, ZUnits z_units) {
 		super(ID_STATIC);
 		setSystem(system);
 		setDuration(duration);
@@ -173,9 +143,9 @@ public class FollowSystem extends IMCMessage {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -194,7 +164,7 @@ public class FollowSystem extends IMCMessage {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public FollowSystem setSpeedUnits(SPEED_UNITS speed_units) {
+	public FollowSystem setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}
@@ -263,9 +233,9 @@ public class FollowSystem extends IMCMessage {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -284,7 +254,7 @@ public class FollowSystem extends IMCMessage {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public FollowSystem setZUnits(Z_UNITS z_units) {
+	public FollowSystem setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}

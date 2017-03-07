@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Plan Specification (551)<br/>
  *  Identity and description of a plan's general parameters,<br/>

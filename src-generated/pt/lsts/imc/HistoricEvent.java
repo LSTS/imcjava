@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Historic Event (110)<br/>
  *  This message is used to store historic event log entries.<br/>

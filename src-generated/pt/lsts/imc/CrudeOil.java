@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Crude Oil (286)<br/>
  *  Crude oil measurement.<br/>

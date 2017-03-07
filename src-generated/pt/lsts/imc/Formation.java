@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Formation (484)<br/>
  *  The "Formation" is a controller to execute a maneuver with a team of vehicles.<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Abort (550)<br/>
  *  Stops any executing actions and put the system in a standby mode.<br/>

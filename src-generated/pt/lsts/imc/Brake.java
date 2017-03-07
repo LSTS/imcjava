@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Brake (413)<br/>
  *  Brake the vehicle in some way, i. e., reduce forward speed.<br/>

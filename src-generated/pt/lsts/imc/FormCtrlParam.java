@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Formation Control Parameters (820)<br/>
  *  Formation controller paramenters, as: trajectory gains, control boundary layer thickness, and formation shape gains.<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Path Point (458)<br/>
  *  Waypoint coordinate of a Follow Path maneuver.<br/>

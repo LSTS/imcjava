@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Collision (509)<br/>
  *  Detected collision.<br/>

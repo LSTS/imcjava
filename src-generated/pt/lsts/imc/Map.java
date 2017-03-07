@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Map (602)<br/>
  *  This message represents a simple map that is transferred between CCU consoles (from Neptus to ACCU)<br/>

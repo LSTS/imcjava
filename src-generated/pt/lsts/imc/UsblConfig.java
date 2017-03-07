@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message USBL Configuration (902)<br/>
  *  Ultra-Short Base Line configuration.<br/>

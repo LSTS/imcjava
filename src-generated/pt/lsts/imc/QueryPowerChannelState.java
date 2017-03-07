@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Query Power Channel State (310)<br/>
  *  Request the state of power channels.<br/>

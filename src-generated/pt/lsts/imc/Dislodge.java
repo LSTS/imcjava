@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Dislodge Maneuver (483)<br/>
  *  A "Dislodge" is a maneuver ordering the vehicle to attempt a<br/>
@@ -39,7 +40,6 @@ package pt.lsts.imc;
  *  forward, backward or auto (letting the vehicle decide).<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class Dislodge extends Maneuver {
 
 	public enum DIRECTION {

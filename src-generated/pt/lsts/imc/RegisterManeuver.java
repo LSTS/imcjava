@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Register Maneuver (469)<br/>
  *  Command used to indicate maneuver can be executed in the<br/>

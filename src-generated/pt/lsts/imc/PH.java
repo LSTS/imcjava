@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message pH (298)<br/>
  *  Report of pH.<br/>

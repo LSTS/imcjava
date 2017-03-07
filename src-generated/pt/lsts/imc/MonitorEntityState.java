@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Monitor Entity State (502)<br/>
  *  Controls monitoring of entity states in the vehicle.<br/>

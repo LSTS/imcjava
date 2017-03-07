@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Set Image Coordinates (895)<br/>
  *  Message containing the x and y coordinates of object to track in remote peer.<br/>

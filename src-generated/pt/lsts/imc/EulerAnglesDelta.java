@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Euler Angles Delta (255)<br/>
  *  Component of incremetal orientation vector over a period of time.<br/>

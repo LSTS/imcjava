@@ -32,6 +32,8 @@ import pt.lsts.imc.Goto;
 import pt.lsts.imc.PlanControl;
 import pt.lsts.imc.PlanControl.OP;
 import pt.lsts.imc.PlanControl.TYPE;
+import pt.lsts.imc.def.SpeedUnits;
+import pt.lsts.imc.def.ZUnits;
 import pt.lsts.imc.net.ConnectFilter;
 import pt.lsts.imc.net.IMCProtocol;
 import pt.lsts.util.PlanUtilities;
@@ -56,9 +58,9 @@ public class StartAndStopPlan {
 				.setLat(Math.toRadians(41))
 				.setLon(Math.toRadians(-8))
 				.setZ(2)
-				.setZUnits(Goto.Z_UNITS.DEPTH)
+				.setZUnits(ZUnits.DEPTH)
 				.setSpeed(1000)
-				.setSpeedUnits(Goto.SPEED_UNITS.RPM);
+				.setSpeedUnits(SpeedUnits.RPM);
 		
 		// Create another goto maneuver based on previous one
 		Goto gt2 = new Goto(gt)

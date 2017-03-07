@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Map Feature (603)<br/>
  *  A feature to appear on the map<br/>

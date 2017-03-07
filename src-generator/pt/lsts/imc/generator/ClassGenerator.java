@@ -39,6 +39,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -402,8 +403,11 @@ public class ClassGenerator {
 	protected static String imcTypeToJava(IMCMessageType type, String field) {
 		IMCFieldType imcType = type.getFieldType(field);
 
-		if ("enumerated".equals(type.getFieldUnits(field)))
-			return field.toUpperCase();
+		if ("enumerated".equals(type.getFieldUnits(field))) {
+			String valueDef = type.getFieldValueDefs(field);		
+			String capField = valueDef != null? valueDef : field.toUpperCase();
+			return capField;
+		}
 
 		switch (imcType) {
 		case TYPE_INT8:
@@ -472,7 +476,8 @@ public class ClassGenerator {
 		switch (type.getFieldType(field)) {
 		case TYPE_INT8:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
-				String capField = field.toUpperCase();
+				String valueDef = type.getFieldValueDefs(field);		
+				String capField = valueDef != null? valueDef : field.toUpperCase();
 				sb.append("\tpublic " + type.getShortName() + " set"
 						+ capitalizedField + "(" + capField + " " + field
 						+ ") {\n");
@@ -509,7 +514,8 @@ public class ClassGenerator {
 		case TYPE_UINT8:
 		case TYPE_INT16:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
-				String capField = field.toUpperCase();
+				String valueDef = type.getFieldValueDefs(field);		
+				String capField = valueDef != null? valueDef : field.toUpperCase();
 				sb.append("\tpublic " + type.getShortName() + " set"
 						+ capitalizedField + "(" + capField + " " + field
 						+ ") {\n");
@@ -546,7 +552,8 @@ public class ClassGenerator {
 		case TYPE_UINT16:
 		case TYPE_INT32:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
-				String capField = field.toUpperCase();
+				String valueDef = type.getFieldValueDefs(field);		
+				String capField = valueDef != null? valueDef : field.toUpperCase();
 				sb.append("\tpublic " + type.getShortName() + " set"
 						+ capitalizedField + "(" + capField + " " + field
 						+ ") {\n");
@@ -583,7 +590,8 @@ public class ClassGenerator {
 		case TYPE_UINT32:
 		case TYPE_INT64:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
-				String capField = field.toUpperCase();
+				String valueDef = type.getFieldValueDefs(field);		
+				String capField = valueDef != null? valueDef : field.toUpperCase();
 				sb.append("\tpublic " + type.getShortName() + " set"
 						+ capitalizedField + "(" + capField + " " + field
 						+ ") {\n");
@@ -730,14 +738,17 @@ public class ClassGenerator {
 			sb.append("\t *  @return " + type.getFullFieldName(field));
 		sb.append(" - " + type.getFieldType(field) + "\n\t */\n");
 
+		
+		
 		switch (type.getFieldType(field)) {
 		case TYPE_INT8:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
-				String capField = field.toUpperCase();
-				sb.append("\tpublic " + capField + " get" + capitalizedField
+				String valueDef = type.getFieldValueDefs(field);		
+				String defName = valueDef != null? valueDef : field.toUpperCase();
+				sb.append("\tpublic " + defName + " get" + capitalizedField
 						+ "() {\n");
 				sb.append("\t\ttry {\n");
-				sb.append("\t\t\t" + capField + " o = " + capField
+				sb.append("\t\t\t" + defName + " o = " + defName
 						+ ".valueOf(getMessageType().getFieldPossibleValues(\""
 						+ field + "\").get(getLong(\"" + field + "\")));\n");
 				sb.append("\t\t\treturn o;\n");
@@ -766,7 +777,8 @@ public class ClassGenerator {
 		case TYPE_UINT8:
 		case TYPE_INT16:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
-				String capField = field.toUpperCase();
+				String valueDef = type.getFieldValueDefs(field);		
+				String capField = valueDef != null? valueDef : field.toUpperCase();
 				sb.append("\tpublic " + capField + " get" + capitalizedField
 						+ "() {\n");
 				sb.append("\t\ttry {\n");
@@ -799,7 +811,8 @@ public class ClassGenerator {
 		case TYPE_UINT16:
 		case TYPE_INT32:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
-				String capField = field.toUpperCase();
+				String valueDef = type.getFieldValueDefs(field);		
+				String capField = valueDef != null? valueDef : field.toUpperCase();
 				sb.append("\tpublic " + capField + " get" + capitalizedField
 						+ "() {\n");
 				sb.append("\t\ttry {\n");
@@ -832,7 +845,8 @@ public class ClassGenerator {
 		case TYPE_UINT32:
 		case TYPE_INT64:
 			if (("" + type.getFieldUnits(field)).equals("enumerated")) {
-				String capField = field.toUpperCase();
+				String valueDef = type.getFieldValueDefs(field);		
+				String capField = valueDef != null? valueDef : field.toUpperCase();
 				sb.append("\tpublic " + capField + " get" + capitalizedField
 						+ "() {\n");
 				sb.append("\t\ttry {\n");
@@ -1032,6 +1046,26 @@ public class ClassGenerator {
 		bw.close();
 	}
 
+	private static String importDefinitions(String packageName, IMCMessageType type) throws IOException {
+		StringBuilder result = new StringBuilder();
+		
+		ArrayList<String> alreadyImported = new ArrayList<String>();
+		
+		for (String field : type.getFieldNames()) {
+			if (!("enumerated".equals(type.getFieldUnits(field))))
+				continue;
+			String fieldValueDef = type.getFieldValueDefs(field);
+			
+			if (fieldValueDef != null && !alreadyImported.contains(fieldValueDef)) {
+				result.append("import "+packageName+".def."+fieldValueDef+";\n");
+				alreadyImported.add(fieldValueDef);
+			}
+		}
+		
+		return result.toString();
+	}
+	
+	
 	private static String generateDefinitions(IMCMessageType type,
 			IMCMessageType superType) throws IOException {
 
@@ -1042,6 +1076,10 @@ public class ClassGenerator {
 
 			// this field is inherited, skip
 			if (superType.getFieldType(field) != null) {
+				continue;
+			}
+			
+			if (type.getFieldValueDefs(field) != null) {
 				continue;
 			}
 
@@ -1085,6 +1123,11 @@ public class ClassGenerator {
 		}
 
 		for (String field : type.getFieldNames()) {
+			
+			if (type.getFieldValueDefs(field) != null) {
+				continue;
+			}
+			
 			if ("enumerated".equals(type.getFieldUnits(field))) {
 
 				LinkedHashMap<String, Long> enum_vals = type
@@ -1134,8 +1177,11 @@ public class ClassGenerator {
 
 		bw.write(getCopyRightHeader());
 
-		bw.write("package pt.lsts.imc;\n\n");
+		bw.write("package "+packageName+";\n\n");
 
+		bw.write(importDefinitions(packageName, type));
+		bw.write("\n");
+		
 		bw.write("/**\n");
 		bw.write(" *  IMC Message " + type.getFullName() + " (" + type.getId()
 		+ ")<br/>\n");
@@ -1160,12 +1206,8 @@ public class ClassGenerator {
 
 		if (type.getSupertype() != null) {
 			superType = type.getSupertype();
-			bw.write("@SuppressWarnings(\"unchecked\")\n");
 			superClass = " extends " + superType.getShortName();
 		}
-
-		if (type.isAbstract())
-			bw.write("@SuppressWarnings(\"unchecked\")\n");
 
 		bw.write("public " + abstractClass + "class " + msgName + superClass
 				+ " {\n\n");

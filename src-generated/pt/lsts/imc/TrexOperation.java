@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message TREX Operation (655)<br/>
  *  This message is used to control TREX execution<br/>

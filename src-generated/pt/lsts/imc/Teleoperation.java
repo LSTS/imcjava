@@ -29,13 +29,13 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Teleoperation Maneuver (452)<br/>
  *  The Teleoperation Maneuver lets the vehicle be controlled by an<br/>
  *  external human operator.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class Teleoperation extends Maneuver {
 
 	public static final int ID_STATIC = 452;

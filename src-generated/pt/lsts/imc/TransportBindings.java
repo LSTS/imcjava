@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Transport Bindings (8)<br/>
  *  Message generated when tasks bind to messages.<br/>

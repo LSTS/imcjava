@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Vehicle Medium (508)<br/>
  *  Detect current vehicle medium.<br/>

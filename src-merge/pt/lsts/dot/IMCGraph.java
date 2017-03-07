@@ -46,7 +46,7 @@ import pt.lsts.imc.Announce;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.TransportBindings;
-import pt.lsts.imc.Announce.SYS_TYPE;
+import pt.lsts.imc.def.SystemType;
 import pt.lsts.imc.lsf.LsfIndex;
 
 /**
@@ -174,7 +174,7 @@ public class IMCGraph {
             index.getDefinitions().getResolver().addEntry(an.getSrc(), an.getSysName());
         
         int my_id = 0; // TODO
-        Vector<Announce>  ccus = index.getSystemsOfType(SYS_TYPE.CCU);
+        Vector<Announce>  ccus = index.getSystemsOfType(SystemType.CCU);
 
         LinkedHashMap<String, Vector<Integer>> incomingMessages = new LinkedHashMap<String, Vector<Integer>>();
         Vector<String> messagesSentToUDP = new Vector<String>();
@@ -375,7 +375,7 @@ public class IMCGraph {
             }
         }
 
-        Vector<Announce>  ccus = index.getSystemsOfType(SYS_TYPE.CCU);
+        Vector<Announce>  ccus = index.getSystemsOfType(SystemType.CCU);
         for(Announce an : ccus)
             source_ccus.add(an.getSysName());
         //Create hashmaps of nodes and edges

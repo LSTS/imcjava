@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Device State (282)<br/>
  *  Location of a specific device in the system infrastructure.<br/>

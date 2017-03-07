@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Alignment State (361)<br/>
  *  This message notifies the vehicle is ready for dead-reckoning missions.<br/>

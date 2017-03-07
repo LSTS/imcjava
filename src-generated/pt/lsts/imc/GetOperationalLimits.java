@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Get Operational Limits (505)<br/>
  *  Command to obtain the operational limits in use by the vehicle.<br/>

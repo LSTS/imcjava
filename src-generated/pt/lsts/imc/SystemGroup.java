@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message System Group (181)<br/>
  *  Group of systems configuration.<br/>

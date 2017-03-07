@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message External Navigation Data (294)<br/>
  *  This message is a representation of the state of the vehicle,<br/>

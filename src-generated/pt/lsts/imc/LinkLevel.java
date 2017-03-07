@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Link Level (155)<br/>
  *  Measurement of link level quality. For instance, this may<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Salinity (270)<br/>
  *  Report of salinity.<br/>

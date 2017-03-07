@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Throttle (297)<br/>
  *  Throttle e.g. for Plane/Copter .<br/>

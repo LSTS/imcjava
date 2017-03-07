@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Formation Monitoring Data (481)<br/>
  *  Monitoring variables for the formation state and performance.<br/>

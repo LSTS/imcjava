@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Query Entity Activation State (15)<br/>
  *  Query the activation/deactivation state of an entity. The<br/>

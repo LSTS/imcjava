@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Plan Maneuver (552)<br/>
  *  Named plan maneuver.<br/>

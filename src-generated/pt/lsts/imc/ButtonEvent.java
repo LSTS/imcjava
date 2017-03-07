@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Button Event (306)<br/>
  *  Event of a specific hardware button.<br/>

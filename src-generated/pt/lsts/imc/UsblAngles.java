@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message USBL Angles (890)<br/>
  *  This message contains information, collected using USBL, about the<br/>

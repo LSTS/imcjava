@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Pulse Detection Control (278)<br/>
  *  Control of hardware pulse detection.<br/>

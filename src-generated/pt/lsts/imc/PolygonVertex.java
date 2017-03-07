@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Polygon Vertex (474)<br/>
  *  This message is used to store the various polygon vertices for<br/>

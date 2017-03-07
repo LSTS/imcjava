@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Stop Maneuver (468)<br/>
  *  Command used to stop currently executing maneuver.<br/>

@@ -29,49 +29,18 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+import pt.lsts.imc.def.SpeedUnits;
+
 /**
  *  IMC Message Rows Coverage (488)<br/>
  *  Rows coverage (i.e: lawn mower type maneuver) but with adaptive cover<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class RowsCoverage extends Maneuver {
 
 	public static final short FLG_SQUARE_CURVE = 0x01;
 	public static final short FLG_CURVE_RIGHT = 0x02;
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 488;
 
@@ -117,7 +86,7 @@ public class RowsCoverage extends Maneuver {
 		return m;
 	}
 
-	public RowsCoverage(double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, double bearing, double cross_angle, float width, float length, short coff, float angAperture, int range, short overlap, short flags, String custom) {
+	public RowsCoverage(double lat, double lon, float z, ZUnits z_units, float speed, SpeedUnits speed_units, double bearing, double cross_angle, float width, float length, short coff, float angAperture, int range, short overlap, short flags, String custom) {
 		super(ID_STATIC);
 		setLat(lat);
 		setLon(lon);
@@ -186,9 +155,9 @@ public class RowsCoverage extends Maneuver {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -207,7 +176,7 @@ public class RowsCoverage extends Maneuver {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public RowsCoverage setZUnits(Z_UNITS z_units) {
+	public RowsCoverage setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}
@@ -246,9 +215,9 @@ public class RowsCoverage extends Maneuver {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -267,7 +236,7 @@ public class RowsCoverage extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public RowsCoverage setSpeedUnits(SPEED_UNITS speed_units) {
+	public RowsCoverage setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}

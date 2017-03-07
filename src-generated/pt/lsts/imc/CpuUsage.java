@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message CPU Usage (7)<br/>
  *  Report of software CPU usage.<br/>

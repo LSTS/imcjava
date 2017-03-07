@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Report Control (513)<br/>
  *  This message is sent to trigger reports to a destination system.<br/>

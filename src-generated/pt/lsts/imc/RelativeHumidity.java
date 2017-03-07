@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Relative Humidity (272)<br/>
  *  Measurement of relative humidity.<br/>

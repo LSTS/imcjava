@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Acceleration (257)<br/>
  *  Vector quantifying the direction and magnitude of the measured<br/>

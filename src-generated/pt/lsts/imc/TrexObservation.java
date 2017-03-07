@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message TREX Observation (651)<br/>
  *  This message is sent to TREX to post timeline observations<br/>

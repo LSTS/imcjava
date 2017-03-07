@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Query Entity State (2)<br/>
  *  Request entities to report their state. Entities should respond<br/>

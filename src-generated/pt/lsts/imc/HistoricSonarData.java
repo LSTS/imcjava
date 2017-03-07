@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Historic Sonar Data (109)<br/>
  *  This message is used to store historic (transmitted afterwards) sonar data.<br/>

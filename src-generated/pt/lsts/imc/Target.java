@@ -29,29 +29,14 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+
 /**
  *  IMC Message Target (800)<br/>
  *  Target.<br/>
  */
 
 public class Target extends IMCMessage {
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 800;
 
@@ -97,7 +82,7 @@ public class Target extends IMCMessage {
 		return m;
 	}
 
-	public Target(String label, double lat, double lon, float z, Z_UNITS z_units, float cog, float sog) {
+	public Target(String label, double lat, double lon, float z, ZUnits z_units, float cog, float sog) {
 		super(ID_STATIC);
 		if (label != null)
 			setLabel(label);
@@ -172,9 +157,9 @@ public class Target extends IMCMessage {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -193,7 +178,7 @@ public class Target extends IMCMessage {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public Target setZUnits(Z_UNITS z_units) {
+	public Target setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}

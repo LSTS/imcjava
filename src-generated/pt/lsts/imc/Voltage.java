@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Voltage (251)<br/>
  *  Report of electrical voltage.<br/>

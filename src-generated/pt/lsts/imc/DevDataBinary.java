@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Device Data (Binary) (274)<br/>
  *  Verbatim representation of device data in binary format.<br/>

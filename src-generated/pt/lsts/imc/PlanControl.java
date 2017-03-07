@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Plan Control (559)<br/>
  *  Plan control request/reply.<br/>

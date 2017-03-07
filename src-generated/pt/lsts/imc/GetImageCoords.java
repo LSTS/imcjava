@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Get Image Coordinates (896)<br/>
  *  Message containing the x and y coordinates of object to track in image slave.<br/>

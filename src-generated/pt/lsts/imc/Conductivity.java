@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Conductivity (269)<br/>
  *  Report of conductivity.<br/>

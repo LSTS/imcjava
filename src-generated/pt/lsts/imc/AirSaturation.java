@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Air Saturation (296)<br/>
  *  Air Saturation measurement.<br/>

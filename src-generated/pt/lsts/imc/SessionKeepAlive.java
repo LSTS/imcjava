@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Session Keep-Alive (809)<br/>
  *  Message exchanged to prevent a session from timing out<br/>

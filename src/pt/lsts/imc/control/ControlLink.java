@@ -35,7 +35,6 @@ import java.util.concurrent.TimeUnit;
 
 import pt.lsts.imc.Announce;
 import pt.lsts.imc.DesiredSpeed;
-import pt.lsts.imc.DesiredSpeed.SPEED_UNITS;
 import pt.lsts.imc.DesiredZ;
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.FollowRefState;
@@ -47,6 +46,9 @@ import pt.lsts.imc.PlanManeuver;
 import pt.lsts.imc.PlanSpecification;
 import pt.lsts.imc.Reference;
 import pt.lsts.imc.VehicleState;
+import pt.lsts.imc.def.SpeedUnits;
+import pt.lsts.imc.def.SystemType;
+import pt.lsts.imc.def.ZUnits;
 import pt.lsts.imc.net.ConnectFilter;
 import pt.lsts.imc.net.IMCProtocol;
 import pt.lsts.imc.state.ImcSystemState;
@@ -61,7 +63,7 @@ public class ControlLink {
 
 	// private boolean acousticLink = false;
 
-	public static String[] listVehicles(Announce.SYS_TYPE type) {
+	public static String[] listVehicles(SystemType type) {
 
 		Vector<String> validVehicles = new Vector<String>();
 		// String[] sys = getImc().lookupService("x");
@@ -145,7 +147,7 @@ public class ControlLink {
 
 						ref.setLat(Math.toRadians(lld[0]));
 						ref.setLon(Math.toRadians(lld[1]));
-						ref.setZ(new DesiredZ(0, DesiredZ.Z_UNITS.DEPTH));
+						ref.setZ(new DesiredZ(0, ZUnits.DEPTH));
 						lastReference = ref;
 					} else {
 						return;
@@ -177,15 +179,15 @@ public class ControlLink {
 		DesiredZ desZ = null;
 		if (!Double.isNaN(z_meters)) {
 			if (z_meters >= 0)
-				desZ = new DesiredZ((float) z_meters, DesiredZ.Z_UNITS.DEPTH);
+				desZ = new DesiredZ((float) z_meters, ZUnits.DEPTH);
 			else
 				desZ = new DesiredZ((float) -z_meters,
-						DesiredZ.Z_UNITS.ALTITUDE);
+						ZUnits.ALTITUDE);
 		}
 
 		DesiredSpeed desSpeed = null;
 		if (!Double.isNaN(speed_mps)) {
-			desSpeed = new DesiredSpeed(speed_mps, SPEED_UNITS.METERS_PS);
+			desSpeed = new DesiredSpeed(speed_mps, SpeedUnits.METERS_PS);
 		}
 
 		Reference ref = new Reference();

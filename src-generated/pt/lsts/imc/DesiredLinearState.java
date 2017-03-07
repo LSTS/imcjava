@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Desired Linear State (414)<br/>
  *  Position, velocity and acceleration setpoints in NED<br/>

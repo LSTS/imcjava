@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Fuel Level (279)<br/>
  *  Report of fuel level.<br/>

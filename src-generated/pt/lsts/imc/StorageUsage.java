@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Storage Usage (100)<br/>
  *  Report of storage usage.<br/>

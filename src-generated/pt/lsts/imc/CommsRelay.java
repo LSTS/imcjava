@@ -29,30 +29,15 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.SpeedUnits;
+
 /**
  *  IMC Message Communications Relay (472)<br/>
  *  In this maneuver, a vehicle drives to the center of two other<br/>
  *  systems (a, b) in order to be used as a communications relay.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class CommsRelay extends Maneuver {
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 472;
 
@@ -98,7 +83,7 @@ public class CommsRelay extends Maneuver {
 		return m;
 	}
 
-	public CommsRelay(double lat, double lon, float speed, SPEED_UNITS speed_units, int duration, int sys_a, int sys_b, float move_threshold) {
+	public CommsRelay(double lat, double lon, float speed, SpeedUnits speed_units, int duration, int sys_a, int sys_b, float move_threshold) {
 		super(ID_STATIC);
 		setLat(lat);
 		setLon(lon);
@@ -158,9 +143,9 @@ public class CommsRelay extends Maneuver {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -179,7 +164,7 @@ public class CommsRelay extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public CommsRelay setSpeedUnits(SPEED_UNITS speed_units) {
+	public CommsRelay setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}

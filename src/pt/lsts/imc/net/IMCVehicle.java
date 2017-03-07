@@ -33,14 +33,14 @@ import java.util.Random;
 import pt.lsts.imc.Abort;
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.Goto;
-import pt.lsts.imc.Goto.SPEED_UNITS;
-import pt.lsts.imc.Goto.Z_UNITS;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.PlanControl;
 import pt.lsts.imc.PlanControl.OP;
 import pt.lsts.imc.PlanControl.TYPE;
 import pt.lsts.imc.PlanControlState;
 import pt.lsts.imc.PlanControlState.STATE;
+import pt.lsts.imc.def.SpeedUnits;
+import pt.lsts.imc.def.ZUnits;
 import pt.lsts.imc.state.ImcSystemState;
 import pt.lsts.util.WGS84Utilities;
 
@@ -77,8 +77,8 @@ public class IMCVehicle {
 								latDegs, lonDegs, depth, speed)).setFlags(0).setRequestId(++req_id);
 		pc.setArg(new Goto().setLat(Math.toRadians(latDegs))
 				.setLon(Math.toRadians(lonDegs)).setZ(depth)
-				.setZUnits(Z_UNITS.DEPTH).setSpeed(speed)
-				.setSpeedUnits(SPEED_UNITS.METERS_PS));
+				.setZUnits(ZUnits.DEPTH).setSpeed(speed)
+				.setSpeedUnits(SpeedUnits.METERS_PS));
 		send(pc);
 	}
 	

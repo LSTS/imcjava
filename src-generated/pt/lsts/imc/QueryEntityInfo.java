@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Query Entity Information (4)<br/>
  *  Request information about an entity identifier. The receiving<br/>

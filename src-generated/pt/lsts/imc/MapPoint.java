@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message MapPoint (604)<br/>
  *  This message represents a point in the world.<br/>

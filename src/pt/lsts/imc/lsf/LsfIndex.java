@@ -55,6 +55,7 @@ import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCFieldType;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.IMCMessageType;
+import pt.lsts.imc.def.SystemType;
 import pt.lsts.imc.gz.MultiMemberGZIPInputStream;
 import pt.lsts.imc.net.UDPTransport;
 
@@ -1027,7 +1028,7 @@ public class LsfIndex {
 		return getFirst(clazz);
 	}
 
-	public Vector<Announce> getSystemsOfType(Announce.SYS_TYPE type) {
+	public Vector<Announce> getSystemsOfType(SystemType type) {
 		Vector<Announce> announces = new Vector<Announce>();
 
 		for (Announce an : getAvailableSystems()) {

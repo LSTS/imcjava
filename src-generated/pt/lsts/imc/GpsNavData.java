@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message GPS Navigation Data (280)<br/>
  *  Report of GPS navigation data.<br/>

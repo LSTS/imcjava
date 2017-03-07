@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Formation Control Parameters (822)<br/>
  *  Formation controller paramenters, as: trajectory gains,<br/>

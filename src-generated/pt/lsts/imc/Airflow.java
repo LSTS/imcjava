@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Airflow (363)<br/>
  *  Airspeed along with airflow angles.<br/>

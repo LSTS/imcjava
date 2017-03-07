@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Power Channel Control (309)<br/>
  *  This message allows controlling power channels.<br/>

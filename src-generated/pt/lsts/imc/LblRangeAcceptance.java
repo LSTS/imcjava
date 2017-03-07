@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message LBL Range Acceptance (357)<br/>
  *  When the vehicle uses Long Base Line navigation, this message<br/>

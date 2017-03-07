@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Distance (262)<br/>
  *  Distance measurement detected by the device.<br/>

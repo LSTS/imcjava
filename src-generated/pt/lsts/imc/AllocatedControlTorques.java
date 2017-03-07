@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Allocated Control Torques (411)<br/>
  *  Control torques allocated to the actuators.<br/>

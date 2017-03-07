@@ -29,12 +29,12 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Follow Reference Maneuver (478)<br/>
  *  This maneuver follows a reference given by an external entity.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class FollowReference extends Maneuver {
 
 	public static final int ID_STATIC = 478;

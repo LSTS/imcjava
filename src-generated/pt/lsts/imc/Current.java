@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Current (252)<br/>
  *  Report of electrical current.<br/>

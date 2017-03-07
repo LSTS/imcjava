@@ -29,12 +29,12 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Desired Pitch (404)<br/>
  *  Desired Pitch angle reference value for the control layer.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class DesiredPitch extends ControlCommand {
 
 	public static final int ID_STATIC = 404;

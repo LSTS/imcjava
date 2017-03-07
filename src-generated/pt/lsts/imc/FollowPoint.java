@@ -29,46 +29,15 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.SpeedUnits;
+import pt.lsts.imc.def.ZUnits;
+
 /**
  *  IMC Message Follow Point Maneuver (494)<br/>
  *  This maneuver behaves by following a point.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class FollowPoint extends Maneuver {
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 494;
 
@@ -114,7 +83,7 @@ public class FollowPoint extends Maneuver {
 		return m;
 	}
 
-	public FollowPoint(String target, float max_speed, SPEED_UNITS speed_units, double lat, double lon, float z, Z_UNITS z_units, String custom) {
+	public FollowPoint(String target, float max_speed, SpeedUnits speed_units, double lat, double lon, float z, ZUnits z_units, String custom) {
 		super(ID_STATIC);
 		if (target != null)
 			setTarget(target);
@@ -161,9 +130,9 @@ public class FollowPoint extends Maneuver {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -182,7 +151,7 @@ public class FollowPoint extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public FollowPoint setSpeedUnits(SPEED_UNITS speed_units) {
+	public FollowPoint setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}
@@ -251,9 +220,9 @@ public class FollowPoint extends Maneuver {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -272,7 +241,7 @@ public class FollowPoint extends Maneuver {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public FollowPoint setZUnits(Z_UNITS z_units) {
+	public FollowPoint setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}

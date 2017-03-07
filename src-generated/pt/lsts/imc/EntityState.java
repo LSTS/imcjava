@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Entity State (1)<br/>
  *  State reported by an entity in the vehicle. The source entity is<br/>

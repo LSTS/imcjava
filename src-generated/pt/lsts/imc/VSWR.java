@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Voltage Standing Wave Ratio (154)<br/>
  *  Measure of the VSWR by a networking device.<br/>

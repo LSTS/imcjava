@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Announce Service (152)<br/>
  *  Announcement about the existence of a service.<br/>

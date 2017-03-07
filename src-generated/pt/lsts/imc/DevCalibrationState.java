@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Device Calibration State (13)<br/>
  *  State of the calibration procedure.<br/>

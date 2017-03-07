@@ -29,10 +29,10 @@
 package pt.lsts.imc.adapter;
 
 import pt.lsts.imc.Abort;
-import pt.lsts.imc.Announce.SYS_TYPE;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.LogBookEntry;
 import pt.lsts.imc.LogBookEntry.TYPE;
+import pt.lsts.imc.def.SystemType;
 import pt.lsts.imc.net.IMCProtocol;
 
 /**
@@ -43,7 +43,7 @@ public class ImcAdapter {
 
 	private IMCProtocol imc;
 	
-	public ImcAdapter(String systemName, int imcId, int bindPort, SYS_TYPE systemType) {
+	public ImcAdapter(String systemName, int imcId, int bindPort, SystemType systemType) {
 		imc = new IMCProtocol(systemName, bindPort, imcId, systemType);
 		imc.setConnectOnHeartBeat();
 		imc.register(this);
@@ -78,7 +78,7 @@ public class ImcAdapter {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ImcAdapter adapter = new ImcAdapter("DummyVehicle", 0x8043, 7009, SYS_TYPE.UUV);
+		ImcAdapter adapter = new ImcAdapter("DummyVehicle", 0x8043, 7009, SystemType.UUV);
 		while (true) {
 			adapter.dispatch(new Abort());	
 			Thread.sleep(3000);

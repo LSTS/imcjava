@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Remote Actions (305)<br/>
  *  This message is used to send a periodic update of values for<br/>

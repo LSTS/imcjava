@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Power Channel State (311)<br/>
  *  Message conveying the state of a power channel.<br/>

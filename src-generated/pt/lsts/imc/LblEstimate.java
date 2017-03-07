@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message LBL Beacon Position Estimate (360)<br/>
  *  LBL Beacon position estimate.<br/>

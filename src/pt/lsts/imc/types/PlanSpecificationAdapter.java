@@ -37,10 +37,11 @@ import java.util.Map;
 import java.util.Vector;
 
 import pt.lsts.imc.Goto;
-import pt.lsts.imc.Goto.Z_UNITS;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.PlanSpecification;
+import pt.lsts.imc.def.SpeedUnits;
+import pt.lsts.imc.def.ZUnits;
 
 /**
  * This class holds a PlanSpecification data structure that is independent of IMC version
@@ -453,8 +454,8 @@ public class PlanSpecificationAdapter implements IMessageAdapter {
         			.setLat(Math.toRadians(41)) 
         			.setLon(Math.toRadians(-8)) 
         			.setZ(2f)
-        			.setZUnits(Z_UNITS.DEPTH)
-        			.setSpeedUnits(pt.lsts.imc.Goto.SPEED_UNITS.METERS_PS)
+        			.setZUnits(ZUnits.DEPTH)
+        			.setSpeedUnits(SpeedUnits.METERS_PS)
         		);
         plan.addManeuver("Goto2", 
         		new Goto()
@@ -462,8 +463,8 @@ public class PlanSpecificationAdapter implements IMessageAdapter {
 	    			.setLat(Math.toRadians(41)) 
 	    			.setLon(Math.toRadians(-8)) 
 	    			.setZ(5f)
-	    			.setZUnits(Z_UNITS.DEPTH)
-	    			.setSpeedUnits(pt.lsts.imc.Goto.SPEED_UNITS.METERS_PS)
+	    			.setZUnits(ZUnits.DEPTH)
+	    			.setSpeedUnits(SpeedUnits.METERS_PS)
         		);
     			plan.addTransition("Goto1", "Goto2", "ManeuverIsDone", null);
 

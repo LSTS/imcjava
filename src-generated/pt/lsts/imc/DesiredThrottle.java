@@ -29,12 +29,12 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Desired Throttle (415)<br/>
  *  Desired throttle e.g. for Plane in FBWA-mode.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class DesiredThrottle extends ControlCommand {
 
 	public static final int ID_STATIC = 415;

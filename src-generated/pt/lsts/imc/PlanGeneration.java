@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Plan Generation (562)<br/>
  *  This message is used to order the generation of plans based on<br/>

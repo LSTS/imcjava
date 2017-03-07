@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Sonar Data (276)<br/>
  *  This message contains the data acquired by a single sonar<br/>

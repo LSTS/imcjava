@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Remote State (750)<br/>
  *  State summary for a remote vehicle.<br/>

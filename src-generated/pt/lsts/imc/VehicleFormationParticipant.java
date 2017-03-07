@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Vehicle Formation Participant (467)<br/>
  *  Definition of a vehicle participant in a VehicleFormation maneuver.<br/>

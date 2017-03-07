@@ -29,6 +29,8 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+
 /**
  *  IMC Message Scheduled Goto (487)<br/>
  *  This maneuver is used to command the vehicle to arrive at some destination at<br/>
@@ -36,42 +38,7 @@ package pt.lsts.imc;
  *  The vehicle's speed will vary according to environment conditions and/or maneuver start time.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class ScheduledGoto extends Maneuver {
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum TRAVEL_Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		TRAVEL_Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public enum DELAYED {
 		RESUME(0),
@@ -133,7 +100,7 @@ public class ScheduledGoto extends Maneuver {
 		return m;
 	}
 
-	public ScheduledGoto(double arrival_time, double lat, double lon, float z, Z_UNITS z_units, float travel_z, TRAVEL_Z_UNITS travel_z_units, DELAYED delayed) {
+	public ScheduledGoto(double arrival_time, double lat, double lon, float z, ZUnits z_units, float travel_z, ZUnits travel_z_units, DELAYED delayed) {
 		super(ID_STATIC);
 		setArrivalTime(arrival_time);
 		setLat(lat);
@@ -208,9 +175,9 @@ public class ScheduledGoto extends Maneuver {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -229,7 +196,7 @@ public class ScheduledGoto extends Maneuver {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public ScheduledGoto setZUnits(Z_UNITS z_units) {
+	public ScheduledGoto setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}
@@ -268,9 +235,9 @@ public class ScheduledGoto extends Maneuver {
 	/**
 	 *  @return Travel Z Units (enumerated) - uint8_t
 	 */
-	public TRAVEL_Z_UNITS getTravelZUnits() {
+	public ZUnits getTravelZUnits() {
 		try {
-			TRAVEL_Z_UNITS o = TRAVEL_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("travel_z_units").get(getLong("travel_z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("travel_z_units").get(getLong("travel_z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -289,7 +256,7 @@ public class ScheduledGoto extends Maneuver {
 	/**
 	 *  @param travel_z_units Travel Z Units (enumerated)
 	 */
-	public ScheduledGoto setTravelZUnits(TRAVEL_Z_UNITS travel_z_units) {
+	public ScheduledGoto setTravelZUnits(ZUnits travel_z_units) {
 		values.put("travel_z_units", travel_z_units.value());
 		return this;
 	}

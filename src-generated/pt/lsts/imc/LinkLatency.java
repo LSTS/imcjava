@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Link Latency (182)<br/>
  *  Communications latency between two systems.<br/>

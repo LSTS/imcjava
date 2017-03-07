@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Historic Telemetry (108)<br/>
  *  This message is used to store historic (transmitted afterwards) telemetry information.<br/>

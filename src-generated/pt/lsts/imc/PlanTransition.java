@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Plan Transition (553)<br/>
  *  Describes a plan transition within a plan specification. A<br/>

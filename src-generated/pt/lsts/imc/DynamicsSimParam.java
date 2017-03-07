@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Dynamics Simulation Parameters (53)<br/>
  *  Vehicle dynamics parameters for 3DOF, 4DOF or 5DOF simulations.<br/>

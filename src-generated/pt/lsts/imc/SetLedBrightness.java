@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Set LED Brightness (314)<br/>
  *  Control the brightness of an LED (Light-Emitting Diode). The<br/>

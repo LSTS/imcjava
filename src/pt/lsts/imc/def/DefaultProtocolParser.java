@@ -288,23 +288,26 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 
 				LinkedHashMap<Long, String> possibleValues = new LinkedHashMap<Long, String>();
 				String prefix = null;
-
+				String valueDefs = null;
+				
 				if (field.getAttributes().getNamedItem("enum-def") != null) {
 					String enumName = field.getAttributes()
 							.getNamedItem("enum-def").getTextContent();
 
 					prefix = enums.get(enumName).getPrefix();
+					valueDefs = enumName;
 					possibleValues.putAll(enums.get(enumName).getValues());
 				} else if (field.getAttributes().getNamedItem("bitmask-def") != null) {
 					String bfName = field.getAttributes()
 							.getNamedItem("bitmask-def").getTextContent();
 
 					prefix = bitfields.get(bfName).getPrefix();
+					valueDefs = bfName;
 					possibleValues.putAll(bitfields.get(bfName).getValues());
 				} else if (field.getAttributes().getNamedItem("bitfield-def") != null) {
 					String bfName = field.getAttributes()
 							.getNamedItem("bitfield-def").getTextContent();
-
+					valueDefs = bfName;
 					prefix = bitfields.get(bfName).getPrefix();
 					possibleValues.putAll(bitfields.get(bfName).getValues());
 				} else {
@@ -312,9 +315,14 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 					prefix = descriptor.getPrefix();
 					possibleValues.putAll(descriptor.getValues());
 				}
+				
 				if (prefix != null)
 					msgType.setFieldPrefix(fieldAbbrv, prefix);
-				msgType.setFieldPossibleValues(fieldAbbrv, possibleValues);							
+
+				if (valueDefs != null)
+					msgType.setFieldValueDefs(fieldAbbrv, valueDefs);
+				
+				msgType.setFieldPossibleValues(fieldAbbrv, possibleValues);		
 			}			
 		}
 		return msgType;

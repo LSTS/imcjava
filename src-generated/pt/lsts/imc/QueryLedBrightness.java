@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Query LED Brightness (313)<br/>
  *  Query the brightness of an LED (Light-Emitting Diode). The<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Navigation Data (355)<br/>
  *  Report of navigation data.<br/>

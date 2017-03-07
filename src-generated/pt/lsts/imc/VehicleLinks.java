@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Vehicle Links (650)<br/>
  *  This message is sent by the TREX task which gives further information to a TREX instance about connected IMC nodes<br/>

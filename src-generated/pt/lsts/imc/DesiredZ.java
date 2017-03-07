@@ -29,30 +29,14 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+
 /**
  *  IMC Message Desired Z (401)<br/>
  *  Desired Z reference value for the control layer.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class DesiredZ extends ControlCommand {
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 401;
 
@@ -98,7 +82,7 @@ public class DesiredZ extends ControlCommand {
 		return m;
 	}
 
-	public DesiredZ(float value, Z_UNITS z_units) {
+	public DesiredZ(float value, ZUnits z_units) {
 		super(ID_STATIC);
 		setValue(value);
 		setZUnits(z_units);
@@ -122,9 +106,9 @@ public class DesiredZ extends ControlCommand {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -143,7 +127,7 @@ public class DesiredZ extends ControlCommand {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public DesiredZ setZUnits(Z_UNITS z_units) {
+	public DesiredZ setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}

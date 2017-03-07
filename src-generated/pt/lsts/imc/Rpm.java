@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Revolutions Per Minute (250)<br/>
  *  Number of revolutions per minute.<br/>

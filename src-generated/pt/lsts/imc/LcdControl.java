@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message LCD Control (307)<br/>
  *  Control LCD.<br/>

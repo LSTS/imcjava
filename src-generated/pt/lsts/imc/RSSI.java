@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Receive Signal Strength Information (153)<br/>
  *  Measure of the RSSI by a networking device.<br/>

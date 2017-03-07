@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Data Sanity (284)<br/>
  *  Report sanity or lack of it in the data output by a sensor.<br/>

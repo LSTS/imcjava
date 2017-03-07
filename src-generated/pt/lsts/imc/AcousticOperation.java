@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Acoustic Operation (211)<br/>
  *  Acoustic operation.<br/>

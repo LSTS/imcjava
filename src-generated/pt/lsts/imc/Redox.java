@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Redox Potential (299)<br/>
  *  Report of Redox Potential.<br/>

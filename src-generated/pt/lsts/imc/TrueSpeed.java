@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message True Speed (353)<br/>
  *  Ground true speed.<br/>

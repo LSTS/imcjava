@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Sound Speed (267)<br/>
  *  Sound Speed report.<br/>

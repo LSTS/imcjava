@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Simulated State (50)<br/>
  *  This message presents the simulated state of the vehicle. The simulated<br/>

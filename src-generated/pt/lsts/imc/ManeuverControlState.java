@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Maneuver Control State (470)<br/>
  *  Maneuver control state.<br/>

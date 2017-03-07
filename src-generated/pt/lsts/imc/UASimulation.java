@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Underwater Acoustics Simulation (52)<br/>
  *  Underwater acoustics simulation request.<br/>

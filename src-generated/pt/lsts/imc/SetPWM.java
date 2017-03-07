@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Set PWM (315)<br/>
  *  Set properties of a PWM signal channel.<br/>

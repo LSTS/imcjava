@@ -47,7 +47,6 @@ import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
 import pt.lsts.imc.Announce;
-import pt.lsts.imc.Announce.SYS_TYPE;
 import pt.lsts.imc.EntityInfo;
 import pt.lsts.imc.EntityList;
 import pt.lsts.imc.EntityList.OP;
@@ -55,6 +54,7 @@ import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.Heartbeat;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.def.SystemType;
 import pt.lsts.imc.lsf.LsfIndex;
 import pt.lsts.imc.lsf.LsfMessageLogger;
 import pt.lsts.imc.state.ImcSystemState;
@@ -80,7 +80,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     protected LinkedHashMap<String, ImcSystemState> sysStates = new LinkedHashMap<String, ImcSystemState>();
     protected String localName = "imcj_" + System.currentTimeMillis() / 500;
     protected int localId;
-    protected SYS_TYPE sysType = SYS_TYPE.CCU;
+    protected SystemType sysType = SystemType.CCU;
     private HashSet<String> services = new HashSet<String>();
     private boolean quiet = false;
     //private String autoConnect = null;
@@ -96,14 +96,14 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
     private EstimatedState estState = null;
 
     public IMCProtocol(String localName, int localPort) {
-        this(localName, localPort, 0x4000 + new Random().nextInt(0x1FFF), (SYS_TYPE) null);
+        this(localName, localPort, 0x4000 + new Random().nextInt(0x1FFF), (SystemType) null);
     }
 
     public IMCProtocol(String localName, int localPort, int localId) {
-        this(localName, localPort, localId, (SYS_TYPE) null);
+        this(localName, localPort, localId, (SystemType) null);
     }
 
-    public IMCProtocol(String localName, int localPort, int localId, SYS_TYPE sysType) {
+    public IMCProtocol(String localName, int localPort, int localId, SystemType sysType) {
         if (localId <= 0)
             this.localId = 0x4000 + new Random().nextInt(0x1FFF);
         else
@@ -269,7 +269,7 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
         return localId;
     }
     
-    public SYS_TYPE getSysType() {
+    public SystemType getSysType() {
         return sysType;
     }
 

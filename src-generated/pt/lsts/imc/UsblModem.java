@@ -29,29 +29,14 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+
 /**
  *  IMC Message USBL Modem Configuration (901)<br/>
  *  Position and configuration of an Ultra-Short Base Line modem.<br/>
  */
 
 public class UsblModem extends IMCMessage {
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 901;
 
@@ -97,7 +82,7 @@ public class UsblModem extends IMCMessage {
 		return m;
 	}
 
-	public UsblModem(String name, double lat, double lon, float z, Z_UNITS z_units) {
+	public UsblModem(String name, double lat, double lon, float z, ZUnits z_units) {
 		super(ID_STATIC);
 		if (name != null)
 			setName(name);
@@ -170,9 +155,9 @@ public class UsblModem extends IMCMessage {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -191,7 +176,7 @@ public class UsblModem extends IMCMessage {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public UsblModem setZUnits(Z_UNITS z_units) {
+	public UsblModem setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}

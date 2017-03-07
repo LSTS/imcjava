@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Group Membership State (180)<br/>
  *  Group communication link assertion.<br/>

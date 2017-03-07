@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Leader State (563)<br/>
  *  This message defines the formation leader state.<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Fluorescein (290)<br/>
  *  Fluorescein measurement.<br/>

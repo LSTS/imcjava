@@ -29,6 +29,9 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+import pt.lsts.imc.def.SpeedUnits;
+
 /**
  *  IMC Message Elevator Maneuver (462)<br/>
  *  The Elevator maneuver specifies a vehicle to reach a target<br/>
@@ -37,60 +40,9 @@ package pt.lsts.imc;
  *  slope and radius can also be optionally specified.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class Elevator extends Maneuver {
 
 	public static final short FLG_CURR_POS = 0x01;
-
-	public enum START_Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		START_Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum END_Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		END_Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 462;
 
@@ -136,7 +88,7 @@ public class Elevator extends Maneuver {
 		return m;
 	}
 
-	public Elevator(int timeout, short flags, double lat, double lon, float start_z, START_Z_UNITS start_z_units, float end_z, END_Z_UNITS end_z_units, float radius, float speed, SPEED_UNITS speed_units, String custom) {
+	public Elevator(int timeout, short flags, double lat, double lon, float start_z, ZUnits start_z_units, float end_z, ZUnits end_z_units, float radius, float speed, SpeedUnits speed_units, String custom) {
 		super(ID_STATIC);
 		setTimeout(timeout);
 		setFlags(flags);
@@ -231,9 +183,9 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @return Start Point -- Z Units (enumerated) - uint8_t
 	 */
-	public START_Z_UNITS getStartZUnits() {
+	public ZUnits getStartZUnits() {
 		try {
-			START_Z_UNITS o = START_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -252,7 +204,7 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @param start_z_units Start Point -- Z Units (enumerated)
 	 */
-	public Elevator setStartZUnits(START_Z_UNITS start_z_units) {
+	public Elevator setStartZUnits(ZUnits start_z_units) {
 		values.put("start_z_units", start_z_units.value());
 		return this;
 	}
@@ -291,9 +243,9 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @return End Point -- Z Units (enumerated) - uint8_t
 	 */
-	public END_Z_UNITS getEndZUnits() {
+	public ZUnits getEndZUnits() {
 		try {
-			END_Z_UNITS o = END_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -312,7 +264,7 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @param end_z_units End Point -- Z Units (enumerated)
 	 */
-	public Elevator setEndZUnits(END_Z_UNITS end_z_units) {
+	public Elevator setEndZUnits(ZUnits end_z_units) {
 		values.put("end_z_units", end_z_units.value());
 		return this;
 	}
@@ -366,9 +318,9 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -387,7 +339,7 @@ public class Elevator extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public Elevator setSpeedUnits(SPEED_UNITS speed_units) {
+	public Elevator setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Vehicle Operational Limits (16)<br/>
  *  Vehicle opertional limits.<br/>

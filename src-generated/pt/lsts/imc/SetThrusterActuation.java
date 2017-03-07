@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Set Thruster Actuation (301)<br/>
  *  Actuate directly on a thruster.<br/>

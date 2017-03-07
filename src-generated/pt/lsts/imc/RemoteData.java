@@ -29,11 +29,11 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message RemoteData (-1)<br/>
  */
 
-@SuppressWarnings("unchecked")
 public abstract class RemoteData extends IMCMessage {
 
 	public RemoteData(int type) {

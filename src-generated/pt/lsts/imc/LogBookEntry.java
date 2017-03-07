@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Log Book Entry (103)<br/>
  *  Human readable message reporting an event of interest.<br/>

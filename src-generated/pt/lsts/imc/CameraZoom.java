@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Camera Zoom (300)<br/>
  *  Camera Zoom.<br/>

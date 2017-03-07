@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message GPS Fix (253)<br/>
  *  Report of a GPS fix.<br/>

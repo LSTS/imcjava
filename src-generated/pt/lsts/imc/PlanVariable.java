@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Plan Variable (561)<br/>
  *  A plan variable.<br/>

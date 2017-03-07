@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Device Data (Text) (273)<br/>
  *  Verbatim representation of device data in plain text format.<br/>

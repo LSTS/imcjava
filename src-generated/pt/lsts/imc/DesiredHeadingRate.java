@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Desired Heading Rate (408)<br/>
  *  Desired Heading Rate speed reference value for the control layer.<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message GPS Fix Rejection (356)<br/>
  */

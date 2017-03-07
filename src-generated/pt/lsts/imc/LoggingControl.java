@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Logging Control (102)<br/>
  *  Control logging of messages to persistent storage.<br/>

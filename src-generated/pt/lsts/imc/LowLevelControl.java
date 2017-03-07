@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Low Level Control Maneuver (455)<br/>
  *  Low level maneuver that sends a (heading, roll, speed, ...)<br/>
@@ -36,7 +37,6 @@ package pt.lsts.imc;
  *  lingers for some time.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class LowLevelControl extends Maneuver {
 
 	public static final int ID_STATIC = 455;

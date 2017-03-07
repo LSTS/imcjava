@@ -42,8 +42,8 @@ import javax.swing.JFileChooser;
 
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
-import pt.lsts.imc.UamRxFrame;
-import pt.lsts.imc.UamTxFrame;
+import pt.lsts.imc.LogBookEntry;
+import pt.lsts.imc.LogBookEntry.TYPE;
 import pt.lsts.imc.gz.MultiMemberGZIPInputStream;
 import pt.lsts.imc.lsf.UnserializedMessage;
 import pt.lsts.neptus.messages.listener.ImcConsumer;
@@ -97,7 +97,6 @@ public class LsfBatch {
 			lower.curMessage = UnserializedMessage.readMessage(lower.definitions, lower.input);
 			logs.add(lower);
 		} catch (EOFException e) {
-			System.out.println(lower.root+" ended.");
 			// expected...
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -221,10 +220,12 @@ public class LsfBatch {
 		while ((msg = batch.next()) != null) {
 
 			switch (msg.getMgId()) {
-			case UamTxFrame.ID_STATIC:
-			case UamRxFrame.ID_STATIC:
+			case LogBookEntry.ID_STATIC:
 				try {
-					System.out.print(msg.deserialize() + ",");
+					LogBookEntry entry = (LogBookEntry) msg.deserialize();
+					if (entry.getType() == TYPE.ERROR || entry.getType() == TYPE.CRITICAL) {
+						System.out.println(entry.getDate()+" : "+entry.getSourceName()+" ["+entry.getType()+"]: "+entry.getText());
+					}					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

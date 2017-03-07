@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Historic Data Series (184)<br/>
  *  This message holds a list of inline data samples produced by one or more vehicles in the past.<br/>

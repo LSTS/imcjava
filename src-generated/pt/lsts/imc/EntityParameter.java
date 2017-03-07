@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message EntityParameter (801)<br/>
  *  Entity parameter.<br/>

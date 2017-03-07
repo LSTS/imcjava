@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Create Session (806)<br/>
  *  Request creating a new session with this remote peer. Example<br/>

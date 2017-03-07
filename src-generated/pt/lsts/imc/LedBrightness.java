@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message LED Brightness (312)<br/>
  *  Brightness value of an LED (Light-Emitting Diode).<br/>

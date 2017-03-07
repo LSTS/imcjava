@@ -29,6 +29,9 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+import pt.lsts.imc.def.SpeedUnits;
+
 /**
  *  IMC Message Desired Path (406)<br/>
  *  Perform path control.<br/>
@@ -54,7 +57,6 @@ package pt.lsts.imc;
  *  counter-clockwise direction ('CCLOCKW' flag).<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class DesiredPath extends ControlCommand {
 
 	public static final short FL_START = 0x01;
@@ -65,56 +67,6 @@ public class DesiredPath extends ControlCommand {
 	public static final short FL_LOITER_CURR = 0x20;
 	public static final short FL_TAKEOFF = 0x40;
 	public static final short FL_LAND = 0x80;
-
-	public enum START_Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		START_Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum END_Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		END_Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 406;
 
@@ -160,7 +112,7 @@ public class DesiredPath extends ControlCommand {
 		return m;
 	}
 
-	public DesiredPath(long path_ref, double start_lat, double start_lon, float start_z, START_Z_UNITS start_z_units, double end_lat, double end_lon, float end_z, END_Z_UNITS end_z_units, float speed, SPEED_UNITS speed_units, float lradius, short flags) {
+	public DesiredPath(long path_ref, double start_lat, double start_lon, float start_z, ZUnits start_z_units, double end_lat, double end_lon, float end_z, ZUnits end_z_units, float speed, SpeedUnits speed_units, float lradius, short flags) {
 		super(ID_STATIC);
 		setPathRef(path_ref);
 		setStartLat(start_lat);
@@ -240,9 +192,9 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @return Start Point -- Z Units (enumerated) - uint8_t
 	 */
-	public START_Z_UNITS getStartZUnits() {
+	public ZUnits getStartZUnits() {
 		try {
-			START_Z_UNITS o = START_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -261,7 +213,7 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @param start_z_units Start Point -- Z Units (enumerated)
 	 */
-	public DesiredPath setStartZUnits(START_Z_UNITS start_z_units) {
+	public DesiredPath setStartZUnits(ZUnits start_z_units) {
 		values.put("start_z_units", start_z_units.value());
 		return this;
 	}
@@ -330,9 +282,9 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @return End Point -- Z Units (enumerated) - uint8_t
 	 */
-	public END_Z_UNITS getEndZUnits() {
+	public ZUnits getEndZUnits() {
 		try {
-			END_Z_UNITS o = END_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -351,7 +303,7 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @param end_z_units End Point -- Z Units (enumerated)
 	 */
-	public DesiredPath setEndZUnits(END_Z_UNITS end_z_units) {
+	public DesiredPath setEndZUnits(ZUnits end_z_units) {
 		values.put("end_z_units", end_z_units.value());
 		return this;
 	}
@@ -390,9 +342,9 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -411,7 +363,7 @@ public class DesiredPath extends ControlCommand {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public DesiredPath setSpeedUnits(SPEED_UNITS speed_units) {
+	public DesiredPath setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}

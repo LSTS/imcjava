@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Desired Vertical Rate (405)<br/>
  *  Desired Vertical Rate speed reference value for the control layer.<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Plan Control State (560)<br/>
  *  State of plan control.<br/>

@@ -28,19 +28,19 @@
  */
 package pt.lsts.imc.control;
 
-import pt.lsts.imc.Announce.SYS_TYPE;
+import pt.lsts.imc.def.SystemType;
 
 public class MultiVehicleController {
 
 	public static void main(String[] args) throws Exception {
 		
 		
-		String[] vehicles = ControlLink.listVehicles(SYS_TYPE.UUV);
+		String[] vehicles = ControlLink.listVehicles(SystemType.UUV);
 		
 		while (vehicles.length < 2) {
 			System.out.println("Waiting for auvs...");
 			Thread.sleep(1000);
-			vehicles = ControlLink.listVehicles(SYS_TYPE.UUV);
+			vehicles = ControlLink.listVehicles(SystemType.UUV);
 		}
 		
 		ControlLink l1 = ControlLink.acquire(vehicles[0], 1000);

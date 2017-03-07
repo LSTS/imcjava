@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message USBL Position Extended (899)<br/>
  *  This message contains information, collected using USBL, about a<br/>

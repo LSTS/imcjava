@@ -29,34 +29,14 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.SystemType;
+
 /**
  *  IMC Message Announce (151)<br/>
  *  A system description that is to be broadcasted to other systems.<br/>
  */
 
 public class Announce extends IMCMessage {
-
-	public enum SYS_TYPE {
-		CCU(0),
-		HUMANSENSOR(1),
-		UUV(2),
-		USV(3),
-		UAV(4),
-		UGV(5),
-		STATICSENSOR(6),
-		MOBILESENSOR(7),
-		WSN(8);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SYS_TYPE(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 151;
 
@@ -102,7 +82,7 @@ public class Announce extends IMCMessage {
 		return m;
 	}
 
-	public Announce(String sys_name, SYS_TYPE sys_type, int owner, double lat, double lon, float height, String services) {
+	public Announce(String sys_name, SystemType sys_type, int owner, double lat, double lon, float height, String services) {
 		super(ID_STATIC);
 		if (sys_name != null)
 			setSysName(sys_name);
@@ -133,9 +113,9 @@ public class Announce extends IMCMessage {
 	/**
 	 *  @return System Type (enumerated) - uint8_t
 	 */
-	public SYS_TYPE getSysType() {
+	public SystemType getSysType() {
 		try {
-			SYS_TYPE o = SYS_TYPE.valueOf(getMessageType().getFieldPossibleValues("sys_type").get(getLong("sys_type")));
+			SystemType o = SystemType.valueOf(getMessageType().getFieldPossibleValues("sys_type").get(getLong("sys_type")));
 			return o;
 		}
 		catch (Exception e) {
@@ -154,7 +134,7 @@ public class Announce extends IMCMessage {
 	/**
 	 *  @param sys_type System Type (enumerated)
 	 */
-	public Announce setSysType(SYS_TYPE sys_type) {
+	public Announce setSysType(SystemType sys_type) {
 		values.put("sys_type", sys_type.value());
 		return this;
 	}

@@ -29,49 +29,18 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+import pt.lsts.imc.def.SpeedUnits;
+
 /**
  *  IMC Message Rows Maneuver (456)<br/>
  *  Rows maneuver (i.e: lawn mower type maneuver)<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class Rows extends Maneuver {
 
 	public static final short FLG_SQUARE_CURVE = 0x01;
 	public static final short FLG_CURVE_RIGHT = 0x02;
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 456;
 
@@ -117,7 +86,7 @@ public class Rows extends Maneuver {
 		return m;
 	}
 
-	public Rows(int timeout, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, double bearing, double cross_angle, float width, float length, float hstep, short coff, short alternation, short flags, String custom) {
+	public Rows(int timeout, double lat, double lon, float z, ZUnits z_units, float speed, SpeedUnits speed_units, double bearing, double cross_angle, float width, float length, float hstep, short coff, short alternation, short flags, String custom) {
 		super(ID_STATIC);
 		setTimeout(timeout);
 		setLat(lat);
@@ -201,9 +170,9 @@ public class Rows extends Maneuver {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -222,7 +191,7 @@ public class Rows extends Maneuver {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public Rows setZUnits(Z_UNITS z_units) {
+	public Rows setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}
@@ -261,9 +230,9 @@ public class Rows extends Maneuver {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -282,7 +251,7 @@ public class Rows extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public Rows setSpeedUnits(SPEED_UNITS speed_units) {
+	public Rows setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}

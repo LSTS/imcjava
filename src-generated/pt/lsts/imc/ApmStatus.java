@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message APM Status (906)<br/>
  *  StatusText message from ardupilot.<br/>

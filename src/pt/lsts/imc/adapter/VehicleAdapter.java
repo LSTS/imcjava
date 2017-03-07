@@ -31,7 +31,6 @@ package pt.lsts.imc.adapter;
 import java.util.Collection;
 
 import pt.lsts.imc.Abort;
-import pt.lsts.imc.Announce.SYS_TYPE;
 import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.PlanControl;
@@ -41,6 +40,7 @@ import pt.lsts.imc.PlanDB;
 import pt.lsts.imc.PlanSpecification;
 import pt.lsts.imc.VehicleState;
 import pt.lsts.imc.VehicleState.OP_MODE;
+import pt.lsts.imc.def.SystemType;
 import pt.lsts.imc.net.Consume;
 import pt.lsts.neptus.messages.listener.Periodic;
 import pt.lsts.util.PlanUtilities;
@@ -64,7 +64,7 @@ public class VehicleAdapter extends ImcAdapter {
 	 * @param imcid The IMC ID of the system
 	 */
 	public VehicleAdapter(String name, int imcid) {
-		super(name, imcid, 7010, SYS_TYPE.UUV);
+		super(name, imcid, 7010, SystemType.UUV);
 		planControl.setState(STATE.READY);
 	}
 	

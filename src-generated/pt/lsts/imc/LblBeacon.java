@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message LBL Beacon Configuration (202)<br/>
  *  Position and configuration of an LBL transponder (beacon).<br/>

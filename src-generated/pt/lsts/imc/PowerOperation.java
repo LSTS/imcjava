@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Power Operation (308)<br/>
  *  This message allows controlling the system's power lines.<br/>

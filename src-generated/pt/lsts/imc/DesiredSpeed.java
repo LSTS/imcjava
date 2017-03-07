@@ -29,29 +29,14 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.SpeedUnits;
+
 /**
  *  IMC Message Desired Speed (402)<br/>
  *  Desired Speed reference value for the control layer.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class DesiredSpeed extends ControlCommand {
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 402;
 
@@ -97,7 +82,7 @@ public class DesiredSpeed extends ControlCommand {
 		return m;
 	}
 
-	public DesiredSpeed(double value, SPEED_UNITS speed_units) {
+	public DesiredSpeed(double value, SpeedUnits speed_units) {
 		super(ID_STATIC);
 		setValue(value);
 		setSpeedUnits(speed_units);
@@ -121,9 +106,9 @@ public class DesiredSpeed extends ControlCommand {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -142,7 +127,7 @@ public class DesiredSpeed extends ControlCommand {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public DesiredSpeed setSpeedUnits(SPEED_UNITS speed_units) {
+	public DesiredSpeed setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}

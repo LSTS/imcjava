@@ -29,6 +29,9 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+import pt.lsts.imc.def.SpeedUnits;
+
 /**
  *  IMC Message Station Keeping (461)<br/>
  *  The Station Keeping maneuver makes the vehicle come to the surface<br/>
@@ -36,41 +39,7 @@ package pt.lsts.imc;
  *  for a certain amount of time.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class StationKeeping extends Maneuver {
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 461;
 
@@ -116,7 +85,7 @@ public class StationKeeping extends Maneuver {
 		return m;
 	}
 
-	public StationKeeping(double lat, double lon, float z, Z_UNITS z_units, float radius, int duration, float speed, SPEED_UNITS speed_units, String custom) {
+	public StationKeeping(double lat, double lon, float z, ZUnits z_units, float radius, int duration, float speed, SpeedUnits speed_units, String custom) {
 		super(ID_STATIC);
 		setLat(lat);
 		setLon(lon);
@@ -178,9 +147,9 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -199,7 +168,7 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public StationKeeping setZUnits(Z_UNITS z_units) {
+	public StationKeeping setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}
@@ -268,9 +237,9 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -289,7 +258,7 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public StationKeeping setSpeedUnits(SPEED_UNITS speed_units) {
+	public StationKeeping setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}

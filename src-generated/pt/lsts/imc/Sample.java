@@ -29,6 +29,10 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+import pt.lsts.imc.def.SpeedUnits;
+import pt.lsts.imc.def.Boolean;
+
 /**
  *  IMC Message Sample Maneuver (489)<br/>
  *  A "Sample" is a maneuver specifying a movement of the vehicle to a<br/>
@@ -38,86 +42,7 @@ package pt.lsts.imc;
  *  timeout, speed and speed units.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class Sample extends Maneuver {
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SYRINGE0 {
-		FALSE(0),
-		TRUE(1);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SYRINGE0(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SYRINGE1 {
-		FALSE(0),
-		TRUE(1);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SYRINGE1(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SYRINGE2 {
-		FALSE(0),
-		TRUE(1);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SYRINGE2(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 489;
 
@@ -163,7 +88,7 @@ public class Sample extends Maneuver {
 		return m;
 	}
 
-	public Sample(int timeout, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, SYRINGE0 syringe0, SYRINGE1 syringe1, SYRINGE2 syringe2, String custom) {
+	public Sample(int timeout, double lat, double lon, float z, ZUnits z_units, float speed, SpeedUnits speed_units, Boolean syringe0, Boolean syringe1, Boolean syringe2, String custom) {
 		super(ID_STATIC);
 		setTimeout(timeout);
 		setLat(lat);
@@ -242,9 +167,9 @@ public class Sample extends Maneuver {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -263,7 +188,7 @@ public class Sample extends Maneuver {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public Sample setZUnits(Z_UNITS z_units) {
+	public Sample setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}
@@ -302,9 +227,9 @@ public class Sample extends Maneuver {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -323,7 +248,7 @@ public class Sample extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public Sample setSpeedUnits(SPEED_UNITS speed_units) {
+	public Sample setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}
@@ -347,9 +272,9 @@ public class Sample extends Maneuver {
 	/**
 	 *  @return Syringe0 (enumerated) - uint8_t
 	 */
-	public SYRINGE0 getSyringe0() {
+	public Boolean getSyringe0() {
 		try {
-			SYRINGE0 o = SYRINGE0.valueOf(getMessageType().getFieldPossibleValues("syringe0").get(getLong("syringe0")));
+			Boolean o = Boolean.valueOf(getMessageType().getFieldPossibleValues("syringe0").get(getLong("syringe0")));
 			return o;
 		}
 		catch (Exception e) {
@@ -368,7 +293,7 @@ public class Sample extends Maneuver {
 	/**
 	 *  @param syringe0 Syringe0 (enumerated)
 	 */
-	public Sample setSyringe0(SYRINGE0 syringe0) {
+	public Sample setSyringe0(Boolean syringe0) {
 		values.put("syringe0", syringe0.value());
 		return this;
 	}
@@ -392,9 +317,9 @@ public class Sample extends Maneuver {
 	/**
 	 *  @return Syringe1 (enumerated) - uint8_t
 	 */
-	public SYRINGE1 getSyringe1() {
+	public Boolean getSyringe1() {
 		try {
-			SYRINGE1 o = SYRINGE1.valueOf(getMessageType().getFieldPossibleValues("syringe1").get(getLong("syringe1")));
+			Boolean o = Boolean.valueOf(getMessageType().getFieldPossibleValues("syringe1").get(getLong("syringe1")));
 			return o;
 		}
 		catch (Exception e) {
@@ -413,7 +338,7 @@ public class Sample extends Maneuver {
 	/**
 	 *  @param syringe1 Syringe1 (enumerated)
 	 */
-	public Sample setSyringe1(SYRINGE1 syringe1) {
+	public Sample setSyringe1(Boolean syringe1) {
 		values.put("syringe1", syringe1.value());
 		return this;
 	}
@@ -437,9 +362,9 @@ public class Sample extends Maneuver {
 	/**
 	 *  @return Syringe2 (enumerated) - uint8_t
 	 */
-	public SYRINGE2 getSyringe2() {
+	public Boolean getSyringe2() {
 		try {
-			SYRINGE2 o = SYRINGE2.valueOf(getMessageType().getFieldPossibleValues("syringe2").get(getLong("syringe2")));
+			Boolean o = Boolean.valueOf(getMessageType().getFieldPossibleValues("syringe2").get(getLong("syringe2")));
 			return o;
 		}
 		catch (Exception e) {
@@ -458,7 +383,7 @@ public class Sample extends Maneuver {
 	/**
 	 *  @param syringe2 Syringe2 (enumerated)
 	 */
-	public Sample setSyringe2(SYRINGE2 syringe2) {
+	public Sample setSyringe2(Boolean syringe2) {
 		values.put("syringe2", syringe2.value());
 		return this;
 	}

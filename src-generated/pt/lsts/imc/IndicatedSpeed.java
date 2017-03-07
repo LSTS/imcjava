@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Indicated Speed (352)<br/>
  *  Speed measured by the navigation filter.<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Estimated State (350)<br/>
  *  This message presents the estimated state of the vehicle.<br/>

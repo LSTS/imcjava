@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Session Status (810)<br/>
  *  Message transmitted periodically to inform the state of a communication session<br/>

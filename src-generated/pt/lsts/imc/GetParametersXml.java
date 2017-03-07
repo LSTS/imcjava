@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Get Parameters XML (894)<br/>
  *  Request the destination system to send its parameters XML file via a<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Entity Activation State (14)<br/>
  *  State of entity activation/deactivation.<br/>

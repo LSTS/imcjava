@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Acoustic Message (206)<br/>
  *  Send an acoustic message.<br/>

@@ -29,27 +29,14 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.Boolean;
+
 /**
  *  IMC Message Get World Coordinates (897)<br/>
  *  Message containing the x, y and z coordinates of object in the real world.<br/>
  */
 
 public class GetWorldCoordinates extends IMCMessage {
-
-	public enum TRACKING {
-		FALSE(0),
-		TRUE(1);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		TRACKING(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 897;
 
@@ -95,7 +82,7 @@ public class GetWorldCoordinates extends IMCMessage {
 		return m;
 	}
 
-	public GetWorldCoordinates(TRACKING tracking, double lat, double lon, float x, float y, float z) {
+	public GetWorldCoordinates(Boolean tracking, double lat, double lon, float x, float y, float z) {
 		super(ID_STATIC);
 		setTracking(tracking);
 		setLat(lat);
@@ -108,9 +95,9 @@ public class GetWorldCoordinates extends IMCMessage {
 	/**
 	 *  @return Tracking (enumerated) - uint8_t
 	 */
-	public TRACKING getTracking() {
+	public Boolean getTracking() {
 		try {
-			TRACKING o = TRACKING.valueOf(getMessageType().getFieldPossibleValues("tracking").get(getLong("tracking")));
+			Boolean o = Boolean.valueOf(getMessageType().getFieldPossibleValues("tracking").get(getLong("tracking")));
 			return o;
 		}
 		catch (Exception e) {
@@ -129,7 +116,7 @@ public class GetWorldCoordinates extends IMCMessage {
 	/**
 	 *  @param tracking Tracking (enumerated)
 	 */
-	public GetWorldCoordinates setTracking(TRACKING tracking) {
+	public GetWorldCoordinates setTracking(Boolean tracking) {
 		values.put("tracking", tracking.value());
 		return this;
 	}

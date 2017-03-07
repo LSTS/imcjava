@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Servo Position (281)<br/>
  *  Actual position of a servo.<br/>

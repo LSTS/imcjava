@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message GPS Fix RTK (293)<br/>
  *  Report of an RTK-GPS fix.<br/>

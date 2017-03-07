@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Pulse (277)<br/>
  *  Hardware pulse detection.<br/>

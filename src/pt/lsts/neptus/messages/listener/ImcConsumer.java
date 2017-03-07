@@ -137,4 +137,11 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 	public static ImcConsumer create(final Object pojo) {
 		return new ImcConsumer(pojo);
 	}
+
+	/**
+	 * @return the pojo
+	 */
+	public final Object getPojo() {
+		return pojo;
+	}
 }

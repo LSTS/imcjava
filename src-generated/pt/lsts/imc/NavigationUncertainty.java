@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Navigation Uncertainty (354)<br/>
  *  Report of navigation uncertainty.<br/>

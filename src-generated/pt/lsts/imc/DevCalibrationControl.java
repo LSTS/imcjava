@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Device Calibration Control (12)<br/>
  *  This message controls the calibration procedure of a given<br/>

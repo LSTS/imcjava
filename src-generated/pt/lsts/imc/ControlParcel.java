@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Control Parcel (412)<br/>
  *  Report of PID control parcels.<br/>

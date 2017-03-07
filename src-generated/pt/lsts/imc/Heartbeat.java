@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Heartbeat (150)<br/>
  *  The Heartbeat message is used to inform other modules that the<br/>

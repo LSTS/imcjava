@@ -29,6 +29,8 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.RSSIUnits;
+
 /**
  *  IMC Message Extended Receive Signal Strength Information (183)<br/>
  *  Measure of the RSSI by a networking device.<br/>
@@ -37,21 +39,6 @@ package pt.lsts.imc;
  */
 
 public class ExtendedRSSI extends IMCMessage {
-
-	public enum UNITS {
-		DB(0),
-		PERCENTAGE(1);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 183;
 
@@ -97,7 +84,7 @@ public class ExtendedRSSI extends IMCMessage {
 		return m;
 	}
 
-	public ExtendedRSSI(float value, UNITS units) {
+	public ExtendedRSSI(float value, RSSIUnits units) {
 		super(ID_STATIC);
 		setValue(value);
 		setUnits(units);
@@ -121,9 +108,9 @@ public class ExtendedRSSI extends IMCMessage {
 	/**
 	 *  @return RSSI Units (enumerated) - uint8_t
 	 */
-	public UNITS getUnits() {
+	public RSSIUnits getUnits() {
 		try {
-			UNITS o = UNITS.valueOf(getMessageType().getFieldPossibleValues("units").get(getLong("units")));
+			RSSIUnits o = RSSIUnits.valueOf(getMessageType().getFieldPossibleValues("units").get(getLong("units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -142,7 +129,7 @@ public class ExtendedRSSI extends IMCMessage {
 	/**
 	 *  @param units RSSI Units (enumerated)
 	 */
-	public ExtendedRSSI setUnits(UNITS units) {
+	public ExtendedRSSI setUnits(RSSIUnits units) {
 		values.put("units", units.value());
 		return this;
 	}

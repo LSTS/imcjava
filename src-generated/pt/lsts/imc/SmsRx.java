@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message SMS Receive (158)<br/>
  *  Received SMS data.<br/>

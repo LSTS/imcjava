@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Remote Actions Request (304)<br/>
  *  This message is used as query to request for the possible remote<br/>

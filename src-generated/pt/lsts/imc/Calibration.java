@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Calibration (506)<br/>
  *  Initiate overall calibration of a vehicle.<br/>

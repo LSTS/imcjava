@@ -29,6 +29,9 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+import pt.lsts.imc.def.SpeedUnits;
+
 /**
  *  IMC Message Compass Calibration Maneuver (475)<br/>
  *  This maneuver is a mix between the Loiter maneuver and the YoYo maneuver.<br/>
@@ -36,41 +39,7 @@ package pt.lsts.imc;
  *  reference between a minimum and maximum value.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class CompassCalibration extends Maneuver {
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public enum DIRECTION {
 		VDEP(0),
@@ -133,7 +102,7 @@ public class CompassCalibration extends Maneuver {
 		return m;
 	}
 
-	public CompassCalibration(int timeout, double lat, double lon, float z, Z_UNITS z_units, float pitch, float amplitude, int duration, float speed, SPEED_UNITS speed_units, float radius, DIRECTION direction, String custom) {
+	public CompassCalibration(int timeout, double lat, double lon, float z, ZUnits z_units, float pitch, float amplitude, int duration, float speed, SpeedUnits speed_units, float radius, DIRECTION direction, String custom) {
 		super(ID_STATIC);
 		setTimeout(timeout);
 		setLat(lat);
@@ -214,9 +183,9 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -235,7 +204,7 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public CompassCalibration setZUnits(Z_UNITS z_units) {
+	public CompassCalibration setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}
@@ -319,9 +288,9 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -340,7 +309,7 @@ public class CompassCalibration extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public CompassCalibration setSpeedUnits(SPEED_UNITS speed_units) {
+	public CompassCalibration setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}

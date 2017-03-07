@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message DVL Rejection (358)<br/>
  *  When the vehicle uses Doppler Velocity Log sensor, this message<br/>

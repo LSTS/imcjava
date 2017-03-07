@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Replay Control (105)<br/>
  *  Control replay of LSF logged data.<br/>

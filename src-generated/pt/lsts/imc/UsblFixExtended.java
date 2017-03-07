@@ -29,6 +29,8 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+
 /**
  *  IMC Message USBL Fix Extended (900)<br/>
  *  This message contains the WGS-84 position of a target computed using<br/>
@@ -36,23 +38,6 @@ package pt.lsts.imc;
  */
 
 public class UsblFixExtended extends IMCMessage {
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 900;
 
@@ -98,7 +83,7 @@ public class UsblFixExtended extends IMCMessage {
 		return m;
 	}
 
-	public UsblFixExtended(String target, double lat, double lon, Z_UNITS z_units, float z, float accuracy) {
+	public UsblFixExtended(String target, double lat, double lon, ZUnits z_units, float z, float accuracy) {
 		super(ID_STATIC);
 		if (target != null)
 			setTarget(target);
@@ -157,9 +142,9 @@ public class UsblFixExtended extends IMCMessage {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -178,7 +163,7 @@ public class UsblFixExtended extends IMCMessage {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public UsblFixExtended setZUnits(Z_UNITS z_units) {
+	public UsblFixExtended setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}

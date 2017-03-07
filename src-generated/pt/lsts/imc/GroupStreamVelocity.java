@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message GroupStreamVelocity (362)<br/>
  *  The stream velocity estimated by a group of systems.<br/>

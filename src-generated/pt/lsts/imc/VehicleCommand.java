@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Vehicle Command (501)<br/>
  *  Vehicle command.<br/>

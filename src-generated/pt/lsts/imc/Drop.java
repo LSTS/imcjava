@@ -29,6 +29,9 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+import pt.lsts.imc.def.SpeedUnits;
+
 /**
  *  IMC Message Drop Maneuver (486)<br/>
  *  A "Drop" is a maneuver specifying a movement of the vehicle to a<br/>
@@ -38,41 +41,7 @@ package pt.lsts.imc;
  *  timeout, speed and speed units.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class Drop extends Maneuver {
-
-	public enum Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 486;
 
@@ -118,7 +87,7 @@ public class Drop extends Maneuver {
 		return m;
 	}
 
-	public Drop(int timeout, double lat, double lon, float z, Z_UNITS z_units, float speed, SPEED_UNITS speed_units, String custom) {
+	public Drop(int timeout, double lat, double lon, float z, ZUnits z_units, float speed, SpeedUnits speed_units, String custom) {
 		super(ID_STATIC);
 		setTimeout(timeout);
 		setLat(lat);
@@ -194,9 +163,9 @@ public class Drop extends Maneuver {
 	/**
 	 *  @return Z Units (enumerated) - uint8_t
 	 */
-	public Z_UNITS getZUnits() {
+	public ZUnits getZUnits() {
 		try {
-			Z_UNITS o = Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -215,7 +184,7 @@ public class Drop extends Maneuver {
 	/**
 	 *  @param z_units Z Units (enumerated)
 	 */
-	public Drop setZUnits(Z_UNITS z_units) {
+	public Drop setZUnits(ZUnits z_units) {
 		values.put("z_units", z_units.value());
 		return this;
 	}
@@ -254,9 +223,9 @@ public class Drop extends Maneuver {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -275,7 +244,7 @@ public class Drop extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public Drop setSpeedUnits(SPEED_UNITS speed_units) {
+	public Drop setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}

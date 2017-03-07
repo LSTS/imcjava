@@ -29,6 +29,8 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.ZUnits;
+
 /**
  *  IMC Message Path Control State (410)<br/>
  *  Path control state issued by Path Controller.<br/>
@@ -41,40 +43,6 @@ public class PathControlState extends IMCMessage {
 	public static final short FL_NO_Z = 0x04;
 	public static final short FL_3DTRACK = 0x08;
 	public static final short FL_CCLOCKW = 0x10;
-
-	public enum START_Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		START_Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
-
-	public enum END_Z_UNITS {
-		NONE(0),
-		DEPTH(1),
-		ALTITUDE(2),
-		HEIGHT(3);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		END_Z_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 410;
 
@@ -120,7 +88,7 @@ public class PathControlState extends IMCMessage {
 		return m;
 	}
 
-	public PathControlState(long path_ref, double start_lat, double start_lon, float start_z, START_Z_UNITS start_z_units, double end_lat, double end_lon, float end_z, END_Z_UNITS end_z_units, float lradius, short flags, float x, float y, float z, float vx, float vy, float vz, float course_error, int eta) {
+	public PathControlState(long path_ref, double start_lat, double start_lon, float start_z, ZUnits start_z_units, double end_lat, double end_lon, float end_z, ZUnits end_z_units, float lradius, short flags, float x, float y, float z, float vx, float vy, float vz, float course_error, int eta) {
 		super(ID_STATIC);
 		setPathRef(path_ref);
 		setStartLat(start_lat);
@@ -206,9 +174,9 @@ public class PathControlState extends IMCMessage {
 	/**
 	 *  @return Start Point -- Z Units (enumerated) - uint8_t
 	 */
-	public START_Z_UNITS getStartZUnits() {
+	public ZUnits getStartZUnits() {
 		try {
-			START_Z_UNITS o = START_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("start_z_units").get(getLong("start_z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -227,7 +195,7 @@ public class PathControlState extends IMCMessage {
 	/**
 	 *  @param start_z_units Start Point -- Z Units (enumerated)
 	 */
-	public PathControlState setStartZUnits(START_Z_UNITS start_z_units) {
+	public PathControlState setStartZUnits(ZUnits start_z_units) {
 		values.put("start_z_units", start_z_units.value());
 		return this;
 	}
@@ -296,9 +264,9 @@ public class PathControlState extends IMCMessage {
 	/**
 	 *  @return End Point -- Z Units (enumerated) - uint8_t
 	 */
-	public END_Z_UNITS getEndZUnits() {
+	public ZUnits getEndZUnits() {
 		try {
-			END_Z_UNITS o = END_Z_UNITS.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
+			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("end_z_units").get(getLong("end_z_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -317,7 +285,7 @@ public class PathControlState extends IMCMessage {
 	/**
 	 *  @param end_z_units End Point -- Z Units (enumerated)
 	 */
-	public PathControlState setEndZUnits(END_Z_UNITS end_z_units) {
+	public PathControlState setEndZUnits(ZUnits end_z_units) {
 		values.put("end_z_units", end_z_units.value());
 		return this;
 	}

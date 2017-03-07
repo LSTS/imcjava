@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Plan DB State (557)<br/>
  *  Characterizes the state of the entire plan database.<br/>

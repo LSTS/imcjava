@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Desired Velocity (409)<br/>
  *  Desired value for each linear and angular speeds.<br/>

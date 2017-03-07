@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Clock Control (106)<br/>
  *  Clock control.<br/>

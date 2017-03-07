@@ -29,13 +29,13 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Image Tracking (490)<br/>
  *  A "ImageTracking" is a maneuver specifying a particular heading to the<br/>
  *  detected object.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class ImageTracking extends Maneuver {
 
 	public static final int ID_STATIC = 490;

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message LBL Configuration (203)<br/>
  *  Long Base Line configuration.<br/>

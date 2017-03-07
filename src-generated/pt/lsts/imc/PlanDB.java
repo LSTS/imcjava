@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Plan DB (556)<br/>
  *  Request/reply to plan database.<br/>

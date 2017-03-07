@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Close Session (807)<br/>
  *  Request closing of an ongoing session<br/>

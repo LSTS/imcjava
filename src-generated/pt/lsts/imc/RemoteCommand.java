@@ -29,13 +29,13 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Remote Command (188)<br/>
  *  Command to remote system. If a system receives a RemoteCommand and it isn't the intended recipient, then it should<br/>
  *  resend it.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class RemoteCommand extends RemoteData {
 
 	public static final int ID_STATIC = 188;

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Parameters XML (893)<br/>
  *  Message containing the parameters XML of the source system.<br/>

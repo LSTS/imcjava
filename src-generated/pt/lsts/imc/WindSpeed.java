@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Wind Speed (271)<br/>
  *  Measurement of wind speed.<br/>

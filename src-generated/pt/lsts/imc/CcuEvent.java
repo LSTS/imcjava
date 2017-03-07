@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message CCU Event (606)<br/>
  *  This message is used to signal events among running CCUs.<br/>

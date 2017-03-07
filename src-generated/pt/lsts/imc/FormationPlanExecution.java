@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Formation Plan Execution (477)<br/>
  *  A "Formation Plan" is a maneuver specifying a plan for a team of vehicles.<br/>
@@ -41,7 +42,6 @@ package pt.lsts.imc;
  *  - Supervision settings<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class FormationPlanExecution extends Maneuver {
 
 	public static final int ID_STATIC = 477;

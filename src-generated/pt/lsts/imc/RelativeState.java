@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Relative State (482)<br/>
  *  Inter-vehicle formation state.<br/>

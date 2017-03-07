@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Acoustic Link Quality (214)<br/>
  *  This message is used to report the perceived link quality to other<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Set Servo Position (302)<br/>
  *  Set the position of a servo.<br/>

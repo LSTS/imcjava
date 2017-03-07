@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Beam Configuration (283)<br/>
  *  Beam configuration of the device.<br/>

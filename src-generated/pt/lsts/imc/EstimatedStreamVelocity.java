@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Estimated Stream Velocity (351)<br/>
  *  The estimated stream velocity, typically for water or air<br/>

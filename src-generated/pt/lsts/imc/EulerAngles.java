@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Euler Angles (254)<br/>
  *  Report of spatial orientation according to SNAME's notation<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Dissolved Oxygen (295)<br/>
  *  Dissolved Oxygen measurement.<br/>

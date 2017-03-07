@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message SMS (156)<br/>
  *  Send a SMS message.<br/>

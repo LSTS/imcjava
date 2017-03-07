@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Temperature (263)<br/>
  *  Report of temperature.<br/>

@@ -29,6 +29,8 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.SpeedUnits;
+
 /**
  *  IMC Message Autonomous Section (493)<br/>
  *  This maneuver triggers an external controller that will guide the vehicle during a specified duration<br/>
@@ -36,29 +38,12 @@ package pt.lsts.imc;
  *  drive the vehicle only inside the specified boundaries.<br/>
  */
 
-@SuppressWarnings("unchecked")
 public class AutonomousSection extends Maneuver {
 
 	public static final short ENFORCE_DEPTH = 0x01;
 	public static final short ENFORCE_ALTITUDE = 0x02;
 	public static final short ENFORCE_TIMEOUT = 0x04;
 	public static final short ENFORCE_AREA2D = 0x08;
-
-	public enum SPEED_UNITS {
-		METERS_PS(0),
-		RPM(1),
-		PERCENTAGE(2);
-
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		SPEED_UNITS(long value) {
-			this.value = value;
-		}
-	}
 
 	public static final int ID_STATIC = 493;
 
@@ -104,7 +89,7 @@ public class AutonomousSection extends Maneuver {
 		return m;
 	}
 
-	public AutonomousSection(double lat, double lon, float speed, SPEED_UNITS speed_units, short limits, double max_depth, double min_alt, double time_limit, java.util.Collection<PolygonVertex> area_limits, String controller, String custom) {
+	public AutonomousSection(double lat, double lon, float speed, SpeedUnits speed_units, short limits, double max_depth, double min_alt, double time_limit, java.util.Collection<PolygonVertex> area_limits, String controller, String custom) {
 		super(ID_STATIC);
 		setLat(lat);
 		setLon(lon);
@@ -170,9 +155,9 @@ public class AutonomousSection extends Maneuver {
 	/**
 	 *  @return Speed Units (enumerated) - uint8_t
 	 */
-	public SPEED_UNITS getSpeedUnits() {
+	public SpeedUnits getSpeedUnits() {
 		try {
-			SPEED_UNITS o = SPEED_UNITS.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
+			SpeedUnits o = SpeedUnits.valueOf(getMessageType().getFieldPossibleValues("speed_units").get(getLong("speed_units")));
 			return o;
 		}
 		catch (Exception e) {
@@ -191,7 +176,7 @@ public class AutonomousSection extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public AutonomousSection setSpeedUnits(SPEED_UNITS speed_units) {
+	public AutonomousSection setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Text Message (160)<br/>
  *  A text message has been received.<br/>

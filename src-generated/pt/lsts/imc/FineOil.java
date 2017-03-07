@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Fine Oil (287)<br/>
  *  Fine oil measurement.<br/>

@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Restart System (9)<br/>
  *  Request the destination system to restart itself.<br/>

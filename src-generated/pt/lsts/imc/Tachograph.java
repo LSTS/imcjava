@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Tachograph (905)<br/>
  *  This messages is used to record system activity parameters. These<br/>

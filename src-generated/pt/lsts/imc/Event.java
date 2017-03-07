@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Event (660)<br/>
  *  This message is used for signaling asynchronous events between different (sub) systems.<br/>

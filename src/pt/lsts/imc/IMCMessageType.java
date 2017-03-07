@@ -59,6 +59,7 @@ public class IMCMessageType {
     private LinkedHashMap<String, LinkedHashMap<Long, String>> fieldPossibleValues = new LinkedHashMap<String, LinkedHashMap<Long, String>>();
     private LinkedHashMap<String, LinkedHashMap<String, Long>> fieldPossibleValuesInverse = new LinkedHashMap<String, LinkedHashMap<String, Long>>();
     private LinkedHashMap<String, String> fieldPrefixes = new LinkedHashMap<String, String>();
+    private LinkedHashMap<String, String> fieldValueDefs = new LinkedHashMap<String, String>();
     private LinkedHashMap<String, Object> defaultValues = new LinkedHashMap<String, Object>();
     private LinkedHashMap<String, String> descriptions = new LinkedHashMap<String, String>();
     private LinkedHashMap<String, String> fullnames = new LinkedHashMap<String, String>();
@@ -224,8 +225,16 @@ public class IMCMessageType {
         else
             return field.toUpperCase();
     }
+    
+    public void setFieldValueDefs(String field, String valueDefs) {
+        fieldValueDefs.put(field, valueDefs);
+    }
+    
+    public String getFieldValueDefs(String field) {
+    	return fieldValueDefs.get(field);
+    }
 
-    public Collection<String> getFieldNames() {
+	public Collection<String> getFieldNames() {
         return fields.keySet();
     }
 

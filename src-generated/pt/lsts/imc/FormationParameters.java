@@ -29,6 +29,7 @@
  */
 package pt.lsts.imc;
 
+
 /**
  *  IMC Message Formation Parameters (476)<br/>
  *  A "Formation" is defined by the relative positions of the vehicles<br/>
