@@ -329,6 +329,8 @@ public class ClassGenerator {
 		outputFolder.delete();
 
 		generateHeader(packageName, outputFolder, definitions);
+		
+		generateGlobalDefinitions(packageName, outputFolder, definitions);
 
 		for (String msg : definitions.getMessageNames())
 			generateClass(packageName, outputFolder, definitions, msg);
@@ -926,6 +928,68 @@ public class ClassGenerator {
 		}
 
 		return sb.toString();
+	}
+	
+	protected static void generateGlobalDefinitions(String packageName, File outputFolder,
+			IMCDefinition defs) throws Exception {
+
+		for (String name : defs.getGlobalBitfieldPrefixes().keySet()) {
+			LinkedHashMap<Long, String> values = defs.getGlobalBitfields().get(name);
+			generateEnumDef(packageName+".def", outputFolder, name, values);
+		}
+		
+		for (String name : defs.getGlobalEnumerations().keySet()) {
+			LinkedHashMap<Long, String> values = defs.getGlobalEnumerations().get(name);
+			generateEnumDef(packageName+".def", outputFolder, name, values);
+		}
+		
+	}
+	
+	protected static void generateEnumDef(String packageName, File outputFolder, String name,
+			LinkedHashMap<Long, String> values) throws IOException {
+		File outputDir = getOutputDir(outputFolder, packageName);
+		File outputFile = new File(outputDir, name + ".java");
+
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8"));
+
+		bw.write(getCopyRightHeader());
+		bw.write("package "+packageName+";\n\n");
+		
+		bw.write("public enum "+name+" {\n\n");
+		
+		boolean first = true;
+		
+		for (Entry<Long, String> val : values.entrySet()) {
+			if (!first)
+				bw.write(",\n");
+			first = false;
+			bw.write(String.format("\t%s(0x%08Xl)", val.getValue(), val.getKey()));
+		}
+		
+		bw.write(";\n\n");
+		
+		bw.write("\tprotected long value;\n\n");
+		
+		bw.write("\t"+name+"(long value) {\n");
+		bw.write("\t\tthis.value = value;\n");
+		bw.write("\t}\n\n");
+		
+		bw.write("\tpublic long value() {\n");
+		bw.write("\t\treturn value;\n");
+		bw.write("\t}\n\n");
+		
+		bw.write("\tpublic static "+name+" valueOf(long value) throws IllegalArgumentException {\n");
+		bw.write("\t\tfor ("+name+" v : "+name+".values()) {\n");
+		bw.write("\t\t\tif (v.value == value) {\n");
+		bw.write("\t\t\t\treturn v;\n");
+		bw.write("\t\t\t}\n");
+		bw.write("\t\t}\n");
+		bw.write("\t\tthrow new IllegalArgumentException(\"Invalid value for "+name+": \"+value);\n");
+		bw.write("\t}\n\n");
+		bw.write("}\n");
+		
+		bw.close();
+		
 	}
 
 	protected static void generateHeader(String packageName, File outputFolder,

@@ -81,8 +81,14 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	protected LinkedHashMap<Integer, String> id_Abbrev = new LinkedHashMap<Integer, String>();
 	protected LinkedHashMap<String, Integer> abbrev_Id = new LinkedHashMap<String, Integer>();
 	protected LinkedHashMap<String, IMCMessageType> types = new LinkedHashMap<String, IMCMessageType>();
+	
+	
 	protected LinkedHashMap<String, LinkedHashMap<Long, String>> globalEnumerations = new LinkedHashMap<String, LinkedHashMap<Long, String>>();
 	protected LinkedHashMap<String, String> globalEnumPrefixes = new LinkedHashMap<String, String>();
+	
+	protected LinkedHashMap<String, LinkedHashMap<Long, String>> globalBitfields = new LinkedHashMap<String, LinkedHashMap<Long, String>>();
+	protected LinkedHashMap<String, String> globalBitfieldPrefixes = new LinkedHashMap<String, String>();
+	
 	protected LinkedHashMap<String, Vector<String>> subTypes = new LinkedHashMap<String, Vector<String>>();
 	
 	protected String specification = null;
@@ -202,8 +208,8 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		this.footerType = def.getFooter();
 
 		for (ValueDescriptor vd : def.getGlobalBitfields()) {
-			globalEnumerations.put(vd.getAbbrev(), vd.getValues());
-			globalEnumPrefixes.put(vd.getAbbrev(), vd.getPrefix());
+			globalBitfields.put(vd.getAbbrev(), vd.getValues());
+			globalBitfieldPrefixes.put(vd.getAbbrev(), vd.getPrefix());
 		}
 
 		for (ValueDescriptor vd : def.getGlobalEnumerations()) {
@@ -942,6 +948,34 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 	
 	
+
+	/**
+	 * @return the globalEnumerations
+	 */
+	public final LinkedHashMap<String, LinkedHashMap<Long, String>> getGlobalEnumerations() {
+		return globalEnumerations;
+	}
+
+	/**
+	 * @return the globalEnumPrefixes
+	 */
+	public final LinkedHashMap<String, String> getGlobalEnumPrefixes() {
+		return globalEnumPrefixes;
+	}
+
+	/**
+	 * @return the globalBitfields
+	 */
+	public final LinkedHashMap<String, LinkedHashMap<Long, String>> getGlobalBitfields() {
+		return globalBitfields;
+	}
+
+	/**
+	 * @return the globalBitfieldPrefixes
+	 */
+	public final LinkedHashMap<String, String> getGlobalBitfieldPrefixes() {
+		return globalBitfieldPrefixes;
+	}
 
 	@Override
 	public IMCMessage newMessage(int id) throws Exception {
