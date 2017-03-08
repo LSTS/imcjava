@@ -143,6 +143,7 @@ public class SequentialPlanExecution {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
+			System.out.println("Nothing else to execute. Exiting.");
 			System.exit(0);
 		}
 
@@ -163,6 +164,10 @@ public class SequentialPlanExecution {
 			}
 			break;
 		case StartingPlan:
+			if (plans[index].isEmpty()) {
+				index++;
+				break;
+			}
 			if (planControlState.getState() == STATE.EXECUTING) {
 				System.out.println("Vehicle started executing "+plans[index]);
 				state = StateEnum.Executing;
