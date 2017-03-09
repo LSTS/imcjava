@@ -129,19 +129,17 @@ public class SequentialPlanExecution {
 	@Periodic(1000)
 	public void step() {
 		
-		// connect if not already connected
-		if (connection == null) {
-			connect();
-			counter = idleSecs;
-			return;
-		}
 
 		// check if connection was lost
-		if (vehicleState.getAgeInSeconds() > 2 || planControlState.getAgeInSeconds() > 2) {
+		if (connection == null || vehicleState.getAgeInSeconds() > 2 || planControlState.getAgeInSeconds() > 2) {
 			System.err.println("Reconnecting...");
-			connection.connect(host, port);
+			connection.unregister(this);
+			connection.interrupt();			
+			connect();
+			counter = idleSecs;
 			state = StateEnum.GettingReady;
 			System.out.println("STATE: "+state);
+			counter = idleSecs;
 			return;
 		}
 
@@ -260,7 +258,7 @@ public class SequentialPlanExecution {
 			connection.start();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("Could not connect to ["+host+":"+port+"]: "+e.getMessage());
 		}
 	}
 	

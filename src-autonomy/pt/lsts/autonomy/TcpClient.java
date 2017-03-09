@@ -61,18 +61,13 @@ public class TcpClient extends Thread {
 	public TcpClient() throws IOException {		
 	}
 	
-	void connect(String host, int port) {
+	void connect(String host, int port) throws Exception {
 		this.host = host;
 		this.port = port;
-		try {
-			socket = new Socket(host, port);
-			input = new IMCInputStream(socket.getInputStream(), IMCDefinition.getInstance());
-			output = new IMCOutputStream(socket.getOutputStream());
-			connected = true;
-		}
-		catch (Exception e) {
-			System.err.println("Could not connect to "+host+":"+port);
-		}
+		socket = new Socket(host, port);
+		input = new IMCInputStream(socket.getInputStream(), IMCDefinition.getInstance());
+		output = new IMCOutputStream(socket.getOutputStream());
+		connected = true;
 	}
 
 	@Override
