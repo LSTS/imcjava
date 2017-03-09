@@ -43,6 +43,7 @@ import pt.lsts.imc.VehicleState;
 import pt.lsts.imc.VehicleState.OP_MODE;
 import pt.lsts.imc.net.Consume;
 import pt.lsts.imc.net.PojoConfig;
+import pt.lsts.imc.net.UDPTransport;
 import pt.lsts.imc.state.Parameter;
 import pt.lsts.neptus.messages.listener.Periodic;
 
@@ -52,12 +53,6 @@ import pt.lsts.neptus.messages.listener.Periodic;
  */
 public class SequentialPlanExecution {
 
-	int src = 0;
-	VehicleState vehicleState = new VehicleState();
-	PlanControlState planControlState = new PlanControlState();
-	TcpClient connection = null;
-	int index = 0;
-	
 	@Parameter(description="TCP hostname where to connect")
 	public String host = "127.0.0.1";
 	
@@ -69,6 +64,19 @@ public class SequentialPlanExecution {
 	
 	@Parameter(description="Whether to send information messages via acoustic modem")
 	public boolean acousticUpdates = false;
+	
+	@Parameter(description="Seconds to idle between plans")
+	public int idleSecs = 5;
+	
+	@Parameter(description="Use UDP for sending commands")
+	public boolean useUdp = true;
+	
+
+	public int src = 0;
+	VehicleState vehicleState = new VehicleState();
+	PlanControlState planControlState = new PlanControlState();
+	TcpClient connection = null;
+	int index = 0, counter = 0;
 	
 	enum StateEnum {
 		GettingReady, 		// waiting for the vehicle to be in service mode
@@ -82,6 +90,8 @@ public class SequentialPlanExecution {
 	
 	{
 		System.out.println("STATE: "+state);
+		vehicleState.setOpMode(OP_MODE.BOOT);
+		counter = idleSecs;
 	}
 
 	/**
@@ -122,6 +132,7 @@ public class SequentialPlanExecution {
 		// connect if not already connected
 		if (connection == null) {
 			connect();
+			counter = idleSecs;
 			return;
 		}
 
@@ -151,16 +162,23 @@ public class SequentialPlanExecution {
 		switch (state) {
 		case GettingReady:
 			if (vehicleState.getOpMode() == OP_MODE.SERVICE) {
-				System.out.println("Vehicle is ready for execution.");
-				try {
-					startExecution();
-					state = StateEnum.StartingPlan;
-					System.out.println("STATE: "+state);
+				System.out.println("Starting in "+counter+"...");
+				if (counter <= 0) {
+					try {
+						startExecution();
+						counter = idleSecs;
+						state = StateEnum.StartingPlan;
+						System.out.println("STATE: "+state);
+					}
+					catch (Exception e) {
+						e.printStackTrace();
+						System.err.println(e.getClass().getSimpleName()+": "+e.getMessage());
+					}
 				}
-				catch (Exception e) {
-					e.printStackTrace();
-					System.err.println(e.getClass().getSimpleName()+": "+e.getMessage());
+				else {
+					counter--;
 				}
+				
 			}
 			break;
 		case StartingPlan:
@@ -215,7 +233,22 @@ public class SequentialPlanExecution {
 		pc.setType(TYPE.REQUEST);
 		pc.setOp(OP.START);
 		pc.setPlanId(plans[index]);
-		connection.send(pc);		
+		
+		
+		if (useUdp) {
+			pc.setSrc(connection.localSrc);
+			pc.setDst(connection.remoteSrc);
+			System.out.println("Sending via UDP:\n"+pc.asJSON());
+			UDPTransport.sendMessage(pc, host, port);
+		}
+		else {
+			System.out.println("Sending via TCP:\n"+pc.asJSON());
+			connection.send(pc);
+		}
+			
+		
+		
+		
 	}
 	
 	private void connect() {

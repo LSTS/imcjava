@@ -55,8 +55,8 @@ public class TcpClient extends Thread {
 	private IMCInputStream input = null;
 	private IMCOutputStream output = null;
 
-	private int remoteSrc = 0;
-	private int localSrc = 0x555;
+	public int remoteSrc = 0;
+	public int localSrc = 0x555;
 
 	public TcpClient() throws IOException {		
 	}
@@ -108,6 +108,7 @@ public class TcpClient extends Thread {
 	public void send(IMCMessage m) throws IOException {
 		m.setDst(remoteSrc);
 		m.setSrc(localSrc);
+		
 		
 		synchronized (socket) {
 			try {
