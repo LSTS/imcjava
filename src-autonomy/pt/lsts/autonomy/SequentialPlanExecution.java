@@ -48,48 +48,52 @@ import pt.lsts.imc.state.Parameter;
 import pt.lsts.neptus.messages.listener.Periodic;
 
 /**
+ * This program will connect to a LAUV vehicle and automatically execute a
+ * (pre-loaded) list of plans whenever the vehicle becomes available.
+ * 
  * @author zp
- *
  */
 public class SequentialPlanExecution {
 
-	@Parameter(description="TCP hostname where to connect")
+	@Parameter(description = "TCP hostname where to connect")
 	public String host = "127.0.0.1";
-	
-	@Parameter(description="TCP port where to connect")
-	public int port = 6002;
-	
-	@Parameter(description="Sequence of plan IDs to be executed")
-	public String[] plans = new String[] {"plan1", "plan2"};
-	
-	@Parameter(description="Whether to send information messages via acoustic modem")
-	public boolean acousticUpdates = false;
-	
-	@Parameter(description="Seconds to idle between plans")
-	public int idleSecs = 5;
-	
-	@Parameter(description="Use UDP for sending commands")
-	public boolean useUdp = true;
-	
 
-	public int src = 0;
-	VehicleState vehicleState = new VehicleState();
-	PlanControlState planControlState = new PlanControlState();
-	TcpClient connection = null;
-	int index = 0, counter = 0;
-	
+	@Parameter(description = "TCP port where to connect")
+	public int port = 6002;
+
+	@Parameter(description = "UDP port where to connect")
+	public int udpPort = 6002;
+
+	@Parameter(description = "Sequence of plan IDs to be executed")
+	public String[] plans = new String[] { "autoexec" };
+
+	@Parameter(description = "Whether to send information messages via acoustic modem")
+	public boolean acousticUpdates = false;
+
+	@Parameter(description = "Seconds to idle between plans")
+	public int idleSecs = 5;
+
+	@Parameter(description = "Use UDP for sending commands")
+	public boolean useUdp = false;
+
+	private int src = 0;
+	private VehicleState vehicleState = new VehicleState();
+	private PlanControlState planControlState = new PlanControlState();
+	private TcpClient connection = null;
+	private int index = 0, counter = 0, reqId = 0;
+
 	enum StateEnum {
-		GettingReady, 		// waiting for the vehicle to be in service mode
-		StartingPlan,		// waiting for the vehicle to be in maneuver mode
-		Executing,			// waiting for the plan execution to end
-		Finished,			// all plans have been executed successfully
-		Aborted;			// received an Abort
+		GettingReady, // waiting for the vehicle to be in service mode
+		StartingPlan, // waiting for the vehicle to be in maneuver mode
+		Executing, // waiting for the plan execution to end
+		Finished, // all plans have been executed successfully
+		Aborted; // received an Abort
 	}
-	
-	private StateEnum state = StateEnum.GettingReady;	
-	
+
+	private StateEnum state = StateEnum.GettingReady;
+
 	{
-		System.out.println("STATE: "+state);
+		System.out.println("STATE: " + state);
 		vehicleState.setOpMode(OP_MODE.BOOT);
 		counter = idleSecs;
 	}
@@ -101,11 +105,11 @@ public class SequentialPlanExecution {
 	void on(VehicleState msg) {
 		if (src == 0)
 			src = msg.getSrc();
-		
+
 		if (msg.getSrc() == src)
-			vehicleState = msg;			
+			vehicleState = msg;
 	}
-	
+
 	/**
 	 * Update stored message
 	 */
@@ -114,31 +118,32 @@ public class SequentialPlanExecution {
 		if (msg.getSrc() == src)
 			planControlState = msg;
 	}
-	
+
 	/**
 	 * When an abort is received, stops everything
 	 */
 	@Consume
 	void on(Abort msg) {
-		state = StateEnum.Aborted;				
+		state = StateEnum.Aborted;
+		System.err.println("Aborted. Exiting");
+		System.exit(1);
 	}
-	
+
 	/**
 	 * State machine step funtion
 	 */
 	@Periodic(1000)
 	public void step() {
-		
 
 		// check if connection was lost
 		if (connection == null || vehicleState.getAgeInSeconds() > 2 || planControlState.getAgeInSeconds() > 2) {
 			System.err.println("Reconnecting...");
 			connection.unregister(this);
-			connection.interrupt();			
+			connection.interrupt();
 			connect();
 			counter = idleSecs;
 			state = StateEnum.GettingReady;
-			System.out.println("STATE: "+state);
+			System.out.println("STATE: " + state);
 			counter = idleSecs;
 			return;
 		}
@@ -148,8 +153,7 @@ public class SequentialPlanExecution {
 			state = StateEnum.Finished;
 			try {
 				reportAcoustically("Finished all plans.");
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			System.out.println("Nothing else to execute. Exiting.");
@@ -160,23 +164,21 @@ public class SequentialPlanExecution {
 		switch (state) {
 		case GettingReady:
 			if (vehicleState.getOpMode() == OP_MODE.SERVICE) {
-				System.out.println("Starting in "+counter+"...");
+				System.out.println("Starting in " + counter + "...");
 				if (counter <= 0) {
 					try {
 						startExecution();
 						counter = idleSecs;
 						state = StateEnum.StartingPlan;
-						System.out.println("STATE: "+state);
-					}
-					catch (Exception e) {
+						System.out.println("STATE: " + state);
+					} catch (Exception e) {
 						e.printStackTrace();
-						System.err.println(e.getClass().getSimpleName()+": "+e.getMessage());
+						System.err.println(e.getClass().getSimpleName() + ": " + e.getMessage());
 					}
-				}
-				else {
+				} else {
 					counter--;
 				}
-				
+
 			}
 			break;
 		case StartingPlan:
@@ -185,83 +187,71 @@ public class SequentialPlanExecution {
 				break;
 			}
 			if (planControlState.getState() == STATE.EXECUTING) {
-				System.out.println("Vehicle started executing "+plans[index]);
+				System.out.println("Vehicle started executing " + plans[index]);
 				state = StateEnum.Executing;
-				System.out.println("STATE: "+state);
+				System.out.println("STATE: " + state);
 				try {
-					reportAcoustically("Executing "+plans[index]);
-				}
-				catch (Exception e) {
+					reportAcoustically("Executing " + plans[index]);
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			}
-			else if (planControlState.getState() != STATE.INITIALIZING) {
-				System.out.println("Could not start "+plans[index]);
+			} else if (planControlState.getState() != STATE.INITIALIZING) {
+				System.out.println("Could not start " + plans[index]);
 				state = StateEnum.GettingReady;
-				System.out.println("STATE: "+state);
+				System.out.println("STATE: " + state);
 			}
 			break;
 		case Executing:
 			if (planControlState.getState() != STATE.EXECUTING) {
 				if (planControlState.getLastOutcome() == LAST_OUTCOME.SUCCESS) {
-					System.out.println("Vehicle successfully executed "+plans[index]);
+					System.out.println("Vehicle successfully executed " + plans[index]);
 					try {
-						reportAcoustically("Finished "+plans[index]);
-					}
-					catch (Exception e) {
+						reportAcoustically("Finished " + plans[index]);
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					index++;
-				}
-				else {
-					System.err.println("Error couldn't execute "+plans[index]);
+				} else {
+					System.err.println("Error couldn't execute " + plans[index]);
 				}
 				state = StateEnum.GettingReady;
-				System.out.println("STATE: "+state);
+				System.out.println("STATE: " + state);
 			}
 		default:
 			break;
 		}
 	}
-	
-	int reqId = 0;
+
 	void startExecution() throws Exception {
 		PlanControl pc = new PlanControl();
 		pc.setRequestId(++reqId);
 		pc.setType(TYPE.REQUEST);
 		pc.setOp(OP.START);
 		pc.setPlanId(plans[index]);
-		
-		
+
 		if (useUdp) {
 			pc.setSrc(connection.localSrc);
 			pc.setDst(connection.remoteSrc);
-			System.out.println("Sending via UDP:\n"+pc.asJSON());
-			UDPTransport.sendMessage(pc, host, port);
-		}
-		else {
-			System.out.println("Sending via TCP:\n"+pc.asJSON());
+			System.out.println("Sending via UDP:\n" + pc.asJSON());
+			UDPTransport.sendMessage(pc, host, udpPort);
+		} else {
+			System.out.println("Sending via TCP:\n" + pc.asJSON());
 			connection.send(pc);
 		}
-			
-		
-		
-		
 	}
-	
+
 	private void connect() {
-		System.out.println("Connecting to "+host+":"+port);
+		System.out.println("Connecting to " + host + ":" + port);
 		try {
 			connection = new TcpClient();
 			connection.register(this);
 			connection.connect(host, port);
 			connection.start();
-		}
-		catch (Exception e) {
-			System.err.println("Could not connect to ["+host+":"+port+"]: "+e.getMessage());
+		} catch (Exception e) {
+			System.err.println("Could not connect to [" + host + ":" + port + "]: " + e.getMessage());
 		}
 	}
-	
+
 	private void reportAcoustically(String text) throws IOException {
 		if (acousticUpdates) {
 			TextMessage msg = new TextMessage();
@@ -273,7 +263,7 @@ public class SequentialPlanExecution {
 			connection.send(op);
 		}
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		SequentialPlanExecution exec = PojoConfig.create(SequentialPlanExecution.class, args);
 		exec.connect();
