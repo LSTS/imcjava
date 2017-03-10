@@ -87,14 +87,14 @@ public class Salinity extends IMCMessage {
 	}
 
 	/**
-	 *  @return Measured Salinity (psu) - fp32_t
+	 *  @return Measured Salinity - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Measured Salinity (psu)
+	 *  @param value Measured Salinity
 	 */
 	public Salinity setValue(double value) {
 		values.put("value", value);
