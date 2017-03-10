@@ -365,12 +365,13 @@ public class IMCUtil {
 	    
 	    for (String fieldName : msg.getFieldNames()) {
 	        String value = msg.getString(fieldName);
-	        if (msg.getAbbrev() == null && fieldName.equals("timestamp")) {
+	        boolean isHeader = isHeader(msg);
+	        if (isHeader && fieldName.equals("timestamp")) {
 	            SimpleDateFormat dateFormatUTC = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss.SSS ");
 	            dateFormatUTC.setTimeZone(TimeZone.getTimeZone("UTC"));
 	            value = dateFormatUTC.format(new Date((long)(msg.getDouble("timestamp")*1000.0)))+"UTC";
 	        }
-	        else if (msg.getAbbrev() == null && hexFields.contains(fieldName)) {
+	        else if (isHeader && hexFields.contains(fieldName)) {
 	            value += "  [0x" + Long.toHexString(msg.getLong(fieldName)).toUpperCase() + "]";
 	        }       
 	        
@@ -389,4 +390,10 @@ public class IMCUtil {
 	    }	    
 	    return ret+"</table>";
 	}
+
+    private static boolean isHeader(IMCMessage msg) {
+        if (msg.getAbbrev() == null || "Header".equalsIgnoreCase(msg.getAbbrev()))
+            return true;
+        return false;
+    }
 }
