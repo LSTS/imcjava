@@ -75,7 +75,7 @@ public class TcpClient extends Thread {
 		while (connected) {
 			synchronized (socket) {
 				try {
-					if (input.available() > IMCDefinition.getInstance().headerLength()) {
+					while (input.available() > IMCDefinition.getInstance().headerLength()) {
 						IMCMessage m = IMCDefinition.getInstance().nextMessage(input);
 						if (m != null)
 							dispatch(m);
