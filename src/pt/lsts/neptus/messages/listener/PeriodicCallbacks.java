@@ -59,40 +59,43 @@ public class PeriodicCallbacks {
 	}
 	
 	public static void register(Object pojo) {
-		for (Method m : pojo.getClass().getDeclaredMethods()) {
-			if (m.getAnnotation(Periodic.class) != null) {
-
-				if (m.getParameterTypes().length != 0) {
-					System.err
-							.println("Warning: Ignoring @Periodic annotation on method "
-									+ m + " due to wrong number of parameters.");
-					continue;
-				}
-				m.setAccessible(true);
-				final Method method = m;
-				final Object client = pojo;
-				
-				Runnable callback = new Runnable() {
-
-					@Override
-					public void run() {
-						try {
-							method.invoke(client);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+		Class<?> clazz = pojo.getClass(); 
+		while (clazz != Object.class) {
+			for (Method m : clazz.getMethods()) {
+				if (m.getAnnotation(Periodic.class) != null) {
+					if (m.getParameterTypes().length != 0) {
+						System.err
+								.println("Warning: Ignoring @Periodic annotation on method "
+										+ m + " due to wrong number of parameters.");
+						continue;
 					}
-				};
+					m.setAccessible(true);
+					final Method method = m;
+					final Object client = pojo;
+					
+					Runnable callback = new Runnable() {
 
-				long period = method.getAnnotation(Periodic.class)
-						.value();
-				
-				ScheduledFuture<?> c = executor().scheduleAtFixedRate(callback, period, period, TimeUnit.MILLISECONDS);
-				
-				if (!callbacks.containsKey(pojo.hashCode()))
-					callbacks.put(pojo.hashCode(), new Vector<ScheduledFuture<?>>());
-				callbacks.get(pojo.hashCode()).add(c);
+						@Override
+						public void run() {
+							try {
+								method.invoke(client);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					};
+
+					long period = method.getAnnotation(Periodic.class)
+							.value();
+					
+					ScheduledFuture<?> c = executor().scheduleAtFixedRate(callback, period, period, TimeUnit.MILLISECONDS);
+					
+					if (!callbacks.containsKey(pojo.hashCode()))
+						callbacks.put(pojo.hashCode(), new Vector<ScheduledFuture<?>>());
+					callbacks.get(pojo.hashCode()).add(c);
+				}
 			}
+			clazz = clazz.getSuperclass();
 		}
 	}
 }
