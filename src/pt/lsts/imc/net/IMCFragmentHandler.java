@@ -34,6 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Vector;
@@ -70,23 +71,44 @@ public class IMCFragmentHandler {
 	 */
 	public IMCMessage setFragment(MessagePart fragment) {
 		int hash = (fragment.getSrc() + "" + fragment.getUid()).hashCode();
-		if (!incoming.containsKey(hash)) {
+		if (!incoming.containsKey(hash))
 			incoming.put(hash, new Vector<MessagePart>());
-		}
-		incoming.get(hash).add(fragment);
+		
+		mergeFragment(hash, incoming, fragment);
 		if (incoming.get(hash).size() >= fragment.getNumFrags()) {
 			Vector<MessagePart> parts = incoming.get(hash);
 			incoming.remove(hash);
 			try {
 				IMCMessage m = reassemble(parts);
 				return m;
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		return null;
 	}
-
+	
+	/**
+	 * @param hash 
+	 * @param incoming2
+	 * @param fragment
+	 */
+	private void mergeFragment(int hash, LinkedHashMap<Integer, Vector<MessagePart>> incoming, MessagePart fragment) {
+		Vector<MessagePart> ic = incoming.get(hash);
+		if (ic.isEmpty()) {
+			ic.add(fragment);
+		}
+		else {
+			for (Iterator<MessagePart> iterator = ic.iterator(); iterator.hasNext();) {
+				MessagePart mp = (MessagePart) iterator.next();
+				if (fragment.getFragNumber() == mp.getFragNumber())
+					return;
+			}
+			ic.add(fragment);
+		}
+	}
+	
 	/**
 	 * Given a list of message fragments try to reassemble the fragments into an IMCMessage
 	 * @param parts The fragments to process
