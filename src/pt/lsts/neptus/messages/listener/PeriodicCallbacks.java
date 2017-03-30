@@ -61,7 +61,7 @@ public class PeriodicCallbacks {
 	public static void register(Object pojo) {
 		Class<?> clazz = pojo.getClass(); 
 		while (clazz != Object.class) {
-			for (Method m : clazz.getMethods()) {
+			for (Method m : clazz.getDeclaredMethods()) {
 				if (m.getAnnotation(Periodic.class) != null) {
 					if (m.getParameterTypes().length != 0) {
 						System.err

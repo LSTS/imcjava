@@ -28,6 +28,7 @@
  */
 package pt.lsts.imc.net;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,8 +78,12 @@ public class PojoConfig {
 		return p;
 	}
 	
-	public static <T> T create(Class<T> pojoClass, Properties props) throws Exception {
-		T pojo = pojoClass.newInstance();
+	public static <T> T create(Class<T> pojoClass, Properties props, Object... params) throws Exception {
+		Class<?>[] paramTypes = new Class<?>[params.length];
+		for (int i = 0; i < params.length; i++)
+			paramTypes[i] = params[i].getClass();
+		Constructor<T> cons = pojoClass.getConstructor(paramTypes);
+		T pojo = cons.newInstance(params);
 		setProperties(pojo, props);
 		return pojo;
 	}
@@ -88,6 +93,17 @@ public class PojoConfig {
 		setProperties(pojo, asProperties(args));
 		return pojo;
 	}
+	
+	public static <T> T create(Class<T> pojoClass, String[] args, Object... params) throws Exception {
+		Class<?>[] paramTypes = new Class<?>[params.length];
+		for (int i = 0; i < params.length; i++)
+			paramTypes[i] = params[i].getClass();
+		Constructor<T> cons = pojoClass.getConstructor(paramTypes);
+		T pojo = cons.newInstance(params);
+		setProperties(pojo, asProperties(args));
+		return pojo;
+	}
+	
 	
 	public static void setProperties(Object pojo, Properties props) throws Exception {
 		validate(pojo);
