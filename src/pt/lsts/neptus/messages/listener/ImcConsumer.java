@@ -50,44 +50,44 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 
 	private ImcConsumer(Object pojo) {
 		this.pojo = pojo;
-		for (Method m : pojo.getClass().getDeclaredMethods()) {
-			if (m.getAnnotation(Consume.class) != null) {
-				
-				if (m.getParameterTypes().length != 1) {
-					System.err
-							.println("Warning: Ignoring @Consume annotation on method "
-									+ m + " due to wrong number of parameters.");
-					continue;
-				}
-				if (!IMCMessage.class
-						.isAssignableFrom(m.getParameterTypes()[0])) {
-					System.err
-							.println("Warning: Ignoring @Consume annotation on method "
-									+ m + " due to wrong parameter type.");
-					continue;
-				}
 
-				Class<?> c = m.getParameterTypes()[0];
+		Class<?> clazz = pojo.getClass();
+		while (clazz != Object.class) {
+			for (Method m : clazz.getDeclaredMethods()) {
+				if (m.getAnnotation(Consume.class) != null) {
+					if (m.getParameterTypes().length != 1) {
+						System.err.println("Warning: Ignoring @Consume annotation on method " + m
+								+ " due to wrong number of parameters.");
+						continue;
+					}
+					if (!IMCMessage.class.isAssignableFrom(m.getParameterTypes()[0])) {
+						System.err.println("Warning: Ignoring @Consume annotation on method " + m
+								+ " due to wrong parameter type.");
+						continue;
+					}
 
-				if (!consumeMethods.containsKey(c)) {
-					consumeMethods.put(c, new ArrayList<Method>());
+					Class<?> c = m.getParameterTypes()[0];
+
+					if (!consumeMethods.containsKey(c)) {
+						consumeMethods.put(c, new ArrayList<Method>());
+					}
+					if (!m.isAccessible())
+						m.setAccessible(true);
+
+					consumeMethods.get(c).add(m);
+
+					Consume annotation = m.getAnnotation(Consume.class);
+
+					List<String> srcs = Arrays.asList(annotation.Source());
+					if (srcs.size() != 1 || !srcs.get(0).isEmpty())
+						sources.put(m, srcs);
+					List<String> ents = Arrays.asList(annotation.Entity());
+					if (ents.size() != 1 || !ents.get(0).isEmpty())
+						entities.put(m, ents);
 				}
-				if (!m.isAccessible())
-					m.setAccessible(true);
-				
-				
-				consumeMethods.get(c).add(m);
-				
-				Consume annotation = m.getAnnotation(Consume.class);
-				
-				List<String> srcs = Arrays.asList(annotation.Source());
-				if (srcs.size() != 1 || !srcs.get(0).isEmpty())
-					sources.put(m, srcs);
-				List<String> ents = Arrays.asList(annotation.Entity());
-				if (ents.size() != 1 || !ents.get(0).isEmpty())
-					entities.put(m, ents);
-				
 			}
+
+			clazz = clazz.getSuperclass();
 		}
 	}
 
