@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "5c24411566d15744bcdc123a66dc41838603667b";
-	public static final String IMC_BRANCH = "2017-03-27 5c24411 (HEAD -> master, origin/master, origin/HEAD)";
-	public static final String IMC_COMMIT = "Manuel R (manuelribeiro@gmail.com), Mon Mar 27 16:26:58 WEST 2017, IMC_Addresses: added x2o-01 and x2o-02 addresses.";
+	public static final String IMC_SHA = "6a87c764134d100eb304cafe0a02ff61f4a05ec5";
+	public static final String IMC_BRANCH = "2017-04-08 6a87c76 (HEAD -> master, origin/master, origin/HEAD)";
+	public static final String IMC_COMMIT = "mariacosta (mariacosta_89@hotmail.com), Sat Apr 08 17:12:15 WEST 2017, IMC_Addresses: Reorganized UAVs addresses and added x8-07 and x8-08.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -67,29 +67,31 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("pixhawk-testbed", 3072);
 		IMC_ADDRESSES.put("lusitania", 3073);
 		IMC_ADDRESSES.put("sedona", 3074);
-		IMC_ADDRESSES.put("x8-00", 3075);
-		IMC_ADDRESSES.put("x8-01", 3076);
-		IMC_ADDRESSES.put("x8-02", 3077);
-		IMC_ADDRESSES.put("x8-03", 3078);
-		IMC_ADDRESSES.put("x8-04", 3079);
-		IMC_ADDRESSES.put("aero-01", 3080);
-		IMC_ADDRESSES.put("mariner-01", 3081);
-		IMC_ADDRESSES.put("mariner-02", 3088);
-		IMC_ADDRESSES.put("x2o-01", 3089);
-		IMC_ADDRESSES.put("x2o-02", 3090);
-		IMC_ADDRESSES.put("x8-05", 3098);
-		IMC_ADDRESSES.put("x8-06", 3099);
-		IMC_ADDRESSES.put("vtol-01", 3100);
-		IMC_ADDRESSES.put("hexa-00", 3091);
-		IMC_ADDRESSES.put("alfa-02", 3106);
-		IMC_ADDRESSES.put("alfa-03", 3107);
-		IMC_ADDRESSES.put("alfa-04", 3108);
-		IMC_ADDRESSES.put("alfa-05", 3109);
-		IMC_ADDRESSES.put("alfa-06", 3110);
-		IMC_ADDRESSES.put("alfa-07", 3111);
-		IMC_ADDRESSES.put("alfa-08", 3112);
-		IMC_ADDRESSES.put("alfa-09", 3113);
-		IMC_ADDRESSES.put("piccolo-testbed", 3120);
+		IMC_ADDRESSES.put("aero-01", 3075);
+		IMC_ADDRESSES.put("x8-00", 3082);
+		IMC_ADDRESSES.put("x8-01", 3083);
+		IMC_ADDRESSES.put("x8-02", 3084);
+		IMC_ADDRESSES.put("x8-03", 3085);
+		IMC_ADDRESSES.put("x8-04", 3086);
+		IMC_ADDRESSES.put("x8-05", 3087);
+		IMC_ADDRESSES.put("x8-06", 3088);
+		IMC_ADDRESSES.put("x8-07", 3089);
+		IMC_ADDRESSES.put("x8-08", 3090);
+		IMC_ADDRESSES.put("mariner-01", 3104);
+		IMC_ADDRESSES.put("mariner-02", 3105);
+		IMC_ADDRESSES.put("x2o-01", 3106);
+		IMC_ADDRESSES.put("x2o-02", 3107);
+		IMC_ADDRESSES.put("vtol-01", 3114);
+		IMC_ADDRESSES.put("hexa-00", 3120);
+		IMC_ADDRESSES.put("alfa-02", 3122);
+		IMC_ADDRESSES.put("alfa-03", 3123);
+		IMC_ADDRESSES.put("alfa-04", 3124);
+		IMC_ADDRESSES.put("alfa-05", 3125);
+		IMC_ADDRESSES.put("alfa-06", 3126);
+		IMC_ADDRESSES.put("alfa-07", 3127);
+		IMC_ADDRESSES.put("alfa-08", 3128);
+		IMC_ADDRESSES.put("alfa-09", 3129);
+		IMC_ADDRESSES.put("piccolo-testbed", 3136);
 		IMC_ADDRESSES.put("cularis-03", 3155);
 		IMC_ADDRESSES.put("cularis-04", 3156);
 		IMC_ADDRESSES.put("cularis-05", 3157);
