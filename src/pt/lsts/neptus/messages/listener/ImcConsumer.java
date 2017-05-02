@@ -199,9 +199,9 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 			strings.add(m.toGenericString());
 		}
 
-		for (Method m : VehicleAdapter2.class.getMethods()) {
-			strings.add(m.toGenericString());
-		}
+//		for (Method m : VehicleAdapter2.class.getMethods()) {
+//			strings.add(m.toGenericString());
+//		}
 
 		for (String str : strings) {
 			Matcher matcher = TOKEN.matcher(str);
