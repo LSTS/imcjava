@@ -35,13 +35,18 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.adapter.VehicleAdapter;
+import pt.lsts.imc.adapter.VehicleAdapter2;
 import pt.lsts.imc.net.Consume;
 
 public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 
+	private Pattern patternMethods = Pattern.compile("(\\w+?)(?=\\(.*?\\))");
 	private LinkedHashMap<Class<?>, ArrayList<Method>> consumeMethods = new LinkedHashMap<Class<?>, ArrayList<Method>>();
 	private LinkedHashMap<Method, List<String>> sources = new LinkedHashMap<Method, List<String>>();
 	private LinkedHashMap<Method, List<String>> entities = new LinkedHashMap<Method, List<String>>();
@@ -50,6 +55,7 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 
 	private ImcConsumer(Object pojo) {
 		this.pojo = pojo;
+		boolean isSuperClass = false;
 
 		Class<?> clazz = pojo.getClass();
 		while (clazz != Object.class) {
@@ -74,8 +80,37 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 					if (!m.isAccessible())
 						m.setAccessible(true);
 
-					consumeMethods.get(c).add(m);
+					if (!isSuperClass) {
+						consumeMethods.get(c).add(m);
+					}
+					else {
+						String str = m.toString();
+						Matcher matcher = patternMethods.matcher(str);
+						if (matcher.find()) {
+							String mstr = str.substring(matcher.start(), str.length());
+							boolean found = false;
+							for (Method im : consumeMethods.get(c)) {
+								str = m.toString();
+								matcher = patternMethods.matcher(str);
+								if (matcher.find()) {
+									String sstr = str.substring(matcher.start(), str.length());
+									if (mstr.equalsIgnoreCase(sstr)) {
+										found = true;
+										break;
+									}
+ 								}
+							}
+							
+							if (!found)
+								consumeMethods.get(c).add(m);
+						}
+						else {
+							consumeMethods.get(c).add(m);
+						}
+					}
 
+					System.out.println(m);
+					
 					Consume annotation = m.getAnnotation(Consume.class);
 
 					List<String> srcs = Arrays.asList(annotation.Source());
@@ -88,6 +123,7 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 			}
 
 			clazz = clazz.getSuperclass();
+			isSuperClass = true;
 		}
 	}
 
@@ -143,5 +179,36 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 	 */
 	public final Object getPojo() {
 		return pojo;
+	}
+	
+	public static void main(String[] args) {
+		Pattern TOKEN = Pattern.compile("(\\w+?)(?=\\(.*?\\))");
+		ArrayList<String> strings = new ArrayList<>();
+		strings.add("protected void pt.lsts.imc.adapter.VehicleAdapter2.on(pt.lsts.imc.PlanDB)");
+		strings.add("protected void pt.lsts.imc.adapter.VehicleAdapter2.on()");
+		
+		for (Method m : Object.class.getMethods()) {
+			strings.add(m.toGenericString());
+		}
+
+		for (Method m : ImcConsumer.class.getMethods()) {
+			strings.add(m.toGenericString());
+		}
+
+		for (Method m : VehicleAdapter.class.getMethods()) {
+			strings.add(m.toGenericString());
+		}
+
+		for (Method m : VehicleAdapter2.class.getMethods()) {
+			strings.add(m.toGenericString());
+		}
+
+		for (String str : strings) {
+			Matcher matcher = TOKEN.matcher(str);
+			System.out.println(str);
+			System.out.println(matcher.find());
+			System.out.println(matcher.start() + "    " + matcher.end());
+			System.out.println(str.substring(matcher.start(), str.length()));
+		}
 	}
 }
