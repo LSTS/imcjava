@@ -41,7 +41,6 @@ import java.util.regex.Pattern;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.adapter.VehicleAdapter;
-import pt.lsts.imc.adapter.VehicleAdapter2;
 import pt.lsts.imc.net.Consume;
 
 public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
