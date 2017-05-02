@@ -426,6 +426,8 @@ public class IMCProtocol implements IMessageBus, MessageListener<MessageInfo, IM
      *            The message to be sent
      * @return <code>true</code> if the message was tentatively sent to at least one peer. */
     public boolean sendToPeers(IMCMessage msg) {
+    	if (msg == null)
+    		return false;
         msg.setValue("src", localId);
         boolean sent = false;
         for (IMCNode nd : nodes.values()) {

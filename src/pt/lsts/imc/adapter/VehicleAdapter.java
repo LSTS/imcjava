@@ -188,6 +188,9 @@ public class VehicleAdapter extends ImcAdapter {
 	protected void sendVehicleState() {
 		VehicleState state = new VehicleState();
 
+		if (planControl == null)
+			return;
+		
 		if (planControl.getState() == STATE.READY)
 			state.setOpMode(OP_MODE.SERVICE);
 		else if (planControl.getState() == STATE.EXECUTING)
