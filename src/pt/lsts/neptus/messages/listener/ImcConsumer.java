@@ -89,7 +89,7 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 							String mstr = str.substring(matcher.start(), str.length());
 							boolean found = false;
 							for (Method im : consumeMethods.get(c)) {
-								str = m.toString();
+								str = im.toString();
 								matcher = patternMethods.matcher(str);
 								if (matcher.find()) {
 									String sstr = str.substring(matcher.start(), str.length());
@@ -108,8 +108,6 @@ public class ImcConsumer implements MessageListener<MessageInfo, IMCMessage> {
 						}
 					}
 
-					System.out.println(m);
-					
 					Consume annotation = m.getAnnotation(Consume.class);
 
 					List<String> srcs = Arrays.asList(annotation.Source());
