@@ -33,6 +33,7 @@ import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.LogBookEntry;
 import pt.lsts.imc.LogBookEntry.TYPE;
 import pt.lsts.imc.def.SystemType;
+import pt.lsts.imc.net.ConnectFilter;
 import pt.lsts.imc.net.IMCProtocol;
 
 /**
@@ -45,7 +46,7 @@ public class ImcAdapter {
 	
 	public ImcAdapter(String systemName, int imcId, int bindPort, SystemType systemType) {
 		imc = new IMCProtocol(systemName, bindPort, imcId, systemType);
-		imc.setConnectOnHeartBeat();
+		imc.setAutoConnect(ConnectFilter.CCUS_ONLY);//setConnectOnHeartBeat();
 		imc.register(this);
 	}
 	
