@@ -35,7 +35,11 @@
   	<pathelement location="lib/jetty-all-9.0.0.v20130308.jar" />
   	<pathelement location="lib/js.jar" />  	 
   	<path refid="classpath.base"/>
-  </path>		
+  </path>	
+  <path id="classpath.imcast">
+	 <pathelement location="lib/gson-2.5.jar" />
+	 <path refid="classpath.base" />
+  </path>
 
   <target name="compile-test" depends="compile-all">
     <javac encoding="${compile-encoding}" srcdir="src-junit" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
@@ -206,6 +210,21 @@
   	  <arg value="dist/msgsender.jar"/>
   	</exec>
   </target>
+	
+	<target name="imcast" depends="compile">  	      
+	  <unjar src="lib/gson-2.5.jar" dest="build"/>
+	  <javac encoding="${compile-encoding}" srcdir="src-imcast" destdir="build" includes="**/*.java" fork="false" classpathref="classpath.imcast" />
+	  <delete file="dist/imcast.jar"/>
+	  <jar destfile="dist/imcast.jar" basedir="build" index="true">
+	    <manifest>
+	       <attribute name="Main-Class" value="pt.lsts.imc.net.ImcBroadcaster"/>
+	    </manifest>
+	  </jar>
+	  <exec executable="lib/jar2sh.sh" >
+		<arg value="dist/imcast"/>
+		<arg value="dist/imcast.jar"/>
+	  </exec>
+	  </target>
 
   <target name="copysrc" depends="compile">
     <copy verbose="true" todir="build">

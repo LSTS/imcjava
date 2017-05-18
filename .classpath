@@ -16,6 +16,7 @@
 	<classpathentry kind="src" path="src-sender"/>
 	<classpathentry kind="src" path="src-process"/>
 	<classpathentry kind="src" path="src-autonomy"/>
+	<classpathentry kind="src" path="src-imcast"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.1.jar"/>
