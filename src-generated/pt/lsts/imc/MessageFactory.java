@@ -626,6 +626,8 @@ public class MessageFactory {
 				return new Tachograph(defs);
 			case ApmStatus.ID_STATIC:
 				return new ApmStatus(defs);
+			case SadcReadings.ID_STATIC:
+				return new SadcReadings(defs);
 			default:
 				return new IMCMessage(defs);
 		}
