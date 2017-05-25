@@ -38,7 +38,11 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 import pt.lsts.imc.Announce;
+import pt.lsts.imc.EstimatedState;
+import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.IMCOutputStream;
+import pt.lsts.imc.RhodamineDye;
+import pt.lsts.imc.adapter.NameIMCIDGenerator;
 import pt.lsts.imc.def.SystemType;
 
 /**
@@ -65,7 +69,8 @@ public class ImcBroadcaster extends Thread {
 			try {
 				receiveSock.receive(packet);
 				incoming(packet.getData());
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -83,26 +88,8 @@ public class ImcBroadcaster extends Thread {
 		announce.setHeight(ann.height);
 		String type = ann.sys_type.toUpperCase();
 		announce.setSysType(SystemType.UUV);
-		int src = ann.sys_name.hashCode()%255;
+		int src = NameIMCIDGenerator.getId(ann.sys_name, type, false);
 		
-		if (type.equals("UAV") || type.equals("UAS")) {
-			announce.setSysType(SystemType.UAV);
-			src |= (44 << 8);
-		}
-		else if (type.equals("ASV") || type.equals("USV")) {
-			announce.setSysType(SystemType.USV);
-			src |= (40 << 8);
-		}
-		else if (type.equals("ROV")) {
-			src |= (36 << 8);
-		}
-		else if (type.equals("CCU") || type.equals("GCS")) {
-			announce.setSysType(SystemType.CCU);
-			src |= (64 << 8);
-		}
-		else {
-			src |= (16 << 8);
-		}
 		announce.setSrc(src);
 		try {
 			broadcast(announce);	
@@ -111,9 +98,36 @@ public class ImcBroadcaster extends Thread {
 			e.printStackTrace();
 		}
 		
+		EstimatedState estate = new EstimatedState();
+		estate.setLat(Math.toRadians(ann.latitude));
+		estate.setLon(Math.toRadians(ann.longitude));
+		estate.setHeight(ann.height);
+		estate.setPsi(Double.isNaN(ann.headingDeg) || Double.isInfinite(ann.headingDeg) || ann.headingDeg == -1 ? 0 : Math.toRadians(ann.headingDeg));
+		estate.setDepth((Double.isNaN(ann.depth) || Double.isInfinite(ann.depth) || ann.depth < 0 ? 0 : ann.depth));
+		
+		estate.setSrc(src);
+		try {
+			broadcast(estate);	
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if (!(Double.isNaN(ann.rhodamine) || Double.isInfinite(ann.rhodamine) || ann.rhodamine < 0)) {
+			RhodamineDye rhodamineMsg = new RhodamineDye();
+			rhodamineMsg.setValue(ann.rhodamine);
+
+			rhodamineMsg.setSrc(src);
+			try {
+				broadcast(rhodamineMsg);	
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
-	private void broadcast(Announce announce) throws Exception {
+	private void broadcast(IMCMessage announce) throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		IMCOutputStream ios = new IMCOutputStream(baos);
 		ios.writeMessage(announce);
@@ -136,6 +150,9 @@ public class ImcBroadcaster extends Thread {
 		double longitude = 0;
 		double height = 0;
 		String sys_type = "";
+		double depth = Double.NaN;
+		double headingDeg = Double.NaN;
+		double rhodamine = Double.NaN;
 	}
 
 	public static void main(String[] args) throws Exception {
