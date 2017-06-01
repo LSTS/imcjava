@@ -55,6 +55,8 @@ import pt.lsts.imc.ScheduledGoto;
 import pt.lsts.imc.StationKeeping;
 import pt.lsts.imc.TrajectoryPoint;
 import pt.lsts.imc.YoYo;
+import pt.lsts.imc.def.SpeedUnits;
+import pt.lsts.imc.def.ZUnits;
 import pt.lsts.util.PlanUtilities.Waypoint.TYPE;
 
 /**
@@ -566,6 +568,46 @@ public class PlanUtilities {
 
 		return spec;
 	}
+	
+	/**
+	 * Creates a plan containing a FollowPath maneuver that goes through all provided waypoints
+	 * @param plan_id The id of the plan to be created
+	 * @param speed The speed to use for the plan (in m/s)
+	 * @param altitude The altitude to use for the plan (in m). For values <= 0, DEPTH will be used instead.
+	 * @param latitudes The latitude coordinates, in degrees.
+	 * @param longitudes The longitude coordinates, in degrees.
+	 * @return The corresponding PlanSpecification message
+	 */
+	public static PlanSpecification createPlan(String plan_id, float speed, float altitude, double[] latitudes, double longitudes[]) {
+		FollowPath man = new FollowPath();
+		man.setSpeed(speed);
+		man.setSpeedUnits(SpeedUnits.METERS_PS);
+		if (altitude > 0) {
+			man.setZ(altitude);
+			man.setZUnits(ZUnits.ALTITUDE);
+		}
+		else {
+			man.setZ(-altitude);
+			man.setZUnits(ZUnits.DEPTH);
+		}
+		
+		man.setLat(Math.toRadians(latitudes[0]));
+		man.setLon(Math.toRadians(longitudes[0]));
+		
+		Vector<PathPoint> points = new Vector<>();
+		for (int i = 1; i < latitudes.length; i++) {
+			PathPoint point = new PathPoint();
+			point.setZ(0);
+			double[] offsets = WGS84Utilities.WGS84displacement(latitudes[0], longitudes[0], 0, latitudes[i], longitudes[i], 0);
+			point.setX(offsets[0]);
+			point.setY(offsets[1]);
+			points.add(point);
+		}
+		man.setPoints(points);
+		
+		return createPlan(plan_id, man);		
+	}
+	
 	
 	/**
 	 * This inner class represents a IMC plan waypoint. <br/>
