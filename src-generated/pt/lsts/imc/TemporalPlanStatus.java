@@ -81,10 +81,27 @@ public class TemporalPlanStatus extends IMCMessage {
 		return m;
 	}
 
-	public TemporalPlanStatus(java.util.Collection<TemporalAction> actions) {
+	public TemporalPlanStatus(String plan_id, java.util.Collection<TemporalAction> actions) {
 		super(ID_STATIC);
+		if (plan_id != null)
+			setPlanId(plan_id);
 		if (actions != null)
 			setActions(actions);
+	}
+
+	/**
+	 *  @return Plan Identifier - plaintext
+	 */
+	public String getPlanId() {
+		return getString("plan_id");
+	}
+
+	/**
+	 *  @param plan_id Plan Identifier
+	 */
+	public TemporalPlanStatus setPlanId(String plan_id) {
+		values.put("plan_id", plan_id);
+		return this;
 	}
 
 	/**

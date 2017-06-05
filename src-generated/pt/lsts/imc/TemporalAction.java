@@ -38,6 +38,7 @@ package pt.lsts.imc;
 public class TemporalAction extends IMCMessage {
 
 	public enum STATUS {
+		UKNOWN(0),
 		IGNORED(1),
 		SCHEDULED(2),
 		FAILED(3),
@@ -99,69 +100,14 @@ public class TemporalAction extends IMCMessage {
 		return m;
 	}
 
-	public TemporalAction(double start_time, double duration, PlanSpecification action, int system_id, STATUS status) {
+	public TemporalAction(int system_id, STATUS status, double start_time, double duration, PlanSpecification action) {
 		super(ID_STATIC);
+		setSystemId(system_id);
+		setStatus(status);
 		setStartTime(start_time);
 		setDuration(duration);
 		if (action != null)
 			setAction(action);
-		setSystemId(system_id);
-		setStatus(status);
-	}
-
-	/**
-	 *  @return Start Time - fp64_t
-	 */
-	public double getStartTime() {
-		return getDouble("start_time");
-	}
-
-	/**
-	 *  @param start_time Start Time
-	 */
-	public TemporalAction setStartTime(double start_time) {
-		values.put("start_time", start_time);
-		return this;
-	}
-
-	/**
-	 *  @return Duration - fp64_t
-	 */
-	public double getDuration() {
-		return getDouble("duration");
-	}
-
-	/**
-	 *  @param duration Duration
-	 */
-	public TemporalAction setDuration(double duration) {
-		values.put("duration", duration);
-		return this;
-	}
-
-	/**
-	 *  @return Action - message
-	 */
-	public PlanSpecification getAction() {
-		try {
-			IMCMessage obj = getMessage("action");
-			if (obj instanceof PlanSpecification)
-				return (PlanSpecification) obj;
-			else
-				return null;
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
-	 *  @param action Action
-	 */
-	public TemporalAction setAction(PlanSpecification action) {
-		values.put("action", action);
-		return this;
 	}
 
 	/**
@@ -221,6 +167,61 @@ public class TemporalAction extends IMCMessage {
 	 */
 	public TemporalAction setStatusVal(short status) {
 		setValue("status", status);
+		return this;
+	}
+
+	/**
+	 *  @return Start Time - fp64_t
+	 */
+	public double getStartTime() {
+		return getDouble("start_time");
+	}
+
+	/**
+	 *  @param start_time Start Time
+	 */
+	public TemporalAction setStartTime(double start_time) {
+		values.put("start_time", start_time);
+		return this;
+	}
+
+	/**
+	 *  @return Duration - fp64_t
+	 */
+	public double getDuration() {
+		return getDouble("duration");
+	}
+
+	/**
+	 *  @param duration Duration
+	 */
+	public TemporalAction setDuration(double duration) {
+		values.put("duration", duration);
+		return this;
+	}
+
+	/**
+	 *  @return Action - message
+	 */
+	public PlanSpecification getAction() {
+		try {
+			IMCMessage obj = getMessage("action");
+			if (obj instanceof PlanSpecification)
+				return (PlanSpecification) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param action Action
+	 */
+	public TemporalAction setAction(PlanSpecification action) {
+		values.put("action", action);
 		return this;
 	}
 
