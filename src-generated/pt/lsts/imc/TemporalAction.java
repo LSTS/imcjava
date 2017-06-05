@@ -100,14 +100,31 @@ public class TemporalAction extends IMCMessage {
 		return m;
 	}
 
-	public TemporalAction(int system_id, STATUS status, double start_time, double duration, PlanSpecification action) {
+	public TemporalAction(String action_id, int system_id, STATUS status, double start_time, double duration, PlanSpecification action) {
 		super(ID_STATIC);
+		if (action_id != null)
+			setActionId(action_id);
 		setSystemId(system_id);
 		setStatus(status);
 		setStartTime(start_time);
 		setDuration(duration);
 		if (action != null)
 			setAction(action);
+	}
+
+	/**
+	 *  @return Action Identifier - plaintext
+	 */
+	public String getActionId() {
+		return getString("action_id");
+	}
+
+	/**
+	 *  @param action_id Action Identifier
+	 */
+	public TemporalAction setActionId(String action_id) {
+		values.put("action_id", action_id);
+		return this;
 	}
 
 	/**
