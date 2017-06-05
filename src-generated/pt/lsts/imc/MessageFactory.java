@@ -628,6 +628,12 @@ public class MessageFactory {
 				return new ApmStatus(defs);
 			case SadcReadings.ID_STATIC:
 				return new SadcReadings(defs);
+			case TemporalPlan.ID_STATIC:
+				return new TemporalPlan(defs);
+			case TemporalAction.ID_STATIC:
+				return new TemporalAction(defs);
+			case TemporalPlanStatus.ID_STATIC:
+				return new TemporalPlanStatus(defs);
 			default:
 				return new IMCMessage(defs);
 		}
