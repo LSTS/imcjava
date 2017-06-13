@@ -37,6 +37,7 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 import java.util.Vector;
+import java.util.NoSuchElementException;
 
 import javax.swing.JFileChooser;
 
@@ -55,184 +56,201 @@ import pt.lsts.neptus.messages.listener.MessageInfoImpl;
  */
 public class LsfBatch {
 
-	private TreeSet<LsfLog> logs = new TreeSet<LsfLog>();
+    private TreeSet<LsfLog> logs = new TreeSet<LsfLog>();
 
-        public LsfBatch() {
+    public LsfBatch() {
 
-	}
+    }
 	
-	public LsfLog getLower() {
-		return logs.first();
-	}
+    public LsfLog getLower() {
+	return logs.first();
+    }
 	
-	public IMCDefinition getImcDefs() {
-		return getLower().definitions;
+    public IMCDefinition getImcDefs() {
+	return getLower().definitions;
+    }
+
+    public void addRecursively(File root) {
+
+	LsfLog log = LsfLog.create(root);
+	if (log != null) {
+	    if (logs.add(log))
+		System.out.println("Added " + root.getAbsolutePath());
+	    else
+		System.err.println("Duplicate " + root.getAbsolutePath() + " not added.");
 	}
 
-	public void addRecursively(File root) {
+	for (File f : root.listFiles()) {
+	    if (f.isDirectory()) {
+		addRecursively(f);
+	    }
+	}
+    }
 
-		LsfLog log = LsfLog.create(root);
-		if (log != null) {
-			if (logs.add(log))
-				System.out.println("Added " + root.getAbsolutePath());
-			else
-				System.err.println("Duplicate " + root.getAbsolutePath() + " not added.");
-		}
 
-		for (File f : root.listFiles()) {
-			if (f.isDirectory()) {
-				addRecursively(f);
-			}
-		}
+    public UnserializedMessage next() {
+	LsfLog lower = logs.pollFirst();
+	if (lower == null)
+	    return null;
+
+	UnserializedMessage msg = lower.curMessage;
+	try {
+	    lower.curMessage = UnserializedMessage.readMessage(lower.definitions, lower.input);
+	    logs.add(lower);
+	} catch (EOFException e) {
+	    // expected...
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return next();
+	}
+	return msg;
+    }
+
+    public LsfBatch.LsfLog nextLog() {
+        LsfBatch.LsfLog log;
+        try {
+            log = (LsfBatch.LsfLog)this.logs.first();
+        } catch (NoSuchElementException e) {
+            log = null;
+	    e.printStackTrace();
+        }
+
+        if(log == null) {
+            return null;
+        } else {
+            this.next();
+            return log;
+        }
+    }
+
+    public LsfBatch(File root) {
+	addRecursively(root);
+    }
+
+    public static class LsfLog implements Comparable<LsfLog> {
+	public IMCDefinition definitions;
+	public DataInput input;
+	public UnserializedMessage curMessage;
+	public String root;
+
+	private LsfLog(String root) {
+	    this.root = root;
 	}
 
-
-	public UnserializedMessage next() {
-		LsfLog lower = logs.pollFirst();
-		if (lower == null)
-			return null;
-
-		UnserializedMessage msg = lower.curMessage;
-		try {
-			lower.curMessage = UnserializedMessage.readMessage(lower.definitions, lower.input);
-			logs.add(lower);
-		} catch (EOFException e) {
-			// expected...
-		} catch (Exception e) {
-			e.printStackTrace();
-			return next();
-		}
-		return msg;
+	@Override
+	public int hashCode() {
+	    return root.hashCode();
 	}
 
-	public LsfBatch(File root) {
-		addRecursively(root);
-	}
-
-	static class LsfLog implements Comparable<LsfLog> {
-		public IMCDefinition definitions;
-		public DataInput input;
-		public UnserializedMessage curMessage;
-		public String root;
-
-		private LsfLog(String root) {
-			this.root = root;
-		}
-
-		@Override
-		public int hashCode() {
-			return root.hashCode();
-		}
-
-		public static LsfLog create(File root) {
-			LsfLog log = new LsfLog(root.getAbsolutePath());
-			try {
-				if (new File(root, "IMC.xml").canRead())
-					log.definitions = new IMCDefinition(new File(root, "IMC.xml"));
-				else if (new File(root, "IMC.xml.gz").canRead()) {
-					log.definitions = new IMCDefinition(
+	public static LsfLog create(File root) {
+	    LsfLog log = new LsfLog(root.getAbsolutePath());
+	    try {
+		if (new File(root, "IMC.xml").canRead())
+		    log.definitions = new IMCDefinition(new File(root, "IMC.xml"));
+		else if (new File(root, "IMC.xml.gz").canRead()) {
+		    log.definitions = new IMCDefinition(
 							new MultiMemberGZIPInputStream(new FileInputStream(new File(root, "IMC.xml.gz"))));
-				} else
-					return null;
+		} else
+		    return null;
 
-				if (new File(root, "Data.lsf").canRead())
-					log.input = new DataInputStream(new FileInputStream(new File(root, "Data.lsf")));
-				else if (new File(root, "Data.lsf.gz").canRead())
-					log.input = new DataInputStream(
-							new MultiMemberGZIPInputStream(new FileInputStream(new File(root, "Data.lsf.gz"))));
-				else
-					return null;
-				log.curMessage = UnserializedMessage.readMessage(log.definitions, log.input);
+		if (new File(root, "Data.lsf").canRead())
+		    log.input = new DataInputStream(new FileInputStream(new File(root, "Data.lsf")));
+		else if (new File(root, "Data.lsf.gz").canRead())
+		    log.input = new DataInputStream(
+						    new MultiMemberGZIPInputStream(new FileInputStream(new File(root, "Data.lsf.gz"))));
+		else
+		    return null;
+		log.curMessage = UnserializedMessage.readMessage(log.definitions, log.input);
 
-				return log;
-			} catch (Exception e) {
-				return null;
-			}
-		}
-
-		@Override
-		public int compareTo(LsfLog o) {
-			return curMessage.compareTo(o.curMessage);
-		}
+		return log;
+	    } catch (Exception e) {
+		return null;
+	    }
 	}
 
-	public static LsfBatch selectFolders() {
-		JFileChooser chooser = new JFileChooser();
-		chooser.setMultiSelectionEnabled(true);
-		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		chooser.setDialogTitle("Select top-level log directory");
-		int op = chooser.showOpenDialog(null);
-
-		if (op != JFileChooser.APPROVE_OPTION)
-			return null;
-
-		LsfBatch batch = new LsfBatch();
-		for (File f : chooser.getSelectedFiles())
-			batch.addRecursively(f);
-
-		return batch;
+	@Override
+	public int compareTo(LsfLog o) {
+	    return curMessage.compareTo(o.curMessage);
 	}
+    }
 
-	public void process(Object... consumers) {
-		LinkedHashMap<ImcConsumer, Vector<Integer>> pojos = new LinkedHashMap<ImcConsumer, Vector<Integer>>();
-		for (Object pojo : consumers) {
-			ImcConsumer consumer = ImcConsumer.create(pojo);
-			Vector<Integer> types = new Vector<Integer>();
-			if (consumer.getTypesToListen() == null)
-				// listen to all messages
-				for (String name : IMCDefinition.getInstance().getMessageNames())
-					types.add(IMCDefinition.getInstance().getMessageId(name));
-			else
-				for (String type : consumer.getTypesToListen())
-					types.add(IMCDefinition.getInstance().getMessageId(type));
+    public static LsfBatch selectFolders() {
+	JFileChooser chooser = new JFileChooser();
+	chooser.setMultiSelectionEnabled(true);
+	chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	chooser.setDialogTitle("Select top-level log directory");
+	int op = chooser.showOpenDialog(null);
+
+	if (op != JFileChooser.APPROVE_OPTION)
+	    return null;
+
+	LsfBatch batch = new LsfBatch();
+	for (File f : chooser.getSelectedFiles())
+	    batch.addRecursively(f);
+
+	return batch;
+    }
+
+    public void process(Object... consumers) {
+	LinkedHashMap<ImcConsumer, Vector<Integer>> pojos = new LinkedHashMap<ImcConsumer, Vector<Integer>>();
+	for (Object pojo : consumers) {
+	    ImcConsumer consumer = ImcConsumer.create(pojo);
+	    Vector<Integer> types = new Vector<Integer>();
+	    if (consumer.getTypesToListen() == null)
+		// listen to all messages
+		for (String name : IMCDefinition.getInstance().getMessageNames())
+		    types.add(IMCDefinition.getInstance().getMessageId(name));
+	    else
+		for (String type : consumer.getTypesToListen())
+		    types.add(IMCDefinition.getInstance().getMessageId(type));
 			
-			pojos.put(consumer, types);
-		}
-
-		UnserializedMessage msg;
-		while ((msg = next()) != null) {
-			IMCMessage m = null;
-			MessageInfoImpl info = null;
-			for (Entry<ImcConsumer, Vector<Integer>> c : pojos.entrySet()) {
-				if (c.getValue().contains(msg.getMgId())) {
-					if (m != null)
-						c.getKey().onMessage(info, m);
-					else {
-						try {
-							m = msg.deserialize();
-							info = new MessageInfoImpl();
-							info.setTimeSentSec(m.getTimestamp());
-							info.setPublisher(m.getSourceName());
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						c.getKey().onMessage(info, m);
-					}
-				}
-			}
-		}
-
+	    pojos.put(consumer, types);
 	}
 
-	public static void main(String[] args) {
-		LsfBatch batch = LsfBatch.selectFolders();
-		UnserializedMessage msg;
-		while ((msg = batch.next()) != null) {
-
-			switch (msg.getMgId()) {
-			case LogBookEntry.ID_STATIC:
-				try {
-					LogBookEntry entry = (LogBookEntry) msg.deserialize();
-					if (entry.getType() == TYPE.ERROR || entry.getType() == TYPE.CRITICAL) {
-						System.out.println(entry.getDate()+" : "+entry.getSourceName()+" ["+entry.getType()+"]: "+entry.getText());
-					}					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				break;
-			default:
-				break;
+	UnserializedMessage msg;
+	while ((msg = next()) != null) {
+	    IMCMessage m = null;
+	    MessageInfoImpl info = null;
+	    for (Entry<ImcConsumer, Vector<Integer>> c : pojos.entrySet()) {
+		if (c.getValue().contains(msg.getMgId())) {
+		    if (m != null)
+			c.getKey().onMessage(info, m);
+		    else {
+			try {
+			    m = msg.deserialize();
+			    info = new MessageInfoImpl();
+			    info.setTimeSentSec(m.getTimestamp());
+			    info.setPublisher(m.getSourceName());
+			} catch (Exception e) {
+			    e.printStackTrace();
 			}
+			c.getKey().onMessage(info, m);
+		    }
 		}
+	    }
 	}
+
+    }
+
+    public static void main(String[] args) {
+	LsfBatch batch = LsfBatch.selectFolders();
+	UnserializedMessage msg;
+	while ((msg = batch.next()) != null) {
+
+	    switch (msg.getMgId()) {
+	    case LogBookEntry.ID_STATIC:
+		try {
+		    LogBookEntry entry = (LogBookEntry) msg.deserialize();
+		    if (entry.getType() == TYPE.ERROR || entry.getType() == TYPE.CRITICAL) {
+			System.out.println(entry.getDate()+" : "+entry.getSourceName()+" ["+entry.getType()+"]: "+entry.getText());
+		    }					
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+		break;
+	    default:
+		break;
+	    }
+	}
+    }
 }
