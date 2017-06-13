@@ -57,7 +57,7 @@ public class LsfBatch {
 
 	private TreeSet<LsfLog> logs = new TreeSet<LsfLog>();
 
-	private LsfBatch() {
+        public LsfBatch() {
 
 	}
 	
