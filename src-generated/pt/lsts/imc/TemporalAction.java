@@ -56,6 +56,25 @@ public class TemporalAction extends IMCMessage {
 		}
 	}
 
+	public enum TYPE {
+		MOVE(1),
+		SURFACE(2),
+		COMMUNICATE(3),
+		SAMPLE(4),
+		SURVEY(5),
+		LOCATE(6);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		TYPE(long value) {
+			this.value = value;
+		}
+	}
+
 	public static final int ID_STATIC = 911;
 
 	public TemporalAction() {
@@ -100,7 +119,7 @@ public class TemporalAction extends IMCMessage {
 		return m;
 	}
 
-	public TemporalAction(String action_id, int system_id, STATUS status, double start_time, double duration, PlanSpecification action) {
+	public TemporalAction(String action_id, int system_id, STATUS status, double start_time, double duration, PlanSpecification action, TYPE type) {
 		super(ID_STATIC);
 		if (action_id != null)
 			setActionId(action_id);
@@ -110,6 +129,7 @@ public class TemporalAction extends IMCMessage {
 		setDuration(duration);
 		if (action != null)
 			setAction(action);
+		setType(type);
 	}
 
 	/**
@@ -239,6 +259,51 @@ public class TemporalAction extends IMCMessage {
 	 */
 	public TemporalAction setAction(PlanSpecification action) {
 		values.put("action", action);
+		return this;
+	}
+
+	/**
+	 *  @return Type (enumerated) - uint8_t
+	 */
+	public TYPE getType() {
+		try {
+			TYPE o = TYPE.valueOf(getMessageType().getFieldPossibleValues("type").get(getLong("type")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
+	/**
+	 *  @param type Type (enumerated)
+	 */
+	public TemporalAction setType(TYPE type) {
+		values.put("type", type.value());
+		return this;
+	}
+
+	/**
+	 *  @param type Type (as a String)
+	 */
+	public TemporalAction setTypeStr(String type) {
+		setValue("type", type);
+		return this;
+	}
+
+	/**
+	 *  @param type Type (integer value)
+	 */
+	public TemporalAction setTypeVal(short type) {
+		setValue("type", type);
 		return this;
 	}
 

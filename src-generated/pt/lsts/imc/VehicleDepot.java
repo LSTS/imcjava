@@ -31,19 +31,18 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Temporal Plan (910)<br/>
- *  This message will hold a set of plans that need to be executed at specified times.<br/>
+ *  IMC Message Vehicle Depot (913)<br/>
  */
 
-public class TemporalPlan extends IMCMessage {
+public class VehicleDepot extends IMCMessage {
 
-	public static final int ID_STATIC = 910;
+	public static final int ID_STATIC = 913;
 
-	public TemporalPlan() {
+	public VehicleDepot() {
 		super(ID_STATIC);
 	}
 
-	public TemporalPlan(IMCMessage msg) {
+	public VehicleDepot(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +52,20 @@ public class TemporalPlan extends IMCMessage {
 		}
 	}
 
-	public TemporalPlan(IMCDefinition defs) {
+	public VehicleDepot(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static TemporalPlan create(Object... values) {
-		TemporalPlan m = new TemporalPlan();
+	public static VehicleDepot create(Object... values) {
+		VehicleDepot m = new VehicleDepot();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static TemporalPlan clone(IMCMessage msg) throws Exception {
+	public static VehicleDepot clone(IMCMessage msg) throws Exception {
 
-		TemporalPlan m = new TemporalPlan();
+		VehicleDepot m = new VehicleDepot();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,70 +80,71 @@ public class TemporalPlan extends IMCMessage {
 		return m;
 	}
 
-	public TemporalPlan(String plan_id, java.util.Collection<TemporalAction> actions, java.util.Collection<VehicleDepot> depots) {
+	public VehicleDepot(int vehicle, double lat, double lon, double deadline) {
 		super(ID_STATIC);
-		if (plan_id != null)
-			setPlanId(plan_id);
-		if (actions != null)
-			setActions(actions);
-		if (depots != null)
-			setDepots(depots);
+		setVehicle(vehicle);
+		setLat(lat);
+		setLon(lon);
+		setDeadline(deadline);
 	}
 
 	/**
-	 *  @return Plan Identifier - plaintext
+	 *  @return vehicle - uint16_t
 	 */
-	public String getPlanId() {
-		return getString("plan_id");
+	public int getVehicle() {
+		return getInteger("vehicle");
 	}
 
 	/**
-	 *  @param plan_id Plan Identifier
+	 *  @param vehicle vehicle
 	 */
-	public TemporalPlan setPlanId(String plan_id) {
-		values.put("plan_id", plan_id);
+	public VehicleDepot setVehicle(int vehicle) {
+		values.put("vehicle", vehicle);
 		return this;
 	}
 
 	/**
-	 *  @return Actions - message-list
+	 *  @return Latitude (rad) - fp64_t
 	 */
-	public java.util.Vector<TemporalAction> getActions() {
-		try {
-			return getMessageList("actions", TemporalAction.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
-	 *  @param actions Actions
+	 *  @param lat Latitude (rad)
 	 */
-	public TemporalPlan setActions(java.util.Collection<TemporalAction> actions) {
-		values.put("actions", actions);
+	public VehicleDepot setLat(double lat) {
+		values.put("lat", lat);
 		return this;
 	}
 
 	/**
-	 *  @return Depots - message-list
+	 *  @return Longitude (rad) - fp64_t
 	 */
-	public java.util.Vector<VehicleDepot> getDepots() {
-		try {
-			return getMessageList("depots", VehicleDepot.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
-	 *  @param depots Depots
+	 *  @param lon Longitude (rad)
 	 */
-	public TemporalPlan setDepots(java.util.Collection<VehicleDepot> depots) {
-		values.put("depots", depots);
+	public VehicleDepot setLon(double lon) {
+		values.put("lon", lon);
+		return this;
+	}
+
+	/**
+	 *  @return Deadline (s) - fp64_t
+	 */
+	public double getDeadline() {
+		return getDouble("deadline");
+	}
+
+	/**
+	 *  @param deadline Deadline (s)
+	 */
+	public VehicleDepot setDeadline(double deadline) {
+		values.put("deadline", deadline);
 		return this;
 	}
 

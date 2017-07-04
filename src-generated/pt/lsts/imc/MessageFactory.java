@@ -634,6 +634,8 @@ public class MessageFactory {
 				return new TemporalAction(defs);
 			case TemporalPlanStatus.ID_STATIC:
 				return new TemporalPlanStatus(defs);
+			case VehicleDepot.ID_STATIC:
+				return new VehicleDepot(defs);
 			default:
 				return new IMCMessage(defs);
 		}
