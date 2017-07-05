@@ -450,6 +450,8 @@ public class MessageFactory {
 				return new AutonomousSection(defs);
 			case FollowPoint.ID_STATIC:
 				return new FollowPoint(defs);
+			case Handover.ID_STATIC:
+				return new Handover(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
