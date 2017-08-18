@@ -184,12 +184,17 @@ public class LsfBatch {
 	if (op != JFileChooser.APPROVE_OPTION)
 	    return null;
 
-	LsfBatch batch = new LsfBatch();
-	for (File f : chooser.getSelectedFiles())
-	    batch.addRecursively(f);
-
-	return batch;
+	return processFolders(chooser.getSelectedFiles());
     }
+
+    public static LsfBatch processFolders(File[] files) {
+        LsfBatch batch = new LsfBatch();
+        for (File f : files)
+            batch.addRecursively(f);
+
+        return batch;
+    }
+
 
     public void process(Object... consumers) {
 	LinkedHashMap<ImcConsumer, Vector<Integer>> pojos = new LinkedHashMap<ImcConsumer, Vector<Integer>>();
