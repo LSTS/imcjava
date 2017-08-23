@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "ec5929015ad95a44e78f477cd93a9df108d5c1f7";
-	public static final String IMC_BRANCH = "2017-05-17 ec59290 (HEAD -> master, origin/master, origin/HEAD)";
-	public static final String IMC_COMMIT = "Pedro Gonçalves (pedro@lsts.pt), Wed May 17 20:57:24 WEST 2017, Merge branch 'feature/sadc'";
+	public static final String IMC_SHA = "c5a918c29b57cd1ce4d7aef9ff9bea47a52b382c";
+	public static final String IMC_BRANCH = "2017-08-02 c5a918c (HEAD -> master, origin/master, origin/HEAD)";
+	public static final String IMC_COMMIT = "GitHub (noreply@github.com), Wed Aug 02 17:21:55 WEST 2017, Merge pull request #15 from rmsc/feature/force_message\n\nAdded Force message.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -132,6 +132,15 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("ntnu-penguin-002", 11330);
 		IMC_ADDRESSES.put("ntnu-penguin-003", 11331);
 		IMC_ADDRESSES.put("ntnu-penguin-004", 11332);
+		IMC_ADDRESSES.put("ntnu-bixler-001", 11338);
+		IMC_ADDRESSES.put("ntnu-bixler-002", 11339);
+		IMC_ADDRESSES.put("ntnu-bixler-003", 11340);
+		IMC_ADDRESSES.put("ntnu-cruisermini-001", 11345);
+		IMC_ADDRESSES.put("ntnu-cruisermini-002", 11346);
+		IMC_ADDRESSES.put("ntnu-cruisermini-003", 11347);
+		IMC_ADDRESSES.put("ntnu-cruisermini-004", 11348);
+		IMC_ADDRESSES.put("ntnu-cruisermini-005", 11349);
+		IMC_ADDRESSES.put("ntnu-cruisermini-006", 11350);
 		IMC_ADDRESSES.put("ccu-lsts-1-1", 16641);
 		IMC_ADDRESSES.put("ccu-lsts-1-14", 16654);
 		IMC_ADDRESSES.put("ccu-lsts-1-20", 16660);

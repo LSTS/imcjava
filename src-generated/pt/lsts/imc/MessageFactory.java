@@ -220,6 +220,8 @@ public class MessageFactory {
 				return new DevDataText(defs);
 			case DevDataBinary.ID_STATIC:
 				return new DevDataBinary(defs);
+			case Force.ID_STATIC:
+				return new Force(defs);
 			case SonarData.ID_STATIC:
 				return new SonarData(defs);
 			case Pulse.ID_STATIC:
