@@ -48,7 +48,10 @@ public class LsfGenericIterator implements Iterator<IMCMessage>, Iterable<IMCMes
         this.index = index;
         this.msgType = index.getDefinitions().getMessageId(msgType);
         this.timestepSeconds = timestepMillis / 1000.0;
-        this.nextIndex = index.getNextMessageOfType(msgType, startIndex);
+        if (startIndex == 0)
+            this.nextIndex = index.getFirstMessageOfType(msgType);
+        else
+            this.nextIndex = index.getNextMessageOfType(msgType, startIndex);
         divideById = index.fieldIdOf(nextIndex) != -1;        
     }
     
