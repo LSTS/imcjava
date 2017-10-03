@@ -480,6 +480,12 @@ public class MessageFactory {
 				return new FormationState(defs);
 			case ReportControl.ID_STATIC:
 				return new ReportControl(defs);
+			case StateReport.ID_STATIC:
+				return new StateReport(defs);
+			case TransmissionRequest.ID_STATIC:
+				return new TransmissionRequest(defs);
+			case TransmissionStatus.ID_STATIC:
+				return new TransmissionStatus(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
@@ -588,6 +594,10 @@ public class MessageFactory {
 				return new FormationControlParams(defs);
 			case FormationEvaluation.ID_STATIC:
 				return new FormationEvaluation(defs);
+			case SoiWaypoint.ID_STATIC:
+				return new SoiWaypoint(defs);
+			case SoiPlan.ID_STATIC:
+				return new SoiPlan(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
 			case NeptusBlob.ID_STATIC:
