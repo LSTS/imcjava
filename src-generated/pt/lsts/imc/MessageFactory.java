@@ -598,6 +598,10 @@ public class MessageFactory {
 				return new SoiWaypoint(defs);
 			case SoiPlan.ID_STATIC:
 				return new SoiPlan(defs);
+			case SoiCommand.ID_STATIC:
+				return new SoiCommand(defs);
+			case SoiState.ID_STATIC:
+				return new SoiState(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
 			case NeptusBlob.ID_STATIC:
