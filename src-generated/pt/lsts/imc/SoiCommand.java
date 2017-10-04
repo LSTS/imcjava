@@ -57,7 +57,8 @@ public class SoiCommand extends IMCMessage {
 		STOP(2),
 		SET_PARAMS(3),
 		GET_PARAMS(4),
-		GET_PLAN(5);
+		GET_PLAN(5),
+		RESUME(6);
 
 		protected long value;
 
