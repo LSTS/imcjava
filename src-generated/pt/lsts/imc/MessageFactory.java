@@ -486,6 +486,10 @@ public class MessageFactory {
 				return new TransmissionRequest(defs);
 			case TransmissionStatus.ID_STATIC:
 				return new TransmissionStatus(defs);
+			case SmsRequest.ID_STATIC:
+				return new SmsRequest(defs);
+			case SmsStatus.ID_STATIC:
+				return new SmsStatus(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
