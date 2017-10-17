@@ -38,7 +38,7 @@ package pt.lsts.imc;
 public class SmsStatus extends IMCMessage {
 
 	public enum STATUS {
-		IN_PROGRESS(0),
+		QUEUED(0),
 		SENT(1),
 		INPUT_FAILURE(101),
 		TEMPORARY_FAILURE(102),
@@ -99,10 +99,9 @@ public class SmsStatus extends IMCMessage {
 		return m;
 	}
 
-	public SmsStatus(int req_id, int modem_req_id, STATUS status, String info) {
+	public SmsStatus(int req_id, STATUS status, String info) {
 		super(ID_STATIC);
 		setReqId(req_id);
-		setModemReqId(modem_req_id);
 		setStatus(status);
 		if (info != null)
 			setInfo(info);
@@ -120,21 +119,6 @@ public class SmsStatus extends IMCMessage {
 	 */
 	public SmsStatus setReqId(int req_id) {
 		values.put("req_id", req_id);
-		return this;
-	}
-
-	/**
-	 *  @return Modem Request Identifier - uint16_t
-	 */
-	public int getModemReqId() {
-		return getInteger("modem_req_id");
-	}
-
-	/**
-	 *  @param modem_req_id Modem Request Identifier
-	 */
-	public SmsStatus setModemReqId(int modem_req_id) {
-		values.put("modem_req_id", modem_req_id);
 		return this;
 	}
 
