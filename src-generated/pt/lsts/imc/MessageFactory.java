@@ -480,6 +480,12 @@ public class MessageFactory {
 				return new FormationState(defs);
 			case ReportControl.ID_STATIC:
 				return new ReportControl(defs);
+			case StateReport.ID_STATIC:
+				return new StateReport(defs);
+			case TransmissionRequest.ID_STATIC:
+				return new TransmissionRequest(defs);
+			case TransmissionStatus.ID_STATIC:
+				return new TransmissionStatus(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:

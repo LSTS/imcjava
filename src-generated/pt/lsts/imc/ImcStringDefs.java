@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "c5a918c29b57cd1ce4d7aef9ff9bea47a52b382c";
-	public static final String IMC_BRANCH = "2017-08-02 c5a918c (HEAD -> master, origin/master, origin/HEAD)";
-	public static final String IMC_COMMIT = "GitHub (noreply@github.com), Wed Aug 02 17:21:55 WEST 2017, Merge pull request #15 from rmsc/feature/force_message\n\nAdded Force message.";
+	public static final String IMC_SHA = "9f817f770e120fc31e04ade5bd6abcd7f2f97520";
+	public static final String IMC_BRANCH = "2017-10-19 9f817f7 (HEAD -> master, origin/master, origin/HEAD)";
+	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Thu Oct 19 18:27:27 WEST 2017, Added addresses for XP3, XP4 and XP5.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -55,6 +55,9 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-lsts-1", 29);
 		IMC_ADDRESSES.put("lauv-xplore-1", 30);
 		IMC_ADDRESSES.put("lauv-xplore-2", 31);
+		IMC_ADDRESSES.put("lauv-xplore-3", 32);
+		IMC_ADDRESSES.put("lauv-xplore-4", 33);
+		IMC_ADDRESSES.put("lauv-xplore-5", 34);
 		IMC_ADDRESSES.put("lauv-simulator-1", 209);
 		IMC_ADDRESSES.put("rov-ies", 1025);
 		IMC_ADDRESSES.put("adamastor", 1026);
