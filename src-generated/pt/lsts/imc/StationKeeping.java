@@ -41,6 +41,8 @@ import pt.lsts.imc.def.SpeedUnits;
 
 public class StationKeeping extends Maneuver {
 
+	public static final short FLG_KEEP_SAFE = 0x01;
+
 	public static final int ID_STATIC = 461;
 
 	public StationKeeping() {
@@ -85,7 +87,7 @@ public class StationKeeping extends Maneuver {
 		return m;
 	}
 
-	public StationKeeping(double lat, double lon, float z, ZUnits z_units, float radius, int duration, float speed, SpeedUnits speed_units, String custom) {
+	public StationKeeping(double lat, double lon, float z, ZUnits z_units, float radius, int duration, float speed, SpeedUnits speed_units, int popup_period, int popup_duration, short flags, String custom) {
 		super(ID_STATIC);
 		setLat(lat);
 		setLon(lon);
@@ -95,6 +97,9 @@ public class StationKeeping extends Maneuver {
 		setDuration(duration);
 		setSpeed(speed);
 		setSpeedUnits(speed_units);
+		setPopupPeriod(popup_period);
+		setPopupDuration(popup_duration);
+		setFlags(flags);
 		if (custom != null)
 			setCustom(custom);
 	}
@@ -276,6 +281,51 @@ public class StationKeeping extends Maneuver {
 	 */
 	public StationKeeping setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
+		return this;
+	}
+
+	/**
+	 *  @return PopUp Period (s) - uint16_t
+	 */
+	public int getPopupPeriod() {
+		return getInteger("popup_period");
+	}
+
+	/**
+	 *  @param popup_period PopUp Period (s)
+	 */
+	public StationKeeping setPopupPeriod(int popup_period) {
+		values.put("popup_period", popup_period);
+		return this;
+	}
+
+	/**
+	 *  @return PopUp Duration (s) - uint16_t
+	 */
+	public int getPopupDuration() {
+		return getInteger("popup_duration");
+	}
+
+	/**
+	 *  @param popup_duration PopUp Duration (s)
+	 */
+	public StationKeeping setPopupDuration(int popup_duration) {
+		values.put("popup_duration", popup_duration);
+		return this;
+	}
+
+	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
+	}
+
+	/**
+	 *  @param flags Flags (bitfield)
+	 */
+	public StationKeeping setFlags(short flags) {
+		values.put("flags", flags);
 		return this;
 	}
 
