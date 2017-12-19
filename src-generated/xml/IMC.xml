@@ -1601,6 +1601,7 @@
       <value abbrev="QUEUED" name="Message has been queued for transmission" id="3"/>
       <value abbrev="TRANSMIT" name="Message is currently being transmitted" id="4"/>
       <value abbrev="EXPIRED" name="Message's TTL has expired. Transmition cancelled." id="5"/>
+       <value abbrev="EMPTY" name="No more messages to be transmitted or received." id="6"/>
     </field>
     <field name="Status Text" abbrev="text" type="plaintext"/>
   </message>
@@ -8089,8 +8090,7 @@
       <value id="0" abbrev="QUEUED" name="Queued"/>
       <value id="1" abbrev="SENT" name="Sent"/>
       <value id="101" abbrev="INPUT_FAILURE" name="Input Error"/>
-      <value id="102" abbrev="TEMPORARY_FAILURE" name="Temporary Error"/>
-      <value id="103" abbrev="PERMANENT_FAILURE" name="Permanent Failure"/>      
+      <value id="102" abbrev="ERROR" name="Error trying to send sms"/>    
     </field>
     <field name="Information" abbrev="info" type="plaintext">
     <description> Error description.</description>

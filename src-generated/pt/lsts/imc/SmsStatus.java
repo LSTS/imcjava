@@ -41,8 +41,7 @@ public class SmsStatus extends IMCMessage {
 		QUEUED(0),
 		SENT(1),
 		INPUT_FAILURE(101),
-		TEMPORARY_FAILURE(102),
-		PERMANENT_FAILURE(103);
+		ERROR(102);
 
 		protected long value;
 
