@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2016, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2018, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -230,7 +230,7 @@ public class ClassGenerator {
 		sb.append("/*\n");
 		sb.append(" * Below is the copyright agreement for IMCJava.\n");
 		sb.append(" * \n");
-		sb.append(" * Copyright (c) 2010-2016, Laboratório de Sistemas e Tecnologia Subaquática\n");
+		sb.append(" * Copyright (c) 2010-2018, Laboratório de Sistemas e Tecnologia Subaquática\n");
 		sb.append(" * All rights reserved.\n");
 		sb.append(" * \n");
 		sb.append(" * Redistribution and use in source and binary forms, with or without\n");
