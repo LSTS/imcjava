@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "aebd7030c7ad4aceed745eb188988f95f048f1be";
-	public static final String IMC_BRANCH = "2017-12-18 aebd703 (HEAD -> mission/soi, origin/mission/soi)";
-	public static final String IMC_COMMIT = "kmolima (keilalima.cv@gmail.com), Mon Dec 18 13:28:53 WET 2017, Added IridiumTxStatus Empty Queue";
+	public static final String IMC_SHA = "8c6ab2083f6132172a1ebadcc099c5f3c42cc534";
+	public static final String IMC_BRANCH = "2018-01-12 8c6ab20 (HEAD -> mission/soi, origin/mission/soi)";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), Fri Jan 12 19:31:21 WET 2018, Merge branch 'master' into mission/soi";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -112,6 +112,9 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("form-leader-04", 3316);
 		IMC_ADDRESSES.put("form-leader-05", 3317);
 		IMC_ADDRESSES.put("form-leader-06", 3318);
+		IMC_ADDRESSES.put("turbot", 8192);
+		IMC_ADDRESSES.put("sparus2", 8193);
+		IMC_ADDRESSES.put("eqe", 8194);
 		IMC_ADDRESSES.put("lrauv-sim", 8960);
 		IMC_ADDRESSES.put("ntnu-hexa-testbed", 11264);
 		IMC_ADDRESSES.put("ntnu-hexa-001", 11265);
