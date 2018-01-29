@@ -108,6 +108,10 @@ public class MessageFactory {
 				return new HistoricSonarData(defs);
 			case HistoricEvent.ID_STATIC:
 				return new HistoricEvent(defs);
+			case VerticalProfile.ID_STATIC:
+				return new VerticalProfile(defs);
+			case ProfileSample.ID_STATIC:
+				return new ProfileSample(defs);
 			case Heartbeat.ID_STATIC:
 				return new Heartbeat(defs);
 			case Announce.ID_STATIC:
