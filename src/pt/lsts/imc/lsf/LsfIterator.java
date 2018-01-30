@@ -46,11 +46,11 @@ public class LsfIterator<T> implements Iterator<T>, Iterable<T>{
 
     protected Class<T> clazz;
     protected String msgName;
-    protected int nextIndex;
+    protected long nextIndex;
     protected LsfIndex index;
     protected double secondsBetweenMessages;
     protected LinkedHashMap<Integer, Double> entityTimeStamps = new LinkedHashMap<Integer, Double>();    
-    protected int curIndex;
+    protected long curIndex;
     
     public LsfIterator(LsfIndex index, Class<T> clazz, int fromIndex, long millisBetweenMessages) {
     	this.index = index;
@@ -118,7 +118,7 @@ public class LsfIterator<T> implements Iterator<T>, Iterable<T>{
         throw new UnsupportedOperationException();
     }
 
-    public int getCurrentIndex() {
+    public long getCurrentIndex() {
 		return curIndex;
 	}
 
@@ -126,7 +126,7 @@ public class LsfIterator<T> implements Iterator<T>, Iterable<T>{
         LsfIndex index = new LsfIndex(new File("/home/zp/Desktop/log-imc5/Data.lsf"),
                 IMCDefinition.getInstance());
 
-        for (int i = index.getFirstMessageOfType(Current.ID_STATIC); i != -1; 
+        for (long i = index.getFirstMessageOfType(Current.ID_STATIC); i != -1; 
                 i = index.getNextMessageOfType(Current.ID_STATIC, i)) {
             
             System.out.println(index.sourceOf(i)+", "+index.entityOf(i)+", "+index.hashOf(i));

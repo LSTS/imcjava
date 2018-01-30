@@ -189,7 +189,7 @@ public class LsfUtils {
 
             IMCMessage result = original.cloneMessage(destDefs);
             destDefs.serialize(result, fos);
-            int percent = (i*100 / index.getNumberOfMessages());
+            int percent = (int) (i*100 / index.getNumberOfMessages());
             if (percent != lastPercent) {
                 if (m != null) {
                     m.setNote(percent+"% done...");

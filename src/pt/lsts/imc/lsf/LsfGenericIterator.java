@@ -40,7 +40,7 @@ public class LsfGenericIterator implements Iterator<IMCMessage>, Iterable<IMCMes
     protected double timestepSeconds;
     protected int msgType;
     protected LsfIndex index;
-    protected int nextIndex;
+    protected long nextIndex;
     protected LinkedHashMap<Integer, Double> entityTimeStamps = new LinkedHashMap<Integer, Double>();    
     protected boolean divideById = false;
     

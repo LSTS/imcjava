@@ -40,7 +40,6 @@ import java.io.RandomAccessFile;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.channels.FileChannel.MapMode;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -87,9 +86,10 @@ public class LsfIndex {
 	protected LinkedHashMap<Long, MappedByteBuffer> buffers = new LinkedHashMap<Long, MappedByteBuffer>();
 
 	protected double startTime, curTime, endTime;
-	protected MappedByteBuffer index;
+	//protected MappedByteBuffer index;
+	protected BigByteBuffer index;
 	protected long indexSize;
-	protected int numMessages;
+	protected long numMessages;
 	protected int generatorSrcId;
 
 	protected RandomAccessFile lsfInputStream;
@@ -103,8 +103,8 @@ public class LsfIndex {
 	protected int OFFSET_OF_TIME = 0, OFFSET_OF_MGID = 4, OFFSET_OF_POS = 6;
 	
 	// cache indexes for first and last occurrence of messages
-	private LinkedHashMap<Integer, Integer> firstMessagesOfType = new LinkedHashMap<Integer, Integer>();
-	private LinkedHashMap<Integer, Integer> lastMessagesOfType = new LinkedHashMap<Integer, Integer>();
+	private LinkedHashMap<Integer, Long> firstMessagesOfType = new LinkedHashMap<Integer, Long>();
+	private LinkedHashMap<Integer, Long> lastMessagesOfType = new LinkedHashMap<Integer, Long>();
 
 	/*
 	 * [Header]: 12 bytes 0 - 'I' 1 - 'D' 2 - 'X' 3 - '1' 4 - start timestamp
@@ -121,7 +121,7 @@ public class LsfIndex {
 	 *            The index of the message to calculate hashcode
 	 * @return The calculated hashcode
 	 */
-	public int hashOf(int i) {
+	public int hashOf(long i) {
 		return (sourceOf(i) << 8) | entityOf(i);
 	}
 
@@ -259,14 +259,17 @@ public class LsfIndex {
 				FILENAME));
 		indexSize = new File(lsfFile.getParent(), FILENAME).length();
 		indexChannel = indexInputStream.getChannel();
-		index = indexChannel.map(MapMode.READ_ONLY, 0, indexSize);
-		if (index.get() != 'I' || index.get() != 'D' || index.get() != 'X'
-				|| index.get() != '1') {
+		index = new BigByteBuffer(indexChannel, indexSize);
+		if (index.get(0) != 'I' || index.get(1) != 'D' || index.get(2) != 'X'
+				|| index.get(3) != '1') {
 			throw new Exception(
 					"The index file is not valid. Please regenerate the index.");
 		}
-		curTime = startTime = index.getDouble();
+		curTime = startTime = index.getDouble(4);
+		
 		numMessages = (int) indexSize / ENTRY_SIZE;
+		
+		System.out.println(indexSize+" : : "+ENTRY_SIZE+" : : "+numMessages);
 		endTime = getEndTime();
 		generatorSrcId = getMessage(0).getHeader().getInteger("src");
 	}
@@ -279,7 +282,7 @@ public class LsfIndex {
 	 *            The index of the message
 	 * @return The bytes, in the log file respective to the message
 	 */
-	public byte[] getMessageBytes(int ind) {
+	public byte[] getMessageBytes(long ind) {
 		int len;
 		if (ind < getNumberOfMessages() - 1)
 			len = (int) (positionOf(ind + 1) - positionOf(ind));
@@ -299,7 +302,7 @@ public class LsfIndex {
 	 *            The index of the message
 	 * @return The IMC type (id) for the message at given index
 	 */
-	public int typeOf(int messageNumber) {
+	public int typeOf(long messageNumber) {
 		if (messageNumber > numMessages)
 			return -1;
 		return index.getShort(HEADER_SIZE + messageNumber * ENTRY_SIZE
@@ -314,7 +317,7 @@ public class LsfIndex {
 	 *            The index of the message in the log
 	 * @return Time, in seconds since January 1st 1970 UTC of the given message
 	 */
-	public double timeOf(int messageNumber) {
+	public double timeOf(long messageNumber) {
 		if (messageNumber > numMessages)
 			return Double.NaN;
 		return startTime
@@ -322,7 +325,7 @@ public class LsfIndex {
 						+ OFFSET_OF_TIME) / 1000.0;
 	}
 
-	public synchronized boolean isBigEndian(int messageNumber) {
+	public synchronized boolean isBigEndian(long messageNumber) {
 		// offset for the sync number in the header is 0
 		if (messageNumber < 0 || messageNumber >= numMessages)
 			return false;
@@ -331,7 +334,7 @@ public class LsfIndex {
 		return !((buffer.getBuffer().get() & 0xFF) == 0xFE);
 	}
 
-	public String sourceNameOf(int messageNumber) {
+	public String sourceNameOf(long messageNumber) {
 		int src = sourceOf(messageNumber);
 		if (src == -1)
 			return null;
@@ -339,21 +342,21 @@ public class LsfIndex {
 		return defs.getResolver().resolve(src);
 	}
 
-	public String entityNameOf(int messageNumber) {
+	public String entityNameOf(long messageNumber) {
 		int src = sourceOf(messageNumber);
 		int src_ent = entityOf(messageNumber);
 
 		return getEntityName(src, src_ent);
 	}
 
-	public int sizeOf(int messageNumber) {
+	public int sizeOf(long messageNumber) {
 		if (messageNumber < getNumberOfMessages() - 1)
 			return (int) (positionOf(messageNumber + 1) - positionOf(messageNumber));
 		else
 			return (int) (lsfFile.length() - positionOf(messageNumber));
 	}
 
-	public synchronized int sourceOf(int messageNumber) {
+	public synchronized int sourceOf(long messageNumber) {
 		if (messageNumber < 0 || messageNumber >= numMessages)
 			return -1;
 
@@ -370,7 +373,7 @@ public class LsfIndex {
 			return Short.reverseBytes(buffer.getBuffer().getShort()) & 0xFFFF;
 	}
 
-	public synchronized int entityOf(int messageNumber) {
+	public synchronized int entityOf(long messageNumber) {
 		if (messageNumber < 0 || messageNumber >= numMessages)
 			return -1;
 
@@ -380,7 +383,7 @@ public class LsfIndex {
 		return buffer.getBuffer().get() & 0xFF;
 	}
 
-	public synchronized int fieldIdOf(int messageNumber) {
+	public synchronized int fieldIdOf(long messageNumber) {
 		if (messageNumber < 0 || messageNumber >= numMessages)
 			return -1;
 
@@ -401,7 +404,7 @@ public class LsfIndex {
 	 *            The index of the message
 	 * @return The offset in the lsf File for message at given index
 	 */
-	public long positionOf(int messageNumber) {
+	public long positionOf(long messageNumber) {
 		if (messageNumber > numMessages)
 			return -1;
 		return index.getLong(HEADER_SIZE + messageNumber * ENTRY_SIZE
@@ -409,7 +412,7 @@ public class LsfIndex {
 	}
 
 	@SuppressWarnings("unchecked")
-	public synchronized <T> T getMessage(int messageNumber, Class<T> clazz)
+	public synchronized <T> T getMessage(long messageNumber, Class<T> clazz)
 			throws Exception {
 		IMCMessage m = getMessage(messageNumber);
 		if (m.getClass() == clazz)
@@ -465,7 +468,7 @@ public class LsfIndex {
 	 * @return The IMCMessage corresponding to the deserialization of the
 	 *         message at given index
 	 */
-	public synchronized IMCMessage getMessage(int messageNumber) {
+	public synchronized IMCMessage getMessage(long messageNumber) {
 		if (messageNumber > numMessages)
 			return null;
 
@@ -482,7 +485,7 @@ public class LsfIndex {
 	/**
 	 * @return Total number of messages in the log
 	 */
-	public int getNumberOfMessages() {
+	public long getNumberOfMessages() {
 		return numMessages;
 	}
 
@@ -608,13 +611,13 @@ public class LsfIndex {
 
 	}
 
-	public int getFirstMessageOfType(String abbrev) {
+	public long getFirstMessageOfType(String abbrev) {
 		int type = defs.getMessageId(abbrev);
 		return getFirstMessageOfType(type);
 	}
 
 	public <T> T getFirst(Class<T> clazz) {
-		int index = getFirstMessageOfType(clazz.getSimpleName());
+		long index = getFirstMessageOfType(clazz.getSimpleName());
 		if (index != -1) {
 			try {
 				return getMessage(index, clazz);
@@ -626,7 +629,7 @@ public class LsfIndex {
 	}
 
 	public <T> T getLast(Class<T> clazz) {
-		int index = getLastMessageOfType(clazz.getSimpleName());
+		long index = getLastMessageOfType(clazz.getSimpleName());
 		if (index != -1) {
 			try {
 				return getMessage(index, clazz);
@@ -638,44 +641,44 @@ public class LsfIndex {
 	}
 	
 
-	public int getFirstMessageOfType(int type) {
+	public long getFirstMessageOfType(int type) {
 		if (firstMessagesOfType.containsKey(type))
 			return firstMessagesOfType.get(type);
 		
-		for (int i = 0; i < numMessages; i++) {
+		for (long i = 0; i < numMessages; i++) {
 			if (typeOf(i) == type) {
 				firstMessagesOfType.put(type, i);
 				return i;
 			}
 		}
-		firstMessagesOfType.put(type, -1);
+		firstMessagesOfType.put(type, -1l);
 		return -1;
 	}
 
-	public int getLastMessageOfType(String abbrev) {
+	public long getLastMessageOfType(String abbrev) {
 		int type = defs.getMessageId(abbrev);
 		return getLastMessageOfType(type);
 	}
 
-	public int getLastMessageOfType(int type) {
+	public long getLastMessageOfType(int type) {
 		if (lastMessagesOfType.containsKey(type))
 			return lastMessagesOfType.get(type);
 		
-		for (int i = numMessages - 1; i >= 0; i--) {
+		for (long i = numMessages - 1; i >= 0; i--) {
 			if (typeOf(i) == type) {
 				lastMessagesOfType.put(type, i);
 				return i;
 			}
 		}
-		lastMessagesOfType.put(type, -1);
+		lastMessagesOfType.put(type, -1l);
 		return -1;
 	}
 
-	public int getNextMessageOfType(int type, int startIndex) {
+	public long getNextMessageOfType(int type, long startIndex) {
 		if (startIndex == -1)
 			return -1;
 
-		for (int i = startIndex + 1; i < numMessages; i++) {
+		for (long i = startIndex + 1; i < numMessages; i++) {
 			if (typeOf(i) == type)
 				return i;
 		}
@@ -716,10 +719,10 @@ public class LsfIndex {
 	 *            The index exactly before the index from where to start looking
 	 * @return The index of the found message or -1 if no such message was found
 	 */
-	public int getNextMessageOfEntity(int type, int entity, int startIndex) {
-		int curindex = startIndex;
+	public long getNextMessageOfEntity(int type, int entity, long startIndex) {
+		long curindex = startIndex;
 		while (curindex != -1) {
-			int next = getNextMessageOfType(type, curindex);
+			long next = getNextMessageOfType(type, curindex);
 			if (next == -1)
 				return -1;
 			if (entityOf(next) == entity)
@@ -739,31 +742,31 @@ public class LsfIndex {
 	 */
 	public Collection<Integer> entitiesOfMessage(String message) {
 		HashSet<Integer> ret = new HashSet<Integer>();
-		for (int i = getFirstMessageOfType(message); i != -1; i = getNextMessageOfType(
+		for (long i = getFirstMessageOfType(message); i != -1; i = getNextMessageOfType(
 				message, i))
 			ret.add(entityOf(i));
 		return ret;
 	}
 
-	public int getPreviousMessageOfType(String type, int lastIndex) {
+	public long getPreviousMessageOfType(String type, long lastIndex) {
 		int mgid = defs.getMessageId(type);
 		return getPreviousMessageOfType(mgid, lastIndex);		
 	}
 	
-	public int getPreviousMessageOfType(int type, int lastIndex) {
+	public long getPreviousMessageOfType(int type, long lastIndex) {
 		if (lastIndex == -1)
 			return -1;
 
 		lastIndex = Math.min(getNumberOfMessages(), lastIndex);
 		
-		for (int i = lastIndex - 1; i >= 0; i--) {
+		for (long i = lastIndex - 1; i >= 0; i--) {
 			if (typeOf(i) == type)
 				return i;
 		}
 		return -1;
 	}
 
-	public int getNextMessageOfType(String abbrev, int startIndex) {
+	public long getNextMessageOfType(String abbrev, long startIndex) {
 		int type = defs.getMessageId(abbrev);
 		return getNextMessageOfType(type, startIndex);
 	}
@@ -879,7 +882,7 @@ public class LsfIndex {
 		loadSystems();
 
 		int type = defs.getMessageId("EntityInfo");
-		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
+		for (long i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
 				type, i)) {
 			IMCMessage einfo = getMessage(i);
 
@@ -902,7 +905,7 @@ public class LsfIndex {
 		}
 		
 		type = defs.getMessageId("EntityList");
-		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
+		for (long i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
 				type, i)) {
 			IMCMessage einfo = getMessage(i);
 
@@ -942,7 +945,7 @@ public class LsfIndex {
 		systemEntityNames = new LinkedHashMap<Integer, LinkedHashMap<Integer, String>>();
 
 		int type = defs.getMessageId("Announce");
-		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
+		for (long i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
 				type, i + 1)) {
 			IMCMessage m = getMessage(i);
 			String sys_name = m.getString("sys_name");
@@ -1010,7 +1013,7 @@ public class LsfIndex {
 		int announce_id = getDefinitions().getMessageId("Announce");
 		LinkedHashMap<String, Announce> announces = new LinkedHashMap<String, Announce>();
 
-		for (int i = getFirstMessageOfType(announce_id); i != -1; i = getNextMessageOfType(
+		for (long i = getFirstMessageOfType(announce_id); i != -1; i = getNextMessageOfType(
 				announce_id, i)) {
 			try {
 				Announce an = new Announce();
@@ -1039,9 +1042,9 @@ public class LsfIndex {
 		return announces;
 	}
 
-	public int getMessageAtOrAfer(int type, int entity, int startIndex,
+	public long getMessageAtOrAfer(int type, int entity, long startIndex,
 			double timestamp) {
-		for (int i = getNextMessageOfType(type, startIndex); i != -1; i = getNextMessageOfType(
+		for (long i = getNextMessageOfType(type, startIndex); i != -1; i = getNextMessageOfType(
 				type, i)) {
 			if (entity != 255 && entityOf(i) != entity)
 				continue;
@@ -1052,8 +1055,8 @@ public class LsfIndex {
 		return -1;
 	}
 	
-	public int getMessageBeforeOrAt(int type, int entity, int lastIndex, double timestamp) {
-		for (int i = getPreviousMessageOfType(type, lastIndex); i >= 0; i = getPreviousMessageOfType(type, i)) {
+	public long getMessageBeforeOrAt(int type, int entity, long lastIndex, double timestamp) {
+		for (long i = getPreviousMessageOfType(type, lastIndex); i >= 0; i = getPreviousMessageOfType(type, i)) {
 			if (entity != 255 && entityOf(i) != entity)
 				continue;
 			if (timeOf(i) > timestamp)
@@ -1069,12 +1072,13 @@ public class LsfIndex {
 	}
 
 	public double getEndTime() {
-		int idx = numMessages - 1;
+		long idx = numMessages - 1;
+		System.out.println("IDX: "+idx);
 		return timeOf(idx);
 	}
 
 	public IMCMessage getMessageAtOrAfter(String type, String entity,
-			int startIndex, double timestamp) {
+			long startIndex, double timestamp) {
 		if (entity != null) {
 			int entityId = getEntityId(entity);
 			return getMessageAtOrAfter(type, startIndex, entityId, timestamp);
@@ -1083,7 +1087,7 @@ public class LsfIndex {
 		}
 	}
 	
-	public IMCMessage getMessageBeforeOrAt(String type, String entity, int lastIndex, double timestamp) {
+	public IMCMessage getMessageBeforeOrAt(String type, String entity, long lastIndex, double timestamp) {
 		if (entity != null) {
 			int entityId = getEntityId(entity);
 			return getMessageBeforeOrAt(type, entityId, lastIndex, timestamp);
@@ -1095,7 +1099,7 @@ public class LsfIndex {
 	protected LinkedHashMap<Integer, IndexCache> latestRetrievals = new LinkedHashMap<Integer, LsfIndex.IndexCache>();
 
 	class IndexCache implements Comparable<IndexCache> {
-		public int index;
+		public long index;
 		public Double timestamp;
 
 		@Override
@@ -1103,31 +1107,31 @@ public class LsfIndex {
 			return timestamp.compareTo(o.timestamp);
 		}
 
-		public IndexCache(int index, double time) {
+		public IndexCache(long index, double time) {
 			this.index = index;
 			this.timestamp = time;
 		}
 	}
 
-	public int getMsgIndexAt(String type, double timestamp) {
+	public long getMsgIndexAt(String type, double timestamp) {
 		if (timestamp < startTime || timestamp > endTime)
 			return -1;
 
 		int msgType = defs.getMessageId(type);
-		int finderPos = (int) (((timestamp - startTime) / (endTime - startTime)) * numMessages);
+		long finderPos = (int) (((timestamp - startTime) / (endTime - startTime)) * numMessages);
 
 		if (latestRetrievals.get(msgType) != null) {
 			if (Math.abs(latestRetrievals.get(msgType).timestamp - timestamp) <= 1)
 				finderPos = latestRetrievals.get(msgType).index;
 		}
 
-		for (int i = getPreviousMessageOfType(msgType, finderPos); i != -1
+		for (long i = getPreviousMessageOfType(msgType, finderPos); i != -1
 				&& timeOf(i) > timestamp; i = getPreviousMessageOfType(msgType,
 				i)) {
 			finderPos = i;
 		}
 
-		for (int i = getNextMessageOfType(msgType, finderPos); i != -1
+		for (long i = getNextMessageOfType(msgType, finderPos); i != -1
 				&& timeOf(i) < timestamp; i = getNextMessageOfType(msgType, i)) {
 			finderPos = i;
 		}
@@ -1140,11 +1144,11 @@ public class LsfIndex {
 
 	}
 
-	private int binarySearch(double targetTime, int startIndex, int endIndex) {
+	private long binarySearch(double targetTime, long startIndex, long endIndex) {
 		if (endIndex <= startIndex)
 			return startIndex;
 
-		int pivot = (endIndex - startIndex) / 2 + startIndex;
+		long pivot = (endIndex - startIndex) / 2 + startIndex;
 
 		if (timeOf(pivot) < targetTime)
 			return binarySearch(targetTime, pivot + 1, endIndex);
@@ -1154,13 +1158,13 @@ public class LsfIndex {
 			return pivot;
 	}
 
-	public int getFirstMessageAtOrAfter(double timestamp) {
+	public long getFirstMessageAtOrAfter(double timestamp) {
 		return binarySearch(timestamp, 0, getNumberOfMessages() - 1);
 	}
 
 	public IMCMessage getMessageAt(String type, double timestamp) {
 
-		int idx = getMsgIndexAt(type, timestamp);
+		long idx = getMsgIndexAt(type, timestamp);
 		if (idx == -1)
 			return null;
 
@@ -1169,7 +1173,7 @@ public class LsfIndex {
 
 	public <T extends IMCMessage> T nextMessageOfType(Class<T> type,
 			int startIndex) {
-		int i = getNextMessageOfType(type.getSimpleName(), startIndex);
+		long i = getNextMessageOfType(type.getSimpleName(), startIndex);
 		if (i == -1)
 			return null;
 		try {
@@ -1180,19 +1184,19 @@ public class LsfIndex {
 		}
 	}
 
-	public IMCMessage getMessageBeforeOrAt(String type, int lastIndex,
+	public IMCMessage getMessageBeforeOrAt(String type, long lastIndex,
 			double timestamp) {
 		return getMessageBeforeOrAt(type, 0xFF, lastIndex, timestamp);
 	}
 	
-	public IMCMessage getMessageAtOrAfter(String type, int startIndex,
+	public IMCMessage getMessageAtOrAfter(String type, long startIndex,
 			double timestamp) {
 		return getMessageAtOrAfter(type, startIndex, 0xFF, timestamp);
 	}
 
-	public IMCMessage getMessageAtOrAfter(String type, int startIndex,
+	public IMCMessage getMessageAtOrAfter(String type, long startIndex,
 			int entity, double timestamp) {
-		for (int i = getNextMessageOfType(type, startIndex); i != -1; i = getNextMessageOfType(
+		for (long i = getNextMessageOfType(type, startIndex); i != -1; i = getNextMessageOfType(
 				type, i)) {
 			if (entity != 255 && entityOf(i) != entity)
 				continue;
@@ -1203,9 +1207,9 @@ public class LsfIndex {
 		return null;
 	}
 	
-	public IMCMessage getMessageBeforeOrAt(String type, int entityId, int lastIndex, double timestamp) {
+	public IMCMessage getMessageBeforeOrAt(String type, int entityId, long lastIndex, double timestamp) {
 		int mgid = defs.getMessageId(type);
-		int idx = getMessageBeforeOrAt(mgid, entityId, lastIndex, timestamp);
+		long idx = getMessageBeforeOrAt(mgid, entityId, lastIndex, timestamp);
 		if (idx == -1)
 			return null;
 		else

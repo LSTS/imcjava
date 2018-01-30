@@ -68,7 +68,8 @@ public class BigByteBuffer {
     }
 
     public boolean position(long position) {
-        if (position >= fileLength)
+    	
+    	if (position >= fileLength)
             return false;
         if (position < startPos || position > endPos - bufferOverlap) {
             //new Exception("remapping "+position+" !in ["+startPos+", "+(endPos - bufferOverlap)+"]").printStackTrace();
@@ -78,6 +79,36 @@ public class BigByteBuffer {
             buffer.position((int)(position-startPos));
             return true;
         }        
+    }
+    
+    public byte get(long position) {
+    	position(position);
+    	return buffer.get();
+    }
+    
+    public int getInt(long position) {
+    	position(position);
+    	return buffer.getInt();
+    }
+    
+    public double getDouble(long position) {
+    	position(position);
+    	return buffer.getDouble();
+    }
+    
+    public float getFloat(long position) {
+    	position(position);
+    	return buffer.getFloat();
+    }
+    
+    public short getShort(long position) {
+    	position(position);
+    	return buffer.getShort();
+    }
+    
+    public long getLong(long position) {
+    	position(position);
+    	return buffer.getLong();
     }
     
     public long position() {

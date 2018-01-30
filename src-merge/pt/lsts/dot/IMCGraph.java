@@ -69,7 +69,7 @@ public class IMCGraph {
 
         int type = index.getDefinitions().getMessageId("EntityInfo");
 
-        for (int i = index.getFirstMessageOfType("EntityInfo"); i != -1; i = index.getNextMessageOfType(type, i)) {
+        for (long i = index.getFirstMessageOfType("EntityInfo"); i != -1; i = index.getNextMessageOfType(type, i)) {
             IMCMessage msg = index.getMessage(i);
             entitiesToTasks.put(msg.getInteger("id"), msg.getString("component"));
         }
@@ -82,7 +82,7 @@ public class IMCGraph {
 
         int type = index.getDefinitions().getMessageId("EntityInfo");
 
-        for (int i = index.getFirstMessageOfType("EntityInfo"); i != -1; i = index.getNextMessageOfType(type, i)) {
+        for (long i = index.getFirstMessageOfType("EntityInfo"); i != -1; i = index.getNextMessageOfType(type, i)) {
             IMCMessage msg = index.getMessage(i);
             entitiesToTasks.put(msg.getString("component"), msg.getInteger("id"));
         }
@@ -97,7 +97,7 @@ public class IMCGraph {
         if (index.getFirstMessageOfType("TransportBindings") == -1) {
             return null;
         }
-        for (int i = index.getFirstMessageOfType(type); i != -1; i = index.getNextMessageOfType(type, i)) {
+        for (long i = index.getFirstMessageOfType(type); i != -1; i = index.getNextMessageOfType(type, i)) {
             IMCMessage msg = index.getMessage(i);
             int msg_id = msg.getInteger("message_id");
             String consumer = msg.getString("consumer");
@@ -181,7 +181,7 @@ public class IMCGraph {
         
         int tbindings = index.getDefinitions().getMessageId("TransportBindings");
         
-        for (int i = index.getFirstMessageOfType(tbindings); i != -1; i = index.getNextMessageOfType(tbindings, i)) {
+        for (long i = index.getFirstMessageOfType(tbindings); i != -1; i = index.getNextMessageOfType(tbindings, i)) {
             
             my_id = index.sourceOf(i);
             
@@ -287,7 +287,7 @@ public class IMCGraph {
         //generate entitiesToTasks
         int type = index.getDefinitions().getMessageId("EntityInfo");
 
-        for (int i = index.getFirstMessageOfType("EntityInfo"); i != -1; i = index.getNextMessageOfType(type, i)) {
+        for (long i = index.getFirstMessageOfType("EntityInfo"); i != -1; i = index.getNextMessageOfType(type, i)) {
             IMCMessage msg = index.getMessage(i);
             if (msg.getString("component").contains("Core")) {
                 entitiesToTasks.put(msg.getInteger("id"), index.sourceNameOf(i));
@@ -297,7 +297,7 @@ public class IMCGraph {
             mainVehicle = msg.getSrc();
         }
 
-        for (int i = index.getFirstMessageOfType("Announce"); i != -1; i = index.getNextMessageOfType("Announce", i)) {
+        for (long i = index.getFirstMessageOfType("Announce"); i != -1; i = index.getNextMessageOfType("Announce", i)) {
             IMCMessage msg = index.getMessage(i);
             index.getDefinitions().getResolver().addEntry(msg.getSrc(), msg.getString("sys_name"));
         }
@@ -307,7 +307,7 @@ public class IMCGraph {
         if (index.getFirstMessageOfType("TransportBindings") == -1) {
             throw new Exception("There are no TransportBindings messages.");
         }
-        for (int i = index.getFirstMessageOfType(type); i != -1; i = index.getNextMessageOfType(type, i)) {
+        for (long i = index.getFirstMessageOfType(type); i != -1; i = index.getNextMessageOfType(type, i)) {
             IMCMessage msg = index.getMessage(i);
             int msg_id = msg.getInteger("message_id");
             String consumer = msg.getString("consumer");
