@@ -40,7 +40,9 @@ public class AlignmentState extends IMCMessage {
 	public enum STATE {
 		NOT_ALIGNED(0),
 		ALIGNED(1),
-		NOT_SUPPORTED(2);
+		NOT_SUPPORTED(2),
+		ALIGNING(3),
+		WRONG_MEDIUM(4);
 
 		protected long value;
 

@@ -39,7 +39,8 @@ public class Brake extends IMCMessage {
 
 	public enum OP {
 		STOP(0),
-		START(1);
+		START(1),
+		REVERT(2);
 
 		protected long value;
 

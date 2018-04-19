@@ -39,6 +39,8 @@ public class FollowRefState extends IMCMessage {
 	public static final short PROX_FAR = 0x01;
 	public static final short PROX_XY_NEAR = 0x02;
 	public static final short PROX_Z_NEAR = 0x04;
+	public static final short PROX_XY_UNREACHABLE = 0x08;
+	public static final short PROX_Z_UNREACHABLE = 0x10;
 
 	public enum STATE {
 		WAIT(1),

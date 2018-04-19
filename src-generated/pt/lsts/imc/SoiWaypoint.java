@@ -31,37 +31,18 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Iridium Transmission Status (172)<br/>
+ *  IMC Message SOI Waypoint (850)<br/>
  */
 
-public class IridiumTxStatus extends IMCMessage {
+public class SoiWaypoint extends IMCMessage {
 
-	public enum STATUS {
-		OK(1),
-		ERROR(2),
-		QUEUED(3),
-		TRANSMIT(4),
-		EXPIRED(5),
-		EMPTY(6);
+	public static final int ID_STATIC = 850;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		STATUS(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 172;
-
-	public IridiumTxStatus() {
+	public SoiWaypoint() {
 		super(ID_STATIC);
 	}
 
-	public IridiumTxStatus(IMCMessage msg) {
+	public SoiWaypoint(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -71,20 +52,20 @@ public class IridiumTxStatus extends IMCMessage {
 		}
 	}
 
-	public IridiumTxStatus(IMCDefinition defs) {
+	public SoiWaypoint(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static IridiumTxStatus create(Object... values) {
-		IridiumTxStatus m = new IridiumTxStatus();
+	public static SoiWaypoint create(Object... values) {
+		SoiWaypoint m = new SoiWaypoint();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static IridiumTxStatus clone(IMCMessage msg) throws Exception {
+	public static SoiWaypoint clone(IMCMessage msg) throws Exception {
 
-		IridiumTxStatus m = new IridiumTxStatus();
+		SoiWaypoint m = new SoiWaypoint();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -99,86 +80,71 @@ public class IridiumTxStatus extends IMCMessage {
 		return m;
 	}
 
-	public IridiumTxStatus(int req_id, STATUS status, String text) {
+	public SoiWaypoint(float lat, float lon, long eta, int duration) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setStatus(status);
-		if (text != null)
-			setText(text);
+		setLat(lat);
+		setLon(lon);
+		setEta(eta);
+		setDuration(duration);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  @return Latitude (°) - fp32_t
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
+	public double getLat() {
+		return getDouble("lat");
 	}
 
 	/**
-	 *  @param req_id Request Identifier
+	 *  @param lat Latitude (°)
 	 */
-	public IridiumTxStatus setReqId(int req_id) {
-		values.put("req_id", req_id);
+	public SoiWaypoint setLat(double lat) {
+		values.put("lat", lat);
 		return this;
 	}
 
 	/**
-	 *  @return Status Code (enumerated) - uint8_t
+	 *  @return Longitude (°) - fp32_t
 	 */
-	public STATUS getStatus() {
-		try {
-			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getStatusStr() {
-		return getString("status");
-	}
-
-	public short getStatusVal() {
-		return (short) getInteger("status");
+	public double getLon() {
+		return getDouble("lon");
 	}
 
 	/**
-	 *  @param status Status Code (enumerated)
+	 *  @param lon Longitude (°)
 	 */
-	public IridiumTxStatus setStatus(STATUS status) {
-		values.put("status", status.value());
+	public SoiWaypoint setLon(double lon) {
+		values.put("lon", lon);
 		return this;
 	}
 
 	/**
-	 *  @param status Status Code (as a String)
+	 *  @return Time Of Arrival - uint32_t
 	 */
-	public IridiumTxStatus setStatusStr(String status) {
-		setValue("status", status);
+	public long getEta() {
+		return getLong("eta");
+	}
+
+	/**
+	 *  @param eta Time Of Arrival
+	 */
+	public SoiWaypoint setEta(long eta) {
+		values.put("eta", eta);
 		return this;
 	}
 
 	/**
-	 *  @param status Status Code (integer value)
+	 *  @return Duration (s) - uint16_t
 	 */
-	public IridiumTxStatus setStatusVal(short status) {
-		setValue("status", status);
-		return this;
+	public int getDuration() {
+		return getInteger("duration");
 	}
 
 	/**
-	 *  @return Status Text - plaintext
+	 *  @param duration Duration (s)
 	 */
-	public String getText() {
-		return getString("text");
-	}
-
-	/**
-	 *  @param text Status Text
-	 */
-	public IridiumTxStatus setText(String text) {
-		values.put("text", text);
+	public SoiWaypoint setDuration(int duration) {
+		values.put("duration", duration);
 		return this;
 	}
 

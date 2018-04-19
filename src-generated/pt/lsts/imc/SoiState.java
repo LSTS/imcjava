@@ -31,18 +31,15 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Iridium Transmission Status (172)<br/>
+ *  IMC Message SOI State (853)<br/>
  */
 
-public class IridiumTxStatus extends IMCMessage {
+public class SoiState extends IMCMessage {
 
-	public enum STATUS {
-		OK(1),
-		ERROR(2),
-		QUEUED(3),
-		TRANSMIT(4),
-		EXPIRED(5),
-		EMPTY(6);
+	public enum STATE {
+		EXEC(1),
+		IDLE(2),
+		INACTIVE(3);
 
 		protected long value;
 
@@ -50,18 +47,18 @@ public class IridiumTxStatus extends IMCMessage {
 			return value;
 		}
 
-		STATUS(long value) {
+		STATE(long value) {
 			this.value = value;
 		}
 	}
 
-	public static final int ID_STATIC = 172;
+	public static final int ID_STATIC = 853;
 
-	public IridiumTxStatus() {
+	public SoiState() {
 		super(ID_STATIC);
 	}
 
-	public IridiumTxStatus(IMCMessage msg) {
+	public SoiState(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -71,20 +68,20 @@ public class IridiumTxStatus extends IMCMessage {
 		}
 	}
 
-	public IridiumTxStatus(IMCDefinition defs) {
+	public SoiState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static IridiumTxStatus create(Object... values) {
-		IridiumTxStatus m = new IridiumTxStatus();
+	public static SoiState create(Object... values) {
+		SoiState m = new SoiState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static IridiumTxStatus clone(IMCMessage msg) throws Exception {
+	public static SoiState clone(IMCMessage msg) throws Exception {
 
-		IridiumTxStatus m = new IridiumTxStatus();
+		SoiState m = new SoiState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -99,35 +96,20 @@ public class IridiumTxStatus extends IMCMessage {
 		return m;
 	}
 
-	public IridiumTxStatus(int req_id, STATUS status, String text) {
+	public SoiState(STATE state, int plan_id, short wpt_id, int settings_chk) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setStatus(status);
-		if (text != null)
-			setText(text);
+		setState(state);
+		setPlanId(plan_id);
+		setWptId(wpt_id);
+		setSettingsChk(settings_chk);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  @return State (enumerated) - uint8_t
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
-	}
-
-	/**
-	 *  @param req_id Request Identifier
-	 */
-	public IridiumTxStatus setReqId(int req_id) {
-		values.put("req_id", req_id);
-		return this;
-	}
-
-	/**
-	 *  @return Status Code (enumerated) - uint8_t
-	 */
-	public STATUS getStatus() {
+	public STATE getState() {
 		try {
-			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
+			STATE o = STATE.valueOf(getMessageType().getFieldPossibleValues("state").get(getLong("state")));
 			return o;
 		}
 		catch (Exception e) {
@@ -135,50 +117,80 @@ public class IridiumTxStatus extends IMCMessage {
 		}
 	}
 
-	public String getStatusStr() {
-		return getString("status");
+	public String getStateStr() {
+		return getString("state");
 	}
 
-	public short getStatusVal() {
-		return (short) getInteger("status");
+	public short getStateVal() {
+		return (short) getInteger("state");
 	}
 
 	/**
-	 *  @param status Status Code (enumerated)
+	 *  @param state State (enumerated)
 	 */
-	public IridiumTxStatus setStatus(STATUS status) {
-		values.put("status", status.value());
+	public SoiState setState(STATE state) {
+		values.put("state", state.value());
 		return this;
 	}
 
 	/**
-	 *  @param status Status Code (as a String)
+	 *  @param state State (as a String)
 	 */
-	public IridiumTxStatus setStatusStr(String status) {
-		setValue("status", status);
+	public SoiState setStateStr(String state) {
+		setValue("state", state);
 		return this;
 	}
 
 	/**
-	 *  @param status Status Code (integer value)
+	 *  @param state State (integer value)
 	 */
-	public IridiumTxStatus setStatusVal(short status) {
-		setValue("status", status);
+	public SoiState setStateVal(short state) {
+		setValue("state", state);
 		return this;
 	}
 
 	/**
-	 *  @return Status Text - plaintext
+	 *  @return Plan Identifier - uint16_t
 	 */
-	public String getText() {
-		return getString("text");
+	public int getPlanId() {
+		return getInteger("plan_id");
 	}
 
 	/**
-	 *  @param text Status Text
+	 *  @param plan_id Plan Identifier
 	 */
-	public IridiumTxStatus setText(String text) {
-		values.put("text", text);
+	public SoiState setPlanId(int plan_id) {
+		values.put("plan_id", plan_id);
+		return this;
+	}
+
+	/**
+	 *  @return Waypoint Identifier - uint8_t
+	 */
+	public short getWptId() {
+		return (short) getInteger("wpt_id");
+	}
+
+	/**
+	 *  @param wpt_id Waypoint Identifier
+	 */
+	public SoiState setWptId(short wpt_id) {
+		values.put("wpt_id", wpt_id);
+		return this;
+	}
+
+	/**
+	 *  @return Settings Checksum - uint16_t
+	 */
+	public int getSettingsChk() {
+		return getInteger("settings_chk");
+	}
+
+	/**
+	 *  @param settings_chk Settings Checksum
+	 */
+	public SoiState setSettingsChk(int settings_chk) {
+		values.put("settings_chk", settings_chk);
 		return this;
 	}
 

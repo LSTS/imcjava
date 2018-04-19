@@ -31,37 +31,18 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Iridium Transmission Status (172)<br/>
+ *  IMC Message SOI Plan (851)<br/>
  */
 
-public class IridiumTxStatus extends IMCMessage {
+public class SoiPlan extends IMCMessage {
 
-	public enum STATUS {
-		OK(1),
-		ERROR(2),
-		QUEUED(3),
-		TRANSMIT(4),
-		EXPIRED(5),
-		EMPTY(6);
+	public static final int ID_STATIC = 851;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		STATUS(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 172;
-
-	public IridiumTxStatus() {
+	public SoiPlan() {
 		super(ID_STATIC);
 	}
 
-	public IridiumTxStatus(IMCMessage msg) {
+	public SoiPlan(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -71,20 +52,20 @@ public class IridiumTxStatus extends IMCMessage {
 		}
 	}
 
-	public IridiumTxStatus(IMCDefinition defs) {
+	public SoiPlan(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static IridiumTxStatus create(Object... values) {
-		IridiumTxStatus m = new IridiumTxStatus();
+	public static SoiPlan create(Object... values) {
+		SoiPlan m = new SoiPlan();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static IridiumTxStatus clone(IMCMessage msg) throws Exception {
+	public static SoiPlan clone(IMCMessage msg) throws Exception {
 
-		IridiumTxStatus m = new IridiumTxStatus();
+		SoiPlan m = new SoiPlan();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -99,86 +80,46 @@ public class IridiumTxStatus extends IMCMessage {
 		return m;
 	}
 
-	public IridiumTxStatus(int req_id, STATUS status, String text) {
+	public SoiPlan(int plan_id, java.util.Collection<SoiWaypoint> waypoints) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setStatus(status);
-		if (text != null)
-			setText(text);
+		setPlanId(plan_id);
+		if (waypoints != null)
+			setWaypoints(waypoints);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  @return Plan Identifier - uint16_t
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
+	public int getPlanId() {
+		return getInteger("plan_id");
 	}
 
 	/**
-	 *  @param req_id Request Identifier
+	 *  @param plan_id Plan Identifier
 	 */
-	public IridiumTxStatus setReqId(int req_id) {
-		values.put("req_id", req_id);
+	public SoiPlan setPlanId(int plan_id) {
+		values.put("plan_id", plan_id);
 		return this;
 	}
 
 	/**
-	 *  @return Status Code (enumerated) - uint8_t
+	 *  @return Waypoints - message-list
 	 */
-	public STATUS getStatus() {
+	public java.util.Vector<SoiWaypoint> getWaypoints() {
 		try {
-			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
-			return o;
+			return getMessageList("waypoints", SoiWaypoint.class);
 		}
 		catch (Exception e) {
 			return null;
 		}
-	}
 
-	public String getStatusStr() {
-		return getString("status");
-	}
-
-	public short getStatusVal() {
-		return (short) getInteger("status");
 	}
 
 	/**
-	 *  @param status Status Code (enumerated)
+	 *  @param waypoints Waypoints
 	 */
-	public IridiumTxStatus setStatus(STATUS status) {
-		values.put("status", status.value());
-		return this;
-	}
-
-	/**
-	 *  @param status Status Code (as a String)
-	 */
-	public IridiumTxStatus setStatusStr(String status) {
-		setValue("status", status);
-		return this;
-	}
-
-	/**
-	 *  @param status Status Code (integer value)
-	 */
-	public IridiumTxStatus setStatusVal(short status) {
-		setValue("status", status);
-		return this;
-	}
-
-	/**
-	 *  @return Status Text - plaintext
-	 */
-	public String getText() {
-		return getString("text");
-	}
-
-	/**
-	 *  @param text Status Text
-	 */
-	public IridiumTxStatus setText(String text) {
-		values.put("text", text);
+	public SoiPlan setWaypoints(java.util.Collection<SoiWaypoint> waypoints) {
+		values.put("waypoints", waypoints);
 		return this;
 	}
 

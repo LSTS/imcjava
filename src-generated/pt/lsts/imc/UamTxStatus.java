@@ -42,7 +42,9 @@ public class UamTxStatus extends IMCMessage {
 		CANCELED(2),
 		BUSY(3),
 		INV_ADDR(4),
-		IP(5);
+		IP(5),
+		UNSUPPORTED(6),
+		INV_SIZE(7);
 
 		protected long value;
 

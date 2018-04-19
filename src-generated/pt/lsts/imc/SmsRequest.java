@@ -31,37 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Iridium Transmission Status (172)<br/>
+ *  IMC Message SMS Transmission Request (517)<br/>
+ *  Request SMS Text sending.<br/>
  */
 
-public class IridiumTxStatus extends IMCMessage {
+public class SmsRequest extends IMCMessage {
 
-	public enum STATUS {
-		OK(1),
-		ERROR(2),
-		QUEUED(3),
-		TRANSMIT(4),
-		EXPIRED(5),
-		EMPTY(6);
+	public static final int ID_STATIC = 517;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		STATUS(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 172;
-
-	public IridiumTxStatus() {
+	public SmsRequest() {
 		super(ID_STATIC);
 	}
 
-	public IridiumTxStatus(IMCMessage msg) {
+	public SmsRequest(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -71,20 +53,20 @@ public class IridiumTxStatus extends IMCMessage {
 		}
 	}
 
-	public IridiumTxStatus(IMCDefinition defs) {
+	public SmsRequest(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static IridiumTxStatus create(Object... values) {
-		IridiumTxStatus m = new IridiumTxStatus();
+	public static SmsRequest create(Object... values) {
+		SmsRequest m = new SmsRequest();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static IridiumTxStatus clone(IMCMessage msg) throws Exception {
+	public static SmsRequest clone(IMCMessage msg) throws Exception {
 
-		IridiumTxStatus m = new IridiumTxStatus();
+		SmsRequest m = new SmsRequest();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -99,12 +81,14 @@ public class IridiumTxStatus extends IMCMessage {
 		return m;
 	}
 
-	public IridiumTxStatus(int req_id, STATUS status, String text) {
+	public SmsRequest(int req_id, String destination, double timeout, String sms_text) {
 		super(ID_STATIC);
 		setReqId(req_id);
-		setStatus(status);
-		if (text != null)
-			setText(text);
+		if (destination != null)
+			setDestination(destination);
+		setTimeout(timeout);
+		if (sms_text != null)
+			setSmsText(sms_text);
 	}
 
 	/**
@@ -117,68 +101,53 @@ public class IridiumTxStatus extends IMCMessage {
 	/**
 	 *  @param req_id Request Identifier
 	 */
-	public IridiumTxStatus setReqId(int req_id) {
+	public SmsRequest setReqId(int req_id) {
 		values.put("req_id", req_id);
 		return this;
 	}
 
 	/**
-	 *  @return Status Code (enumerated) - uint8_t
+	 *  @return Destination - plaintext
 	 */
-	public STATUS getStatus() {
-		try {
-			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getStatusStr() {
-		return getString("status");
-	}
-
-	public short getStatusVal() {
-		return (short) getInteger("status");
+	public String getDestination() {
+		return getString("destination");
 	}
 
 	/**
-	 *  @param status Status Code (enumerated)
+	 *  @param destination Destination
 	 */
-	public IridiumTxStatus setStatus(STATUS status) {
-		values.put("status", status.value());
+	public SmsRequest setDestination(String destination) {
+		values.put("destination", destination);
 		return this;
 	}
 
 	/**
-	 *  @param status Status Code (as a String)
+	 *  @return Timeout (s) - fp64_t
 	 */
-	public IridiumTxStatus setStatusStr(String status) {
-		setValue("status", status);
+	public double getTimeout() {
+		return getDouble("timeout");
+	}
+
+	/**
+	 *  @param timeout Timeout (s)
+	 */
+	public SmsRequest setTimeout(double timeout) {
+		values.put("timeout", timeout);
 		return this;
 	}
 
 	/**
-	 *  @param status Status Code (integer value)
+	 *  @return SMS Text - plaintext
 	 */
-	public IridiumTxStatus setStatusVal(short status) {
-		setValue("status", status);
-		return this;
+	public String getSmsText() {
+		return getString("sms_text");
 	}
 
 	/**
-	 *  @return Status Text - plaintext
+	 *  @param sms_text SMS Text
 	 */
-	public String getText() {
-		return getString("text");
-	}
-
-	/**
-	 *  @param text Status Text
-	 */
-	public IridiumTxStatus setText(String text) {
-		values.put("text", text);
+	public SmsRequest setSmsText(String sms_text) {
+		values.put("sms_text", sms_text);
 		return this;
 	}
 

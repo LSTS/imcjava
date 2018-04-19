@@ -29,27 +29,24 @@
  */
 package pt.lsts.imc;
 
-import pt.lsts.imc.def.ZUnits;
 import pt.lsts.imc.def.SpeedUnits;
 
 /**
- *  IMC Message Station Keeping (461)<br/>
- *  The Station Keeping maneuver makes the vehicle come to the surface<br/>
- *  and then enter a given circular perimeter around a waypoint coordinate<br/>
- *  for a certain amount of time.<br/>
+ *  IMC Message Alignment Maneuver (495)<br/>
+ *  An "Alignment" is a maneuver specifying a movement of the vehicle to a<br/>
+ *  target waypoint intended to control activation of an IMU/INS in order<br/>
+ *  to start aligning navigation for more precise dead reckoning operation.<br/>
  */
 
-public class StationKeeping extends Maneuver {
+public class Alignment extends Maneuver {
 
-	public static final short FLG_KEEP_SAFE = 0x01;
+	public static final int ID_STATIC = 495;
 
-	public static final int ID_STATIC = 461;
-
-	public StationKeeping() {
+	public Alignment() {
 		super(ID_STATIC);
 	}
 
-	public StationKeeping(IMCMessage msg) {
+	public Alignment(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -59,20 +56,20 @@ public class StationKeeping extends Maneuver {
 		}
 	}
 
-	public StationKeeping(IMCDefinition defs) {
+	public Alignment(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static StationKeeping create(Object... values) {
-		StationKeeping m = new StationKeeping();
+	public static Alignment create(Object... values) {
+		Alignment m = new Alignment();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static StationKeeping clone(IMCMessage msg) throws Exception {
+	public static Alignment clone(IMCMessage msg) throws Exception {
 
-		StationKeeping m = new StationKeeping();
+		Alignment m = new Alignment();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -87,21 +84,30 @@ public class StationKeeping extends Maneuver {
 		return m;
 	}
 
-	public StationKeeping(double lat, double lon, float z, ZUnits z_units, float radius, int duration, float speed, SpeedUnits speed_units, int popup_period, int popup_duration, short flags, String custom) {
+	public Alignment(int timeout, double lat, double lon, float speed, SpeedUnits speed_units, String custom) {
 		super(ID_STATIC);
+		setTimeout(timeout);
 		setLat(lat);
 		setLon(lon);
-		setZ(z);
-		setZUnits(z_units);
-		setRadius(radius);
-		setDuration(duration);
 		setSpeed(speed);
 		setSpeedUnits(speed_units);
-		setPopupPeriod(popup_period);
-		setPopupDuration(popup_duration);
-		setFlags(flags);
 		if (custom != null)
 			setCustom(custom);
+	}
+
+	/**
+	 *  @return Timeout (s) - uint16_t
+	 */
+	public int getTimeout() {
+		return getInteger("timeout");
+	}
+
+	/**
+	 *  @param timeout Timeout (s)
+	 */
+	public Alignment setTimeout(int timeout) {
+		values.put("timeout", timeout);
+		return this;
 	}
 
 	/**
@@ -114,7 +120,7 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param lat Latitude WGS-84 (rad)
 	 */
-	public StationKeeping setLat(double lat) {
+	public Alignment setLat(double lat) {
 		values.put("lat", lat);
 		return this;
 	}
@@ -129,98 +135,8 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param lon Longitude WGS-84 (rad)
 	 */
-	public StationKeeping setLon(double lon) {
+	public Alignment setLon(double lon) {
 		values.put("lon", lon);
-		return this;
-	}
-
-	/**
-	 *  @return Z Reference (m) - fp32_t
-	 */
-	public double getZ() {
-		return getDouble("z");
-	}
-
-	/**
-	 *  @param z Z Reference (m)
-	 */
-	public StationKeeping setZ(double z) {
-		values.put("z", z);
-		return this;
-	}
-
-	/**
-	 *  @return Z Units (enumerated) - uint8_t
-	 */
-	public ZUnits getZUnits() {
-		try {
-			ZUnits o = ZUnits.valueOf(getMessageType().getFieldPossibleValues("z_units").get(getLong("z_units")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getZUnitsStr() {
-		return getString("z_units");
-	}
-
-	public short getZUnitsVal() {
-		return (short) getInteger("z_units");
-	}
-
-	/**
-	 *  @param z_units Z Units (enumerated)
-	 */
-	public StationKeeping setZUnits(ZUnits z_units) {
-		values.put("z_units", z_units.value());
-		return this;
-	}
-
-	/**
-	 *  @param z_units Z Units (as a String)
-	 */
-	public StationKeeping setZUnitsStr(String z_units) {
-		setValue("z_units", z_units);
-		return this;
-	}
-
-	/**
-	 *  @param z_units Z Units (integer value)
-	 */
-	public StationKeeping setZUnitsVal(short z_units) {
-		setValue("z_units", z_units);
-		return this;
-	}
-
-	/**
-	 *  @return Radius (m) - fp32_t
-	 */
-	public double getRadius() {
-		return getDouble("radius");
-	}
-
-	/**
-	 *  @param radius Radius (m)
-	 */
-	public StationKeeping setRadius(double radius) {
-		values.put("radius", radius);
-		return this;
-	}
-
-	/**
-	 *  @return Duration (s) - uint16_t
-	 */
-	public int getDuration() {
-		return getInteger("duration");
-	}
-
-	/**
-	 *  @param duration Duration (s)
-	 */
-	public StationKeeping setDuration(int duration) {
-		values.put("duration", duration);
 		return this;
 	}
 
@@ -234,7 +150,7 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param speed Speed
 	 */
-	public StationKeeping setSpeed(double speed) {
+	public Alignment setSpeed(double speed) {
 		values.put("speed", speed);
 		return this;
 	}
@@ -263,7 +179,7 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (enumerated)
 	 */
-	public StationKeeping setSpeedUnits(SpeedUnits speed_units) {
+	public Alignment setSpeedUnits(SpeedUnits speed_units) {
 		values.put("speed_units", speed_units.value());
 		return this;
 	}
@@ -271,7 +187,7 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (as a String)
 	 */
-	public StationKeeping setSpeedUnitsStr(String speed_units) {
+	public Alignment setSpeedUnitsStr(String speed_units) {
 		setValue("speed_units", speed_units);
 		return this;
 	}
@@ -279,53 +195,8 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param speed_units Speed Units (integer value)
 	 */
-	public StationKeeping setSpeedUnitsVal(short speed_units) {
+	public Alignment setSpeedUnitsVal(short speed_units) {
 		setValue("speed_units", speed_units);
-		return this;
-	}
-
-	/**
-	 *  @return PopUp Period (s) - uint16_t
-	 */
-	public int getPopupPeriod() {
-		return getInteger("popup_period");
-	}
-
-	/**
-	 *  @param popup_period PopUp Period (s)
-	 */
-	public StationKeeping setPopupPeriod(int popup_period) {
-		values.put("popup_period", popup_period);
-		return this;
-	}
-
-	/**
-	 *  @return PopUp Duration (s) - uint16_t
-	 */
-	public int getPopupDuration() {
-		return getInteger("popup_duration");
-	}
-
-	/**
-	 *  @param popup_duration PopUp Duration (s)
-	 */
-	public StationKeeping setPopupDuration(int popup_duration) {
-		values.put("popup_duration", popup_duration);
-		return this;
-	}
-
-	/**
-	 *  @return Flags (bitfield) - uint8_t
-	 */
-	public short getFlags() {
-		return (short) getInteger("flags");
-	}
-
-	/**
-	 *  @param flags Flags (bitfield)
-	 */
-	public StationKeeping setFlags(short flags) {
-		values.put("flags", flags);
 		return this;
 	}
 
@@ -339,13 +210,13 @@ public class StationKeeping extends Maneuver {
 	/**
 	 *  @param custom Custom settings for maneuver (tuplelist)
 	 */
-	public StationKeeping setCustom(java.util.LinkedHashMap<String, ?> custom) {
+	public Alignment setCustom(java.util.LinkedHashMap<String, ?> custom) {
 		String val = encodeTupleList(custom);
 		values.put("custom", val);
 		return this;
 	}
 
-	public StationKeeping setCustom(String custom) {
+	public Alignment setCustom(String custom) {
 		values.put("custom", custom);
 		return this;
 	}

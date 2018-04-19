@@ -108,6 +108,10 @@ public class MessageFactory {
 				return new HistoricSonarData(defs);
 			case HistoricEvent.ID_STATIC:
 				return new HistoricEvent(defs);
+			case VerticalProfile.ID_STATIC:
+				return new VerticalProfile(defs);
+			case ProfileSample.ID_STATIC:
+				return new ProfileSample(defs);
 			case Heartbeat.ID_STATIC:
 				return new Heartbeat(defs);
 			case Announce.ID_STATIC:
@@ -452,6 +456,8 @@ public class MessageFactory {
 				return new AutonomousSection(defs);
 			case FollowPoint.ID_STATIC:
 				return new FollowPoint(defs);
+			case Alignment.ID_STATIC:
+				return new Alignment(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
@@ -486,6 +492,10 @@ public class MessageFactory {
 				return new TransmissionRequest(defs);
 			case TransmissionStatus.ID_STATIC:
 				return new TransmissionStatus(defs);
+			case SmsRequest.ID_STATIC:
+				return new SmsRequest(defs);
+			case SmsStatus.ID_STATIC:
+				return new SmsStatus(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
@@ -594,6 +604,14 @@ public class MessageFactory {
 				return new FormationControlParams(defs);
 			case FormationEvaluation.ID_STATIC:
 				return new FormationEvaluation(defs);
+			case SoiWaypoint.ID_STATIC:
+				return new SoiWaypoint(defs);
+			case SoiPlan.ID_STATIC:
+				return new SoiPlan(defs);
+			case SoiCommand.ID_STATIC:
+				return new SoiCommand(defs);
+			case SoiState.ID_STATIC:
+				return new SoiState(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
 			case NeptusBlob.ID_STATIC:

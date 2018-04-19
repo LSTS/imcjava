@@ -31,37 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Iridium Transmission Status (172)<br/>
+ *  IMC Message Profile Sample (112)<br/>
+ *  Samples to calculate a vertical profile.<br/>
  */
 
-public class IridiumTxStatus extends IMCMessage {
+public class ProfileSample extends IMCMessage {
 
-	public enum STATUS {
-		OK(1),
-		ERROR(2),
-		QUEUED(3),
-		TRANSMIT(4),
-		EXPIRED(5),
-		EMPTY(6);
+	public static final int ID_STATIC = 112;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		STATUS(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 172;
-
-	public IridiumTxStatus() {
+	public ProfileSample() {
 		super(ID_STATIC);
 	}
 
-	public IridiumTxStatus(IMCMessage msg) {
+	public ProfileSample(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -71,20 +53,20 @@ public class IridiumTxStatus extends IMCMessage {
 		}
 	}
 
-	public IridiumTxStatus(IMCDefinition defs) {
+	public ProfileSample(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static IridiumTxStatus create(Object... values) {
-		IridiumTxStatus m = new IridiumTxStatus();
+	public static ProfileSample create(Object... values) {
+		ProfileSample m = new ProfileSample();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static IridiumTxStatus clone(IMCMessage msg) throws Exception {
+	public static ProfileSample clone(IMCMessage msg) throws Exception {
 
-		IridiumTxStatus m = new IridiumTxStatus();
+		ProfileSample m = new ProfileSample();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -99,86 +81,39 @@ public class IridiumTxStatus extends IMCMessage {
 		return m;
 	}
 
-	public IridiumTxStatus(int req_id, STATUS status, String text) {
+	public ProfileSample(int depth, float avg) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setStatus(status);
-		if (text != null)
-			setText(text);
+		setDepth(depth);
+		setAvg(avg);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  @return Depth (dm) - uint16_t
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
+	public int getDepth() {
+		return getInteger("depth");
 	}
 
 	/**
-	 *  @param req_id Request Identifier
+	 *  @param depth Depth (dm)
 	 */
-	public IridiumTxStatus setReqId(int req_id) {
-		values.put("req_id", req_id);
+	public ProfileSample setDepth(int depth) {
+		values.put("depth", depth);
 		return this;
 	}
 
 	/**
-	 *  @return Status Code (enumerated) - uint8_t
+	 *  @return Average - fp32_t
 	 */
-	public STATUS getStatus() {
-		try {
-			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getStatusStr() {
-		return getString("status");
-	}
-
-	public short getStatusVal() {
-		return (short) getInteger("status");
+	public double getAvg() {
+		return getDouble("avg");
 	}
 
 	/**
-	 *  @param status Status Code (enumerated)
+	 *  @param avg Average
 	 */
-	public IridiumTxStatus setStatus(STATUS status) {
-		values.put("status", status.value());
-		return this;
-	}
-
-	/**
-	 *  @param status Status Code (as a String)
-	 */
-	public IridiumTxStatus setStatusStr(String status) {
-		setValue("status", status);
-		return this;
-	}
-
-	/**
-	 *  @param status Status Code (integer value)
-	 */
-	public IridiumTxStatus setStatusVal(short status) {
-		setValue("status", status);
-		return this;
-	}
-
-	/**
-	 *  @return Status Text - plaintext
-	 */
-	public String getText() {
-		return getString("text");
-	}
-
-	/**
-	 *  @param text Status Text
-	 */
-	public IridiumTxStatus setText(String text) {
-		values.put("text", text);
+	public ProfileSample setAvg(double avg) {
+		values.put("avg", avg);
 		return this;
 	}
 
