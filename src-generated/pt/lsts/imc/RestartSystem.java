@@ -37,6 +37,21 @@ package pt.lsts.imc;
 
 public class RestartSystem extends IMCMessage {
 
+	public enum TYPE {
+		DUNE(1),
+		SYSTEM(2);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		TYPE(long value) {
+			this.value = value;
+		}
+	}
+
 	public static final int ID_STATIC = 9;
 
 	public RestartSystem() {
@@ -79,6 +94,56 @@ public class RestartSystem extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public RestartSystem(TYPE type) {
+		super(ID_STATIC);
+		setType(type);
+	}
+
+	/**
+	 *  @return Restart Type (enumerated) - uint8_t
+	 */
+	public TYPE getType() {
+		try {
+			TYPE o = TYPE.valueOf(getMessageType().getFieldPossibleValues("type").get(getLong("type")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
+	/**
+	 *  @param type Restart Type (enumerated)
+	 */
+	public RestartSystem setType(TYPE type) {
+		values.put("type", type.value());
+		return this;
+	}
+
+	/**
+	 *  @param type Restart Type (as a String)
+	 */
+	public RestartSystem setTypeStr(String type) {
+		setValue("type", type);
+		return this;
+	}
+
+	/**
+	 *  @param type Restart Type (integer value)
+	 */
+	public RestartSystem setTypeVal(short type) {
+		setValue("type", type);
+		return this;
 	}
 
 }

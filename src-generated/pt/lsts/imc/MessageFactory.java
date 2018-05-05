@@ -656,6 +656,8 @@ public class MessageFactory {
 				return new ApmStatus(defs);
 			case SadcReadings.ID_STATIC:
 				return new SadcReadings(defs);
+			case DmsDetection.ID_STATIC:
+				return new DmsDetection(defs);
 			default:
 				return new IMCMessage(defs);
 		}
