@@ -31,25 +31,25 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Report Control (513)<br/>
- *  This message is sent to trigger reports to a destination system.<br/>
+ *  IMC Message Communication Systems Query (189)<br/>
+ *  Presence of Communication Interfaces query.<br/>
  */
 
-public class ReportControl extends IMCMessage {
+public class CommSystemsQuery extends IMCMessage {
 
-	public static final short CI_ACOUSTIC = 0x01;
-	public static final short CI_SATELLITE = 0x02;
-	public static final short CI_GSM = 0x04;
-	public static final short CI_MOBILE = 0x08;
-	public static final short CI_RADIO = 0x10;
+	public static final short CIQ_QUERY = 0x01;
+	public static final short CIQ_REPLY = 0x02;
 
-	public enum OP {
-		REQUEST_START(0),
-		STARTED(1),
-		REQUEST_STOP(2),
-		STOPPED(3),
-		REQUEST_REPORT(4),
-		REPORT_SENT(5);
+	public static final int CIQ_ACOUSTIC = 0x0001;
+	public static final int CIQ_SATELLITE = 0x0002;
+	public static final int CIQ_GSM = 0x0004;
+	public static final int CIQ_MOBILE = 0x0008;
+	public static final int CIQ_RADIO = 0x0010;
+
+	public enum MODEL {
+		UNKNOWN(0),
+		M3DR(1),
+		RDFXXXXPTP(2);
 
 		protected long value;
 
@@ -57,18 +57,18 @@ public class ReportControl extends IMCMessage {
 			return value;
 		}
 
-		OP(long value) {
+		MODEL(long value) {
 			this.value = value;
 		}
 	}
 
-	public static final int ID_STATIC = 513;
+	public static final int ID_STATIC = 189;
 
-	public ReportControl() {
+	public CommSystemsQuery() {
 		super(ID_STATIC);
 	}
 
-	public ReportControl(IMCMessage msg) {
+	public CommSystemsQuery(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -78,20 +78,20 @@ public class ReportControl extends IMCMessage {
 		}
 	}
 
-	public ReportControl(IMCDefinition defs) {
+	public CommSystemsQuery(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ReportControl create(Object... values) {
-		ReportControl m = new ReportControl();
+	public static CommSystemsQuery create(Object... values) {
+		CommSystemsQuery m = new CommSystemsQuery();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ReportControl clone(IMCMessage msg) throws Exception {
+	public static CommSystemsQuery clone(IMCMessage msg) throws Exception {
 
-		ReportControl m = new ReportControl();
+		CommSystemsQuery m = new CommSystemsQuery();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -106,21 +106,51 @@ public class ReportControl extends IMCMessage {
 		return m;
 	}
 
-	public ReportControl(OP op, short comm_interface, int period, String sys_dst) {
+	public CommSystemsQuery(short type, int comm_interface, MODEL model, String list) {
 		super(ID_STATIC);
-		setOp(op);
+		setType(type);
 		setCommInterface(comm_interface);
-		setPeriod(period);
-		if (sys_dst != null)
-			setSysDst(sys_dst);
+		setModel(model);
+		if (list != null)
+			setList(list);
 	}
 
 	/**
-	 *  @return Operation (enumerated) - uint8_t
+	 *  @return Type (bitfield) - uint8_t
 	 */
-	public OP getOp() {
+	public short getType() {
+		return (short) getInteger("type");
+	}
+
+	/**
+	 *  @param type Type (bitfield)
+	 */
+	public CommSystemsQuery setType(short type) {
+		values.put("type", type);
+		return this;
+	}
+
+	/**
+	 *  @return Communication Interface (bitfield) - uint16_t
+	 */
+	public int getCommInterface() {
+		return getInteger("comm_interface");
+	}
+
+	/**
+	 *  @param comm_interface Communication Interface (bitfield)
+	 */
+	public CommSystemsQuery setCommInterface(int comm_interface) {
+		values.put("comm_interface", comm_interface);
+		return this;
+	}
+
+	/**
+	 *  @return Model (enumerated) - uint16_t
+	 */
+	public MODEL getModel() {
 		try {
-			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			MODEL o = MODEL.valueOf(getMessageType().getFieldPossibleValues("model").get(getLong("model")));
 			return o;
 		}
 		catch (Exception e) {
@@ -128,80 +158,50 @@ public class ReportControl extends IMCMessage {
 		}
 	}
 
-	public String getOpStr() {
-		return getString("op");
+	public String getModelStr() {
+		return getString("model");
 	}
 
-	public short getOpVal() {
-		return (short) getInteger("op");
+	public int getModelVal() {
+		return getInteger("model");
 	}
 
 	/**
-	 *  @param op Operation (enumerated)
+	 *  @param model Model (enumerated)
 	 */
-	public ReportControl setOp(OP op) {
-		values.put("op", op.value());
+	public CommSystemsQuery setModel(MODEL model) {
+		values.put("model", model.value());
 		return this;
 	}
 
 	/**
-	 *  @param op Operation (as a String)
+	 *  @param model Model (as a String)
 	 */
-	public ReportControl setOpStr(String op) {
-		setValue("op", op);
+	public CommSystemsQuery setModelStr(String model) {
+		setValue("model", model);
 		return this;
 	}
 
 	/**
-	 *  @param op Operation (integer value)
+	 *  @param model Model (integer value)
 	 */
-	public ReportControl setOpVal(short op) {
-		setValue("op", op);
+	public CommSystemsQuery setModelVal(int model) {
+		setValue("model", model);
 		return this;
 	}
 
 	/**
-	 *  @return Communication Interface (bitfield) - uint8_t
+	 *  @return System List (list) - plaintext
 	 */
-	public short getCommInterface() {
-		return (short) getInteger("comm_interface");
+	public String getList() {
+		return getString("list");
 	}
 
 	/**
-	 *  @param comm_interface Communication Interface (bitfield)
+	 *  @param list System List (list)
 	 */
-	public ReportControl setCommInterface(short comm_interface) {
-		values.put("comm_interface", comm_interface);
-		return this;
-	}
-
-	/**
-	 *  @return Period (s) - uint16_t
-	 */
-	public int getPeriod() {
-		return getInteger("period");
-	}
-
-	/**
-	 *  @param period Period (s)
-	 */
-	public ReportControl setPeriod(int period) {
-		values.put("period", period);
-		return this;
-	}
-
-	/**
-	 *  @return Destination System - plaintext
-	 */
-	public String getSysDst() {
-		return getString("sys_dst");
-	}
-
-	/**
-	 *  @param sys_dst Destination System
-	 */
-	public ReportControl setSysDst(String sys_dst) {
-		values.put("sys_dst", sys_dst);
+	public CommSystemsQuery setList(String list) {
+		values.put("list", list);
 		return this;
 	}
 

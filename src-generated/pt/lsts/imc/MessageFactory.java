@@ -158,6 +158,10 @@ public class MessageFactory {
 				return new HistoricDataQuery(defs);
 			case RemoteCommand.ID_STATIC:
 				return new RemoteCommand(defs);
+			case CommSystemsQuery.ID_STATIC:
+				return new CommSystemsQuery(defs);
+			case TelemetryMsg.ID_STATIC:
+				return new TelemetryMsg(defs);
 			case LblRange.ID_STATIC:
 				return new LblRange(defs);
 			case LblBeacon.ID_STATIC:
@@ -498,6 +502,10 @@ public class MessageFactory {
 				return new SmsRequest(defs);
 			case SmsStatus.ID_STATIC:
 				return new SmsStatus(defs);
+			case VtolState.ID_STATIC:
+				return new VtolState(defs);
+			case ArmingState.ID_STATIC:
+				return new ArmingState(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
