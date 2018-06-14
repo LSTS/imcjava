@@ -42,7 +42,7 @@ import pt.lsts.imc.net.Consume;
  * @author zp
  *
  */
-public class DmsExtractor {
+public class DmsSnorter {
 	
 	int vtol_id = 3114;
 	
@@ -111,6 +111,6 @@ public class DmsExtractor {
 		}
 		
 		System.out.println();
-		batch.process(new DmsExtractor());
+		batch.process(new DmsSnorter());
 	}
 }
