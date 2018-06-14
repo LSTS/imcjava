@@ -28,16 +28,13 @@
  */
 package pt.lsts.imc.lsf.batch;
 
-import java.io.File;
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import pt.lsts.imc.EntityList;
 import pt.lsts.imc.EntityList.OP;
 import pt.lsts.imc.GpsFix;
+import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.Voltage;
 import pt.lsts.imc.net.Consume;
 
@@ -47,15 +44,11 @@ import pt.lsts.imc.net.Consume;
  */
 public class DmsExtractor {
 	
-	int vtol_id = 0x0c2c;
+	int vtol_id = 3114;
 	
 	LinkedHashMap<Integer, Integer> channels = new LinkedHashMap<>();
 	LinkedHashMap<Integer, Double> values = new LinkedHashMap<>();
-	
-	java.util.Date start = Date.from(LocalDateTime.of(2018, 06, 03, 23, 50).atZone(ZoneId.of("UTC")).toInstant());
-	java.util.Date end = Date.from(LocalDateTime.of(2018, 06, 04, 01, 50).atZone(ZoneId.of("UTC")).toInstant());
-	
-	
+		
 	@Consume
 	public void on(EntityList entities) {
 		if (entities.getSrc() != vtol_id)
@@ -67,8 +60,7 @@ public class DmsExtractor {
 					int ch = Integer.parseInt(ent.getKey().substring(6));
 					channels.put(Integer.parseInt(ent.getValue()), ch);
 				}
-			}
-			
+			}			
 		}
 	}
 	
@@ -79,7 +71,6 @@ public class DmsExtractor {
 		
 		if (!channels.containsKey((int)voltage.getSrcEnt()))
 			return;
-		
 		values.put(channels.get((int)voltage.getSrcEnt()), voltage.getValue());
 	}
 	
@@ -89,13 +80,13 @@ public class DmsExtractor {
 			return;
 		if (channels.isEmpty())
 			return;
-		
+		/*
 		if (fix.getDate().before(start))
 			return;
 		
 		if (fix.getDate().after(end))
 			return;
-		
+		*/
 		System.out.print(String.format(fix.getDate()+", %.3f, %.7f, %.7f", fix.getTimestamp(), Math.toDegrees(fix.getLat()),  Math.toDegrees(fix.getLon())));
 	
 		for (int i = 1; i <= 16; i++)
@@ -105,6 +96,10 @@ public class DmsExtractor {
 		values.clear();
 	}	
 	
+	@Consume
+	public void on(IMCMessage msg) {
+		//System.out.println(msg);
+	}
 	
 	public static void main(String[] args) {
 		
