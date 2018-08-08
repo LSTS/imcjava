@@ -1301,6 +1301,12 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 		return IMCDefinition.getInstance();
 	}
 
+	public IMCDefinition getIMCDefinition() {
+	    if (definitions != null)
+	        return definitions;
+	    return IMCDefinition.getInstance();
+	}
+
 	/**
 	 * Check in this is a null inline message
 	 * 
