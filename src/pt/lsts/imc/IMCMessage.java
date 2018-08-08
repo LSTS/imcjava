@@ -354,7 +354,6 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 			e.printStackTrace();
 			return null;
 		}
-
 	}
 
 	/**
@@ -365,10 +364,21 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public IMCMessage cloneMessage() {
-		IMCMessage message = new IMCMessage(this.definitions, getMessageType());
-		if (getHeader() != null)
-			message.getHeader().setValues(getHeader().values);
-		message.setValues(values);
+	    IMCMessage message;
+	    try {
+	        message = cloneMessage(this.definitions);
+        }
+        catch (Exception e) {
+            message = null;
+        }
+	    
+	    if (message == null) { // Return a not typed clone
+	        message = new IMCMessage(this.definitions, getMessageType());
+	        if (getHeader() != null)
+	            message.getHeader().setValues(getHeader().values);
+	        message.setValues(values);
+	    }
+	    
 		return message;
 	}
 
