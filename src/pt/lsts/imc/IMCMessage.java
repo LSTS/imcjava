@@ -344,20 +344,49 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	 */
 	public IMCMessage cloneMessage(IMCDefinition defs) {
 		try {
-			IMCMessage message = getHeader() != null ? defs.newMessage(type
-					.getShortName()) : defs.createHeader();
+			IMCMessage message = (getHeader() != null ? defs.newMessage(type
+					.getShortName()) : defs.createHeader());
 			if (getHeader() != null)
 				message.getHeader().setValues(getHeader().values);
 			message.setValues(values);
 			return message;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
+    /**
+     * Create a copy of this message using the given definitions. If some fields
+     * changed between IMC definitions the clone may loose some fields
+     * 
+     * @param defs
+     *            The definitions to be used when cloning the message
+     * @return A message with same values and type or null if not possible to type clone
+     */
+    public <M extends IMCMessage> M cloneMessageTyped(IMCDefinition defs) {
+        try {
+            @SuppressWarnings("unchecked")
+            M msg = (M) cloneMessage(defs);
+            return msg;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Create a copy of this message using the given definitions.
+     * 
+     * @return A message with same values and type or null if not possible to type clone
+     */
+	public <M extends IMCMessage> M cloneMessageTyped() {
+	    return cloneMessageTyped(this.definitions);
+	}
+
 	/**
-	 * Creates a cloned message with copied values
+	 * Creates a cloned message with copied values. May return a not typed instance.
 	 * 
 	 * @return A clone of this instance
 	 */

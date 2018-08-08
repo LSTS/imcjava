@@ -38,7 +38,6 @@ import org.junit.Test;
 
 import pt.lsts.imc.EntityParameter;
 import pt.lsts.imc.IMCDefinition;
-import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.SetEntityParameters;
 
 /**
@@ -61,7 +60,7 @@ public class MessageCloneTest {
         epCollection.add(epMsg);
         sepMsg.setParams(epCollection);
         
-        IMCMessage sepMsgClone = sepMsg.cloneMessage();
+        SetEntityParameters sepMsgClone = sepMsg.cloneMessageTyped();
         assertNotSame(sepMsg, sepMsgClone);
         EntityParameter epO = ((SetEntityParameters) sepMsg).getParams().get(0);
         EntityParameter epC = ((SetEntityParameters) sepMsgClone).getParams().get(0);
