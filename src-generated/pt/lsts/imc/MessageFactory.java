@@ -464,6 +464,8 @@ public class MessageFactory {
 				return new Alignment(defs);
 			case StationKeepingExtended.ID_STATIC:
 				return new StationKeepingExtended(defs);
+			case Magnetometer.ID_STATIC:
+				return new Magnetometer(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
