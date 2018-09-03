@@ -1,0 +1,10 @@
+{
+  "abbrev": "TextMessage",
+  "timestamp": 1.533232524648E9,
+  "src": 0,
+  "src_ent": 0,
+  "dst": 65535,
+  "dst_ent": 255,
+  "origin": "+351914785889",
+  "text": "force plan1"
+}
