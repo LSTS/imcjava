@@ -464,6 +464,8 @@ public class MessageFactory {
 				return new Alignment(defs);
 			case StationKeepingExtended.ID_STATIC:
 				return new StationKeepingExtended(defs);
+			case Magnetometer.ID_STATIC:
+				return new Magnetometer(defs);
 			case VehicleState.ID_STATIC:
 				return new VehicleState(defs);
 			case VehicleCommand.ID_STATIC:
@@ -666,6 +668,8 @@ public class MessageFactory {
 				return new SadcReadings(defs);
 			case DmsDetection.ID_STATIC:
 				return new DmsDetection(defs);
+			case TotalMagIntensity.ID_STATIC:
+				return new TotalMagIntensity(defs);
 			default:
 				return new IMCMessage(defs);
 		}
