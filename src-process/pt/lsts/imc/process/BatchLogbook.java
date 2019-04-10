@@ -28,9 +28,19 @@
  */
 package pt.lsts.imc.process;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
+import pt.lsts.imc.IMCDefinition;
+import pt.lsts.imc.LogBookEntry;
 import pt.lsts.imc.PlanControl;
-import pt.lsts.imc.PlanControl.OP;
 import pt.lsts.imc.PlanControl.TYPE;
+import pt.lsts.imc.Sms;
+import pt.lsts.imc.TextMessage;
 import pt.lsts.imc.lsf.batch.LsfBatch;
 import pt.lsts.imc.net.Consume;
 
@@ -39,19 +49,121 @@ import pt.lsts.imc.net.Consume;
  *
  */
 public class BatchLogbook {
-	
+
+	SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm.sss");
+	{
+		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+	}
+
+	BufferedWriter htmlOut;
+
+	public BatchLogbook() throws Exception {
+		htmlOut = new BufferedWriter(new FileWriter(new File("logbook.html")));
+		htmlOut.write("<!DOCTYPE html>\n");
+		htmlOut.write("<html>\n");
+		htmlOut.write("<head>\n");
+		htmlOut.write("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n");
+		htmlOut.write("<style>\n");
+		htmlOut.write("* {\n");
+		htmlOut.write("  box-sizing: border-box;\n");
+		htmlOut.write("}\n");
+		htmlOut.write("\n");
+		htmlOut.write("#myTable {\n");
+		htmlOut.write("  border-collapse: collapse;\n");
+		htmlOut.write("  width: 100%;\n");
+		htmlOut.write("  border: 1px solid #ddd;\n");
+		htmlOut.write("  font-size: 18px;\n");
+		htmlOut.write("}\n");
+		htmlOut.write("\n");
+		htmlOut.write("#myTable th, #myTable td {\n");
+		htmlOut.write("  text-align: left;\n");
+		htmlOut.write("  padding: 12px;\n");
+		htmlOut.write("}\n");
+		htmlOut.write("\n");
+		htmlOut.write("#myTable tr {\n");
+		htmlOut.write("  border-bottom: 1px solid #ddd;\n");
+		htmlOut.write("}\n");
+		htmlOut.write("\n");
+		htmlOut.write("#myTable tr.header, #myTable tr:hover {\n");
+		htmlOut.write("  background-color: #f1f1f1;\n");
+		htmlOut.write("}\n");
+		htmlOut.write("#myTable tr.err {\n");
+		htmlOut.write("  background-color: #ffa1a1;\n");
+		htmlOut.write("}\n");
+		htmlOut.write("</style>\n");
+		htmlOut.write("</head>\n");
+		htmlOut.write("<body>\n");
+		
+		htmlOut.write("  <table id=\"myTable\">\n");
+		htmlOut.write("    <tr class=\"header\">\n");
+		htmlOut.write("      <th style=\"width:10%;\">System</th>\n");
+		htmlOut.write("      <th style=\"width:10%;\">Time</th>\n");
+		htmlOut.write("      <th style=\"width:80%;\">Event</th>\n");
+		htmlOut.write("    </tr>\n");
+		
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				try {
+					htmlOut.write("  </table>\n");
+					htmlOut.write("</body>\n");
+					htmlOut.write("</html>\n");
+					htmlOut.close();
+					System.out.println("Finished.");
+				}
+				catch (Exception e) {
+					// TODO: handle exception
+				}
+			};
+		});
+	}
+
 	@Consume
 	void on(PlanControl msg) {
-		if (msg.getType() == TYPE.SUCCESS && msg.getOp() == OP.START) {
-			System.out.println("Plan started in "+msg.getSourceName()+": "+msg.getPlanId());
-		}
-		
-		if (msg.getType() == TYPE.SUCCESS && msg.getOp() == OP.STOP) {
-			System.out.println("Plan stopped in "+msg.getSourceName()+": "+msg.getPlanId());
+		if (msg.getType() == TYPE.REQUEST) {
+			printOut(IMCDefinition.getInstance().getResolver().resolve(msg.getDst()), msg.getDate(),
+					"Request from " + msg.getSourceName() + " to " + msg.getOpStr() + " '" + msg.getPlanId() + "'");
 		}
 	}
-	
-	public static void main(String[] args) {
+
+	@Consume
+	void on(TextMessage msg) {
+		printOut(msg.getSourceName(), msg.getDate(), "TEXT from " + msg.getOrigin() + ": " + msg.getText());
+	}
+
+	@Consume
+	void on(Sms msg) {
+		printOut(msg.getSourceName(), msg.getDate(), "SMS to " + msg.getNumber() + ": " + msg.getContents());
+	}
+
+	@Consume
+	void on(LogBookEntry msg) {
+		if (msg.getType() == LogBookEntry.TYPE.ERROR) {
+			printErr(msg.getSourceName(), msg.getDate(), "" + msg.getContext() + ": " + msg.getText());
+		}
+	}
+
+	private void printOut(String src, Date date, String text) {
+		System.out.println(sdf.format(date) + "[" + src + "]: " + text);
+		try {
+			htmlOut.write("<tr><td>"+sdf.format(date)+"</td><td>"+src+"</td><td>"+text+"</td>\n");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+
+	private void printErr(String src, Date date, String text) {
+		System.err.println(sdf.format(date) + "[" + src + "]: " + text);
+		try {
+			htmlOut.write("<tr class=err><td>"+sdf.format(date)+"</td><td>"+src+"</td><td>"+text+"</td>\n");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
 		LsfBatch batch = LsfBatch.selectFolders();
 		batch.process(new BatchLogbook());
 	}
