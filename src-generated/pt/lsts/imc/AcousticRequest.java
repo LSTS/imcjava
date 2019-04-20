@@ -41,7 +41,8 @@ public class AcousticRequest extends IMCMessage {
 		ABORT(0),
 		RANGE(1),
 		REVERSE_RANGE(2),
-		MSG(3);
+		MSG(3),
+		RAW(4);
 
 		protected long value;
 

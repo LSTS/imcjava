@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "df61738ca042e4445513ce701215e9a06e3f16a8";
-	public static final String IMC_BRANCH = "2019-02-11 df61738 (HEAD -> mission/apdl_comm_manager, origin/mission/apdl_comm_manager)";
-	public static final String IMC_COMMIT = "mariacosta (mariacosta_89@hotmail.com), Mon Feb 11 18:13:21 UTC 2019, Merge branch 'pedroseruca-PSsThesis' into mission/apdl_comm_manager";
+	public static final String IMC_SHA = "7daa70d4b5cfc8f1851a60b6d0c38354943b7c82";
+	public static final String IMC_BRANCH = "2019-04-20 7daa70d (HEAD -> mission/apdl_comm_manager, origin/mission/apdl_comm_manager)";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), Sat Apr 20 18:35:53 WEST 2019, Added option for AcousticRequest raw send. This is done by using DevDataBinary and should not be further encoded (only the raw field content will be sent).";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
