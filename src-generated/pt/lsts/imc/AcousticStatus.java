@@ -31,21 +31,39 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Transmission Status (516)<br/>
- *  Reply sent in response to a communications request.<br/>
+ *  IMC Message Acoustic Transmission Status (216)<br/>
+ *  Reply sent in response to a Acoustic Text sending request.<br/>
  */
 
-public class TransmissionStatus extends IMCMessage {
+public class AcousticStatus extends IMCMessage {
+
+	public enum TYPE {
+		ABORT(0),
+		RANGE(1),
+		REVERSE_RANGE(2),
+		MSG(3),
+		RAW(4);
+
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		TYPE(long value) {
+			this.value = value;
+		}
+	}
 
 	public enum STATUS {
-		IN_PROGRESS(0),
-		SENT(1),
-		DELIVERED(51),
-		MAYBE_DELIVERED(52),
-		RANGE_RECEIVED(60),
+		QUEUED(0),
+		IN_PROGRESS(1),
+		SENT(2),
+		RANGE_RECEIVED(3),
+		BUSY(100),
 		INPUT_FAILURE(101),
-		TEMPORARY_FAILURE(102),
-		PERMANENT_FAILURE(103);
+		ERROR(102),
+		UNSUPPORTED(666);
 
 		protected long value;
 
@@ -58,13 +76,13 @@ public class TransmissionStatus extends IMCMessage {
 		}
 	}
 
-	public static final int ID_STATIC = 516;
+	public static final int ID_STATIC = 216;
 
-	public TransmissionStatus() {
+	public AcousticStatus() {
 		super(ID_STATIC);
 	}
 
-	public TransmissionStatus(IMCMessage msg) {
+	public AcousticStatus(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -74,20 +92,20 @@ public class TransmissionStatus extends IMCMessage {
 		}
 	}
 
-	public TransmissionStatus(IMCDefinition defs) {
+	public AcousticStatus(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static TransmissionStatus create(Object... values) {
-		TransmissionStatus m = new TransmissionStatus();
+	public static AcousticStatus create(Object... values) {
+		AcousticStatus m = new AcousticStatus();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static TransmissionStatus clone(IMCMessage msg) throws Exception {
+	public static AcousticStatus clone(IMCMessage msg) throws Exception {
 
-		TransmissionStatus m = new TransmissionStatus();
+		AcousticStatus m = new AcousticStatus();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -102,13 +120,14 @@ public class TransmissionStatus extends IMCMessage {
 		return m;
 	}
 
-	public TransmissionStatus(int req_id, STATUS status, float range, String info) {
+	public AcousticStatus(int req_id, TYPE type, STATUS status, String info, float range) {
 		super(ID_STATIC);
 		setReqId(req_id);
+		setType(type);
 		setStatus(status);
-		setRange(range);
 		if (info != null)
 			setInfo(info);
+		setRange(range);
 	}
 
 	/**
@@ -121,8 +140,53 @@ public class TransmissionStatus extends IMCMessage {
 	/**
 	 *  @param req_id Request Identifier
 	 */
-	public TransmissionStatus setReqId(int req_id) {
+	public AcousticStatus setReqId(int req_id) {
 		values.put("req_id", req_id);
+		return this;
+	}
+
+	/**
+	 *  @return Type (enumerated) - uint8_t
+	 */
+	public TYPE getType() {
+		try {
+			TYPE o = TYPE.valueOf(getMessageType().getFieldPossibleValues("type").get(getLong("type")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
+	/**
+	 *  @param type Type (enumerated)
+	 */
+	public AcousticStatus setType(TYPE type) {
+		values.put("type", type.value());
+		return this;
+	}
+
+	/**
+	 *  @param type Type (as a String)
+	 */
+	public AcousticStatus setTypeStr(String type) {
+		setValue("type", type);
+		return this;
+	}
+
+	/**
+	 *  @param type Type (integer value)
+	 */
+	public AcousticStatus setTypeVal(short type) {
+		setValue("type", type);
 		return this;
 	}
 
@@ -150,7 +214,7 @@ public class TransmissionStatus extends IMCMessage {
 	/**
 	 *  @param status Status (enumerated)
 	 */
-	public TransmissionStatus setStatus(STATUS status) {
+	public AcousticStatus setStatus(STATUS status) {
 		values.put("status", status.value());
 		return this;
 	}
@@ -158,7 +222,7 @@ public class TransmissionStatus extends IMCMessage {
 	/**
 	 *  @param status Status (as a String)
 	 */
-	public TransmissionStatus setStatusStr(String status) {
+	public AcousticStatus setStatusStr(String status) {
 		setValue("status", status);
 		return this;
 	}
@@ -166,23 +230,8 @@ public class TransmissionStatus extends IMCMessage {
 	/**
 	 *  @param status Status (integer value)
 	 */
-	public TransmissionStatus setStatusVal(short status) {
+	public AcousticStatus setStatusVal(short status) {
 		setValue("status", status);
-		return this;
-	}
-
-	/**
-	 *  @return Range (m) - fp32_t
-	 */
-	public double getRange() {
-		return getDouble("range");
-	}
-
-	/**
-	 *  @param range Range (m)
-	 */
-	public TransmissionStatus setRange(double range) {
-		values.put("range", range);
 		return this;
 	}
 
@@ -196,8 +245,23 @@ public class TransmissionStatus extends IMCMessage {
 	/**
 	 *  @param info Information
 	 */
-	public TransmissionStatus setInfo(String info) {
+	public AcousticStatus setInfo(String info) {
 		values.put("info", info);
+		return this;
+	}
+
+	/**
+	 *  @return Range (m) - fp32_t
+	 */
+	public double getRange() {
+		return getDouble("range");
+	}
+
+	/**
+	 *  @param range Range (m)
+	 */
+	public AcousticStatus setRange(double range) {
+		values.put("range", range);
 		return this;
 	}
 

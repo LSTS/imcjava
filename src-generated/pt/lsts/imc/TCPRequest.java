@@ -31,40 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Transmission Status (516)<br/>
- *  Reply sent in response to a communications request.<br/>
+ *  IMC Message TCP Transmission Request (521)<br/>
+ *  Request data to be sent over a TCP connection<br/>
  */
 
-public class TransmissionStatus extends IMCMessage {
+public class TCPRequest extends IMCMessage {
 
-	public enum STATUS {
-		IN_PROGRESS(0),
-		SENT(1),
-		DELIVERED(51),
-		MAYBE_DELIVERED(52),
-		RANGE_RECEIVED(60),
-		INPUT_FAILURE(101),
-		TEMPORARY_FAILURE(102),
-		PERMANENT_FAILURE(103);
+	public static final int ID_STATIC = 521;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		STATUS(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 516;
-
-	public TransmissionStatus() {
+	public TCPRequest() {
 		super(ID_STATIC);
 	}
 
-	public TransmissionStatus(IMCMessage msg) {
+	public TCPRequest(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -74,20 +53,20 @@ public class TransmissionStatus extends IMCMessage {
 		}
 	}
 
-	public TransmissionStatus(IMCDefinition defs) {
+	public TCPRequest(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static TransmissionStatus create(Object... values) {
-		TransmissionStatus m = new TransmissionStatus();
+	public static TCPRequest create(Object... values) {
+		TCPRequest m = new TCPRequest();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static TransmissionStatus clone(IMCMessage msg) throws Exception {
+	public static TCPRequest clone(IMCMessage msg) throws Exception {
 
-		TransmissionStatus m = new TransmissionStatus();
+		TCPRequest m = new TCPRequest();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -102,13 +81,14 @@ public class TransmissionStatus extends IMCMessage {
 		return m;
 	}
 
-	public TransmissionStatus(int req_id, STATUS status, float range, String info) {
+	public TCPRequest(int req_id, String destination, double timeout, IMCMessage msg_data) {
 		super(ID_STATIC);
 		setReqId(req_id);
-		setStatus(status);
-		setRange(range);
-		if (info != null)
-			setInfo(info);
+		if (destination != null)
+			setDestination(destination);
+		setTimeout(timeout);
+		if (msg_data != null)
+			setMsgData(msg_data);
 	}
 
 	/**
@@ -121,83 +101,57 @@ public class TransmissionStatus extends IMCMessage {
 	/**
 	 *  @param req_id Request Identifier
 	 */
-	public TransmissionStatus setReqId(int req_id) {
+	public TCPRequest setReqId(int req_id) {
 		values.put("req_id", req_id);
 		return this;
 	}
 
 	/**
-	 *  @return Status (enumerated) - uint8_t
+	 *  @return Destination - plaintext
 	 */
-	public STATUS getStatus() {
-		try {
-			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getStatusStr() {
-		return getString("status");
-	}
-
-	public short getStatusVal() {
-		return (short) getInteger("status");
+	public String getDestination() {
+		return getString("destination");
 	}
 
 	/**
-	 *  @param status Status (enumerated)
+	 *  @param destination Destination
 	 */
-	public TransmissionStatus setStatus(STATUS status) {
-		values.put("status", status.value());
+	public TCPRequest setDestination(String destination) {
+		values.put("destination", destination);
 		return this;
 	}
 
 	/**
-	 *  @param status Status (as a String)
+	 *  @return Timeout (s) - fp64_t
 	 */
-	public TransmissionStatus setStatusStr(String status) {
-		setValue("status", status);
+	public double getTimeout() {
+		return getDouble("timeout");
+	}
+
+	/**
+	 *  @param timeout Timeout (s)
+	 */
+	public TCPRequest setTimeout(double timeout) {
+		values.put("timeout", timeout);
 		return this;
 	}
 
 	/**
-	 *  @param status Status (integer value)
+	 *  @return Message Data - message
 	 */
-	public TransmissionStatus setStatusVal(short status) {
-		setValue("status", status);
-		return this;
+	public IMCMessage getMsgData() {
+		return getMessage("msg_data");
+	}
+
+	public <T extends IMCMessage> T getMsgData(Class<T> clazz) throws Exception {
+		return getMessage(clazz, "msg_data");
 	}
 
 	/**
-	 *  @return Range (m) - fp32_t
+	 *  @param msg_data Message Data
 	 */
-	public double getRange() {
-		return getDouble("range");
-	}
-
-	/**
-	 *  @param range Range (m)
-	 */
-	public TransmissionStatus setRange(double range) {
-		values.put("range", range);
-		return this;
-	}
-
-	/**
-	 *  @return Information - plaintext
-	 */
-	public String getInfo() {
-		return getString("info");
-	}
-
-	/**
-	 *  @param info Information
-	 */
-	public TransmissionStatus setInfo(String info) {
-		values.put("info", info);
+	public TCPRequest setMsgData(IMCMessage msg_data) {
+		values.put("msg_data", msg_data);
 		return this;
 	}
 

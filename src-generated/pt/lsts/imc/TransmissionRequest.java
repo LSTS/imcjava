@@ -41,7 +41,9 @@ public class TransmissionRequest extends IMCMessage {
 		WIFI(0),
 		ACOUSTIC(1),
 		SATELLITE(2),
-		GSM(3);
+		GSM(3),
+		ANY(4),
+		ALL(5);
 
 		protected long value;
 
@@ -57,7 +59,10 @@ public class TransmissionRequest extends IMCMessage {
 	public enum DATA_MODE {
 		INLINEMSG(0),
 		TEXT(1),
-		RAW(2);
+		RAW(2),
+		ABORT(3),
+		RANGE(4),
+		REVERSE_RANGE(5);
 
 		protected long value;
 
@@ -114,13 +119,14 @@ public class TransmissionRequest extends IMCMessage {
 		return m;
 	}
 
-	public TransmissionRequest(int req_id, COMM_MEAN comm_mean, String destination, double deadline, DATA_MODE data_mode, IMCMessage msg_data, String txt_data, byte[] raw_data) {
+	public TransmissionRequest(int req_id, COMM_MEAN comm_mean, String destination, double deadline, float range, DATA_MODE data_mode, IMCMessage msg_data, String txt_data, byte[] raw_data) {
 		super(ID_STATIC);
 		setReqId(req_id);
 		setCommMean(comm_mean);
 		if (destination != null)
 			setDestination(destination);
 		setDeadline(deadline);
+		setRange(range);
 		setDataMode(data_mode);
 		if (msg_data != null)
 			setMsgData(msg_data);
@@ -217,6 +223,21 @@ public class TransmissionRequest extends IMCMessage {
 	 */
 	public TransmissionRequest setDeadline(double deadline) {
 		values.put("deadline", deadline);
+		return this;
+	}
+
+	/**
+	 *  @return Range (m) - fp32_t
+	 */
+	public double getRange() {
+		return getDouble("range");
+	}
+
+	/**
+	 *  @param range Range (m)
+	 */
+	public TransmissionRequest setRange(double range) {
+		values.put("range", range);
 		return this;
 	}
 

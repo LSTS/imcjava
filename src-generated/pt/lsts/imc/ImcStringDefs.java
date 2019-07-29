@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "61e2aa46d5d1b4964b0c24f29f7a103736569518";
-	public static final String IMC_BRANCH = "2018-10-30 61e2aa4 (HEAD, origin/master, origin/HEAD, master)";
-	public static final String IMC_COMMIT = "GitHub (noreply@github.com), Tue Oct 30 11:23:34 WET 2018, Merge pull request #24 from LSTS/mission/rep2018\n\nMission/rep2018";
+	public static final String IMC_SHA = "7daa70d4b5cfc8f1851a60b6d0c38354943b7c82";
+	public static final String IMC_BRANCH = "2019-04-20 7daa70d (HEAD -> mission/apdl_comm_manager, origin/mission/apdl_comm_manager)";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), Sat Apr 20 18:35:53 WEST 2019, Added option for AcousticRequest raw send. This is done by using DevDataBinary and should not be further encoded (only the raw field content will be sent).";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -168,6 +168,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-xtreme-2-aux", 24580);
 		IMC_ADDRESSES.put("caravela-aux", 24581);
 		IMC_ADDRESSES.put("lauv-xtreme-2-cam", 24582);
+		IMC_ADDRESSES.put("x8-06-aux", 24583);
 		IMC_ADDRESSES.put("star", 32768);
 		IMC_ADDRESSES.put("benthos-mgateway", 32784);
 		IMC_ADDRESSES.put("manta-1", 32786);
