@@ -28,12 +28,15 @@
  */
 package pt.lsts.imc.process;
 
+import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
+import javax.swing.UIManager;
 
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.LogBookEntry;
@@ -50,6 +53,8 @@ import pt.lsts.imc.net.Consume;
  */
 public class BatchLogbook {
 
+	private static final String FILENAME = "logbook.html";
+	
 	SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm.sss");
 	{
 		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -58,7 +63,7 @@ public class BatchLogbook {
 	BufferedWriter htmlOut;
 
 	public BatchLogbook() throws Exception {
-		htmlOut = new BufferedWriter(new FileWriter(new File("logbook.html")));
+		htmlOut = new BufferedWriter(new FileWriter(new File(FILENAME)));
 		htmlOut.write("<!DOCTYPE html>\n");
 		htmlOut.write("<html>\n");
 		htmlOut.write("<head>\n");
@@ -96,8 +101,8 @@ public class BatchLogbook {
 		
 		htmlOut.write("  <table id=\"myTable\">\n");
 		htmlOut.write("    <tr class=\"header\">\n");
-		htmlOut.write("      <th style=\"width:10%;\">System</th>\n");
 		htmlOut.write("      <th style=\"width:10%;\">Time</th>\n");
+		htmlOut.write("      <th style=\"width:10%;\">System</th>\n");
 		htmlOut.write("      <th style=\"width:80%;\">Event</th>\n");
 		htmlOut.write("    </tr>\n");
 		
@@ -108,10 +113,12 @@ public class BatchLogbook {
 					htmlOut.write("</body>\n");
 					htmlOut.write("</html>\n");
 					htmlOut.close();
-					System.out.println("Finished.");
+					System.out.println("All HTML output written to "+FILENAME+".");
+					
+					Desktop.getDesktop().open(new File(FILENAME));
 				}
 				catch (Exception e) {
-					// TODO: handle exception
+					e.printStackTrace();
 				}
 			};
 		});
@@ -148,7 +155,7 @@ public class BatchLogbook {
 			htmlOut.write("<tr><td>"+sdf.format(date)+"</td><td>"+src+"</td><td>"+text+"</td>\n");
 		}
 		catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 	}
@@ -159,11 +166,17 @@ public class BatchLogbook {
 			htmlOut.write("<tr class=err><td>"+sdf.format(date)+"</td><td>"+src+"</td><td>"+text+"</td>\n");
 		}
 		catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		LsfBatch batch = LsfBatch.selectFolders();
 		batch.process(new BatchLogbook());
 	}

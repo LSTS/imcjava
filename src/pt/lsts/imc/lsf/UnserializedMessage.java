@@ -29,9 +29,14 @@
 package pt.lsts.imc.lsf;
 
 import java.io.ByteArrayInputStream;
-import java.io.DataInput;
+import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Date;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
@@ -42,41 +47,35 @@ public class UnserializedMessage implements Comparable<UnserializedMessage> {
 	private boolean bigEndian = false;
 	private IMCDefinition defs;
 	
-	
-	public static UnserializedMessage readMessage(IMCDefinition defs, DataInput in) throws IOException {
-		int sync = in.readUnsignedShort() & 0xFFFF;
-		int origSize, size = defs.getHeaderType().getComputedLength();
-		boolean be = false;
-		if (sync == defs.getSyncWord())
-			be = true;
-		else if (sync == defs.getSwappedWord())
-			be = false;
-		else {
-			System.out.printf("Unrecognized sync word: %X.", sync);
-			throw new IOException("Unrecognized syncword ("+sync+")");
+	private static void readBuffer(byte[] buffer, InputStream in) throws IOException {
+		int read = 0;
+		while (read < buffer.length) {
+			int bytes_in = in.read(buffer, read, buffer.length - read);
+			if (bytes_in < 0)
+				throw new EOFException();
+			read += bytes_in;
 		}
-		int mgid = in.readUnsignedShort();
-		origSize = in.readUnsignedShort();
-		//System.out.printf("sync: %X, mgid: %X, size: %x\n", sync, mgid, origSize);
+	}
+	
+	public static UnserializedMessage readMessage(IMCDefinition defs, InputStream in) throws IOException {
+		byte[] header = new byte[20];
+		readBuffer(header, in);
+	
+		ByteBuffer hBuffer = ByteBuffer.wrap(header);
+		boolean bigEndian = (hBuffer.getShort() & 0xFFFF) == defs.getSyncWord();
+		if (!bigEndian)
+			hBuffer.order(ByteOrder.LITTLE_ENDIAN);
 		
-		if (!be) 
-			size += 0xFFFF & Short.reverseBytes((short)origSize); //payload
-		else
-			size += origSize; //payload
-
-		size += 2; // footer
-		byte[] data = new byte[size];
-		in.readFully(data, 0, size - 6);
+		int mgid = 0xFFFF & hBuffer.getShort();
+		int size = 0xFFFF & hBuffer.getShort();
 		
-		System.arraycopy(data, 0, data, 6, data.length-6);
-		data[0] = (byte)((sync & 0xFF00) >> 8);
-		data[1] = (byte)((sync & 0x00FF));
-		data[2] = (byte)((mgid & 0xFF00) >> 8);
-		data[3] = (byte)((mgid & 0x00FF));
-		data[4] = (byte)((origSize & 0xFF00) >> 8);
-		data[5] = (byte)((origSize & 0x00FF));
-
-		return new UnserializedMessage(be, data, defs);
+		if (defs.getMessageName(mgid) == null)
+			throw new IOException("Unknown message ID: "+mgid);
+		
+		byte[] payload_footer = new byte[size + 2];
+		readBuffer(payload_footer, in);
+		
+		return new UnserializedMessage(bigEndian, ArrayUtils.addAll(header, payload_footer), defs);
 	}
 
 	public UnserializedMessage(boolean bigEndian, byte[] message, IMCDefinition def) {

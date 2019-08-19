@@ -28,11 +28,11 @@
  */
 package pt.lsts.imc.lsf.batch;
 
-import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.TreeSet;
@@ -111,7 +111,7 @@ public class LsfBatch {
 
 	static class LsfLog implements Comparable<LsfLog> {
 		public IMCDefinition definitions;
-		public DataInput input;
+		public InputStream input;
 		public UnserializedMessage curMessage;
 		public String root;
 
