@@ -104,7 +104,7 @@
    	<unjar src="lib/minimal-json-0.9.2.jar" dest="build"/>
   </target>
   
-  <target name="compile-all" depends="compile-merge, compile-gui, compile-sniffer, compile-teleop, compile-preview">
+  <target name="compile-all" depends="compile-merge, compile-gui, compile-sniffer, compile-teleop, compile-preview, compile-process">
     <javac encoding="${compile-encoding}" srcdir="src-sniffer" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
     </javac>
     <copy verbose="true" todir="build">
@@ -115,6 +115,11 @@
 
   <target name="compile-merge" depends="compile">
 	<javac encoding="${compile-encoding}" srcdir="src-merge" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
+	</javac>
+  </target>
+	
+  <target name="compile-process" depends="compile">
+	<javac encoding="${compile-encoding}" srcdir="src-process" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false">
 	</javac>
   </target>
 
@@ -444,4 +449,9 @@
 	    </jar>
 	  	<echo message="The file 'dist/PlanSequence.jar' was generated"/>
   </target>
+  
+  <target name="report" depends="compile-all">
+	<description>Execute Batch Logbook utility</description>
+		<java classpathref="classpath.full" classname="pt.lsts.imc.process.BatchLogbook"></java>
+	</target>
 </project>
