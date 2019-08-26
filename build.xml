@@ -8,6 +8,7 @@
 	
   <path id="classpath.dependencies">
     <pathelement location="lib/minimal-json-0.9.2.jar" />
+    <pathelement location="lib/commons-lang3-3.1.jar" />
   </path>	
 	
   <path id="classpath.base">
