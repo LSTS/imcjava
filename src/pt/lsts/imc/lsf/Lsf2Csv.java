@@ -28,10 +28,11 @@
  */
 package pt.lsts.imc.lsf;
 
+import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
 
@@ -44,46 +45,56 @@ import pt.lsts.imc.IMCMessage;
  */
 public class Lsf2Csv {
 
-	public Lsf2Csv(IMCDefinition defs, InputStream LsfInput, String message) throws Exception {
+	public Lsf2Csv(IMCDefinition defs, InputStream LsfInput, String message, BufferedWriter output) throws Exception {
 		IMCMessage m = defs.create(message);
+		int count = 0, total = 0;
 		if (m == null)
-			throw new Exception("Message name not valid: "+message);
+			throw new Exception("Message name not valid: " + message);
 		String[] fieldNames = m.getFieldNames();
-		System.out.print("timestamp, src, dst, src_ent, dst_ent");
+
+		output.write("timestamp, src, dst, src_ent, dst_ent");
 		for (String field : fieldNames) {
-			System.out.print(", "+field);
+			output.write(", " + field);
 		}
-		System.out.println();
-		
+		output.write("\n");
+
 		int mgid = m.getMgid();
-		
-		while(true) {
+
+		while (true) {
 			try {
 				UnserializedMessage msg = UnserializedMessage.readMessage(defs, LsfInput);
-				if (msg.getMgId() == mgid) {
-					m = msg.deserialize();
-					System.out.print(m.getTimestamp()+", "+m.getSrc()+", "+m.getDst()+", "+m.getSrcEnt()+", "+m.getDstEnt());
-					for (String field : fieldNames) {
-						System.out.print(", "+m.getAsString(field));
-					}
+				total++;
+
+				if (total % 5000 == 0)
+					System.out.print(".");
+				if (total % 400000 == 0)
 					System.out.println();
+				if (msg.getMgId() == mgid) {
+					count++;
+					m = msg.deserialize();
+					output.write(m.getTimestamp() + ", " + m.getSrc() + ", " + m.getDst() + ", " + m.getSrcEnt() + ", "
+							+ m.getDstEnt());
+					for (String field : fieldNames) {
+						output.write(", " + m.getAsString(field));
+					}
+					output.write("\n");
 				}
-			}
-			catch (EOFException e) {
+			} catch (EOFException e) {
 				break;
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				break;
-			}	
+			}
 		}
+		output.close();
+		System.out.println("\nRead " + total + " messages and converted " + count + " messages.");
 	}
 
 	public static Lsf2Csv open(File file, String message) throws Exception {
 
 		File logDir = file.getParentFile();
 		File logFile = file;
-		
+
 		IMCDefinition defs;
 		InputStream imcStream = null;
 
@@ -101,31 +112,23 @@ public class Lsf2Csv {
 				}
 			}
 		}
-		else {
-			if (logFile.getName().endsWith(".lsf.gz")) {
-				System.out.println("Compressed input");
-				imcStream = new GZIPInputStream(new FileInputStream(logFile));
-			}
-			else
-				imcStream = new FileInputStream(file);
-		}
-		
-		System.out.println(logDir+" / "+logFile);
-		
-		if (imcStream != null) {
-			if (new File(logDir, "IMC.xml").canRead()) {
-				defs = new IMCDefinition(new FileInputStream(new File(logDir, "IMC.xml")));
-			} else if (new File(logDir, "IMC.xml.gz").canRead()) {
-				defs = new IMCDefinition(new GZIPInputStream(
-						new FileInputStream(new File(logDir, "IMC.xml.gz"))));
-			} else {
-				defs = IMCDefinition.getInstance();
-			}
-			return new Lsf2Csv(defs, imcStream, message);
-		}
-		else {
-			throw new IOException("File is not a valid LSF source: "+file.getAbsolutePath());
-		}
+
+		if (logFile.getName().endsWith(".lsf.gz")) {
+			imcStream = new GZIPInputStream(new FileInputStream(logFile));
+		} else
+			imcStream = new FileInputStream(file);
+
+		if (new File(logDir, "IMC.xml").canRead())
+			defs = new IMCDefinition(new FileInputStream(new File(logDir, "IMC.xml")));
+		else if (new File(logDir, "IMC.xml.gz").canRead())
+			defs = new IMCDefinition(new GZIPInputStream(new FileInputStream(new File(logDir, "IMC.xml.gz"))));
+		else
+			defs = IMCDefinition.getInstance();
+
+		File out = new File(logDir, message + ".csv");
+		System.out.println("Output will be written to " + out + "...");
+		return new Lsf2Csv(defs, imcStream, message, new BufferedWriter(new FileWriter(out)));
+
 	}
 
 	public static void main(String[] args) throws Exception {

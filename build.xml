@@ -406,6 +406,19 @@
     <delete file="dist/lsffilter.jar"/>
   </target>
 
+  <target name="lsf2csv" description="Create a program for extracting csv from log" depends="compile">
+	    <jar destfile="dist/lsf2csv.jar" basedir="build" index="true">
+	      <manifest>
+	        <attribute name="Main-Class" value="pt.lsts.imc.lsf.Lsf2Csv"/>
+	      </manifest>
+	    </jar>
+
+	    <exec executable="lib/jar2sh.sh" >
+	      <arg value="dist/lsf2csv"/>
+	      <arg value="dist/lsf2csv.jar"/>
+	    </exec>
+	  </target>
+
 
   <target name="ripples" description="Create ripples.jar" depends="compile">
     <javac encoding="${compile-encoding}" debug="true" srcdir="src-ripples" destdir="build" target="${compile-target}" source="${compile-source}" includes="**/*.java" fork="false" classpath="lib/firebase-client-jvm-LATEST.jar">
