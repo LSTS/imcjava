@@ -30,10 +30,6 @@
  */
 package pt.lsts.imc;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -1898,38 +1894,6 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 		return 0;
 	}
 		
-	/**
-	 * This method will copy this message to system clipboard (as XML)
-	 */
-	public void copyToClipoard() {
-		StringSelection stringSelection = new StringSelection(asXml(false));
-		Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-		clpbrd.setContents(stringSelection, null);
-	}
-	
-	/**
-	 * This method will try to get a message from the system clipboard
-	 * @return The message in the system clipboard. Both IMC-XML and JSON formats are accepted.
-	 * @throws Exception In case there is no valid message in the clipboard.
-	 */
-	public static IMCMessage pasteFromClipoard() throws Exception {
-		Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
-		String txt = clpbrd.getData(DataFlavor.stringFlavor).toString();
-		
-		try {
-			if (txt.startsWith("<?xml"))
-				return IMCMessage.parseXml(txt);
-			
-			if (txt.startsWith("{"))
-				return IMCMessage.parseJson(txt);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		throw new Exception("Invalid clipboard contents");
-	}
-	
 	/**
 	 * @param messageInfo
 	 *            the messageInfo to set
