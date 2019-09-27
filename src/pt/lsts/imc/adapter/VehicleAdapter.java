@@ -28,6 +28,7 @@
  */
 package pt.lsts.imc.adapter;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import pt.lsts.imc.Abort;
@@ -35,6 +36,7 @@ import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.PlanControl;
 import pt.lsts.imc.PlanControlState;
+import pt.lsts.imc.PlanControlState.LAST_OUTCOME;
 import pt.lsts.imc.PlanControlState.STATE;
 import pt.lsts.imc.PlanDB;
 import pt.lsts.imc.PlanSpecification;
@@ -58,6 +60,11 @@ public class VehicleAdapter extends ImcAdapter {
 	protected PlanDbManager planDbManager = new PlanDbManager();
 	protected PlanControlState planControl = new PlanControlState();
 
+	// loaded plan;
+	protected ArrayList<double[]> waypoints = new ArrayList<>();
+	protected int waypoint = -1;
+	protected Double targetLat = null, targetLon = null;
+	
 	/**
 	 * Class constructor. Announces sent to the network will use given settings.
 	 * @param name The name of the system
@@ -148,13 +155,23 @@ public class VehicleAdapter extends ImcAdapter {
 				Collection<double[]> locs = PlanUtilities.computeLocations(spec);
 				
 				System.out.println("Plan waypoints: "); 
-				for (double[] loc : locs)
-					System.out.println("   * "+loc[0]+", "+loc[1]+", "+loc[2]);
-				
+				for (double[] loc : locs) {
+					
+					System.out.println("   * "+loc[0]+", "+loc[1]);
+				}
 				
 				planControl.setPlanId(command.getPlanId());
 				planControl.setState(STATE.EXECUTING);
 				reply.setType(PlanControl.TYPE.SUCCESS);
+				
+				synchronized (waypoints) {
+					waypoints.clear();
+					waypoints.addAll(locs);
+					if (!waypoints.isEmpty())
+						waypoint = 0;
+					else
+						waypoint = -1;
+				}
 			}
 		}
 		else if (command.getType() == PlanControl.TYPE.REQUEST && command.getOp() == PlanControl.OP.STOP) {
@@ -212,6 +229,7 @@ public class VehicleAdapter extends ImcAdapter {
 	 */
 	@Periodic(100)
 	protected void updatePosition() {
+	
 		if (startTime == 0 || speed == 0)
 			return;
 		
@@ -220,7 +238,36 @@ public class VehicleAdapter extends ImcAdapter {
 		double easting = Math.sin(yawRads) * (ellapsedTime * speed);				
 		double pos[] = WGS84Utilities.WGS84displace(Math.toDegrees(latRads), Math.toDegrees(lonRads), 0, northing,
 				easting, 0);
+		
+		// executing a plan?
+		if (waypoint >= 0) {
+			double[] target = waypoints.get(waypoint);
+			double[] offsets = WGS84Utilities.WGS84displacement(pos[0], pos[1], 0, target[0], target[1], 0);
+			
+			if (WGS84Utilities.distance(pos[0], pos[1], target[0], target[1]) <= speed) {
+				inf("Arrived at waypoint #"+waypoint);
+				advanceWaypoint();
+			}
+			yawRads = Math.atan2(offsets[1], offsets[0]);
+			 
+		}
+		
 		setPosition(pos[0], pos[1], height, depth);
+	}
+	
+	private void advanceWaypoint() {
+		if (waypoint < waypoints.size()-1)
+			waypoint++;
+		else {
+			waypoint = -1;
+			inf("Plan completed");
+			planControl.setPlanId("");
+			planControl.setState(STATE.READY);
+			planControl.setLastOutcome(LAST_OUTCOME.SUCCESS);
+			
+		}
+		
+		
 	}
 
 	/**
@@ -228,7 +275,7 @@ public class VehicleAdapter extends ImcAdapter {
 	 */
 	public static void main(String[] args) throws Exception {
 		VehicleAdapter adapter = new VehicleAdapter("lauv-seacon-3", 0x0017);
-		double startLat = 41, startLon = -8;
+		double startLat = 41.183803, startLon = -8.706953;
 		adapter.setPosition(startLat, startLon, 0, 0);
 		adapter.setEuler(0, 0, -45);
 		adapter.setSpeed(1.25);
