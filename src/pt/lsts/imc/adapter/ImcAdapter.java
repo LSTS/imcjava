@@ -53,6 +53,10 @@ public class ImcAdapter {
 	public void dispatch(IMCMessage message) {
 		imc.sendToPeers(message);
 	}
+
+	public void addListener(Object obj) {
+		imc.register(obj);
+	}
 	
 	private void report(LogBookEntry.TYPE type, String message) {
 		LogBookEntry entry = new LogBookEntry();
