@@ -340,6 +340,21 @@
     </jar>
     <echo message="The file 'dist/libimc.jar' was generated"/>
   </target>
+	
+  <target name="VehicleAdapter" depends="libimc.jar" description="Generates a dummy simulator.">
+	    <tstamp>
+	      <format property="time" pattern="yyyy-MM-dd HH:mm:ss"/>
+	    </tstamp>
+	    <echo message="Adding info: 'Jar generated from git revision ${scm.revision}.'"/>
+	    <echo file="build/META-INF/info" message="Jar generated from git revision ${scm.revision}."/>
+	    <description>Create library to be used by neptus.</description>
+	    <jar destfile="dist/VehicleAdapter.jar" basedir="build" index="true">
+	    	<manifest>
+	    		<attribute name="Main-Class" value="pt.lsts.imc.adapter.VehicleAdapter"/>
+	    	</manifest>
+	    </jar>
+	    <echo message="The file 'dist/VehicleAdapter.jar' was generated"/>
+	</target>
 
   <target name="generated" description="Generate java code for given IMC protocol (git repository)." depends="compile">
    	<input
