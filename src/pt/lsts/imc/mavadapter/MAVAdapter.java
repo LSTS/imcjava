@@ -46,7 +46,6 @@ import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.EstimatedStreamVelocity;
 import pt.lsts.imc.FuelLevel;
 import pt.lsts.imc.GpsFix;
-import pt.lsts.imc.HomePosition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.IndicatedSpeed;
 import pt.lsts.imc.MagneticField;
@@ -96,9 +95,7 @@ public class MAVAdapter extends ImcAdapter {
 	private DesiredPitch desPitch = new DesiredPitch();
 	private DesiredHeading desHeading = new DesiredHeading();
 	private DesiredZ desZ = new DesiredZ();
-	private HomePosition homePosition = new HomePosition();
 	
-
 	private EstimatedState estimatedState = new EstimatedState();
 	private EstimatedStreamVelocity estimatedSV = new EstimatedStreamVelocity();
 
@@ -571,13 +568,4 @@ public class MAVAdapter extends ImcAdapter {
 	public void setPathControlState(PathControlState pathControlState) {
 		this.pathControlState = pathControlState;
 	}
-
-	public HomePosition getHomePosition() {
-		return homePosition;
-	}
-
-	public void setHomePosition(HomePosition homePosition) {
-		this.homePosition = homePosition;
-	}
-
 }
