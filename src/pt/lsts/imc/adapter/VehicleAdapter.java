@@ -44,6 +44,8 @@ import pt.lsts.imc.VehicleState;
 import pt.lsts.imc.VehicleState.OP_MODE;
 import pt.lsts.imc.def.SystemType;
 import pt.lsts.imc.net.Consume;
+import pt.lsts.imc.net.PojoConfig;
+import pt.lsts.imc.state.Parameter;
 import pt.lsts.neptus.messages.listener.Periodic;
 import pt.lsts.util.PlanUtilities;
 import pt.lsts.util.WGS84Utilities;
@@ -53,6 +55,16 @@ import pt.lsts.util.WGS84Utilities;
  * @author zp
  */
 public class VehicleAdapter extends ImcAdapter {
+	
+	@Parameter
+	public double lat = 41;
+	
+	@Parameter
+	public double lon = -8;
+	
+	@Parameter
+	public double heading = 0; 
+	
 	
 	protected double latRads = 0, lonRads = 0, height = 0, depth = 0;
 	protected double rollRads = 0, pitchRads = 0, yawRads = 0, speed = 0;
@@ -73,6 +85,12 @@ public class VehicleAdapter extends ImcAdapter {
 	public VehicleAdapter(String name, int imcid) {
 		super(name, imcid, 7010, SystemType.UUV);
 		planControl.setState(STATE.READY);
+	}
+	
+	public void init() {
+		setPosition(lat, lon, 0, 0);
+		setEuler(0, 0, heading);
+		setSpeed(1.25);
 	}
 	
 	/**
@@ -266,18 +284,14 @@ public class VehicleAdapter extends ImcAdapter {
 			planControl.setLastOutcome(LAST_OUTCOME.SUCCESS);
 			
 		}
-		
-		
 	}
 
 	/**
-	 * This example starts an existing vehicle (lauv-seacon-3) and starts updating its position.
+	 * This example starts an existing vehicle and updates its position.
 	 */
 	public static void main(String[] args) throws Exception {
-		VehicleAdapter adapter = new VehicleAdapter("lauv-seacon-3", 0x0017);
-		double startLat = 41.183803, startLon = -8.706953;
-		adapter.setPosition(startLat, startLon, 0, 0);
-		adapter.setEuler(0, 0, -45);
-		adapter.setSpeed(1.25);
+		VehicleAdapter adapter = new VehicleAdapter("lauv-simulator-1", 0x00D1);
+		PojoConfig.cliParams(adapter, args);
+		adapter.init();
 	}
 }

@@ -51,22 +51,26 @@ public class NameIMCIDGenerator {
 		}
 	}
 	
-	public static int getId(String name, String type, boolean isLstsOrOther) {
+	public static int getId(String name, String type) {
+		return getId(name, type, false);
+	}
+	
+	public static int getId(String name, String type, boolean lstsOwned) {
 		int src = name.hashCode() % 0xFFFF;
 		src &= 0x1FFF; // clean first 3 bytes selector
 		if (type.equalsIgnoreCase("UAV") || type.equalsIgnoreCase("UAS")) {
 			src &= (0x03FF);
-			src |= isLstsOrOther ? (0x00 << 1 << 12) : (0x01 << 1 << 12); // vehicle
+			src |= lstsOwned ? (0x00 << 1 << 12) : (0x01 << 1 << 12); // vehicle
 			src |= (0x3 << 2 << 8);
 		}
 		else if (type.equalsIgnoreCase("ASV") || type.equalsIgnoreCase("USV")) {
 			src &= (0x03FF);
-			src |= isLstsOrOther ? (0x00 << 1 << 12) : (0x01 << 1 << 12); // vehicle
+			src |= lstsOwned ? (0x00 << 1 << 12) : (0x01 << 1 << 12); // vehicle
 			src |= (0x2 << 2 << 8);
 		}
 		else if (type.equalsIgnoreCase("ROV")) {
 			src &= (0x03FF);
-			src |= isLstsOrOther ? (0x00 << 1 << 12) : (0x01 << 1 << 12); // vehicle
+			src |= lstsOwned ? (0x00 << 1 << 12) : (0x01 << 1 << 12); // vehicle
 			src |= (0x1 << 2 << 8);
 		}
 		else if (type.equalsIgnoreCase("CCU") || type.equalsIgnoreCase("GCS")) {
@@ -74,11 +78,11 @@ public class NameIMCIDGenerator {
 		}
 		else if (type.equalsIgnoreCase("Sensor")) {
 			src &= (0x9FFF);
-			src |= isLstsOrOther ? (0x80 << 8) : (0x90 << 8);
+			src |= lstsOwned ? (0x80 << 8) : (0x90 << 8);
 		}
 		else { // AUV
 			src &= (0x03FF);
-			src |= isLstsOrOther ? (0x00 << 1 << 12) : (0x01 << 1 << 12); // vehicle
+			src |= lstsOwned ? (0x00 << 1 << 12) : (0x01 << 1 << 12); // vehicle
 			src |= (0x0 << 2 << 8);
 		}
 		
