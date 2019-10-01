@@ -678,6 +678,8 @@ public class MessageFactory {
 				return new DmsDetection(defs);
 			case TotalMagIntensity.ID_STATIC:
 				return new TotalMagIntensity(defs);
+			case HomePosition.ID_STATIC:
+				return new HomePosition(defs);
 			default:
 				return new IMCMessage(defs);
 		}

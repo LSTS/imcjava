@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "7daa70d4b5cfc8f1851a60b6d0c38354943b7c82";
-	public static final String IMC_BRANCH = "2019-04-20 7daa70d (HEAD -> master, origin/mission/apdl_comm_manager, origin/master, origin/HEAD)";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), Sat Apr 20 18:35:53 WEST 2019, Added option for AcousticRequest raw send. This is done by using DevDataBinary and should not be further encoded (only the raw field content will be sent).";
+	public static final String IMC_SHA = "9c3b29617fd44e858e16024c70a3bab9d825eec1";
+	public static final String IMC_BRANCH = "2019-09-27 9c3b296 (HEAD -> master, origin/master, origin/HEAD)";
+	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), Fri Sep 27 16:35:01 WEST 2019, Added Squirtle to IMC addresses.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -62,6 +62,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-simulator-1", 209);
 		IMC_ADDRESSES.put("rov-ies", 1025);
 		IMC_ADDRESSES.put("adamastor", 1026);
+		IMC_ADDRESSES.put("squirtle", 1027);
 		IMC_ADDRESSES.put("swordfish", 2049);
 		IMC_ADDRESSES.put("caravela", 2050);
 		IMC_ADDRESSES.put("hermes", 2241);
@@ -192,6 +193,8 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("piccolo-gs3", 32834);
 		IMC_ADDRESSES.put("ais-1", 32880);
 		IMC_ADDRESSES.put("ais-2", 32881);
+		IMC_ADDRESSES.put("bridgebox-1", 32897);
+		IMC_ADDRESSES.put("bridgebox-2", 32898);
 		IMC_ADDRESSES.put("spot-01", 33793);
 		IMC_ADDRESSES.put("spot-02", 33794);
 		IMC_ADDRESSES.put("spot-03", 33795);
