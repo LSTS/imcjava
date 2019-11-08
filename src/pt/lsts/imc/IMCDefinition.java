@@ -589,7 +589,11 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 				}
 
 			}
-			return vec;
+			return vec;			
+		case TYPE_VECTOR:
+			System.err.println("Vectors are missing");
+			//FIXME VECTORS MISSING
+			break;		
 		}
 		return null;
 	}
@@ -652,7 +656,12 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 				}
 			}
 			return vec;
-		}
+		case TYPE_VECTOR:
+			System.err.println("Vectors are missing");
+			//FIXME VECTORS MISSING
+			break;		
+		}		
+		
 		return null;
 	}
 
@@ -835,6 +844,10 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		case TYPE_VECTOR:
+			System.err.println("vectors are missing");
+			//FIXME VECTORS missing
+			break;
 		default:
 			break;
 		}

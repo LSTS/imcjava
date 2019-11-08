@@ -400,9 +400,13 @@ public class ClassGenerator {
 		return sb.toString();
 	}
 
-	protected static String imcTypeToJava(IMCMessageType type, String field) {
+	protected static String imcTypeToJava(IMCMessageType type, String field) throws Exception {
 		IMCFieldType imcType = type.getFieldType(field);
 
+		if (imcType == null) {
+			throw new Exception("Invalid imc type for field "+field);
+		}
+		
 		if ("enumerated".equals(type.getFieldUnits(field))) {
 			String valueDef = type.getFieldValueDefs(field);		
 			String capField = valueDef != null? valueDef : field.toUpperCase();
@@ -442,9 +446,28 @@ public class ClassGenerator {
 				return "java.util.Collection<" + type.getFieldSubtype(field)
 				+ ">";
 			}
-
+		case TYPE_VECTOR:
+			switch (type.getFieldSubtype(field)) {
+			case "int8_t":
+			case "uint8_t":
+			case "int16_t":
+			case "uint16_t":
+			case "int32_t":
+				return "java.util.Vector<Integer>";
+			case "uint32_t":
+			case "int64_t":
+				return "java.util.Vector<Long>";				
+			case "fp32_t":
+				return "java.util.Vector<Float>";
+			case "fp64_t":
+				return "java.util.Vector<Double>";
+			default:
+				return "java.util.Vector<Number>";
+			}
+		default:
+			System.err.println("Unrecognized type: "+imcType);
+			return "Object";
 		}
-		return "Object";
 	}
 
 	protected static String generateSetters(IMCMessageType type, String field,
@@ -691,6 +714,20 @@ public class ClassGenerator {
 				sb.append("\t}\n\n");
 			}
 			break;
+		case TYPE_VECTOR:
+			try {
+				sb.append("\tpublic " + type.getShortName() + " set"
+						+ capitalizedField + "("
+						+ generateVectorType(type.getFieldSubtype(field))+" " + field + ") {\n");
+				sb.append("\t\tvalues.put(\"" + field + "\", " + field + ");\n");
+				sb.append("\t\treturn this;\n");
+				sb.append("\t}\n\n");
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			break;
 
 		default:
 			System.err.println("Setter for unknown field was not generated: "
@@ -699,6 +736,34 @@ public class ClassGenerator {
 		}
 
 		return sb.toString();
+	}
+	
+	private static String generateVectorType(String subType) {
+		String inner = "Number";
+		
+		switch (subType) {
+		case "int8_t":
+		case "uint8_t":
+		case "int16_t":
+		case "uint16_t":
+		case "int32_t":
+			inner = "Integer";
+			break;
+		case "uint32_t":
+		case "int64_t":
+			inner = "Long";
+			break;
+		case "fp32_t":
+			inner = "Float";
+			break;
+		case "fp64_t":
+			inner = "Double";
+			break;
+		default:
+			break;			
+		}
+		
+		return "java.util.Vector<"+inner+">";
 	}
 
 	protected static String generateGetters(IMCMessageType type, String field,
@@ -937,12 +1002,29 @@ public class ClassGenerator {
 				sb.append("\t\t}\n\n");
 				sb.append("\t}\n\n");
 			}
+			break;
+		case TYPE_VECTOR:
+			String subtype = type.getFieldSubtype(field);
+			System.out.println("subtype: "+subtype);
+			System.out.println("field: "+field+", type: "+type);
+			sb.append("\t@SuppressWarnings(\"unchecked\")\n");
+			sb.append("\tpublic "+generateVectorType(subtype)+" get"
+					+ capitalizedField + "() {\n");
+			sb.append("\t\ttry {\n");
+			sb.append("\t\t\treturn ("+generateVectorType(subtype)+") values.get(\"" + field + "\");\n");
+			sb.append("\t\t}\n");
+			sb.append("\t\tcatch (Exception e) {\n");
+			sb.append("\t\t\treturn null;\n");
+			sb.append("\t\t}\n\n");
+			sb.append("\t}\n\n");
 		default:
 			break;
 		}
 
 		return sb.toString();
 	}
+	
+	
 	
 	protected static void generateGlobalDefinitions(String packageName, File outputFolder,
 			IMCDefinition defs) throws Exception {

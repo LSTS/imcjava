@@ -31,6 +31,7 @@
 package pt.lsts.imc;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * @author zp
@@ -50,7 +51,8 @@ public enum IMCFieldType {
 	TYPE_RAWDATA("rawdata", -1, byte[].class),
 	TYPE_PLAINTEXT("plaintext", -1, String.class),
 	TYPE_MESSAGE("message", -1, IMCMessage.class),
-	TYPE_MESSAGELIST("message-list", -1, IMCMessage[].class);
+	TYPE_MESSAGELIST("message-list", -1, IMCMessage[].class),
+	TYPE_VECTOR("vector", -1, List.class);
 	
 	private String name;
 	private int size;
@@ -98,6 +100,7 @@ public enum IMCFieldType {
 		types.put("plaintext", IMCFieldType.TYPE_PLAINTEXT);
 		types.put("rawdata", IMCFieldType.TYPE_RAWDATA);
 		types.put("message-list", IMCFieldType.TYPE_MESSAGELIST);
+		types.put("vector", IMCFieldType.TYPE_VECTOR);
 	}	
 	
 	public static IMCFieldType getType(String typeName) {

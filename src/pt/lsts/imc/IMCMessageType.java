@@ -344,11 +344,12 @@ public class IMCMessageType {
     }
     
     public void setFieldSubtype(String abbrev, String subtype) {
-        subtypes.put(abbrev, subtype);
+    	subtypes.put(abbrev, subtype);
+    	System.out.println(subtypes);
     }
     
     public String getFieldSubtype(String abbrev) {
-        return subtypes.get(abbrev);
+    	return subtypes.get(abbrev);
     }
     
     public IMCMessageType getSupertype() {

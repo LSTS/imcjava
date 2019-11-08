@@ -63,6 +63,7 @@ public class IMCUtil {
         types.put("plaintext", IMCFieldType.TYPE_PLAINTEXT);
         types.put("rawdata", IMCFieldType.TYPE_RAWDATA);
         types.put("message-list", IMCFieldType.TYPE_MESSAGELIST);
+        types.put("vector", IMCFieldType.TYPE_VECTOR);
     }
 
     public static Object parseString(IMCFieldType type, String text) {

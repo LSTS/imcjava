@@ -262,6 +262,10 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 			subtNd = attrs.getNamedItem("message-type");
 			if (subtNd != null)
 				subtype = subtNd.getTextContent();
+			
+			subtNd = attrs.getNamedItem("vector-type");
+			if (subtNd != null)
+				subtype = subtNd.getTextContent();
 
 			String minVal = null;
 			Node minNd = attrs.getNamedItem("min");

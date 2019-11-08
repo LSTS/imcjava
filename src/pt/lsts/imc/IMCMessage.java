@@ -1120,6 +1120,11 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 		}
 		return ret;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends Number> Vector<T> getVector(String field) {
+		return (Vector<T>) values.get(field);
+	}
 
 	/**
 	 * Returns a String representation of this message (used for debugging)
@@ -1414,6 +1419,10 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 			case TYPE_FP64:
 				msg.setValue(m.getName(), m.getValue().asDouble());
 				break;
+			case TYPE_VECTOR:
+				System.err.println("vectors are missing");
+				//FIXME VECTORS
+				break;
 			default:
 				msg.setValue(m.getName(), m.getValue().asLong());				
 				break;
@@ -1484,7 +1493,11 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 				break;
 			case TYPE_FP64:
 				obj.add(fieldName, getDouble(fieldName));
-				break;				
+				break;		
+			case TYPE_VECTOR:
+				//FIXME add array
+				System.err.println("vectors are missing");
+				break;
 			default:
 				obj.add(fieldName, getLong(fieldName));
 				break;
@@ -1581,6 +1594,12 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 					sb.append(tabs + "  </" + fieldName + ">\n");
 				}
 				break;
+			case TYPE_VECTOR:
+				System.err.println("vectors are missing");
+				//FIXME VECTORS
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -1627,6 +1646,12 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 					msgs.add(m.asMap(true));
 				}
 				map.put(fieldName, msgs);
+			case TYPE_VECTOR:
+				System.err.println("vectors are missing");
+				//FIXME VECTORS
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -1685,6 +1710,10 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 				sb.append("\n");
 				for (IMCMessage m : getMessageList(fieldName))
 					sb.append(m.asXml(true));
+				break;
+			case TYPE_VECTOR:
+				System.err.println("vectors are missing");
+				//FIXME VECTORS MISSING
 				break;
 			}
 			sb.append("</" + fieldName + ">\n");
@@ -1813,6 +1842,10 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 							msgs.add(parseElement(defs, (Element) nd));
 					}
 					msg.setValue(field, msgs);
+					break;
+				case TYPE_VECTOR:
+					System.err.println("vectors are missing");
+					//FIXME VECTORS
 					break;
 				}
 			}
