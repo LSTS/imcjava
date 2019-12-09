@@ -331,11 +331,11 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	}
 
 	/**
-	 * Returns the @pt.lsts.imc.MessageType associated to the message,
+	 * Returns the @pt.lsts.imc.IMCMessageType associated to the message,
 	 * which includes the size, name, fields and message-group information
 	 * @return the type
 	 */
-	public IMCMessageType getType() {
+	public IMCMessageType getIMCMessageType() {
 		return this.type;
 	}
 
