@@ -331,6 +331,15 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	}
 
 	/**
+	 * Returns the @pt.lsts.imc.MessageType associated to the message,
+	 * which includes the size, name, fields and message-group information
+	 * @return the type
+	 */
+	public IMCMessageType getType() {
+		return this.type;
+	}
+
+	/**
 	 * Create a copy of this message using the given definitions. If some fields
 	 * changed between IMC definitions the clone may loose some fields
 	 * 
