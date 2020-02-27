@@ -678,6 +678,8 @@ public class MessageFactory {
 				return new DmsDetection(defs);
 			case TotalMagIntensity.ID_STATIC:
 				return new TotalMagIntensity(defs);
+			case VectorTest.ID_STATIC:
+				return new VectorTest(defs);
 			default:
 				return new IMCMessage(defs);
 		}

@@ -10729,4 +10729,8 @@
     </field>
   </message>
   
+  <message id="3000" name="Vector Test" abbrev="VectorTest" source="vehicle">
+    <field name="X" abbrev="x" type="vector" vector-type="fp32_t"/>
+  </message>
+  
 </messages>

@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "7daa70d4b5cfc8f1851a60b6d0c38354943b7c82";
-	public static final String IMC_BRANCH = "2019-04-20 7daa70d (HEAD -> master, origin/mission/apdl_comm_manager, origin/master, origin/HEAD)";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), Sat Apr 20 18:35:53 WEST 2019, Added option for AcousticRequest raw send. This is done by using DevDataBinary and should not be further encoded (only the raw field content will be sent).";
+	public static final String IMC_SHA = "41401773284390a31fdceb23b9bd3e9b86ab6f79";
+	public static final String IMC_BRANCH = "2019-10-24 4140177 (HEAD -> master, origin/master, origin/HEAD)";
+	public static final String IMC_COMMIT = "GitHub (noreply@github.com), Thu Oct 24 12:02:18 WEST 2019, Added IMC address for NTNU's Autonaut.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -62,6 +62,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-simulator-1", 209);
 		IMC_ADDRESSES.put("rov-ies", 1025);
 		IMC_ADDRESSES.put("adamastor", 1026);
+		IMC_ADDRESSES.put("squirtle", 1027);
 		IMC_ADDRESSES.put("swordfish", 2049);
 		IMC_ADDRESSES.put("caravela", 2050);
 		IMC_ADDRESSES.put("hermes", 2241);
@@ -186,12 +187,16 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("manta-dmsmw-03", 32808);
 		IMC_ADDRESSES.put("manta-rugged", 32809);
 		IMC_ADDRESSES.put("manta-rugged-2", 32810);
+		IMC_ADDRESSES.put("manta-uk-01", 32811);
+		IMC_ADDRESSES.put("manta-uk-02", 32812);
 		IMC_ADDRESSES.put("nest-1", 32816);
 		IMC_ADDRESSES.put("piccolo-gs1", 32832);
 		IMC_ADDRESSES.put("piccolo-gs2", 32833);
 		IMC_ADDRESSES.put("piccolo-gs3", 32834);
 		IMC_ADDRESSES.put("ais-1", 32880);
 		IMC_ADDRESSES.put("ais-2", 32881);
+		IMC_ADDRESSES.put("bridgebox-1", 32897);
+		IMC_ADDRESSES.put("bridgebox-2", 32898);
 		IMC_ADDRESSES.put("spot-01", 33793);
 		IMC_ADDRESSES.put("spot-02", 33794);
 		IMC_ADDRESSES.put("spot-03", 33795);
@@ -227,6 +232,8 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("wavy-0", 34048);
 		IMC_ADDRESSES.put("wavy-1", 34049);
 		IMC_ADDRESSES.put("wavy-2", 34050);
+		IMC_ADDRESSES.put("ntnu-autonaut", 34819);
+		IMC_ADDRESSES.put("ntnu-autonaut-L3", 34820);
 		IMC_ADDRESSES.put("ntnu-nest-01", 36865);
 		IMC_ADDRESSES.put("ntnu-nest-02", 36866);
 		IMC_ADDRESSES.put("manta-sabuvis", 38145);
