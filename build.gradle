@@ -38,6 +38,17 @@ allprojects {
         }
     }
 
+    jar {
+        manifest {
+            attributes( 'Specification-Title': rootProject.name
+                    ,'Specification-Version': project.version
+                    ,'Implementation-Title': project.name
+                    ,'Implementation-Version': project.version
+                    ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                    )
+        }
+    }
+
     gitProperties {
         extProperty = 'gitProps'
         failOnNoGitDirectory = false
@@ -60,6 +71,41 @@ allprojects {
                 ]
     }
     generateGitProperties.outputs.upToDateWhen { false }
+
+}
+
+def jarTask(proj, jarName, destFolder, mainClass) {
+    configure(proj) {
+        proj.tasks.create(jarName, Jar) {
+            dependsOn generateGitProperties
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            description = "Generate $jarName for IMC API"
+            group = 'Distribution'
+            manifest {m ->
+                m.getAttributes().put 'Specification-Title', rootProject.name
+                if (!mainClass.isEmpty()) m.getAttributes().put 'Main-Class', mainClass
+                m.getAttributes().put 'Specification-Version', project.version
+                m.getAttributes().put 'Implementation-Title', project.name
+                m.getAttributes().put 'Implementation-Version', project.version
+                //m.getAttributes().put 'Build-Revision', "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+            }
+            // Addimg runtime jars into the jar
+            from {configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+            //from sourceSets.main.allSource
+            with jar
+            archivesBaseName = jarName
+            //archiveVersion = ''
+            destinationDir = new java.io.File(!destFolder.isEmpty() ? "$rootDir/$destFolder" : "$rootDir/dist")
+
+            doLast {
+                // println "$project.name"
+                // println "configurations.runtimeClasspath"
+                // configurations.compileClasspath.each { print ' > '; println it }
+                // println "sourceSets.main.runtimeClasspath"
+                // sourceSets.main.compileClasspath.each { print ' > '; println it }
+            }
+        }
+    }
 }
 
 // dependencies {

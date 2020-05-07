@@ -19,6 +19,10 @@ include 'generator'
 project(':generator').projectDir = file('src-generator')
 //include 'src-generated'
 
+include 'sniffer'
+project(':sniffer').projectDir = file('src-sniffer')
+include 'gui'
+project(':gui').projectDir = file('src-gui')
 
 // // include two projects, 'foo' and 'foo:bar'
 // // directories are inferred by replacing ':' with '/'
@@ -33,3 +37,22 @@ project(':generator').projectDir = file('src-generator')
 //   include dir.name
 //   project(":${dir.name}").projectDir = dir
 // }
+
+
+// implementation 'com.google.code.gson:gson:2.5'
+// implementation 'com.fifesoft:rsyntaxtextarea:2.5.8'
+// implementation 'commons-io:commons-io:2.0.1'
+// implementation 'com.googlecode.clichemaven:cliche:110413'
+// implementation 'com.firebase.client:firebase-client-jvm:1.0.8' **
+
+// implementation 'javax.servlet:servlet-api:3.0-alpha-1'  **
+// compile group: 'javax', name: 'servlet', version: '3.0.0-v201112011016'
+// implementation 'javax.servlet:javax.servlet-api:3.0.1'
+
+// implementation 'net.sf.jchart2d:jchart2d:3.2.0' **n está no maven
+// implementation 'net.sf.jchart2d:jchart2d:3.3.2'
+
+// implementation 'org.eclipse.jetty.aggregate:jetty-all:9.0.0.v20130308'
+
+// implementation 'rhino:js:1.7R2'
+// //implementation 'org.mozilla:rhino:1.7R3'

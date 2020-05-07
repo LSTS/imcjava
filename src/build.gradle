@@ -28,8 +28,12 @@ sourceSets {
 
 jar {
     manifest {
-        attributes('Implementation-Title': rootProject.name,
-                   'Implementation-Version': project.version)
+        attributes( 'Specification-Title': rootProject.name
+                   ,'Specification-Version': project.version
+                   ,'Implementation-Title': jar.baseName
+                   ,'Implementation-Version': project.version
+                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                   )
     }
     
     //from sourceSets.main.allSource
@@ -43,7 +47,7 @@ task dist (type: Jar) {
     manifest {
         attributes( 'Specification-Title': rootProject.name
                    ,'Specification-Version': project.version
-                   ,'Implementation-Title': rootProject.name
+                   ,'Implementation-Title': jar.baseName
                    ,'Implementation-Version': project.version
                    ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
                    )
