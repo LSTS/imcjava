@@ -5,8 +5,8 @@ plugins {
 apply plugin: 'de.undercouch.download'
 
 dependencies {
-    implementation project(':src')
-    implementation project(':src').sourceSets.main.runtimeClasspath
+    implementation project(':core')
+    implementation project(':core').sourceSets.main.runtimeClasspath
     //implementation 'org.apache.commons:commons-lang3:3.1'
 }
 

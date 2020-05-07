@@ -13,8 +13,10 @@ gradle.ext.imcFilePath = '../IMC'
 // **** DON'T CHANGE FROM THIS LINE ON **** //
 rootProject.name = 'IMCJava'
 
-include 'src'
-include 'src-generator'
+include 'core'
+project(':core').projectDir = file('src')
+include 'generator'
+project(':generator').projectDir = file('src-generator')
 //include 'src-generated'
 
 
