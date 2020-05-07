@@ -1,0 +1,90 @@
+plugins {
+    id "de.undercouch.download" version "4.0.4"
+}
+
+apply plugin: 'de.undercouch.download'
+
+dependencies {
+    implementation project(':src')
+    implementation project(':src').sourceSets.main.runtimeClasspath
+    //implementation 'org.apache.commons:commons-lang3:3.1'
+}
+
+task generateMessages(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'pt.lsts.imc.generator.ClassGenerator'
+    workingDir = "$parent.rootDir"
+    // arguments to pass to the application
+    args = ["${-> project.ext.imcXmlPath}"]
+    
+    doFirst {
+        if (project.ext.has("imcXmlSha"))
+            args = ["${-> project.ext.imcXmlPath}", "${-> project.ext.imcXmlSha}", "${-> project.ext.imcXmlBranch}", "${-> project.ext.imcXmlCommitNote}"]
+    }
+
+    doLast {
+        println "args for the generator >> [ "
+        args.each { println " '$it', " }
+        println " ]"
+        println "${project.ext.has("imcXmlSha")}"
+        println "${project.ext.has("imcXmlSha1")}"
+        deleteImcAddr
+    }
+}
+
+task downloadImc(type: Download) {
+    src "https://github.com/${gradle.ext.imcGitHubRepo}/raw/${gradle.ext.imcGitHubBranch}/IMC.xml"
+    dest "${parent.rootDir}/src-generated/resources/xml/IMC.xml"
+
+    doLast {
+        println("IMC.xml downloaded to '$dest'.")
+        def commitInfo = new groovy.json.JsonSlurper().parse("https://api.github.com/repos/${gradle.ext.imcGitHubRepo}/commits/${gradle.ext.imcGitHubBranch}".toURL());
+        def sha = commitInfo.sha
+        File shaFile = new File("${parent.rootDir}/src-generated/resources/xml/IMC.sha")
+        shaFile.text = "$commitInfo.sha" + "\n" + "$gradle.ext.imcGitHubBranch";
+        println("IMC SHA: ${commitInfo.sha}")
+        project.ext.imcXmlSha = "$commitInfo.sha"
+        project.ext.imcXmlBranch = "$gradle.ext.imcGitHubBranch"
+        project.ext.imcXmlCommitNote = "${commitInfo.commit.author.name} (${commitInfo.commit.author.email}), ${commitInfo.commit.author.date}, ${commitInfo.url}, ${commitInfo.commit.message}"
+        project.ext.imcXmlPath = "${parent.rootDir}/src-generated/resources/xml"
+    }
+}
+
+task downloadImcAddr(type: Download) {
+    src "https://github.com/${gradle.ext.imcGitHubRepo}/raw/${gradle.ext.imcGitHubBranch}/IMC_Addresses.xml"
+    dest "${parent.rootDir}/src-generated/resources/xml/IMC_Addresses.xml"
+    doLast {
+        println("IMC_Addresses.xml downloaded to '$dest'.")
+    }
+}
+
+task deleteImcAddr(type: Delete) {
+    delete "${parent.rootDir}/src-generated/resources/xml/IMC_Addresses.xml"
+}
+
+task prepImcFolderEnv {
+    def folder = new File("$gradle.ext.imcFilePath")
+    if (!folder.isAbsolute())
+        folder = new File("${parent.rootDir}", "$gradle.ext.imcFilePath")
+    project.ext.imcXmlPath = folder.getAbsolutePath()
+
+    println "IMC Folder is '${project.ext.imcXmlPath}'"
+}
+
+task updateImc {
+    description = "Get IMC from GitHub and generate classes"
+    group = 'Generator'
+    dependsOn = [deleteImcAddr]
+    dependsOn += downloadImc
+    if (gradle.ext.imcDownloadIMCAddresses == 'true')
+        dependsOn += downloadImcAddr
+    else
+        dependsOn += deleteImcAddr
+    dependsOn += generateMessages
+}
+
+task updateImcFromFolder {
+    description = "Get IMC from folder and generate classes"
+    group = 'Generator'
+    dependsOn = [deleteImcAddr, prepImcFolderEnv, generateMessages]
+}

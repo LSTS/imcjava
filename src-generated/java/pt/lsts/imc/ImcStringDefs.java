@@ -25,17 +25,39 @@
  * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *  
- * $Id:: MessageListener.java 334 2013-01-02 11:20:47Z zepinto                 $:
+ * 
  */
-package pt.lsts.neptus.messages.listener;
+package pt.lsts.imc;
 
-import pt.lsts.neptus.messages.IMessage;
+public class ImcStringDefs {
 
-/**
- * @author pdias
- *
- */
-public interface MessageListener<I extends MessageInfo, M extends IMessage> {
-	public void onMessage(I info, M msg);
+	public static final String IMC_SHA = "9c3b29617fd44e858e16024c70a3bab9d825eec1";
+	public static final String IMC_BRANCH = "9c3b296";
+	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), 2019-09-27T15:35:01Z, https://api.github.com/repos/LSTS/imc/commits/9c3b29617fd44e858e16024c70a3bab9d825eec1, Added Squirtle to IMC addresses.";
+
+	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
+
+	static {
+
+		IMC_ADDRESSES = java.util.Collections.unmodifiableMap(IMC_ADDRESSES);
+	}
+
+	public static String getDefinitions() {
+
+		java.io.InputStream xmlStream = ImcStringDefs.class.getResourceAsStream("/xml/IMC.xml");
+		java.io.InputStreamReader isreader = new java.io.InputStreamReader(xmlStream);
+		java.io.BufferedReader reader = new java.io.BufferedReader(isreader);
+		java.lang.StringBuilder builder = new java.lang.StringBuilder();
+		String line = null;
+
+		try {
+			while ((line = reader.readLine()) != null)
+				builder.append(line+"\n");
+		} catch (java.lang.Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return builder.toString();
+	}
 }

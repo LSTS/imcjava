@@ -41,6 +41,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -1307,44 +1308,61 @@ public class ClassGenerator {
 			throw new Exception(
 					"Expected one argument with path to IMC repository");
 
+		String basePath = "src-generated";
+		String baseResourcesPath = "/resources";
+		String baseJavaPath = "/java";
+	
 		File repo = new File(args[0]);
 
 		String sha = "N/A";
 		String branch = "N/A";
 		String commitDetails = "Not a GIT repository";
-
-		try {
-			GenerationUtils.checkRepo(repo);
-			sha = GenerationUtils.getGitSha(repo);
-			branch = GenerationUtils.getGitBranch(repo);
-			commitDetails = GenerationUtils.getGitCommit(repo);
-		} catch (Exception e) {
-			e.printStackTrace();
+		
+		if (args.length > 1)
+			sha = args[1];
+		if (args.length > 2)
+			branch = args[2];
+		if (args.length > 3)
+			commitDetails = args[3];
+		
+		if (args.length <= 1) {
+			try {
+				GenerationUtils.checkRepo(repo);
+				sha = GenerationUtils.getGitSha(repo);
+				branch = GenerationUtils.getGitBranch(repo);
+				commitDetails = GenerationUtils.getGitCommit(repo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 		try {
-
 			IMCDefinition defs = new IMCDefinition(
 					GenerationUtils.getImcXml(repo));
 			// copy IMC.xml to generated source folder
 			Path source = FileSystems.getDefault().getPath(repo.getAbsolutePath(), "IMC.xml");
-			Path target = FileSystems.getDefault().getPath("./src-generated", "xml", "IMC.xml");
+			Path target = FileSystems.getDefault().getPath(basePath + baseResourcesPath, "xml", "IMC.xml");
 			Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 
-			Map<String, Integer> addrs = GenerationUtils.getImcAddresses(repo);
+			Map<String, Integer> addrs;
+			try {
+				addrs = GenerationUtils.getImcAddresses(repo);
+			} catch (Exception e) {
+				addrs = new HashMap<>();
+				e.printStackTrace();
+			}
 
-			File output = getOutputDir(new File("src-generated"), "pt.lsts.imc");
+			File output = getOutputDir(new File(basePath + baseJavaPath), "pt.lsts.imc");
 			clearDir(output);
 
-			generateClasses("pt.lsts.imc", new File("src-generated"), defs);
+			generateClasses("pt.lsts.imc", new File(basePath + baseJavaPath), defs);
 			generateStringDefinitions("pt.lsts.imc", addrs, sha, branch,
-					commitDetails, new File("src-generated"));
-			generateImcFactory(defs, new File("src-generated"));
-			//generateImcState(defs, new File("src-generated"));
+					commitDetails, new File(basePath + baseJavaPath));
+			generateImcFactory(defs, new File(basePath + baseJavaPath));
+			//generateImcState(defs, new File(basePath + baseJavaPath));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-
 	}
 }

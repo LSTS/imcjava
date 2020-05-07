@@ -1,0 +1,65 @@
+jar.baseName = "libimc"
+
+dependencies {
+    implementation 'com.eclipsesource.minimal-json:minimal-json:0.9.2'
+    implementation 'org.apache.commons:commons-lang3:3.1'
+}
+
+java {
+    //dependsOn: 'generateGitProperties'
+
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+
+    //withSourcesJar()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += ['../src-generated/java']
+        }
+
+        resources {
+            srcDirs += ['../src-generated/resources']
+        }
+    }
+ }
+
+jar {
+    manifest {
+        attributes('Implementation-Title': rootProject.name,
+                   'Implementation-Version': project.version)
+    }
+    
+    //from sourceSets.main.allSource
+    from sourceSets.main.java.srcDirs
+}
+
+task dist (type: Jar) {
+    //duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    description = "Generate $jar.baseName for IMC API"
+    group = 'Distribution'
+    manifest {
+        attributes( 'Specification-Title': rootProject.name
+                   ,'Specification-Version': project.version
+                   ,'Implementation-Title': rootProject.name
+                   ,'Implementation-Version': project.version
+                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                   )
+    }
+    // Addimg runtime jars into the jar
+    from {configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    //from sourceSets.main.allSource
+    with jar
+    archivesBaseName = jar.baseName
+    //archiveVersion = ''
+    destinationDir = new java.io.File("$rootDir/dist")
+
+    doLast {
+        // println "configurations.runtimeClasspath"
+        // configurations.compileClasspath.each { print ' > '; println it }
+        // println "sourceSets.main.runtimeClasspath"
+        // sourceSets.main.compileClasspath.each { print ' > '; println it }
+    }
+}
