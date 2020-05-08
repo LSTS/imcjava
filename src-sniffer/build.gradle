@@ -1,6 +1,6 @@
 dependencies {
-  implementation project(':core')
-  implementation project(':core').sourceSets.main.runtimeClasspath
+  // implementation project(':core')
+  // implementation project(':core').sourceSets.main.runtimeClasspath
   implementation project(':gui')
   implementation project(':gui').sourceSets.main.runtimeClasspath
 

@@ -15,14 +15,18 @@ rootProject.name = 'IMCJava'
 
 include 'core'
 project(':core').projectDir = file('src')
+
 include 'generator'
 project(':generator').projectDir = file('src-generator')
 //include 'src-generated'
 
-include 'sniffer'
-project(':sniffer').projectDir = file('src-sniffer')
 include 'gui'
 project(':gui').projectDir = file('src-gui')
+include 'merge'
+project(':merge').projectDir = file('src-merge')
+
+include 'sniffer'
+project(':sniffer').projectDir = file('src-sniffer')
 
 // // include two projects, 'foo' and 'foo:bar'
 // // directories are inferred by replacing ':' with '/'

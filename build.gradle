@@ -15,9 +15,6 @@ allprojects {
     
     apply plugin: "com.gorylenko.gradle-git-properties"
     
-    dependencies {
-    }
-
     sourceSets {
         main {
             java {
@@ -74,6 +71,13 @@ allprojects {
 
 }
 
+    configure(subprojects.findAll { it.name != 'core' }) {
+        dependencies {
+            implementation project(':core')
+            implementation project(':core').sourceSets.main.runtimeClasspath
+        }
+    }
+
 def jarTask(proj, jarName, destFolder, mainClass) {
     configure(proj) {
         proj.tasks.create(jarName, Jar) {
@@ -95,7 +99,7 @@ def jarTask(proj, jarName, destFolder, mainClass) {
             with jar
             archivesBaseName = jarName
             //archiveVersion = ''
-            destinationDir = new java.io.File(!destFolder.isEmpty() ? "$rootDir/$destFolder" : "$rootDir/dist")
+            destinationDir = file(!destFolder.isEmpty() ? "$rootDir/$destFolder" : "$rootDir/dist")
 
             doLast {
                 // println "$project.name"
