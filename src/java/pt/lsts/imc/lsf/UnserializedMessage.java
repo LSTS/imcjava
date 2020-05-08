@@ -36,8 +36,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Date;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 
@@ -75,13 +73,25 @@ public class UnserializedMessage implements Comparable<UnserializedMessage> {
 		byte[] payload_footer = new byte[size + 2];
 		readBuffer(payload_footer, in);
 		
-		return new UnserializedMessage(bigEndian, ArrayUtils.addAll(header, payload_footer), defs);
+		return new UnserializedMessage(bigEndian, concatArray(header, payload_footer), defs);
 	}
 
 	public UnserializedMessage(boolean bigEndian, byte[] message, IMCDefinition def) {
 		this.data = message;
 		this.bigEndian = bigEndian;
 		this.defs = def;
+	}
+	
+	private static byte[] concatArray(byte[] array1, byte[] array2) {
+        if (array1 == null)
+            return array2 == null ? null : array2.clone();
+        else if (array2 == null)
+			return array1 == null ? null : array1.clone();
+
+        byte[] concatedArray = new byte[array1.length + array2.length];
+        System.arraycopy(array1, 0, concatedArray, 0, array1.length);
+        System.arraycopy(array2, 0, concatedArray, array1.length, array2.length);
+        return concatedArray;
 	}
 	
 	private int getShort(int msb, int lsb) {

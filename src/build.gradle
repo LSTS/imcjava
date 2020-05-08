@@ -4,7 +4,7 @@ def otheProjectsToPackToDistList = [project(':gui'), project(':merge')]
 
 dependencies {
     implementation 'com.eclipsesource.minimal-json:minimal-json:0.9.2'
-    implementation 'org.apache.commons:commons-lang3:3.1'
+    //implementation 'org.apache.commons:commons-lang3:3.1'
 }
 
 java {
