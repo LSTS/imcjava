@@ -27,6 +27,8 @@ project(':merge').projectDir = file('src-merge')
 
 include 'sniffer'
 project(':sniffer').projectDir = file('src-sniffer')
+include 'sender'
+project(':sender').projectDir = file('src-sender')
 
 // // include two projects, 'foo' and 'foo:bar'
 // // directories are inferred by replacing ':' with '/'
