@@ -1,0 +1,8 @@
+//jar.archiveBaseName = "imc${project.name}"
+
+dependencies {
+  implementation project(':gui')
+  implementation project(':gui').sourceSets.main.runtimeClasspath
+}
+
+jarTask(project, "$project.name", '', 'pt.lsts.imc.teleop.TeleoperationApp')

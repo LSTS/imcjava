@@ -71,12 +71,12 @@ allprojects {
 
 }
 
-    configure(subprojects.findAll { it.name != 'core' }) {
-        dependencies {
-            implementation project(':core')
-            implementation project(':core').sourceSets.main.runtimeClasspath
-        }
+configure(subprojects.findAll { it.name != 'core' }) {
+    dependencies {
+        implementation project(':core')
+        implementation project(':core').sourceSets.main.runtimeClasspath
     }
+}
 
 def jarTask(proj, jarName, destFolder, mainClass) {
     configure(proj) {

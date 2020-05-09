@@ -1,0 +1,7 @@
+//jar.archiveBaseName = "imc${project.name}"
+
+dependencies {
+  implementation 'org.mozilla:rhino:1.7R3'
+}
+
+jarTask(project, "$project.name", '', 'pt.lsts.imc.scripting.ImcScript')

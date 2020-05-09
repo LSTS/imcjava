@@ -31,6 +31,14 @@ include 'sender'
 project(':sender').projectDir = file('src-sender')
 include 'imcast'
 project(':imcast').projectDir = file('src-imcast')
+include 'shell'
+project(':shell').projectDir = file('src-shell')
+include 'scripting'
+project(':scripting').projectDir = file('src-scripting')
+include 'teleop'
+project(':teleop').projectDir = file('src-teleop')
+include 'ripples'
+project(':ripples').projectDir = file('src-ripples')
 
 // // include two projects, 'foo' and 'foo:bar'
 // // directories are inferred by replacing ':' with '/'
