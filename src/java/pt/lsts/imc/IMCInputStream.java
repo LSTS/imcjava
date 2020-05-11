@@ -39,8 +39,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 
-import pt.lsts.imc.Header;
-
 public class IMCInputStream extends FilterInputStream implements DataInput {
 
 	private final static int[] crc16_table = new int[] {
