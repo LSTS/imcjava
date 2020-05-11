@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
@@ -316,19 +317,29 @@ public void readSource(String input)
 {
   StringBuilder sb = new StringBuilder();
   
+  BufferedReader br = null;
   try
   {
       FileInputStream fis = new FileInputStream(input);
       DataInputStream dis = new DataInputStream(fis);
-      BufferedReader br = new BufferedReader(new InputStreamReader(dis));
+      br = new BufferedReader(new InputStreamReader(dis));
       String line;
       while ((line = br.readLine()) != null) {
           sb.append(line);
       }
       dis.close();
-  } 
+  }
   catch (Exception e) {
       System.err.println("Error: " + e.getMessage());
+  }
+  finally {
+      if (br != null)
+        try {
+            br.close();
+        }
+        catch (IOException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
   }
   
   this.graph = sb;
