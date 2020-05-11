@@ -357,7 +357,7 @@ public class LsfUtils {
                 }
                 else {
                     msgWeights.put(type, index.sizeOf(i) + msgWeights.get(type));
-                    countByType.put(type, countByType.get(i)+1);
+                    countByType.put(type, countByType.get(type)+1);
                 }
 
 
