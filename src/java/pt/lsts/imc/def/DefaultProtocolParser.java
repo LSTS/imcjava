@@ -379,7 +379,7 @@ public class DefaultProtocolParser extends AbstractProtocolParser {
 	}
 
 	public static void main(String[] args) throws Exception {
-		IMCDefinition.getInstance().create(EstimatedState.class);
+		IMCDefinition.getInstance().create("EstimatedState");
 		for (String name : IMCDefinition.getInstance().getMessageNames()) {
 			if (IMCDefinition.getInstance().getType(name).isAbstract())
 			System.out.println(name);
