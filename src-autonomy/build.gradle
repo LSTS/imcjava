@@ -1,0 +1,15 @@
+//jar.archiveBaseName = "imc${project.name}"
+
+dependencies {
+}
+
+task process {
+  dependsOn "${project.name}SequentialPlanExecution"
+
+  doLast {
+
+  }
+}
+
+jarTask(project, "${project.name}SequentialPlanExecution", "imc$project.name-sequencial-plan-exec",
+    "$distFolderName/$toolsFolderName", 'pt.lsts.imc.autonomy.SequentialPlanExecution')

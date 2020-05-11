@@ -41,6 +41,8 @@ include 'ripples'
 project(':ripples').projectDir = file('src-ripples')
 include 'process'
 project(':process').projectDir = file('src-process')
+include 'autonomy'
+project(':autonomy').projectDir = file('src-autonomy')
 
 // // include two projects, 'foo' and 'foo:bar'
 // // directories are inferred by replacing ':' with '/'
