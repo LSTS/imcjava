@@ -4,4 +4,4 @@ dependencies {
   implementation 'org.mozilla:rhino:1.7R3'
 }
 
-jarTask(project, "$project.name", '', 'pt.lsts.imc.scripting.ImcScript')
+jarTask(project, project.name, "imc$project.name","$distFolderName/$toolsFolderName", 'pt.lsts.imc.scripting.ImcScript')

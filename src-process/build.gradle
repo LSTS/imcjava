@@ -1,0 +1,12 @@
+//jar.archiveBaseName = "imc${project.name}"
+
+dependencies {
+}
+
+task process {
+  dependsOn "${project.name}DistanceTravelled", "${project.name}BatchLogbook", "${project.name}EulerAnglesTest"
+}
+
+jarTask(project, "${project.name}DistanceTravelled", "imc$project.name-distance-travelled", "$distFolderName/$toolsFolderName", 'pt.lsts.imc.process.DistanceTravelled')
+jarTask(project, "${project.name}BatchLogbook", "imc$project.name-batch-logbook", "$distFolderName/$toolsFolderName", 'pt.lsts.imc.process.BatchLogbook')
+jarTask(project, "${project.name}EulerAnglesTest", "imc$project.name-euler-angles-test", "$distFolderName/$toolsFolderName", 'pt.lsts.imc.process.EulerAnglesTest')

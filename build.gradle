@@ -4,6 +4,11 @@ plugins {
 
 description = "An IMC Java with bindings and generator for IMC."
 
+ext {
+    distFolderName = "dist"
+    toolsFolderName = "tools"
+}
+
 allprojects {
     version = '1.0.1'
     repositories {
@@ -78,12 +83,12 @@ configure(subprojects.findAll { it.name != 'core' }) {
     }
 }
 
-def jarTask(proj, jarName, destFolder, mainClass) {
+def jarTask(proj, taskName, jarBaseName, destFolder, mainClass) {
     configure(proj) {
-        proj.tasks.create(jarName, Jar) {
+        proj.tasks.create(taskName, Jar) {
             dependsOn generateGitProperties
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-            description = "Generate $jarName for IMC API"
+            description = "Generate $jarBaseName for IMC API"
             group = 'Distribution'
             manifest {m ->
                 m.getAttributes().put 'Specification-Title', rootProject.name
@@ -91,15 +96,15 @@ def jarTask(proj, jarName, destFolder, mainClass) {
                 m.getAttributes().put 'Specification-Version', project.version
                 m.getAttributes().put 'Implementation-Title', project.name
                 m.getAttributes().put 'Implementation-Version', project.version
-                //m.getAttributes().put 'Build-Revision', "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                m.getAttributes().put 'Build-Revision', "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
             }
             // Addimg runtime jars into the jar
             from {configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
             //from sourceSets.main.allSource
             with jar
-            archivesBaseName = jarName
+            archiveBaseName = jarBaseName
             //archiveVersion = ''
-            destinationDir = file(!destFolder.isEmpty() ? "$rootDir/$destFolder" : "$rootDir/dist")
+            destinationDir = file(!destFolder.isEmpty() ? "$rootDir/$destFolder" : "$rootDir/$distFolderName")
 
             doLast {
                 // println "$project.name"

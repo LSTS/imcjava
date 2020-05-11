@@ -5,4 +5,4 @@ dependencies {
   implementation 'net.sf.jchart2d:jchart2d:3.3.2'
 }
 
-jarTask(project, "$project.name", '', 'pt.lsts.imc.sniffer.IMCMessageSniffer')
+jarTask(project, project.name, "imc$project.name", "$distFolderName/$toolsFolderName", 'pt.lsts.imc.sniffer.IMCMessageSniffer')

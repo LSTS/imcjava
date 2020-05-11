@@ -5,4 +5,4 @@ dependencies {
   implementation project(':gui').sourceSets.main.runtimeClasspath
 }
 
-jarTask(project, "$project.name", '', 'pt.lsts.imc.teleop.TeleoperationApp')
+jarTask(project, project.name, "imc$project.name", "$distFolderName/$toolsFolderName", 'pt.lsts.imc.teleop.TeleoperationApp')

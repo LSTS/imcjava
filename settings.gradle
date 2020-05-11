@@ -39,6 +39,8 @@ include 'teleop'
 project(':teleop').projectDir = file('src-teleop')
 include 'ripples'
 project(':ripples').projectDir = file('src-ripples')
+include 'process'
+project(':process').projectDir = file('src-process')
 
 // // include two projects, 'foo' and 'foo:bar'
 // // directories are inferred by replacing ':' with '/'
