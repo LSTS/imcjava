@@ -47,7 +47,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import pt.lsts.imc.EstimatedState;
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessageType;
 
