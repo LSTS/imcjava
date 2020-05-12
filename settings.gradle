@@ -45,6 +45,8 @@ include 'autonomy'
 project(':autonomy').projectDir = file('src-autonomy')
 include 'lsfpreview'
 project(':lsfpreview').projectDir = file('src-lsfpreview')
+include 'junit'
+project(':junit').projectDir = file('src-junit')
 
 // // include two projects, 'foo' and 'foo:bar'
 // // directories are inferred by replacing ':' with '/'

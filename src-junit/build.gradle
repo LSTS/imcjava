@@ -1,0 +1,23 @@
+dependencies {
+    // testImplementation project(':core')
+    // testImplementation project(':core').sourceSets.main.runtimeClasspath
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'commons-io:commons-io:2.0.1'
+}
+
+sourceSets {
+    test {
+        java {
+            srcDirs = ['test']
+        }
+        resources {
+            srcDirs = ['resources']
+        }
+    }
+}
+
+test {
+    useJUnit()
+
+    maxHeapSize = '1G'
+}
