@@ -87,10 +87,11 @@ task dist (type: Jar) {
     }
 }
 
-task lsfTools {
+task coreTools {
   description = "Generate $project.name tools for IMC API"
   group = 'Distribution'
-  dependsOn 'lsfcat', 'lsfmerge', 'lsffilter', 'lsf2csv', 'lsf2llf'
+  dependsOn 'lsfcat', 'lsfmerge', 'lsffilter', 'lsf2csv', 'lsf2llf',
+    'imccontroller', 'imcvehicleadapter'
 }
 
 jarTask(project, "lsfcat", null, "$distFolderName/$toolsFolderName",
@@ -103,3 +104,7 @@ jarTask(project, "lsf2csv", null, "$distFolderName/$toolsFolderName",
   'pt.lsts.imc.lsf.Lsf2Csv', null)
 jarTask(project, "lsf2llf", null, "$distFolderName/$toolsFolderName",
   'pt.lsts.imc.llf.LSF2LLF', project(':gui'))
+jarTask(project, "imccontroller", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.control.ControlLink', null)
+jarTask(project, "imcvehicleadapter", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.adapter.VehicleAdapter', null)
