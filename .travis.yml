@@ -2,11 +2,13 @@ language: java
 
 before_install:
  - sudo apt-get -qq update
- # ant-optional is needed for ant junit. This used to be part of the default
- # Travis image.
- - sudo apt-get install ant-optional
+#  # ant-optional is needed for ant junit. This used to be part of the default
+#  # Travis image.
+#  - sudo apt-get install ant-optional
 
 jdk:
   - openjdk7
   - oraclejdk7
 
+  script:
+    - ./gradlew dist
