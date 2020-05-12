@@ -141,3 +141,7 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
 // dependencies {
 //     testImplementation 'junit:junit:4.12'
 // }
+
+clean {
+    delete fileTree(dir: "$distFolderName" , include: '**/*.jar')
+}
