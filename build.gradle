@@ -138,10 +138,20 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
     }
 }
 
-// dependencies {
-//     testImplementation 'junit:junit:4.12'
-// }
-
 clean {
     delete fileTree(dir: "$distFolderName" , include: '**/*.jar')
+}
+
+task cleanEclipseFiles {
+    delete fileTree(dir: "$rootDir" , include: '**/.project')
+    delete fileTree(dir: "$rootDir" , include: '**/.classpath')
+    delete fileTree(dir: "$rootDir" , include: '**/.settings')
+}
+
+task cleanIdeaFiles {
+    delete fileTree(dir: "$rootDir" , include: '**/.idea')
+}
+
+task cleanVSCodeFiles {
+    delete fileTree(dir: "$rootDir" , include: '.vscode')
 }

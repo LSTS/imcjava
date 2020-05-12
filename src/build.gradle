@@ -87,6 +87,17 @@ task dist (type: Jar) {
     }
 }
 
+// task uberJar(type: Jar) {
+//     archiveClassifier = 'uber'
+
+//     from sourceSets.main.output
+
+//     dependsOn configurations.runtimeClasspath
+//     from {
+//         configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+//     }
+// }
+
 task coreTools {
   description = "Generate $project.name tools for IMC API"
   group = 'Distribution'
