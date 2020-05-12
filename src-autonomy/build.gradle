@@ -12,4 +12,4 @@ task process {
 }
 
 jarTask(project, "${project.name}SequentialPlanExecution", "imc$project.name-sequencial-plan-exec",
-    "$distFolderName/$toolsFolderName", 'pt.lsts.imc.autonomy.SequentialPlanExecution')
+    "$distFolderName/$toolsFolderName", 'pt.lsts.imc.autonomy.SequentialPlanExecution', null)

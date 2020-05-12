@@ -86,3 +86,20 @@ task dist (type: Jar) {
         // project.sourceSets.main.output.each { print ' > '; println it }
     }
 }
+
+task lsfTools {
+  description = "Generate $project.name tools for IMC API"
+  group = 'Distribution'
+  dependsOn 'lsfcat', 'lsfmerge', 'lsffilter', 'lsf2csv', 'lsf2llf'
+}
+
+jarTask(project, "lsfcat", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.lsf.LsfCat', null)
+jarTask(project, "lsfmerge", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.lsf.LsfMerge', null)
+jarTask(project, "lsffilter", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.lsf.LsfFilter', null)
+jarTask(project, "lsf2csv", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.lsf.Lsf2Csv', null)
+jarTask(project, "lsf2llf", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.llf.LSF2LLF', project(':gui'))

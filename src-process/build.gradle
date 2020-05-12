@@ -4,6 +4,8 @@ dependencies {
 }
 
 task process {
+  description = "Generate $project.name tools for IMC API"
+  group = 'Distribution'
   dependsOn "${project.name}DistanceTravelled", "${project.name}BatchLogbook", "${project.name}EulerAnglesTest"
 }
 
@@ -12,16 +14,19 @@ jarTask(project,
   "imc$project.name-distance-travelled",
   "$distFolderName/$toolsFolderName",
   'pt.lsts.imc.process.DistanceTravelled',
+  null,
 )
 jarTask(project,
   "${project.name}BatchLogbook",
   "imc$project.name-batch-logbook",
   "$distFolderName/$toolsFolderName",
   'pt.lsts.imc.process.BatchLogbook',
+  null,
 )
 jarTask(project,
   "${project.name}EulerAnglesTest",
   "imc$project.name-euler-angles-test",
   "$distFolderName/$toolsFolderName", 
   'pt.lsts.imc.process.EulerAnglesTest',
+  null,
 )

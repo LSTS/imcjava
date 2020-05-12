@@ -6,4 +6,5 @@ dependencies {
   implementation 'com.firebase:firebase-client-jvm:2.5.2'
 }
 
-jarTask(project, project.name, "$project.name", "$distFolderName/$toolsFolderName", 'pt.lsts.imc.ripples.RipplesMain')
+jarTask(project, project.name, "$project.name", "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.ripples.RipplesMain', null)

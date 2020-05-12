@@ -2,4 +2,5 @@ dependencies {
   implementation 'com.google.code.gson:gson:2.5'
 }
 
-jarTask(project, project.name, "$project.name", "$distFolderName/$toolsFolderName", 'pt.lsts.imc.net.ImcBroadcaster')
+jarTask(project, project.name, "$project.name", "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.net.ImcBroadcaster', null)
