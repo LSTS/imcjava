@@ -1,0 +1,8 @@
+//jar.archiveBaseName = "imc${project.name}"
+
+dependencies {
+  implementation 'com.googlecode.clichemaven:cliche:110413'
+}
+
+jarTask(project, project.name,  "imc$project.name", "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.cli.ImcShell', null)

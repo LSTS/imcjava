@@ -1,0 +1,10 @@
+//jar.archiveBaseName = "imc${project.name}"
+
+dependencies {
+  // original 1.0.15-SNAPSHOT
+  //implementation 'com.firebase:firebase-client-jvm:1.1.0'
+  implementation 'com.firebase:firebase-client-jvm:2.5.2'
+}
+
+jarTask(project, project.name, "$project.name", "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.ripples.RipplesMain', null)

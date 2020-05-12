@@ -1,0 +1,82 @@
+// **** CHANGE TO TWEAK THE BUILD **** //
+
+// Set this for the GitHub IMC definition repo
+gradle.ext.imcGitHubRepo = 'LSTS/imc'
+// Set this for the branch of the GitHub IMC definition repo
+gradle.ext.imcGitHubBranch = '9c3b296'
+// Set if you want to use the IMC_Addresses.xml or not
+gradle.ext.imcDownloadIMCAddresses = 'false'
+// Set this for the folder IMC definition repo
+gradle.ext.imcFilePath = '../IMC'
+
+
+// **** DON'T CHANGE FROM THIS LINE ON **** //
+rootProject.name = 'IMCJava'
+
+include 'core'
+project(':core').projectDir = file('src')
+
+include 'generator'
+project(':generator').projectDir = file('src-generator')
+//include 'src-generated'
+
+include 'gui'
+project(':gui').projectDir = file('src-gui')
+include 'merge'
+project(':merge').projectDir = file('src-merge')
+
+include 'sniffer'
+project(':sniffer').projectDir = file('src-sniffer')
+include 'sender'
+project(':sender').projectDir = file('src-sender')
+include 'imcast'
+project(':imcast').projectDir = file('src-imcast')
+include 'shell'
+project(':shell').projectDir = file('src-shell')
+include 'scripting'
+project(':scripting').projectDir = file('src-scripting')
+include 'teleop'
+project(':teleop').projectDir = file('src-teleop')
+include 'ripples'
+project(':ripples').projectDir = file('src-ripples')
+include 'process'
+project(':process').projectDir = file('src-process')
+include 'autonomy'
+project(':autonomy').projectDir = file('src-autonomy')
+include 'lsfpreview'
+project(':lsfpreview').projectDir = file('src-lsfpreview')
+include 'junit'
+project(':junit').projectDir = file('src-junit')
+
+// // include two projects, 'foo' and 'foo:bar'
+// // directories are inferred by replacing ':' with '/'
+// include 'foo:bar'
+
+// // include one project whose project dir does not match the logical project path
+// include 'baz'
+// project(':baz').projectDir = file('foo/baz')
+
+// // include many projects whose project dirs do not match the logical project paths
+// file('subprojects').eachDir { dir ->
+//   include dir.name
+//   project(":${dir.name}").projectDir = dir
+// }
+
+
+// implementation 'com.google.code.gson:gson:2.5'
+// implementation 'com.fifesoft:rsyntaxtextarea:2.5.8'
+// implementation 'commons-io:commons-io:2.0.1'
+// implementation 'com.googlecode.clichemaven:cliche:110413'
+// implementation 'com.firebase.client:firebase-client-jvm:1.0.8' **
+
+// implementation 'javax.servlet:servlet-api:3.0-alpha-1'  **
+// compile group: 'javax', name: 'servlet', version: '3.0.0-v201112011016'
+// implementation 'javax.servlet:javax.servlet-api:3.0.1'
+
+// implementation 'net.sf.jchart2d:jchart2d:3.2.0' **n está no maven
+// implementation 'net.sf.jchart2d:jchart2d:3.3.2'
+
+// implementation 'org.eclipse.jetty.aggregate:jetty-all:9.0.0.v20130308'
+
+// implementation 'rhino:js:1.7R2'
+// //implementation 'org.mozilla:rhino:1.7R3'

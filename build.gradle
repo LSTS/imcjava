@@ -1,0 +1,147 @@
+plugins {
+    id "com.gorylenko.gradle-git-properties" version "2.2.2"
+}
+
+description = "An IMC Java with bindings and generator for IMC."
+
+ext {
+    distFolderName = "dist"
+    toolsFolderName = "tools"
+}
+
+allprojects {
+    version = '1.0.1'
+    repositories {
+        mavenCentral()
+    }
+
+    apply plugin: 'java'
+    compileJava.options.encoding = 'UTF-8'
+    
+    apply plugin: "com.gorylenko.gradle-git-properties"
+    
+    sourceSets {
+        main {
+            java {
+                srcDirs = ['java']
+            }
+            resources {
+                srcDirs = ['resources']
+            }
+        }
+    }
+
+    processResources {
+        from (rootProject.projectDir) {
+            include 'COPYRIGHT.TXT'
+        }
+        doLast {
+            println 'Added common resources'
+        }
+    }
+
+    jar {
+        manifest {
+            attributes( 'Specification-Title': rootProject.name
+                    ,'Specification-Version': project.version
+                    ,'Implementation-Title': project.name
+                    ,'Implementation-Version': project.version
+                    ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                    )
+        }
+    }
+
+    gitProperties {
+        extProperty = 'gitProps'
+        failOnNoGitDirectory = false
+
+        dateFormat = "yyyy-MM-dd'T'HH:mmZ"
+        dateFormatTimeZone = "UTC"
+
+        gitPropertiesName = "git.info"
+        keys = ['git.branch',
+                'git.build.version',
+                'git.closest.tag.commit.count',
+                'git.closest.tag.name',
+                'git.commit.id',
+                'git.commit.id.abbrev',
+                'git.commit.id.describe',
+                'git.commit.time',
+                'git.dirty',
+                'git.remote.origin.url',
+                'git.tags',
+                ]
+    }
+    generateGitProperties.outputs.upToDateWhen { false }
+
+}
+
+configure(subprojects.findAll { it.name != 'core' }) {
+    dependencies {
+        implementation project(':core')
+        implementation project(':core').sourceSets.main.runtimeClasspath
+    }
+}
+
+/**
+ * To add a net task to a project.
+ * @param proj the project object
+ * @param taskName the name of the task
+ * @param jarBaseName the archiveBaseName, use null for using the taskName instead
+ * @param destFolder the destination folder (relative to root folder, use null to use default
+ * @param mainClass the main class to add to the manifest, use null for none
+ * @param otherProjectsToPackToDistList other projects to add
+ */
+def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToPackToDistList) {
+    configure(proj) {
+        proj.tasks.create(taskName, Jar) {
+            if (otherProjectsToPackToDistList != null)
+                dependsOn otherProjectsToPackToDistList.collect { it.jar }
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+            description = "Generate ${jarBaseName ?: taskName} for IMC API"
+            group = 'Distribution'
+            manifest {m ->
+                m.getAttributes().put 'Specification-Title', rootProject.name
+                if (mainClass != null && !mainClass.isEmpty())
+                    m.getAttributes().put 'Main-Class', mainClass
+                m.getAttributes().put 'Specification-Version', project.version
+                m.getAttributes().put 'Implementation-Title', "$project.name, ${jarBaseName ?: taskName}"
+                m.getAttributes().put 'Implementation-Version', project.version
+                m.getAttributes().put 'Build-Revision', "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+            }
+
+            // Addimg runtime jars into the jar
+            def addedAssets = configurations.runtimeClasspath - configurations.runtimeClasspath
+            if (otherProjectsToPackToDistList != null) {
+                otherProjectsToPackToDistList.collect { addedAssets += (it.sourceSets.main.runtimeClasspath - configurations.runtimeClasspath) }
+                addedAssets = addedAssets.findAll { !it.toString().contains(project.buildDir.toString()) }
+            }
+
+            // Addimg runtime jars into the jar
+            from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+            if (!addedAssets.isEmpty())
+                from { addedAssets.toUnique().collect { it.isDirectory() ? it : zipTree(it) } }
+            //from sourceSets.main.allSource
+            with jar
+            archiveBaseName = jarBaseName ?: taskName
+            //archiveVersion = ''
+            destinationDirectory = file(destFolder != null && !destFolder.isEmpty() ? "$rootDir/$destFolder" : "$rootDir/$distFolderName")
+
+            doLast {
+                // println "$project.name"
+                // println "configurations.runtimeClasspath"
+                // configurations.compileClasspath.each { print ' > '; println it }
+                // println "sourceSets.main.runtimeClasspath"
+                // sourceSets.main.compileClasspath.each { print ' > '; println it }
+            }
+        }
+    }
+}
+
+// dependencies {
+//     testImplementation 'junit:junit:4.12'
+// }
+
+clean {
+    delete fileTree(dir: "$distFolderName" , include: '**/*.jar')
+}

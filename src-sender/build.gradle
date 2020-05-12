@@ -1,0 +1,7 @@
+dependencies {
+  implementation 'com.google.code.gson:gson:2.5'
+  implementation 'com.fifesoft:rsyntaxtextarea:2.5.8'
+}
+
+jarTask(project, project.name, "imc$project.name", "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.sender.MessageSender', null)

@@ -1,0 +1,110 @@
+jar.archiveBaseName = "libimc"
+
+def otherProjectsToPackToDistList = [project(':gui'), project(':merge')]
+
+dependencies {
+    implementation 'com.eclipsesource.minimal-json:minimal-json:0.9.2'
+    //implementation 'org.apache.commons:commons-lang3:3.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+
+    //withSourcesJar()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs += ['../src-generated/java']
+        }
+
+        resources {
+            srcDirs += ['../src-generated/resources']
+        }
+    }
+ }
+
+jar {
+    manifest {
+        attributes( 'Specification-Title': rootProject.name
+                   ,'Specification-Version': project.version
+                   ,'Implementation-Title': jar.archiveBaseName
+                   ,'Implementation-Version': project.version
+                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                   ,'Main-Class': 'pt.lsts.imc.IMCDefinition'
+                   )
+    }
+    
+    //from sourceSets.main.allSource
+    from sourceSets.main.java.srcDirs
+}
+
+task dist (type: Jar) {
+    description = "Generate $jar.archiveBaseName for IMC API"
+    group = 'Distribution'
+
+    dependsOn otherProjectsToPackToDistList.collect { it.jar }
+
+    // We need this because of the gathering of other projects
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes( 'Specification-Title': rootProject.name
+                   ,'Specification-Version': project.version
+                   ,'Implementation-Title': jar.archiveBaseName
+                   ,'Implementation-Version': project.version
+                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                   ,'Main-Class': 'pt.lsts.imc.IMCDefinition'
+                   )
+    }
+    // Addimg runtime jars into the jar
+    def addedAssets = configurations.runtimeClasspath - configurations.runtimeClasspath
+    otherProjectsToPackToDistList.collect { addedAssets += (it.sourceSets.main.runtimeClasspath - configurations.runtimeClasspath) }
+    addedAssets = addedAssets.findAll { !it.toString().contains(project.buildDir.toString()) }
+
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { addedAssets.toUnique().collect { it.isDirectory() ? it : zipTree(it) } }
+    //from sourceSets.main.allSource
+    with jar
+    archiveBaseName = jar.archiveBaseName
+    //archiveVersion = ''
+    destinationDirectory = file("$rootDir/$distFolderName")
+
+    doLast {
+        // println "configurations.runtimeClasspath"
+        // configurations.compileClasspath.each { print ' > '; println it }
+        // println "sourceSets.main.runtimeClasspath"
+        // sourceSets.main.runtimeClasspath.each { print ' > '; println it }
+        // println "project(':gui').sourceSets.main.runtimeClasspath"
+        // project(':gui').sourceSets.main.runtimeClasspath.each { print ' > '; println it }
+        // println "project(':merge').sourceSets.main.runtimeClasspath"
+        // project(':merge').sourceSets.main.runtimeClasspath.each { print ' > '; println it }
+        // println "configurations.extraPackedProjects - configurations.runtimeClasspath"
+        // addedAssets.each { print ' > '; println it }
+        // println "configurations.output"
+        // project.sourceSets.main.output.each { print ' > '; println it }
+    }
+}
+
+task coreTools {
+  description = "Generate $project.name tools for IMC API"
+  group = 'Distribution'
+  dependsOn 'lsfcat', 'lsfmerge', 'lsffilter', 'lsf2csv', 'lsf2llf',
+    'imccontroller', 'imcvehicleadapter'
+}
+
+jarTask(project, "lsfcat", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.lsf.LsfCat', null)
+jarTask(project, "lsfmerge", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.lsf.LsfMerge', null)
+jarTask(project, "lsffilter", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.lsf.LsfFilter', null)
+jarTask(project, "lsf2csv", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.lsf.Lsf2Csv', null)
+jarTask(project, "lsf2llf", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.llf.LSF2LLF', project(':gui'))
+jarTask(project, "imccontroller", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.control.ControlLink', null)
+jarTask(project, "imcvehicleadapter", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.imc.adapter.VehicleAdapter', null)
