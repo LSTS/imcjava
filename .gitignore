@@ -13,8 +13,9 @@ build
 
 /.vscode
 bin
-/.idea
 
-src*/.classpath
-src*/.project
-src*/.settings
+.idea
+
+.project
+.settings
+.classpath
