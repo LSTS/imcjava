@@ -89,7 +89,7 @@ public class DistanceTravelled {
 	
 	@Consume
 	void on(Announce msg) {
-		if (msg.getSysType() == SystemType.UUV && isInWater(msg.getSrc())) {
+		if (msg.getSysType() == SystemType.UAV) {// && isInWater(msg.getSrc())) {
 			announces.put(msg.getSrc(), msg);			
 		}
 	}
@@ -123,7 +123,7 @@ public class DistanceTravelled {
 	void on(EstimatedState msg) {
 		int id = msg.getSrc();
 
-		if (!isUUV(id) || !isInWater(id))
+		if (!isUAV(id))// || !isInWater(id))
 			return;
 
 		states.putIfAbsent(id, msg);
@@ -143,7 +143,7 @@ public class DistanceTravelled {
 		states.put(id, msg);
 	}
 
-	boolean isUUV(int id) {
+	boolean isUAV(int id) {
 		return announces.containsKey(id);
 	}
 
