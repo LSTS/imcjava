@@ -73,9 +73,9 @@ public class LsfBatch {
 
 		LsfLog log = LsfLog.create(root);
 		if (log != null) {
-			if (logs.add(log))
-				System.out.println("Added " + root.getAbsolutePath());
-			else
+			if (!logs.add(log))
+//				System.out.println("Added " + root.getAbsolutePath());
+//			else
 				System.err.println("Duplicate " + root.getAbsolutePath() + " not added.");
 		}
 
