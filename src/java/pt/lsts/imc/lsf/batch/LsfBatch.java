@@ -172,6 +172,21 @@ public class LsfBatch {
 
 		return batch;
 	}
+	
+	public static LsfBatch selectDir(String path) {
+		File dir = new File(path);
+
+		if (!dir.isDirectory()) {
+			System.err.println("Please provide a path to a directory");
+			return null;
+		}
+
+		LsfBatch batch = new LsfBatch();
+		for (File f : dir.listFiles())
+			batch.addRecursively(f);
+
+		return batch;
+	}
 
 	public void process(Object... consumers) {
 		LinkedHashMap<ImcConsumer, Vector<Integer>> pojos = new LinkedHashMap<ImcConsumer, Vector<Integer>>();

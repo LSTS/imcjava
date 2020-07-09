@@ -186,7 +186,7 @@ public class DistanceTravelled {
 	}
 
 	void addPosition(String timestamp, String vehicle, double lat, double lon, double depth, double alt, String payload) {
-		System.out.println(timestamp+", "+vehicle+", "+lat+", "+lon+", "+depth+", "+alt+", "+payload);
+		//System.out.println(timestamp+", "+vehicle+", "+lat+", "+lon+", "+depth+", "+alt+", "+payload);
 	}
 	
 	void addDistance(int id, double distance) {
@@ -224,14 +224,20 @@ public class DistanceTravelled {
 	}
 
 	public static void main(String[] args) {
+		String dir;
 		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			if(args.length < 1)
+				return;
+			dir = args[0];
+			System.out.println(dir);
+			LsfBatch batch = LsfBatch.selectDir(dir);
+			DistanceTravelled processor = new DistanceTravelled();
+			batch.process(processor);
+			processor.summary();
+				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		LsfBatch batch = LsfBatch.selectFolders();
-		DistanceTravelled processor = new DistanceTravelled();
-		batch.process(processor);
-		processor.summary();
 	}
 }
