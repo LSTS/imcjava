@@ -28,6 +28,7 @@
  */
 package pt.lsts.imc.process;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -223,13 +224,22 @@ public class DistanceTravelled {
 		System.out.println(payloadsDistance);
 	}
 
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch (Exception e) {
-			e.printStackTrace();
+	public static void main(String[] args) throws Exception {
+		LsfBatch batch;
+		if (args.length == 0) {
+			try {
+				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			batch = LsfBatch.selectFolders();
 		}
-		LsfBatch batch = LsfBatch.selectFolders();
+		else {
+			batch = new LsfBatch(new File(args[0]));
+			for (int i = 1; i < args.length; i++)
+				batch.addRecursively(new File(args[i]));
+		}
+
 		DistanceTravelled processor = new DistanceTravelled();
 		batch.process(processor);
 		processor.summary();
