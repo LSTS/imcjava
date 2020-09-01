@@ -10,7 +10,7 @@ Java bindings for IMC
 ## Compilation
 ```./gradlew dist```
 
-To update the IMC run from GitHub or from local folder (settings adjusted in stettings.gradle):
+To update the IMC run from GitHub or from local folder (settings adjusted in settings.gradle):
 
 ```./gradlew updateIMC```
 
