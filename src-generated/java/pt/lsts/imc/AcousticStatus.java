@@ -60,6 +60,7 @@ public class AcousticStatus extends IMCMessage {
 		IN_PROGRESS(1),
 		SENT(2),
 		RANGE_RECEIVED(3),
+		DELIVERED(4),
 		BUSY(100),
 		INPUT_FAILURE(101),
 		ERROR(102),

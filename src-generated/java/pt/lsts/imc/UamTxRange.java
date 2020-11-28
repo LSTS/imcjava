@@ -31,41 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamTxStatus (816)<br/>
+ *  IMC Message UamTxRange (818)<br/>
+ *  Request an acoustic modem driver to measure the distance to another system.<br/>
  */
 
-public class UamTxStatus extends IMCMessage {
+public class UamTxRange extends IMCMessage {
 
-	public enum VALUE {
-		DONE(0),
-		FAILED(1),
-		CANCELED(2),
-		BUSY(3),
-		INV_ADDR(4),
-		IP(5),
-		UNSUPPORTED(6),
-		INV_SIZE(7),
-		SENT(8),
-		DELIVERED(9);
+	public static final int ID_STATIC = 818;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		VALUE(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 816;
-
-	public UamTxStatus() {
+	public UamTxRange() {
 		super(ID_STATIC);
 	}
 
-	public UamTxStatus(IMCMessage msg) {
+	public UamTxRange(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -75,20 +53,20 @@ public class UamTxStatus extends IMCMessage {
 		}
 	}
 
-	public UamTxStatus(IMCDefinition defs) {
+	public UamTxRange(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamTxStatus create(Object... values) {
-		UamTxStatus m = new UamTxStatus();
+	public static UamTxRange create(Object... values) {
+		UamTxRange m = new UamTxRange();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamTxStatus clone(IMCMessage msg) throws Exception {
+	public static UamTxRange clone(IMCMessage msg) throws Exception {
 
-		UamTxStatus m = new UamTxStatus();
+		UamTxRange m = new UamTxRange();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -103,12 +81,12 @@ public class UamTxStatus extends IMCMessage {
 		return m;
 	}
 
-	public UamTxStatus(int seq, VALUE value, String error) {
+	public UamTxRange(int seq, String sys_dst, float timeout) {
 		super(ID_STATIC);
 		setSeq(seq);
-		setValue(value);
-		if (error != null)
-			setError(error);
+		if (sys_dst != null)
+			setSysDst(sys_dst);
+		setTimeout(timeout);
 	}
 
 	/**
@@ -121,68 +99,38 @@ public class UamTxStatus extends IMCMessage {
 	/**
 	 *  @param seq Sequence Id
 	 */
-	public UamTxStatus setSeq(int seq) {
+	public UamTxRange setSeq(int seq) {
 		values.put("seq", seq);
 		return this;
 	}
 
 	/**
-	 *  @return Value (enumerated) - uint8_t
+	 *  @return Destination System - plaintext
 	 */
-	public VALUE getValue() {
-		try {
-			VALUE o = VALUE.valueOf(getMessageType().getFieldPossibleValues("value").get(getLong("value")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getValueStr() {
-		return getString("value");
-	}
-
-	public short getValueVal() {
-		return (short) getInteger("value");
+	public String getSysDst() {
+		return getString("sys_dst");
 	}
 
 	/**
-	 *  @param value Value (enumerated)
+	 *  @param sys_dst Destination System
 	 */
-	public UamTxStatus setValue(VALUE value) {
-		values.put("value", value.value());
+	public UamTxRange setSysDst(String sys_dst) {
+		values.put("sys_dst", sys_dst);
 		return this;
 	}
 
 	/**
-	 *  @param value Value (as a String)
+	 *  @return Timeout (s) - fp32_t
 	 */
-	public UamTxStatus setValueStr(String value) {
-		setValue("value", value);
-		return this;
+	public double getTimeout() {
+		return getDouble("timeout");
 	}
 
 	/**
-	 *  @param value Value (integer value)
+	 *  @param timeout Timeout (s)
 	 */
-	public UamTxStatus setValueVal(short value) {
-		setValue("value", value);
-		return this;
-	}
-
-	/**
-	 *  @return Error Message - plaintext
-	 */
-	public String getError() {
-		return getString("error");
-	}
-
-	/**
-	 *  @param error Error Message
-	 */
-	public UamTxStatus setError(String error) {
-		values.put("error", error);
+	public UamTxRange setTimeout(double timeout) {
+		values.put("timeout", timeout);
 		return this;
 	}
 

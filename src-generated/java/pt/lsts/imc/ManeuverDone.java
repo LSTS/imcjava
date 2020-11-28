@@ -31,41 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamTxStatus (816)<br/>
+ *  IMC Message Maneuver Done (497)<br/>
+ *  Notification of completion of a maneuver (optional use).<br/>
  */
 
-public class UamTxStatus extends IMCMessage {
+public class ManeuverDone extends IMCMessage {
 
-	public enum VALUE {
-		DONE(0),
-		FAILED(1),
-		CANCELED(2),
-		BUSY(3),
-		INV_ADDR(4),
-		IP(5),
-		UNSUPPORTED(6),
-		INV_SIZE(7),
-		SENT(8),
-		DELIVERED(9);
+	public static final int ID_STATIC = 497;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		VALUE(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 816;
-
-	public UamTxStatus() {
+	public ManeuverDone() {
 		super(ID_STATIC);
 	}
 
-	public UamTxStatus(IMCMessage msg) {
+	public ManeuverDone(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -75,20 +53,20 @@ public class UamTxStatus extends IMCMessage {
 		}
 	}
 
-	public UamTxStatus(IMCDefinition defs) {
+	public ManeuverDone(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamTxStatus create(Object... values) {
-		UamTxStatus m = new UamTxStatus();
+	public static ManeuverDone create(Object... values) {
+		ManeuverDone m = new ManeuverDone();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamTxStatus clone(IMCMessage msg) throws Exception {
+	public static ManeuverDone clone(IMCMessage msg) throws Exception {
 
-		UamTxStatus m = new UamTxStatus();
+		ManeuverDone m = new ManeuverDone();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -101,89 +79,6 @@ public class UamTxStatus extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
-	}
-
-	public UamTxStatus(int seq, VALUE value, String error) {
-		super(ID_STATIC);
-		setSeq(seq);
-		setValue(value);
-		if (error != null)
-			setError(error);
-	}
-
-	/**
-	 *  @return Sequence Id - uint16_t
-	 */
-	public int getSeq() {
-		return getInteger("seq");
-	}
-
-	/**
-	 *  @param seq Sequence Id
-	 */
-	public UamTxStatus setSeq(int seq) {
-		values.put("seq", seq);
-		return this;
-	}
-
-	/**
-	 *  @return Value (enumerated) - uint8_t
-	 */
-	public VALUE getValue() {
-		try {
-			VALUE o = VALUE.valueOf(getMessageType().getFieldPossibleValues("value").get(getLong("value")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getValueStr() {
-		return getString("value");
-	}
-
-	public short getValueVal() {
-		return (short) getInteger("value");
-	}
-
-	/**
-	 *  @param value Value (enumerated)
-	 */
-	public UamTxStatus setValue(VALUE value) {
-		values.put("value", value.value());
-		return this;
-	}
-
-	/**
-	 *  @param value Value (as a String)
-	 */
-	public UamTxStatus setValueStr(String value) {
-		setValue("value", value);
-		return this;
-	}
-
-	/**
-	 *  @param value Value (integer value)
-	 */
-	public UamTxStatus setValueVal(short value) {
-		setValue("value", value);
-		return this;
-	}
-
-	/**
-	 *  @return Error Message - plaintext
-	 */
-	public String getError() {
-		return getString("error");
-	}
-
-	/**
-	 *  @param error Error Message
-	 */
-	public UamTxStatus setError(String error) {
-		values.put("error", error);
-		return this;
 	}
 
 }

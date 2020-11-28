@@ -170,6 +170,8 @@ public class MessageFactory {
 				return new LblConfig(defs);
 			case AcousticMessage.ID_STATIC:
 				return new AcousticMessage(defs);
+			case SimAcousticMessage.ID_STATIC:
+				return new SimAcousticMessage(defs);
 			case AcousticOperation.ID_STATIC:
 				return new AcousticOperation(defs);
 			case AcousticSystemsQuery.ID_STATIC:
@@ -468,6 +470,8 @@ public class MessageFactory {
 				return new Alignment(defs);
 			case StationKeepingExtended.ID_STATIC:
 				return new StationKeepingExtended(defs);
+			case ManeuverDone.ID_STATIC:
+				return new ManeuverDone(defs);
 			case Magnetometer.ID_STATIC:
 				return new Magnetometer(defs);
 			case VehicleState.ID_STATIC:
@@ -616,6 +620,8 @@ public class MessageFactory {
 				return new UamTxStatus(defs);
 			case UamRxRange.ID_STATIC:
 				return new UamRxRange(defs);
+			case UamTxRange.ID_STATIC:
+				return new UamTxRange(defs);
 			case FormCtrlParam.ID_STATIC:
 				return new FormCtrlParam(defs);
 			case FormationEval.ID_STATIC:
