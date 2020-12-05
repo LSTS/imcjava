@@ -37,7 +37,7 @@ import pt.lsts.imc.IMCMessage;
 public class IndexScanner {
 
 	LsfIndex index;
-	int curIndex;
+	long curIndex;
 
 	public IndexScanner(LsfIndex index) {
 		this.index = index;
@@ -59,7 +59,7 @@ public class IndexScanner {
 		if (curIndex >= index.getNumberOfMessages())
 			return null;
 
-		int idx = index.getNextMessageOfType(type.getSimpleName(), curIndex);
+		long idx = index.getNextMessageOfType(type.getSimpleName(), curIndex);
 		if (idx == -1)
 			return null;
 		curIndex = idx + 1;
@@ -75,7 +75,7 @@ public class IndexScanner {
 		if (curIndex >= index.getNumberOfMessages())
 			return null;
 
-		int idx = index.getPreviousMessageOfType(index.getDefinitions()
+		long idx = index.getPreviousMessageOfType(index.getDefinitions()
 				.getMessageId(type.getSimpleName()), curIndex);
 		if (idx == -1)
 			return null;
@@ -93,7 +93,7 @@ public class IndexScanner {
 		if (ent == -1)
 			return null;
 
-		int i = index.getNextMessageOfEntity(index.getDefinitions()
+		long i = index.getNextMessageOfEntity(index.getDefinitions()
 				.getMessageId(type.getSimpleName()), ent, curIndex);
 		if (i == -1)
 			return null;
@@ -106,7 +106,7 @@ public class IndexScanner {
 		}
 	}
 
-	public void setIndex(int msgIndex) throws Exception {
+	public void setIndex(long msgIndex) throws Exception {
 		if (msgIndex >= index.getNumberOfMessages())
 			throw new Exception(
 					"Given index is bigger than number of messages in the log");
@@ -115,7 +115,7 @@ public class IndexScanner {
 		curIndex = msgIndex;
 	}
 
-	public int getIndex() {
+	public long getIndex() {
 		return curIndex;
 	}
 
@@ -135,5 +135,4 @@ public class IndexScanner {
 			scanner.previous(EstimatedState.class).dump(System.out);
 		}
 	}
-
 }

@@ -40,11 +40,11 @@ public class LsfGenericIterator implements Iterator<IMCMessage>, Iterable<IMCMes
     protected double timestepSeconds;
     protected int msgType;
     protected LsfIndex index;
-    protected int nextIndex;
+    protected long nextIndex;
     protected LinkedHashMap<Integer, Double> entityTimeStamps = new LinkedHashMap<Integer, Double>();    
     protected boolean divideById = false;
     
-    public LsfGenericIterator(LsfIndex index, String msgType, int startIndex, long timestepMillis) {
+    public LsfGenericIterator(LsfIndex index, String msgType, long startIndex, long timestepMillis) {
         this.index = index;
         this.msgType = index.getDefinitions().getMessageId(msgType);
         this.timestepSeconds = timestepMillis / 1000.0;

@@ -51,7 +51,7 @@ public class LsfPreview {
     double timeStep = 1;
 
     public LsfPreview(LsfIndex index) {
-        for (int i = index.getFirstMessageOfType("EstimatedState"); i != -1; i = index.getNextMessageOfType(
+        for (long i = index.getFirstMessageOfType("EstimatedState"); i != -1; i = index.getNextMessageOfType(
                 "EstimatedState", i)) {
             if (index.timeOf(i) - lastTime >= timeStep) {
                 try {
@@ -66,7 +66,7 @@ public class LsfPreview {
             }
         }
 
-        for (int i = index.getFirstMessageOfType("LogBookEntry"); i != -1; i = index.getNextMessageOfType(
+        for (long i = index.getFirstMessageOfType("LogBookEntry"); i != -1; i = index.getNextMessageOfType(
                 "LogBookEntry", i)) {
             try {
                 LogBookEntry entry = new LogBookEntry();

@@ -37,7 +37,7 @@ public class LsfIndexEntityInterator implements Iterator<IMCMessage>, Iterable<I
 
 	protected String entityName;
     protected LsfIndex index;
-    protected int nextIndex;
+    protected long nextIndex;
     
     public LsfIndexEntityInterator(LsfIndex index, String entityName) {
     	this.index = index;

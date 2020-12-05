@@ -175,7 +175,7 @@ public class LsfUtils {
         int lastPercent = -1;
 
         System.out.println("Translating from "+originalDir+" to "+destinationDir);
-        for (int i = 0; i < index.getNumberOfMessages(); i++) {
+        for (long i = 0; i < index.getNumberOfMessages(); i++) {
             
             if (messagesToFilter.contains(index.getDefinitions().getMessageName(index.typeOf(i))))
                 continue;
@@ -189,7 +189,7 @@ public class LsfUtils {
 
             IMCMessage result = original.cloneMessage(destDefs);
             destDefs.serialize(result, fos);
-            int percent = (i*100 / index.getNumberOfMessages());
+            int percent = (int) (i*100 / index.getNumberOfMessages());
             if (percent != lastPercent) {
                 if (m != null) {
                     m.setNote(percent+"% done...");
