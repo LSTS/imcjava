@@ -5,4 +5,4 @@ dependencies {
 }
 
 jarTask(project, project.name,  "imc$project.name", "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.cli.ImcShell', null)
+  'pt.lsts.imc.cli.ImcShell', null, false)

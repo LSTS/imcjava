@@ -3,4 +3,4 @@ dependencies {
 }
 
 jarTask(project, project.name, "$project.name", "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.net.ImcBroadcaster', null)
+  'pt.lsts.imc.net.ImcBroadcaster', null, false)

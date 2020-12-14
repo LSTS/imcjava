@@ -4,6 +4,8 @@ plugins {
 
 description = "An IMC Java with bindings and generator for IMC."
 
+defaultTasks 'dist', 'libsender'
+
 ext {
     distFolderName = "dist"
     toolsFolderName = "tools"
@@ -96,10 +98,14 @@ configure(subprojects.findAll { it.name != 'core' }) {
  * @param destFolder the destination folder (relative to root folder, use null to use default
  * @param mainClass the main class to add to the manifest, use null for none
  * @param otherProjectsToPackToDistList other projects to add
+ * @param excludeCore to exclude adding the core libraries, you will needthem at runtime in the classpath
  */
-def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToPackToDistList) {
+def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToPackToDistList, excludeCore) {
     configure(proj) {
         proj.tasks.create(taskName, Jar) {
+            // Must be a better way to get the core jar here and filter out of the classpath for jar creation
+            dependsOn project(":core").getTasksByName("dist", true)
+
             if (otherProjectsToPackToDistList != null)
                 dependsOn otherProjectsToPackToDistList.collect { it.jar }
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -123,10 +129,15 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
             }
 
             // Addimg runtime jars into the jar
-            from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+            def coreConf = configurations.runtimeClasspath - project(':core').sourceSets.main.runtimeClasspath
+            coreConf = coreConf.filter { File file ->
+                file.absolutePath ==~ "${project(':core').jar.archivePath}" ? false : true
+            }
+            from { coreConf.collect { it.isDirectory() ? it : zipTree(it) } }
             if (!addedAssets.isEmpty())
                 from { addedAssets.toUnique().collect { it.isDirectory() ? it : zipTree(it) } }
-            //from sourceSets.main.allSource
+            if (excludeCore != null && !excludeCore)
+                from { zipTree(project(':core').dist.archivePath) }
             with jar
             archiveBaseName = jarBaseName ?: taskName
             //archiveVersion = ''
@@ -134,10 +145,17 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
 
             doLast {
                 // println "$project.name"
+                // println project(':core').dist.archivePath
+                // println project(':core').jar.archivePath
+                // project(':core').sourceSets.main.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }.each { print ' >> '; println it }
+                // project(':core').configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }.each { print ' |> '; println it }
                 // println "configurations.runtimeClasspath"
-                // configurations.compileClasspath.each { print ' > '; println it }
-                // println "sourceSets.main.runtimeClasspath"
-                // sourceSets.main.compileClasspath.each { print ' > '; println it }
+
+                // coreConf.collect { it.isDirectory() ? it : zipTree(it) }.each { print ' > '; println it }
+
+                // println "addedAssets"
+                // if (!addedAssets.isEmpty())
+                //     addedAssets.toUnique().collect { it.isDirectory() ? it : zipTree(it) }.each { print ' > '; println it }
             }
         }
     }

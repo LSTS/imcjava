@@ -107,16 +107,16 @@ task coreTools {
 }
 
 jarTask(project, "lsfcat", null, "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.lsf.LsfCat', null)
+  'pt.lsts.imc.lsf.LsfCat', null, false)
 jarTask(project, "lsfmerge", null, "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.lsf.LsfMerge', null)
+  'pt.lsts.imc.lsf.LsfMerge', null, false)
 jarTask(project, "lsffilter", null, "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.lsf.LsfFilter', null)
+  'pt.lsts.imc.lsf.LsfFilter', null, false)
 jarTask(project, "lsf2csv", null, "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.lsf.Lsf2Csv', null)
+  'pt.lsts.imc.lsf.Lsf2Csv', null, false)
 jarTask(project, "lsf2llf", null, "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.llf.LSF2LLF', project(':gui'))
+  'pt.lsts.imc.llf.LSF2LLF', project(':gui'), false)
 jarTask(project, "imccontroller", null, "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.control.ControlLink', null)
+  'pt.lsts.imc.control.ControlLink', null, false)
 jarTask(project, "imcvehicleadapter", null, "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.adapter.VehicleAdapter', null)
+  'pt.lsts.imc.adapter.VehicleAdapter', null, false)
