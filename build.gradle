@@ -81,6 +81,11 @@ configure(subprojects.findAll { it.name != 'core' }) {
         implementation project(':core')
         implementation project(':core').sourceSets.main.runtimeClasspath
     }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 
 /**
