@@ -2,6 +2,15 @@ jar.archiveBaseName = "libimc"
 
 def otherProjectsToPackToDistList = [project(':gui'), project(':merge')]
 
+configurations {
+    libImcJar {
+        canBeConsumed = true
+        canBeResolved = false
+        // If you want this configuration to share the same dependencies, otherwise omit this line
+        //extendsFrom implementation, runtimeOnly
+    }
+}
+
 dependencies {
     implementation 'com.eclipsesource.minimal-json:minimal-json:0.9.2'
     implementation 'javax.xml.bind:jaxb-api:2.3.0'
@@ -98,6 +107,10 @@ task dist (type: Jar) {
 //         configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
 //     }
 // }
+
+artifacts {
+    libImcJar(dist)
+}
 
 task coreTools {
   description = "Generate $project.name tools for IMC API"
