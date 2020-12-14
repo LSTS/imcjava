@@ -354,6 +354,9 @@ public class MessageSender extends JPanel implements MessageDrawer.MessageSelect
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		}
+		catch (ClassNotFoundException e) {
+			System.err.println("Probably running Java > 8, not loading NimbusLookAndFeel!");
+		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
