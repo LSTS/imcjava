@@ -7,9 +7,9 @@ before_install:
 #  - sudo apt-get install ant-optional
 
 jdk:
-  -openjdk8
-  -openjdk11
-  -oraclejdk11
+  - openjdk8
+  - openjdk11
+  - oraclejdk11
 
 script:
-  -./gradlew
+  - ./gradlew
