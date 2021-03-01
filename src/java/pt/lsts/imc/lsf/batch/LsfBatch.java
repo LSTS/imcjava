@@ -104,9 +104,10 @@ public class LsfBatch {
 		}
 		return msg;
 	}
-
-	public LsfBatch(File root) {
-		addRecursively(root);
+	
+	public LsfBatch(File... roots) {
+		for (File f : roots)
+			addRecursively(f);
 	}
 
 	static class LsfLog implements Comparable<LsfLog> {

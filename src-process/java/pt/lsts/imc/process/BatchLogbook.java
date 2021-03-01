@@ -142,10 +142,15 @@ public class BatchLogbook {
 		printOut(msg.getSourceName(), msg.getDate(), "SMS to " + msg.getNumber() + ": " + msg.getContents());
 	}
 
+	String lastErr = "";
 	@Consume
 	void on(LogBookEntry msg) {
 		if (msg.getType() == LogBookEntry.TYPE.ERROR) {
-			printErr(msg.getSourceName(), msg.getDate(), "" + msg.getContext() + ": " + msg.getText());
+			if (lastErr.equals(msg.getText()))
+				return;
+			else
+				printErr(msg.getSourceName(), msg.getDate(), "" + msg.getContext() + ": " + msg.getText());
+			lastErr = msg.getText();
 		}
 	}
 
@@ -177,7 +182,17 @@ public class BatchLogbook {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		LsfBatch batch = LsfBatch.selectFolders();
+		LsfBatch batch;
+		if (args.length > 0) {
+			File[] files = new File[args.length];
+			for (int i = 0; i < args.length; i++) {
+				files[i] = new File(args[i]);
+			}
+			batch = new LsfBatch(files);
+		}
+		else
+			batch = LsfBatch.selectFolders();
+
 		batch.process(new BatchLogbook());
 	}
 }
