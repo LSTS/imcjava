@@ -9,6 +9,8 @@ defaultTasks 'dist', 'libsender'
 ext {
     distFolderName = "dist"
     toolsFolderName = "tools"
+
+    automaticModuleNameBase = "pt.lsts.imc"
 }
 
 allprojects {
@@ -49,6 +51,8 @@ allprojects {
                     ,'Implementation-Title': project.name
                     ,'Implementation-Version': project.version
                     ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                    ,'Automatic-Module-Name': "${rootProject.ext.automaticModuleNameBase}.${project.name}"
+                    ,'Build-Jdk': System.properties['java.version']
                     )
         }
     }
@@ -99,6 +103,7 @@ configure(subprojects.findAll { it.name != 'core' }) {
  * @param mainClass the main class to add to the manifest, use null for none
  * @param otherProjectsToPackToDistList other projects to add
  * @param excludeCore to exclude adding the core libraries, you will needthem at runtime in the classpath
+ *
  */
 def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToPackToDistList, excludeCore) {
     configure(proj) {
@@ -119,6 +124,8 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
                 m.getAttributes().put 'Implementation-Title', "$project.name, ${jarBaseName ?: taskName}"
                 m.getAttributes().put 'Implementation-Version', project.version
                 m.getAttributes().put 'Build-Revision', "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                m.getAttributes().put 'Automatic-Module-Name', "${rootProject.ext.automaticModuleNameBase}.$taskName"
+                m.getAttributes().put 'Build-Jdk', System.properties['java.version']
             }
 
             // Adding runtime jars into the jar
@@ -133,9 +140,13 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
             coreConf = coreConf.filter { File file ->
                 file.absolutePath ==~ "${project(':core').jar.archivePath}" ? false : true
             }
-            from { coreConf.collect { it.isDirectory() ? it : zipTree(it) } }
+            from { coreConf.collect { it.isDirectory() ? it : zipTree(it).matching {
+                exclude "module-info.class"
+            } } }
             if (!addedAssets.isEmpty())
-                from { addedAssets.toUnique().collect { it.isDirectory() ? it : zipTree(it) } }
+                from { addedAssets.toUnique().collect { it.isDirectory() ? it : zipTree(it).matching {
+                    exclude "module-info.class"
+                } } }
             if (excludeCore != null && !excludeCore)
                 from { zipTree(project(':core').dist.archivePath) }
             with jar

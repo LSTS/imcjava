@@ -1,4 +1,5 @@
 jar.archiveBaseName = "libimc"
+def automaticModuleName = "${rootProject.ext.automaticModuleNameBase}.${project.name}"
 
 def otherProjectsToPackToDistList = [project(':gui'), project(':merge')]
 
@@ -43,6 +44,7 @@ jar {
                    ,'Implementation-Title': jar.archiveBaseName
                    ,'Implementation-Version': project.version
                    ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                   ,'Automatic-Module-Name': automaticModuleName
                    ,'Main-Class': 'pt.lsts.imc.IMCDefinition'
                    )
     }
@@ -65,6 +67,8 @@ task dist (type: Jar) {
                    ,'Implementation-Title': jar.archiveBaseName
                    ,'Implementation-Version': project.version
                    ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                   ,'Automatic-Module-Name': automaticModuleName
+                   ,'Build-Jdk': System.properties['java.version']
                    ,'Main-Class': 'pt.lsts.imc.IMCDefinition'
                    )
     }
@@ -73,8 +77,12 @@ task dist (type: Jar) {
     otherProjectsToPackToDistList.collect { addedAssets += (it.sourceSets.main.runtimeClasspath - configurations.runtimeClasspath) }
     addedAssets = addedAssets.findAll { !it.toString().contains(project.buildDir.toString()) }
 
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    from { addedAssets.toUnique().collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it).matching {
+        exclude "module-info.class"
+    } } }
+    from { addedAssets.toUnique().collect { it.isDirectory() ? it : zipTree(it).matching {
+        exclude "module-info.class"
+    } } }
     //from sourceSets.main.allSource
     with jar
     archiveBaseName = jar.archiveBaseName
