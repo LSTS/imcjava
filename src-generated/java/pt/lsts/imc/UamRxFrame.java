@@ -32,6 +32,8 @@ package pt.lsts.imc;
 
 /**
  *  IMC Message UamRxFrame (815)<br/>
+ *  This message shall be dispatched by acoustic modem drivers each time<br/>
+ *  a data frame is received over the acoustic channel.<br/>
  */
 
 public class UamRxFrame extends IMCMessage {

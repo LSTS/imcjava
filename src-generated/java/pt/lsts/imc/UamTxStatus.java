@@ -32,6 +32,8 @@ package pt.lsts.imc;
 
 /**
  *  IMC Message UamTxStatus (816)<br/>
+ *  This message shall be used by acoustic modem drivers to send updates<br/>
+ *  on the transmission status of data frames.<br/>
  */
 
 public class UamTxStatus extends IMCMessage {

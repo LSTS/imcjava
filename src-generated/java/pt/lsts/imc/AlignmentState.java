@@ -42,7 +42,10 @@ public class AlignmentState extends IMCMessage {
 		ALIGNED(1),
 		NOT_SUPPORTED(2),
 		ALIGNING(3),
-		WRONG_MEDIUM(4);
+		WRONG_MEDIUM(4),
+		COARSE_ALIGNMENT(5),
+		FINE_ALIGNMENT(6),
+		SYSTEM_READY(7);
 
 		protected long value;
 

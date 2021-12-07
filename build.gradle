@@ -14,7 +14,7 @@ ext {
 }
 
 allprojects {
-    version = '5.90.1'
+    version = '5.90.2'
     repositories {
         mavenCentral()
     }

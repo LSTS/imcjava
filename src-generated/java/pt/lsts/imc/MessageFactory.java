@@ -682,10 +682,10 @@ public class MessageFactory {
 				return new SadcReadings(defs);
 			case DmsDetection.ID_STATIC:
 				return new DmsDetection(defs);
-			case TotalMagIntensity.ID_STATIC:
-				return new TotalMagIntensity(defs);
 			case HomePosition.ID_STATIC:
 				return new HomePosition(defs);
+			case TotalMagIntensity.ID_STATIC:
+				return new TotalMagIntensity(defs);
 			default:
 				return new IMCMessage(defs);
 		}
