@@ -283,7 +283,7 @@ public class ClassGenerator {
 		bw.write("\tpublic static final String IMC_SHA = \"" + sha + "\";\n");
 		bw.write("\tpublic static final String IMC_BRANCH = \"" + branch
 				+ "\";\n");
-		bw.write("\tpublic static final String IMC_COMMIT = \"" + commitDetails
+		bw.write("\tpublic static final String IMC_COMMIT = \"" + commitDetails.replaceAll("\n", "\\\\n")
 				+ "\";\n\n");
 
 		// IMC_STATIC_ADDRESSES
