@@ -121,14 +121,14 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
                 m.getAttributes().put 'Build-Revision', "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
             }
 
-            // Addimg runtime jars into the jar
+            // Adding runtime jars into the jar
             def addedAssets = configurations.runtimeClasspath - configurations.runtimeClasspath
             if (otherProjectsToPackToDistList != null) {
                 otherProjectsToPackToDistList.collect { addedAssets += (it.sourceSets.main.runtimeClasspath - configurations.runtimeClasspath) }
                 addedAssets = addedAssets.findAll { !it.toString().contains(project.buildDir.toString()) }
             }
 
-            // Addimg runtime jars into the jar
+            // Adding runtime jars into the jar
             def coreConf = configurations.runtimeClasspath - project(':core').sourceSets.main.runtimeClasspath
             coreConf = coreConf.filter { File file ->
                 file.absolutePath ==~ "${project(':core').jar.archivePath}" ? false : true
