@@ -100,6 +100,14 @@ task prepImcFolderEnv {
 
 task checkIMCFolderGit {
     doFirst {
+        if (!file("${project.ext.imcXmlPath}/IMC.xml").exists())
+            throw new FileNotFoundException("No IMC.xml on '${project.ext.imcXmlPath}'")
+
+        copy {
+            from "${project.ext.imcXmlPath}/IMC.xml"
+            into "${parent.rootDir}/src-generated/resources/xml"
+        }
+
         def folder = new File("${project.ext.imcXmlPath}/.git")
         if (!folder.exists()) {
             project.ext.imcXmlSha = "unknown sha"
