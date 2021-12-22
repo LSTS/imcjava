@@ -138,7 +138,7 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
             // Adding runtime jars into the jar
             def coreConf = configurations.runtimeClasspath - project(':core').sourceSets.main.runtimeClasspath
             coreConf = coreConf.filter { File file ->
-                file.absolutePath ==~ "${project(':core').jar.archivePath}" ? false : true
+                file.absolutePath ==~ "${project(':core').jar.archiveFile.get().getAsFile().getAbsolutePath().replaceAll('\\\\', '\\\\\\\\')}" ? false : true
             }
             from { coreConf.collect { it.isDirectory() ? it : zipTree(it).matching {
                 exclude "module-info.class"
