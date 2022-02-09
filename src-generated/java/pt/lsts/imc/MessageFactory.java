@@ -682,10 +682,36 @@ public class MessageFactory {
 				return new SadcReadings(defs);
 			case DmsDetection.ID_STATIC:
 				return new DmsDetection(defs);
-			case HomePosition.ID_STATIC:
-				return new HomePosition(defs);
 			case TotalMagIntensity.ID_STATIC:
 				return new TotalMagIntensity(defs);
+			case HomePosition.ID_STATIC:
+				return new HomePosition(defs);
+			case WorldModel.ID_STATIC:
+				return new WorldModel(defs);
+			case GeoFeature.ID_STATIC:
+				return new GeoFeature(defs);
+			case CoverageState.ID_STATIC:
+				return new CoverageState(defs);
+			case TaskAdim.ID_STATIC:
+				return new TaskAdim(defs);
+			case SynchAdmin.ID_STATIC:
+				return new SynchAdmin(defs);
+			case VehicleCapabilities.ID_STATIC:
+				return new VehicleCapabilities(defs);
+			case CapabilityAreaSurvey.ID_STATIC:
+				return new CapabilityAreaSurvey(defs);
+			case CapabilityPointSurvey.ID_STATIC:
+				return new CapabilityPointSurvey(defs);
+			case CapabilityMove.ID_STATIC:
+				return new CapabilityMove(defs);
+			case SurveyTask.ID_STATIC:
+				return new SurveyTask(defs);
+			case MoveTask.ID_STATIC:
+				return new MoveTask(defs);
+			case TaskStatus.ID_STATIC:
+				return new TaskStatus(defs);
+			case SynchTask.ID_STATIC:
+				return new SynchTask(defs);
 			default:
 				return new IMCMessage(defs);
 		}

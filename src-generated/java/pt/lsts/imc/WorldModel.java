@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Salinity (270)<br/>
- *  Report of salinity.<br/>
+ *  IMC Message World Model (3001)<br/>
+ *  This message represents a world model.<br/>
  */
 
-public class Salinity extends IMCMessage {
+public class WorldModel extends IMCMessage {
 
-	public static final int ID_STATIC = 270;
+	public static final int ID_STATIC = 3001;
 
-	public Salinity() {
+	public WorldModel() {
 		super(ID_STATIC);
 	}
 
-	public Salinity(IMCMessage msg) {
+	public WorldModel(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class Salinity extends IMCMessage {
 		}
 	}
 
-	public Salinity(IMCDefinition defs) {
+	public WorldModel(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Salinity create(Object... values) {
-		Salinity m = new Salinity();
+	public static WorldModel create(Object... values) {
+		WorldModel m = new WorldModel();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Salinity clone(IMCMessage msg) throws Exception {
+	public static WorldModel clone(IMCMessage msg) throws Exception {
 
-		Salinity m = new Salinity();
+		WorldModel m = new WorldModel();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,23 +81,53 @@ public class Salinity extends IMCMessage {
 		return m;
 	}
 
-	public Salinity(float value) {
+	public WorldModel(java.util.Collection<GeoFeature> geo_features, java.util.Collection<CoverageState> cov_states) {
 		super(ID_STATIC);
-		setValue(value);
+		if (geo_features != null)
+			setGeoFeatures(geo_features);
+		if (cov_states != null)
+			setCovStates(cov_states);
 	}
 
 	/**
-	 *  @return Measured Salinity - fp32_t
+	 *  @return GeoFeatures - message-list
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public java.util.Vector<GeoFeature> getGeoFeatures() {
+		try {
+			return getMessageList("geo_features", GeoFeature.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	/**
-	 *  @param value Measured Salinity
+	 *  @param geo_features GeoFeatures
 	 */
-	public Salinity setValue(double value) {
-		values.put("value", value);
+	public WorldModel setGeoFeatures(java.util.Collection<GeoFeature> geo_features) {
+		values.put("geo_features", geo_features);
+		return this;
+	}
+
+	/**
+	 *  @return CoverageStates - message-list
+	 */
+	public java.util.Vector<CoverageState> getCovStates() {
+		try {
+			return getMessageList("cov_states", CoverageState.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param cov_states CoverageStates
+	 */
+	public WorldModel setCovStates(java.util.Collection<CoverageState> cov_states) {
+		values.put("cov_states", cov_states);
 		return this;
 	}
 

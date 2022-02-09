@@ -29,21 +29,22 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.SensorType;
 
 /**
- *  IMC Message Salinity (270)<br/>
- *  Report of salinity.<br/>
+ *  IMC Message Point Survey Capability (3011)<br/>
+ *  This message describes an area surveying capability.<br/>
  */
 
-public class Salinity extends IMCMessage {
+public class CapabilityPointSurvey extends VehicleCapability {
 
-	public static final int ID_STATIC = 270;
+	public static final int ID_STATIC = 3011;
 
-	public Salinity() {
+	public CapabilityPointSurvey() {
 		super(ID_STATIC);
 	}
 
-	public Salinity(IMCMessage msg) {
+	public CapabilityPointSurvey(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +54,20 @@ public class Salinity extends IMCMessage {
 		}
 	}
 
-	public Salinity(IMCDefinition defs) {
+	public CapabilityPointSurvey(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Salinity create(Object... values) {
-		Salinity m = new Salinity();
+	public static CapabilityPointSurvey create(Object... values) {
+		CapabilityPointSurvey m = new CapabilityPointSurvey();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Salinity clone(IMCMessage msg) throws Exception {
+	public static CapabilityPointSurvey clone(IMCMessage msg) throws Exception {
 
-		Salinity m = new Salinity();
+		CapabilityPointSurvey m = new CapabilityPointSurvey();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,23 +82,85 @@ public class Salinity extends IMCMessage {
 		return m;
 	}
 
-	public Salinity(float value) {
+	public CapabilityPointSurvey(SensorType Sensor, float resolution, float duration) {
 		super(ID_STATIC);
-		setValue(value);
+		setSensor(Sensor);
+		setResolution(resolution);
+		setDuration(duration);
 	}
 
 	/**
-	 *  @return Measured Salinity - fp32_t
+	 *  @return Sensor (enumerated) - uint8_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public SensorType getSensor() {
+		try {
+			SensorType o = SensorType.valueOf(getMessageType().getFieldPossibleValues("Sensor").get(getLong("Sensor")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getSensorStr() {
+		return getString("Sensor");
+	}
+
+	public short getSensorVal() {
+		return (short) getInteger("Sensor");
 	}
 
 	/**
-	 *  @param value Measured Salinity
+	 *  @param Sensor Sensor (enumerated)
 	 */
-	public Salinity setValue(double value) {
-		values.put("value", value);
+	public CapabilityPointSurvey setSensor(SensorType Sensor) {
+		values.put("Sensor", Sensor.value());
+		return this;
+	}
+
+	/**
+	 *  @param Sensor Sensor (as a String)
+	 */
+	public CapabilityPointSurvey setSensorStr(String Sensor) {
+		setValue("Sensor", Sensor);
+		return this;
+	}
+
+	/**
+	 *  @param Sensor Sensor (integer value)
+	 */
+	public CapabilityPointSurvey setSensorVal(short Sensor) {
+		setValue("Sensor", Sensor);
+		return this;
+	}
+
+	/**
+	 *  @return Resolution (px/m²) - fp32_t
+	 */
+	public double getResolution() {
+		return getDouble("resolution");
+	}
+
+	/**
+	 *  @param resolution Resolution (px/m²)
+	 */
+	public CapabilityPointSurvey setResolution(double resolution) {
+		values.put("resolution", resolution);
+		return this;
+	}
+
+	/**
+	 *  @return Duration (s) - fp32_t
+	 */
+	public double getDuration() {
+		return getDouble("duration");
+	}
+
+	/**
+	 *  @param duration Duration (s)
+	 */
+	public CapabilityPointSurvey setDuration(double duration) {
+		values.put("duration", duration);
 		return this;
 	}
 

@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "8be592ac50fb8f076c8c2e963fab4700f13f2eac";
-	public static final String IMC_BRANCH = "master";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2021-12-07T14:57:24Z, https://github.com/LSTS/imc/commit/8be592ac50fb8f076c8c2e963fab4700f13f2eac, Merge branch 'feature/unify-v1'\n\n# Conflicts:\n#	IMC.xml\n#	IMC_Addresses.xml\n#       Om UamTxStatus removed enum in value NO_TRANSDUCER (it will return on unify merge)";
+	public static final String IMC_SHA = "cd15743ebf5024f79ce0a431f7f652292de439eb";
+	public static final String IMC_BRANCH = "2021-11-12 cd15743 (HEAD -> project/comap, origin/project/comap)";
+	public static final String IMC_COMMIT = "Luis Venâncio (venancio@lsts.pt), Fri Nov 12 18:03:25 WET 2021, Added synchronization task message.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -173,8 +173,6 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("x8-06-aux", 24583);
 		IMC_ADDRESSES.put("lauv-noptilus-2-cpu-cam", 24584);
 		IMC_ADDRESSES.put("lauv-noptilus-3-cpu-cam", 24585);
-		IMC_ADDRESSES.put("lauv-seacon-3-aux", 24592);
-		IMC_ADDRESSES.put("lauv-seacon-3-cpu-cam", 24593);
 		IMC_ADDRESSES.put("star", 32768);
 		IMC_ADDRESSES.put("benthos-mgateway", 32784);
 		IMC_ADDRESSES.put("manta-1", 32786);

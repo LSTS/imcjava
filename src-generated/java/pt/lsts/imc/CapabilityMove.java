@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Salinity (270)<br/>
- *  Report of salinity.<br/>
+ *  IMC Message Move Capability (3012)<br/>
+ *  This message describes a moving capability.<br/>
  */
 
-public class Salinity extends IMCMessage {
+public class CapabilityMove extends VehicleCapability {
 
-	public static final int ID_STATIC = 270;
+	public static final int ID_STATIC = 3012;
 
-	public Salinity() {
+	public CapabilityMove() {
 		super(ID_STATIC);
 	}
 
-	public Salinity(IMCMessage msg) {
+	public CapabilityMove(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class Salinity extends IMCMessage {
 		}
 	}
 
-	public Salinity(IMCDefinition defs) {
+	public CapabilityMove(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Salinity create(Object... values) {
-		Salinity m = new Salinity();
+	public static CapabilityMove create(Object... values) {
+		CapabilityMove m = new CapabilityMove();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Salinity clone(IMCMessage msg) throws Exception {
+	public static CapabilityMove clone(IMCMessage msg) throws Exception {
 
-		Salinity m = new Salinity();
+		CapabilityMove m = new CapabilityMove();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,23 +81,23 @@ public class Salinity extends IMCMessage {
 		return m;
 	}
 
-	public Salinity(float value) {
+	public CapabilityMove(float speed) {
 		super(ID_STATIC);
-		setValue(value);
+		setSpeed(speed);
 	}
 
 	/**
-	 *  @return Measured Salinity - fp32_t
+	 *  @return Speed (m/s) - fp32_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public double getSpeed() {
+		return getDouble("speed");
 	}
 
 	/**
-	 *  @param value Measured Salinity
+	 *  @param speed Speed (m/s)
 	 */
-	public Salinity setValue(double value) {
-		values.put("value", value);
+	public CapabilityMove setSpeed(double speed) {
+		values.put("speed", speed);
 		return this;
 	}
 

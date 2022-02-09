@@ -31,19 +31,37 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Salinity (270)<br/>
- *  Report of salinity.<br/>
+ *  IMC Message Task Administration (3004)<br/>
  */
 
-public class Salinity extends IMCMessage {
+public class TaskAdim extends IMCMessage {
 
-	public static final int ID_STATIC = 270;
+	public enum OP {
+		ACCEPT(1),
+		REJECT(2),
+		ASSIGN(3),
+		UNASSIGN(4),
+		STATUS(5),
+		STATUS_REQUEST(6);
 
-	public Salinity() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		OP(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 3004;
+
+	public TaskAdim() {
 		super(ID_STATIC);
 	}
 
-	public Salinity(IMCMessage msg) {
+	public TaskAdim(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +71,20 @@ public class Salinity extends IMCMessage {
 		}
 	}
 
-	public Salinity(IMCDefinition defs) {
+	public TaskAdim(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Salinity create(Object... values) {
-		Salinity m = new Salinity();
+	public static TaskAdim create(Object... values) {
+		TaskAdim m = new TaskAdim();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Salinity clone(IMCMessage msg) throws Exception {
+	public static TaskAdim clone(IMCMessage msg) throws Exception {
 
-		Salinity m = new Salinity();
+		TaskAdim m = new TaskAdim();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,23 +99,96 @@ public class Salinity extends IMCMessage {
 		return m;
 	}
 
-	public Salinity(float value) {
+	public TaskAdim(int tid, OP op, TaskAdminArgs arg) {
 		super(ID_STATIC);
-		setValue(value);
+		setTid(tid);
+		setOp(op);
+		if (arg != null)
+			setArg(arg);
 	}
 
 	/**
-	 *  @return Measured Salinity - fp32_t
+	 *  @return Task Identifier - uint16_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public int getTid() {
+		return getInteger("tid");
 	}
 
 	/**
-	 *  @param value Measured Salinity
+	 *  @param tid Task Identifier
 	 */
-	public Salinity setValue(double value) {
-		values.put("value", value);
+	public TaskAdim setTid(int tid) {
+		values.put("tid", tid);
+		return this;
+	}
+
+	/**
+	 *  @return Operation (enumerated) - uint8_t
+	 */
+	public OP getOp() {
+		try {
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
+	/**
+	 *  @param op Operation (enumerated)
+	 */
+	public TaskAdim setOp(OP op) {
+		values.put("op", op.value());
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (as a String)
+	 */
+	public TaskAdim setOpStr(String op) {
+		setValue("op", op);
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (integer value)
+	 */
+	public TaskAdim setOpVal(short op) {
+		setValue("op", op);
+		return this;
+	}
+
+	/**
+	 *  @return Argument - message
+	 */
+	public TaskAdminArgs getArg() {
+		try {
+			IMCMessage obj = getMessage("arg");
+			if (obj instanceof TaskAdminArgs)
+				return (TaskAdminArgs) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param arg Argument
+	 */
+	public TaskAdim setArg(TaskAdminArgs arg) {
+		values.put("arg", arg);
 		return this;
 	}
 

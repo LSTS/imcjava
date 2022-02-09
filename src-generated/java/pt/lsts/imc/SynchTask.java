@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Salinity (270)<br/>
- *  Report of salinity.<br/>
+ *  IMC Message Synchronization Task (3104)<br/>
+ *  This message is used to describe an area synchronization task.<br/>
  */
 
-public class Salinity extends IMCMessage {
+public class SynchTask extends IMCMessage {
 
-	public static final int ID_STATIC = 270;
+	public static final int ID_STATIC = 3104;
 
-	public Salinity() {
+	public SynchTask() {
 		super(ID_STATIC);
 	}
 
-	public Salinity(IMCMessage msg) {
+	public SynchTask(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class Salinity extends IMCMessage {
 		}
 	}
 
-	public Salinity(IMCDefinition defs) {
+	public SynchTask(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Salinity create(Object... values) {
-		Salinity m = new Salinity();
+	public static SynchTask create(Object... values) {
+		SynchTask m = new SynchTask();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Salinity clone(IMCMessage msg) throws Exception {
+	public static SynchTask clone(IMCMessage msg) throws Exception {
 
-		Salinity m = new Salinity();
+		SynchTask m = new SynchTask();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,23 +81,71 @@ public class Salinity extends IMCMessage {
 		return m;
 	}
 
-	public Salinity(float value) {
+	public SynchTask(int task_id, int feature_id, int time_window, double deadline) {
 		super(ID_STATIC);
-		setValue(value);
+		setTaskId(task_id);
+		setFeatureId(feature_id);
+		setTimeWindow(time_window);
+		setDeadline(deadline);
 	}
 
 	/**
-	 *  @return Measured Salinity - fp32_t
+	 *  @return Task Identifier - uint16_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public int getTaskId() {
+		return getInteger("task_id");
 	}
 
 	/**
-	 *  @param value Measured Salinity
+	 *  @param task_id Task Identifier
 	 */
-	public Salinity setValue(double value) {
-		values.put("value", value);
+	public SynchTask setTaskId(int task_id) {
+		values.put("task_id", task_id);
+		return this;
+	}
+
+	/**
+	 *  @return Geo Feature Identifier - uint16_t
+	 */
+	public int getFeatureId() {
+		return getInteger("feature_id");
+	}
+
+	/**
+	 *  @param feature_id Geo Feature Identifier
+	 */
+	public SynchTask setFeatureId(int feature_id) {
+		values.put("feature_id", feature_id);
+		return this;
+	}
+
+	/**
+	 *  @return Synchronization Time Window (s) - uint16_t
+	 */
+	public int getTimeWindow() {
+		return getInteger("time_window");
+	}
+
+	/**
+	 *  @param time_window Synchronization Time Window (s)
+	 */
+	public SynchTask setTimeWindow(int time_window) {
+		values.put("time_window", time_window);
+		return this;
+	}
+
+	/**
+	 *  @return Deadline (s) - fp64_t
+	 */
+	public double getDeadline() {
+		return getDouble("deadline");
+	}
+
+	/**
+	 *  @param deadline Deadline (s)
+	 */
+	public SynchTask setDeadline(double deadline) {
+		values.put("deadline", deadline);
 		return this;
 	}
 

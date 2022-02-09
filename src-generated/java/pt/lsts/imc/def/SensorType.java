@@ -27,78 +27,32 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package pt.lsts.imc;
+package pt.lsts.imc.def;
 
+public enum SensorType {
 
-/**
- *  IMC Message Salinity (270)<br/>
- *  Report of salinity.<br/>
- */
+	MULTIBEAM(0x00000001l),
+	SIDESCAN(0x00000002l),
+	CAMERA(0x00000003l),
+	MAGNETOMETER(0x00000004l);
 
-public class Salinity extends IMCMessage {
+	protected long value;
 
-	public static final int ID_STATIC = 270;
-
-	public Salinity() {
-		super(ID_STATIC);
+	SensorType(long value) {
+		this.value = value;
 	}
 
-	public Salinity(IMCMessage msg) {
-		super(ID_STATIC);
-		try{
-			copyFrom(msg);
+	public long value() {
+		return value;
+	}
+
+	public static SensorType valueOf(long value) throws IllegalArgumentException {
+		for (SensorType v : SensorType.values()) {
+			if (v.value == value) {
+				return v;
+			}
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public Salinity(IMCDefinition defs) {
-		super(defs, ID_STATIC);
-	}
-
-	public static Salinity create(Object... values) {
-		Salinity m = new Salinity();
-		for (int i = 0; i < values.length-1; i+= 2)
-			m.setValue(values[i].toString(), values[i+1]);
-		return m;
-	}
-
-	public static Salinity clone(IMCMessage msg) throws Exception {
-
-		Salinity m = new Salinity();
-		if (msg == null)
-			return m;
-		if(msg.definitions != m.definitions){
-			msg = msg.cloneMessage();
-			IMCUtil.updateMessage(msg, m.definitions);
-		}
-		else if (msg.getMgid()!=m.getMgid())
-			throw new Exception("Argument "+msg.getAbbrev()+" is incompatible with message "+m.getAbbrev());
-
-		m.getHeader().values.putAll(msg.getHeader().values);
-		m.values.putAll(msg.values);
-		return m;
-	}
-
-	public Salinity(float value) {
-		super(ID_STATIC);
-		setValue(value);
-	}
-
-	/**
-	 *  @return Measured Salinity - fp32_t
-	 */
-	public double getValue() {
-		return getDouble("value");
-	}
-
-	/**
-	 *  @param value Measured Salinity
-	 */
-	public Salinity setValue(double value) {
-		values.put("value", value);
-		return this;
+		throw new IllegalArgumentException("Invalid value for SensorType: "+value);
 	}
 
 }

@@ -31,19 +31,36 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Salinity (270)<br/>
- *  Report of salinity.<br/>
+ *  IMC Message Feature Coverage State (3003)<br/>
+ *  This message is used to report the coverage state of a geographical feature.<br/>
+ *  It is reported by the UxVs performing the surveys.<br/>
  */
 
-public class Salinity extends IMCMessage {
+public class CoverageState extends IMCMessage {
 
-	public static final int ID_STATIC = 270;
+	public enum STATE {
+		COMPLETED(1),
+		PARTIAL(2),
+		NONE(3);
 
-	public Salinity() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		STATE(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 3003;
+
+	public CoverageState() {
 		super(ID_STATIC);
 	}
 
-	public Salinity(IMCMessage msg) {
+	public CoverageState(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +70,20 @@ public class Salinity extends IMCMessage {
 		}
 	}
 
-	public Salinity(IMCDefinition defs) {
+	public CoverageState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Salinity create(Object... values) {
-		Salinity m = new Salinity();
+	public static CoverageState create(Object... values) {
+		CoverageState m = new CoverageState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Salinity clone(IMCMessage msg) throws Exception {
+	public static CoverageState clone(IMCMessage msg) throws Exception {
 
-		Salinity m = new Salinity();
+		CoverageState m = new CoverageState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,23 +98,69 @@ public class Salinity extends IMCMessage {
 		return m;
 	}
 
-	public Salinity(float value) {
+	public CoverageState(int feature_id, STATE state) {
 		super(ID_STATIC);
-		setValue(value);
+		setFeatureId(feature_id);
+		setState(state);
 	}
 
 	/**
-	 *  @return Measured Salinity - fp32_t
+	 *  @return Identifier - uint16_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public int getFeatureId() {
+		return getInteger("feature_id");
 	}
 
 	/**
-	 *  @param value Measured Salinity
+	 *  @param feature_id Identifier
 	 */
-	public Salinity setValue(double value) {
-		values.put("value", value);
+	public CoverageState setFeatureId(int feature_id) {
+		values.put("feature_id", feature_id);
+		return this;
+	}
+
+	/**
+	 *  @return State (enumerated) - uint8_t
+	 */
+	public STATE getState() {
+		try {
+			STATE o = STATE.valueOf(getMessageType().getFieldPossibleValues("state").get(getLong("state")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getStateStr() {
+		return getString("state");
+	}
+
+	public short getStateVal() {
+		return (short) getInteger("state");
+	}
+
+	/**
+	 *  @param state State (enumerated)
+	 */
+	public CoverageState setState(STATE state) {
+		values.put("state", state.value());
+		return this;
+	}
+
+	/**
+	 *  @param state State (as a String)
+	 */
+	public CoverageState setStateStr(String state) {
+		setValue("state", state);
+		return this;
+	}
+
+	/**
+	 *  @param state State (integer value)
+	 */
+	public CoverageState setStateVal(short state) {
+		setValue("state", state);
 		return this;
 	}
 

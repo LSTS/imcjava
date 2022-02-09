@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Salinity (270)<br/>
- *  Report of salinity.<br/>
+ *  IMC Message Geographical Feature (3002)<br/>
+ *  This message holds a geographical that, according to the number of vertices, may correspond to a point, a line or polygon.<br/>
  */
 
-public class Salinity extends IMCMessage {
+public class GeoFeature extends IMCMessage {
 
-	public static final int ID_STATIC = 270;
+	public static final int ID_STATIC = 3002;
 
-	public Salinity() {
+	public GeoFeature() {
 		super(ID_STATIC);
 	}
 
-	public Salinity(IMCMessage msg) {
+	public GeoFeature(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class Salinity extends IMCMessage {
 		}
 	}
 
-	public Salinity(IMCDefinition defs) {
+	public GeoFeature(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Salinity create(Object... values) {
-		Salinity m = new Salinity();
+	public static GeoFeature create(Object... values) {
+		GeoFeature m = new GeoFeature();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Salinity clone(IMCMessage msg) throws Exception {
+	public static GeoFeature clone(IMCMessage msg) throws Exception {
 
-		Salinity m = new Salinity();
+		GeoFeature m = new GeoFeature();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,23 +81,46 @@ public class Salinity extends IMCMessage {
 		return m;
 	}
 
-	public Salinity(float value) {
+	public GeoFeature(int feature_id, java.util.Collection<MapPoint> points) {
 		super(ID_STATIC);
-		setValue(value);
+		setFeatureId(feature_id);
+		if (points != null)
+			setPoints(points);
 	}
 
 	/**
-	 *  @return Measured Salinity - fp32_t
+	 *  @return Identifier - uint16_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public int getFeatureId() {
+		return getInteger("feature_id");
 	}
 
 	/**
-	 *  @param value Measured Salinity
+	 *  @param feature_id Identifier
 	 */
-	public Salinity setValue(double value) {
-		values.put("value", value);
+	public GeoFeature setFeatureId(int feature_id) {
+		values.put("feature_id", feature_id);
+		return this;
+	}
+
+	/**
+	 *  @return Points - message-list
+	 */
+	public java.util.Vector<MapPoint> getPoints() {
+		try {
+			return getMessageList("points", MapPoint.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param points Points
+	 */
+	public GeoFeature setPoints(java.util.Collection<MapPoint> points) {
+		values.put("points", points);
 		return this;
 	}
 

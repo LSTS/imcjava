@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Salinity (270)<br/>
- *  Report of salinity.<br/>
+ *  IMC Message Move Task (3102)<br/>
+ *  This message is used to describe an area surveying task.<br/>
  */
 
-public class Salinity extends IMCMessage {
+public class MoveTask extends TaskAdminArgs {
 
-	public static final int ID_STATIC = 270;
+	public static final int ID_STATIC = 3102;
 
-	public Salinity() {
+	public MoveTask() {
 		super(ID_STATIC);
 	}
 
-	public Salinity(IMCMessage msg) {
+	public MoveTask(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class Salinity extends IMCMessage {
 		}
 	}
 
-	public Salinity(IMCDefinition defs) {
+	public MoveTask(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Salinity create(Object... values) {
-		Salinity m = new Salinity();
+	public static MoveTask create(Object... values) {
+		MoveTask m = new MoveTask();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Salinity clone(IMCMessage msg) throws Exception {
+	public static MoveTask clone(IMCMessage msg) throws Exception {
 
-		Salinity m = new Salinity();
+		MoveTask m = new MoveTask();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,23 +81,66 @@ public class Salinity extends IMCMessage {
 		return m;
 	}
 
-	public Salinity(float value) {
+	public MoveTask(int task_id, MapPoint destination, double deadline) {
 		super(ID_STATIC);
-		setValue(value);
+		setTaskId(task_id);
+		if (destination != null)
+			setDestination(destination);
+		setDeadline(deadline);
 	}
 
 	/**
-	 *  @return Measured Salinity - fp32_t
+	 *  @return Task Identifier - uint16_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public int getTaskId() {
+		return getInteger("task_id");
 	}
 
 	/**
-	 *  @param value Measured Salinity
+	 *  @param task_id Task Identifier
 	 */
-	public Salinity setValue(double value) {
-		values.put("value", value);
+	public MoveTask setTaskId(int task_id) {
+		values.put("task_id", task_id);
+		return this;
+	}
+
+	/**
+	 *  @return Destination - message
+	 */
+	public MapPoint getDestination() {
+		try {
+			IMCMessage obj = getMessage("destination");
+			if (obj instanceof MapPoint)
+				return (MapPoint) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param destination Destination
+	 */
+	public MoveTask setDestination(MapPoint destination) {
+		values.put("destination", destination);
+		return this;
+	}
+
+	/**
+	 *  @return Deadline (s) - fp64_t
+	 */
+	public double getDeadline() {
+		return getDouble("deadline");
+	}
+
+	/**
+	 *  @param deadline Deadline (s)
+	 */
+	public MoveTask setDeadline(double deadline) {
+		values.put("deadline", deadline);
 		return this;
 	}
 

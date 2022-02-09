@@ -32,7 +32,6 @@ package pt.lsts.imc;
 
 /**
  *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
  */
 
 public class UamRxRange extends IMCMessage {
@@ -120,14 +119,14 @@ public class UamRxRange extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value (m) - fp32_t
+	 *  @return Value - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (m)
+	 *  @param value Value
 	 */
 	public UamRxRange setValue(double value) {
 		values.put("value", value);

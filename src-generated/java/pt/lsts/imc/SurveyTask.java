@@ -29,39 +29,22 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.SensorType;
 
 /**
- *  IMC Message Alignment State (361)<br/>
- *  This message notifies the vehicle is ready for dead-reckoning missions.<br/>
+ *  IMC Message Survey Task (3101)<br/>
+ *  This message is used to describe an area surveying task.<br/>
  */
 
-public class AlignmentState extends IMCMessage {
+public class SurveyTask extends TaskAdminArgs {
 
-	public enum STATE {
-		NOT_ALIGNED(0),
-		ALIGNED(1),
-		NOT_SUPPORTED(2),
-		ALIGNING(3),
-		WRONG_MEDIUM(4);
+	public static final int ID_STATIC = 3101;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		STATE(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 361;
-
-	public AlignmentState() {
+	public SurveyTask() {
 		super(ID_STATIC);
 	}
 
-	public AlignmentState(IMCMessage msg) {
+	public SurveyTask(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -71,20 +54,20 @@ public class AlignmentState extends IMCMessage {
 		}
 	}
 
-	public AlignmentState(IMCDefinition defs) {
+	public SurveyTask(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static AlignmentState create(Object... values) {
-		AlignmentState m = new AlignmentState();
+	public static SurveyTask create(Object... values) {
+		SurveyTask m = new SurveyTask();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static AlignmentState clone(IMCMessage msg) throws Exception {
+	public static SurveyTask clone(IMCMessage msg) throws Exception {
 
-		AlignmentState m = new AlignmentState();
+		SurveyTask m = new SurveyTask();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -99,17 +82,51 @@ public class AlignmentState extends IMCMessage {
 		return m;
 	}
 
-	public AlignmentState(STATE state) {
+	public SurveyTask(int task_id, int feature_id, SensorType sensor, float resolution, double deadline) {
 		super(ID_STATIC);
-		setState(state);
+		setTaskId(task_id);
+		setFeatureId(feature_id);
+		setSensor(sensor);
+		setResolution(resolution);
+		setDeadline(deadline);
 	}
 
 	/**
-	 *  @return State (enumerated) - uint8_t
+	 *  @return Task Identifier - uint16_t
 	 */
-	public STATE getState() {
+	public int getTaskId() {
+		return getInteger("task_id");
+	}
+
+	/**
+	 *  @param task_id Task Identifier
+	 */
+	public SurveyTask setTaskId(int task_id) {
+		values.put("task_id", task_id);
+		return this;
+	}
+
+	/**
+	 *  @return Geo Feature Identifier - uint16_t
+	 */
+	public int getFeatureId() {
+		return getInteger("feature_id");
+	}
+
+	/**
+	 *  @param feature_id Geo Feature Identifier
+	 */
+	public SurveyTask setFeatureId(int feature_id) {
+		values.put("feature_id", feature_id);
+		return this;
+	}
+
+	/**
+	 *  @return Sensor (enumerated) - uint8_t
+	 */
+	public SensorType getSensor() {
 		try {
-			STATE o = STATE.valueOf(getMessageType().getFieldPossibleValues("state").get(getLong("state")));
+			SensorType o = SensorType.valueOf(getMessageType().getFieldPossibleValues("sensor").get(getLong("sensor")));
 			return o;
 		}
 		catch (Exception e) {
@@ -117,35 +134,65 @@ public class AlignmentState extends IMCMessage {
 		}
 	}
 
-	public String getStateStr() {
-		return getString("state");
+	public String getSensorStr() {
+		return getString("sensor");
 	}
 
-	public short getStateVal() {
-		return (short) getInteger("state");
+	public short getSensorVal() {
+		return (short) getInteger("sensor");
 	}
 
 	/**
-	 *  @param state State (enumerated)
+	 *  @param sensor Sensor (enumerated)
 	 */
-	public AlignmentState setState(STATE state) {
-		values.put("state", state.value());
+	public SurveyTask setSensor(SensorType sensor) {
+		values.put("sensor", sensor.value());
 		return this;
 	}
 
 	/**
-	 *  @param state State (as a String)
+	 *  @param sensor Sensor (as a String)
 	 */
-	public AlignmentState setStateStr(String state) {
-		setValue("state", state);
+	public SurveyTask setSensorStr(String sensor) {
+		setValue("sensor", sensor);
 		return this;
 	}
 
 	/**
-	 *  @param state State (integer value)
+	 *  @param sensor Sensor (integer value)
 	 */
-	public AlignmentState setStateVal(short state) {
-		setValue("state", state);
+	public SurveyTask setSensorVal(short sensor) {
+		setValue("sensor", sensor);
+		return this;
+	}
+
+	/**
+	 *  @return Resolution (px/m²) - fp32_t
+	 */
+	public double getResolution() {
+		return getDouble("resolution");
+	}
+
+	/**
+	 *  @param resolution Resolution (px/m²)
+	 */
+	public SurveyTask setResolution(double resolution) {
+		values.put("resolution", resolution);
+		return this;
+	}
+
+	/**
+	 *  @return Deadline (s) - fp64_t
+	 */
+	public double getDeadline() {
+		return getDouble("deadline");
+	}
+
+	/**
+	 *  @param deadline Deadline (s)
+	 */
+	public SurveyTask setDeadline(double deadline) {
+		values.put("deadline", deadline);
 		return this;
 	}
 

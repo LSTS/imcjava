@@ -31,19 +31,35 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Salinity (270)<br/>
- *  Report of salinity.<br/>
+ *  IMC Message Synchronization Administration (3005)<br/>
+ *  This message is used to control the state of execution for the entire system.<br/>
  */
 
-public class Salinity extends IMCMessage {
+public class SynchAdmin extends IMCMessage {
 
-	public static final int ID_STATIC = 270;
+	public enum OP {
+		HOLD(1),
+		RESUME(2),
+		INTERRUPT(3);
 
-	public Salinity() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		OP(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 3005;
+
+	public SynchAdmin() {
 		super(ID_STATIC);
 	}
 
-	public Salinity(IMCMessage msg) {
+	public SynchAdmin(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +69,20 @@ public class Salinity extends IMCMessage {
 		}
 	}
 
-	public Salinity(IMCDefinition defs) {
+	public SynchAdmin(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static Salinity create(Object... values) {
-		Salinity m = new Salinity();
+	public static SynchAdmin create(Object... values) {
+		SynchAdmin m = new SynchAdmin();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static Salinity clone(IMCMessage msg) throws Exception {
+	public static SynchAdmin clone(IMCMessage msg) throws Exception {
 
-		Salinity m = new Salinity();
+		SynchAdmin m = new SynchAdmin();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,23 +97,53 @@ public class Salinity extends IMCMessage {
 		return m;
 	}
 
-	public Salinity(float value) {
+	public SynchAdmin(OP op) {
 		super(ID_STATIC);
-		setValue(value);
+		setOp(op);
 	}
 
 	/**
-	 *  @return Measured Salinity - fp32_t
+	 *  @return Operation (enumerated) - uint8_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public OP getOp() {
+		try {
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
 	}
 
 	/**
-	 *  @param value Measured Salinity
+	 *  @param op Operation (enumerated)
 	 */
-	public Salinity setValue(double value) {
-		values.put("value", value);
+	public SynchAdmin setOp(OP op) {
+		values.put("op", op.value());
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (as a String)
+	 */
+	public SynchAdmin setOpStr(String op) {
+		setValue("op", op);
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (integer value)
+	 */
+	public SynchAdmin setOpVal(short op) {
+		setValue("op", op);
 		return this;
 	}
 

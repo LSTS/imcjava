@@ -42,7 +42,8 @@ public class AcousticRequest extends IMCMessage {
 		RANGE(1),
 		REVERSE_RANGE(2),
 		MSG(3),
-		RAW(4);
+		RAW(4),
+		POSITION_REQUEST(5);
 
 		protected long value;
 
