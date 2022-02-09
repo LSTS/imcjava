@@ -13,7 +13,7 @@ configurations {
 }
 
 dependencies {
-    implementation 'com.eclipsesource.minimal-json:minimal-json:0.9.2'
+    implementation 'com.eclipsesource.minimal-json:minimal-json:0.9.5'    
     implementation 'javax.xml.bind:jaxb-api:2.3.0'
     //implementation 'org.apache.commons:commons-lang3:3.1'
 }
@@ -141,3 +141,5 @@ jarTask(project, "imccontroller", null, "$distFolderName/$toolsFolderName",
   'pt.lsts.imc.control.ControlLink', null, false)
 jarTask(project, "imcvehicleadapter", null, "$distFolderName/$toolsFolderName",
   'pt.lsts.imc.adapter.VehicleAdapter', null, false)
+jarTask(project, "imcreplay", null, "$distFolderName/$toolsFolderName",
+  'pt.lsts.util.ImcReplay', null, false)
