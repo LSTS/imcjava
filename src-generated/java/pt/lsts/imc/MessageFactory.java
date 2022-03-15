@@ -586,6 +586,8 @@ public class MessageFactory {
 				return new CompressedImage(defs);
 			case ImageTxSettings.ID_STATIC:
 				return new ImageTxSettings(defs);
+			case ManeuverDone.ID_STATIC:
+				return new ManeuverDone(defs);
 			case StationKeepingExtended.ID_STATIC:
 				return new StationKeepingExtended(defs);
 			case RemoteState.ID_STATIC:
