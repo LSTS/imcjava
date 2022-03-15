@@ -31,19 +31,29 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
+ *  IMC Message Command To Follow (497)<br/>
+ *  This message must be sent by an external entity to provide command references to a system<br/>
+ *  running a "Follow Command Maneuver". If no Command messages are transmitted, the system<br/>
+ *  will terminate maneuver.<br/>
  */
 
-public class UamRxRange extends IMCMessage {
+public class Command extends IMCMessage {
 
-	public static final int ID_STATIC = 817;
+	public static final short FLAG_SPEED_METERS_PS = 0x01;
+	public static final short FLAG_SPEED_RPM = 0x02;
+	public static final short FLAG_DEPTH = 0x04;
+	public static final short FLAG_ALTITUDE = 0x08;
+	public static final short FLAG_HEADING = 0x10;
+	public static final short FLAG_HEADING_RATE = 0x20;
+	public static final short FLAG_MANDONE = 0x80;
 
-	public UamRxRange() {
+	public static final int ID_STATIC = 497;
+
+	public Command() {
 		super(ID_STATIC);
 	}
 
-	public UamRxRange(IMCMessage msg) {
+	public Command(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +63,20 @@ public class UamRxRange extends IMCMessage {
 		}
 	}
 
-	public UamRxRange(IMCDefinition defs) {
+	public Command(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxRange create(Object... values) {
-		UamRxRange m = new UamRxRange();
+	public static Command create(Object... values) {
+		Command m = new Command();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxRange clone(IMCMessage msg) throws Exception {
+	public static Command clone(IMCMessage msg) throws Exception {
 
-		UamRxRange m = new UamRxRange();
+		Command m = new Command();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,56 +91,71 @@ public class UamRxRange extends IMCMessage {
 		return m;
 	}
 
-	public UamRxRange(int seq, String sys, float value) {
+	public Command(short flags, float speed, float z, float heading) {
 		super(ID_STATIC);
-		setSeq(seq);
-		if (sys != null)
-			setSys(sys);
-		setValue(value);
+		setFlags(flags);
+		setSpeed(speed);
+		setZ(z);
+		setHeading(heading);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Flags (bitfield) - uint8_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public short getFlags() {
+		return (short) getInteger("flags");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param flags Flags (bitfield)
 	 */
-	public UamRxRange setSeq(int seq) {
-		values.put("seq", seq);
+	public Command setFlags(short flags) {
+		values.put("flags", flags);
 		return this;
 	}
 
 	/**
-	 *  @return System - plaintext
+	 *  @return Speed Reference - fp32_t
 	 */
-	public String getSys() {
-		return getString("sys");
+	public double getSpeed() {
+		return getDouble("speed");
 	}
 
 	/**
-	 *  @param sys System
+	 *  @param speed Speed Reference
 	 */
-	public UamRxRange setSys(String sys) {
-		values.put("sys", sys);
+	public Command setSpeed(double speed) {
+		values.put("speed", speed);
 		return this;
 	}
 
 	/**
-	 *  @return Value (m) - fp32_t
+	 *  @return Z Reference (m) - fp32_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**
-	 *  @param value Value (m)
+	 *  @param z Z Reference (m)
 	 */
-	public UamRxRange setValue(double value) {
-		values.put("value", value);
+	public Command setZ(double z) {
+		values.put("z", z);
+		return this;
+	}
+
+	/**
+	 *  @return Heading Reference (rad) - fp32_t
+	 */
+	public double getHeading() {
+		return getDouble("heading");
+	}
+
+	/**
+	 *  @param heading Heading Reference (rad)
+	 */
+	public Command setHeading(double heading) {
+		values.put("heading", heading);
 		return this;
 	}
 

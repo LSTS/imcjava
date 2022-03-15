@@ -31,19 +31,35 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
+ *  IMC Message Validate Plan DB (2007)<br/>
+ *  Use to validate plans<br/>
  */
 
-public class UamRxRange extends IMCMessage {
+public class ValidatePlan extends IMCMessage {
 
-	public static final int ID_STATIC = 817;
+	public enum TYPE {
+		REQ(0),
+		VALID(1),
+		INVALID(2);
 
-	public UamRxRange() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		TYPE(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 2007;
+
+	public ValidatePlan() {
 		super(ID_STATIC);
 	}
 
-	public UamRxRange(IMCMessage msg) {
+	public ValidatePlan(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +69,20 @@ public class UamRxRange extends IMCMessage {
 		}
 	}
 
-	public UamRxRange(IMCDefinition defs) {
+	public ValidatePlan(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxRange create(Object... values) {
-		UamRxRange m = new UamRxRange();
+	public static ValidatePlan create(Object... values) {
+		ValidatePlan m = new ValidatePlan();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxRange clone(IMCMessage msg) throws Exception {
+	public static ValidatePlan clone(IMCMessage msg) throws Exception {
 
-		UamRxRange m = new UamRxRange();
+		ValidatePlan m = new ValidatePlan();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,56 +97,80 @@ public class UamRxRange extends IMCMessage {
 		return m;
 	}
 
-	public UamRxRange(int seq, String sys, float value) {
+	public ValidatePlan(TYPE type, PlanDB plan) {
 		super(ID_STATIC);
-		setSeq(seq);
-		if (sys != null)
-			setSys(sys);
-		setValue(value);
+		setType(type);
+		if (plan != null)
+			setPlan(plan);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Request Type (enumerated) - uint8_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public TYPE getType() {
+		try {
+			TYPE o = TYPE.valueOf(getMessageType().getFieldPossibleValues("type").get(getLong("type")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param type Request Type (enumerated)
 	 */
-	public UamRxRange setSeq(int seq) {
-		values.put("seq", seq);
+	public ValidatePlan setType(TYPE type) {
+		values.put("type", type.value());
 		return this;
 	}
 
 	/**
-	 *  @return System - plaintext
+	 *  @param type Request Type (as a String)
 	 */
-	public String getSys() {
-		return getString("sys");
-	}
-
-	/**
-	 *  @param sys System
-	 */
-	public UamRxRange setSys(String sys) {
-		values.put("sys", sys);
+	public ValidatePlan setTypeStr(String type) {
+		setValue("type", type);
 		return this;
 	}
 
 	/**
-	 *  @return Value (m) - fp32_t
+	 *  @param type Request Type (integer value)
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public ValidatePlan setTypeVal(short type) {
+		setValue("type", type);
+		return this;
 	}
 
 	/**
-	 *  @param value Value (m)
+	 *  @return Plan DB - message
 	 */
-	public UamRxRange setValue(double value) {
-		values.put("value", value);
+	public PlanDB getPlan() {
+		try {
+			IMCMessage obj = getMessage("plan");
+			if (obj instanceof PlanDB)
+				return (PlanDB) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param plan Plan DB
+	 */
+	public ValidatePlan setPlan(PlanDB plan) {
+		values.put("plan", plan);
 		return this;
 	}
 

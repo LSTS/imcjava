@@ -31,19 +31,24 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
+ *  IMC Message Current Profile (1014)<br/>
+ *  Contains a profile of water velocities measured relative to the vehicle<br/>
+ *  velocity, represented in the specified coordinate system.<br/>
  */
 
-public class UamRxRange extends IMCMessage {
+public class CurrentProfile extends IMCMessage {
 
-	public static final int ID_STATIC = 817;
+	public static final short UTF_XYZ = 0x01;
+	public static final short UTF_NED = 0x02;
+	public static final short UTF_BEAMS = 0x04;
 
-	public UamRxRange() {
+	public static final int ID_STATIC = 1014;
+
+	public CurrentProfile() {
 		super(ID_STATIC);
 	}
 
-	public UamRxRange(IMCMessage msg) {
+	public CurrentProfile(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +58,20 @@ public class UamRxRange extends IMCMessage {
 		}
 	}
 
-	public UamRxRange(IMCDefinition defs) {
+	public CurrentProfile(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxRange create(Object... values) {
-		UamRxRange m = new UamRxRange();
+	public static CurrentProfile create(Object... values) {
+		CurrentProfile m = new CurrentProfile();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxRange clone(IMCMessage msg) throws Exception {
+	public static CurrentProfile clone(IMCMessage msg) throws Exception {
 
-		UamRxRange m = new UamRxRange();
+		CurrentProfile m = new CurrentProfile();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,56 +86,78 @@ public class UamRxRange extends IMCMessage {
 		return m;
 	}
 
-	public UamRxRange(int seq, String sys, float value) {
+	public CurrentProfile(short nbeams, short ncells, short coord_sys, java.util.Collection<CurrentProfileCell> profile) {
 		super(ID_STATIC);
-		setSeq(seq);
-		if (sys != null)
-			setSys(sys);
-		setValue(value);
+		setNbeams(nbeams);
+		setNcells(ncells);
+		setCoordSys(coord_sys);
+		if (profile != null)
+			setProfile(profile);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Number of Beams - uint8_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public short getNbeams() {
+		return (short) getInteger("nbeams");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param nbeams Number of Beams
 	 */
-	public UamRxRange setSeq(int seq) {
-		values.put("seq", seq);
+	public CurrentProfile setNbeams(short nbeams) {
+		values.put("nbeams", nbeams);
 		return this;
 	}
 
 	/**
-	 *  @return System - plaintext
+	 *  @return Number of Cells - uint8_t
 	 */
-	public String getSys() {
-		return getString("sys");
+	public short getNcells() {
+		return (short) getInteger("ncells");
 	}
 
 	/**
-	 *  @param sys System
+	 *  @param ncells Number of Cells
 	 */
-	public UamRxRange setSys(String sys) {
-		values.put("sys", sys);
+	public CurrentProfile setNcells(short ncells) {
+		values.put("ncells", ncells);
 		return this;
 	}
 
 	/**
-	 *  @return Value (m) - fp32_t
+	 *  @return Coordinate System (bitfield) - uint8_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public short getCoordSys() {
+		return (short) getInteger("coord_sys");
 	}
 
 	/**
-	 *  @param value Value (m)
+	 *  @param coord_sys Coordinate System (bitfield)
 	 */
-	public UamRxRange setValue(double value) {
-		values.put("value", value);
+	public CurrentProfile setCoordSys(short coord_sys) {
+		values.put("coord_sys", coord_sys);
+		return this;
+	}
+
+	/**
+	 *  @return Profile - message-list
+	 */
+	public java.util.Vector<CurrentProfileCell> getProfile() {
+		try {
+			return getMessageList("profile", CurrentProfileCell.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param profile Profile
+	 */
+	public CurrentProfile setProfile(java.util.Collection<CurrentProfileCell> profile) {
+		values.put("profile", profile);
 		return this;
 	}
 

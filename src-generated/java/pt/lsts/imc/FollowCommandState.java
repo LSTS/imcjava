@@ -31,21 +31,17 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Alignment State (361)<br/>
- *  This message notifies the vehicle is ready for dead-reckoning missions.<br/>
+ *  IMC Message Follow Command State (498)<br/>
  */
 
-public class AlignmentState extends IMCMessage {
+public class FollowCommandState extends IMCMessage {
 
 	public enum STATE {
-		NOT_ALIGNED(0),
-		ALIGNED(1),
-		NOT_SUPPORTED(2),
-		ALIGNING(3),
-		WRONG_MEDIUM(4),
-		COARSE_ALIGNMENT(5),
-		FINE_ALIGNMENT(6),
-		SYSTEM_READY(7);
+		WAIT(1),
+		MOVING(2),
+		STOPPED(3),
+		BAD_COMMAND(4),
+		TIMEOUT(5);
 
 		protected long value;
 
@@ -58,13 +54,13 @@ public class AlignmentState extends IMCMessage {
 		}
 	}
 
-	public static final int ID_STATIC = 361;
+	public static final int ID_STATIC = 498;
 
-	public AlignmentState() {
+	public FollowCommandState() {
 		super(ID_STATIC);
 	}
 
-	public AlignmentState(IMCMessage msg) {
+	public FollowCommandState(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -74,20 +70,20 @@ public class AlignmentState extends IMCMessage {
 		}
 	}
 
-	public AlignmentState(IMCDefinition defs) {
+	public FollowCommandState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static AlignmentState create(Object... values) {
-		AlignmentState m = new AlignmentState();
+	public static FollowCommandState create(Object... values) {
+		FollowCommandState m = new FollowCommandState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static AlignmentState clone(IMCMessage msg) throws Exception {
+	public static FollowCommandState clone(IMCMessage msg) throws Exception {
 
-		AlignmentState m = new AlignmentState();
+		FollowCommandState m = new FollowCommandState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -102,9 +98,68 @@ public class AlignmentState extends IMCMessage {
 		return m;
 	}
 
-	public AlignmentState(STATE state) {
+	public FollowCommandState(int control_src, short control_ent, Command command, STATE state) {
 		super(ID_STATIC);
+		setControlSrc(control_src);
+		setControlEnt(control_ent);
+		if (command != null)
+			setCommand(command);
 		setState(state);
+	}
+
+	/**
+	 *  @return Controlling Source - uint16_t
+	 */
+	public int getControlSrc() {
+		return getInteger("control_src");
+	}
+
+	/**
+	 *  @param control_src Controlling Source
+	 */
+	public FollowCommandState setControlSrc(int control_src) {
+		values.put("control_src", control_src);
+		return this;
+	}
+
+	/**
+	 *  @return Controlling Entity - uint8_t
+	 */
+	public short getControlEnt() {
+		return (short) getInteger("control_ent");
+	}
+
+	/**
+	 *  @param control_ent Controlling Entity
+	 */
+	public FollowCommandState setControlEnt(short control_ent) {
+		values.put("control_ent", control_ent);
+		return this;
+	}
+
+	/**
+	 *  @return Command - message
+	 */
+	public Command getCommand() {
+		try {
+			IMCMessage obj = getMessage("command");
+			if (obj instanceof Command)
+				return (Command) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param command Command
+	 */
+	public FollowCommandState setCommand(Command command) {
+		values.put("command", command);
+		return this;
 	}
 
 	/**
@@ -131,7 +186,7 @@ public class AlignmentState extends IMCMessage {
 	/**
 	 *  @param state State (enumerated)
 	 */
-	public AlignmentState setState(STATE state) {
+	public FollowCommandState setState(STATE state) {
 		values.put("state", state.value());
 		return this;
 	}
@@ -139,7 +194,7 @@ public class AlignmentState extends IMCMessage {
 	/**
 	 *  @param state State (as a String)
 	 */
-	public AlignmentState setStateStr(String state) {
+	public FollowCommandState setStateStr(String state) {
 		setValue("state", state);
 		return this;
 	}
@@ -147,7 +202,7 @@ public class AlignmentState extends IMCMessage {
 	/**
 	 *  @param state State (integer value)
 	 */
-	public AlignmentState setStateVal(short state) {
+	public FollowCommandState setStateVal(short state) {
 		setValue("state", state);
 		return this;
 	}

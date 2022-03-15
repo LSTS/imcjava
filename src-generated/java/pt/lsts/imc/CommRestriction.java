@@ -31,19 +31,24 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
+ *  IMC Message Communication Restriction (2010)<br/>
+ *  This message is used to restrict the vehicle from using some communication means.<br/>
  */
 
-public class UamRxRange extends IMCMessage {
+public class CommRestriction extends IMCMessage {
 
-	public static final int ID_STATIC = 817;
+	public static final short MEAN_SATELLITE = 0x01;
+	public static final short MEAN_ACOUSTIC = 0x02;
+	public static final short MEAN_WIFI = 0x04;
+	public static final short MEAN_GSM = 0x08;
 
-	public UamRxRange() {
+	public static final int ID_STATIC = 2010;
+
+	public CommRestriction() {
 		super(ID_STATIC);
 	}
 
-	public UamRxRange(IMCMessage msg) {
+	public CommRestriction(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +58,20 @@ public class UamRxRange extends IMCMessage {
 		}
 	}
 
-	public UamRxRange(IMCDefinition defs) {
+	public CommRestriction(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxRange create(Object... values) {
-		UamRxRange m = new UamRxRange();
+	public static CommRestriction create(Object... values) {
+		CommRestriction m = new CommRestriction();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxRange clone(IMCMessage msg) throws Exception {
+	public static CommRestriction clone(IMCMessage msg) throws Exception {
 
-		UamRxRange m = new UamRxRange();
+		CommRestriction m = new CommRestriction();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,56 +86,40 @@ public class UamRxRange extends IMCMessage {
 		return m;
 	}
 
-	public UamRxRange(int seq, String sys, float value) {
+	public CommRestriction(short restriction, String reason) {
 		super(ID_STATIC);
-		setSeq(seq);
-		if (sys != null)
-			setSys(sys);
-		setValue(value);
+		setRestriction(restriction);
+		if (reason != null)
+			setReason(reason);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Restricted Communication Means (bitfield) - uint8_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public short getRestriction() {
+		return (short) getInteger("restriction");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param restriction Restricted Communication Means (bitfield)
 	 */
-	public UamRxRange setSeq(int seq) {
-		values.put("seq", seq);
+	public CommRestriction setRestriction(short restriction) {
+		values.put("restriction", restriction);
 		return this;
 	}
 
 	/**
-	 *  @return System - plaintext
+	 *  @return Reason - plaintext
 	 */
-	public String getSys() {
-		return getString("sys");
+	public String getReason() {
+		return getString("reason");
 	}
 
 	/**
-	 *  @param sys System
+	 *  @param reason Reason
 	 */
-	public UamRxRange setSys(String sys) {
-		values.put("sys", sys);
-		return this;
-	}
-
-	/**
-	 *  @return Value (m) - fp32_t
-	 */
-	public double getValue() {
-		return getDouble("value");
-	}
-
-	/**
-	 *  @param value Value (m)
-	 */
-	public UamRxRange setValue(double value) {
-		values.put("value", value);
+	public CommRestriction setReason(String reason) {
+		values.put("reason", reason);
 		return this;
 	}
 

@@ -31,19 +31,21 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
+ *  IMC Message ADCP Beam Measurements (1016)<br/>
+ *  Measurement from one specific beam at the given CellPosition.<br/>
+ *  Water Velocity is provided in the chosen Coordinate system.<br/>
+ *  Amplitude and Correlation are always in the BEAM coordinate system.<br/>
  */
 
-public class UamRxRange extends IMCMessage {
+public class ADCPBeam extends IMCMessage {
 
-	public static final int ID_STATIC = 817;
+	public static final int ID_STATIC = 1016;
 
-	public UamRxRange() {
+	public ADCPBeam() {
 		super(ID_STATIC);
 	}
 
-	public UamRxRange(IMCMessage msg) {
+	public ADCPBeam(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +55,20 @@ public class UamRxRange extends IMCMessage {
 		}
 	}
 
-	public UamRxRange(IMCDefinition defs) {
+	public ADCPBeam(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxRange create(Object... values) {
-		UamRxRange m = new UamRxRange();
+	public static ADCPBeam create(Object... values) {
+		ADCPBeam m = new ADCPBeam();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxRange clone(IMCMessage msg) throws Exception {
+	public static ADCPBeam clone(IMCMessage msg) throws Exception {
 
-		UamRxRange m = new UamRxRange();
+		ADCPBeam m = new ADCPBeam();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,56 +83,55 @@ public class UamRxRange extends IMCMessage {
 		return m;
 	}
 
-	public UamRxRange(int seq, String sys, float value) {
+	public ADCPBeam(float vel, float amp, short cor) {
 		super(ID_STATIC);
-		setSeq(seq);
-		if (sys != null)
-			setSys(sys);
-		setValue(value);
+		setVel(vel);
+		setAmp(amp);
+		setCor(cor);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Water Velocity (m/s) - fp32_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public double getVel() {
+		return getDouble("vel");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param vel Water Velocity (m/s)
 	 */
-	public UamRxRange setSeq(int seq) {
-		values.put("seq", seq);
+	public ADCPBeam setVel(double vel) {
+		values.put("vel", vel);
 		return this;
 	}
 
 	/**
-	 *  @return System - plaintext
+	 *  @return Amplitude (db) - fp32_t
 	 */
-	public String getSys() {
-		return getString("sys");
+	public double getAmp() {
+		return getDouble("amp");
 	}
 
 	/**
-	 *  @param sys System
+	 *  @param amp Amplitude (db)
 	 */
-	public UamRxRange setSys(String sys) {
-		values.put("sys", sys);
+	public ADCPBeam setAmp(double amp) {
+		values.put("amp", amp);
 		return this;
 	}
 
 	/**
-	 *  @return Value (m) - fp32_t
+	 *  @return Correlation (%) - uint8_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public short getCor() {
+		return (short) getInteger("cor");
 	}
 
 	/**
-	 *  @param value Value (m)
+	 *  @param cor Correlation (%)
 	 */
-	public UamRxRange setValue(double value) {
-		values.put("value", value);
+	public ADCPBeam setCor(short cor) {
+		values.put("cor", cor);
 		return this;
 	}
 

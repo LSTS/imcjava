@@ -31,19 +31,18 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
+ *  IMC Message Transmit Iridium Message (Extended) (2005)<br/>
  */
 
-public class UamRxRange extends IMCMessage {
+public class IridiumMsgTxExtended extends IMCMessage {
 
-	public static final int ID_STATIC = 817;
+	public static final int ID_STATIC = 2005;
 
-	public UamRxRange() {
+	public IridiumMsgTxExtended() {
 		super(ID_STATIC);
 	}
 
-	public UamRxRange(IMCMessage msg) {
+	public IridiumMsgTxExtended(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +52,20 @@ public class UamRxRange extends IMCMessage {
 		}
 	}
 
-	public UamRxRange(IMCDefinition defs) {
+	public IridiumMsgTxExtended(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxRange create(Object... values) {
-		UamRxRange m = new UamRxRange();
+	public static IridiumMsgTxExtended create(Object... values) {
+		IridiumMsgTxExtended m = new IridiumMsgTxExtended();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxRange clone(IMCMessage msg) throws Exception {
+	public static IridiumMsgTxExtended clone(IMCMessage msg) throws Exception {
 
-		UamRxRange m = new UamRxRange();
+		IridiumMsgTxExtended m = new IridiumMsgTxExtended();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,56 +80,89 @@ public class UamRxRange extends IMCMessage {
 		return m;
 	}
 
-	public UamRxRange(int seq, String sys, float value) {
+	public IridiumMsgTxExtended(int req_id, int ttl, long expiration, String destination, byte[] data) {
 		super(ID_STATIC);
-		setSeq(seq);
-		if (sys != null)
-			setSys(sys);
-		setValue(value);
+		setReqId(req_id);
+		setTtl(ttl);
+		setExpiration(expiration);
+		if (destination != null)
+			setDestination(destination);
+		if (data != null)
+			setData(data);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Request Identifier - uint16_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public int getReqId() {
+		return getInteger("req_id");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param req_id Request Identifier
 	 */
-	public UamRxRange setSeq(int seq) {
-		values.put("seq", seq);
+	public IridiumMsgTxExtended setReqId(int req_id) {
+		values.put("req_id", req_id);
 		return this;
 	}
 
 	/**
-	 *  @return System - plaintext
+	 *  @return Time to live (s) - uint16_t
 	 */
-	public String getSys() {
-		return getString("sys");
+	public int getTtl() {
+		return getInteger("ttl");
 	}
 
 	/**
-	 *  @param sys System
+	 *  @param ttl Time to live (s)
 	 */
-	public UamRxRange setSys(String sys) {
-		values.put("sys", sys);
+	public IridiumMsgTxExtended setTtl(int ttl) {
+		values.put("ttl", ttl);
 		return this;
 	}
 
 	/**
-	 *  @return Value (m) - fp32_t
+	 *  @return Expiration Time (s) - uint32_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public long getExpiration() {
+		return getLong("expiration");
 	}
 
 	/**
-	 *  @param value Value (m)
+	 *  @param expiration Expiration Time (s)
 	 */
-	public UamRxRange setValue(double value) {
-		values.put("value", value);
+	public IridiumMsgTxExtended setExpiration(long expiration) {
+		values.put("expiration", expiration);
+		return this;
+	}
+
+	/**
+	 *  @return Destination Identifier - plaintext
+	 */
+	public String getDestination() {
+		return getString("destination");
+	}
+
+	/**
+	 *  @param destination Destination Identifier
+	 */
+	public IridiumMsgTxExtended setDestination(String destination) {
+		values.put("destination", destination);
+		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
+	}
+
+	/**
+	 *  @param data Data
+	 */
+	public IridiumMsgTxExtended setData(byte[] data) {
+		values.put("data", data);
 		return this;
 	}
 

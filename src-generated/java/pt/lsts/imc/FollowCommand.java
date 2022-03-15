@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
+ *  IMC Message Follow Command Maneuver (496)<br/>
+ *  This maneuver follows a direct command given by an external entity.<br/>
  */
 
-public class UamRxRange extends IMCMessage {
+public class FollowCommand extends IMCMessage {
 
-	public static final int ID_STATIC = 817;
+	public static final int ID_STATIC = 496;
 
-	public UamRxRange() {
+	public FollowCommand() {
 		super(ID_STATIC);
 	}
 
-	public UamRxRange(IMCMessage msg) {
+	public FollowCommand(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class UamRxRange extends IMCMessage {
 		}
 	}
 
-	public UamRxRange(IMCDefinition defs) {
+	public FollowCommand(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxRange create(Object... values) {
-		UamRxRange m = new UamRxRange();
+	public static FollowCommand create(Object... values) {
+		FollowCommand m = new FollowCommand();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxRange clone(IMCMessage msg) throws Exception {
+	public static FollowCommand clone(IMCMessage msg) throws Exception {
 
-		UamRxRange m = new UamRxRange();
+		FollowCommand m = new FollowCommand();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,56 +81,55 @@ public class UamRxRange extends IMCMessage {
 		return m;
 	}
 
-	public UamRxRange(int seq, String sys, float value) {
+	public FollowCommand(int control_src, short control_ent, float timeout) {
 		super(ID_STATIC);
-		setSeq(seq);
-		if (sys != null)
-			setSys(sys);
-		setValue(value);
+		setControlSrc(control_src);
+		setControlEnt(control_ent);
+		setTimeout(timeout);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Controlling Source - uint16_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public int getControlSrc() {
+		return getInteger("control_src");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param control_src Controlling Source
 	 */
-	public UamRxRange setSeq(int seq) {
-		values.put("seq", seq);
+	public FollowCommand setControlSrc(int control_src) {
+		values.put("control_src", control_src);
 		return this;
 	}
 
 	/**
-	 *  @return System - plaintext
+	 *  @return Controlling Entity - uint8_t
 	 */
-	public String getSys() {
-		return getString("sys");
+	public short getControlEnt() {
+		return (short) getInteger("control_ent");
 	}
 
 	/**
-	 *  @param sys System
+	 *  @param control_ent Controlling Entity
 	 */
-	public UamRxRange setSys(String sys) {
-		values.put("sys", sys);
+	public FollowCommand setControlEnt(short control_ent) {
+		values.put("control_ent", control_ent);
 		return this;
 	}
 
 	/**
-	 *  @return Value (m) - fp32_t
+	 *  @return Reference Update Timeout - fp32_t
 	 */
-	public double getValue() {
-		return getDouble("value");
+	public double getTimeout() {
+		return getDouble("timeout");
 	}
 
 	/**
-	 *  @param value Value (m)
+	 *  @param timeout Reference Update Timeout
 	 */
-	public UamRxRange setValue(double value) {
-		values.put("value", value);
+	public FollowCommand setTimeout(double timeout) {
+		values.put("timeout", timeout);
 		return this;
 	}
 

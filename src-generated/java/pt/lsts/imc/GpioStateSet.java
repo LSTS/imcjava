@@ -31,19 +31,20 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
+ *  IMC Message Set GPIO State (2002)<br/>
+ *  Set the state of a given GPIO. The receiving entity shall reply<br/>
+ *  with a GpioState message.<br/>
  */
 
-public class UamRxRange extends IMCMessage {
+public class GpioStateSet extends IMCMessage {
 
-	public static final int ID_STATIC = 817;
+	public static final int ID_STATIC = 2002;
 
-	public UamRxRange() {
+	public GpioStateSet() {
 		super(ID_STATIC);
 	}
 
-	public UamRxRange(IMCMessage msg) {
+	public GpioStateSet(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +54,20 @@ public class UamRxRange extends IMCMessage {
 		}
 	}
 
-	public UamRxRange(IMCDefinition defs) {
+	public GpioStateSet(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxRange create(Object... values) {
-		UamRxRange m = new UamRxRange();
+	public static GpioStateSet create(Object... values) {
+		GpioStateSet m = new GpioStateSet();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxRange clone(IMCMessage msg) throws Exception {
+	public static GpioStateSet clone(IMCMessage msg) throws Exception {
 
-		UamRxRange m = new UamRxRange();
+		GpioStateSet m = new GpioStateSet();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,55 +82,39 @@ public class UamRxRange extends IMCMessage {
 		return m;
 	}
 
-	public UamRxRange(int seq, String sys, float value) {
+	public GpioStateSet(String name, short value) {
 		super(ID_STATIC);
-		setSeq(seq);
-		if (sys != null)
-			setSys(sys);
+		if (name != null)
+			setName(name);
 		setValue(value);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Name - plaintext
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public String getName() {
+		return getString("name");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param name Name
 	 */
-	public UamRxRange setSeq(int seq) {
-		values.put("seq", seq);
+	public GpioStateSet setName(String name) {
+		values.put("name", name);
 		return this;
 	}
 
 	/**
-	 *  @return System - plaintext
+	 *  @return Value - uint8_t
 	 */
-	public String getSys() {
-		return getString("sys");
+	public short getValue() {
+		return (short) getInteger("value");
 	}
 
 	/**
-	 *  @param sys System
+	 *  @param value Value
 	 */
-	public UamRxRange setSys(String sys) {
-		values.put("sys", sys);
-		return this;
-	}
-
-	/**
-	 *  @return Value (m) - fp32_t
-	 */
-	public double getValue() {
-		return getDouble("value");
-	}
-
-	/**
-	 *  @param value Value (m)
-	 */
-	public UamRxRange setValue(double value) {
+	public GpioStateSet setValue(short value) {
 		values.put("value", value);
 		return this;
 	}

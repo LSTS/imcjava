@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
+ *  IMC Message Current Profile Cell (1015)<br/>
+ *  One Current measurement at a specific CellPosition.<br/>
  */
 
-public class UamRxRange extends IMCMessage {
+public class CurrentProfileCell extends IMCMessage {
 
-	public static final int ID_STATIC = 817;
+	public static final int ID_STATIC = 1015;
 
-	public UamRxRange() {
+	public CurrentProfileCell() {
 		super(ID_STATIC);
 	}
 
-	public UamRxRange(IMCMessage msg) {
+	public CurrentProfileCell(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class UamRxRange extends IMCMessage {
 		}
 	}
 
-	public UamRxRange(IMCDefinition defs) {
+	public CurrentProfileCell(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxRange create(Object... values) {
-		UamRxRange m = new UamRxRange();
+	public static CurrentProfileCell create(Object... values) {
+		CurrentProfileCell m = new CurrentProfileCell();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxRange clone(IMCMessage msg) throws Exception {
+	public static CurrentProfileCell clone(IMCMessage msg) throws Exception {
 
-		UamRxRange m = new UamRxRange();
+		CurrentProfileCell m = new CurrentProfileCell();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,56 +81,46 @@ public class UamRxRange extends IMCMessage {
 		return m;
 	}
 
-	public UamRxRange(int seq, String sys, float value) {
+	public CurrentProfileCell(float cell_position, java.util.Collection<ADCPBeam> beams) {
 		super(ID_STATIC);
-		setSeq(seq);
-		if (sys != null)
-			setSys(sys);
-		setValue(value);
+		setCellPosition(cell_position);
+		if (beams != null)
+			setBeams(beams);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Cell Position (m) - fp32_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public double getCellPosition() {
+		return getDouble("cell_position");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param cell_position Cell Position (m)
 	 */
-	public UamRxRange setSeq(int seq) {
-		values.put("seq", seq);
+	public CurrentProfileCell setCellPosition(double cell_position) {
+		values.put("cell_position", cell_position);
 		return this;
 	}
 
 	/**
-	 *  @return System - plaintext
+	 *  @return Beams Measurements - message-list
 	 */
-	public String getSys() {
-		return getString("sys");
+	public java.util.Vector<ADCPBeam> getBeams() {
+		try {
+			return getMessageList("beams", ADCPBeam.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	/**
-	 *  @param sys System
+	 *  @param beams Beams Measurements
 	 */
-	public UamRxRange setSys(String sys) {
-		values.put("sys", sys);
-		return this;
-	}
-
-	/**
-	 *  @return Value (m) - fp32_t
-	 */
-	public double getValue() {
-		return getDouble("value");
-	}
-
-	/**
-	 *  @param value Value (m)
-	 */
-	public UamRxRange setValue(double value) {
-		values.put("value", value);
+	public CurrentProfileCell setBeams(java.util.Collection<ADCPBeam> beams) {
+		values.put("beams", beams);
 		return this;
 	}
 

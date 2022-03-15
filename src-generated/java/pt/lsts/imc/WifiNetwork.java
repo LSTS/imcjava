@@ -31,44 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamTxStatus (816)<br/>
- *  This message shall be used by acoustic modem drivers to send updates<br/>
- *  on the transmission status of data frames.<br/>
+ *  IMC Message WiFi Network (2012)<br/>
+ *  This message is used to log wifi networks in the surroundings.<br/>
  */
 
-public class UamTxStatus extends IMCMessage {
+public class WifiNetwork extends IMCMessage {
 
-	public enum VALUE {
-		DONE(0),
-		FAILED(1),
-		CANCELED(2),
-		BUSY(3),
-		INV_ADDR(4),
-		IP(5),
-		UNSUPPORTED(6),
-		INV_SIZE(7),
-		SENT(8),
-		DELIVERED(9),
-		NO_TRANSDUCER(10);
+	public static final int ID_STATIC = 2012;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		VALUE(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 816;
-
-	public UamTxStatus() {
+	public WifiNetwork() {
 		super(ID_STATIC);
 	}
 
-	public UamTxStatus(IMCMessage msg) {
+	public WifiNetwork(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -78,20 +53,20 @@ public class UamTxStatus extends IMCMessage {
 		}
 	}
 
-	public UamTxStatus(IMCDefinition defs) {
+	public WifiNetwork(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamTxStatus create(Object... values) {
-		UamTxStatus m = new UamTxStatus();
+	public static WifiNetwork create(Object... values) {
+		WifiNetwork m = new WifiNetwork();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamTxStatus clone(IMCMessage msg) throws Exception {
+	public static WifiNetwork clone(IMCMessage msg) throws Exception {
 
-		UamTxStatus m = new UamTxStatus();
+		WifiNetwork m = new WifiNetwork();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -106,86 +81,138 @@ public class UamTxStatus extends IMCMessage {
 		return m;
 	}
 
-	public UamTxStatus(int seq, VALUE value, String error) {
+	public WifiNetwork(String essid, String mac, short signal, short noise, byte ccq, short channel, float freq, String security) {
 		super(ID_STATIC);
-		setSeq(seq);
-		setValue(value);
-		if (error != null)
-			setError(error);
+		if (essid != null)
+			setEssid(essid);
+		if (mac != null)
+			setMac(mac);
+		setSignal(signal);
+		setNoise(noise);
+		setCcq(ccq);
+		setChannel(channel);
+		setFreq(freq);
+		if (security != null)
+			setSecurity(security);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return ESSID - plaintext
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public String getEssid() {
+		return getString("essid");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param essid ESSID
 	 */
-	public UamTxStatus setSeq(int seq) {
-		values.put("seq", seq);
+	public WifiNetwork setEssid(String essid) {
+		values.put("essid", essid);
 		return this;
 	}
 
 	/**
-	 *  @return Value (enumerated) - uint8_t
+	 *  @return MAC Address - plaintext
 	 */
-	public VALUE getValue() {
-		try {
-			VALUE o = VALUE.valueOf(getMessageType().getFieldPossibleValues("value").get(getLong("value")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getValueStr() {
-		return getString("value");
-	}
-
-	public short getValueVal() {
-		return (short) getInteger("value");
+	public String getMac() {
+		return getString("mac");
 	}
 
 	/**
-	 *  @param value Value (enumerated)
+	 *  @param mac MAC Address
 	 */
-	public UamTxStatus setValue(VALUE value) {
-		values.put("value", value.value());
+	public WifiNetwork setMac(String mac) {
+		values.put("mac", mac);
 		return this;
 	}
 
 	/**
-	 *  @param value Value (as a String)
+	 *  @return Signal Level (db) - int16_t
 	 */
-	public UamTxStatus setValueStr(String value) {
-		setValue("value", value);
+	public short getSignal() {
+		return (short) getInteger("signal");
+	}
+
+	/**
+	 *  @param signal Signal Level (db)
+	 */
+	public WifiNetwork setSignal(short signal) {
+		values.put("signal", signal);
 		return this;
 	}
 
 	/**
-	 *  @param value Value (integer value)
+	 *  @return Noise Level (db) - int16_t
 	 */
-	public UamTxStatus setValueVal(short value) {
-		setValue("value", value);
+	public short getNoise() {
+		return (short) getInteger("noise");
+	}
+
+	/**
+	 *  @param noise Noise Level (db)
+	 */
+	public WifiNetwork setNoise(short noise) {
+		values.put("noise", noise);
 		return this;
 	}
 
 	/**
-	 *  @return Error Message - plaintext
+	 *  @return CCQ (%) - int8_t
 	 */
-	public String getError() {
-		return getString("error");
+	public byte getCcq() {
+		return (byte) getInteger("ccq");
 	}
 
 	/**
-	 *  @param error Error Message
+	 *  @param ccq CCQ (%)
 	 */
-	public UamTxStatus setError(String error) {
-		values.put("error", error);
+	public WifiNetwork setCcq(byte ccq) {
+		values.put("ccq", ccq);
+		return this;
+	}
+
+	/**
+	 *  @return Wifi Channel - uint8_t
+	 */
+	public short getChannel() {
+		return (short) getInteger("channel");
+	}
+
+	/**
+	 *  @param channel Wifi Channel
+	 */
+	public WifiNetwork setChannel(short channel) {
+		values.put("channel", channel);
+		return this;
+	}
+
+	/**
+	 *  @return Wifi Frequency - fp32_t
+	 */
+	public double getFreq() {
+		return getDouble("freq");
+	}
+
+	/**
+	 *  @param freq Wifi Frequency
+	 */
+	public WifiNetwork setFreq(double freq) {
+		values.put("freq", freq);
+		return this;
+	}
+
+	/**
+	 *  @return Security - plaintext
+	 */
+	public String getSecurity() {
+		return getString("security");
+	}
+
+	/**
+	 *  @param security Security
+	 */
+	public WifiNetwork setSecurity(String security) {
+		values.put("security", security);
 		return this;
 	}
 

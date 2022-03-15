@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "cd15743ebf5024f79ce0a431f7f652292de439eb";
-	public static final String IMC_BRANCH = "2021-11-12 cd15743 (HEAD -> project/comap, origin/project/comap)";
-	public static final String IMC_COMMIT = "Luis Venâncio (venancio@lsts.pt), Fri Nov 12 18:03:25 WET 2021, Added synchronization task message.";
+	public static final String IMC_SHA = "3d5ad566596375a802159ead03ff7a1e0774ead8";
+	public static final String IMC_BRANCH = "3d5ad56";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2022-03-15T11:28:32Z, https://github.com/LSTS/imc/commit/3d5ad566596375a802159ead03ff7a1e0774ead8, Fix categories after rebase CoMap branch messages.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -65,7 +65,6 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("squirtle", 1027);
 		IMC_ADDRESSES.put("swordfish", 2049);
 		IMC_ADDRESSES.put("caravela", 2050);
-		IMC_ADDRESSES.put("otter", 2051);
 		IMC_ADDRESSES.put("hermes", 2241);
 		IMC_ADDRESSES.put("hermes-desired", 2242);
 		IMC_ADDRESSES.put("hermes-target", 2243);
@@ -173,6 +172,8 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("x8-06-aux", 24583);
 		IMC_ADDRESSES.put("lauv-noptilus-2-cpu-cam", 24584);
 		IMC_ADDRESSES.put("lauv-noptilus-3-cpu-cam", 24585);
+		IMC_ADDRESSES.put("lauv-seacon-3-aux", 24592);
+		IMC_ADDRESSES.put("lauv-seacon-3-cpu-cam", 24593);
 		IMC_ADDRESSES.put("star", 32768);
 		IMC_ADDRESSES.put("benthos-mgateway", 32784);
 		IMC_ADDRESSES.put("manta-1", 32786);

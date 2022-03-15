@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamRxRange (817)<br/>
- *  Acoustic range measurement.<br/>
+ *  IMC Message Fluorescent Dissolved Organic Matter (2004)<br/>
+ *  Fluorescent Dissolved Organic Matter measurement.<br/>
  */
 
-public class UamRxRange extends IMCMessage {
+public class FluorescentDissolvedOrganicMatter extends IMCMessage {
 
-	public static final int ID_STATIC = 817;
+	public static final int ID_STATIC = 2004;
 
-	public UamRxRange() {
+	public FluorescentDissolvedOrganicMatter() {
 		super(ID_STATIC);
 	}
 
-	public UamRxRange(IMCMessage msg) {
+	public FluorescentDissolvedOrganicMatter(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class UamRxRange extends IMCMessage {
 		}
 	}
 
-	public UamRxRange(IMCDefinition defs) {
+	public FluorescentDissolvedOrganicMatter(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamRxRange create(Object... values) {
-		UamRxRange m = new UamRxRange();
+	public static FluorescentDissolvedOrganicMatter create(Object... values) {
+		FluorescentDissolvedOrganicMatter m = new FluorescentDissolvedOrganicMatter();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamRxRange clone(IMCMessage msg) throws Exception {
+	public static FluorescentDissolvedOrganicMatter clone(IMCMessage msg) throws Exception {
 
-		UamRxRange m = new UamRxRange();
+		FluorescentDissolvedOrganicMatter m = new FluorescentDissolvedOrganicMatter();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,55 +81,22 @@ public class UamRxRange extends IMCMessage {
 		return m;
 	}
 
-	public UamRxRange(int seq, String sys, float value) {
+	public FluorescentDissolvedOrganicMatter(float value) {
 		super(ID_STATIC);
-		setSeq(seq);
-		if (sys != null)
-			setSys(sys);
 		setValue(value);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
-	 */
-	public int getSeq() {
-		return getInteger("seq");
-	}
-
-	/**
-	 *  @param seq Sequence Id
-	 */
-	public UamRxRange setSeq(int seq) {
-		values.put("seq", seq);
-		return this;
-	}
-
-	/**
-	 *  @return System - plaintext
-	 */
-	public String getSys() {
-		return getString("sys");
-	}
-
-	/**
-	 *  @param sys System
-	 */
-	public UamRxRange setSys(String sys) {
-		values.put("sys", sys);
-		return this;
-	}
-
-	/**
-	 *  @return Value (m) - fp32_t
+	 *  @return Value (ppb) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (m)
+	 *  @param value Value (ppb)
 	 */
-	public UamRxRange setValue(double value) {
+	public FluorescentDissolvedOrganicMatter setValue(double value) {
 		values.put("value", value);
 		return this;
 	}

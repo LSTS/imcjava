@@ -31,21 +31,15 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Alignment State (361)<br/>
- *  This message notifies the vehicle is ready for dead-reckoning missions.<br/>
+ *  IMC Message Typed Entity Parameters (2009)<br/>
+ *  This message can be used to query/report the entities and respective parameters in the system<br/>
  */
 
-public class AlignmentState extends IMCMessage {
+public class TypedEntityParameters extends IMCMessage {
 
-	public enum STATE {
-		NOT_ALIGNED(0),
-		ALIGNED(1),
-		NOT_SUPPORTED(2),
-		ALIGNING(3),
-		WRONG_MEDIUM(4),
-		COARSE_ALIGNMENT(5),
-		FINE_ALIGNMENT(6),
-		SYSTEM_READY(7);
+	public enum OP {
+		REQUEST(0),
+		REPLY(1);
 
 		protected long value;
 
@@ -53,18 +47,18 @@ public class AlignmentState extends IMCMessage {
 			return value;
 		}
 
-		STATE(long value) {
+		OP(long value) {
 			this.value = value;
 		}
 	}
 
-	public static final int ID_STATIC = 361;
+	public static final int ID_STATIC = 2009;
 
-	public AlignmentState() {
+	public TypedEntityParameters() {
 		super(ID_STATIC);
 	}
 
-	public AlignmentState(IMCMessage msg) {
+	public TypedEntityParameters(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -74,20 +68,20 @@ public class AlignmentState extends IMCMessage {
 		}
 	}
 
-	public AlignmentState(IMCDefinition defs) {
+	public TypedEntityParameters(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static AlignmentState create(Object... values) {
-		AlignmentState m = new AlignmentState();
+	public static TypedEntityParameters create(Object... values) {
+		TypedEntityParameters m = new TypedEntityParameters();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static AlignmentState clone(IMCMessage msg) throws Exception {
+	public static TypedEntityParameters clone(IMCMessage msg) throws Exception {
 
-		AlignmentState m = new AlignmentState();
+		TypedEntityParameters m = new TypedEntityParameters();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -102,17 +96,22 @@ public class AlignmentState extends IMCMessage {
 		return m;
 	}
 
-	public AlignmentState(STATE state) {
+	public TypedEntityParameters(OP op, long request_id, String entity_name, java.util.Collection<TypedEntityParameter> parameters) {
 		super(ID_STATIC);
-		setState(state);
+		setOp(op);
+		setRequestId(request_id);
+		if (entity_name != null)
+			setEntityName(entity_name);
+		if (parameters != null)
+			setParameters(parameters);
 	}
 
 	/**
-	 *  @return State (enumerated) - uint8_t
+	 *  @return Operation (enumerated) - uint8_t
 	 */
-	public STATE getState() {
+	public OP getOp() {
 		try {
-			STATE o = STATE.valueOf(getMessageType().getFieldPossibleValues("state").get(getLong("state")));
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
 			return o;
 		}
 		catch (Exception e) {
@@ -120,35 +119,86 @@ public class AlignmentState extends IMCMessage {
 		}
 	}
 
-	public String getStateStr() {
-		return getString("state");
+	public String getOpStr() {
+		return getString("op");
 	}
 
-	public short getStateVal() {
-		return (short) getInteger("state");
+	public short getOpVal() {
+		return (short) getInteger("op");
 	}
 
 	/**
-	 *  @param state State (enumerated)
+	 *  @param op Operation (enumerated)
 	 */
-	public AlignmentState setState(STATE state) {
-		values.put("state", state.value());
+	public TypedEntityParameters setOp(OP op) {
+		values.put("op", op.value());
 		return this;
 	}
 
 	/**
-	 *  @param state State (as a String)
+	 *  @param op Operation (as a String)
 	 */
-	public AlignmentState setStateStr(String state) {
-		setValue("state", state);
+	public TypedEntityParameters setOpStr(String op) {
+		setValue("op", op);
 		return this;
 	}
 
 	/**
-	 *  @param state State (integer value)
+	 *  @param op Operation (integer value)
 	 */
-	public AlignmentState setStateVal(short state) {
-		setValue("state", state);
+	public TypedEntityParameters setOpVal(short op) {
+		setValue("op", op);
+		return this;
+	}
+
+	/**
+	 *  @return Request identitier - uint32_t
+	 */
+	public long getRequestId() {
+		return getLong("request_id");
+	}
+
+	/**
+	 *  @param request_id Request identitier
+	 */
+	public TypedEntityParameters setRequestId(long request_id) {
+		values.put("request_id", request_id);
+		return this;
+	}
+
+	/**
+	 *  @return Entity Name - plaintext
+	 */
+	public String getEntityName() {
+		return getString("entity_name");
+	}
+
+	/**
+	 *  @param entity_name Entity Name
+	 */
+	public TypedEntityParameters setEntityName(String entity_name) {
+		values.put("entity_name", entity_name);
+		return this;
+	}
+
+	/**
+	 *  @return Parameters - message-list
+	 */
+	public java.util.Vector<TypedEntityParameter> getParameters() {
+		try {
+			return getMessageList("parameters", TypedEntityParameter.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param parameters Parameters
+	 */
+	public TypedEntityParameters setParameters(java.util.Collection<TypedEntityParameter> parameters) {
+		values.put("parameters", parameters);
 		return this;
 	}
 

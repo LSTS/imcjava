@@ -468,10 +468,12 @@ public class MessageFactory {
 				return new FollowPoint(defs);
 			case Alignment.ID_STATIC:
 				return new Alignment(defs);
-			case StationKeepingExtended.ID_STATIC:
-				return new StationKeepingExtended(defs);
-			case ManeuverDone.ID_STATIC:
-				return new ManeuverDone(defs);
+			case FollowCommand.ID_STATIC:
+				return new FollowCommand(defs);
+			case Command.ID_STATIC:
+				return new Command(defs);
+			case FollowCommandState.ID_STATIC:
+				return new FollowCommandState(defs);
 			case Magnetometer.ID_STATIC:
 				return new Magnetometer(defs);
 			case VehicleState.ID_STATIC:
@@ -520,6 +522,8 @@ public class MessageFactory {
 				return new TCPRequest(defs);
 			case TCPStatus.ID_STATIC:
 				return new TCPStatus(defs);
+			case AssetReport.ID_STATIC:
+				return new AssetReport(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
@@ -582,6 +586,8 @@ public class MessageFactory {
 				return new CompressedImage(defs);
 			case ImageTxSettings.ID_STATIC:
 				return new ImageTxSettings(defs);
+			case StationKeepingExtended.ID_STATIC:
+				return new StationKeepingExtended(defs);
 			case RemoteState.ID_STATIC:
 				return new RemoteState(defs);
 			case Target.ID_STATIC:
@@ -682,10 +688,42 @@ public class MessageFactory {
 				return new SadcReadings(defs);
 			case DmsDetection.ID_STATIC:
 				return new DmsDetection(defs);
-			case TotalMagIntensity.ID_STATIC:
-				return new TotalMagIntensity(defs);
 			case HomePosition.ID_STATIC:
 				return new HomePosition(defs);
+			case CurrentProfile.ID_STATIC:
+				return new CurrentProfile(defs);
+			case CurrentProfileCell.ID_STATIC:
+				return new CurrentProfileCell(defs);
+			case ADCPBeam.ID_STATIC:
+				return new ADCPBeam(defs);
+			case GpioState.ID_STATIC:
+				return new GpioState(defs);
+			case GpioStateGet.ID_STATIC:
+				return new GpioStateGet(defs);
+			case GpioStateSet.ID_STATIC:
+				return new GpioStateSet(defs);
+			case ColoredDissolvedOrganicMatter.ID_STATIC:
+				return new ColoredDissolvedOrganicMatter(defs);
+			case FluorescentDissolvedOrganicMatter.ID_STATIC:
+				return new FluorescentDissolvedOrganicMatter(defs);
+			case IridiumMsgTxExtended.ID_STATIC:
+				return new IridiumMsgTxExtended(defs);
+			case TotalMagIntensity.ID_STATIC:
+				return new TotalMagIntensity(defs);
+			case ValidatePlan.ID_STATIC:
+				return new ValidatePlan(defs);
+			case TypedEntityParameter.ID_STATIC:
+				return new TypedEntityParameter(defs);
+			case TypedEntityParameters.ID_STATIC:
+				return new TypedEntityParameters(defs);
+			case CommRestriction.ID_STATIC:
+				return new CommRestriction(defs);
+			case WifiStats.ID_STATIC:
+				return new WifiStats(defs);
+			case WifiNetwork.ID_STATIC:
+				return new WifiNetwork(defs);
+			case SonarPulse.ID_STATIC:
+				return new SonarPulse(defs);
 			case WorldModel.ID_STATIC:
 				return new WorldModel(defs);
 			case GeoFeature.ID_STATIC:

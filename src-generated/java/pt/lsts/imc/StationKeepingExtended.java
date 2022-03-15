@@ -33,7 +33,7 @@ import pt.lsts.imc.def.ZUnits;
 import pt.lsts.imc.def.SpeedUnits;
 
 /**
- *  IMC Message Station Keeping Extended (496)<br/>
+ *  IMC Message Station Keeping Extended (720)<br/>
  *  The Station Keeping Extended maneuver makes the vehicle come to the surface<br/>
  *  and then enter a given circular perimeter around a waypoint coordinate<br/>
  *  for a certain amount of time. It extends the Station Keeping maneuver with the feature<br/>
@@ -45,7 +45,7 @@ public class StationKeepingExtended extends Maneuver {
 
 	public static final short FLG_KEEP_SAFE = 0x01;
 
-	public static final int ID_STATIC = 496;
+	public static final int ID_STATIC = 720;
 
 	public StationKeepingExtended() {
 		super(ID_STATIC);

@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (497)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Sonar Pulse (2013)<br/>
+ *  Information regarding a sent/received Sonar pulse.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class SonarPulse extends IMCMessage {
 
-	public static final int ID_STATIC = 497;
+	public static final int ID_STATIC = 2013;
 
-	public ManeuverDone() {
+	public SonarPulse() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public SonarPulse(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public SonarPulse(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static SonarPulse create(Object... values) {
+		SonarPulse m = new SonarPulse();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static SonarPulse clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		SonarPulse m = new SonarPulse();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,74 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public SonarPulse(int frequency, int pulse_length, int time_delay, int simulated_speed) {
+		super(ID_STATIC);
+		setFrequency(frequency);
+		setPulseLength(pulse_length);
+		setTimeDelay(time_delay);
+		setSimulatedSpeed(simulated_speed);
+	}
+
+	/**
+	 *  @return Frequency (hz) - int32_t
+	 */
+	public int getFrequency() {
+		return getInteger("frequency");
+	}
+
+	/**
+	 *  @param frequency Frequency (hz)
+	 */
+	public SonarPulse setFrequency(int frequency) {
+		values.put("frequency", frequency);
+		return this;
+	}
+
+	/**
+	 *  @return Pulse Length (ms) - int32_t
+	 */
+	public int getPulseLength() {
+		return getInteger("pulse_length");
+	}
+
+	/**
+	 *  @param pulse_length Pulse Length (ms)
+	 */
+	public SonarPulse setPulseLength(int pulse_length) {
+		values.put("pulse_length", pulse_length);
+		return this;
+	}
+
+	/**
+	 *  @return Time Delay (ms) - int32_t
+	 */
+	public int getTimeDelay() {
+		return getInteger("time_delay");
+	}
+
+	/**
+	 *  @param time_delay Time Delay (ms)
+	 */
+	public SonarPulse setTimeDelay(int time_delay) {
+		values.put("time_delay", time_delay);
+		return this;
+	}
+
+	/**
+	 *  @return Simulated Speed (m/s) - int32_t
+	 */
+	public int getSimulatedSpeed() {
+		return getInteger("simulated_speed");
+	}
+
+	/**
+	 *  @param simulated_speed Simulated Speed (m/s)
+	 */
+	public SonarPulse setSimulatedSpeed(int simulated_speed) {
+		values.put("simulated_speed", simulated_speed);
+		return this;
 	}
 
 }
