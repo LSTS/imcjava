@@ -17,8 +17,12 @@ import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonValue;
 
 import pt.lsts.imc.IMCMessage;
+import pt.lsts.imc.def.SystemType;
 import pt.lsts.imc.lsf.LsfIndex;
+import pt.lsts.imc.net.IMCProtocol;
 import pt.lsts.imc.net.UDPTransport;
+import pt.lsts.neptus.messages.listener.MessageInfo;
+import pt.lsts.neptus.messages.listener.MessageListener;
 
 public class ImcReplay {
 
@@ -140,6 +144,15 @@ public class ImcReplay {
     }
 
     public static void main(String[] args) throws Exception {
+
+        IMCProtocol protocol = new IMCProtocol("IMC Replay", 6006, 6006, SystemType.CCU);
+        protocol.addMessageListener(new MessageListener<MessageInfo, IMCMessage>() {
+            public void onMessage(MessageInfo info, IMCMessage msg) {
+                LOGGER.info("Message received from " + info.getPublisherInetAddress() + ": ");
+                LOGGER.info(msg.asJSON(true));
+            };
+        });
+
         if (args.length < 2) {
             System.err.println("Invalid usage.");
             System.exit(1);
