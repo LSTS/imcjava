@@ -145,7 +145,7 @@ public class ImcReplay {
 
     public static void main(String[] args) throws Exception {
 
-        IMCProtocol protocol = new IMCProtocol("IMC Replay", 6006, 6006, SystemType.CCU);
+        IMCProtocol protocol = new IMCProtocol("IMC Replay", 6007, 6007, SystemType.CCU);
         protocol.addMessageListener(new MessageListener<MessageInfo, IMCMessage>() {
             public void onMessage(MessageInfo info, IMCMessage msg) {
                 LOGGER.info("Message received from " + info.getPublisherInetAddress() + ": ");
