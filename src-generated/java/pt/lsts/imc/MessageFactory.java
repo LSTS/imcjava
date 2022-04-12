@@ -684,6 +684,18 @@ public class MessageFactory {
 				return new DmsDetection(defs);
 			case HomePosition.ID_STATIC:
 				return new HomePosition(defs);
+			case LogFilesQuery.ID_STATIC:
+				return new LogFilesQuery(defs);
+			case LogFilesReply.ID_STATIC:
+				return new LogFilesReply(defs);
+			case FileFragment.ID_STATIC:
+				return new FileFragment(defs);
+			case CurrentProfile.ID_STATIC:
+				return new CurrentProfile(defs);
+			case CurrentProfileCell.ID_STATIC:
+				return new CurrentProfileCell(defs);
+			case ADCPBeam.ID_STATIC:
+				return new ADCPBeam(defs);
 			case TotalMagIntensity.ID_STATIC:
 				return new TotalMagIntensity(defs);
 			default:
