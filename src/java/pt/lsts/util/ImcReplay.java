@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -16,9 +17,11 @@ import java.util.regex.Pattern;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonValue;
 
+import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCMessage;
 import pt.lsts.imc.def.SystemType;
 import pt.lsts.imc.lsf.LsfIndex;
+import pt.lsts.imc.net.ConnectFilter;
 import pt.lsts.imc.net.IMCProtocol;
 import pt.lsts.imc.net.UDPTransport;
 import pt.lsts.neptus.messages.listener.MessageInfo;
@@ -36,6 +39,20 @@ public class ImcReplay {
     };
 
     final static Logger LOGGER = Logger.getLogger(ImcReplay.class.getSimpleName());
+
+    static IMCProtocol IMCPROTOCOL = new IMCProtocol("IMC Replay", 6007, 6007, SystemType.CCU);
+    static {
+        IMCPROTOCOL.setAutoConnect(ConnectFilter.ALWAYS);
+        IMCPROTOCOL.addMessageListener(new MessageListener<MessageInfo, IMCMessage>() {
+            public void onMessage(MessageInfo info, IMCMessage msg) {
+                if (msg.getMgid() >= 3000 && msg.getMgid() < 3200) {
+                    LOGGER.warning(msg.getAbbrev()+" received from " + msg.getSourceName()+" / "+info.getPublisherInetAddress() + ": ");
+                    LOGGER.info(msg.asJSON(true));
+                }                
+            };
+        });       
+        LOGGER.info("Started IMC protocol"); 
+    }        
 
     private static class Destination {
         String hostname;
@@ -78,7 +95,7 @@ public class ImcReplay {
                 LOGGER.info("Sent " + msg.getAbbrev() + " to " + d);
             }
         }
-        LOGGER.info("Replay completed");
+        LOGGER.info("Replay completed");        
     }
 
     private static void sendTo(IMCMessage msg, Destination destination) {
@@ -91,7 +108,8 @@ public class ImcReplay {
 
         } else {
             System.out.println("TCP not yet implemented.");
-        }
+        }        
+        IMCPROTOCOL.sendToPeers(msg);
     }
 
     private static Destination parseDestination(String destination) {
@@ -144,19 +162,12 @@ public class ImcReplay {
     }
 
     public static void main(String[] args) throws Exception {
-
-        IMCProtocol protocol = new IMCProtocol("IMC Replay", 6007, 6007, SystemType.CCU);
-        protocol.addMessageListener(new MessageListener<MessageInfo, IMCMessage>() {
-            public void onMessage(MessageInfo info, IMCMessage msg) {
-                LOGGER.info("Message received from " + info.getPublisherInetAddress() + ": ");
-                LOGGER.info(msg.asJSON(true));
-            };
-        });
-
         if (args.length < 2) {
             System.err.println("Invalid usage.");
             System.exit(1);
         }
+
+        System.out.println("Synch number being used: "+String.format("%2X", IMCDefinition.getInstance().getSyncWord()));
 
         String[] extraArgs = new String[args.length - 1];
         for (int i = 1; i < args.length; i++)
