@@ -109,7 +109,7 @@ public class ImcReplay {
         } else {
             System.out.println("TCP not yet implemented.");
         }        
-        IMCPROTOCOL.sendToPeers(msg);
+        //IMCPROTOCOL.sendToPeers(msg);
     }
 
     private static Destination parseDestination(String destination) {
