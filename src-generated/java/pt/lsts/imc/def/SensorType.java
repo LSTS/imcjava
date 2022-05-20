@@ -27,58 +27,32 @@
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package pt.lsts.imc;
+package pt.lsts.imc.def;
 
+public enum SensorType {
 
-/**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
- */
+	MULTIBEAM(0x00000001l),
+	SIDESCAN(0x00000002l),
+	CAMERA(0x00000003l),
+	MAGNETOMETER(0x00000004l);
 
-public class ManeuverDone extends IMCMessage {
+	protected long value;
 
-	public static final int ID_STATIC = 719;
-
-	public ManeuverDone() {
-		super(ID_STATIC);
+	SensorType(long value) {
+		this.value = value;
 	}
 
-	public ManeuverDone(IMCMessage msg) {
-		super(ID_STATIC);
-		try{
-			copyFrom(msg);
+	public long value() {
+		return value;
+	}
+
+	public static SensorType valueOf(long value) throws IllegalArgumentException {
+		for (SensorType v : SensorType.values()) {
+			if (v.value == value) {
+				return v;
+			}
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public ManeuverDone(IMCDefinition defs) {
-		super(defs, ID_STATIC);
-	}
-
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
-		for (int i = 0; i < values.length-1; i+= 2)
-			m.setValue(values[i].toString(), values[i+1]);
-		return m;
-	}
-
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
-
-		ManeuverDone m = new ManeuverDone();
-		if (msg == null)
-			return m;
-		if(msg.definitions != m.definitions){
-			msg = msg.cloneMessage();
-			IMCUtil.updateMessage(msg, m.definitions);
-		}
-		else if (msg.getMgid()!=m.getMgid())
-			throw new Exception("Argument "+msg.getAbbrev()+" is incompatible with message "+m.getAbbrev());
-
-		m.getHeader().values.putAll(msg.getHeader().values);
-		m.values.putAll(msg.values);
-		return m;
+		throw new IllegalArgumentException("Invalid value for SensorType: "+value);
 	}
 
 }

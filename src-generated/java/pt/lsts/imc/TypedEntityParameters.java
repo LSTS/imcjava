@@ -31,25 +31,15 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamTxStatus (816)<br/>
- *  This message shall be used by acoustic modem drivers to send updates<br/>
- *  on the transmission status of data frames.<br/>
+ *  IMC Message Typed Entity Parameters (2009)<br/>
+ *  This message can be used to query/report the entities and respective parameters in the system<br/>
  */
 
-public class UamTxStatus extends IMCMessage {
+public class TypedEntityParameters extends IMCMessage {
 
-	public enum VALUE {
-		DONE(0),
-		FAILED(1),
-		CANCELED(2),
-		BUSY(3),
-		INV_ADDR(4),
-		IP(5),
-		UNSUPPORTED(6),
-		INV_SIZE(7),
-		SENT(8),
-		DELIVERED(9),
-		NO_TRANSDUCER(10);
+	public enum OP {
+		REQUEST(0),
+		REPLY(1);
 
 		protected long value;
 
@@ -57,18 +47,18 @@ public class UamTxStatus extends IMCMessage {
 			return value;
 		}
 
-		VALUE(long value) {
+		OP(long value) {
 			this.value = value;
 		}
 	}
 
-	public static final int ID_STATIC = 816;
+	public static final int ID_STATIC = 2009;
 
-	public UamTxStatus() {
+	public TypedEntityParameters() {
 		super(ID_STATIC);
 	}
 
-	public UamTxStatus(IMCMessage msg) {
+	public TypedEntityParameters(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -78,20 +68,20 @@ public class UamTxStatus extends IMCMessage {
 		}
 	}
 
-	public UamTxStatus(IMCDefinition defs) {
+	public TypedEntityParameters(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamTxStatus create(Object... values) {
-		UamTxStatus m = new UamTxStatus();
+	public static TypedEntityParameters create(Object... values) {
+		TypedEntityParameters m = new TypedEntityParameters();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamTxStatus clone(IMCMessage msg) throws Exception {
+	public static TypedEntityParameters clone(IMCMessage msg) throws Exception {
 
-		UamTxStatus m = new UamTxStatus();
+		TypedEntityParameters m = new TypedEntityParameters();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -106,35 +96,22 @@ public class UamTxStatus extends IMCMessage {
 		return m;
 	}
 
-	public UamTxStatus(int seq, VALUE value, String error) {
+	public TypedEntityParameters(OP op, long request_id, String entity_name, java.util.Collection<TypedEntityParameter> parameters) {
 		super(ID_STATIC);
-		setSeq(seq);
-		setValue(value);
-		if (error != null)
-			setError(error);
+		setOp(op);
+		setRequestId(request_id);
+		if (entity_name != null)
+			setEntityName(entity_name);
+		if (parameters != null)
+			setParameters(parameters);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Operation (enumerated) - uint8_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
-	}
-
-	/**
-	 *  @param seq Sequence Id
-	 */
-	public UamTxStatus setSeq(int seq) {
-		values.put("seq", seq);
-		return this;
-	}
-
-	/**
-	 *  @return Value (enumerated) - uint8_t
-	 */
-	public VALUE getValue() {
+	public OP getOp() {
 		try {
-			VALUE o = VALUE.valueOf(getMessageType().getFieldPossibleValues("value").get(getLong("value")));
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
 			return o;
 		}
 		catch (Exception e) {
@@ -142,50 +119,86 @@ public class UamTxStatus extends IMCMessage {
 		}
 	}
 
-	public String getValueStr() {
-		return getString("value");
+	public String getOpStr() {
+		return getString("op");
 	}
 
-	public short getValueVal() {
-		return (short) getInteger("value");
+	public short getOpVal() {
+		return (short) getInteger("op");
 	}
 
 	/**
-	 *  @param value Value (enumerated)
+	 *  @param op Operation (enumerated)
 	 */
-	public UamTxStatus setValue(VALUE value) {
-		values.put("value", value.value());
+	public TypedEntityParameters setOp(OP op) {
+		values.put("op", op.value());
 		return this;
 	}
 
 	/**
-	 *  @param value Value (as a String)
+	 *  @param op Operation (as a String)
 	 */
-	public UamTxStatus setValueStr(String value) {
-		setValue("value", value);
+	public TypedEntityParameters setOpStr(String op) {
+		setValue("op", op);
 		return this;
 	}
 
 	/**
-	 *  @param value Value (integer value)
+	 *  @param op Operation (integer value)
 	 */
-	public UamTxStatus setValueVal(short value) {
-		setValue("value", value);
+	public TypedEntityParameters setOpVal(short op) {
+		setValue("op", op);
 		return this;
 	}
 
 	/**
-	 *  @return Error Message - plaintext
+	 *  @return Request identitier - uint32_t
 	 */
-	public String getError() {
-		return getString("error");
+	public long getRequestId() {
+		return getLong("request_id");
 	}
 
 	/**
-	 *  @param error Error Message
+	 *  @param request_id Request identitier
 	 */
-	public UamTxStatus setError(String error) {
-		values.put("error", error);
+	public TypedEntityParameters setRequestId(long request_id) {
+		values.put("request_id", request_id);
+		return this;
+	}
+
+	/**
+	 *  @return Entity Name - plaintext
+	 */
+	public String getEntityName() {
+		return getString("entity_name");
+	}
+
+	/**
+	 *  @param entity_name Entity Name
+	 */
+	public TypedEntityParameters setEntityName(String entity_name) {
+		values.put("entity_name", entity_name);
+		return this;
+	}
+
+	/**
+	 *  @return Parameters - message-list
+	 */
+	public java.util.Vector<TypedEntityParameter> getParameters() {
+		try {
+			return getMessageList("parameters", TypedEntityParameter.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param parameters Parameters
+	 */
+	public TypedEntityParameters setParameters(java.util.Collection<TypedEntityParameter> parameters) {
+		values.put("parameters", parameters);
 		return this;
 	}
 

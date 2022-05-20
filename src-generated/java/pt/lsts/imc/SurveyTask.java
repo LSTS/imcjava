@@ -29,46 +29,22 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.SensorType;
 
 /**
- *  IMC Message UamTxStatus (816)<br/>
- *  This message shall be used by acoustic modem drivers to send updates<br/>
- *  on the transmission status of data frames.<br/>
+ *  IMC Message Survey Task (3101)<br/>
+ *  This message is used to describe an area surveying task.<br/>
  */
 
-public class UamTxStatus extends IMCMessage {
+public class SurveyTask extends TaskAdminArgs {
 
-	public enum VALUE {
-		DONE(0),
-		FAILED(1),
-		CANCELED(2),
-		BUSY(3),
-		INV_ADDR(4),
-		IP(5),
-		UNSUPPORTED(6),
-		INV_SIZE(7),
-		SENT(8),
-		DELIVERED(9),
-		NO_TRANSDUCER(10);
+	public static final int ID_STATIC = 3101;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		VALUE(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 816;
-
-	public UamTxStatus() {
+	public SurveyTask() {
 		super(ID_STATIC);
 	}
 
-	public UamTxStatus(IMCMessage msg) {
+	public SurveyTask(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -78,20 +54,20 @@ public class UamTxStatus extends IMCMessage {
 		}
 	}
 
-	public UamTxStatus(IMCDefinition defs) {
+	public SurveyTask(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamTxStatus create(Object... values) {
-		UamTxStatus m = new UamTxStatus();
+	public static SurveyTask create(Object... values) {
+		SurveyTask m = new SurveyTask();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamTxStatus clone(IMCMessage msg) throws Exception {
+	public static SurveyTask clone(IMCMessage msg) throws Exception {
 
-		UamTxStatus m = new UamTxStatus();
+		SurveyTask m = new SurveyTask();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -106,35 +82,51 @@ public class UamTxStatus extends IMCMessage {
 		return m;
 	}
 
-	public UamTxStatus(int seq, VALUE value, String error) {
+	public SurveyTask(int task_id, int feature_id, SensorType sensor, float resolution, double deadline) {
 		super(ID_STATIC);
-		setSeq(seq);
-		setValue(value);
-		if (error != null)
-			setError(error);
+		setTaskId(task_id);
+		setFeatureId(feature_id);
+		setSensor(sensor);
+		setResolution(resolution);
+		setDeadline(deadline);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Task Identifier - uint16_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public int getTaskId() {
+		return getInteger("task_id");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param task_id Task Identifier
 	 */
-	public UamTxStatus setSeq(int seq) {
-		values.put("seq", seq);
+	public SurveyTask setTaskId(int task_id) {
+		values.put("task_id", task_id);
 		return this;
 	}
 
 	/**
-	 *  @return Value (enumerated) - uint8_t
+	 *  @return Geo Feature Identifier - uint16_t
 	 */
-	public VALUE getValue() {
+	public int getFeatureId() {
+		return getInteger("feature_id");
+	}
+
+	/**
+	 *  @param feature_id Geo Feature Identifier
+	 */
+	public SurveyTask setFeatureId(int feature_id) {
+		values.put("feature_id", feature_id);
+		return this;
+	}
+
+	/**
+	 *  @return Sensor (enumerated) - uint8_t
+	 */
+	public SensorType getSensor() {
 		try {
-			VALUE o = VALUE.valueOf(getMessageType().getFieldPossibleValues("value").get(getLong("value")));
+			SensorType o = SensorType.valueOf(getMessageType().getFieldPossibleValues("sensor").get(getLong("sensor")));
 			return o;
 		}
 		catch (Exception e) {
@@ -142,50 +134,65 @@ public class UamTxStatus extends IMCMessage {
 		}
 	}
 
-	public String getValueStr() {
-		return getString("value");
+	public String getSensorStr() {
+		return getString("sensor");
 	}
 
-	public short getValueVal() {
-		return (short) getInteger("value");
+	public short getSensorVal() {
+		return (short) getInteger("sensor");
 	}
 
 	/**
-	 *  @param value Value (enumerated)
+	 *  @param sensor Sensor (enumerated)
 	 */
-	public UamTxStatus setValue(VALUE value) {
-		values.put("value", value.value());
+	public SurveyTask setSensor(SensorType sensor) {
+		values.put("sensor", sensor.value());
 		return this;
 	}
 
 	/**
-	 *  @param value Value (as a String)
+	 *  @param sensor Sensor (as a String)
 	 */
-	public UamTxStatus setValueStr(String value) {
-		setValue("value", value);
+	public SurveyTask setSensorStr(String sensor) {
+		setValue("sensor", sensor);
 		return this;
 	}
 
 	/**
-	 *  @param value Value (integer value)
+	 *  @param sensor Sensor (integer value)
 	 */
-	public UamTxStatus setValueVal(short value) {
-		setValue("value", value);
+	public SurveyTask setSensorVal(short sensor) {
+		setValue("sensor", sensor);
 		return this;
 	}
 
 	/**
-	 *  @return Error Message - plaintext
+	 *  @return Resolution (px/m²) - fp32_t
 	 */
-	public String getError() {
-		return getString("error");
+	public double getResolution() {
+		return getDouble("resolution");
 	}
 
 	/**
-	 *  @param error Error Message
+	 *  @param resolution Resolution (px/m²)
 	 */
-	public UamTxStatus setError(String error) {
-		values.put("error", error);
+	public SurveyTask setResolution(double resolution) {
+		values.put("resolution", resolution);
+		return this;
+	}
+
+	/**
+	 *  @return Deadline (s) - fp64_t
+	 */
+	public double getDeadline() {
+		return getDouble("deadline");
+	}
+
+	/**
+	 *  @param deadline Deadline (s)
+	 */
+	public SurveyTask setDeadline(double deadline) {
+		values.put("deadline", deadline);
 		return this;
 	}
 

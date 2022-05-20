@@ -31,25 +31,16 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message UamTxStatus (816)<br/>
- *  This message shall be used by acoustic modem drivers to send updates<br/>
- *  on the transmission status of data frames.<br/>
+ *  IMC Message Task Status (3103)<br/>
  */
 
-public class UamTxStatus extends IMCMessage {
+public class TaskStatus extends TaskAdminArgs {
 
-	public enum VALUE {
-		DONE(0),
-		FAILED(1),
-		CANCELED(2),
-		BUSY(3),
-		INV_ADDR(4),
-		IP(5),
-		UNSUPPORTED(6),
-		INV_SIZE(7),
-		SENT(8),
-		DELIVERED(9),
-		NO_TRANSDUCER(10);
+	public enum STATUS {
+		COMPLETED(1),
+		IN_PROGRESS(2),
+		ERROR(3),
+		ASSIGNED(4);
 
 		protected long value;
 
@@ -57,18 +48,18 @@ public class UamTxStatus extends IMCMessage {
 			return value;
 		}
 
-		VALUE(long value) {
+		STATUS(long value) {
 			this.value = value;
 		}
 	}
 
-	public static final int ID_STATIC = 816;
+	public static final int ID_STATIC = 3103;
 
-	public UamTxStatus() {
+	public TaskStatus() {
 		super(ID_STATIC);
 	}
 
-	public UamTxStatus(IMCMessage msg) {
+	public TaskStatus(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -78,20 +69,20 @@ public class UamTxStatus extends IMCMessage {
 		}
 	}
 
-	public UamTxStatus(IMCDefinition defs) {
+	public TaskStatus(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static UamTxStatus create(Object... values) {
-		UamTxStatus m = new UamTxStatus();
+	public static TaskStatus create(Object... values) {
+		TaskStatus m = new TaskStatus();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static UamTxStatus clone(IMCMessage msg) throws Exception {
+	public static TaskStatus clone(IMCMessage msg) throws Exception {
 
-		UamTxStatus m = new UamTxStatus();
+		TaskStatus m = new TaskStatus();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -106,35 +97,35 @@ public class UamTxStatus extends IMCMessage {
 		return m;
 	}
 
-	public UamTxStatus(int seq, VALUE value, String error) {
+	public TaskStatus(int task_id, STATUS status, short progress, short quality) {
 		super(ID_STATIC);
-		setSeq(seq);
-		setValue(value);
-		if (error != null)
-			setError(error);
+		setTaskId(task_id);
+		setStatus(status);
+		setProgress(progress);
+		setQuality(quality);
 	}
 
 	/**
-	 *  @return Sequence Id - uint16_t
+	 *  @return Task Identifier - uint16_t
 	 */
-	public int getSeq() {
-		return getInteger("seq");
+	public int getTaskId() {
+		return getInteger("task_id");
 	}
 
 	/**
-	 *  @param seq Sequence Id
+	 *  @param task_id Task Identifier
 	 */
-	public UamTxStatus setSeq(int seq) {
-		values.put("seq", seq);
+	public TaskStatus setTaskId(int task_id) {
+		values.put("task_id", task_id);
 		return this;
 	}
 
 	/**
-	 *  @return Value (enumerated) - uint8_t
+	 *  @return Status (enumerated) - uint8_t
 	 */
-	public VALUE getValue() {
+	public STATUS getStatus() {
 		try {
-			VALUE o = VALUE.valueOf(getMessageType().getFieldPossibleValues("value").get(getLong("value")));
+			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
 			return o;
 		}
 		catch (Exception e) {
@@ -142,50 +133,65 @@ public class UamTxStatus extends IMCMessage {
 		}
 	}
 
-	public String getValueStr() {
-		return getString("value");
+	public String getStatusStr() {
+		return getString("status");
 	}
 
-	public short getValueVal() {
-		return (short) getInteger("value");
+	public short getStatusVal() {
+		return (short) getInteger("status");
 	}
 
 	/**
-	 *  @param value Value (enumerated)
+	 *  @param status Status (enumerated)
 	 */
-	public UamTxStatus setValue(VALUE value) {
-		values.put("value", value.value());
+	public TaskStatus setStatus(STATUS status) {
+		values.put("status", status.value());
 		return this;
 	}
 
 	/**
-	 *  @param value Value (as a String)
+	 *  @param status Status (as a String)
 	 */
-	public UamTxStatus setValueStr(String value) {
-		setValue("value", value);
+	public TaskStatus setStatusStr(String status) {
+		setValue("status", status);
 		return this;
 	}
 
 	/**
-	 *  @param value Value (integer value)
+	 *  @param status Status (integer value)
 	 */
-	public UamTxStatus setValueVal(short value) {
-		setValue("value", value);
+	public TaskStatus setStatusVal(short status) {
+		setValue("status", status);
 		return this;
 	}
 
 	/**
-	 *  @return Error Message - plaintext
+	 *  @return Progress (%) - uint8_t
 	 */
-	public String getError() {
-		return getString("error");
+	public short getProgress() {
+		return (short) getInteger("progress");
 	}
 
 	/**
-	 *  @param error Error Message
+	 *  @param progress Progress (%)
 	 */
-	public UamTxStatus setError(String error) {
-		values.put("error", error);
+	public TaskStatus setProgress(short progress) {
+		values.put("progress", progress);
+		return this;
+	}
+
+	/**
+	 *  @return Quality (%) - uint8_t
+	 */
+	public short getQuality() {
+		return (short) getInteger("quality");
+	}
+
+	/**
+	 *  @param quality Quality (%)
+	 */
+	public TaskStatus setQuality(short quality) {
+		values.put("quality", quality);
 		return this;
 	}
 

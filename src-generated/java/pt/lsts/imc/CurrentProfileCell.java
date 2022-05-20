@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Current Profile Cell (1015)<br/>
+ *  One Current measurement at a specific CellPosition.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class CurrentProfileCell extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 1015;
 
-	public ManeuverDone() {
+	public CurrentProfileCell() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public CurrentProfileCell(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public CurrentProfileCell(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static CurrentProfileCell create(Object... values) {
+		CurrentProfileCell m = new CurrentProfileCell();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static CurrentProfileCell clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		CurrentProfileCell m = new CurrentProfileCell();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,49 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public CurrentProfileCell(float cell_position, java.util.Collection<ADCPBeam> beams) {
+		super(ID_STATIC);
+		setCellPosition(cell_position);
+		if (beams != null)
+			setBeams(beams);
+	}
+
+	/**
+	 *  @return Cell Position (m) - fp32_t
+	 */
+	public double getCellPosition() {
+		return getDouble("cell_position");
+	}
+
+	/**
+	 *  @param cell_position Cell Position (m)
+	 */
+	public CurrentProfileCell setCellPosition(double cell_position) {
+		values.put("cell_position", cell_position);
+		return this;
+	}
+
+	/**
+	 *  @return Beams Measurements - message-list
+	 */
+	public java.util.Vector<ADCPBeam> getBeams() {
+		try {
+			return getMessageList("beams", ADCPBeam.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param beams Beams Measurements
+	 */
+	public CurrentProfileCell setBeams(java.util.Collection<ADCPBeam> beams) {
+		values.put("beams", beams);
+		return this;
 	}
 
 }

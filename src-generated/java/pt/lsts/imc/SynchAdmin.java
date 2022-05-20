@@ -31,19 +31,35 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Synchronization Administration (3005)<br/>
+ *  This message is used to control the state of execution for the entire system.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class SynchAdmin extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public enum OP {
+		HOLD(1),
+		RESUME(2),
+		INTERRUPT(3);
 
-	public ManeuverDone() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		OP(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 3005;
+
+	public SynchAdmin() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public SynchAdmin(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +69,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public SynchAdmin(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static SynchAdmin create(Object... values) {
+		SynchAdmin m = new SynchAdmin();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static SynchAdmin clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		SynchAdmin m = new SynchAdmin();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +95,56 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public SynchAdmin(OP op) {
+		super(ID_STATIC);
+		setOp(op);
+	}
+
+	/**
+	 *  @return Operation (enumerated) - uint8_t
+	 */
+	public OP getOp() {
+		try {
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
+	/**
+	 *  @param op Operation (enumerated)
+	 */
+	public SynchAdmin setOp(OP op) {
+		values.put("op", op.value());
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (as a String)
+	 */
+	public SynchAdmin setOpStr(String op) {
+		setValue("op", op);
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (integer value)
+	 */
+	public SynchAdmin setOpVal(short op) {
+		setValue("op", op);
+		return this;
 	}
 
 }

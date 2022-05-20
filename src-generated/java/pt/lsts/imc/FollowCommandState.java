@@ -31,19 +31,17 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Acoustic Transmission Request (215)<br/>
- *  Request Acoustic sending.<br/>
+ *  IMC Message Follow Command State (498)<br/>
  */
 
-public class AcousticRequest extends IMCMessage {
+public class FollowCommandState extends IMCMessage {
 
-	public enum TYPE {
-		ABORT(0),
-		RANGE(1),
-		REVERSE_RANGE(2),
-		MSG(3),
-		RAW(4),
-		POSITION_REQUEST(5);
+	public enum STATE {
+		WAIT(1),
+		MOVING(2),
+		STOPPED(3),
+		BAD_COMMAND(4),
+		TIMEOUT(5);
 
 		protected long value;
 
@@ -51,18 +49,18 @@ public class AcousticRequest extends IMCMessage {
 			return value;
 		}
 
-		TYPE(long value) {
+		STATE(long value) {
 			this.value = value;
 		}
 	}
 
-	public static final int ID_STATIC = 215;
+	public static final int ID_STATIC = 498;
 
-	public AcousticRequest() {
+	public FollowCommandState() {
 		super(ID_STATIC);
 	}
 
-	public AcousticRequest(IMCMessage msg) {
+	public FollowCommandState(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -72,20 +70,20 @@ public class AcousticRequest extends IMCMessage {
 		}
 	}
 
-	public AcousticRequest(IMCDefinition defs) {
+	public FollowCommandState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static AcousticRequest create(Object... values) {
-		AcousticRequest m = new AcousticRequest();
+	public static FollowCommandState create(Object... values) {
+		FollowCommandState m = new FollowCommandState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static AcousticRequest clone(IMCMessage msg) throws Exception {
+	public static FollowCommandState clone(IMCMessage msg) throws Exception {
 
-		AcousticRequest m = new AcousticRequest();
+		FollowCommandState m = new FollowCommandState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -100,84 +98,76 @@ public class AcousticRequest extends IMCMessage {
 		return m;
 	}
 
-	public AcousticRequest(int req_id, String destination, double timeout, float range, TYPE type, IMCMessage msg) {
+	public FollowCommandState(int control_src, short control_ent, Command command, STATE state) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		if (destination != null)
-			setDestination(destination);
-		setTimeout(timeout);
-		setRange(range);
-		setType(type);
-		if (msg != null)
-			setMsg(msg);
+		setControlSrc(control_src);
+		setControlEnt(control_ent);
+		if (command != null)
+			setCommand(command);
+		setState(state);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  @return Controlling Source - uint16_t
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
+	public int getControlSrc() {
+		return getInteger("control_src");
 	}
 
 	/**
-	 *  @param req_id Request Identifier
+	 *  @param control_src Controlling Source
 	 */
-	public AcousticRequest setReqId(int req_id) {
-		values.put("req_id", req_id);
+	public FollowCommandState setControlSrc(int control_src) {
+		values.put("control_src", control_src);
 		return this;
 	}
 
 	/**
-	 *  @return Destination System - plaintext
+	 *  @return Controlling Entity - uint8_t
 	 */
-	public String getDestination() {
-		return getString("destination");
+	public short getControlEnt() {
+		return (short) getInteger("control_ent");
 	}
 
 	/**
-	 *  @param destination Destination System
+	 *  @param control_ent Controlling Entity
 	 */
-	public AcousticRequest setDestination(String destination) {
-		values.put("destination", destination);
+	public FollowCommandState setControlEnt(short control_ent) {
+		values.put("control_ent", control_ent);
 		return this;
 	}
 
 	/**
-	 *  @return Timeout (s) - fp64_t
+	 *  @return Command - message
 	 */
-	public double getTimeout() {
-		return getDouble("timeout");
-	}
-
-	/**
-	 *  @param timeout Timeout (s)
-	 */
-	public AcousticRequest setTimeout(double timeout) {
-		values.put("timeout", timeout);
-		return this;
-	}
-
-	/**
-	 *  @return Range (m) - fp32_t
-	 */
-	public double getRange() {
-		return getDouble("range");
-	}
-
-	/**
-	 *  @param range Range (m)
-	 */
-	public AcousticRequest setRange(double range) {
-		values.put("range", range);
-		return this;
-	}
-
-	/**
-	 *  @return Type (enumerated) - uint8_t
-	 */
-	public TYPE getType() {
+	public Command getCommand() {
 		try {
-			TYPE o = TYPE.valueOf(getMessageType().getFieldPossibleValues("type").get(getLong("type")));
+			IMCMessage obj = getMessage("command");
+			if (obj instanceof Command)
+				return (Command) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param command Command
+	 */
+	public FollowCommandState setCommand(Command command) {
+		values.put("command", command);
+		return this;
+	}
+
+	/**
+	 *  @return State (enumerated) - uint8_t
+	 */
+	public STATE getState() {
+		try {
+			STATE o = STATE.valueOf(getMessageType().getFieldPossibleValues("state").get(getLong("state")));
 			return o;
 		}
 		catch (Exception e) {
@@ -185,54 +175,35 @@ public class AcousticRequest extends IMCMessage {
 		}
 	}
 
-	public String getTypeStr() {
-		return getString("type");
+	public String getStateStr() {
+		return getString("state");
 	}
 
-	public short getTypeVal() {
-		return (short) getInteger("type");
+	public short getStateVal() {
+		return (short) getInteger("state");
 	}
 
 	/**
-	 *  @param type Type (enumerated)
+	 *  @param state State (enumerated)
 	 */
-	public AcousticRequest setType(TYPE type) {
-		values.put("type", type.value());
+	public FollowCommandState setState(STATE state) {
+		values.put("state", state.value());
 		return this;
 	}
 
 	/**
-	 *  @param type Type (as a String)
+	 *  @param state State (as a String)
 	 */
-	public AcousticRequest setTypeStr(String type) {
-		setValue("type", type);
+	public FollowCommandState setStateStr(String state) {
+		setValue("state", state);
 		return this;
 	}
 
 	/**
-	 *  @param type Type (integer value)
+	 *  @param state State (integer value)
 	 */
-	public AcousticRequest setTypeVal(short type) {
-		setValue("type", type);
-		return this;
-	}
-
-	/**
-	 *  @return Message To Send - message
-	 */
-	public IMCMessage getMsg() {
-		return getMessage("msg");
-	}
-
-	public <T extends IMCMessage> T getMsg(Class<T> clazz) throws Exception {
-		return getMessage(clazz, "msg");
-	}
-
-	/**
-	 *  @param msg Message To Send
-	 */
-	public AcousticRequest setMsg(IMCMessage msg) {
-		values.put("msg", msg);
+	public FollowCommandState setStateVal(short state) {
+		setValue("state", state);
 		return this;
 	}
 

@@ -1389,7 +1389,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 
 	}
 
-	private static IMCMessage parseJsonObject(JsonObject obj) {
+	public static IMCMessage parseJsonObject(JsonObject obj) {
 		IMCMessage msg = IMCDefinition.getInstance().create(obj.getString("abbrev", null));
 		for (Member m : obj) {
 			if (m.getName().equals("abbrev"))

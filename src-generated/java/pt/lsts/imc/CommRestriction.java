@@ -31,19 +31,24 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Communication Restriction (2010)<br/>
+ *  This message is used to restrict the vehicle from using some communication means.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class CommRestriction extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final short MEAN_SATELLITE = 0x01;
+	public static final short MEAN_ACOUSTIC = 0x02;
+	public static final short MEAN_WIFI = 0x04;
+	public static final short MEAN_GSM = 0x08;
 
-	public ManeuverDone() {
+	public static final int ID_STATIC = 2010;
+
+	public CommRestriction() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public CommRestriction(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +58,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public CommRestriction(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static CommRestriction create(Object... values) {
+		CommRestriction m = new CommRestriction();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static CommRestriction clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		CommRestriction m = new CommRestriction();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +84,43 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public CommRestriction(short restriction, String reason) {
+		super(ID_STATIC);
+		setRestriction(restriction);
+		if (reason != null)
+			setReason(reason);
+	}
+
+	/**
+	 *  @return Restricted Communication Means (bitfield) - uint8_t
+	 */
+	public short getRestriction() {
+		return (short) getInteger("restriction");
+	}
+
+	/**
+	 *  @param restriction Restricted Communication Means (bitfield)
+	 */
+	public CommRestriction setRestriction(short restriction) {
+		values.put("restriction", restriction);
+		return this;
+	}
+
+	/**
+	 *  @return Reason - plaintext
+	 */
+	public String getReason() {
+		return getString("reason");
+	}
+
+	/**
+	 *  @param reason Reason
+	 */
+	public CommRestriction setReason(String reason) {
+		values.put("reason", reason);
+		return this;
 	}
 
 }

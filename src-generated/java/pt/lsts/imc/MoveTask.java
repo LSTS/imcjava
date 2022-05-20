@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Move Task (3102)<br/>
+ *  This message is used to describe an area surveying task.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class MoveTask extends TaskAdminArgs {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 3102;
 
-	public ManeuverDone() {
+	public MoveTask() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public MoveTask(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public MoveTask(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static MoveTask create(Object... values) {
+		MoveTask m = new MoveTask();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static MoveTask clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		MoveTask m = new MoveTask();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,69 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public MoveTask(int task_id, MapPoint destination, double deadline) {
+		super(ID_STATIC);
+		setTaskId(task_id);
+		if (destination != null)
+			setDestination(destination);
+		setDeadline(deadline);
+	}
+
+	/**
+	 *  @return Task Identifier - uint16_t
+	 */
+	public int getTaskId() {
+		return getInteger("task_id");
+	}
+
+	/**
+	 *  @param task_id Task Identifier
+	 */
+	public MoveTask setTaskId(int task_id) {
+		values.put("task_id", task_id);
+		return this;
+	}
+
+	/**
+	 *  @return Destination - message
+	 */
+	public MapPoint getDestination() {
+		try {
+			IMCMessage obj = getMessage("destination");
+			if (obj instanceof MapPoint)
+				return (MapPoint) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param destination Destination
+	 */
+	public MoveTask setDestination(MapPoint destination) {
+		values.put("destination", destination);
+		return this;
+	}
+
+	/**
+	 *  @return Deadline (s) - fp64_t
+	 */
+	public double getDeadline() {
+		return getDouble("deadline");
+	}
+
+	/**
+	 *  @param deadline Deadline (s)
+	 */
+	public MoveTask setDeadline(double deadline) {
+		values.put("deadline", deadline);
+		return this;
 	}
 
 }

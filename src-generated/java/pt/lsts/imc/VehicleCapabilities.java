@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Vehicle Capabilities (3006)<br/>
+ *  This message describes the capabilities provided by an UxV.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class VehicleCapabilities extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 3006;
 
-	public ManeuverDone() {
+	public VehicleCapabilities() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public VehicleCapabilities(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public VehicleCapabilities(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static VehicleCapabilities create(Object... values) {
+		VehicleCapabilities m = new VehicleCapabilities();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static VehicleCapabilities clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		VehicleCapabilities m = new VehicleCapabilities();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,33 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public VehicleCapabilities(java.util.Collection<VehicleCapability> capabilities) {
+		super(ID_STATIC);
+		if (capabilities != null)
+			setCapabilities(capabilities);
+	}
+
+	/**
+	 *  @return Capabilities - message-list
+	 */
+	public java.util.Vector<VehicleCapability> getCapabilities() {
+		try {
+			return getMessageList("capabilities", VehicleCapability.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param capabilities Capabilities
+	 */
+	public VehicleCapabilities setCapabilities(java.util.Collection<VehicleCapability> capabilities) {
+		values.put("capabilities", capabilities);
+		return this;
 	}
 
 }

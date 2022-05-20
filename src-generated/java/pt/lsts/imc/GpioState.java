@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message GPIO State (2000)<br/>
+ *  Current state of a GPIO.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class GpioState extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 2000;
 
-	public ManeuverDone() {
+	public GpioState() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public GpioState(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public GpioState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static GpioState create(Object... values) {
+		GpioState m = new GpioState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static GpioState clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		GpioState m = new GpioState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,43 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public GpioState(String name, short value) {
+		super(ID_STATIC);
+		if (name != null)
+			setName(name);
+		setValue(value);
+	}
+
+	/**
+	 *  @return Name - plaintext
+	 */
+	public String getName() {
+		return getString("name");
+	}
+
+	/**
+	 *  @param name Name
+	 */
+	public GpioState setName(String name) {
+		values.put("name", name);
+		return this;
+	}
+
+	/**
+	 *  @return Value - uint8_t
+	 */
+	public short getValue() {
+		return (short) getInteger("value");
+	}
+
+	/**
+	 *  @param value Value
+	 */
+	public GpioState setValue(short value) {
+		values.put("value", value);
+		return this;
 	}
 
 }

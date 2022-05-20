@@ -31,19 +31,24 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Current Profile (1014)<br/>
+ *  Contains a profile of water velocities measured relative to the vehicle<br/>
+ *  velocity, represented in the specified coordinate system.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class CurrentProfile extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final short UTF_XYZ = 0x01;
+	public static final short UTF_NED = 0x02;
+	public static final short UTF_BEAMS = 0x04;
 
-	public ManeuverDone() {
+	public static final int ID_STATIC = 1014;
+
+	public CurrentProfile() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public CurrentProfile(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +58,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public CurrentProfile(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static CurrentProfile create(Object... values) {
+		CurrentProfile m = new CurrentProfile();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static CurrentProfile clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		CurrentProfile m = new CurrentProfile();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +84,81 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public CurrentProfile(short nbeams, short ncells, short coord_sys, java.util.Collection<CurrentProfileCell> profile) {
+		super(ID_STATIC);
+		setNbeams(nbeams);
+		setNcells(ncells);
+		setCoordSys(coord_sys);
+		if (profile != null)
+			setProfile(profile);
+	}
+
+	/**
+	 *  @return Number of Beams - uint8_t
+	 */
+	public short getNbeams() {
+		return (short) getInteger("nbeams");
+	}
+
+	/**
+	 *  @param nbeams Number of Beams
+	 */
+	public CurrentProfile setNbeams(short nbeams) {
+		values.put("nbeams", nbeams);
+		return this;
+	}
+
+	/**
+	 *  @return Number of Cells - uint8_t
+	 */
+	public short getNcells() {
+		return (short) getInteger("ncells");
+	}
+
+	/**
+	 *  @param ncells Number of Cells
+	 */
+	public CurrentProfile setNcells(short ncells) {
+		values.put("ncells", ncells);
+		return this;
+	}
+
+	/**
+	 *  @return Coordinate System (bitfield) - uint8_t
+	 */
+	public short getCoordSys() {
+		return (short) getInteger("coord_sys");
+	}
+
+	/**
+	 *  @param coord_sys Coordinate System (bitfield)
+	 */
+	public CurrentProfile setCoordSys(short coord_sys) {
+		values.put("coord_sys", coord_sys);
+		return this;
+	}
+
+	/**
+	 *  @return Profile - message-list
+	 */
+	public java.util.Vector<CurrentProfileCell> getProfile() {
+		try {
+			return getMessageList("profile", CurrentProfileCell.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param profile Profile
+	 */
+	public CurrentProfile setProfile(java.util.Collection<CurrentProfileCell> profile) {
+		values.put("profile", profile);
+		return this;
 	}
 
 }

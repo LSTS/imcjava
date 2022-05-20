@@ -31,19 +31,21 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message ADCP Beam Measurements (1016)<br/>
+ *  Measurement from one specific beam at the given CellPosition.<br/>
+ *  Water Velocity is provided in the chosen Coordinate system.<br/>
+ *  Amplitude and Correlation are always in the BEAM coordinate system.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class ADCPBeam extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 1016;
 
-	public ManeuverDone() {
+	public ADCPBeam() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public ADCPBeam(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +55,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public ADCPBeam(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static ADCPBeam create(Object... values) {
+		ADCPBeam m = new ADCPBeam();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static ADCPBeam clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		ADCPBeam m = new ADCPBeam();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +81,58 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public ADCPBeam(float vel, float amp, short cor) {
+		super(ID_STATIC);
+		setVel(vel);
+		setAmp(amp);
+		setCor(cor);
+	}
+
+	/**
+	 *  @return Water Velocity (m/s) - fp32_t
+	 */
+	public double getVel() {
+		return getDouble("vel");
+	}
+
+	/**
+	 *  @param vel Water Velocity (m/s)
+	 */
+	public ADCPBeam setVel(double vel) {
+		values.put("vel", vel);
+		return this;
+	}
+
+	/**
+	 *  @return Amplitude (db) - fp32_t
+	 */
+	public double getAmp() {
+		return getDouble("amp");
+	}
+
+	/**
+	 *  @param amp Amplitude (db)
+	 */
+	public ADCPBeam setAmp(double amp) {
+		values.put("amp", amp);
+		return this;
+	}
+
+	/**
+	 *  @return Correlation (%) - uint8_t
+	 */
+	public short getCor() {
+		return (short) getInteger("cor");
+	}
+
+	/**
+	 *  @param cor Correlation (%)
+	 */
+	public ADCPBeam setCor(short cor) {
+		values.put("cor", cor);
+		return this;
 	}
 
 }

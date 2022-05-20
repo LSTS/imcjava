@@ -29,21 +29,22 @@
  */
 package pt.lsts.imc;
 
+import pt.lsts.imc.def.SensorType;
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Point Survey Capability (3011)<br/>
+ *  This message describes an area surveying capability.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class CapabilityPointSurvey extends VehicleCapability {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 3011;
 
-	public ManeuverDone() {
+	public CapabilityPointSurvey() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public CapabilityPointSurvey(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +54,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public CapabilityPointSurvey(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static CapabilityPointSurvey create(Object... values) {
+		CapabilityPointSurvey m = new CapabilityPointSurvey();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static CapabilityPointSurvey clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		CapabilityPointSurvey m = new CapabilityPointSurvey();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +80,88 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public CapabilityPointSurvey(SensorType Sensor, float resolution, float duration) {
+		super(ID_STATIC);
+		setSensor(Sensor);
+		setResolution(resolution);
+		setDuration(duration);
+	}
+
+	/**
+	 *  @return Sensor (enumerated) - uint8_t
+	 */
+	public SensorType getSensor() {
+		try {
+			SensorType o = SensorType.valueOf(getMessageType().getFieldPossibleValues("Sensor").get(getLong("Sensor")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getSensorStr() {
+		return getString("Sensor");
+	}
+
+	public short getSensorVal() {
+		return (short) getInteger("Sensor");
+	}
+
+	/**
+	 *  @param Sensor Sensor (enumerated)
+	 */
+	public CapabilityPointSurvey setSensor(SensorType Sensor) {
+		values.put("Sensor", Sensor.value());
+		return this;
+	}
+
+	/**
+	 *  @param Sensor Sensor (as a String)
+	 */
+	public CapabilityPointSurvey setSensorStr(String Sensor) {
+		setValue("Sensor", Sensor);
+		return this;
+	}
+
+	/**
+	 *  @param Sensor Sensor (integer value)
+	 */
+	public CapabilityPointSurvey setSensorVal(short Sensor) {
+		setValue("Sensor", Sensor);
+		return this;
+	}
+
+	/**
+	 *  @return Resolution (px/m²) - fp32_t
+	 */
+	public double getResolution() {
+		return getDouble("resolution");
+	}
+
+	/**
+	 *  @param resolution Resolution (px/m²)
+	 */
+	public CapabilityPointSurvey setResolution(double resolution) {
+		values.put("resolution", resolution);
+		return this;
+	}
+
+	/**
+	 *  @return Duration (s) - fp32_t
+	 */
+	public double getDuration() {
+		return getDouble("duration");
+	}
+
+	/**
+	 *  @param duration Duration (s)
+	 */
+	public CapabilityPointSurvey setDuration(double duration) {
+		values.put("duration", duration);
+		return this;
 	}
 
 }

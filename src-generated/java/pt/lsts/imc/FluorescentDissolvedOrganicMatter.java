@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Fluorescent Dissolved Organic Matter (2004)<br/>
+ *  Fluorescent Dissolved Organic Matter measurement.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class FluorescentDissolvedOrganicMatter extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 2004;
 
-	public ManeuverDone() {
+	public FluorescentDissolvedOrganicMatter() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public FluorescentDissolvedOrganicMatter(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public FluorescentDissolvedOrganicMatter(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static FluorescentDissolvedOrganicMatter create(Object... values) {
+		FluorescentDissolvedOrganicMatter m = new FluorescentDissolvedOrganicMatter();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static FluorescentDissolvedOrganicMatter clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		FluorescentDissolvedOrganicMatter m = new FluorescentDissolvedOrganicMatter();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,26 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public FluorescentDissolvedOrganicMatter(float value) {
+		super(ID_STATIC);
+		setValue(value);
+	}
+
+	/**
+	 *  @return Value (ppb) - fp32_t
+	 */
+	public double getValue() {
+		return getDouble("value");
+	}
+
+	/**
+	 *  @param value Value (ppb)
+	 */
+	public FluorescentDissolvedOrganicMatter setValue(double value) {
+		values.put("value", value);
+		return this;
 	}
 
 }

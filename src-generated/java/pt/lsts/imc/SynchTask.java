@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Synchronization Task (3104)<br/>
+ *  This message is used to describe an area synchronization task.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class SynchTask extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 3104;
 
-	public ManeuverDone() {
+	public SynchTask() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public SynchTask(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public SynchTask(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static SynchTask create(Object... values) {
+		SynchTask m = new SynchTask();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static SynchTask clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		SynchTask m = new SynchTask();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,74 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public SynchTask(int task_id, int feature_id, int time_window, double deadline) {
+		super(ID_STATIC);
+		setTaskId(task_id);
+		setFeatureId(feature_id);
+		setTimeWindow(time_window);
+		setDeadline(deadline);
+	}
+
+	/**
+	 *  @return Task Identifier - uint16_t
+	 */
+	public int getTaskId() {
+		return getInteger("task_id");
+	}
+
+	/**
+	 *  @param task_id Task Identifier
+	 */
+	public SynchTask setTaskId(int task_id) {
+		values.put("task_id", task_id);
+		return this;
+	}
+
+	/**
+	 *  @return Geo Feature Identifier - uint16_t
+	 */
+	public int getFeatureId() {
+		return getInteger("feature_id");
+	}
+
+	/**
+	 *  @param feature_id Geo Feature Identifier
+	 */
+	public SynchTask setFeatureId(int feature_id) {
+		values.put("feature_id", feature_id);
+		return this;
+	}
+
+	/**
+	 *  @return Synchronization Time Window (s) - uint16_t
+	 */
+	public int getTimeWindow() {
+		return getInteger("time_window");
+	}
+
+	/**
+	 *  @param time_window Synchronization Time Window (s)
+	 */
+	public SynchTask setTimeWindow(int time_window) {
+		values.put("time_window", time_window);
+		return this;
+	}
+
+	/**
+	 *  @return Deadline (s) - fp64_t
+	 */
+	public double getDeadline() {
+		return getDouble("deadline");
+	}
+
+	/**
+	 *  @param deadline Deadline (s)
+	 */
+	public SynchTask setDeadline(double deadline) {
+		values.put("deadline", deadline);
+		return this;
 	}
 
 }

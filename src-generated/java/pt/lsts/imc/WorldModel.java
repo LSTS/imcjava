@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message World Model (3001)<br/>
+ *  This message represents a world model.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class WorldModel extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 3001;
 
-	public ManeuverDone() {
+	public WorldModel() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public WorldModel(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public WorldModel(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static WorldModel create(Object... values) {
+		WorldModel m = new WorldModel();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static WorldModel clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		WorldModel m = new WorldModel();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,56 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public WorldModel(java.util.Collection<GeoFeature> geo_features, java.util.Collection<CoverageState> cov_states) {
+		super(ID_STATIC);
+		if (geo_features != null)
+			setGeoFeatures(geo_features);
+		if (cov_states != null)
+			setCovStates(cov_states);
+	}
+
+	/**
+	 *  @return GeoFeatures - message-list
+	 */
+	public java.util.Vector<GeoFeature> getGeoFeatures() {
+		try {
+			return getMessageList("geo_features", GeoFeature.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param geo_features GeoFeatures
+	 */
+	public WorldModel setGeoFeatures(java.util.Collection<GeoFeature> geo_features) {
+		values.put("geo_features", geo_features);
+		return this;
+	}
+
+	/**
+	 *  @return CoverageStates - message-list
+	 */
+	public java.util.Vector<CoverageState> getCovStates() {
+		try {
+			return getMessageList("cov_states", CoverageState.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param cov_states CoverageStates
+	 */
+	public WorldModel setCovStates(java.util.Collection<CoverageState> cov_states) {
+		values.put("cov_states", cov_states);
+		return this;
 	}
 
 }

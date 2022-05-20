@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Geographical Feature (3002)<br/>
+ *  This message holds a geographical that, according to the number of vertices, may correspond to a point, a line or polygon.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class GeoFeature extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 3002;
 
-	public ManeuverDone() {
+	public GeoFeature() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public GeoFeature(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public GeoFeature(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static GeoFeature create(Object... values) {
+		GeoFeature m = new GeoFeature();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static GeoFeature clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		GeoFeature m = new GeoFeature();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,49 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public GeoFeature(int feature_id, java.util.Collection<MapPoint> points) {
+		super(ID_STATIC);
+		setFeatureId(feature_id);
+		if (points != null)
+			setPoints(points);
+	}
+
+	/**
+	 *  @return Identifier - uint16_t
+	 */
+	public int getFeatureId() {
+		return getInteger("feature_id");
+	}
+
+	/**
+	 *  @param feature_id Identifier
+	 */
+	public GeoFeature setFeatureId(int feature_id) {
+		values.put("feature_id", feature_id);
+		return this;
+	}
+
+	/**
+	 *  @return Points - message-list
+	 */
+	public java.util.Vector<MapPoint> getPoints() {
+		try {
+			return getMessageList("points", MapPoint.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param points Points
+	 */
+	public GeoFeature setPoints(java.util.Collection<MapPoint> points) {
+		values.put("points", points);
+		return this;
 	}
 
 }

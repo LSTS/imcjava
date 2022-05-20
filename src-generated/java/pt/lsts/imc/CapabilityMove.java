@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Move Capability (3012)<br/>
+ *  This message describes a moving capability.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class CapabilityMove extends VehicleCapability {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 3012;
 
-	public ManeuverDone() {
+	public CapabilityMove() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public CapabilityMove(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public CapabilityMove(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static CapabilityMove create(Object... values) {
+		CapabilityMove m = new CapabilityMove();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static CapabilityMove clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		CapabilityMove m = new CapabilityMove();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,26 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public CapabilityMove(float speed) {
+		super(ID_STATIC);
+		setSpeed(speed);
+	}
+
+	/**
+	 *  @return Speed (m/s) - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
+	 *  @param speed Speed (m/s)
+	 */
+	public CapabilityMove setSpeed(double speed) {
+		values.put("speed", speed);
+		return this;
 	}
 
 }

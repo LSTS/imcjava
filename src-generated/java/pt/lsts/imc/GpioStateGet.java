@@ -31,19 +31,20 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Get GPIO State (2001)<br/>
+ *  Request the state of a given GPIO. The receiving entity shall reply<br/>
+ *  with a GpioState message.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class GpioStateGet extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 2001;
 
-	public ManeuverDone() {
+	public GpioStateGet() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public GpioStateGet(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +54,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public GpioStateGet(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static GpioStateGet create(Object... values) {
+		GpioStateGet m = new GpioStateGet();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static GpioStateGet clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		GpioStateGet m = new GpioStateGet();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +80,27 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public GpioStateGet(String name) {
+		super(ID_STATIC);
+		if (name != null)
+			setName(name);
+	}
+
+	/**
+	 *  @return Name - plaintext
+	 */
+	public String getName() {
+		return getString("name");
+	}
+
+	/**
+	 *  @param name Name
+	 */
+	public GpioStateGet setName(String name) {
+		values.put("name", name);
+		return this;
 	}
 
 }

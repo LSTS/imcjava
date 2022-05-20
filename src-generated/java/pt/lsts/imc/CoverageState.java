@@ -31,19 +31,36 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Feature Coverage State (3003)<br/>
+ *  This message is used to report the coverage state of a geographical feature.<br/>
+ *  It is reported by the UxVs performing the surveys.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class CoverageState extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public enum STATE {
+		COMPLETED(1),
+		PARTIAL(2),
+		NONE(3);
 
-	public ManeuverDone() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		STATE(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 3003;
+
+	public CoverageState() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public CoverageState(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +70,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public CoverageState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static CoverageState create(Object... values) {
+		CoverageState m = new CoverageState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static CoverageState clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		CoverageState m = new CoverageState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +96,72 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public CoverageState(int feature_id, STATE state) {
+		super(ID_STATIC);
+		setFeatureId(feature_id);
+		setState(state);
+	}
+
+	/**
+	 *  @return Identifier - uint16_t
+	 */
+	public int getFeatureId() {
+		return getInteger("feature_id");
+	}
+
+	/**
+	 *  @param feature_id Identifier
+	 */
+	public CoverageState setFeatureId(int feature_id) {
+		values.put("feature_id", feature_id);
+		return this;
+	}
+
+	/**
+	 *  @return State (enumerated) - uint8_t
+	 */
+	public STATE getState() {
+		try {
+			STATE o = STATE.valueOf(getMessageType().getFieldPossibleValues("state").get(getLong("state")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getStateStr() {
+		return getString("state");
+	}
+
+	public short getStateVal() {
+		return (short) getInteger("state");
+	}
+
+	/**
+	 *  @param state State (enumerated)
+	 */
+	public CoverageState setState(STATE state) {
+		values.put("state", state.value());
+		return this;
+	}
+
+	/**
+	 *  @param state State (as a String)
+	 */
+	public CoverageState setStateStr(String state) {
+		setValue("state", state);
+		return this;
+	}
+
+	/**
+	 *  @param state State (integer value)
+	 */
+	public CoverageState setStateVal(short state) {
+		setValue("state", state);
+		return this;
 	}
 
 }

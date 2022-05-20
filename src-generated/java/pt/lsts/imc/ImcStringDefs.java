@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "8be592ac50fb8f076c8c2e963fab4700f13f2eac";
-	public static final String IMC_BRANCH = "master";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2021-12-07T14:57:24Z, https://github.com/LSTS/imc/commit/8be592ac50fb8f076c8c2e963fab4700f13f2eac, Merge branch 'feature/unify-v1'\n\n# Conflicts:\n#	IMC.xml\n#	IMC_Addresses.xml\n#       Om UamTxStatus removed enum in value NO_TRANSDUCER (it will return on unify merge)";
+	public static final String IMC_SHA = "042529b6f0ddee7405db93976366b43bf9245312";
+	public static final String IMC_BRANCH = "2022-03-15 042529b (HEAD -> project/comap, origin/project/comap)";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), Tue Mar 15 15:50:54 WET 2022, Re-added false deletion in merge ManeuverDone but need to move from 497 to 719.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -65,7 +65,6 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("squirtle", 1027);
 		IMC_ADDRESSES.put("swordfish", 2049);
 		IMC_ADDRESSES.put("caravela", 2050);
-		IMC_ADDRESSES.put("otter", 2051);
 		IMC_ADDRESSES.put("hermes", 2241);
 		IMC_ADDRESSES.put("hermes-desired", 2242);
 		IMC_ADDRESSES.put("hermes-target", 2243);
