@@ -520,6 +520,8 @@ public class MessageFactory {
 				return new TCPRequest(defs);
 			case TCPStatus.ID_STATIC:
 				return new TCPStatus(defs);
+			case AssetReport.ID_STATIC:
+				return new AssetReport(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
@@ -684,8 +686,26 @@ public class MessageFactory {
 				return new DmsDetection(defs);
 			case HomePosition.ID_STATIC:
 				return new HomePosition(defs);
+			case CurrentProfile.ID_STATIC:
+				return new CurrentProfile(defs);
+			case CurrentProfileCell.ID_STATIC:
+				return new CurrentProfileCell(defs);
+			case ADCPBeam.ID_STATIC:
+				return new ADCPBeam(defs);
+			case GpioState.ID_STATIC:
+				return new GpioState(defs);
+			case GpioStateGet.ID_STATIC:
+				return new GpioStateGet(defs);
+			case GpioStateSet.ID_STATIC:
+				return new GpioStateSet(defs);
+			case ColoredDissolvedOrganicMatter.ID_STATIC:
+				return new ColoredDissolvedOrganicMatter(defs);
+			case FluorescentDissolvedOrganicMatter.ID_STATIC:
+				return new FluorescentDissolvedOrganicMatter(defs);
 			case TotalMagIntensity.ID_STATIC:
 				return new TotalMagIntensity(defs);
+			case CommRestriction.ID_STATIC:
+				return new CommRestriction(defs);
 			default:
 				return new IMCMessage(defs);
 		}

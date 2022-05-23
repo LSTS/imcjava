@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "8be592ac50fb8f076c8c2e963fab4700f13f2eac";
+	public static final String IMC_SHA = "6038ec6c1a14b7f390b39f532588c087f176edb6";
 	public static final String IMC_BRANCH = "master";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2021-12-07T14:57:24Z, https://github.com/LSTS/imc/commit/8be592ac50fb8f076c8c2e963fab4700f13f2eac, Merge branch 'feature/unify-v1'\n\n# Conflicts:\n#	IMC.xml\n#	IMC_Addresses.xml\n#       Om UamTxStatus removed enum in value NO_TRANSDUCER (it will return on unify merge)";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2022-02-24T16:00:39Z, https://github.com/LSTS/imc/commit/6038ec6c1a14b7f390b39f532588c087f176edb6, Added new msg CommRestriction.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -60,6 +60,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-xplore-5", 34);
 		IMC_ADDRESSES.put("lauv-nemo-1", 35);
 		IMC_ADDRESSES.put("lauv-simulator-1", 209);
+		IMC_ADDRESSES.put("apdr-1", 210);
 		IMC_ADDRESSES.put("rov-ies", 1025);
 		IMC_ADDRESSES.put("adamastor", 1026);
 		IMC_ADDRESSES.put("squirtle", 1027);
