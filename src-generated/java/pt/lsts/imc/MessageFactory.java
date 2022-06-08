@@ -184,6 +184,8 @@ public class MessageFactory {
 				return new AcousticRequest(defs);
 			case AcousticStatus.ID_STATIC:
 				return new AcousticStatus(defs);
+			case AcousticRelease.ID_STATIC:
+				return new AcousticRelease(defs);
 			case Rpm.ID_STATIC:
 				return new Rpm(defs);
 			case Voltage.ID_STATIC:
@@ -520,6 +522,8 @@ public class MessageFactory {
 				return new TCPRequest(defs);
 			case TCPStatus.ID_STATIC:
 				return new TCPStatus(defs);
+			case AssetReport.ID_STATIC:
+				return new AssetReport(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
