@@ -692,6 +692,8 @@ public class MessageFactory {
 				return new DmsDetection(defs);
 			case HomePosition.ID_STATIC:
 				return new HomePosition(defs);
+			case ChargingState.ID_STATIC:
+				return new ChargingState(defs);
 			case CurrentProfile.ID_STATIC:
 				return new CurrentProfile(defs);
 			case CurrentProfileCell.ID_STATIC:
@@ -732,8 +734,8 @@ public class MessageFactory {
 				return new GeoFeature(defs);
 			case CoverageState.ID_STATIC:
 				return new CoverageState(defs);
-			case TaskAdim.ID_STATIC:
-				return new TaskAdim(defs);
+			case TaskAdmin.ID_STATIC:
+				return new TaskAdmin(defs);
 			case SynchAdmin.ID_STATIC:
 				return new SynchAdmin(defs);
 			case VehicleCapabilities.ID_STATIC:

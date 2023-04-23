@@ -31,18 +31,15 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Task Administration (3004)<br/>
+ *  IMC Message Charging State (910)<br/>
+ *  Reports if the vehicle is charging or not<br/>
  */
 
-public class TaskAdim extends IMCMessage {
+public class ChargingState extends IMCMessage {
 
-	public enum OP {
-		ACCEPT(1),
-		REJECT(2),
-		ASSIGN(3),
-		UNASSIGN(4),
-		STATUS(5),
-		STATUS_REQUEST(6);
+	public enum IS_CHARGING {
+		NOT_CHARGING(0),
+		IS_CHARGING(1);
 
 		protected long value;
 
@@ -50,18 +47,18 @@ public class TaskAdim extends IMCMessage {
 			return value;
 		}
 
-		OP(long value) {
+		IS_CHARGING(long value) {
 			this.value = value;
 		}
 	}
 
-	public static final int ID_STATIC = 3004;
+	public static final int ID_STATIC = 910;
 
-	public TaskAdim() {
+	public ChargingState() {
 		super(ID_STATIC);
 	}
 
-	public TaskAdim(IMCMessage msg) {
+	public ChargingState(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -71,20 +68,20 @@ public class TaskAdim extends IMCMessage {
 		}
 	}
 
-	public TaskAdim(IMCDefinition defs) {
+	public ChargingState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static TaskAdim create(Object... values) {
-		TaskAdim m = new TaskAdim();
+	public static ChargingState create(Object... values) {
+		ChargingState m = new ChargingState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static TaskAdim clone(IMCMessage msg) throws Exception {
+	public static ChargingState clone(IMCMessage msg) throws Exception {
 
-		TaskAdim m = new TaskAdim();
+		ChargingState m = new ChargingState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -99,35 +96,17 @@ public class TaskAdim extends IMCMessage {
 		return m;
 	}
 
-	public TaskAdim(int tid, OP op, TaskAdminArgs arg) {
+	public ChargingState(IS_CHARGING is_charging) {
 		super(ID_STATIC);
-		setTid(tid);
-		setOp(op);
-		if (arg != null)
-			setArg(arg);
+		setIsCharging(is_charging);
 	}
 
 	/**
-	 *  @return Task Identifier - uint16_t
+	 *  @return Is Charging (enumerated) - uint8_t
 	 */
-	public int getTid() {
-		return getInteger("tid");
-	}
-
-	/**
-	 *  @param tid Task Identifier
-	 */
-	public TaskAdim setTid(int tid) {
-		values.put("tid", tid);
-		return this;
-	}
-
-	/**
-	 *  @return Operation (enumerated) - uint8_t
-	 */
-	public OP getOp() {
+	public IS_CHARGING getIsCharging() {
 		try {
-			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			IS_CHARGING o = IS_CHARGING.valueOf(getMessageType().getFieldPossibleValues("is_charging").get(getLong("is_charging")));
 			return o;
 		}
 		catch (Exception e) {
@@ -135,60 +114,35 @@ public class TaskAdim extends IMCMessage {
 		}
 	}
 
-	public String getOpStr() {
-		return getString("op");
+	public String getIsChargingStr() {
+		return getString("is_charging");
 	}
 
-	public short getOpVal() {
-		return (short) getInteger("op");
+	public short getIsChargingVal() {
+		return (short) getInteger("is_charging");
 	}
 
 	/**
-	 *  @param op Operation (enumerated)
+	 *  @param is_charging Is Charging (enumerated)
 	 */
-	public TaskAdim setOp(OP op) {
-		values.put("op", op.value());
+	public ChargingState setIsCharging(IS_CHARGING is_charging) {
+		values.put("is_charging", is_charging.value());
 		return this;
 	}
 
 	/**
-	 *  @param op Operation (as a String)
+	 *  @param is_charging Is Charging (as a String)
 	 */
-	public TaskAdim setOpStr(String op) {
-		setValue("op", op);
+	public ChargingState setIsChargingStr(String is_charging) {
+		setValue("is_charging", is_charging);
 		return this;
 	}
 
 	/**
-	 *  @param op Operation (integer value)
+	 *  @param is_charging Is Charging (integer value)
 	 */
-	public TaskAdim setOpVal(short op) {
-		setValue("op", op);
-		return this;
-	}
-
-	/**
-	 *  @return Argument - message
-	 */
-	public TaskAdminArgs getArg() {
-		try {
-			IMCMessage obj = getMessage("arg");
-			if (obj instanceof TaskAdminArgs)
-				return (TaskAdminArgs) obj;
-			else
-				return null;
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
-	 *  @param arg Argument
-	 */
-	public TaskAdim setArg(TaskAdminArgs arg) {
-		values.put("arg", arg);
+	public ChargingState setIsChargingVal(short is_charging) {
+		setValue("is_charging", is_charging);
 		return this;
 	}
 

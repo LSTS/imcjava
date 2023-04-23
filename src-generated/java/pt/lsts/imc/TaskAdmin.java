@@ -31,19 +31,37 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Synchronization Task (3104)<br/>
- *  This message is used to describe an area synchronization task.<br/>
+ *  IMC Message Task Administration (3004)<br/>
  */
 
-public class SynchTask extends TaskAdminArgs {
+public class TaskAdmin extends IMCMessage {
 
-	public static final int ID_STATIC = 3104;
+	public enum OP {
+		ACCEPT(1),
+		REJECT(2),
+		ASSIGN(3),
+		UNASSIGN(4),
+		STATUS(5),
+		STATUS_REQUEST(6);
 
-	public SynchTask() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		OP(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 3004;
+
+	public TaskAdmin() {
 		super(ID_STATIC);
 	}
 
-	public SynchTask(IMCMessage msg) {
+	public TaskAdmin(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +71,20 @@ public class SynchTask extends TaskAdminArgs {
 		}
 	}
 
-	public SynchTask(IMCDefinition defs) {
+	public TaskAdmin(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static SynchTask create(Object... values) {
-		SynchTask m = new SynchTask();
+	public static TaskAdmin create(Object... values) {
+		TaskAdmin m = new TaskAdmin();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static SynchTask clone(IMCMessage msg) throws Exception {
+	public static TaskAdmin clone(IMCMessage msg) throws Exception {
 
-		SynchTask m = new SynchTask();
+		TaskAdmin m = new TaskAdmin();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -81,71 +99,96 @@ public class SynchTask extends TaskAdminArgs {
 		return m;
 	}
 
-	public SynchTask(int task_id, int feature_id, int time_window, double deadline) {
+	public TaskAdmin(int tid, OP op, TaskAdminArgs arg) {
 		super(ID_STATIC);
-		setTaskId(task_id);
-		setFeatureId(feature_id);
-		setTimeWindow(time_window);
-		setDeadline(deadline);
+		setTid(tid);
+		setOp(op);
+		if (arg != null)
+			setArg(arg);
 	}
 
 	/**
 	 *  @return Task Identifier - uint16_t
 	 */
-	public int getTaskId() {
-		return getInteger("task_id");
+	public int getTid() {
+		return getInteger("tid");
 	}
 
 	/**
-	 *  @param task_id Task Identifier
+	 *  @param tid Task Identifier
 	 */
-	public SynchTask setTaskId(int task_id) {
-		values.put("task_id", task_id);
+	public TaskAdmin setTid(int tid) {
+		values.put("tid", tid);
 		return this;
 	}
 
 	/**
-	 *  @return Geo Feature Identifier - uint16_t
+	 *  @return Operation (enumerated) - uint8_t
 	 */
-	public int getFeatureId() {
-		return getInteger("feature_id");
+	public OP getOp() {
+		try {
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
 	}
 
 	/**
-	 *  @param feature_id Geo Feature Identifier
+	 *  @param op Operation (enumerated)
 	 */
-	public SynchTask setFeatureId(int feature_id) {
-		values.put("feature_id", feature_id);
+	public TaskAdmin setOp(OP op) {
+		values.put("op", op.value());
 		return this;
 	}
 
 	/**
-	 *  @return Synchronization Time Window (s) - uint16_t
+	 *  @param op Operation (as a String)
 	 */
-	public int getTimeWindow() {
-		return getInteger("time_window");
-	}
-
-	/**
-	 *  @param time_window Synchronization Time Window (s)
-	 */
-	public SynchTask setTimeWindow(int time_window) {
-		values.put("time_window", time_window);
+	public TaskAdmin setOpStr(String op) {
+		setValue("op", op);
 		return this;
 	}
 
 	/**
-	 *  @return Deadline (s) - fp64_t
+	 *  @param op Operation (integer value)
 	 */
-	public double getDeadline() {
-		return getDouble("deadline");
+	public TaskAdmin setOpVal(short op) {
+		setValue("op", op);
+		return this;
 	}
 
 	/**
-	 *  @param deadline Deadline (s)
+	 *  @return Argument - message
 	 */
-	public SynchTask setDeadline(double deadline) {
-		values.put("deadline", deadline);
+	public TaskAdminArgs getArg() {
+		try {
+			IMCMessage obj = getMessage("arg");
+			if (obj instanceof TaskAdminArgs)
+				return (TaskAdminArgs) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param arg Argument
+	 */
+	public TaskAdmin setArg(TaskAdminArgs arg) {
+		values.put("arg", arg);
 		return this;
 	}
 
