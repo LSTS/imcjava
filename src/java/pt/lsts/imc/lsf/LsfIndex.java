@@ -529,6 +529,46 @@ public class LsfIndex {
 		}
 	}
 
+	public synchronized int getSourceAddress(int messageNumber) {
+		if (messageNumber > numMessages)
+			return -1;
+
+		checkAnReopenChannel();
+
+		int srcOffset = 2 + 2 + 2 + 8;
+		buffer.position(positionOf(messageNumber) + srcOffset);
+		if (!buffer.isOpen())
+			return -1;
+
+		try {
+			int src = buffer.getBuffer().getShort() & 0xFFFF;
+			return src;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	public synchronized int getSourceEntityAddress(int messageNumber) {
+		if (messageNumber > numMessages)
+			return -1;
+
+		checkAnReopenChannel();
+
+		int srcOffset = 2 + 2 + 2 + 8 + 2;
+		buffer.position(positionOf(messageNumber) + srcOffset);
+		if (!buffer.isOpen())
+			return -1;
+
+		try {
+			int srcEnt = buffer.getBuffer().get() & 0xFF;
+			return srcEnt;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
 	/**
 	 * @return Total number of messages in the log
 	 */
@@ -926,43 +966,41 @@ public class LsfIndex {
 	}
 
 	protected void loadEntities() {
-
 		loadSystems();
 
 		int type = defs.getMessageId("EntityInfo");
-		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
-				type, i)) {
-			IMCMessage einfo = getMessage(i);
-
-			int src = einfo.getInteger("src");
+		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(type, i)) {
+			// Let's check if we already have it
+			int src = getSourceAddress(i);
 
 			if (!(systemEntityIds.containsKey(src))) {
 				systemEntityIds.put(src, new LinkedHashMap<String, Integer>());
-				systemEntityNames
-						.put(src, new LinkedHashMap<Integer, String>());
+				systemEntityNames.put(src, new LinkedHashMap<Integer, String>());
+			} else if (!systemEntityIds.get(src).isEmpty() && !systemEntityNames.get(src).isEmpty()) {
+				continue;
 			}
 
-			systemEntityIds.get(src).put(einfo.getString("label"),
-					einfo.getInteger("id"));
-			systemEntityNames.get(src).put(einfo.getInteger("id"),
-					einfo.getString("label"));
+			IMCMessage einfo = getMessage(i);
+
+			src = einfo.getInteger("src");
+
+			systemEntityIds.get(src).put(einfo.getString("label"), einfo.getInteger("id"));
+			systemEntityNames.get(src).put(einfo.getInteger("id"), einfo.getString("label"));
 			
-			if (defs != IMCDefinition.getInstance())
-				defs.getResolver().setEntityName(src, einfo.getInteger("id"),
-						einfo.getString("label"));
+			if (defs != IMCDefinition.getInstance()) {
+				defs.getResolver().setEntityName(src, einfo.getInteger("id"), einfo.getString("label"));
+			}
 		}
 		
 		type = defs.getMessageId("EntityList");
-		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
-				type, i)) {
+		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(type, i)) {
 			IMCMessage einfo = getMessage(i);
 
 			int src = einfo.getInteger("src");
 
 			if (!(systemEntityIds.containsKey(src))) {
 				systemEntityIds.put(src, new LinkedHashMap<String, Integer>());
-				systemEntityNames
-						.put(src, new LinkedHashMap<Integer, String>());
+				systemEntityNames.put(src, new LinkedHashMap<Integer, String>());
 			}
 			
 			LinkedHashMap<String, String> entities = einfo.getTupleList("list");
@@ -987,7 +1025,6 @@ public class LsfIndex {
 	protected boolean isMultiSystemLog = false;
 
 	protected void loadSystems() {
-
 		sysNames = new LinkedHashMap<Integer, String>();
 		systemEntityIds = new LinkedHashMap<Integer, LinkedHashMap<String, Integer>>();
 		systemEntityNames = new LinkedHashMap<Integer, LinkedHashMap<Integer, String>>();
@@ -995,9 +1032,15 @@ public class LsfIndex {
 		int type = defs.getMessageId("Announce");
 		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(
 				type, i + 1)) {
+			// Let's check if we already have it
+			int src = getSourceAddress(i);
+			if (sysNames.containsKey(src)) {
+				continue;
+			}
+
 			IMCMessage m = getMessage(i);
 			String sys_name = m.getString("sys_name");
-			int src = m.getInteger("src");
+			src = m.getInteger("src");
 
 			if (!sysNames.containsKey(src))
 				sysNames.put(src, sys_name);
@@ -1005,8 +1048,7 @@ public class LsfIndex {
 			defs.getResolver().addEntry(src, sys_name);
 
 			if (src < 0x4001) {
-				systemEntityNames
-						.put(src, new LinkedHashMap<Integer, String>());
+				systemEntityNames.put(src, new LinkedHashMap<Integer, String>());
 				systemEntityIds.put(src, new LinkedHashMap<String, Integer>());
 			}
 		}
