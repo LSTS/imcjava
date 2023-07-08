@@ -34,6 +34,7 @@ import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -271,6 +272,31 @@ public class LsfIndex {
 		generatorSrcId = getMessage(0).getHeader().getInteger("src");
 	}
 
+	private void checkAnReopenChannel() {
+		if (!buffer.isOpen()) {
+			// try to reopen
+			if (!lsfChannel.isOpen()) {
+				try {
+					lsfInputStream = new RandomAccessFile(lsfFile, "r");
+					lsfChannel = lsfInputStream.getChannel();
+					buffer = new BigByteBuffer(lsfChannel, lsfFile.length());
+				}
+				catch (FileNotFoundException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
+			if (!indexChannel.isOpen() && buffer.isOpen()) {
+				try {
+					loadIndex();
+				}
+				catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+	}
+
 	/**
 	 * This method retrieves the bytes associated with the message at given
 	 * index
@@ -287,7 +313,10 @@ public class LsfIndex {
 			len = (int) (lsfFile.length() - positionOf(ind));
 		byte[] arr = new byte[len];
 
+		checkAnReopenChannel();
 		buffer.position(positionOf(ind));
+		if (!buffer.isOpen())
+			return new byte[0];
 		buffer.getBuffer().get(arr);
 		return arr;
 	}
@@ -327,7 +356,10 @@ public class LsfIndex {
 		if (messageNumber < 0 || messageNumber >= numMessages)
 			return false;
 
+		checkAnReopenChannel();
 		buffer.position(positionOf(messageNumber) + 0);
+		if (!buffer.isOpen())
+			return false;
 		return !((buffer.getBuffer().get() & 0xFF) == 0xFE);
 	}
 
@@ -357,12 +389,18 @@ public class LsfIndex {
 		if (messageNumber < 0 || messageNumber >= numMessages)
 			return -1;
 
+		checkAnReopenChannel();
+
 		// offset for the sync number in the header is 0
 		buffer.position(positionOf(messageNumber) + 0);
+		if (!buffer.isOpen())
+			return -1;
 		boolean bigEndian = !((buffer.getBuffer().get() & 0xFF) == 0xFE);
 
 		// offset for the source in the header is 14
 		buffer.position(positionOf(messageNumber) + 14);
+		if (!buffer.isOpen())
+			return -1;
 
 		if (bigEndian)
 			return buffer.getBuffer().getShort() & 0xFFFF;
@@ -374,8 +412,12 @@ public class LsfIndex {
 		if (messageNumber < 0 || messageNumber >= numMessages)
 			return -1;
 
+		checkAnReopenChannel();
+
 		// offset for src_ent in the header is 16
 		buffer.position(positionOf(messageNumber) + 16);
+		if (!buffer.isOpen())
+			return -1;
 
 		return buffer.getBuffer().get() & 0xFF;
 	}
@@ -388,7 +430,11 @@ public class LsfIndex {
 
 		if (type.getOffsetOf("id") == 0
 				&& type.getFieldType("id") == IMCFieldType.TYPE_UINT8) {
+			checkAnReopenChannel();
+
 			buffer.position(positionOf(messageNumber) + defs.headerLength());
+			if (!buffer.isOpen())
+				return -1;
 			return buffer.getBuffer().get() & 0xFF;
 		}
 		return -1;
@@ -469,7 +515,11 @@ public class LsfIndex {
 		if (messageNumber > numMessages)
 			return null;
 
+		checkAnReopenChannel();
+
 		buffer.position(positionOf(messageNumber));
+		if (!buffer.isOpen())
+			return null;
 
 		try {
 			return defs.nextMessage(buffer.getBuffer());
@@ -510,8 +560,9 @@ public class LsfIndex {
 				sync = buffer.getBuffer().getShort() & 0xFFFF;
 				if (sync == defs.getSwappedWord())
 					buffer.order(ByteOrder.LITTLE_ENDIAN);
-			} else
+			} else {
 				buffer.position(buffer.position() + 2);
+			}
 
 			mgid = buffer.getBuffer().getShort() & 0xFFFF;
 			size = buffer.getBuffer().getShort() & 0xFFFF;
