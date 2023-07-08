@@ -33,6 +33,7 @@ package pt.lsts.imc.lsf;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
+import java.nio.channels.ClosedByInterruptException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 
@@ -92,5 +93,9 @@ public class BigByteBuffer {
         this.order = order;
         //System.out.println("ORDER CHANGED TO "+order);
         mapFrom(startPos);
+    }
+
+    public boolean isOpen() {
+        return buffer != null && channel.isOpen();
     }
 }
