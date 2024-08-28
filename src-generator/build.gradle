@@ -126,7 +126,7 @@ task checkIMCFolderGit {
 task getGitPropsFromFolder(type: com.gorylenko.GenerateGitPropertiesTask) {
     dependsOn checkIMCFolderGit
 
-    gitProperties.dotGitDirectory = "${project.ext.imcXmlPath}/.git"
+    gitProperties.dotGitDirectory = new File("${project.ext.imcXmlPath}/.git")
     gitProperties.extProperty = 'imcGitProps'
     gitProperties.failOnNoGitDirectory = false
 
