@@ -40,6 +40,7 @@ public class CurrentProfile extends IMCMessage {
 
 	public static final short UTF_XYZ = 0x01;
 	public static final short UTF_NED = 0x02;
+	public static final short UTF_ENU = 0x03;
 	public static final short UTF_BEAMS = 0x04;
 
 	public static final int ID_STATIC = 1014;

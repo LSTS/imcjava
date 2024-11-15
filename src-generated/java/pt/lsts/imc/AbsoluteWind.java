@@ -31,41 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Transmission Status (516)<br/>
- *  Reply sent in response to a communications request.<br/>
+ *  IMC Message Absolute Wind (911)<br/>
+ *  Measurement of wind speed.<br/>
  */
 
-public class TransmissionStatus extends IMCMessage {
+public class AbsoluteWind extends IMCMessage {
 
-	public enum STATUS {
-		IN_PROGRESS(0),
-		SENT(1),
-		DELIVERED(51),
-		MAYBE_DELIVERED(52),
-		RANGE_RECEIVED(60),
-		INPUT_FAILURE(101),
-		TEMPORARY_FAILURE(102),
-		PERMANENT_FAILURE(103),
-		INV_ADDR(104);
+	public static final int ID_STATIC = 911;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		STATUS(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 516;
-
-	public TransmissionStatus() {
+	public AbsoluteWind() {
 		super(ID_STATIC);
 	}
 
-	public TransmissionStatus(IMCMessage msg) {
+	public AbsoluteWind(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -75,20 +53,20 @@ public class TransmissionStatus extends IMCMessage {
 		}
 	}
 
-	public TransmissionStatus(IMCDefinition defs) {
+	public AbsoluteWind(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static TransmissionStatus create(Object... values) {
-		TransmissionStatus m = new TransmissionStatus();
+	public static AbsoluteWind create(Object... values) {
+		AbsoluteWind m = new AbsoluteWind();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static TransmissionStatus clone(IMCMessage msg) throws Exception {
+	public static AbsoluteWind clone(IMCMessage msg) throws Exception {
 
-		TransmissionStatus m = new TransmissionStatus();
+		AbsoluteWind m = new AbsoluteWind();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -103,102 +81,55 @@ public class TransmissionStatus extends IMCMessage {
 		return m;
 	}
 
-	public TransmissionStatus(int req_id, STATUS status, float range, String info) {
+	public AbsoluteWind(float direction, float speed, float turbulence) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setStatus(status);
-		setRange(range);
-		if (info != null)
-			setInfo(info);
+		setDirection(direction);
+		setSpeed(speed);
+		setTurbulence(turbulence);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  @return Direction (rad) - fp32_t
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
+	public double getDirection() {
+		return getDouble("direction");
 	}
 
 	/**
-	 *  @param req_id Request Identifier
+	 *  @param direction Direction (rad)
 	 */
-	public TransmissionStatus setReqId(int req_id) {
-		values.put("req_id", req_id);
+	public AbsoluteWind setDirection(double direction) {
+		values.put("direction", direction);
 		return this;
 	}
 
 	/**
-	 *  @return Status (enumerated) - uint8_t
+	 *  @return Speed (m/s) - fp32_t
 	 */
-	public STATUS getStatus() {
-		try {
-			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getStatusStr() {
-		return getString("status");
-	}
-
-	public short getStatusVal() {
-		return (short) getInteger("status");
+	public double getSpeed() {
+		return getDouble("speed");
 	}
 
 	/**
-	 *  @param status Status (enumerated)
+	 *  @param speed Speed (m/s)
 	 */
-	public TransmissionStatus setStatus(STATUS status) {
-		values.put("status", status.value());
+	public AbsoluteWind setSpeed(double speed) {
+		values.put("speed", speed);
 		return this;
 	}
 
 	/**
-	 *  @param status Status (as a String)
+	 *  @return Turbulence (m/s) - fp32_t
 	 */
-	public TransmissionStatus setStatusStr(String status) {
-		setValue("status", status);
-		return this;
+	public double getTurbulence() {
+		return getDouble("turbulence");
 	}
 
 	/**
-	 *  @param status Status (integer value)
+	 *  @param turbulence Turbulence (m/s)
 	 */
-	public TransmissionStatus setStatusVal(short status) {
-		setValue("status", status);
-		return this;
-	}
-
-	/**
-	 *  @return Range (m) - fp32_t
-	 */
-	public double getRange() {
-		return getDouble("range");
-	}
-
-	/**
-	 *  @param range Range (m)
-	 */
-	public TransmissionStatus setRange(double range) {
-		values.put("range", range);
-		return this;
-	}
-
-	/**
-	 *  @return Information - plaintext
-	 */
-	public String getInfo() {
-		return getString("info");
-	}
-
-	/**
-	 *  @param info Information
-	 */
-	public TransmissionStatus setInfo(String info) {
-		values.put("info", info);
+	public AbsoluteWind setTurbulence(double turbulence) {
+		values.put("turbulence", turbulence);
 		return this;
 	}
 

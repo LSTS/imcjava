@@ -31,36 +31,22 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Entity List (5)<br/>
- *  This message describes the names and identification numbers of<br/>
- *  all entities in the system.<br/>
+ *  IMC Message ENC Awareness (913)<br/>
+ *  Contains information as extracted from a digital S-57 chart.<br/>
+ *  This can be: location of static objects (buoys, beacons, etc), location and depth of depth contours,<br/>
+ *  location and depth of any other location contained in the chart.<br/>
+ *  For reference see Supervisors/Grounding.<br/>
  */
 
-public class EntityList extends IMCMessage {
+public class ENCAwareness extends IMCMessage {
 
-	public enum OP {
-		REPORT(0),
-		QUERY(1),
-		RELOAD(2);
+	public static final int ID_STATIC = 913;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		OP(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 5;
-
-	public EntityList() {
+	public ENCAwareness() {
 		super(ID_STATIC);
 	}
 
-	public EntityList(IMCMessage msg) {
+	public ENCAwareness(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -70,20 +56,20 @@ public class EntityList extends IMCMessage {
 		}
 	}
 
-	public EntityList(IMCDefinition defs) {
+	public ENCAwareness(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static EntityList create(Object... values) {
-		EntityList m = new EntityList();
+	public static ENCAwareness create(Object... values) {
+		ENCAwareness m = new ENCAwareness();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static EntityList clone(IMCMessage msg) throws Exception {
+	public static ENCAwareness clone(IMCMessage msg) throws Exception {
 
-		EntityList m = new EntityList();
+		ENCAwareness m = new ENCAwareness();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -98,76 +84,41 @@ public class EntityList extends IMCMessage {
 		return m;
 	}
 
-	public EntityList(OP op, String list) {
+	public ENCAwareness(String depth_at_loc, String danger) {
 		super(ID_STATIC);
-		setOp(op);
-		if (list != null)
-			setList(list);
+		if (depth_at_loc != null)
+			setDepthAtLoc(depth_at_loc);
+		if (danger != null)
+			setDanger(danger);
 	}
 
 	/**
-	 *  @return operation (enumerated) - uint8_t
+	 *  @return Depth at location - plaintext
 	 */
-	public OP getOp() {
-		try {
-			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getOpStr() {
-		return getString("op");
-	}
-
-	public short getOpVal() {
-		return (short) getInteger("op");
+	public String getDepthAtLoc() {
+		return getString("depth_at_loc");
 	}
 
 	/**
-	 *  @param op operation (enumerated)
+	 *  @param depth_at_loc Depth at location
 	 */
-	public EntityList setOp(OP op) {
-		values.put("op", op.value());
+	public ENCAwareness setDepthAtLoc(String depth_at_loc) {
+		values.put("depth_at_loc", depth_at_loc);
 		return this;
 	}
 
 	/**
-	 *  @param op operation (as a String)
+	 *  @return Danger - plaintext
 	 */
-	public EntityList setOpStr(String op) {
-		setValue("op", op);
-		return this;
+	public String getDanger() {
+		return getString("danger");
 	}
 
 	/**
-	 *  @param op operation (integer value)
+	 *  @param danger Danger
 	 */
-	public EntityList setOpVal(short op) {
-		setValue("op", op);
-		return this;
-	}
-
-	/**
-	 *  @return list (tuplelist) - plaintext
-	 */
-	public java.util.LinkedHashMap<String, String> getList() {
-		return getTupleList("list");
-	}
-
-	/**
-	 *  @param list list (tuplelist)
-	 */
-	public EntityList setList(java.util.LinkedHashMap<String, ?> list) {
-		String val = encodeTupleList(list);
-		values.put("list", val);
-		return this;
-	}
-
-	public EntityList setList(String list) {
-		values.put("list", list);
+	public ENCAwareness setDanger(String danger) {
+		values.put("danger", danger);
 		return this;
 	}
 

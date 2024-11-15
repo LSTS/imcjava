@@ -44,7 +44,8 @@ public class VerticalProfile extends IMCMessage {
 		PH(3),
 		REDOX(4),
 		CHLOROPHYLL(5),
-		TURBIDITY(6);
+		TURBIDITY(6),
+		CURRENT_VELOCITY(7);
 
 		protected long value;
 
@@ -193,14 +194,14 @@ public class VerticalProfile extends IMCMessage {
 	}
 
 	/**
-	 *  @return Latitude (rad) - fp64_t
+	 *  @return Latitude (°) - fp64_t
 	 */
 	public double getLat() {
 		return getDouble("lat");
 	}
 
 	/**
-	 *  @param lat Latitude (rad)
+	 *  @param lat Latitude (°)
 	 */
 	public VerticalProfile setLat(double lat) {
 		values.put("lat", lat);
@@ -208,14 +209,14 @@ public class VerticalProfile extends IMCMessage {
 	}
 
 	/**
-	 *  @return Longitude (rad) - fp64_t
+	 *  @return Longitude (°) - fp64_t
 	 */
 	public double getLon() {
 		return getDouble("lon");
 	}
 
 	/**
-	 *  @param lon Longitude (rad)
+	 *  @param lon Longitude (°)
 	 */
 	public VerticalProfile setLon(double lon) {
 		values.put("lon", lon);

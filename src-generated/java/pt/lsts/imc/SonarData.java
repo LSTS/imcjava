@@ -95,7 +95,8 @@ public class SonarData extends IMCMessage {
 	public enum TYPE {
 		SIDESCAN(0),
 		ECHOSOUNDER(1),
-		MULTIBEAM(2);
+		MULTIBEAM(2),
+		PENCILBEAM(3);
 
 		protected long value;
 

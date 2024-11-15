@@ -48,7 +48,8 @@ public class UamTxStatus extends IMCMessage {
 		UNSUPPORTED(6),
 		INV_SIZE(7),
 		SENT(8),
-		DELIVERED(9);
+		DELIVERED(9),
+		NO_TRANSDUCER(10);
 
 		protected long value;
 

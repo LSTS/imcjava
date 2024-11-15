@@ -31,41 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Transmission Status (516)<br/>
- *  Reply sent in response to a communications request.<br/>
+ *  IMC Message Position Displacement (915)<br/>
+ *  Component of incremetal position vector over a period of time.<br/>
  */
 
-public class TransmissionStatus extends IMCMessage {
+public class Displacement extends IMCMessage {
 
-	public enum STATUS {
-		IN_PROGRESS(0),
-		SENT(1),
-		DELIVERED(51),
-		MAYBE_DELIVERED(52),
-		RANGE_RECEIVED(60),
-		INPUT_FAILURE(101),
-		TEMPORARY_FAILURE(102),
-		PERMANENT_FAILURE(103),
-		INV_ADDR(104);
+	public static final int ID_STATIC = 915;
 
-		protected long value;
-
-		public long value() {
-			return value;
-		}
-
-		STATUS(long value) {
-			this.value = value;
-		}
-	}
-
-	public static final int ID_STATIC = 516;
-
-	public TransmissionStatus() {
+	public Displacement() {
 		super(ID_STATIC);
 	}
 
-	public TransmissionStatus(IMCMessage msg) {
+	public Displacement(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -75,20 +53,20 @@ public class TransmissionStatus extends IMCMessage {
 		}
 	}
 
-	public TransmissionStatus(IMCDefinition defs) {
+	public Displacement(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static TransmissionStatus create(Object... values) {
-		TransmissionStatus m = new TransmissionStatus();
+	public static Displacement create(Object... values) {
+		Displacement m = new Displacement();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static TransmissionStatus clone(IMCMessage msg) throws Exception {
+	public static Displacement clone(IMCMessage msg) throws Exception {
 
-		TransmissionStatus m = new TransmissionStatus();
+		Displacement m = new Displacement();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -103,102 +81,71 @@ public class TransmissionStatus extends IMCMessage {
 		return m;
 	}
 
-	public TransmissionStatus(int req_id, STATUS status, float range, String info) {
+	public Displacement(double time, double x, double y, double z) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setStatus(status);
-		setRange(range);
-		if (info != null)
-			setInfo(info);
+		setTime(time);
+		setX(x);
+		setY(y);
+		setZ(z);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  @return Device Time (s) - fp64_t
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
+	public double getTime() {
+		return getDouble("time");
 	}
 
 	/**
-	 *  @param req_id Request Identifier
+	 *  @param time Device Time (s)
 	 */
-	public TransmissionStatus setReqId(int req_id) {
-		values.put("req_id", req_id);
+	public Displacement setTime(double time) {
+		values.put("time", time);
 		return this;
 	}
 
 	/**
-	 *  @return Status (enumerated) - uint8_t
+	 *  @return X (m) - fp64_t
 	 */
-	public STATUS getStatus() {
-		try {
-			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
-			return o;
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
-	public String getStatusStr() {
-		return getString("status");
-	}
-
-	public short getStatusVal() {
-		return (short) getInteger("status");
+	public double getX() {
+		return getDouble("x");
 	}
 
 	/**
-	 *  @param status Status (enumerated)
+	 *  @param x X (m)
 	 */
-	public TransmissionStatus setStatus(STATUS status) {
-		values.put("status", status.value());
+	public Displacement setX(double x) {
+		values.put("x", x);
 		return this;
 	}
 
 	/**
-	 *  @param status Status (as a String)
+	 *  @return Y (m) - fp64_t
 	 */
-	public TransmissionStatus setStatusStr(String status) {
-		setValue("status", status);
+	public double getY() {
+		return getDouble("y");
+	}
+
+	/**
+	 *  @param y Y (m)
+	 */
+	public Displacement setY(double y) {
+		values.put("y", y);
 		return this;
 	}
 
 	/**
-	 *  @param status Status (integer value)
+	 *  @return Z (m) - fp64_t
 	 */
-	public TransmissionStatus setStatusVal(short status) {
-		setValue("status", status);
-		return this;
+	public double getZ() {
+		return getDouble("z");
 	}
 
 	/**
-	 *  @return Range (m) - fp32_t
+	 *  @param z Z (m)
 	 */
-	public double getRange() {
-		return getDouble("range");
-	}
-
-	/**
-	 *  @param range Range (m)
-	 */
-	public TransmissionStatus setRange(double range) {
-		values.put("range", range);
-		return this;
-	}
-
-	/**
-	 *  @return Information - plaintext
-	 */
-	public String getInfo() {
-		return getString("info");
-	}
-
-	/**
-	 *  @param info Information
-	 */
-	public TransmissionStatus setInfo(String info) {
-		values.put("info", info);
+	public Displacement setZ(double z) {
+		values.put("z", z);
 		return this;
 	}
 

@@ -184,6 +184,8 @@ public class MessageFactory {
 				return new AcousticRequest(defs);
 			case AcousticStatus.ID_STATIC:
 				return new AcousticStatus(defs);
+			case AcousticRelease.ID_STATIC:
+				return new AcousticRelease(defs);
 			case Rpm.ID_STATIC:
 				return new Rpm(defs);
 			case Voltage.ID_STATIC:
@@ -686,12 +688,22 @@ public class MessageFactory {
 				return new DmsDetection(defs);
 			case HomePosition.ID_STATIC:
 				return new HomePosition(defs);
+			case AbsoluteWind.ID_STATIC:
+				return new AbsoluteWind(defs);
+			case AisInfo.ID_STATIC:
+				return new AisInfo(defs);
+			case ENCAwareness.ID_STATIC:
+				return new ENCAwareness(defs);
+			case Displacement.ID_STATIC:
+				return new Displacement(defs);
 			case CurrentProfile.ID_STATIC:
 				return new CurrentProfile(defs);
 			case CurrentProfileCell.ID_STATIC:
 				return new CurrentProfileCell(defs);
 			case ADCPBeam.ID_STATIC:
 				return new ADCPBeam(defs);
+			case Frequency.ID_STATIC:
+				return new Frequency(defs);
 			case GpioState.ID_STATIC:
 				return new GpioState(defs);
 			case GpioStateGet.ID_STATIC:
@@ -706,6 +718,8 @@ public class MessageFactory {
 				return new TotalMagIntensity(defs);
 			case CommRestriction.ID_STATIC:
 				return new CommRestriction(defs);
+			case VersionInfo.ID_STATIC:
+				return new VersionInfo(defs);
 			default:
 				return new IMCMessage(defs);
 		}

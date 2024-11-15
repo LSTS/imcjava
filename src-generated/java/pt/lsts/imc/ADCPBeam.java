@@ -83,7 +83,7 @@ public class ADCPBeam extends IMCMessage {
 		return m;
 	}
 
-	public ADCPBeam(float vel, float amp, short cor) {
+	public ADCPBeam(float vel, float amp, byte cor) {
 		super(ID_STATIC);
 		setVel(vel);
 		setAmp(amp);
@@ -121,16 +121,16 @@ public class ADCPBeam extends IMCMessage {
 	}
 
 	/**
-	 *  @return Correlation (%) - uint8_t
+	 *  @return Correlation (%) - int8_t
 	 */
-	public short getCor() {
-		return (short) getInteger("cor");
+	public byte getCor() {
+		return (byte) getInteger("cor");
 	}
 
 	/**
 	 *  @param cor Correlation (%)
 	 */
-	public ADCPBeam setCor(short cor) {
+	public ADCPBeam setCor(byte cor) {
 		values.put("cor", cor);
 		return this;
 	}

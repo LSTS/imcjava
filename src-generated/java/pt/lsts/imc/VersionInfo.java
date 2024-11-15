@@ -31,22 +31,15 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Transmission Status (516)<br/>
- *  Reply sent in response to a communications request.<br/>
+ *  IMC Message Version Info (2021)<br/>
+ *  This message is used to query / report version information related to an entity.<br/>
  */
 
-public class TransmissionStatus extends IMCMessage {
+public class VersionInfo extends IMCMessage {
 
-	public enum STATUS {
-		IN_PROGRESS(0),
-		SENT(1),
-		DELIVERED(51),
-		MAYBE_DELIVERED(52),
-		RANGE_RECEIVED(60),
-		INPUT_FAILURE(101),
-		TEMPORARY_FAILURE(102),
-		PERMANENT_FAILURE(103),
-		INV_ADDR(104);
+	public enum OP {
+		REPLY(0),
+		QUERY(1);
 
 		protected long value;
 
@@ -54,18 +47,18 @@ public class TransmissionStatus extends IMCMessage {
 			return value;
 		}
 
-		STATUS(long value) {
+		OP(long value) {
 			this.value = value;
 		}
 	}
 
-	public static final int ID_STATIC = 516;
+	public static final int ID_STATIC = 2021;
 
-	public TransmissionStatus() {
+	public VersionInfo() {
 		super(ID_STATIC);
 	}
 
-	public TransmissionStatus(IMCMessage msg) {
+	public VersionInfo(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -75,20 +68,20 @@ public class TransmissionStatus extends IMCMessage {
 		}
 	}
 
-	public TransmissionStatus(IMCDefinition defs) {
+	public VersionInfo(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static TransmissionStatus create(Object... values) {
-		TransmissionStatus m = new TransmissionStatus();
+	public static VersionInfo create(Object... values) {
+		VersionInfo m = new VersionInfo();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static TransmissionStatus clone(IMCMessage msg) throws Exception {
+	public static VersionInfo clone(IMCMessage msg) throws Exception {
 
-		TransmissionStatus m = new TransmissionStatus();
+		VersionInfo m = new VersionInfo();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -103,36 +96,21 @@ public class TransmissionStatus extends IMCMessage {
 		return m;
 	}
 
-	public TransmissionStatus(int req_id, STATUS status, float range, String info) {
+	public VersionInfo(OP op, String version, String description) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setStatus(status);
-		setRange(range);
-		if (info != null)
-			setInfo(info);
+		setOp(op);
+		if (version != null)
+			setVersion(version);
+		if (description != null)
+			setDescription(description);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  @return Operation (enumerated) - uint8_t
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
-	}
-
-	/**
-	 *  @param req_id Request Identifier
-	 */
-	public TransmissionStatus setReqId(int req_id) {
-		values.put("req_id", req_id);
-		return this;
-	}
-
-	/**
-	 *  @return Status (enumerated) - uint8_t
-	 */
-	public STATUS getStatus() {
+	public OP getOp() {
 		try {
-			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
 			return o;
 		}
 		catch (Exception e) {
@@ -140,65 +118,65 @@ public class TransmissionStatus extends IMCMessage {
 		}
 	}
 
-	public String getStatusStr() {
-		return getString("status");
+	public String getOpStr() {
+		return getString("op");
 	}
 
-	public short getStatusVal() {
-		return (short) getInteger("status");
+	public short getOpVal() {
+		return (short) getInteger("op");
 	}
 
 	/**
-	 *  @param status Status (enumerated)
+	 *  @param op Operation (enumerated)
 	 */
-	public TransmissionStatus setStatus(STATUS status) {
-		values.put("status", status.value());
+	public VersionInfo setOp(OP op) {
+		values.put("op", op.value());
 		return this;
 	}
 
 	/**
-	 *  @param status Status (as a String)
+	 *  @param op Operation (as a String)
 	 */
-	public TransmissionStatus setStatusStr(String status) {
-		setValue("status", status);
+	public VersionInfo setOpStr(String op) {
+		setValue("op", op);
 		return this;
 	}
 
 	/**
-	 *  @param status Status (integer value)
+	 *  @param op Operation (integer value)
 	 */
-	public TransmissionStatus setStatusVal(short status) {
-		setValue("status", status);
+	public VersionInfo setOpVal(short op) {
+		setValue("op", op);
 		return this;
 	}
 
 	/**
-	 *  @return Range (m) - fp32_t
+	 *  @return Version - plaintext
 	 */
-	public double getRange() {
-		return getDouble("range");
+	public String getVersion() {
+		return getString("version");
 	}
 
 	/**
-	 *  @param range Range (m)
+	 *  @param version Version
 	 */
-	public TransmissionStatus setRange(double range) {
-		values.put("range", range);
+	public VersionInfo setVersion(String version) {
+		values.put("version", version);
 		return this;
 	}
 
 	/**
-	 *  @return Information - plaintext
+	 *  @return Description - plaintext
 	 */
-	public String getInfo() {
-		return getString("info");
+	public String getDescription() {
+		return getString("description");
 	}
 
 	/**
-	 *  @param info Information
+	 *  @param description Description
 	 */
-	public TransmissionStatus setInfo(String info) {
-		values.put("info", info);
+	public VersionInfo setDescription(String description) {
+		values.put("description", description);
 		return this;
 	}
 

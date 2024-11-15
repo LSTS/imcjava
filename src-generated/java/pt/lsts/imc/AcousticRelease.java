@@ -31,22 +31,15 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Transmission Status (516)<br/>
- *  Reply sent in response to a communications request.<br/>
+ *  IMC Message Acoustic Release Request (217)<br/>
+ *  Request a system (local or remote) to activate its acoustic release.<br/>
  */
 
-public class TransmissionStatus extends IMCMessage {
+public class AcousticRelease extends IMCMessage {
 
-	public enum STATUS {
-		IN_PROGRESS(0),
-		SENT(1),
-		DELIVERED(51),
-		MAYBE_DELIVERED(52),
-		RANGE_RECEIVED(60),
-		INPUT_FAILURE(101),
-		TEMPORARY_FAILURE(102),
-		PERMANENT_FAILURE(103),
-		INV_ADDR(104);
+	public enum OP {
+		OPEN(0),
+		CLOSE(1);
 
 		protected long value;
 
@@ -54,18 +47,18 @@ public class TransmissionStatus extends IMCMessage {
 			return value;
 		}
 
-		STATUS(long value) {
+		OP(long value) {
 			this.value = value;
 		}
 	}
 
-	public static final int ID_STATIC = 516;
+	public static final int ID_STATIC = 217;
 
-	public TransmissionStatus() {
+	public AcousticRelease() {
 		super(ID_STATIC);
 	}
 
-	public TransmissionStatus(IMCMessage msg) {
+	public AcousticRelease(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -75,20 +68,20 @@ public class TransmissionStatus extends IMCMessage {
 		}
 	}
 
-	public TransmissionStatus(IMCDefinition defs) {
+	public AcousticRelease(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static TransmissionStatus create(Object... values) {
-		TransmissionStatus m = new TransmissionStatus();
+	public static AcousticRelease create(Object... values) {
+		AcousticRelease m = new AcousticRelease();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static TransmissionStatus clone(IMCMessage msg) throws Exception {
+	public static AcousticRelease clone(IMCMessage msg) throws Exception {
 
-		TransmissionStatus m = new TransmissionStatus();
+		AcousticRelease m = new AcousticRelease();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -103,36 +96,34 @@ public class TransmissionStatus extends IMCMessage {
 		return m;
 	}
 
-	public TransmissionStatus(int req_id, STATUS status, float range, String info) {
+	public AcousticRelease(String system, OP op) {
 		super(ID_STATIC);
-		setReqId(req_id);
-		setStatus(status);
-		setRange(range);
-		if (info != null)
-			setInfo(info);
+		if (system != null)
+			setSystem(system);
+		setOp(op);
 	}
 
 	/**
-	 *  @return Request Identifier - uint16_t
+	 *  @return System - plaintext
 	 */
-	public int getReqId() {
-		return getInteger("req_id");
+	public String getSystem() {
+		return getString("system");
 	}
 
 	/**
-	 *  @param req_id Request Identifier
+	 *  @param system System
 	 */
-	public TransmissionStatus setReqId(int req_id) {
-		values.put("req_id", req_id);
+	public AcousticRelease setSystem(String system) {
+		values.put("system", system);
 		return this;
 	}
 
 	/**
-	 *  @return Status (enumerated) - uint8_t
+	 *  @return Operation (enumerated) - uint8_t
 	 */
-	public STATUS getStatus() {
+	public OP getOp() {
 		try {
-			STATUS o = STATUS.valueOf(getMessageType().getFieldPossibleValues("status").get(getLong("status")));
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
 			return o;
 		}
 		catch (Exception e) {
@@ -140,65 +131,35 @@ public class TransmissionStatus extends IMCMessage {
 		}
 	}
 
-	public String getStatusStr() {
-		return getString("status");
+	public String getOpStr() {
+		return getString("op");
 	}
 
-	public short getStatusVal() {
-		return (short) getInteger("status");
+	public short getOpVal() {
+		return (short) getInteger("op");
 	}
 
 	/**
-	 *  @param status Status (enumerated)
+	 *  @param op Operation (enumerated)
 	 */
-	public TransmissionStatus setStatus(STATUS status) {
-		values.put("status", status.value());
+	public AcousticRelease setOp(OP op) {
+		values.put("op", op.value());
 		return this;
 	}
 
 	/**
-	 *  @param status Status (as a String)
+	 *  @param op Operation (as a String)
 	 */
-	public TransmissionStatus setStatusStr(String status) {
-		setValue("status", status);
+	public AcousticRelease setOpStr(String op) {
+		setValue("op", op);
 		return this;
 	}
 
 	/**
-	 *  @param status Status (integer value)
+	 *  @param op Operation (integer value)
 	 */
-	public TransmissionStatus setStatusVal(short status) {
-		setValue("status", status);
-		return this;
-	}
-
-	/**
-	 *  @return Range (m) - fp32_t
-	 */
-	public double getRange() {
-		return getDouble("range");
-	}
-
-	/**
-	 *  @param range Range (m)
-	 */
-	public TransmissionStatus setRange(double range) {
-		values.put("range", range);
-		return this;
-	}
-
-	/**
-	 *  @return Information - plaintext
-	 */
-	public String getInfo() {
-		return getString("info");
-	}
-
-	/**
-	 *  @param info Information
-	 */
-	public TransmissionStatus setInfo(String info) {
-		values.put("info", info);
+	public AcousticRelease setOpVal(short op) {
+		setValue("op", op);
 		return this;
 	}
 

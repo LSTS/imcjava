@@ -64,7 +64,8 @@ public class AcousticStatus extends IMCMessage {
 		BUSY(100),
 		INPUT_FAILURE(101),
 		ERROR(102),
-		UNSUPPORTED(666);
+		INV_ADDR(103),
+		UNSUPPORTED(255);
 
 		protected long value;
 

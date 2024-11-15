@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "6038ec6c1a14b7f390b39f532588c087f176edb6";
-	public static final String IMC_BRANCH = "master";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2022-02-24T16:00:39Z, https://github.com/LSTS/imc/commit/6038ec6c1a14b7f390b39f532588c087f176edb6, Added new msg CommRestriction.";
+	public static final String IMC_SHA = "76cc63e45a117d1888a89817611423a1d01a4650";
+	public static final String IMC_BRANCH = "76cc63e";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2024-11-15T16:19:55Z, https://github.com/LSTS/imc/commit/76cc63e45a117d1888a89817611423a1d01a4650, Merge branch 'master' into system/caravel";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -67,6 +67,7 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("swordfish", 2049);
 		IMC_ADDRESSES.put("caravela", 2050);
 		IMC_ADDRESSES.put("otter", 2051);
+		IMC_ADDRESSES.put("caravel", 2052);
 		IMC_ADDRESSES.put("hermes", 2241);
 		IMC_ADDRESSES.put("hermes-desired", 2242);
 		IMC_ADDRESSES.put("hermes-target", 2243);
@@ -176,6 +177,9 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-noptilus-3-cpu-cam", 24585);
 		IMC_ADDRESSES.put("lauv-seacon-3-aux", 24592);
 		IMC_ADDRESSES.put("lauv-seacon-3-cpu-cam", 24593);
+		IMC_ADDRESSES.put("lauv-seacon-2-aux", 24594);
+		IMC_ADDRESSES.put("lauv-seacon-2-cpu-cam", 24595);
+		IMC_ADDRESSES.put("otter-aux", 24596);
 		IMC_ADDRESSES.put("star", 32768);
 		IMC_ADDRESSES.put("benthos-mgateway", 32784);
 		IMC_ADDRESSES.put("manta-1", 32786);
