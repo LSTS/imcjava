@@ -31,21 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message ADCP Beam Measurements (1016)<br/>
- *  Measurement from one specific beam at the given CellPosition.<br/>
- *  Water Velocity is provided in the chosen Coordinate system.<br/>
- *  Amplitude and Correlation are always in the BEAM coordinate system.<br/>
+ *  IMC Message Total Heading (2022)<br/>
+ *  This message is used to report the cumulative heading value.<br/>
  */
 
-public class ADCPBeam extends IMCMessage {
+public class TotalHeading extends IMCMessage {
 
-	public static final int ID_STATIC = 1016;
+	public static final int ID_STATIC = 2022;
 
-	public ADCPBeam() {
+	public TotalHeading() {
 		super(ID_STATIC);
 	}
 
-	public ADCPBeam(IMCMessage msg) {
+	public TotalHeading(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -55,20 +53,20 @@ public class ADCPBeam extends IMCMessage {
 		}
 	}
 
-	public ADCPBeam(IMCDefinition defs) {
+	public TotalHeading(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ADCPBeam create(Object... values) {
-		ADCPBeam m = new ADCPBeam();
+	public static TotalHeading create(Object... values) {
+		TotalHeading m = new TotalHeading();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ADCPBeam clone(IMCMessage msg) throws Exception {
+	public static TotalHeading clone(IMCMessage msg) throws Exception {
 
-		ADCPBeam m = new ADCPBeam();
+		TotalHeading m = new TotalHeading();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -83,55 +81,23 @@ public class ADCPBeam extends IMCMessage {
 		return m;
 	}
 
-	public ADCPBeam(float vel, float amp, short cor) {
+	public TotalHeading(float value) {
 		super(ID_STATIC);
-		setVel(vel);
-		setAmp(amp);
-		setCor(cor);
+		setValue(value);
 	}
 
 	/**
-	 *  @return Water Velocity (m/s) - fp32_t
+	 *  @return Value (radians) - fp32_t
 	 */
-	public double getVel() {
-		return getDouble("vel");
+	public double getValue() {
+		return getDouble("value");
 	}
 
 	/**
-	 *  @param vel Water Velocity (m/s)
+	 *  @param value Value (radians)
 	 */
-	public ADCPBeam setVel(double vel) {
-		values.put("vel", vel);
-		return this;
-	}
-
-	/**
-	 *  @return Amplitude (db) - fp32_t
-	 */
-	public double getAmp() {
-		return getDouble("amp");
-	}
-
-	/**
-	 *  @param amp Amplitude (db)
-	 */
-	public ADCPBeam setAmp(double amp) {
-		values.put("amp", amp);
-		return this;
-	}
-
-	/**
-	 *  @return Correlation (%) - uint8_t
-	 */
-	public short getCor() {
-		return (short) getInteger("cor");
-	}
-
-	/**
-	 *  @param cor Correlation (%)
-	 */
-	public ADCPBeam setCor(short cor) {
-		values.put("cor", cor);
+	public TotalHeading setValue(double value) {
+		values.put("value", value);
 		return this;
 	}
 

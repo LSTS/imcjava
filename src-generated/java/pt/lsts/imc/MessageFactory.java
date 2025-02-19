@@ -78,6 +78,8 @@ public class MessageFactory {
 				return new VehicleOperationalLimits(defs);
 			case MsgList.ID_STATIC:
 				return new MsgList(defs);
+			case RamUsage.ID_STATIC:
+				return new RamUsage(defs);
 			case SimulatedState.ID_STATIC:
 				return new SimulatedState(defs);
 			case LeakSimulation.ID_STATIC:
@@ -720,6 +722,8 @@ public class MessageFactory {
 				return new CommRestriction(defs);
 			case VersionInfo.ID_STATIC:
 				return new VersionInfo(defs);
+			case TotalHeading.ID_STATIC:
+				return new TotalHeading(defs);
 			default:
 				return new IMCMessage(defs);
 		}
