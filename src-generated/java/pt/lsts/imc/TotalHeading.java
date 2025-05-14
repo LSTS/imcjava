@@ -87,14 +87,14 @@ public class TotalHeading extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value (radians) - fp32_t
+	 *  @return Value (rad) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (radians)
+	 *  @param value Value (rad)
 	 */
 	public TotalHeading setValue(double value) {
 		values.put("value", value);

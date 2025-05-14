@@ -646,6 +646,8 @@ public class MessageFactory {
 				return new SoiState(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
+			case MessagePartControl.ID_STATIC:
+				return new MessagePartControl(defs);
 			case NeptusBlob.ID_STATIC:
 				return new NeptusBlob(defs);
 			case Aborted.ID_STATIC:
@@ -706,6 +708,8 @@ public class MessageFactory {
 				return new ADCPBeam(defs);
 			case Frequency.ID_STATIC:
 				return new Frequency(defs);
+			case WaveSpectrumParameters.ID_STATIC:
+				return new WaveSpectrumParameters(defs);
 			case GpioState.ID_STATIC:
 				return new GpioState(defs);
 			case GpioStateGet.ID_STATIC:

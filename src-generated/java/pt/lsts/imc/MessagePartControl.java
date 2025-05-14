@@ -31,23 +31,39 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Message Fragment (877)<br/>
- *  This message is used to send a fragment of a message. The<br/>
- *  fragments are sent in order, and the receiver must reassemble<br/>
- *  them in the correct order.<br/>
- *  The receiver can use the MessagePartControl message to inform the sender<br/>
- *  of the status of the fragment transmission.<br/>
+ *  IMC Message Message Fragment Control (878)<br/>
+ *  This message is used by the receiver of MessageParts messages<br/>
+ *  to inform the sender of the status of the reception of a message<br/>
+ *  in fragments.<br/>
+ *  The sender can then use this information to determine which<br/>
+ *  fragments were received and which ones were not.<br/>
+ *  This message is sent in response to a MessagePart message.<br/>
  */
 
-public class MessagePart extends IMCMessage {
+public class MessagePartControl extends IMCMessage {
 
-	public static final int ID_STATIC = 877;
+	public enum OP {
+		STATUS_RECEIVED(0),
+		REQUEST_RETRANSMIT(1);
 
-	public MessagePart() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		OP(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 878;
+
+	public MessagePartControl() {
 		super(ID_STATIC);
 	}
 
-	public MessagePart(IMCMessage msg) {
+	public MessagePartControl(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -57,20 +73,20 @@ public class MessagePart extends IMCMessage {
 		}
 	}
 
-	public MessagePart(IMCDefinition defs) {
+	public MessagePartControl(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static MessagePart create(Object... values) {
-		MessagePart m = new MessagePart();
+	public static MessagePartControl create(Object... values) {
+		MessagePartControl m = new MessagePartControl();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static MessagePart clone(IMCMessage msg) throws Exception {
+	public static MessagePartControl clone(IMCMessage msg) throws Exception {
 
-		MessagePart m = new MessagePart();
+		MessagePartControl m = new MessagePartControl();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -85,13 +101,12 @@ public class MessagePart extends IMCMessage {
 		return m;
 	}
 
-	public MessagePart(short uid, short frag_number, short num_frags, byte[] data) {
+	public MessagePartControl(short uid, OP op, String frag_ids) {
 		super(ID_STATIC);
 		setUid(uid);
-		setFragNumber(frag_number);
-		setNumFrags(num_frags);
-		if (data != null)
-			setData(data);
+		setOp(op);
+		if (frag_ids != null)
+			setFragIds(frag_ids);
 	}
 
 	/**
@@ -104,53 +119,68 @@ public class MessagePart extends IMCMessage {
 	/**
 	 *  @param uid Transmission Unique Id
 	 */
-	public MessagePart setUid(short uid) {
+	public MessagePartControl setUid(short uid) {
 		values.put("uid", uid);
 		return this;
 	}
 
 	/**
-	 *  @return Fragment Number - uint8_t
+	 *  @return Operation (enumerated) - uint8_t
 	 */
-	public short getFragNumber() {
-		return (short) getInteger("frag_number");
+	public OP getOp() {
+		try {
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
 	}
 
 	/**
-	 *  @param frag_number Fragment Number
+	 *  @param op Operation (enumerated)
 	 */
-	public MessagePart setFragNumber(short frag_number) {
-		values.put("frag_number", frag_number);
+	public MessagePartControl setOp(OP op) {
+		values.put("op", op.value());
 		return this;
 	}
 
 	/**
-	 *  @return Total Number of fragments - uint8_t
+	 *  @param op Operation (as a String)
 	 */
-	public short getNumFrags() {
-		return (short) getInteger("num_frags");
-	}
-
-	/**
-	 *  @param num_frags Total Number of fragments
-	 */
-	public MessagePart setNumFrags(short num_frags) {
-		values.put("num_frags", num_frags);
+	public MessagePartControl setOpStr(String op) {
+		setValue("op", op);
 		return this;
 	}
 
 	/**
-	 *  @return Fragment Data - rawdata
+	 *  @param op Operation (integer value)
 	 */
-	public byte[] getData() {
-		return getRawData("data");
+	public MessagePartControl setOpVal(short op) {
+		setValue("op", op);
+		return this;
 	}
 
 	/**
-	 *  @param data Fragment Data
+	 *  @return Fragments IDs - plaintext
 	 */
-	public MessagePart setData(byte[] data) {
-		values.put("data", data);
+	public String getFragIds() {
+		return getString("frag_ids");
+	}
+
+	/**
+	 *  @param frag_ids Fragments IDs
+	 */
+	public MessagePartControl setFragIds(String frag_ids) {
+		values.put("frag_ids", frag_ids);
 		return this;
 	}
 

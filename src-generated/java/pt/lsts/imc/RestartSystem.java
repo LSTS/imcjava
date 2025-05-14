@@ -39,7 +39,8 @@ public class RestartSystem extends IMCMessage {
 
 	public enum TYPE {
 		DUNE(1),
-		SYSTEM(2);
+		SYSTEM(2),
+		TASK(3);
 
 		protected long value;
 
