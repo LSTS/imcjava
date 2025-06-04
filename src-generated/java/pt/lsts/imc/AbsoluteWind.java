@@ -32,7 +32,7 @@ package pt.lsts.imc;
 
 /**
  *  IMC Message Absolute Wind (911)<br/>
- *  Measurement of wind speed.<br/>
+ *  Measurement of absolute wind speed (Meaning without vehicle effects).<br/>
  */
 
 public class AbsoluteWind extends IMCMessage {

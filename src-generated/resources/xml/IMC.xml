@@ -1410,7 +1410,16 @@
       <value id="4" name="Redox" abbrev="REDOX"/>
       <value id="5" name="Chlorophyll" abbrev="CHLOROPHYLL"/>
       <value id="6" name="Turbidity" abbrev="TURBIDITY"/>
-      <value id="7" name="Current Velocity" abbrev="CURRENT_VELOCITY"/>
+      <value id="7" name="Current Velocity In x" abbrev="CURRENT_VELOCITY_U"/>
+      <value id="8" name="Current Velocity In y" abbrev="CURRENT_VELOCITY_V"/>
+      <value id="9" name="Absolute Wind" abbrev="ABSOLUTE_WIND">
+        <description>
+          In this case, the Depth value of the ProfileSample message indicates 
+          wind direction, in degrees.
+        </description>
+      </value>
+      <value id="10" name="Dissolved Organic Matter" abbrev="DISS_ORGANIC_MATTER"/>
+      <value id="11" name="Dissolved Oxygen" abbrev="DISS_OXYGEN"/>
     </field>
     <field name="Number of Samples" abbrev="numSamples" type="uint8_t"/>
     <field name="Samples" abbrev="samples" type="message-list" message-type="ProfileSample"/>
@@ -1422,7 +1431,7 @@
     <field name="Longitude" abbrev="lon" type="fp64_t" unit="°" >
     	<description>
         	Longitude where the profile was calculated.
-        </description>
+      </description>
     </field>
   </message>
   
@@ -2999,7 +3008,7 @@
 
   <message id="271" name="Wind Speed" abbrev="WindSpeed" source="vehicle" flags="periodic" category="Sensors">
     <description>
-      Measurement of wind speed.
+      Measurement of relative wind speed. (Meaning without correcting for vehicle effects).
     </description>
     <field name="Direction" abbrev="direction" type="fp32_t" unit="rad">
       <description>
@@ -11200,7 +11209,7 @@
 
   <message id="911" name="Absolute Wind" abbrev="AbsoluteWind" source="vehicle" flags="periodic" category="Sensors">
     <description>
-      Measurement of wind speed.
+      Measurement of absolute wind speed (Meaning without vehicle effects).
     </description>
     <field name="Direction" abbrev="direction" type="fp32_t" unit="rad">
       <description>
@@ -11328,8 +11337,8 @@
       </description>
       <value abbrev="XYZ" name="xyz" id="0x01"/>
       <value abbrev="NED" name="ned" id="0x02"/>
-      <value abbrev="ENU" name="enu" id="0x03"/>
       <value abbrev="BEAMS" name="beams" id="0x04"/>
+      <value abbrev="ENU" name="enu" id="0x08"/>
     </field>
     <field name="Profile" abbrev="profile" type="message-list" message-type="CurrentProfileCell">
       <description>
@@ -11610,6 +11619,115 @@
     </field>
     <field name="Reason" abbrev="reason" type="plaintext">
       <description>Textual description for why this restriction is needed.</description>
+    </field>
+  </message>
+
+  <message id="2016" name="Query Typed Entity Parameters" abbrev="QueryTypedEntityParameters" source="vehicle" category="CCU">
+    <description>This message can be used to query/report the entities and respective parameters in the system</description>
+    <field name="Operation" abbrev="op" type="uint8_t" unit="Enumerated" prefix="OP">
+      <description>
+        Operation to perform.
+      </description>
+      <value id="0" name="Request" abbrev="REQUEST" />
+      <value id="1" name="Reply" abbrev="REPLY" />
+    </field>
+    <field name="Request identitier" abbrev="request_id" type="uint32_t">
+      <description>Echoes the request_id in the request</description>
+    </field>
+    <field name="Entity Name" abbrev="entity_name" type="plaintext">
+      <description>Entity Label of the task that's replying to the request</description>
+    </field>
+    <field name="Parameters" abbrev="parameters" type="message-list" message-type="TypedEntityParameter">
+      <description>Contains an optionally defined List of TypedEntityParameter as a response to a TypedEntityParamaters Request.</description>
+    </field>
+  </message>
+
+  <message id="2017" name="Typed Entity Parameter" abbrev="TypedEntityParameter" source="vehicle" category="CCU">
+    <description>
+      Entity parameter with all the data that defines an entity parameter.
+    </description>
+    <field name="Parameter Name" abbrev="name" type="plaintext">
+      <description>
+        Name of the parameter.
+      </description>
+    </field>
+    <field name="Type" abbrev="type" type="uint8_t" unit="Enumerated" prefix="TYPE">
+      <value id="1" name="Boolean Domain" abbrev="BOOL" />
+      <value id="2" name="Integer Domain" abbrev="INT" />
+      <value id="3" name="Float Domain" abbrev="FLOAT" />
+      <value id="4" name="String Domain" abbrev="STRING" />
+      <value id="5" name="List of Booleans" abbrev="LIST_BOOL" />
+      <value id="6" name="List of Integers" abbrev="LIST_INT" />
+      <value id="7" name="List of Floats" abbrev="LIST_FLOAT" />
+      <value id="8" name="List of Strings" abbrev="LIST_STRING" />
+    </field>
+    <field name="Default Value" abbrev="default_value" type="plaintext">
+      <description>
+        Default value of the parameter.
+      </description>
+    </field>
+    <field name="Units" abbrev="units" type="plaintext">
+      <description>
+        The units of the field, if applicable
+      </description>
+    </field>
+    <field name="Description" abbrev="description" type="plaintext">
+      <description>
+        Description of the parameter
+      </description>
+    </field>
+    <field name="Values List" abbrev="values_list" type="plaintext">
+      <description>
+        Comma-separated list of possible values
+      </description>
+    </field>
+    <field name="Min Value" abbrev="min_value" type="fp32_t">
+      <description>
+        Optional. Min value of the parameter
+      </description>
+    </field>
+    <field name="Max Value" abbrev="max_value" type="fp32_t">
+      <description>
+        Optional. Max value of the parameter
+      </description>
+    </field>
+    <field name="List Min Size" abbrev="list_min_size" type="uint8_t">
+      <description>
+        When the parameter is a list, list_min_size indicates the minimum size of the list
+      </description>
+    </field>
+    <field name="List Max Size" abbrev="list_max_size" type="uint8_t">
+      <description>
+        When the parameter is a list, list_max_size indicates the maximum size of the list
+      </description>
+    </field>
+    <field name="Values If List" abbrev="values_if_list" type="message-list" message-type="ValuesIf">
+      <description>
+        A list of ValuesIf messages
+      </description>
+    </field>
+    <field name="Visibility" abbrev="visibility" type="uint8_t" unit="Enumerated" prefix="VISIBILITY">
+      <value id="0" name="User" abbrev="USER" />
+      <value id="1" name="Developer" abbrev="DEVELOPER" />
+    </field>
+    <field name="Scope" abbrev="scope" type="uint8_t" unit="Enumerated" prefix="SCOPE">
+      <value id="0" name="Global" abbrev="GLOBAL" />
+      <value id="1" name="Idle" abbrev="IDLE" />
+      <value id="2" name="Plan" abbrev="PLAN" />
+      <value id="3" name="Maneuver" abbrev="MANEUVER" />
+    </field>
+  </message>
+
+  <message id="2018" name="Values If" abbrev="ValuesIf" source="ccu,vehicle" category="Networking">
+    <description>This message is used to describe the ValuesIf content of a TypedEntityParameter.</description>
+    <field name="Param" abbrev="param" type="plaintext">
+      <description>Name of parameter to compare</description>
+    </field>
+    <field name="Value" abbrev="value" type="plaintext">
+      <description>Value to compare</description>
+    </field>
+    <field name="Values List" abbrev="values_list" type="plaintext">
+      <description>List of possible values if param=value</description>
     </field>
   </message>
 

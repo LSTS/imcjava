@@ -45,7 +45,11 @@ public class VerticalProfile extends IMCMessage {
 		REDOX(4),
 		CHLOROPHYLL(5),
 		TURBIDITY(6),
-		CURRENT_VELOCITY(7);
+		CURRENT_VELOCITY_U(7),
+		CURRENT_VELOCITY_V(8),
+		ABSOLUTE_WIND(9),
+		DISS_ORGANIC_MATTER(10),
+		DISS_OXYGEN(11);
 
 		protected long value;
 

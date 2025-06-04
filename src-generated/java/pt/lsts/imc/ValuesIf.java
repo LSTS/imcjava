@@ -31,25 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Current Profile (1014)<br/>
- *  Contains a profile of water velocities measured relative to the vehicle<br/>
- *  velocity, represented in the specified coordinate system.<br/>
+ *  IMC Message Values If (2018)<br/>
+ *  This message is used to describe the ValuesIf content of a TypedEntityParameter.<br/>
  */
 
-public class CurrentProfile extends IMCMessage {
+public class ValuesIf extends IMCMessage {
 
-	public static final short UTF_XYZ = 0x01;
-	public static final short UTF_NED = 0x02;
-	public static final short UTF_BEAMS = 0x04;
-	public static final short UTF_ENU = 0x08;
+	public static final int ID_STATIC = 2018;
 
-	public static final int ID_STATIC = 1014;
-
-	public CurrentProfile() {
+	public ValuesIf() {
 		super(ID_STATIC);
 	}
 
-	public CurrentProfile(IMCMessage msg) {
+	public ValuesIf(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -59,20 +53,20 @@ public class CurrentProfile extends IMCMessage {
 		}
 	}
 
-	public CurrentProfile(IMCDefinition defs) {
+	public ValuesIf(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static CurrentProfile create(Object... values) {
-		CurrentProfile m = new CurrentProfile();
+	public static ValuesIf create(Object... values) {
+		ValuesIf m = new ValuesIf();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static CurrentProfile clone(IMCMessage msg) throws Exception {
+	public static ValuesIf clone(IMCMessage msg) throws Exception {
 
-		CurrentProfile m = new CurrentProfile();
+		ValuesIf m = new ValuesIf();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -87,78 +81,58 @@ public class CurrentProfile extends IMCMessage {
 		return m;
 	}
 
-	public CurrentProfile(short nbeams, short ncells, short coord_sys, java.util.Collection<CurrentProfileCell> profile) {
+	public ValuesIf(String param, String value, String values_list) {
 		super(ID_STATIC);
-		setNbeams(nbeams);
-		setNcells(ncells);
-		setCoordSys(coord_sys);
-		if (profile != null)
-			setProfile(profile);
+		if (param != null)
+			setParam(param);
+		if (value != null)
+			setValue(value);
+		if (values_list != null)
+			setValuesList(values_list);
 	}
 
 	/**
-	 *  @return Number of Beams - uint8_t
+	 *  @return Param - plaintext
 	 */
-	public short getNbeams() {
-		return (short) getInteger("nbeams");
+	public String getParam() {
+		return getString("param");
 	}
 
 	/**
-	 *  @param nbeams Number of Beams
+	 *  @param param Param
 	 */
-	public CurrentProfile setNbeams(short nbeams) {
-		values.put("nbeams", nbeams);
+	public ValuesIf setParam(String param) {
+		values.put("param", param);
 		return this;
 	}
 
 	/**
-	 *  @return Number of Cells - uint8_t
+	 *  @return Value - plaintext
 	 */
-	public short getNcells() {
-		return (short) getInteger("ncells");
+	public String getValue() {
+		return getString("value");
 	}
 
 	/**
-	 *  @param ncells Number of Cells
+	 *  @param value Value
 	 */
-	public CurrentProfile setNcells(short ncells) {
-		values.put("ncells", ncells);
+	public ValuesIf setValue(String value) {
+		values.put("value", value);
 		return this;
 	}
 
 	/**
-	 *  @return Coordinate System (bitfield) - uint8_t
+	 *  @return Values List - plaintext
 	 */
-	public short getCoordSys() {
-		return (short) getInteger("coord_sys");
+	public String getValuesList() {
+		return getString("values_list");
 	}
 
 	/**
-	 *  @param coord_sys Coordinate System (bitfield)
+	 *  @param values_list Values List
 	 */
-	public CurrentProfile setCoordSys(short coord_sys) {
-		values.put("coord_sys", coord_sys);
-		return this;
-	}
-
-	/**
-	 *  @return Profile - message-list
-	 */
-	public java.util.Vector<CurrentProfileCell> getProfile() {
-		try {
-			return getMessageList("profile", CurrentProfileCell.class);
-		}
-		catch (Exception e) {
-			return null;
-		}
-
-	}
-
-	/**
-	 *  @param profile Profile
-	 */
-	public CurrentProfile setProfile(java.util.Collection<CurrentProfileCell> profile) {
-		values.put("profile", profile);
+	public ValuesIf setValuesList(String values_list) {
+		values.put("values_list", values_list);
 		return this;
 	}
 

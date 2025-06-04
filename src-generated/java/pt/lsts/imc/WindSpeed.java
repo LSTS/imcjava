@@ -32,7 +32,7 @@ package pt.lsts.imc;
 
 /**
  *  IMC Message Wind Speed (271)<br/>
- *  Measurement of wind speed.<br/>
+ *  Measurement of relative wind speed. (Meaning without correcting for vehicle effects).<br/>
  */
 
 public class WindSpeed extends IMCMessage {

@@ -724,6 +724,12 @@ public class MessageFactory {
 				return new TotalMagIntensity(defs);
 			case CommRestriction.ID_STATIC:
 				return new CommRestriction(defs);
+			case QueryTypedEntityParameters.ID_STATIC:
+				return new QueryTypedEntityParameters(defs);
+			case TypedEntityParameter.ID_STATIC:
+				return new TypedEntityParameter(defs);
+			case ValuesIf.ID_STATIC:
+				return new ValuesIf(defs);
 			case VersionInfo.ID_STATIC:
 				return new VersionInfo(defs);
 			case TotalHeading.ID_STATIC:

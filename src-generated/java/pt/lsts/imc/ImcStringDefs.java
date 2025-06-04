@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "a751178768ff78009ab5ae3627342ebd537c7264";
-	public static final String IMC_BRANCH = "a751178";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2025-05-14T13:17:54Z, https://github.com/LSTS/imc/commit/a751178768ff78009ab5ae3627342ebd537c7264, Added new MessagePartControl to word in conjunction with MessagePart.\nIt is not mandatory to use. A timeout implementation should be used to clear both sides (sender and receiver) from a not completed backlog.";
+	public static final String IMC_SHA = "9dd21a2937fdb841609ba8800a6d0f0fc7042cf9";
+	public static final String IMC_BRANCH = "9dd21a2";
+	public static final String IMC_COMMIT = "Luís Venâncio (lvenancio@inegi.up.pt), 2025-05-23T12:26:13Z, https://github.com/LSTS/imc/commit/9dd21a2937fdb841609ba8800a6d0f0fc7042cf9, Adding messages required for requesting entity parameters from vehicles.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
