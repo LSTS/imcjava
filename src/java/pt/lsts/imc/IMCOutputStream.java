@@ -251,7 +251,7 @@ public class IMCOutputStream implements DataOutput {
 	}
 	
 	public void writeMessage(IMCMessage message) throws IOException {
-		message.serialize(this);
+		message.serialize(def != null ? def : IMCDefinition.getInstance(), this);
 	}
 	
 	public void close() throws IOException {
