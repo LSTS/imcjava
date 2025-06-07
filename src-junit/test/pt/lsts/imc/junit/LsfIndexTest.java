@@ -49,6 +49,9 @@ public class LsfIndexTest {
 		ArrayList<File> ret = new ArrayList<File>();
 		
 		File samples = new File("samples");
+		if (!samples.exists() || !samples.isDirectory()) {
+			Assert.fail("Samples directory not found at "+samples.getAbsolutePath());
+		}
 		for (File log : samples.listFiles()) {
 			if (log.isDirectory() && new File(log, "Data.lsf").canRead()) {
 				ret.add(new File(log, "Data.lsf"));

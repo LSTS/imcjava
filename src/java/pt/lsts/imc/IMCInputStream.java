@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class IMCInputStream extends FilterInputStream implements DataInput {
 
@@ -299,16 +300,36 @@ public class IMCInputStream extends FilterInputStream implements DataInput {
 	public IMCMessage readMessage() throws IOException {
 		resetCrc();
 		long sync = input.readUnsignedShort();
-		if (sync == defs.syncWord)
+		boolean foundValidSync = true;
+		long foundSync = defs.syncWord;
+		if (sync == defs.syncWord) {
 			setBigEndian(true);
-		else if (sync == defs.swappedWord)
+		}
+		else if (sync == defs.swappedWord) {
 			setBigEndian(false);
-		else 
+		}
+		else {
+			foundValidSync = false;
+			// Check alternative sync words
+			List<Long> alternativeSyncNumbers = defs.getAlternativeSyncNumbers();
+			List<Long> alternativeSyncNumbersReversed = defs.getAlternativeSyncNumbersReversed();
+			for (int i = 0; i < alternativeSyncNumbers.size(); i++) {
+				if (sync == alternativeSyncNumbers.get(i) || sync == alternativeSyncNumbersReversed.get(i)) {
+					foundValidSync = true;
+					foundSync = alternativeSyncNumbers.get(i);
+					setBigEndian(sync == alternativeSyncNumbers.get(i));
+					break;
+				}
+			}
+		}
+
+		if (!foundValidSync)
 			throw new IOException("Unrecognized Sync word: "+String.format("%02X", sync));
+
 		IMCMessage header = defs.createHeader();
-		header.setValue("sync", defs.syncWord);
+		header.setValue("sync", foundSync);
 		defs.deserializeAllFieldsBut(header, this, "sync");	    		
-		IMCMessage message = new IMCMessage(defs.getType(header.getInteger("mgid")));
+		IMCMessage message = new IMCMessage(defs, defs.getType(header.getInteger("mgid")));
 		message.setHeader((Header)header.cloneMessage(defs));
 		defs.deserializeFields(message, this);
 		//int myCrc = getCrc();

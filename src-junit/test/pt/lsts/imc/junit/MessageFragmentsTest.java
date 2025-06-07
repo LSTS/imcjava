@@ -74,7 +74,9 @@ public class MessageFragmentsTest {
 		Random r = new Random(System.currentTimeMillis());
 		
 		while(!parts.isEmpty()) {
-			int index = r.nextInt(parts.size()); 
+			int index = r.nextInt(parts.size());
+			if (proto.systems().length == 0)
+				break;
 			for (String s : proto.systems())
 				if (proto.sendMessage(s, parts.get(index))) {
 					parts.get(index).dump(System.out);
