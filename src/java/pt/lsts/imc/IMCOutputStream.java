@@ -35,6 +35,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 
 public class IMCOutputStream implements DataOutput {
 
@@ -198,7 +199,7 @@ public class IMCOutputStream implements DataOutput {
 	     write((v >>>  0) & 0xFF);
 	}
 	
-	private byte writeBuffer[] = new byte[8];
+	private final byte[] writeBuffer = new byte[8];
 
 	public void writeUnsignedLong(BigInteger val) throws IOException {
 		writeLong(val.longValue());
@@ -238,7 +239,7 @@ public class IMCOutputStream implements DataOutput {
 	}
 	
 	public void writePlaintext(String t) throws IOException {
-		writeRawdata(t.getBytes("UTF-8"));		
+		writeRawdata(t.getBytes(StandardCharsets.UTF_8));
 	}
 	
 	public void writeInlineMessage(IMCMessage message) throws IOException {
