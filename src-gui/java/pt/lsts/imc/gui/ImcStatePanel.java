@@ -91,10 +91,13 @@ public class ImcStatePanel extends JPanel {
                 tabs.removeAll();
                 
                 LinkedHashMap<String, IMCMessage> msgs = new LinkedHashMap<String, IMCMessage>();
-                
-                for (IMCMessage m : ImcStatePanel.this.state.get(selectedMessage, IMCMessage[].class))
-                	msgs.put(ImcStatePanel.this.state.getEntityName(m.getSrcEnt()), m);
-                
+
+                IMCMessage[] lst = ImcStatePanel.this.state.get(selectedMessage, IMCMessage[].class);
+                if (lst != null) {
+                    for (IMCMessage m : lst)
+                        msgs.put(ImcStatePanel.this.state.getEntityName(m.getSrcEnt()), m);
+                }
+
                 for (Entry<String, IMCMessage> m: msgs.entrySet()) {
                     JLabel html = new JLabel(IMCUtil.getAsHtml(m.getValue()));
                     html.setHorizontalAlignment(JLabel.CENTER);
@@ -219,8 +222,7 @@ public class ImcStatePanel extends JPanel {
         public StateListModel(ImcSystemState imcState) {
             this.state = imcState;
             refreshList();
-            
-            scheduleRefreshListTimer();            
+            scheduleRefreshListTimer();
         }
 
         /**
