@@ -38,6 +38,7 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 
 public class IMCInputStream extends FilterInputStream implements DataInput {
 
@@ -278,14 +279,14 @@ public class IMCInputStream extends FilterInputStream implements DataInput {
 	
 	public byte[] readRawdata() throws IOException {
 		int size = input.readUnsignedShort();
-		byte b[] = new byte[size];
+		byte[] b = new byte[size];
 		readFully(b);
 		return b;
 	}
 	
 	public String readPlaintext() throws IOException {
 		byte[] data = readRawdata();
-		return new String(data, "UTF-8");
+		return new String(data, StandardCharsets.UTF_8);
 	}
 	
 	public IMCMessage readInlineMessage() throws Exception {
@@ -311,7 +312,7 @@ public class IMCInputStream extends FilterInputStream implements DataInput {
 		message.setHeader((Header)header.cloneMessage(defs));
 		defs.deserializeFields(message, this);
 		//int myCrc = getCrc();
-		 readUnsignedShort(); //footer
+		readUnsignedShort(); //footer
 		
 		return message;
 	}
