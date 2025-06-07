@@ -42,10 +42,15 @@ import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -76,6 +81,9 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	protected String md5String;
 
 	protected long syncWord, swappedWord;
+	protected List<Long> alternativeSyncNumbers = new ArrayList<Long>();
+	protected List<Long> alternativeSyncNumbersReversed = new ArrayList<Long>();
+
 	protected IMCMessageType headerType, footerType;
 
 	protected LinkedHashMap<Integer, String> id_Abbrev = new LinkedHashMap<Integer, String>();
@@ -106,9 +114,9 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		if (!f.canRead())
 			is = null;
 		else if (f.getName().endsWith(".gz"))
-			is = new MultiMemberGZIPInputStream(new FileInputStream(f));
+			is = new MultiMemberGZIPInputStream(Files.newInputStream(f.toPath()));
 		else
-			is = new FileInputStream(f);
+			is = Files.newInputStream(f.toPath());
 
 		readDefs(is);
 	}
@@ -126,8 +134,8 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 	public static void writeDefaultDefinitions(File destination)
 			throws IOException {
-		InputStream is = new ByteArrayInputStream(ImcStringDefs
-				.getDefinitions().getBytes());
+		String def = ImcStringDefs.getDefinitions();
+		InputStream is = new ByteArrayInputStream(def != null ? def.getBytes() : new byte[0]);
 		FileOutputStream fos = new FileOutputStream(destination);
 		byte[] buffer = new byte[1024];
 		while (is.read(buffer) > 0)
@@ -161,7 +169,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			}
 			if (instance == null) {
 				instance = new IMCDefinition(new ByteArrayInputStream(
-						ImcStringDefs.getDefinitions().getBytes("UTF-8")));
+						ImcStringDefs.getDefinitions().getBytes(StandardCharsets.UTF_8)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -191,9 +199,6 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	public final IMCMessageType getHeaderType() {
 		return headerType;
 	}
-	
-	
-	
 
 	protected void readDefs(InputStream is) throws Exception {
 		DefaultProtocolParser parser = new DefaultProtocolParser();
@@ -201,7 +206,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		specification = parser.getSpecification();
 		this.version = def.getVersion();
 		this.syncWord = def.getSyncWord();
-		this.swappedWord = (syncWord & 0xFF) << 8 | ((syncWord & 0xFF00) >> 8);
+		this.swappedWord = reverseSyncNumber(this.syncWord);
 		this.md5String = def.getDefinitionMD5();
 		this.name = def.getName();
 		this.headerType = def.getHeader();
@@ -230,6 +235,10 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			}
 			types.put(msgType.getShortName(), msgType);
 		}
+	}
+
+	private long reverseSyncNumber(long syncWord) {
+		return (syncWord & 0xFF) << 8 | ((syncWord & 0xFF00) >> 8);
 	}
 
 	/**
@@ -273,6 +282,72 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 */
 	public long getSwappedWord() {
 		return swappedWord;
+	}
+
+	/**
+	 * Retrieve the alternative synchronization numbers of this IMC definition
+	 * WARNING: This is for advanced use only!
+	 *
+	 * @return List of alternative synchronization numbers of this IMC
+	 *         definition
+	 */
+	public List<Long> getAlternativeSyncNumbers() {
+		return Collections.unmodifiableList(alternativeSyncNumbers);
+	}
+
+	/**
+	 * Add alternative synchronization numbers to this IMC definition.
+	 * @param alternativeSyncNumber
+	 */
+	public void addAlternativeSyncNumber(long... alternativeSyncNumber) {
+		for (long n : alternativeSyncNumber) {
+			if (!alternativeSyncNumbers.contains(n)) {
+				alternativeSyncNumbers.add(n);
+				alternativeSyncNumbersReversed.add(reverseSyncNumber(n));
+			}
+		}
+	}
+
+	/**
+	 * Set alternative synchronization numbers to this IMC definition.
+	 * @param alternativeSyncNumbers
+	 */
+	public void setAlternativeSyncNumbers(List<Long> alternativeSyncNumbers) {
+		this.alternativeSyncNumbers.clear();
+		this.alternativeSyncNumbersReversed.clear();
+		for (long n : alternativeSyncNumbers) {
+			if (!this.alternativeSyncNumbers.contains(n)) {
+				this.alternativeSyncNumbers.add(n);
+				this.alternativeSyncNumbersReversed.add(reverseSyncNumber(n));
+			}
+		}
+	}
+
+	/**
+	 * Set alternative synchronization numbers to this IMC definition.
+	 *
+	 * @param alternativeSyncNumber
+	 *            The alternative synchronization numbers to set
+	 */
+	public void setAlternativeSyncNumbers(long... alternativeSyncNumber) {
+		List<Long> as = new ArrayList<Long>(alternativeSyncNumber.length);
+		for (long n : alternativeSyncNumber) {
+			if (!as.contains(n)) {
+				as.add(n);
+			}
+		}
+		setAlternativeSyncNumbers(as);
+	}
+
+	/**
+	 * Retrieve the alternative synchronization numbers of this IMC definition
+	 * WARNING: This is for advanced use only!
+	 *
+	 * @return List of alternative synchronization numbers of this IMC
+	 *         definition, in little-endian format
+	 */
+	public List<Long> getAlternativeSyncNumbersReversed() {
+		return Collections.unmodifiableList(alternativeSyncNumbersReversed);
 	}
 
 	/**
@@ -373,11 +448,33 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			throws Exception {
 		IMCMessage header = new IMCMessage(this, headerType);
 		while (true) {
+			boolean foundValidSync = false;
+			long validSync = Long.MIN_VALUE;
 			long sync = buff.getShort() & 0xFFFF;
-			if (sync == swappedWord)
-				buff.order(ByteOrder.LITTLE_ENDIAN);
 
-			header.setValue("sync", syncWord);
+			if (sync == syncWord || sync == swappedWord) {
+				buff.order(sync == syncWord ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN);
+				foundValidSync = true;
+				validSync = syncWord;
+			}
+			else {
+				for (int i = 0; i < alternativeSyncNumbers.size(); i++) {
+					if (sync == alternativeSyncNumbers.get(i) || sync == alternativeSyncNumbersReversed.get(i)) {
+						buff.order(sync == alternativeSyncNumbers.get(i) ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN);
+						foundValidSync = true;
+						validSync = alternativeSyncNumbers.get(i);
+						break;
+					}
+				}
+			}
+
+			if (!foundValidSync) {
+				System.err.printf("Found a message with invalid sync (%X) was skipped\n", sync);
+				buff.position(buff.position() + header.getInteger("size") + 2);
+				continue;
+			}
+
+			header.setValue("sync", validSync);
 
 			deserializeAllFieldsBut(header, buff, "sync");
 
@@ -403,14 +500,26 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 *             if end of the buffer is reached
 	 */
 	public IMCMessage nextMessage(ByteBuffer buff) throws Exception {
-
 		Header header = createHeader();
 		long sync = buff.getShort() & 0xFFFF;
-		if (sync == swappedWord)
-			buff.order(ByteOrder.LITTLE_ENDIAN);
-		else if (sync == syncWord)
+		boolean foundValidSync = false;
+		if (sync == syncWord || sync == swappedWord) {
+			buff.order(sync == syncWord ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN);
 			header.setValue("sync", syncWord);
-		else {
+			foundValidSync = true;
+		}
+		if (!foundValidSync) {
+			for (int i = 0; i < alternativeSyncNumbers.size(); i++) {
+				if (sync == alternativeSyncNumbers.get(i) || sync == alternativeSyncNumbersReversed.get(i)) {
+					buff.order(sync == alternativeSyncNumbers.get(i) ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN);
+					foundValidSync = true;
+					header.setValue("sync", alternativeSyncNumbers.get(i));
+					break;
+				}
+			}
+		}
+
+		if (!foundValidSync) {
 			System.err.printf(
 					"Found a message with invalid sync (%X) was skipped\n",
 					sync);
@@ -465,12 +574,11 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		Header header = createHeader();
 		input.resetCrc();
 
-		// Let us try to check if the first byte could be the synch number
+		// Let us try to check if the first byte could be the sync number
 		// This avoids desynchronization if we are reading a continuous stream with errors
 		long syncFirstByte = input.readUnsignedByte();
-		if (!(syncFirstByte == ((syncWord & 0xFF00) >> 8)
-		        || syncFirstByte == ((swappedWord & 0xFF00) >> 8))) {
-			// If we are here probably this is not a synch word
+		if (!matchAnySyncWordFirstByte(syncFirstByte)) {
+			// If we are here probably this is not a sync word
 			if (input.available() == 0 && syncFirstByte == 0xFF)
 				return null;
 			else
@@ -479,15 +587,26 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		}
 		
 		long sync = ((syncFirstByte & 0xFF) << 8) + input.readUnsignedByte(); // input.readUnsignedShort();
-		if (sync == syncWord)
-			input.setBigEndian(true);
-		else if (sync == swappedWord)
-			input.setBigEndian(false);
-		else
+		boolean foundValidSync = false;
+		if (sync == syncWord || sync == swappedWord) {
+			input.setBigEndian(sync == syncWord);
+			header.setValue("sync", syncWord);
+			foundValidSync = true;
+		}
+		if (!foundValidSync) {
+			for (int i = 0; i < alternativeSyncNumbers.size(); i++) {
+				if (sync == alternativeSyncNumbers.get(i) || sync == alternativeSyncNumbersReversed.get(i)) {
+					input.setBigEndian(sync == alternativeSyncNumbers.get(i));
+					foundValidSync = true;
+					header.setValue("sync", alternativeSyncNumbers.get(i));
+					break;
+				}
+			}
+		}
+		if (!foundValidSync) {
 			throw new IOException("Unrecognized Sync word: "
 					+ String.format("%02X", sync));
-
-		header.setValue("sync", syncWord);
+		}
 
 		deserializeAllFieldsBut(header, input, "sync");
 		int msgid = header.getInteger("mgid");
@@ -505,6 +624,22 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			input.skip(header.getInteger("size") + 2);
 			return nextMessage(input);
 		}
+	}
+
+	private boolean matchAnySyncWordFirstByte(long syncFirstByte) {
+		boolean match = syncFirstByte == ((syncWord & 0xFF00) >> 8)
+				|| syncFirstByte == ((swappedWord & 0xFF00) >> 8);
+
+		if (!match) {
+			for (int i = 0; i < alternativeSyncNumbers.size(); i++) {
+				if (syncFirstByte == ((alternativeSyncNumbers.get(i) & 0xFF00) >> 8)
+						|| syncFirstByte == ((alternativeSyncNumbersReversed.get(i) & 0xFF00) >> 8)) {
+					return true;
+				}
+			}
+		}
+
+		return match;
 	}
 
 	/**
@@ -1054,6 +1189,10 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 		return type;
 	}
 
+	public void serialize(IMCMessage m, IMCOutputStream os, long forceSyncNumber) throws Exception {
+		m.serialize(this, os, forceSyncNumber);
+	}
+
 	/**
 	 * Serialize the given message to an IMCOutputStream
 	 * 
@@ -1065,7 +1204,12 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 *             IO errors
 	 */
 	public void serialize(IMCMessage m, IMCOutputStream os) throws Exception {
-		m.serialize(this, os);
+		serialize(m, os, -1);
+	}
+
+	public void serialize(IMCMessage m, OutputStream os, long forceSyncNumber) throws Exception {
+		IMCOutputStream ios = new IMCOutputStream(os);
+		serialize(m, ios, forceSyncNumber);
 	}
 
 	@Override

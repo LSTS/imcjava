@@ -288,7 +288,7 @@ public class MessageEditor extends JPanel {
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				IMCOutputStream ios = new IMCOutputStream(baos);
-				ios.writeMessage(msg);
+				ios.writeMessage(msg, msg.getHeader().get_sync()); // Write message to the output stream with the def sync number
 				hexEditor.setBytes(baos.toByteArray());				
 			}
 			catch (Exception e) {

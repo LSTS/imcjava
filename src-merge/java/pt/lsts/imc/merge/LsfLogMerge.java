@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -84,7 +85,7 @@ public class LsfLogMerge {
             defs = defs1;
         }
        
-        IMCOutputStream os = new IMCOutputStream(new FileOutputStream(outfile));
+        IMCOutputStream os = new IMCOutputStream(Files.newOutputStream(outfile.toPath()));
         int k = 0;
         int j = 0;
         int count = 0;

@@ -249,9 +249,13 @@ public class IMCOutputStream implements DataOutput {
 		else
 		    IMCDefinition.getInstance().serializeFields(message, this);
 	}
-	
+
 	public void writeMessage(IMCMessage message) throws IOException {
-		message.serialize(def != null ? def : IMCDefinition.getInstance(), this);
+		writeMessage(message, -1);
+	}
+
+	public void writeMessage(IMCMessage message, long forceSyncNumber) throws IOException {
+		message.serialize(def != null ? def : IMCDefinition.getInstance(), this, forceSyncNumber);
 	}
 	
 	public void close() throws IOException {

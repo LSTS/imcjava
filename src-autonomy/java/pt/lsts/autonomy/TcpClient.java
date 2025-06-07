@@ -101,13 +101,16 @@ public class TcpClient extends Thread {
 	}
 
 	public void send(IMCMessage m) throws IOException {
+		send(m, -1);
+	}
+
+	public void send(IMCMessage m, long forceSyncNumber) throws IOException {
 		m.setDst(remoteSrc);
 		m.setSrc(localSrc);
-		
-		
+
 		synchronized (socket) {
 			try {
-				output.writeMessage(m);
+				output.writeMessage(m, forceSyncNumber);
 			}
 			catch (Exception e) {
 				e.printStackTrace();

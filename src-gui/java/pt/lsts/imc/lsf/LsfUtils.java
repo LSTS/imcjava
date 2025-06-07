@@ -59,7 +59,7 @@ public class LsfUtils {
      * @throws Exception In case the file cannot be read properly
      */
     public static void checkLsf(File lsfFile, IMCDefinition defs) throws Exception {
-        long synchword = defs.getSyncWord();        
+        long synchword = defs.getSyncWord(); // FIXME Check alternative sync word?
         
         FileInputStream is = new FileInputStream(lsfFile);
         FileChannel channel = is.getChannel();
@@ -127,7 +127,7 @@ public class LsfUtils {
             System.err.printf("%02X ", header[i] & 0XFF);
         }
         System.err.println();
-        boolean bigEndian = header[0] == (defs.getSwappedWord() & 0xFF);
+        boolean bigEndian = header[0] == (defs.getSwappedWord() & 0xFF); // FIXME Check alternative sync word?
         int size;
         
         if (bigEndian)

@@ -1164,27 +1164,31 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 		}
 	}
 
+	public int serialize(IMCDefinition def, IMCOutputStream out) throws IOException {
+		return serialize(def, out, -1);
+	}
+
 	/**
 	 * Writes this message to an OutputStream
-	 * 
-	 * @param out
-	 *            The OutputStream to write to
+	 *
+	 * @param def The IMCDefinition to usefor serialization
+	 * @param out The OutputStream to write to
+	 * @param forceSyncNumber The syncnumber to use, or -1 to use the default
 	 * @return The number of bytes written
 	 */
-	public int serialize(IMCDefinition def, IMCOutputStream out)
-			throws IOException {
+	public int serialize(IMCDefinition def, IMCOutputStream out, long forceSyncNumber) throws IOException {
 		int count = 0;
 		out.resetCRC();
 		if (!getAbbrev().equals("Header")) {
 			if (header == null) {
 				header = def.createHeader();
 			}
-			header.set_sync((int) def.syncWord);
+			header.set_sync(forceSyncNumber < 0 ? (int) def.syncWord : (int) forceSyncNumber);
 			header.set_mgid(type.getId());
 			if (getTimestamp() == 0)
 				header.set_timestamp(System.currentTimeMillis() / 1000.0);
 			header.set_size(getPayloadSize());
-			count += header.serialize(def, out); // header
+			count += header.serialize(def, out, forceSyncNumber); // header
 			count += def.serializeFields(this, out); // fields
 			def.serialize(out.getCRC(), IMCFieldType.TYPE_UINT16, out); // footer
 			return count + 2;
@@ -1200,7 +1204,11 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	 * @return The number of bytes writen
 	 */
 	public int serialize(IMCOutputStream out) throws IOException {
-		return serialize(IMCDefinition.getInstance(), out);
+		return serialize(IMCDefinition.getInstance(), out, -1);
+	}
+
+	public int serialize(IMCOutputStream out, long forceSyncNumber) throws IOException {
+		return serialize(IMCDefinition.getInstance(), out, forceSyncNumber);
 	}
 
 	/**
@@ -1916,19 +1924,27 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 	 * @return Byte array with message serialized
 	 */
 	public byte[] toByteArray() {
-		return toByteArray(IMCDefinition.getInstance());		
+		return toByteArray(IMCDefinition.getInstance());
 	}
-	
+
+	public byte[] toByteArray(long forceSyncNumber) {
+		return toByteArray(IMCDefinition.getInstance(), forceSyncNumber);
+	}
+
+	public byte[] toByteArray(IMCDefinition def) {
+		return toByteArray(def, -1);
+	}
+
 	/**
 	 * Serialize this message to byte array using provided IMC definitions
 	 * @param def The IMC definitions to use to serialize the message
 	 * @return Byte array with message serialized
 	 */
-	public byte[] toByteArray(IMCDefinition def) {
+	public byte[] toByteArray(IMCDefinition def, long forceSyncNumber) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		IMCOutputStream out = new IMCOutputStream(def, baos);
 		try {
-			out.writeMessage(this);
+			out.writeMessage(this, forceSyncNumber);
 			out.close();
 		}
 		catch (Exception e) {

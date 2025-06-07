@@ -150,7 +150,7 @@ public class LsfMessageLogger {
     private synchronized boolean logMessage(IMCMessage msg) {
         try {
             if (ios != null)
-                ios.writeMessage(msg);
+                ios.writeMessage(msg); // Write message to the output stream with the def sync number
         }
         catch (Exception e) {
             e.printStackTrace();

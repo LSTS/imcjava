@@ -130,7 +130,7 @@ public class ImcBroadcaster extends Thread {
 	private void broadcast(IMCMessage announce) throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		IMCOutputStream ios = new IMCOutputStream(baos);
-		ios.writeMessage(announce);
+		ios.writeMessage(announce); // Using the def sync number
 		ios.close();
 		byte[] data = baos.toByteArray();
 		DatagramSocket datagramSocket = new DatagramSocket();

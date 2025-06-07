@@ -47,6 +47,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.Vector;
@@ -598,8 +599,19 @@ public class LsfIndex {
 			pos = buffer.position();
 			if (pos == 0) {
 				sync = buffer.getBuffer().getShort() & 0xFFFF;
-				if (sync == defs.getSwappedWord())
+				buffer.order(ByteOrder.BIG_ENDIAN);
+				if (sync == defs.getSwappedWord()) {
 					buffer.order(ByteOrder.LITTLE_ENDIAN);
+				} else { //Check alternative sync words
+					List<Long> alternativeSyncNumbers = defs.getAlternativeSyncNumbers();
+					List<Long> alternativeSyncNumbersReversed = defs.getAlternativeSyncNumbersReversed();
+					for (int i = 0; i < alternativeSyncNumbers.size(); i++) {
+						if (sync == alternativeSyncNumbers.get(i) || sync == alternativeSyncNumbersReversed.get(i)) {
+							buffer.order(sync == alternativeSyncNumbers.get(i) ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN);
+							break;
+						}
+					}
+				}
 			} else {
 				buffer.position(buffer.position() + 2);
 			}

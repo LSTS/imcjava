@@ -31,6 +31,9 @@
 package pt.lsts.imc.net;
 
 import java.net.InetSocketAddress;
+import java.nio.ByteOrder;
+import java.util.LinkedList;
+import java.util.List;
 
 import pt.lsts.imc.IMCDefinition;
 import pt.lsts.imc.IMCUtil;
@@ -54,10 +57,26 @@ public class MessagePacket {
         this.data = data;
         this.length = length;
         int  sync= ((data[0]&0xFF)<<8) | (data[1]&0xFF);
-        if (sync == def.getSyncWord())
-            mgid = ((data[idOffset]&0xFF)<<8) | (data[idOffset+1]&0xFF);        
-        else if (sync == def.getSwappedWord())
-            mgid = ((data[idOffset+1]&0xFF)<<8) | (data[idOffset]&0xFF);
+        if (sync == def.getSyncWord()) {
+            mgid = ((data[idOffset] & 0xFF) << 8) | (data[idOffset + 1] & 0xFF);
+        }
+        else if (sync == def.getSwappedWord()) {
+            mgid = ((data[idOffset + 1] & 0xFF) << 8) | (data[idOffset] & 0xFF);
+        }
+        else {
+            // Check alternative sync words
+            List<Long> alternativeSyncNumbers = def.getAlternativeSyncNumbers();
+            List<Long> alternativeSyncNumbersReversed = def.getAlternativeSyncNumbersReversed();
+            for (int i = 0; i < alternativeSyncNumbers.size(); i++) {
+                if (sync == alternativeSyncNumbers.get(i) || sync == alternativeSyncNumbersReversed.get(i)) {
+                    if (sync == alternativeSyncNumbers.get(i))
+                        mgid = ((data[idOffset]&0xFF)<<8) | (data[idOffset+1]&0xFF);
+                    else
+                        mgid = ((data[idOffset+1]&0xFF)<<8) | (data[idOffset]&0xFF);
+                    break;
+                }
+            }
+        }
         this.time = time;
         address = addr;
     }

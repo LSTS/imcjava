@@ -38,6 +38,7 @@ import java.io.InputStream;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
+import java.nio.file.Files;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -300,12 +301,17 @@ public class ImcData {
 		
 		sorted = false;
 	}
-	
+
 	public void asLsf(File output) throws IOException {
-		IMCOutputStream ios = new IMCOutputStream(new FileOutputStream(output));
+		// Write message to the output stream with the def sync number
+		asLsf(output, -1);
+	}
+
+	public void asLsf(File output, long forceSyncNumber) throws IOException {
+		IMCOutputStream ios = new IMCOutputStream(Files.newOutputStream(output.toPath()));
 		
 		for (IMCMessage m : allMessages) {
-			m.serialize(defs, ios);
+			m.serialize(defs, ios, forceSyncNumber);
 		}
 				
 		ios.close();
