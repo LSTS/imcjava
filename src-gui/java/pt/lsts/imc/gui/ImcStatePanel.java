@@ -68,7 +68,7 @@ public class ImcStatePanel extends JPanel {
     protected JList<String> messagesList;
     protected JPanel mainPanel = new JPanel();
     protected ImcSystemState state;
-    protected JTabbedPane tabs = new JTabbedPane();
+    protected JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
     protected IMCMessage lastMsg = null;
     protected Timer timer = null;
     protected StateListModel stateListModel = null;
