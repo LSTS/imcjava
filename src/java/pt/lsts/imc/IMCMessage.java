@@ -874,8 +874,8 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 		return 0;
 	}
 
-	protected DecimalFormat format = new DecimalFormat("#.000");
-	protected DecimalFormat doubleFormat = new DecimalFormat("0.00000000");
+	protected DecimalFormat format = new DecimalFormat("#.0##");
+	protected DecimalFormat doubleFormat = new DecimalFormat("0.0#######");
 
 	public String getString(String field, boolean addUnits) {
 		// if (field.equals("timestamp"))
@@ -902,7 +902,7 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 				}
 				ret = ret.replaceAll("null\\|", "");
 				ret = ret.replaceAll("\\|null", "");
-				if (ret.length() > 0) // remove last "|"
+				if (!ret.isEmpty()) // remove last "|"
 					ret = ret.substring(0, ret.length() - 1);
 				return ret;
 			}
@@ -915,9 +915,11 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 			if (buf.length > 10)
 				sb.append("...");
 			return sb.toString();
-		} else if (o instanceof Double) {
-			return doubleFormat.format((Double) o);
-		} else if (o instanceof IMCMessage) {
+		}
+//		else if (o instanceof Double) {
+//			return doubleFormat.format((Double) o);
+//		}
+		else if (o instanceof IMCMessage) {
 			return "%INLINE{"
 					+ (((IMCMessage) o).getMessageType() != null ? ((IMCMessage) o)
 							.getMessageType().getShortName() : "NULL") + "}";
@@ -932,14 +934,18 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 			if (!vec.isEmpty())
 				ret = ret.substring(0, ret.length() - 2);
 			return ret + "]";
-		} else if ("rad"
+		} else if (o instanceof Number && "rad"
 				.equalsIgnoreCase(getMessageType().getFieldUnits(field))) {
-			return addUnits ? Math.toDegrees(((Number) o).doubleValue())
+			return addUnits ? doubleFormat.format(Math.toDegrees(((Number) o).doubleValue()))
 					+ " deg" : o.toString();
-		} else if ("rad/s".equalsIgnoreCase(getMessageType().getFieldUnits(
+		} else if (o instanceof Number && "rad/s".equalsIgnoreCase(getMessageType().getFieldUnits(
 				field))) {
-			return addUnits ? Math.toDegrees(((Number) o).doubleValue())
+			return addUnits ? doubleFormat.format(Math.toDegrees(((Number) o).doubleValue()))
 					+ " deg/s" : o.toString();
+		} else if (o instanceof Double || o instanceof Float) {
+			return doubleFormat.format(o instanceof Double ? (Double) o : (Float) o)
+					+ (addUnits && getMessageType().getFieldUnits(field) != null
+					? " " + getMessageType().getFieldUnits(field) : "");
 		}
 		if (getMessageType().getFieldUnits(field) == null)
 			return o.toString();

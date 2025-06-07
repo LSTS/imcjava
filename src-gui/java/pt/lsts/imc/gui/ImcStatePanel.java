@@ -297,6 +297,9 @@ public class ImcStatePanel extends JPanel {
 //        long startMillis = System.currentTimeMillis();
 //        
         EstimatedState hb = new EstimatedState();
+        hb.setLat(Math.toRadians(41.38376283682638));
+        hb.setLon(Math.toRadians(-9));
+        hb.setPhi(Math.toRadians(20));
 //        for (int i = 0; i < index.getNumberOfMessages(); i++) {
 //            double curTime = (System.currentTimeMillis() - startMillis)/1000.0 + start;
 //            IMCMessage m = index.getMessage(i);
