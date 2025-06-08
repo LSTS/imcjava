@@ -141,9 +141,18 @@ public class IMCMessageType {
         else {
             offsets.put(abbrv, IMCMessageType.UNKNOWN_SIZE);			
         }
-        if (unit != null)
-            units.put(abbrv, unit.toLowerCase());
-
+        if (unit != null) {
+            switch (unit) {
+                case "Enumerated":
+                case "List":
+                case "Bitfield":
+                case "TupleList":
+                    unit = unit.toLowerCase();
+                    break;
+                default:
+            }
+            units.put(abbrv, unit);
+        }
 
         if (fieldType.toLowerCase().startsWith("uint") ||
                 fieldType.toLowerCase().startsWith("int")) {
