@@ -409,7 +409,11 @@ public class IMCUtil {
 	        }
 
             if ("tuplelist".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
-                value = value.replaceAll(";", "; ");
+                if (value.contains(";")) {
+                    value = value.replaceAll(";", "; ");
+                } else {
+                    value = value.replaceAll(",", ", ");
+                }
             } else if ("list".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
                 value = value.replaceAll(",", ", ");
             } else if ("enumerated".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
