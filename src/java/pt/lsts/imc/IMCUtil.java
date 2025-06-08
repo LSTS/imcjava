@@ -407,8 +407,23 @@ public class IMCUtil {
                 
 	            value += "</tr></table>";
 	        }
-	        
-	        ret += "<tr><td align=center width=225 style='border-bottom: 1px dotted #d00;'>" +
+
+            if ("tuplelist".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
+                value = value.replaceAll(";", "; ");
+            } else if ("list".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
+                value = value.replaceAll(",", ", ");
+            } else if ("enumerated".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
+                value = value.replaceAll("\\|", " | ");
+            } else if ("bitfield".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
+                value = value.replaceAll("\\|", " | ");
+            } else if (IMCFieldType.TYPE_PLAINTEXT.toString().equalsIgnoreCase(msg.getTypeOf(fieldName))
+                    && (msg.getUnitsOf(fieldName) == null || "".equalsIgnoreCase(msg.getUnitsOf(fieldName)))) {
+                value = value.replaceAll("([^ ]);([^ ])", "$1; $2");
+                value = value.replaceAll("([^ ]),([^ ])", "$1, $2");
+                value = value.replaceAll("([^ ])\\|([^ ])", "$1 | $2");
+            }
+
+            ret += "<tr><td align=center width=225 style='border-bottom: 1px dotted #d00;'>" +
                     fieldName+"</td><td width=225 style='border-bottom: 1px dotted #d00;'>" +
                     value + "</td></tr>";
 	    }	    
