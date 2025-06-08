@@ -88,12 +88,14 @@ public class ImcStatePanel extends JPanel {
         add(new JScrollPane(messagesList), BorderLayout.WEST);
         
         messagesList.addListSelectionListener(new ListSelectionListener() {
-            
+
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 selectedMessage = messagesList.getSelectedValue().toString();
+                int sIdx = tabs.getSelectedIndex();
+                String selectedItem = sIdx >= 0 ? tabs.getTitleAt(sIdx) : null;
                 tabs.removeAll();
-                
+
                 LinkedHashMap<String, IMCMessage> msgs = new LinkedHashMap<String, IMCMessage>();
 
                 IMCMessage[] lst = ImcStatePanel.this.state.get(selectedMessage, IMCMessage[].class);
@@ -112,9 +114,25 @@ public class ImcStatePanel extends JPanel {
                             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
                     sp.setVerticalScrollBarPolicy(enableScrollBars ? JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED :
                             JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-                    tabs.add(m.getKey(), sp);
+
+                    //tabs.add(m.getKey(), sp);
+                    addTabOrdered(tabs, m.getKey(), sp);
+                    if (m.getKey().equals(selectedItem)) {
+                        tabs.setSelectedComponent(sp);
+                    }
                 }
-                
+            }
+
+            private synchronized void addTabOrdered(JTabbedPane tabs, String key, JScrollPane sp) {
+                int index = 0;
+                for (int i = 0; i < tabs.getTabCount(); i++) {
+                    index = i + 1;
+                    if (key.compareTo(tabs.getTitleAt(i)) <= 0) {
+                        index = i;
+                        break;
+                    }
+                }
+                tabs.insertTab(key, null, sp, null, index);
             }
         });
         
