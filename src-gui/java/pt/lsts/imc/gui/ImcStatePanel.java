@@ -76,10 +76,10 @@ public class ImcStatePanel extends JPanel {
     private String selectedMessage = null;
 
     public ImcStatePanel(ImcSystemState state) {
-        this(state, true);
+        this(state, true, true);
     }
 
-    public ImcStatePanel(ImcSystemState state, boolean enableScrollBars) {
+    public ImcStatePanel(ImcSystemState state, boolean enableScrollBars, boolean addTabsOrdered) {
         this.state = state;
         setLayout(new BorderLayout());
         stateListModel = new StateListModel(state);
@@ -116,8 +116,11 @@ public class ImcStatePanel extends JPanel {
                     sp.setVerticalScrollBarPolicy(enableScrollBars ? JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED :
                             JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 
-                    //tabs.add(m.getKey(), sp);
-                    addTabOrdered(tabs, m.getKey(), sp);
+                    if (addTabsOrdered) {
+                        addTabOrdered(tabs, m.getKey(), sp);
+                    } else {
+                        tabs.add(m.getKey(), sp);
+                    }
                     if (m.getKey().equals(selectedItem)) {
                         tabs.setSelectedComponent(sp);
                     }
