@@ -73,8 +73,12 @@ public class ImcStatePanel extends JPanel {
     protected Timer timer = null;
     protected StateListModel stateListModel = null;
     private String selectedMessage = null;
-    
+
     public ImcStatePanel(ImcSystemState state) {
+        this(state, true);
+    }
+
+    public ImcStatePanel(ImcSystemState state, boolean enableScrollBars) {
         this.state = state;
         setLayout(new BorderLayout());
         stateListModel = new StateListModel(state);
@@ -103,7 +107,12 @@ public class ImcStatePanel extends JPanel {
                     html.setHorizontalAlignment(JLabel.CENTER);
                     html.setBackground(Color.white);
                     html.setOpaque(true);
-                    tabs.add(m.getKey(), new JScrollPane(html));            
+                    JScrollPane sp = new JScrollPane(html);
+                    sp.setHorizontalScrollBarPolicy(enableScrollBars ? JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED :
+                            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                    sp.setVerticalScrollBarPolicy(enableScrollBars ? JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED :
+                            JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+                    tabs.add(m.getKey(), sp);
                 }
                 
             }
