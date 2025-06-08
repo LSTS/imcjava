@@ -34,6 +34,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.Collator;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -124,10 +125,11 @@ public class ImcStatePanel extends JPanel {
             }
 
             private synchronized void addTabOrdered(JTabbedPane tabs, String key, JScrollPane sp) {
+                Collator collator = Collator.getInstance();
                 int index = 0;
                 for (int i = 0; i < tabs.getTabCount(); i++) {
                     index = i + 1;
-                    if (key.compareTo(tabs.getTitleAt(i)) <= 0) {
+                    if (collator.compare(key, tabs.getTitleAt(i)) <= 0) {
                         index = i;
                         break;
                     }
