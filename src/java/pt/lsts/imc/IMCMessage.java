@@ -886,8 +886,8 @@ public class IMCMessage implements IMessage, Comparable<IMCMessage> {
 			return null;
 		else if (o instanceof Number
 				&& getMessageType().getFieldPossibleValues(field) != null) {
-			if (getUnitsOf(field).equals("tuplelist")
-					|| getUnitsOf(field).equals("enumerated"))
+			if (getUnitsOf(field) != null && (getUnitsOf(field).equals("tuplelist")
+					|| getUnitsOf(field).equals("enumerated")))
 				return getMessageType().getFieldPossibleValues(field).get(
 						((Number) o).longValue());
 			else {
