@@ -87,14 +87,14 @@ public class Conductivity extends IMCMessage {
 	}
 
 	/**
-	 *  @return Measured Conductivity (s/m) - fp32_t
+	 *  @return Measured Conductivity (S/m) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Measured Conductivity (s/m)
+	 *  @param value Measured Conductivity (S/m)
 	 */
 	public Conductivity setValue(double value) {
 		values.put("value", value);

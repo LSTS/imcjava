@@ -87,14 +87,14 @@ public class Pressure extends IMCMessage {
 	}
 
 	/**
-	 *  @return Measured Pressure (hpa) - fp64_t
+	 *  @return Measured Pressure (hPa) - fp64_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Measured Pressure (hpa)
+	 *  @param value Measured Pressure (hPa)
 	 */
 	public Pressure setValue(double value) {
 		values.put("value", value);

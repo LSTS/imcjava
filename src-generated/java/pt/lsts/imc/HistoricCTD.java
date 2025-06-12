@@ -89,14 +89,14 @@ public class HistoricCTD extends IMCMessage {
 	}
 
 	/**
-	 *  @return Conductivity (s/m) - fp32_t
+	 *  @return Conductivity (S/m) - fp32_t
 	 */
 	public double getConductivity() {
 		return getDouble("conductivity");
 	}
 
 	/**
-	 *  @param conductivity Conductivity (s/m)
+	 *  @param conductivity Conductivity (S/m)
 	 */
 	public HistoricCTD setConductivity(double conductivity) {
 		values.put("conductivity", conductivity);
@@ -104,14 +104,14 @@ public class HistoricCTD extends IMCMessage {
 	}
 
 	/**
-	 *  @return Temperature (°c) - fp32_t
+	 *  @return Temperature (°C) - fp32_t
 	 */
 	public double getTemperature() {
 		return getDouble("temperature");
 	}
 
 	/**
-	 *  @param temperature Temperature (°c)
+	 *  @param temperature Temperature (°C)
 	 */
 	public HistoricCTD setTemperature(double temperature) {
 		values.put("temperature", temperature);

@@ -106,14 +106,14 @@ public class ADCPBeam extends IMCMessage {
 	}
 
 	/**
-	 *  @return Amplitude (db) - fp32_t
+	 *  @return Amplitude (dB) - fp32_t
 	 */
 	public double getAmp() {
 		return getDouble("amp");
 	}
 
 	/**
-	 *  @param amp Amplitude (db)
+	 *  @param amp Amplitude (dB)
 	 */
 	public ADCPBeam setAmp(double amp) {
 		values.put("amp", amp);

@@ -213,14 +213,14 @@ public class SonarData extends IMCMessage {
 	}
 
 	/**
-	 *  @return Frequency (hz) - uint32_t
+	 *  @return Frequency (Hz) - uint32_t
 	 */
 	public long getFrequency() {
 		return getLong("frequency");
 	}
 
 	/**
-	 *  @param frequency Frequency (hz)
+	 *  @param frequency Frequency (Hz)
 	 */
 	public SonarData setFrequency(long frequency) {
 		values.put("frequency", frequency);

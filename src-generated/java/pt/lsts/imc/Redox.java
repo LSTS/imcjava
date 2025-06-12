@@ -87,14 +87,14 @@ public class Redox extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value (v) - fp32_t
+	 *  @return Value (V) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (v)
+	 *  @param value Value (V)
 	 */
 	public Redox setValue(double value) {
 		values.put("value", value);

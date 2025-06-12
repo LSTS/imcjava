@@ -87,14 +87,14 @@ public class FluorescentDissolvedOrganicMatter extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value (ppb) - fp32_t
+	 *  @return Value (PPB) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (ppb)
+	 *  @param value Value (PPB)
 	 */
 	public FluorescentDissolvedOrganicMatter setValue(double value) {
 		values.put("value", value);

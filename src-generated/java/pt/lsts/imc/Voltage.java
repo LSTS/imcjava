@@ -87,14 +87,14 @@ public class Voltage extends IMCMessage {
 	}
 
 	/**
-	 *  @return Measured Voltage Value (v) - fp32_t
+	 *  @return Measured Voltage Value (V) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Measured Voltage Value (v)
+	 *  @param value Measured Voltage Value (V)
 	 */
 	public Voltage setValue(double value) {
 		values.put("value", value);

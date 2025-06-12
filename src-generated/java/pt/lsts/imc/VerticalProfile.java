@@ -47,9 +47,10 @@ public class VerticalProfile extends IMCMessage {
 		TURBIDITY(6),
 		CURRENT_VELOCITY_U(7),
 		CURRENT_VELOCITY_V(8),
-		ABSOLUTE_WIND(9),
-		DISS_ORGANIC_MATTER(10),
-		DISS_OXYGEN(11);
+		ABSOLUTE_WIND_AVG(9),
+		ABSOLUTE_WIND_MAX(10),
+		DISS_ORGANIC_MATTER(11),
+		DISS_OXYGEN(12);
 
 		protected long value;
 

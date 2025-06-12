@@ -87,14 +87,14 @@ public class Force extends IMCMessage {
 	}
 
 	/**
-	 *  @return Measured Force (n) - fp32_t
+	 *  @return Measured Force (N) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Measured Force (n)
+	 *  @param value Measured Force (N)
 	 */
 	public Force setValue(double value) {
 		values.put("value", value);

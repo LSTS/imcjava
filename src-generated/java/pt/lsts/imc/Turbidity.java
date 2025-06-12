@@ -87,14 +87,14 @@ public class Turbidity extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value (ntu) - fp32_t
+	 *  @return Value (NTU) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (ntu)
+	 *  @param value Value (NTU)
 	 */
 	public Turbidity setValue(double value) {
 		values.put("value", value);

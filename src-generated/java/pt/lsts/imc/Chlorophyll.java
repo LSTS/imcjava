@@ -87,14 +87,14 @@ public class Chlorophyll extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value (µg/l) - fp32_t
+	 *  @return Value (µg/L) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (µg/l)
+	 *  @param value Value (µg/L)
 	 */
 	public Chlorophyll setValue(double value) {
 		values.put("value", value);

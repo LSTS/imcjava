@@ -87,14 +87,14 @@ public class DissolvedOxygen extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value (µm) - fp32_t
+	 *  @return Value (µM) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (µm)
+	 *  @param value Value (µM)
 	 */
 	public DissolvedOxygen setValue(double value) {
 		values.put("value", value);

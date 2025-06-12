@@ -86,14 +86,14 @@ public class Frequency extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value (hz) - fp32_t
+	 *  @return Value (Hz) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (hz)
+	 *  @param value Value (Hz)
 	 */
 	public Frequency setValue(double value) {
 		values.put("value", value);

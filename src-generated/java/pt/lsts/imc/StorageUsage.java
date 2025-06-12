@@ -88,14 +88,14 @@ public class StorageUsage extends IMCMessage {
 	}
 
 	/**
-	 *  @return Available (mib) - uint32_t
+	 *  @return Available (MiB) - uint32_t
 	 */
 	public long getAvailable() {
 		return getLong("available");
 	}
 
 	/**
-	 *  @param available Available (mib)
+	 *  @param available Available (MiB)
 	 */
 	public StorageUsage setAvailable(long available) {
 		values.put("available", available);

@@ -87,14 +87,14 @@ public class RamUsage extends IMCMessage {
 	}
 
 	/**
-	 *  @return Ussage (kib) - fp64_t
+	 *  @return Ussage (KiB) - fp64_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Ussage (kib)
+	 *  @param value Ussage (KiB)
 	 */
 	public RamUsage setValue(double value) {
 		values.put("value", value);
