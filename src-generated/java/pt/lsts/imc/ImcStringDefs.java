@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "a80aad5f232d97d310b3d90513af6ddabf689c89";
-	public static final String IMC_BRANCH = "a80aad5";
-	public static final String IMC_COMMIT = "Bernardo Gabriel (bernardo.gabriel@lsts.pt), 2025-06-11T10:35:49Z, https://github.com/LSTS/imc/commit/a80aad5f232d97d310b3d90513af6ddabf689c89, Distinguish Absolute Wind, in VerticalProfile message, between Average and Maximum.";
+	public static final String IMC_SHA = "b51f3dd340b7a22d875f9420d7edd786d2b2e49c";
+	public static final String IMC_BRANCH = "b51f3dd";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2025-06-16T14:36:33Z, https://github.com/LSTS/imc/commit/b51f3dd340b7a22d875f9420d7edd786d2b2e49c, Change current U and V to North ans East (because in meteorology U is East and V is North).";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
