@@ -453,6 +453,28 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	}
 
 	/**
+	 * Read a message header from the given IMCInputStream
+	 * This method will create a new Header object checking the
+	 * sync word and endianness (setting endianness in the stream).
+	 *
+	 * @param iis
+	 *            Where to read the header from
+	 * @return The read header
+	 * @throws IOException
+	 *             In case of any IO error (like end of input)
+	 */
+	public Header readHeader(IMCInputStream iis) throws IOException {
+		Header header = createHeader();
+		// Let us try to check if the first byte could be the synch number
+		// This avoids desynchronization if we are reading a continuous stream with errors
+		long sync = getSyncNumberAndSetEndianness(iis);
+		// if we are here, we have a valid sync word
+		header.setValue("sync", syncWord);
+		deserializeAllFieldsBut(header, iis, "sync");
+		return header;
+	}
+
+	/**
 	 * Retrieve the next message from the given IMCInputStream
 	 * 
 	 * @param input
@@ -467,26 +489,8 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 
 		// Let us try to check if the first byte could be the synch number
 		// This avoids desynchronization if we are reading a continuous stream with errors
-		long syncFirstByte = input.readUnsignedByte();
-		if (!(syncFirstByte == ((syncWord & 0xFF00) >> 8)
-		        || syncFirstByte == ((swappedWord & 0xFF00) >> 8))) {
-			// If we are here probably this is not a synch word
-			if (input.available() == 0 && syncFirstByte == 0xFF)
-				return null;
-			else
-				throw new IOException("Unrecognized Sync word: "
-                    + String.format("%02X", syncFirstByte) + "??");
-		}
-		
-		long sync = ((syncFirstByte & 0xFF) << 8) + input.readUnsignedByte(); // input.readUnsignedShort();
-		if (sync == syncWord)
-			input.setBigEndian(true);
-		else if (sync == swappedWord)
-			input.setBigEndian(false);
-		else
-			throw new IOException("Unrecognized Sync word: "
-					+ String.format("%02X", sync));
-
+		long sync = getSyncNumberAndSetEndianness(input);
+		// if we are here, we have a valid sync word
 		header.setValue("sync", syncWord);
 
 		deserializeAllFieldsBut(header, input, "sync");
@@ -505,6 +509,27 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 			input.skip(header.getInteger("size") + 2);
 			return nextMessage(input);
 		}
+	}
+
+	private long getSyncNumberAndSetEndianness(IMCInputStream input) throws IOException {
+		long syncFirstByte = input.readUnsignedByte();
+		if (!(syncFirstByte == ((syncWord & 0xFF00) >> 8)
+		        || syncFirstByte == ((swappedWord & 0xFF00) >> 8))) {
+			// If we are here probably this is not a synch word
+			if (input.available() == 0 && syncFirstByte == 0xFF)
+				throw new IOException("Unrecognized Sync word: input size left not enough to read the sync.");
+			else
+				throw new IOException("Unrecognized Sync word: " + String.format("%02X", syncFirstByte) + "??");
+		}
+
+		long sync = ((syncFirstByte & 0xFF) << 8) + input.readUnsignedByte(); // input.readUnsignedShort();
+		if (sync == syncWord)
+			input.setBigEndian(true);
+		else if (sync == swappedWord)
+			input.setBigEndian(false);
+		else
+			throw new IOException("Unrecognized Sync word: " + String.format("%02X", sync));
+		return sync;
 	}
 
 	/**
