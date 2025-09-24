@@ -43,10 +43,12 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.Vector;
@@ -968,6 +970,8 @@ public class LsfIndex {
 	protected void loadEntities() {
 		loadSystems();
 
+		List<Integer> alreadyStartLoadingEntityInfo = new ArrayList<>();
+
 		int type = defs.getMessageId("EntityInfo");
 		for (int i = getFirstMessageOfType(type); i != -1; i = getNextMessageOfType(type, i)) {
 			// Let's check if we already have it
@@ -976,12 +980,13 @@ public class LsfIndex {
 			if (!(systemEntityIds.containsKey(src))) {
 				systemEntityIds.put(src, new LinkedHashMap<String, Integer>());
 				systemEntityNames.put(src, new LinkedHashMap<Integer, String>());
-			} else if (!systemEntityIds.get(src).isEmpty() && !systemEntityNames.get(src).isEmpty()) {
+			} else if (!alreadyStartLoadingEntityInfo.contains(src) && !systemEntityIds.get(src).isEmpty() && !systemEntityNames.get(src).isEmpty()) {
 				continue;
 			}
 
-			IMCMessage einfo = getMessage(i);
+			alreadyStartLoadingEntityInfo.add(src);
 
+			IMCMessage einfo = getMessage(i);
 			src = einfo.getInteger("src");
 
 			systemEntityIds.get(src).put(einfo.getString("label"), einfo.getInteger("id"));
