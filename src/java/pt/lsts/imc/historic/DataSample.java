@@ -209,11 +209,11 @@ public class DataSample implements Comparable<DataSample> {
 	public int compareTo(DataSample o) {
 		if (o.getPriority() == getPriority()) {
 			if (o.getSource() == getSource() && o.getSample().getMgid() == getSample().getMgid()) {
-				return new Long(Math.round(getTimestampMillis()/250.0)).compareTo(Math.round(o.getTimestampMillis()/250.0));
+				return Long.valueOf(Math.round(getTimestampMillis()/250.0)).compareTo(Math.round(o.getTimestampMillis()/250.0));
 			}
-			return new Long(getTimestampMillis()).compareTo(o.getTimestampMillis());
+			return Long.valueOf(getTimestampMillis()).compareTo(o.getTimestampMillis());
 		}
-		return new Byte(getPriority()).compareTo(o.getPriority());						
+		return Byte.valueOf(getPriority()).compareTo(o.getPriority());
 	}
 	
 	@Override

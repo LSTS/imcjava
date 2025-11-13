@@ -169,7 +169,7 @@ public class UnserializedMessage implements Comparable<UnserializedMessage> {
 	
 	@Override
 	public int compareTo(UnserializedMessage o) {
-		return new Double(getTimestamp()).compareTo(o.getTimestamp());
+		return Double.valueOf(getTimestamp()).compareTo(o.getTimestamp());
 	}
 	
 }
