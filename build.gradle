@@ -113,6 +113,7 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
             dependsOn project(":core").getTasksByName("dist", true)
 
             def projectExt = project.ext
+            def projectCoreJarArchiveFle = project(':core').dist.archiveFile
 
             if (otherProjectsToPackToDistList != null)
                 dependsOn otherProjectsToPackToDistList.collect { it.jar }
@@ -152,7 +153,7 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
                     exclude "module-info.class"
                 } } }
             if (excludeCore != null && !excludeCore)
-                from { zipTree(project(':core').dist.archivePath) }
+                from { zipTree(projectCoreJarArchiveFle.get().getAsFile()) }
             with jar
             archiveBaseName = jarBaseName ?: taskName
             //archiveVersion = ''
