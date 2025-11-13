@@ -177,10 +177,19 @@ task updateImc {
     group = 'Generator'
     dependsOn = [deleteImcAddr]
     dependsOn += downloadImc
-    if (gradle.ext.imcDownloadIMCAddresses == 'true')
+    project(':core').processResources.configure {
+        dependsOn += downloadImc
+    }
+    if (gradle.ext.imcDownloadIMCAddresses == 'true') {
         dependsOn += downloadImcAddr
-    else
+        project(':core').processResources.configure {
+            dependsOn += downloadImcAddr
+        }
+
+    }
+    else {
         dependsOn += deleteImcAddr
+    }
     dependsOn += generateMessages
 }
 
