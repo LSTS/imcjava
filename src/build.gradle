@@ -38,12 +38,13 @@ sourceSets {
  }
 
 jar {
+    def projectExt = project.ext
     manifest {
         attributes( 'Specification-Title': rootProject.name
                    ,'Specification-Version': project.version
                    ,'Implementation-Title': jar.archiveBaseName
                    ,'Implementation-Version': project.version
-                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> projectExt.gitProps['git.commit.id.describe']}"
                    ,'Automatic-Module-Name': automaticModuleName
                    ,'Main-Class': 'pt.lsts.imc.IMCDefinition'
                    )
@@ -57,6 +58,8 @@ task dist (type: Jar) {
     description = "Generate $jar.archiveBaseName for IMC API"
     group = 'Distribution'
 
+    def projectExt = project.ext
+
     dependsOn otherProjectsToPackToDistList.collect { it.jar }
 
     // We need this because of the gathering of other projects
@@ -66,7 +69,7 @@ task dist (type: Jar) {
                    ,'Specification-Version': project.version
                    ,'Implementation-Title': jar.archiveBaseName
                    ,'Implementation-Version': project.version
-                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> projectExt.gitProps['git.commit.id.describe']}"
                    ,'Automatic-Module-Name': automaticModuleName
                    ,'Build-Jdk': System.properties['java.version']
                    ,'Main-Class': 'pt.lsts.imc.IMCDefinition'
