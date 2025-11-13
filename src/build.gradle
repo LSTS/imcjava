@@ -54,7 +54,8 @@ jar {
     from sourceSets.main.java.srcDirs
 }
 
-task dist (type: Jar) {
+// register dist lazily as a TaskProvider
+def distTask = tasks.register('dist', Jar) {
     description = "Generate $jar.archiveBaseName for IMC API"
     group = 'Distribution'
 
@@ -119,8 +120,11 @@ task dist (type: Jar) {
 //     }
 // }
 
-artifacts {
-    libImcJar(dist)
+// register the task artifact as an outgoing artifact using the TaskProvider
+configurations.named('libImcJar') {
+    canBeConsumed = true
+    canBeResolved = false
+    outgoing.artifact(distTask)
 }
 
 task coreTools {
