@@ -14,10 +14,11 @@ task generateMessages(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'pt.lsts.imc.generator.ClassGenerator'
     workingDir = "$parent.rootDir"
-    // arguments to pass to the application
-    args = ["${-> project.ext.imcXmlPath}"]
 
     def projectExt = project.ext
+
+    // arguments to pass to the application
+    args = ["${-> projectExt.imcXmlPath}"]
 
     doFirst {
         if (projectExt.has("imcXmlSha"))
@@ -103,24 +104,25 @@ task prepImcFolderEnv {
 }
 
 task checkIMCFolderGit {
+    def projectExt = project.ext
     doFirst {
-        if (!file("${project.ext.imcXmlPath}/IMC.xml").exists())
-            throw new FileNotFoundException("No IMC.xml on '${project.ext.imcXmlPath}'")
+        if (!file("${projectExt.imcXmlPath}/IMC.xml").exists())
+            throw new FileNotFoundException("No IMC.xml on '${projectExt.imcXmlPath}'")
 
         copy {
-            from "${project.ext.imcXmlPath}/IMC.xml"
+            from "${projectExt.imcXmlPath}/IMC.xml"
             into "${parent.rootDir}/src-generated/resources/xml"
         }
 
-        def folder = new File("${project.ext.imcXmlPath}/.git")
+        def folder = new File("${projectExt.imcXmlPath}/.git")
         if (!folder.exists()) {
-            project.ext.imcXmlSha = "unknown sha"
-            project.ext.imcXmlBranch = "unknown branch"
-            project.ext.imcXmlCommitNote = "unknown commit notes"
+            projectExt.imcXmlSha = "unknown sha"
+            projectExt.imcXmlBranch = "unknown branch"
+            projectExt.imcXmlCommitNote = "unknown commit notes"
 
             File shaFile = new File("${parent.rootDir}/src-generated/resources/xml/IMC.sha")
-            shaFile.text = "$project.ext.imcXmlSha" +
-                    "\n" + "$project.ext.imcXmlBranch" +
+            shaFile.text = "$projectExt.imcXmlSha" +
+                    "\n" + "$projectExt.imcXmlBranch" +
                     "\n" + "From local folder not on Git";
 
             getGitPropsFromFolder.enabled = false
