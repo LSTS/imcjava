@@ -81,6 +81,10 @@ public class LsfIndex {
 	 */
 
 	protected static final String FILENAME = "mra/lsf.index";
+    public static final char INDEX_CHAR_I = 'I';
+    public static final char INDEX_CHAR_D = 'D';
+    public static final char INDEX_CHAR_X = 'X';
+    public static final char INDEX_CHAR_1 = '1';
 
 	protected IMCDefinition defs;
 
@@ -263,8 +267,8 @@ public class LsfIndex {
 		indexSize = new File(lsfFile.getParent(), FILENAME).length();
 		indexChannel = indexInputStream.getChannel();
 		index = indexChannel.map(MapMode.READ_ONLY, 0, indexSize);
-		if (index.get() != 'I' || index.get() != 'D' || index.get() != 'X'
-				|| index.get() != '1') {
+		if (index.get() != INDEX_CHAR_I || index.get() != INDEX_CHAR_D || index.get() != INDEX_CHAR_X
+				|| index.get() != INDEX_CHAR_1) {
 			throw new Exception(
 					"The index file is not valid. Please regenerate the index.");
 		}
@@ -611,7 +615,7 @@ public class LsfIndex {
 			time = buffer.getBuffer().getDouble();
 
 			if (pos == 0) {
-				dos.write(new byte[] { 'I', 'D', 'X', '1' });
+				dos.write(new byte[] {INDEX_CHAR_I, INDEX_CHAR_D, INDEX_CHAR_X, INDEX_CHAR_1});
 				dos.writeDouble(time);
 				startTime = time;
 			}
