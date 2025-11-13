@@ -16,10 +16,12 @@ task generateMessages(type: JavaExec) {
     workingDir = "$parent.rootDir"
     // arguments to pass to the application
     args = ["${-> project.ext.imcXmlPath}"]
-    
+
+    def projectExt = project.ext
+
     doFirst {
-        if (project.ext.has("imcXmlSha"))
-            args = ["${-> project.ext.imcXmlPath}", "${-> project.ext.imcXmlSha}", "${-> project.ext.imcXmlBranch}", "${-> project.ext.imcXmlCommitNote}"]
+        if (projectExt.has("imcXmlSha"))
+            args = ["${-> projectExt.imcXmlPath}", "${-> projectExt.imcXmlSha}", "${-> projectExt.imcXmlBranch}", "${-> projectExt.imcXmlCommitNote}"]
     }
 
     doLast {
@@ -34,6 +36,8 @@ task downloadImc(type: Download) {
     src "https://github.com/${gradle.ext.imcGitHubRepo}/raw/${gradle.ext.imcGitHubBranch}/IMC.xml"
     dest "${parent.rootDir}/src-generated/resources/xml/IMC.xml"
 
+    def projectExt = project.ext
+
     doLast {
         println("IMC.xml downloaded to '$dest'.")
         def sourceGitHub = "https://api.github.com/repos/${gradle.ext.imcGitHubRepo}/commits/${gradle.ext.imcGitHubBranch}";
@@ -44,14 +48,14 @@ task downloadImc(type: Download) {
                 "\n" + "$gradle.ext.imcGitHubBranch" +
                 "\n" + "url: $sourceGitHub";
         println("IMC SHA: ${commitInfo.sha}")
-        project.ext.imcXmlSha = "$commitInfo.sha"
+        projectExt.imcXmlSha = "$commitInfo.sha"
         def branchName = getBranchFromCommit()
-        project.ext.imcXmlBranch = branchName == null ? "$gradle.ext.imcGitHubBranch" : branchName
-        project.ext.imcXmlCommitNote = "${commitInfo.commit.author.name} (${commitInfo.commit.author.email}), " +
+        projectExt.imcXmlBranch = branchName == null ? "$gradle.ext.imcGitHubBranch" : branchName
+        projectExt.imcXmlCommitNote = "${commitInfo.commit.author.name} (${commitInfo.commit.author.email}), " +
                 "${commitInfo.commit.author.date}, " +
                 "${commitInfo.html_url}, " +
                 "${commitInfo.commit.message}"
-        project.ext.imcXmlPath = "${parent.rootDir}/src-generated/resources/xml"
+        projectExt.imcXmlPath = "${parent.rootDir}/src-generated/resources/xml"
     }
 }
 
