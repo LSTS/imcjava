@@ -12,7 +12,7 @@ dependencies {
 
 task generateMessages(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'pt.lsts.imc.generator.ClassGenerator'
+    mainClass = 'pt.lsts.imc.generator.ClassGenerator'
     workingDir = "$parent.rootDir"
     // arguments to pass to the application
     args = ["${-> project.ext.imcXmlPath}"]
