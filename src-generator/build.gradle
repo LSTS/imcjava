@@ -179,15 +179,21 @@ task updateImc {
     group = 'Generator'
     dependsOn = [deleteImcAddr]
     dependsOn += downloadImc
-    project(':core').processResources.configure {
-        dependsOn += downloadImc
+
+    def updateImcRequested = gradle.startParameter.taskNames.any { it?.toLowerCase() == 'updateimc' || it?.toLowerCase()?.endsWith(':updateimc') }
+    if (updateImcRequested) {
+        project(':core').processResources.configure {
+            dependsOn += downloadImc
+        }
     }
+
     if (gradle.ext.imcDownloadIMCAddresses == 'true') {
         dependsOn += downloadImcAddr
-        project(':core').processResources.configure {
-            dependsOn += downloadImcAddr
+        if (updateImcRequested) {
+            project(':core').processResources.configure {
+                dependsOn += downloadImcAddr
+            }
         }
-
     }
     else {
         dependsOn += deleteImcAddr
