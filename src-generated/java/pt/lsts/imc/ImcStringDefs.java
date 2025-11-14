@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "b51f3dd340b7a22d875f9420d7edd786d2b2e49c";
-	public static final String IMC_BRANCH = "b51f3dd";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2025-06-16T14:36:33Z, https://github.com/LSTS/imc/commit/b51f3dd340b7a22d875f9420d7edd786d2b2e49c, Change current U and V to North ans East (because in meteorology U is East and V is North).";
+	public static final String IMC_SHA = "73ce3498262dd3f94614983b7418e961bd49152e";
+	public static final String IMC_BRANCH = "master";
+	public static final String IMC_COMMIT = "Pedro Gonçalves (pedro@lsts.pt), 2025-08-26T13:48:13Z, https://github.com/LSTS/imc/commit/73ce3498262dd3f94614983b7418e961bd49152e, Add autonaut-01 address to IMC_Addresses.xml";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 
@@ -59,6 +59,9 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("lauv-xplore-4", 33);
 		IMC_ADDRESSES.put("lauv-xplore-5", 34);
 		IMC_ADDRESSES.put("lauv-nemo-1", 35);
+		IMC_ADDRESSES.put("lauv-xplore-6", 36);
+		IMC_ADDRESSES.put("lauv-xplore-7", 37);
+		IMC_ADDRESSES.put("lauv-xplore-8", 38);
 		IMC_ADDRESSES.put("lauv-simulator-1", 209);
 		IMC_ADDRESSES.put("apdr-1", 210);
 		IMC_ADDRESSES.put("rov-ies", 1025);
@@ -68,10 +71,13 @@ public class ImcStringDefs {
 		IMC_ADDRESSES.put("caravela", 2050);
 		IMC_ADDRESSES.put("otter", 2051);
 		IMC_ADDRESSES.put("caravel", 2052);
+		IMC_ADDRESSES.put("autonaut-01", 2053);
 		IMC_ADDRESSES.put("hermes", 2241);
 		IMC_ADDRESSES.put("hermes-desired", 2242);
 		IMC_ADDRESSES.put("hermes-target", 2243);
 		IMC_ADDRESSES.put("tex-wg", 2244);
+		IMC_ADDRESSES.put("waverider-1", 2250);
+		IMC_ADDRESSES.put("waverider-2", 2251);
 		IMC_ADDRESSES.put("pixhawk-testbed", 3072);
 		IMC_ADDRESSES.put("lusitania", 3073);
 		IMC_ADDRESSES.put("sedona", 3074);
