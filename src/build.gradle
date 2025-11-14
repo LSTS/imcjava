@@ -19,8 +19,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     //withSourcesJar()
 }
@@ -38,12 +38,13 @@ sourceSets {
  }
 
 jar {
+    def projectExt = project.ext
     manifest {
         attributes( 'Specification-Title': rootProject.name
                    ,'Specification-Version': project.version
                    ,'Implementation-Title': jar.archiveBaseName
                    ,'Implementation-Version': project.version
-                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> projectExt.gitProps['git.commit.id.describe']}"
                    ,'Automatic-Module-Name': automaticModuleName
                    ,'Main-Class': 'pt.lsts.imc.IMCDefinition'
                    )
@@ -53,9 +54,12 @@ jar {
     from sourceSets.main.java.srcDirs
 }
 
-task dist (type: Jar) {
+// register dist lazily as a TaskProvider
+def distTask = tasks.register('dist', Jar) {
     description = "Generate $jar.archiveBaseName for IMC API"
     group = 'Distribution'
+
+    def projectExt = project.ext
 
     dependsOn otherProjectsToPackToDistList.collect { it.jar }
 
@@ -66,7 +70,7 @@ task dist (type: Jar) {
                    ,'Specification-Version': project.version
                    ,'Implementation-Title': jar.archiveBaseName
                    ,'Implementation-Version': project.version
-                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                   ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> projectExt.gitProps['git.commit.id.describe']}"
                    ,'Automatic-Module-Name': automaticModuleName
                    ,'Build-Jdk': System.properties['java.version']
                    ,'Main-Class': 'pt.lsts.imc.IMCDefinition'
@@ -116,8 +120,11 @@ task dist (type: Jar) {
 //     }
 // }
 
-artifacts {
-    libImcJar(dist)
+// register the task artifact as an outgoing artifact using the TaskProvider
+configurations.named('libImcJar') {
+    canBeConsumed = true
+    canBeResolved = false
+    outgoing.artifact(distTask)
 }
 
 task coreTools {

@@ -403,43 +403,47 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 *             if end of the buffer is reached
 	 */
 	public IMCMessage nextMessage(ByteBuffer buff) throws Exception {
-
-		Header header = createHeader();
-		long sync = buff.getShort() & 0xFFFF;
-		if (sync == swappedWord)
-			buff.order(ByteOrder.LITTLE_ENDIAN);
-		else if (sync == syncWord)
-			header.setValue("sync", syncWord);
-		else {
-			System.err.printf(
-					"Found a message with invalid sync (%X) was skipped\n",
-					sync);
-			byte[] tmp = new byte[header.getInteger("size") + 2];
-			buff.get(tmp);
-			return nextMessage(buff);
-		}
-
-		deserializeAllFieldsBut(header, buff, "sync");
-		IMCMessageType type = getType(getMessageName(header.get_mgid()));
-		if (type != null) {
-			IMCMessage message = MessageFactory
-					.getInstance()
-					.createTypedMessage(getMessageName(header.get_mgid()), this);
-			message.setHeader(header);
-			message.setType(type);
-			deserializeFields(message, buff);
-			deserialize(IMCFieldType.TYPE_UINT16, buff); // footer
-			return message;
-		} else {
-			System.err.println("Unknown message type was skipped: "
-					+ header.getInteger("mgid"));
-			byte[] tmp = new byte[header.getInteger("size") + 2];
-			buff.get(tmp);
-			return nextMessage(buff);
-		}
+        IMCMessage msg;
+        do {
+            msg = nextMessageWorkerNonRecursive(buff);
+        } while (msg == null);
+        return msg;
 	}
 
-	/**
+    private IMCMessage nextMessageWorkerNonRecursive(ByteBuffer buff) throws Exception {
+        Header header = createHeader();
+        long sync = buff.getShort() & 0xFFFF;
+        if (sync == swappedWord)
+            buff.order(ByteOrder.LITTLE_ENDIAN);
+        else if (sync == syncWord)
+            header.setValue("sync", syncWord);
+        else {
+            System.err.printf("Found a message with invalid sync (%X) was skipped\n", sync);
+            byte[] tmp = new byte[header.getInteger("size") + 2];
+            buff.get(tmp);
+            return null;
+        }
+
+        deserializeAllFieldsBut(header, buff, "sync");
+        IMCMessageType type = getType(getMessageName(header.get_mgid()));
+        if (type != null) {
+            IMCMessage message = MessageFactory
+                    .getInstance()
+                    .createTypedMessage(getMessageName(header.get_mgid()), this);
+            message.setHeader(header);
+            message.setType(type);
+            deserializeFields(message, buff);
+            deserialize(IMCFieldType.TYPE_UINT16, buff); // footer
+            return message;
+        } else {
+            System.err.println("Unknown message type was skipped: " + header.getInteger("mgid"));
+            byte[] tmp = new byte[header.getInteger("size") + 2];
+            buff.get(tmp);
+            return null;
+        }
+    }
+
+    /**
 	 * Read a message header from the given IMCInputStream
 	 * 
 	 * @param header
@@ -484,32 +488,38 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
 	 *             In case of any IO error (like end of input)
 	 */
 	public IMCMessage nextMessage(IMCInputStream input) throws IOException {
-		Header header = createHeader();
-		input.resetCrc();
+        IMCMessage msg;
+        do {
+            msg = nextMessageWorkerNonRecursive(input);
+        } while (msg == null);
+        return msg;
+    }
 
-		// Let us try to check if the first byte could be the synch number
-		// This avoids desynchronization if we are reading a continuous stream with errors
-		long sync = getSyncNumberAndSetEndianness(input);
-		// if we are here, we have a valid sync word
-		header.setValue("sync", syncWord);
+    private IMCMessage nextMessageWorkerNonRecursive(IMCInputStream input) throws IOException {
+        Header header = createHeader();
+        input.resetCrc();
 
-		deserializeAllFieldsBut(header, input, "sync");
-		int msgid = header.getInteger("mgid");
-		if (msgid != -1) {
-			IMCMessage message = MessageFactory.getInstance()
-					.createTypedMessage(getMessageName(msgid), this);
-			message.setHeader(header);
-			deserializeFields(message, input);
-			deserialize(IMCFieldType.TYPE_UINT16, input, getMessageName(msgid)
-					+ ".footer"); // footer
-			return message;
-		} else {
-			System.err.println("Unknown message type was skipped: "
-					+ header.getInteger("mgid"));
-			input.skip(header.getInteger("size") + 2);
-			return nextMessage(input);
-		}
-	}
+        // Let us try to check if the first byte could be the synch number
+        // This avoids desynchronization if we are reading a continuous stream with errors
+        long sync = getSyncNumberAndSetEndianness(input);
+        // if we are here, we have a valid sync word
+        header.setValue("sync", syncWord);
+
+        deserializeAllFieldsBut(header, input, "sync");
+        int msgid = header.getInteger("mgid");
+        if (msgid != -1) {
+            IMCMessage message = MessageFactory.getInstance()
+                    .createTypedMessage(getMessageName(msgid), this);
+            message.setHeader(header);
+            deserializeFields(message, input);
+            deserialize(IMCFieldType.TYPE_UINT16, input, getMessageName(msgid) + ".footer"); // footer
+            return message;
+        } else {
+            System.err.println("Unknown message type was skipped: " + header.getInteger("mgid"));
+            input.skip(header.getInteger("size") + 2);
+            return null;
+        }
+    }
 
 	private long getSyncNumberAndSetEndianness(IMCInputStream input) throws IOException {
 		long syncFirstByte = input.readUnsignedByte();

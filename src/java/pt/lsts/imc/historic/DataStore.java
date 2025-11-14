@@ -135,7 +135,7 @@ public class DataStore {
 				commands.put(cmd.getDestination(), new TreeSet<RemoteCommand>(new Comparator<RemoteCommand>() {
 					@Override
 					public int compare(RemoteCommand o1, RemoteCommand o2) {
-						return new Double(o1.getTimestamp()).compareTo(new Double(o2.getTimestamp()));
+						return Double.valueOf(o1.getTimestamp()).compareTo(Double.valueOf(o2.getTimestamp()));
 					}
 				}));
 			}

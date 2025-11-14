@@ -56,7 +56,8 @@ public class AcousticOperation extends IMCMessage {
 		MSG_FAILURE(15),
 		MSG_SHORT(16),
 		REVERSE_RANGE(17),
-		FORCED_ABORT(18);
+		FORCED_ABORT(18),
+		MSG_FRAGMENT(19);
 
 		protected long value;
 

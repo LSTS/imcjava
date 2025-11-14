@@ -1,5 +1,5 @@
 plugins {
-    id "com.gorylenko.gradle-git-properties" version "2.4.2"
+    id "com.gorylenko.gradle-git-properties" version "2.5.3"
 }
 
 description = "An IMC Java with bindings and generator for IMC."
@@ -14,7 +14,7 @@ ext {
 }
 
 allprojects {
-    version = '5.90.7'
+    version = '5.90.8'
     repositories {
         mavenCentral()
     }
@@ -45,12 +45,13 @@ allprojects {
     }
 
     jar {
+        def projectExt = project.ext
         manifest {
             attributes( 'Specification-Title': rootProject.name
                     ,'Specification-Version': project.version
                     ,'Implementation-Title': project.name
                     ,'Implementation-Version': project.version
-                    ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                    ,'Build-Revision': "${rootProject.name}-${project.version}-git#${-> projectExt.gitProps['git.commit.id.describe']}"
                     ,'Automatic-Module-Name': "${rootProject.ext.automaticModuleNameBase}.${project.name}"
                     ,'Build-Jdk': System.properties['java.version']
                     )
@@ -111,6 +112,9 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
             // Must be a better way to get the core jar here and filter out of the classpath for jar creation
             dependsOn project(":core").getTasksByName("dist", true)
 
+            def projectExt = project.ext
+            def projectCoreJarArchiveFle = project(':core').dist.archiveFile
+
             if (otherProjectsToPackToDistList != null)
                 dependsOn otherProjectsToPackToDistList.collect { it.jar }
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -123,7 +127,7 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
                 m.getAttributes().put 'Specification-Version', project.version
                 m.getAttributes().put 'Implementation-Title', "$project.name, ${jarBaseName ?: taskName}"
                 m.getAttributes().put 'Implementation-Version', project.version
-                m.getAttributes().put 'Build-Revision', "${rootProject.name}-${project.version}-git#${-> project.ext.gitProps['git.commit.id.describe']}"
+                m.getAttributes().put 'Build-Revision', "${rootProject.name}-${project.version}-git#${-> projectExt.gitProps['git.commit.id.describe']}"
                 m.getAttributes().put 'Automatic-Module-Name', "${rootProject.ext.automaticModuleNameBase}.$taskName"
                 m.getAttributes().put 'Build-Jdk', System.properties['java.version']
             }
@@ -137,8 +141,9 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
 
             // Adding runtime jars into the jar
             def coreConf = configurations.runtimeClasspath - project(':core').sourceSets.main.runtimeClasspath
+            def jarArchiveFile = project(':core').jar.archiveFile.get().getAsFile()
             coreConf = coreConf.filter { File file ->
-                file.absolutePath ==~ "${project(':core').jar.archiveFile.get().getAsFile().getAbsolutePath().replaceAll('\\\\', '\\\\\\\\')}" ? false : true
+                (!(file.absolutePath ==~ "${jarArchiveFile.getAbsolutePath().replaceAll('\\\\', '\\\\\\\\')}"))
             }
             from { coreConf.collect { it.isDirectory() ? it : zipTree(it).matching {
                 exclude "module-info.class"
@@ -148,7 +153,7 @@ def jarTask(proj, taskName, jarBaseName, destFolder, mainClass, otherProjectsToP
                     exclude "module-info.class"
                 } } }
             if (excludeCore != null && !excludeCore)
-                from { zipTree(project(':core').dist.archivePath) }
+                from { zipTree(projectCoreJarArchiveFle.get().getAsFile()) }
             with jar
             archiveBaseName = jarBaseName ?: taskName
             //archiveVersion = ''

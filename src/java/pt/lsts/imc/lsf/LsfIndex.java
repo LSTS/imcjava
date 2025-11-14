@@ -42,6 +42,7 @@ import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -81,6 +82,10 @@ public class LsfIndex {
 	 */
 
 	protected static final String FILENAME = "mra/lsf.index";
+    public static final char INDEX_CHAR_I = 'I';
+    public static final char INDEX_CHAR_D = 'D';
+    public static final char INDEX_CHAR_X = 'X';
+    public static final char INDEX_CHAR_1 = '1';
 
 	protected IMCDefinition defs;
 
@@ -263,8 +268,8 @@ public class LsfIndex {
 		indexSize = new File(lsfFile.getParent(), FILENAME).length();
 		indexChannel = indexInputStream.getChannel();
 		index = indexChannel.map(MapMode.READ_ONLY, 0, indexSize);
-		if (index.get() != 'I' || index.get() != 'D' || index.get() != 'X'
-				|| index.get() != '1') {
+		if (index.remaining() < 4 || index.get() != INDEX_CHAR_I || index.get() != INDEX_CHAR_D ||
+                index.get() != INDEX_CHAR_X || index.get() != INDEX_CHAR_1) {
 			throw new Exception(
 					"The index file is not valid. Please regenerate the index.");
 		}
@@ -586,59 +591,136 @@ public class LsfIndex {
 		new File(lsfFile.getParent(), "mra").mkdirs();
 		new File(lsfFile.getParent(), FILENAME).delete();
 		long progress = 0;
-		DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(
-				new FileOutputStream(new File(lsfFile.getParent(), FILENAME))));
+		try (DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(
+                Files.newOutputStream(new File(lsfFile.getParent(), FILENAME).toPath())))) {
 
-		double startTime = 0, time;
-		long pos, newPos;
-		int mgid, size, sync;
-		int counter = 0;
+            double startTime = 0, time;
+            long pos, newPos;
+            int mgid, size, sync;
+            int counter = 0;
 
-		long len = lsfFile.length();
+            long len = lsfFile.length();
 
-		while (buffer.getBuffer().remaining() > defs.headerLength()) {
-			pos = buffer.position();
-			if (pos == 0) {
-				sync = buffer.getBuffer().getShort() & 0xFFFF;
-				if (sync == defs.getSwappedWord())
-					buffer.order(ByteOrder.LITTLE_ENDIAN);
-			} else {
-				buffer.position(buffer.position() + 2);
-			}
+            while (buffer.getBuffer().remaining() > defs.headerLength()) {
+                boolean validSync = false;
+                pos = buffer.position();
+                sync = buffer.getBuffer().getShort() & 0xFFFF;
+                if (sync == defs.getSwappedWord()) {
+                    buffer.order(ByteOrder.LITTLE_ENDIAN);
+                    validSync = true;
+                } else if (sync == defs.getSyncWord()) {
+                    validSync = true;
+                }
 
-			mgid = buffer.getBuffer().getShort() & 0xFFFF;
-			size = buffer.getBuffer().getShort() & 0xFFFF;
-			time = buffer.getBuffer().getDouble();
+                mgid = buffer.getBuffer().getShort() & 0xFFFF;
+                size = buffer.getBuffer().getShort() & 0xFFFF;
+                time = buffer.getBuffer().getDouble();
 
-			if (pos == 0) {
-				dos.write(new byte[] { 'I', 'D', 'X', '1' });
-				dos.writeDouble(time);
-				startTime = time;
-			}
+                if (!validSync) {
+                    // Let us skip this unknown message (considering the same header format
+                    newPos = buffer.position() + (defs.headerLength() - 12) + size;
+                    if (newPos > len - HEADER_SIZE) {
+                        break;
+                    } else {
+                        buffer.position(newPos);
+                    }
+                    continue;
+                }
 
-			dos.writeInt((int) ((time - startTime) * 1000.0));
-			dos.writeShort(mgid);
-			dos.writeLong(pos);
+                if (counter == 0) {
+                    dos.write(new byte[] {INDEX_CHAR_I, INDEX_CHAR_D, INDEX_CHAR_X, INDEX_CHAR_1});
+                    dos.writeDouble(time);
+                    startTime = time;
+                }
 
-			counter++;
-			newPos = buffer.position() + (defs.headerLength() - 12) + size;
-			if (newPos > len - HEADER_SIZE)
-				break;
-			else
-				buffer.position(newPos);
+                dos.writeInt((int) ((time - startTime) * 1000.0));
+                dos.writeShort(mgid);
+                dos.writeLong(pos);
 
-			long prog = (long) (pos * 100.0 / len);
-			if (prog != progress) {
-				if (listener != null)
-					listener.updateStatus("Creating lsf.index... " + prog + "%");
-				progress = prog;
-			}
-		}
+                counter++;
+                newPos = buffer.position() + (defs.headerLength() - 12) + size;
+                if (newPos > len - HEADER_SIZE) {
+                    break;
+                } else {
+                    buffer.position(newPos);
+                }
 
-		dos.close();
-		System.out.println(counter + " messages indexed.");
-		listener = null;
+                long prog = (long) (pos * 100.0 / len);
+                if (prog != progress) {
+                    if (listener != null)
+                        listener.updateStatus("Creating lsf.index... " + prog + "%");
+                    progress = prog;
+                }
+            }
+
+            dos.close();
+            System.out.println(counter + " messages indexed.");
+            listener = null;
+        }
 	}
+
+
+//    protected void createIndex() throws Exception {
+//        if (listener != null)
+//            listener.updateStatus("Creating mra/lsf.index...");
+//
+//		buffer.position(0);
+//		new File(lsfFile.getParent(), "mra").mkdirs();
+//		new File(lsfFile.getParent(), FILENAME).delete();
+//		long progress = 0;
+//		DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(
+//				new FileOutputStream(new File(lsfFile.getParent(), FILENAME))));
+//
+//		double startTime = 0, time;
+//		long pos, newPos;
+//		int mgid, size, sync;
+//		int counter = 0;
+//
+//		long len = lsfFile.length();
+//
+//		while (buffer.getBuffer().remaining() > defs.headerLength()) {
+//			pos = buffer.position();
+//			if (pos == 0) {
+//				sync = buffer.getBuffer().getShort() & 0xFFFF;
+//				if (sync == defs.getSwappedWord())
+//					buffer.order(ByteOrder.LITTLE_ENDIAN);
+//			} else {
+//				buffer.position(buffer.position() + 2);
+//			}
+//
+//			mgid = buffer.getBuffer().getShort() & 0xFFFF;
+//			size = buffer.getBuffer().getShort() & 0xFFFF;
+//			time = buffer.getBuffer().getDouble();
+//
+//			if (pos == 0) {
+//				dos.write(new byte[] {INDEX_CHAR_I, INDEX_CHAR_D, INDEX_CHAR_X, INDEX_CHAR_1});
+//				dos.writeDouble(time);
+//				startTime = time;
+//			}
+//
+//			dos.writeInt((int) ((time - startTime) * 1000.0));
+//			dos.writeShort(mgid);
+//			dos.writeLong(pos);
+//
+//			counter++;
+//			newPos = buffer.position() + (defs.headerLength() - 12) + size;
+//			if (newPos > len - HEADER_SIZE)
+//				break;
+//			else
+//				buffer.position(newPos);
+//
+//			long prog = (long) (pos * 100.0 / len);
+//			if (prog != progress) {
+//				if (listener != null)
+//					listener.updateStatus("Creating lsf.index... " + prog + "%");
+//				progress = prog;
+//			}
+//		}
+//
+//		dos.close();
+//		System.out.println(counter + " messages indexed.");
+//		listener = null;
+//	}
 
 	/**
 	 * Same as {@link #startReplay(long) startReplay(1)}

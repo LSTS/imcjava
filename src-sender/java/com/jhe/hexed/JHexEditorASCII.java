@@ -78,7 +78,7 @@ public class JHexEditorASCII extends JComponent implements MouseListener, KeyLis
 				g.setColor(Color.black);
 			}
 
-			String s = "" + new Character((char) he.buff[n]);
+			String s = "" + Character.valueOf((char) he.buff[n]);
 			if ((he.buff[n] < 20) || (he.buff[n] > 126))
 				s = "" + (char) 16;
 			he.printString(g, s, (x++), y);
