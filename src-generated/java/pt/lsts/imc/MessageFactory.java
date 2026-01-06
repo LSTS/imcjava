@@ -734,6 +734,8 @@ public class MessageFactory {
 				return new VersionInfo(defs);
 			case TotalHeading.ID_STATIC:
 				return new TotalHeading(defs);
+			case TypedEntityParameterEditor.ID_STATIC:
+				return new TypedEntityParameterEditor(defs);
 			default:
 				return new IMCMessage(defs);
 		}

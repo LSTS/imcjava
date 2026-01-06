@@ -96,7 +96,7 @@ public class QueryTypedEntityParameters extends IMCMessage {
 		return m;
 	}
 
-	public QueryTypedEntityParameters(OP op, long request_id, String entity_name, java.util.Collection<TypedEntityParameter> parameters) {
+	public QueryTypedEntityParameters(OP op, long request_id, String entity_name, java.util.Collection<TypedEntityParametersOptions> parameters) {
 		super(ID_STATIC);
 		setOp(op);
 		setRequestId(request_id);
@@ -184,9 +184,9 @@ public class QueryTypedEntityParameters extends IMCMessage {
 	/**
 	 *  @return Parameters - message-list
 	 */
-	public java.util.Vector<TypedEntityParameter> getParameters() {
+	public java.util.Vector<TypedEntityParametersOptions> getParameters() {
 		try {
-			return getMessageList("parameters", TypedEntityParameter.class);
+			return getMessageList("parameters", TypedEntityParametersOptions.class);
 		}
 		catch (Exception e) {
 			return null;
@@ -197,7 +197,7 @@ public class QueryTypedEntityParameters extends IMCMessage {
 	/**
 	 *  @param parameters Parameters
 	 */
-	public QueryTypedEntityParameters setParameters(java.util.Collection<TypedEntityParameter> parameters) {
+	public QueryTypedEntityParameters setParameters(java.util.Collection<TypedEntityParametersOptions> parameters) {
 		values.put("parameters", parameters);
 		return this;
 	}

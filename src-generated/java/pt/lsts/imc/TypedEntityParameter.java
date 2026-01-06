@@ -35,7 +35,7 @@ package pt.lsts.imc;
  *  Entity parameter with all the data that defines an entity parameter.<br/>
  */
 
-public class TypedEntityParameter extends IMCMessage {
+public class TypedEntityParameter extends TypedEntityParametersOptions {
 
 	public enum TYPE {
 		BOOL(1),
@@ -60,7 +60,9 @@ public class TypedEntityParameter extends IMCMessage {
 
 	public enum VISIBILITY {
 		USER(0),
-		DEVELOPER(1);
+		DEVELOPER(1),
+		USER_NOT_EDITABLE(2),
+		DEVELOPER_NOT_EDITABLE(3);
 
 		protected long value;
 
