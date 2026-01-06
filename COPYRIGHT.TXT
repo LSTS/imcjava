@@ -1,6 +1,6 @@
 Below is the copyright agreement for IMCJava.
 
-Copyright (c) 2010-2025, Laboratório de Sistemas e Tecnologia Subaquática
+Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
