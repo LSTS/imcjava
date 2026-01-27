@@ -461,11 +461,19 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
             return nextMessage(buff);
         }
 
-        byte[] tmp = new byte[header.getInteger("size") + 2];
+        byte[] tmp = new byte[header.getMessageType().getComputedLength() - 2];
         buff.get(tmp);
         ByteBuffer byteBuffer = ByteBuffer.wrap(tmp);
+        byteBuffer.order(buff.order());
 
         deserializeAllFieldsBut(header, byteBuffer, "sync");
+
+        // get the remainer of the message
+        tmp = new byte[header.getInteger("size") + 2];
+        buff.get(tmp);
+        byteBuffer = ByteBuffer.wrap(tmp);
+        byteBuffer.order(buff.order());
+
         IMCMessageType type = getType(getMessageName(header.get_mgid()));
         if (type != null) {
             IMCMessage message = MessageFactory
