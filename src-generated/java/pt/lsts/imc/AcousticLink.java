@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -106,14 +106,14 @@ public class AcousticLink extends IMCMessage {
 	}
 
 	/**
-	 *  @return Received Signal Strength Indicator (db) - fp32_t
+	 *  @return Received Signal Strength Indicator (dB) - fp32_t
 	 */
 	public double getRssi() {
 		return getDouble("rssi");
 	}
 
 	/**
-	 *  @param rssi Received Signal Strength Indicator (db)
+	 *  @param rssi Received Signal Strength Indicator (dB)
 	 */
 	public AcousticLink setRssi(double rssi) {
 		values.put("rssi", rssi);

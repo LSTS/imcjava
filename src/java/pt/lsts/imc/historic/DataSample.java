@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -209,11 +209,11 @@ public class DataSample implements Comparable<DataSample> {
 	public int compareTo(DataSample o) {
 		if (o.getPriority() == getPriority()) {
 			if (o.getSource() == getSource() && o.getSample().getMgid() == getSample().getMgid()) {
-				return new Long(Math.round(getTimestampMillis()/250.0)).compareTo(Math.round(o.getTimestampMillis()/250.0));
+				return Long.valueOf(Math.round(getTimestampMillis()/250.0)).compareTo(Math.round(o.getTimestampMillis()/250.0));
 			}
-			return new Long(getTimestampMillis()).compareTo(o.getTimestampMillis());
+			return Long.valueOf(getTimestampMillis()).compareTo(o.getTimestampMillis());
 		}
-		return new Byte(getPriority()).compareTo(o.getPriority());						
+		return Byte.valueOf(getPriority()).compareTo(o.getPriority());
 	}
 	
 	@Override

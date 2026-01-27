@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.Collator;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -68,13 +69,17 @@ public class ImcStatePanel extends JPanel {
     protected JList<String> messagesList;
     protected JPanel mainPanel = new JPanel();
     protected ImcSystemState state;
-    protected JTabbedPane tabs = new JTabbedPane();
+    protected JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
     protected IMCMessage lastMsg = null;
     protected Timer timer = null;
     protected StateListModel stateListModel = null;
     private String selectedMessage = null;
-    
+
     public ImcStatePanel(ImcSystemState state) {
+        this(state, true, true);
+    }
+
+    public ImcStatePanel(ImcSystemState state, boolean enableScrollBars, boolean addTabsOrdered) {
         this.state = state;
         setLayout(new BorderLayout());
         stateListModel = new StateListModel(state);
@@ -84,25 +89,55 @@ public class ImcStatePanel extends JPanel {
         add(new JScrollPane(messagesList), BorderLayout.WEST);
         
         messagesList.addListSelectionListener(new ListSelectionListener() {
-            
+
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 selectedMessage = messagesList.getSelectedValue().toString();
+                int sIdx = tabs.getSelectedIndex();
+                String selectedItem = sIdx >= 0 ? tabs.getTitleAt(sIdx) : null;
                 tabs.removeAll();
-                
+
                 LinkedHashMap<String, IMCMessage> msgs = new LinkedHashMap<String, IMCMessage>();
-                
-                for (IMCMessage m : ImcStatePanel.this.state.get(selectedMessage, IMCMessage[].class))
-                	msgs.put(ImcStatePanel.this.state.getEntityName(m.getSrcEnt()), m);
-                
+
+                IMCMessage[] lst = ImcStatePanel.this.state.get(selectedMessage, IMCMessage[].class);
+                if (lst != null) {
+                    for (IMCMessage m : lst)
+                        msgs.put(ImcStatePanel.this.state.getEntityName(m.getSrcEnt()), m);
+                }
+
                 for (Entry<String, IMCMessage> m: msgs.entrySet()) {
                     JLabel html = new JLabel(IMCUtil.getAsHtml(m.getValue()));
                     html.setHorizontalAlignment(JLabel.CENTER);
                     html.setBackground(Color.white);
                     html.setOpaque(true);
-                    tabs.add(m.getKey(), new JScrollPane(html));            
+                    JScrollPane sp = new JScrollPane(html);
+                    sp.setHorizontalScrollBarPolicy(enableScrollBars ? JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED :
+                            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                    sp.setVerticalScrollBarPolicy(enableScrollBars ? JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED :
+                            JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+
+                    if (addTabsOrdered) {
+                        addTabOrdered(tabs, m.getKey(), sp);
+                    } else {
+                        tabs.add(m.getKey(), sp);
+                    }
+                    if (m.getKey().equals(selectedItem)) {
+                        tabs.setSelectedComponent(sp);
+                    }
                 }
-                
+            }
+
+            private synchronized void addTabOrdered(JTabbedPane tabs, String key, JScrollPane sp) {
+                Collator collator = Collator.getInstance();
+                int index = 0;
+                for (int i = 0; i < tabs.getTabCount(); i++) {
+                    index = i + 1;
+                    if (collator.compare(key, tabs.getTitleAt(i)) <= 0) {
+                        index = i;
+                        break;
+                    }
+                }
+                tabs.insertTab(key, null, sp, null, index);
             }
         });
         
@@ -219,8 +254,7 @@ public class ImcStatePanel extends JPanel {
         public StateListModel(ImcSystemState imcState) {
             this.state = imcState;
             refreshList();
-            
-            scheduleRefreshListTimer();            
+            scheduleRefreshListTimer();
         }
 
         /**
@@ -297,6 +331,9 @@ public class ImcStatePanel extends JPanel {
 //        long startMillis = System.currentTimeMillis();
 //        
         EstimatedState hb = new EstimatedState();
+        hb.setLat(Math.toRadians(41.38376283682638));
+        hb.setLon(Math.toRadians(-9));
+        hb.setPhi(Math.toRadians(20));
 //        for (int i = 0; i < index.getNumberOfMessages(); i++) {
 //            double curTime = (System.currentTimeMillis() - startMillis)/1000.0 + start;
 //            IMCMessage m = index.getMessage(i);

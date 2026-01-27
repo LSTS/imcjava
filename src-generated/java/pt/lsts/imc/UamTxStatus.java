@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,8 @@ package pt.lsts.imc;
 
 /**
  *  IMC Message UamTxStatus (816)<br/>
+ *  This message shall be used by acoustic modem drivers to send updates<br/>
+ *  on the transmission status of data frames.<br/>
  */
 
 public class UamTxStatus extends IMCMessage {
@@ -44,7 +46,10 @@ public class UamTxStatus extends IMCMessage {
 		INV_ADDR(4),
 		IP(5),
 		UNSUPPORTED(6),
-		INV_SIZE(7);
+		INV_SIZE(7),
+		SENT(8),
+		DELIVERED(9),
+		NO_TRANSDUCER(10);
 
 		protected long value;
 

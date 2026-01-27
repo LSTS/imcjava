@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -103,14 +103,14 @@ public class DissolvedOrganicMatter extends IMCMessage {
 	}
 
 	/**
-	 *  @return Value (ppb) - fp32_t
+	 *  @return Value (PPB) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Value (ppb)
+	 *  @param value Value (PPB)
 	 */
 	public DissolvedOrganicMatter setValue(double value) {
 		values.put("value", value);

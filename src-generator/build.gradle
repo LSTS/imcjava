@@ -12,14 +12,17 @@ dependencies {
 
 task generateMessages(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'pt.lsts.imc.generator.ClassGenerator'
+    mainClass = 'pt.lsts.imc.generator.ClassGenerator'
     workingDir = "$parent.rootDir"
+
+    def projectExt = project.ext
+
     // arguments to pass to the application
-    args = ["${-> project.ext.imcXmlPath}"]
-    
+    args = ["${-> projectExt.imcXmlPath}"]
+
     doFirst {
-        if (project.ext.has("imcXmlSha"))
-            args = ["${-> project.ext.imcXmlPath}", "${-> project.ext.imcXmlSha}", "${-> project.ext.imcXmlBranch}", "${-> project.ext.imcXmlCommitNote}"]
+        if (projectExt.has("imcXmlSha"))
+            args = ["${-> projectExt.imcXmlPath}", "${-> projectExt.imcXmlSha}", "${-> projectExt.imcXmlBranch}", "${-> projectExt.imcXmlCommitNote}"]
     }
 
     doLast {
@@ -34,18 +37,26 @@ task downloadImc(type: Download) {
     src "https://github.com/${gradle.ext.imcGitHubRepo}/raw/${gradle.ext.imcGitHubBranch}/IMC.xml"
     dest "${parent.rootDir}/src-generated/resources/xml/IMC.xml"
 
+    def projectExt = project.ext
+
     doLast {
         println("IMC.xml downloaded to '$dest'.")
-        def commitInfo = new groovy.json.JsonSlurper().parse("https://api.github.com/repos/${gradle.ext.imcGitHubRepo}/commits/${gradle.ext.imcGitHubBranch}".toURL());
+        def sourceGitHub = "https://api.github.com/repos/${gradle.ext.imcGitHubRepo}/commits/${gradle.ext.imcGitHubBranch}";
+        def commitInfo = new groovy.json.JsonSlurper().parse(sourceGitHub.toURL());
         def sha = commitInfo.sha
         File shaFile = new File("${parent.rootDir}/src-generated/resources/xml/IMC.sha")
-        shaFile.text = "$commitInfo.sha" + "\n" + "$gradle.ext.imcGitHubBranch";
+        shaFile.text = "$commitInfo.sha" +
+                "\n" + "$gradle.ext.imcGitHubBranch" +
+                "\n" + "url: $sourceGitHub";
         println("IMC SHA: ${commitInfo.sha}")
-        project.ext.imcXmlSha = "$commitInfo.sha"
+        projectExt.imcXmlSha = "$commitInfo.sha"
         def branchName = getBranchFromCommit()
-        project.ext.imcXmlBranch = branchName == null ? "$gradle.ext.imcGitHubBranch" : branchName
-        project.ext.imcXmlCommitNote = "${commitInfo.commit.author.name} (${commitInfo.commit.author.email}), ${commitInfo.commit.author.date}, ${commitInfo.html_url}, ${commitInfo.commit.message}"
-        project.ext.imcXmlPath = "${parent.rootDir}/src-generated/resources/xml"
+        projectExt.imcXmlBranch = branchName == null ? "$gradle.ext.imcGitHubBranch" : branchName
+        projectExt.imcXmlCommitNote = "${commitInfo.commit.author.name} (${commitInfo.commit.author.email}), " +
+                "${commitInfo.commit.author.date}, " +
+                "${commitInfo.html_url}, " +
+                "${commitInfo.commit.message}"
+        projectExt.imcXmlPath = "${parent.rootDir}/src-generated/resources/xml"
     }
 }
 
@@ -92,20 +103,106 @@ task prepImcFolderEnv {
     println "IMC Folder is '${project.ext.imcXmlPath}'"
 }
 
+task checkIMCFolderGit {
+    def projectExt = project.ext
+    doFirst {
+        if (!file("${projectExt.imcXmlPath}/IMC.xml").exists())
+            throw new FileNotFoundException("No IMC.xml on '${projectExt.imcXmlPath}'")
+
+        copy {
+            from "${projectExt.imcXmlPath}/IMC.xml"
+            into "${parent.rootDir}/src-generated/resources/xml"
+        }
+
+        def folder = new File("${projectExt.imcXmlPath}/.git")
+        if (!folder.exists()) {
+            projectExt.imcXmlSha = "unknown sha"
+            projectExt.imcXmlBranch = "unknown branch"
+            projectExt.imcXmlCommitNote = "unknown commit notes"
+
+            File shaFile = new File("${parent.rootDir}/src-generated/resources/xml/IMC.sha")
+            shaFile.text = "$projectExt.imcXmlSha" +
+                    "\n" + "$projectExt.imcXmlBranch" +
+                    "\n" + "From local folder not on Git";
+
+            getGitPropsFromFolder.enabled = false
+        }
+    }
+}
+task getGitPropsFromFolder(type: com.gorylenko.GenerateGitPropertiesTask) {
+    dependsOn checkIMCFolderGit
+
+    gitProperties.dotGitDirectory = new File("${project.ext.imcXmlPath}/.git")
+    gitProperties.extProperty = 'imcGitProps'
+    gitProperties.failOnNoGitDirectory = false
+
+    gitProperties.dateFormat = "yyyy-MM-dd'T'HH:mmZ"
+    gitProperties.dateFormatTimeZone = "UTC"
+
+    gitProperties.gitPropertiesName = "imc-git.info"
+    gitProperties.keys = ['git.branch',
+            // 'git.build.version',
+            'git.closest.tag.commit.count',
+            'git.closest.tag.name',
+            'git.commit.id',
+            'git.commit.id.abbrev',
+            'git.commit.id.describe',
+            'git.commit.time',
+            'git.dirty',
+            // 'git.remote.origin.url',
+            'git.tags',
+            'git.commit.user.name',
+            'git.commit.message.short',
+    ]
+
+    outputs.upToDateWhen { false }
+
+    doLast {
+        project.ext.imcXmlSha = "${project.ext.imcGitProps['git.commit.id.abbrev']}"
+        project.ext.imcXmlBranch = "${project.ext.imcGitProps['git.branch']}"
+        if ("${project.ext.imcGitProps['git.dirty']}" != 'false') {
+            project.ext.imcXmlBranch += "-dirty"
+        }
+        project.ext.imcXmlCommitNote = "${project.ext.imcGitProps['git.commit.user.name']}, " +
+                "${project.ext.imcGitProps['git.commit.time']}, " +
+                "${project.ext.imcGitProps['git.commit.message.short']}"
+
+        File shaFile = new File("${parent.rootDir}/src-generated/resources/xml/IMC.sha")
+        shaFile.text = "${project.ext.imcGitProps['git.commit.id.describe']}" +
+                "\n" + "${project.ext.imcXmlBranch}" +
+                "\n" + "From local folder";
+    }
+}
+
 task updateImc {
     description = "Get IMC from GitHub and generate classes"
     group = 'Generator'
     dependsOn = [deleteImcAddr]
     dependsOn += downloadImc
-    if (gradle.ext.imcDownloadIMCAddresses == 'true')
+
+    def updateImcRequested = gradle.startParameter.taskNames.any { it?.toLowerCase() == 'updateimc' || it?.toLowerCase()?.endsWith(':updateimc') }
+    if (updateImcRequested) {
+        project(':core').processResources.configure {
+            dependsOn += downloadImc
+        }
+    }
+
+    if (gradle.ext.imcDownloadIMCAddresses == 'true') {
         dependsOn += downloadImcAddr
-    else
+        if (updateImcRequested) {
+            project(':core').processResources.configure {
+                dependsOn += downloadImcAddr
+            }
+        }
+    }
+    else {
         dependsOn += deleteImcAddr
+    }
     dependsOn += generateMessages
 }
 
 task updateImcFromFolder {
     description = "Get IMC from folder and generate classes"
     group = 'Generator'
-    dependsOn = [deleteImcAddr, prepImcFolderEnv, generateMessages]
+    dependsOn = [deleteImcAddr, prepImcFolderEnv, getGitPropsFromFolder, generateMessages]
 }

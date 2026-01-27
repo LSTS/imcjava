@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -87,14 +87,14 @@ public class Salinity extends IMCMessage {
 	}
 
 	/**
-	 *  @return Measured Salinity - fp32_t
+	 *  @return Measured Salinity (PSU) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Measured Salinity
+	 *  @param value Measured Salinity (PSU)
 	 */
 	public Salinity setValue(double value) {
 		values.put("value", value);

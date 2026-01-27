@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -141,9 +141,18 @@ public class IMCMessageType {
         else {
             offsets.put(abbrv, IMCMessageType.UNKNOWN_SIZE);			
         }
-        if (unit != null)
-            units.put(abbrv, unit.toLowerCase());
-
+        if (unit != null) {
+            switch (unit) {
+                case "Enumerated":
+                case "List":
+                case "Bitfield":
+                case "TupleList":
+                    unit = unit.toLowerCase();
+                    break;
+                default:
+            }
+            units.put(abbrv, unit);
+        }
 
         if (fieldType.toLowerCase().startsWith("uint") ||
                 fieldType.toLowerCase().startsWith("int")) {

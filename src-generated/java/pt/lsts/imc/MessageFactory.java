@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -78,6 +78,8 @@ public class MessageFactory {
 				return new VehicleOperationalLimits(defs);
 			case MsgList.ID_STATIC:
 				return new MsgList(defs);
+			case RamUsage.ID_STATIC:
+				return new RamUsage(defs);
 			case SimulatedState.ID_STATIC:
 				return new SimulatedState(defs);
 			case LeakSimulation.ID_STATIC:
@@ -170,6 +172,8 @@ public class MessageFactory {
 				return new LblConfig(defs);
 			case AcousticMessage.ID_STATIC:
 				return new AcousticMessage(defs);
+			case SimAcousticMessage.ID_STATIC:
+				return new SimAcousticMessage(defs);
 			case AcousticOperation.ID_STATIC:
 				return new AcousticOperation(defs);
 			case AcousticSystemsQuery.ID_STATIC:
@@ -182,6 +186,8 @@ public class MessageFactory {
 				return new AcousticRequest(defs);
 			case AcousticStatus.ID_STATIC:
 				return new AcousticStatus(defs);
+			case AcousticRelease.ID_STATIC:
+				return new AcousticRelease(defs);
 			case Rpm.ID_STATIC:
 				return new Rpm(defs);
 			case Voltage.ID_STATIC:
@@ -468,6 +474,8 @@ public class MessageFactory {
 				return new Alignment(defs);
 			case StationKeepingExtended.ID_STATIC:
 				return new StationKeepingExtended(defs);
+			case ManeuverDone.ID_STATIC:
+				return new ManeuverDone(defs);
 			case Magnetometer.ID_STATIC:
 				return new Magnetometer(defs);
 			case VehicleState.ID_STATIC:
@@ -516,6 +524,8 @@ public class MessageFactory {
 				return new TCPRequest(defs);
 			case TCPStatus.ID_STATIC:
 				return new TCPStatus(defs);
+			case AssetReport.ID_STATIC:
+				return new AssetReport(defs);
 			case Abort.ID_STATIC:
 				return new Abort(defs);
 			case PlanSpecification.ID_STATIC:
@@ -616,6 +626,8 @@ public class MessageFactory {
 				return new UamTxStatus(defs);
 			case UamRxRange.ID_STATIC:
 				return new UamRxRange(defs);
+			case UamTxRange.ID_STATIC:
+				return new UamTxRange(defs);
 			case FormCtrlParam.ID_STATIC:
 				return new FormCtrlParam(defs);
 			case FormationEval.ID_STATIC:
@@ -634,6 +646,8 @@ public class MessageFactory {
 				return new SoiState(defs);
 			case MessagePart.ID_STATIC:
 				return new MessagePart(defs);
+			case MessagePartControl.ID_STATIC:
+				return new MessagePartControl(defs);
 			case NeptusBlob.ID_STATIC:
 				return new NeptusBlob(defs);
 			case Aborted.ID_STATIC:
@@ -676,10 +690,52 @@ public class MessageFactory {
 				return new SadcReadings(defs);
 			case DmsDetection.ID_STATIC:
 				return new DmsDetection(defs);
-			case TotalMagIntensity.ID_STATIC:
-				return new TotalMagIntensity(defs);
 			case HomePosition.ID_STATIC:
 				return new HomePosition(defs);
+			case AbsoluteWind.ID_STATIC:
+				return new AbsoluteWind(defs);
+			case AisInfo.ID_STATIC:
+				return new AisInfo(defs);
+			case ENCAwareness.ID_STATIC:
+				return new ENCAwareness(defs);
+			case Displacement.ID_STATIC:
+				return new Displacement(defs);
+			case CurrentProfile.ID_STATIC:
+				return new CurrentProfile(defs);
+			case CurrentProfileCell.ID_STATIC:
+				return new CurrentProfileCell(defs);
+			case ADCPBeam.ID_STATIC:
+				return new ADCPBeam(defs);
+			case Frequency.ID_STATIC:
+				return new Frequency(defs);
+			case WaveSpectrumParameters.ID_STATIC:
+				return new WaveSpectrumParameters(defs);
+			case GpioState.ID_STATIC:
+				return new GpioState(defs);
+			case GpioStateGet.ID_STATIC:
+				return new GpioStateGet(defs);
+			case GpioStateSet.ID_STATIC:
+				return new GpioStateSet(defs);
+			case ColoredDissolvedOrganicMatter.ID_STATIC:
+				return new ColoredDissolvedOrganicMatter(defs);
+			case FluorescentDissolvedOrganicMatter.ID_STATIC:
+				return new FluorescentDissolvedOrganicMatter(defs);
+			case TotalMagIntensity.ID_STATIC:
+				return new TotalMagIntensity(defs);
+			case CommRestriction.ID_STATIC:
+				return new CommRestriction(defs);
+			case QueryTypedEntityParameters.ID_STATIC:
+				return new QueryTypedEntityParameters(defs);
+			case TypedEntityParameter.ID_STATIC:
+				return new TypedEntityParameter(defs);
+			case ValuesIf.ID_STATIC:
+				return new ValuesIf(defs);
+			case VersionInfo.ID_STATIC:
+				return new VersionInfo(defs);
+			case TotalHeading.ID_STATIC:
+				return new TotalHeading(defs);
+			case TypedEntityParameterEditor.ID_STATIC:
+				return new TypedEntityParameterEditor(defs);
 			default:
 				return new IMCMessage(defs);
 		}

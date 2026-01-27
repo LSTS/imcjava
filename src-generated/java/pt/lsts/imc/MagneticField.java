@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -106,14 +106,14 @@ public class MagneticField extends IMCMessage {
 	}
 
 	/**
-	 *  @return X (g) - fp64_t
+	 *  @return X (G) - fp64_t
 	 */
 	public double getX() {
 		return getDouble("x");
 	}
 
 	/**
-	 *  @param x X (g)
+	 *  @param x X (G)
 	 */
 	public MagneticField setX(double x) {
 		values.put("x", x);
@@ -121,14 +121,14 @@ public class MagneticField extends IMCMessage {
 	}
 
 	/**
-	 *  @return Y (g) - fp64_t
+	 *  @return Y (G) - fp64_t
 	 */
 	public double getY() {
 		return getDouble("y");
 	}
 
 	/**
-	 *  @param y Y (g)
+	 *  @param y Y (G)
 	 */
 	public MagneticField setY(double y) {
 		values.put("y", y);
@@ -136,14 +136,14 @@ public class MagneticField extends IMCMessage {
 	}
 
 	/**
-	 *  @return Z (g) - fp64_t
+	 *  @return Z (G) - fp64_t
 	 */
 	public double getZ() {
 		return getDouble("z");
 	}
 
 	/**
-	 *  @param z Z (g)
+	 *  @param z Z (G)
 	 */
 	public MagneticField setZ(double z) {
 		values.put("z", z);

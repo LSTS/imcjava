@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,13 @@ public class VerticalProfile extends IMCMessage {
 		PH(3),
 		REDOX(4),
 		CHLOROPHYLL(5),
-		TURBIDITY(6);
+		TURBIDITY(6),
+		CURRENT_VELOCITY_N(7),
+		CURRENT_VELOCITY_E(8),
+		ABSOLUTE_WIND_AVG(9),
+		ABSOLUTE_WIND_MAX(10),
+		DISS_ORGANIC_MATTER(11),
+		DISS_OXYGEN(12);
 
 		protected long value;
 
@@ -193,14 +199,14 @@ public class VerticalProfile extends IMCMessage {
 	}
 
 	/**
-	 *  @return Latitude (rad) - fp64_t
+	 *  @return Latitude (°) - fp64_t
 	 */
 	public double getLat() {
 		return getDouble("lat");
 	}
 
 	/**
-	 *  @param lat Latitude (rad)
+	 *  @param lat Latitude (°)
 	 */
 	public VerticalProfile setLat(double lat) {
 		values.put("lat", lat);
@@ -208,14 +214,14 @@ public class VerticalProfile extends IMCMessage {
 	}
 
 	/**
-	 *  @return Longitude (rad) - fp64_t
+	 *  @return Longitude (°) - fp64_t
 	 */
 	public double getLon() {
 		return getDouble("lon");
 	}
 
 	/**
-	 *  @param lon Longitude (rad)
+	 *  @param lon Longitude (°)
 	 */
 	public VerticalProfile setLon(double lon) {
 		values.put("lon", lon);

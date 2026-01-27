@@ -6,4 +6,4 @@ dependencies {
 }
 
 jarTask(project, project.name, "imc$project.name", "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.sniffer.IMCMessageSniffer', null)
+  'pt.lsts.imc.sniffer.IMCMessageSniffer', null, false)

@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -87,14 +87,14 @@ public class Force extends IMCMessage {
 	}
 
 	/**
-	 *  @return Measured Force (n) - fp32_t
+	 *  @return Measured Force (N) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Measured Force (n)
+	 *  @param value Measured Force (N)
 	 */
 	public Force setValue(double value) {
 		values.put("value", value);

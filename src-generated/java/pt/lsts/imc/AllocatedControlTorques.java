@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -89,14 +89,14 @@ public class AllocatedControlTorques extends IMCMessage {
 	}
 
 	/**
-	 *  @return Torque about the x axis (nm) - fp64_t
+	 *  @return Torque about the x axis (Nm) - fp64_t
 	 */
 	public double getK() {
 		return getDouble("k");
 	}
 
 	/**
-	 *  @param k Torque about the x axis (nm)
+	 *  @param k Torque about the x axis (Nm)
 	 */
 	public AllocatedControlTorques setK(double k) {
 		values.put("k", k);
@@ -104,14 +104,14 @@ public class AllocatedControlTorques extends IMCMessage {
 	}
 
 	/**
-	 *  @return Torque about the y axis (nm) - fp64_t
+	 *  @return Torque about the y axis (Nm) - fp64_t
 	 */
 	public double getM() {
 		return getDouble("m");
 	}
 
 	/**
-	 *  @param m Torque about the y axis (nm)
+	 *  @param m Torque about the y axis (Nm)
 	 */
 	public AllocatedControlTorques setM(double m) {
 		values.put("m", m);
@@ -119,14 +119,14 @@ public class AllocatedControlTorques extends IMCMessage {
 	}
 
 	/**
-	 *  @return Torque about the x axis (nm) - fp64_t
+	 *  @return Torque about the x axis (Nm) - fp64_t
 	 */
 	public double getN() {
 		return getDouble("n");
 	}
 
 	/**
-	 *  @param n Torque about the x axis (nm)
+	 *  @param n Torque about the x axis (Nm)
 	 */
 	public AllocatedControlTorques setN(double n) {
 		values.put("n", n);

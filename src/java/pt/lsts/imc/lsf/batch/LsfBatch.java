@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -104,9 +104,10 @@ public class LsfBatch {
 		}
 		return msg;
 	}
-
-	public LsfBatch(File root) {
-		addRecursively(root);
+	
+	public LsfBatch(File... roots) {
+		for (File f : roots)
+			addRecursively(f);
 	}
 
 	static class LsfLog implements Comparable<LsfLog> {

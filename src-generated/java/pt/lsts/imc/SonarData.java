@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -67,16 +67,16 @@ package pt.lsts.imc;
  *  +--------+------------------+-----+<br/>
  *  | Section| Flag Label       | Bit |<br/>
  *  +========+==================+=====+<br/>
- *  | H4.1   | Intensities flag | 0   |<br/>
+ *  | H3.1   | Intensities flag | 0   |<br/>
  *  +--------+------------------+-----+<br/>
- *  | H4.2   | Angle step flag  | 1   |<br/>
+ *  | H3.2   | Angle step flag  | 1   |<br/>
  *  +--------+------------------+-----+<br/>
  *  <code>Notes:</code><br/>
  *  <code> Each angle at step *i</code> can be calculated is defined by:<br/>
  *  .. code-block:: python<br/>
  *  angle[i] = H2_start_angle + (32-bit sum of D1_angle_step[0] through D1_angle_step[i]) * H4_scaling_factor<br/>
- *  * If bit H4.1 is not set then sections H5 and D3 won't exist.<br/>
- *  * If bit H4.2 is not set then sections H4 and D1 won't exist. In case this bit is set, then the angle steps is read from field "Beam Width" from "Beam Configuration".<br/>
+ *  * If bit H3.1 is not set then sections H5 and D3 won't exist.<br/>
+ *  * If bit H3.2 is not set then sections H4 and D1 won't exist. In case this bit is set, then the angle steps is read from field "Beam Width" from "Beam Configuration".<br/>
  *  <code> The type *uintX_t</code> will depend on the number of bits per unit, and it should be a multiple of 8.<br/>
  *  * Furthermore, for now, 32 bits is the highest value of bits per unit supported.<br/>
  *  <code>How to write ranges and intensities data:</code><br/>
@@ -95,7 +95,8 @@ public class SonarData extends IMCMessage {
 	public enum TYPE {
 		SIDESCAN(0),
 		ECHOSOUNDER(1),
-		MULTIBEAM(2);
+		MULTIBEAM(2),
+		PENCILBEAM(3);
 
 		protected long value;
 
@@ -212,14 +213,14 @@ public class SonarData extends IMCMessage {
 	}
 
 	/**
-	 *  @return Frequency (hz) - uint32_t
+	 *  @return Frequency (Hz) - uint32_t
 	 */
 	public long getFrequency() {
 		return getLong("frequency");
 	}
 
 	/**
-	 *  @param frequency Frequency (hz)
+	 *  @param frequency Frequency (Hz)
 	 */
 	public SonarData setFrequency(long frequency) {
 		values.put("frequency", frequency);

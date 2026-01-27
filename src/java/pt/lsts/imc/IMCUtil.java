@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -186,8 +186,11 @@ public class IMCUtil {
     private static Vector<String> hexFields = new Vector<String>();
     static {
         hexFields.add("sync");
+        hexFields.add("mgid");
         hexFields.add("src");
+        hexFields.add("src_ent");
         hexFields.add("dst");
+        hexFields.add("dst_ent");
     }
     
     /**
@@ -359,10 +362,16 @@ public class IMCUtil {
 	    if (msg == null)
 	        return "null";
 	    
-	    String ret = "<table border=1><tr bgcolor='#CCCCEE'><th>"+msg.getAbbrev()+"</th><th>"+msg.getFieldNames().length+" fields</th></tr>";
-	    if (msg.getAbbrev() == null)
-	        ret = "<table border=1 width=100%><tr bgcolor='#CCEECC'><th>Header</th><th>"+msg.getFieldNames().length+" fields</th></tr>";
-	    
+	    //String ret = "<table border=1><tr bgcolor='#CCCCEE'><th>"+msg.getAbbrev()+"</th><th>"+msg.getFieldNames().length+" fields</th></tr>";
+        String headerName = msg.getAbbrev() == null ? "Header" :msg.getAbbrev();
+        String ret = "<table style='border-collapse:separate;border-spacing:8px 0;font-family:sans-serif;'>" +
+                "<tr style='background-color:#CCCCEE;'><th width=225 style='padding:6px 12px;border-right:2px solid #FFFFFF;'>" +
+                headerName + "</th><th width=225 style='padding:6px 10px;border-left:2px solid #FFFFFF;'>" +
+                msg.getFieldNames().length + " fields</th></tr>";
+        //if (msg.getAbbrev() == null) {
+        //    ret = "<table border=1 width=100%><tr bgcolor='#CCEECC'><th>Header</th><th>"+msg.getFieldNames().length+" fields</th></tr>";
+        //}
+
 	    for (String fieldName : msg.getFieldNames()) {
 	        String value = msg.getString(fieldName);
 	        boolean isHeader = isHeader(msg);
@@ -372,7 +381,20 @@ public class IMCUtil {
 	            value = dateFormatUTC.format(new Date((long)(msg.getDouble("timestamp")*1000.0)))+"UTC";
 	        }
 	        else if (isHeader && hexFields.contains(fieldName)) {
-	            value += "  [0x" + Long.toHexString(msg.getLong(fieldName)).toUpperCase() + "]";
+                IMCFieldType fType = msg.getMessageType().getFieldType(fieldName);
+                if (fType == null) {
+                    value += "  [0x" + Long.toHexString(msg.getLong(fieldName)).toUpperCase() + "]";
+                } else if (fType == IMCFieldType.TYPE_UINT8 || fType == IMCFieldType.TYPE_INT8) {
+                    value += "  [0x" + String.format("%02X", msg.getLong(fieldName)) + "]";
+                } else if (fType == IMCFieldType.TYPE_UINT16 || fType == IMCFieldType.TYPE_INT16) {
+                    value += "  [0x" + String.format("%04X", msg.getLong(fieldName)) + "]";
+                } else if (fType == IMCFieldType.TYPE_UINT32 || fType == IMCFieldType.TYPE_INT32) {
+                    value += "  [0x" + String.format("%08X", msg.getLong(fieldName)) + "]";
+                } else if (fType == IMCFieldType.TYPE_INT64) {
+                    value += "  [0x" + String.format("%016X", msg.getLong(fieldName)) + "]";
+                } else {
+                    value += "  [0x" + Long.toHexString(msg.getLong(fieldName)).toUpperCase() + "]";
+                }
 	        }       
 	        
 	        if (msg.getTypeOf(fieldName).equalsIgnoreCase("message") && msg.getValue(fieldName) != null) 
@@ -385,8 +407,29 @@ public class IMCUtil {
                 
 	            value += "</tr></table>";
 	        }
-	        
-	        ret += "<tr><td align=center width=225>"+fieldName+"</td><td width=225>"+value+"</td></tr>";
+
+            if ("tuplelist".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
+                if (value.contains(";")) {
+                    value = value.replaceAll(";", "; ");
+                } else {
+                    value = value.replaceAll(",", ", ");
+                }
+            } else if ("list".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
+                value = value.replaceAll(",", ", ");
+            } else if ("enumerated".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
+                value = value.replaceAll("\\|", " | ");
+            } else if ("bitfield".equalsIgnoreCase(msg.getUnitsOf(fieldName))) {
+                value = value.replaceAll("\\|", " | ");
+            } else if (IMCFieldType.TYPE_PLAINTEXT.toString().equalsIgnoreCase(msg.getTypeOf(fieldName))
+                    && (msg.getUnitsOf(fieldName) == null || "".equalsIgnoreCase(msg.getUnitsOf(fieldName)))) {
+                value = value.replaceAll("([^ ]);([^ ])", "$1; $2");
+                value = value.replaceAll("([^ ]),([^ ])", "$1, $2");
+                value = value.replaceAll("([^ ])\\|([^ ])", "$1 | $2");
+            }
+
+            ret += "<tr><td align=center width=225 style='border-bottom: 1px dotted #d00;'>" +
+                    fieldName+"</td><td width=225 style='border-bottom: 1px dotted #d00;'>" +
+                    value + "</td></tr>";
 	    }	    
 	    return ret+"</table>";
 	}

@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -135,7 +135,7 @@ public class DataStore {
 				commands.put(cmd.getDestination(), new TreeSet<RemoteCommand>(new Comparator<RemoteCommand>() {
 					@Override
 					public int compare(RemoteCommand o1, RemoteCommand o2) {
-						return new Double(o1.getTimestamp()).compareTo(new Double(o2.getTimestamp()));
+						return Double.valueOf(o1.getTimestamp()).compareTo(Double.valueOf(o2.getTimestamp()));
 					}
 				}));
 			}

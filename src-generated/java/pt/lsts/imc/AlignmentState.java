@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,10 @@ public class AlignmentState extends IMCMessage {
 		ALIGNED(1),
 		NOT_SUPPORTED(2),
 		ALIGNING(3),
-		WRONG_MEDIUM(4);
+		WRONG_MEDIUM(4),
+		COARSE_ALIGNMENT(5),
+		FINE_ALIGNMENT(6),
+		SYSTEM_READY(7);
 
 		protected long value;
 

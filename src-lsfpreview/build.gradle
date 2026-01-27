@@ -2,4 +2,4 @@ dependencies {
 }
 
 jarTask(project, project.name, null, "$distFolderName/$toolsFolderName",
-  'pt.lsts.imc.preview.LsfPreview', null)
+  'pt.lsts.imc.preview.LsfPreview', null, false)

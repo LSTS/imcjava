@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -88,14 +88,14 @@ public class StorageUsage extends IMCMessage {
 	}
 
 	/**
-	 *  @return Available (mib) - uint32_t
+	 *  @return Available (MiB) - uint32_t
 	 */
 	public long getAvailable() {
 		return getLong("available");
 	}
 
 	/**
-	 *  @param available Available (mib)
+	 *  @param available Available (MiB)
 	 */
 	public StorageUsage setAvailable(long available) {
 		values.put("available", available);

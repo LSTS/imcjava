@@ -3,9 +3,9 @@
 // Set this for the GitHub IMC definition repo
 gradle.ext.imcGitHubRepo = 'LSTS/imc'
 // Set this for the branch of the GitHub IMC definition repo
-gradle.ext.imcGitHubBranch = '9c3b296'
+gradle.ext.imcGitHubBranch = 'd4e6ca2'
 // Set if you want to use the IMC_Addresses.xml or not
-gradle.ext.imcDownloadIMCAddresses = 'false'
+gradle.ext.imcDownloadIMCAddresses = 'true'
 // Set this for the folder IMC definition repo
 gradle.ext.imcFilePath = '../IMC'
 

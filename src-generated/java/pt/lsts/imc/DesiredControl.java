@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -101,14 +101,14 @@ public class DesiredControl extends IMCMessage {
 	}
 
 	/**
-	 *  @return Force along the x axis (n) - fp64_t
+	 *  @return Force along the x axis (N) - fp64_t
 	 */
 	public double getX() {
 		return getDouble("x");
 	}
 
 	/**
-	 *  @param x Force along the x axis (n)
+	 *  @param x Force along the x axis (N)
 	 */
 	public DesiredControl setX(double x) {
 		values.put("x", x);
@@ -116,14 +116,14 @@ public class DesiredControl extends IMCMessage {
 	}
 
 	/**
-	 *  @return Force along the y axis (n) - fp64_t
+	 *  @return Force along the y axis (N) - fp64_t
 	 */
 	public double getY() {
 		return getDouble("y");
 	}
 
 	/**
-	 *  @param y Force along the y axis (n)
+	 *  @param y Force along the y axis (N)
 	 */
 	public DesiredControl setY(double y) {
 		values.put("y", y);
@@ -131,14 +131,14 @@ public class DesiredControl extends IMCMessage {
 	}
 
 	/**
-	 *  @return Force along the z axis (n) - fp64_t
+	 *  @return Force along the z axis (N) - fp64_t
 	 */
 	public double getZ() {
 		return getDouble("z");
 	}
 
 	/**
-	 *  @param z Force along the z axis (n)
+	 *  @param z Force along the z axis (N)
 	 */
 	public DesiredControl setZ(double z) {
 		values.put("z", z);
@@ -146,14 +146,14 @@ public class DesiredControl extends IMCMessage {
 	}
 
 	/**
-	 *  @return Torque about the x axis (nm) - fp64_t
+	 *  @return Torque about the x axis (Nm) - fp64_t
 	 */
 	public double getK() {
 		return getDouble("k");
 	}
 
 	/**
-	 *  @param k Torque about the x axis (nm)
+	 *  @param k Torque about the x axis (Nm)
 	 */
 	public DesiredControl setK(double k) {
 		values.put("k", k);
@@ -161,14 +161,14 @@ public class DesiredControl extends IMCMessage {
 	}
 
 	/**
-	 *  @return Torque about the y axis (nm) - fp64_t
+	 *  @return Torque about the y axis (Nm) - fp64_t
 	 */
 	public double getM() {
 		return getDouble("m");
 	}
 
 	/**
-	 *  @param m Torque about the y axis (nm)
+	 *  @param m Torque about the y axis (Nm)
 	 */
 	public DesiredControl setM(double m) {
 		values.put("m", m);
@@ -176,14 +176,14 @@ public class DesiredControl extends IMCMessage {
 	}
 
 	/**
-	 *  @return Torque about the z axis (nm) - fp64_t
+	 *  @return Torque about the z axis (Nm) - fp64_t
 	 */
 	public double getN() {
 		return getDouble("n");
 	}
 
 	/**
-	 *  @param n Torque about the z axis (nm)
+	 *  @param n Torque about the z axis (Nm)
 	 */
 	public DesiredControl setN(double n) {
 		values.put("n", n);

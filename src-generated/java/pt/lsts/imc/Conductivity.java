@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -87,14 +87,14 @@ public class Conductivity extends IMCMessage {
 	}
 
 	/**
-	 *  @return Measured Conductivity (s/m) - fp32_t
+	 *  @return Measured Conductivity (S/m) - fp32_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Measured Conductivity (s/m)
+	 *  @param value Measured Conductivity (S/m)
 	 */
 	public Conductivity setValue(double value) {
 		values.put("value", value);

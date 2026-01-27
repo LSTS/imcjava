@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,11 @@ package pt.lsts.imc;
 
 /**
  *  IMC Message Message Fragment (877)<br/>
+ *  This message is used to send a fragment of a message. The<br/>
+ *  fragments are sent in order, and the receiver must reassemble<br/>
+ *  them in the correct order.<br/>
+ *  The receiver can use the MessagePartControl message to inform the sender<br/>
+ *  of the status of the fragment transmission.<br/>
  */
 
 public class MessagePart extends IMCMessage {

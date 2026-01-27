@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -87,14 +87,14 @@ public class Pressure extends IMCMessage {
 	}
 
 	/**
-	 *  @return Measured Pressure (hpa) - fp64_t
+	 *  @return Measured Pressure (hPa) - fp64_t
 	 */
 	public double getValue() {
 		return getDouble("value");
 	}
 
 	/**
-	 *  @param value Measured Pressure (hpa)
+	 *  @param value Measured Pressure (hPa)
 	 */
 	public Pressure setValue(double value) {
 		values.put("value", value);

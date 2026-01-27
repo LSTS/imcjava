@@ -1,7 +1,7 @@
 /*
  * Below is the copyright agreement for IMCJava.
  * 
- * Copyright (c) 2010-2020, Laboratório de Sistemas e Tecnologia Subaquática
+ * Copyright (c) 2010-2026, Laboratório de Sistemas e Tecnologia Subaquática
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,8 @@ public class RestartSystem extends IMCMessage {
 
 	public enum TYPE {
 		DUNE(1),
-		SYSTEM(2);
+		SYSTEM(2),
+		TASK(3);
 
 		protected long value;
 
