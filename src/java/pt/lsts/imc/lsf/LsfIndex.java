@@ -249,8 +249,15 @@ public class LsfIndex {
 		IMCDefinition defs = null;
 
 		try {
-			defs = new IMCDefinition(new FileInputStream(new File(
-					lsfFile.getParent(), "IMC.xml")));
+            if (new File(lsfFile.getParent(), "IMC.xml.gz").canRead()) {
+                defs = new IMCDefinition(new File(lsfFile.getParent(),
+                        "IMC.xml.gz"));
+            } else if (new File(lsfFile.getParent(), "IMC.xml").canRead()) {
+                defs = new IMCDefinition(new File(lsfFile.getParent(),
+                        "IMC.xml"));
+            } else {
+                defs = IMCDefinition.getInstance();
+            }
 		} catch (Exception e) {
 			defs = IMCDefinition.getInstance();
 		}
