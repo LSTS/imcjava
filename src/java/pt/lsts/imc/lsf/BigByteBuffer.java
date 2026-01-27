@@ -30,6 +30,7 @@
  */
 package pt.lsts.imc.lsf;
 
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
@@ -118,13 +119,15 @@ public class BigByteBuffer {
 
     public byte get(long index) {
         if (position(index))
-            buffer.get();
+            return buffer.get();
         throw new BufferUnderflowException();
     }
 
     public void put(long index, byte b) {
-        if (position(index))
+        if (position(index)) {
             buffer.put(b);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
@@ -134,145 +137,169 @@ public class BigByteBuffer {
 
     public char getChar() {
         if (position(position(), 2))
-            buffer.getChar();
+            return buffer.getChar();
         throw new BufferUnderflowException();
     }
 
     public void putChar(char value) {
-        if (position(position(), 2))
+        if (position(position(), 2)) {
             buffer.putChar(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public char getChar(long index) {
         if (position(index, 2))
-            buffer.getChar();
+            return buffer.getChar();
         throw new BufferUnderflowException();
     }
 
     public void putChar(long index, char value) {
-        if (position(index, 2))
+        if (position(index, 2)) {
             buffer.putChar(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public short getShort() {
         if (position(position(), 2))
-            buffer.getShort();
+            return buffer.getShort();
         throw new BufferUnderflowException();
     }
 
     public void putShort(short value) {
-        if (position(position(), 2))
+        if (position(position(), 2)) {
             buffer.putShort(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public short getShort(long index) {
         if (position(index, 2))
-            buffer.getShort();
+            return buffer.getShort();
         throw new BufferUnderflowException();
     }
 
     public void putShort(long index, short value) {
-        if (position(index, 2))
+        if (position(index, 2)) {
             buffer.putShort(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public int getInt() {
         if (position(position(), 4))
-            buffer.getInt();
+            return buffer.getInt();
         throw new BufferUnderflowException();
     }
 
     public void putInt(int value) {
-        if (position(position(), 4))
+        if (position(position(), 4)) {
             buffer.putInt(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public int getInt(long index) {
         if (position(index, 4))
-            buffer.getInt();
+            return buffer.getInt();
         throw new BufferUnderflowException();
     }
 
     public void putInt(long index, int value) {
-        if (position(index, 4))
+        if (position(index, 4)) {
             buffer.putInt(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public long getLong() {
         if (position(position(), 8))
-            buffer.getLong();
+            return buffer.getLong();
         throw new BufferUnderflowException();
     }
 
     public void putLong(long value) {
-        if (position(position(), 8))
+        if (position(position(), 8)) {
             buffer.putLong(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public long getLong(long index) {
         if (position(index, 8))
-            buffer.getLong();
+            return buffer.getLong();
         throw new BufferUnderflowException();
     }
 
     public void putLong(long index, long value) {
-        if (position(index, 8))
+        if (position(index, 8)) {
             buffer.putLong(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public float getFloat() {
         if (position(position(), 4))
-            buffer.getFloat();
+            return buffer.getFloat();
         throw new BufferUnderflowException();
     }
 
     public void putFloat(float value) {
-        if (position(position(), 4))
+        if (position(position(), 4)) {
             buffer.putFloat(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public float getFloat(long index) {
         if (position(index, 4))
-            buffer.getFloat();
+            return buffer.getFloat();
         throw new BufferUnderflowException();
     }
 
     public void putFloat(long index, float value) {
-        if (position(index, 4))
+        if (position(index, 4)) {
             buffer.putFloat(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public double getDouble() {
         if (position(position(), 8))
-            buffer.getDouble();
+            return buffer.getDouble();
         throw new BufferUnderflowException();
     }
 
     public void putDouble(double value) {
-        if (position(position(), 8))
+        if (position(position(), 8)) {
             buffer.putDouble(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
     public double getDouble(long index) {
         if (position(index, 8))
-            buffer.getDouble();
+            return buffer.getDouble();
         throw new BufferUnderflowException();
     }
 
     public void putDouble(long index, double value) {
-        if (position(index, 8))
+        if (position(index, 8)) {
             buffer.putDouble(value);
+            return;
+        }
         throw new BufferUnderflowException();
     }
 
