@@ -444,8 +444,15 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
         }
     }
 
-    // @FIXME with master non recursive
     public IMCMessage nextMessage(BigByteBuffer buff) throws Exception {
+        IMCMessage msg;
+        do {
+            msg = nextMessageWorkerNonRecursive(buff);
+        } while (msg == null);
+        return msg;
+    }
+
+    public IMCMessage nextMessageWorkerNonRecursive(BigByteBuffer buff) throws Exception {
         Header header = createHeader();
         long sync = buff.getShort() & 0xFFFF;
         if (sync == swappedWord)
@@ -458,7 +465,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
                     sync);
             byte[] tmp = new byte[header.getInteger("size") + 2];
             buff.get(tmp);
-            return nextMessage(buff);
+            return null; //nextMessage(buff);
         }
 
         byte[] tmp = new byte[header.getMessageType().getComputedLength() - 2];
@@ -489,7 +496,7 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
                     + header.getInteger("mgid"));
             // byte[] tmp = new byte[header.getInteger("size") + 2];
             // buff.get(tmp);
-            return nextMessage(buff);
+            return null; //nextMessage(buff);
         }
     }
 
