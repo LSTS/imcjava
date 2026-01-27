@@ -1412,7 +1412,14 @@ public class LsfIndex {
 		double startTime = index.getStartTime();
 		double pivot = (endTime + startTime) / 2.0;
 		System.out.printf("%f --> %f --> %f\n", endTime, pivot, startTime);
-		
+
+		System.out.println(index.getMessage(0));
+		long m = index.getFirstMessageOfType(350);
+		System.out.println(m + " --> " + index.getMessage(m));
+
+		System.out.println(1729735189.7738094 + " --> " + index.getMessageAt("EstimatedState", 1729735189.7738094));
+
+
 		System.out.println(index.getMessageBeforeOrAt("EstimatedState", index.getNumberOfMessages(), pivot));
 		System.out.println(index.getMessageAtOrAfter("EstimatedState", 0, pivot));
 		
