@@ -149,8 +149,8 @@ public class LsfIndex {
 		return -1;
 	}
 
-	public void load(File lsfFile, IMCDefinition defs) throws Exception {
-		this.lsfFile = lsfFile;
+	public void load(File lsfFileIn, IMCDefinition defs) throws Exception {
+		this.lsfFile = lsfFileIn;
 		if (!lsfFile.getName().endsWith(".lsf")
 				&& !lsfFile.getName().endsWith(".lsf.gz")) {
 			throw new Exception("The file is not lsf!");
@@ -199,10 +199,9 @@ public class LsfIndex {
 			mmgis.close();
 		}
 
-		// FIXME
-		lsfInputStream = new RandomAccessFile(lsfFile, "r");
+		lsfInputStream = new RandomAccessFile(this.lsfFile, "r");
 		lsfChannel = lsfInputStream.getChannel();
-		buffer = new BigByteBuffer(lsfChannel, lsfFile.length());
+		buffer = new BigByteBuffer(lsfChannel, this.lsfFile.length());
 
 		loadIndex();
 
