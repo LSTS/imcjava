@@ -150,8 +150,8 @@ public class LsfIndex {
 		return -1;
 	}
 
-	public void load(File lsfFile, IMCDefinition defs) throws Exception {
-		this.lsfFile = lsfFile;
+	public void load(File lsfFileIn, IMCDefinition defs) throws Exception {
+		this.lsfFile = lsfFileIn;
 		if (!lsfFile.getName().endsWith(".lsf")
 				&& !lsfFile.getName().endsWith(".lsf.gz")) {
 			throw new Exception("The file is not lsf!");
@@ -200,10 +200,9 @@ public class LsfIndex {
 			mmgis.close();
 		}
 
-		// FIXME
-		lsfInputStream = new RandomAccessFile(lsfFile, "r");
+		lsfInputStream = new RandomAccessFile(this.lsfFile, "r");
 		lsfChannel = lsfInputStream.getChannel();
-		buffer = new BigByteBuffer(lsfChannel, lsfFile.length());
+		buffer = new BigByteBuffer(lsfChannel, this.lsfFile.length());
 
 		loadIndex();
 
@@ -250,8 +249,15 @@ public class LsfIndex {
 		IMCDefinition defs = null;
 
 		try {
-			defs = new IMCDefinition(new FileInputStream(new File(
-					lsfFile.getParent(), "IMC.xml")));
+            if (new File(lsfFile.getParent(), "IMC.xml.gz").canRead()) {
+                defs = new IMCDefinition(new File(lsfFile.getParent(),
+                        "IMC.xml.gz"));
+            } else if (new File(lsfFile.getParent(), "IMC.xml").canRead()) {
+                defs = new IMCDefinition(new File(lsfFile.getParent(),
+                        "IMC.xml"));
+            } else {
+                defs = IMCDefinition.getInstance();
+            }
 		} catch (Exception e) {
 			defs = IMCDefinition.getInstance();
 		}
@@ -1402,7 +1408,8 @@ public class LsfIndex {
 	}
 
 	public static void main(String[] args) throws Exception {
-		LsfIndex index = new LsfIndex(new File(""));
+		String flsfFolder = "";
+		LsfIndex index = new LsfIndex(new File(flsfFolder + "Data.lsf.gz"));
 		double endTime = index.getEndTime();
 		double startTime = index.getStartTime();
 		double pivot = (endTime + startTime) / 2.0;
