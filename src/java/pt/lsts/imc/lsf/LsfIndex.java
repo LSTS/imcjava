@@ -1406,7 +1406,8 @@ public class LsfIndex {
 	}
 
 	public static void main(String[] args) throws Exception {
-		LsfIndex index = new LsfIndex(new File(""));
+		String flsfFolder = "";
+		LsfIndex index = new LsfIndex(new File(flsfFolder + "Data.lsf.gz"));
 		double endTime = index.getEndTime();
 		double startTime = index.getStartTime();
 		double pivot = (endTime + startTime) / 2.0;
