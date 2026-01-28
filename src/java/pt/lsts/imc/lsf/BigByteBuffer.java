@@ -46,12 +46,18 @@ public class BigByteBuffer {
     protected long bufferSize = (long)Math.pow(2, 20) * 64l;
     protected long bufferOverlap = (long)Math.pow(2, 16);
     protected ByteOrder order = ByteOrder.LITTLE_ENDIAN;
-    
-    public BigByteBuffer(FileChannel channel, long fileLength) {
+
+    public BigByteBuffer(FileChannel channel, long fileLength, ByteOrder order) {
+        this.order = order;
         this.channel = channel;
         this.fileLength = fileLength;
         mapFrom(0);
     }
+
+    public BigByteBuffer(FileChannel channel, long fileLength) {
+        this(channel, fileLength, ByteOrder.LITTLE_ENDIAN);
+    }
+
 
     protected boolean mapFrom(long startPos) {
         this.startPos = startPos;
