@@ -274,8 +274,8 @@ public class LsfIndex {
 				FILENAME));
 		indexSize = new File(lsfFile.getParent(), FILENAME).length();
 		indexChannel = indexInputStream.getChannel();
-		//index = indexChannel.map(MapMode.READ_ONLY, 0, indexSize);
-        index = new BigByteBuffer(indexChannel, indexSize);
+		// index = indexChannel.map(MapMode.READ_ONLY, 0, indexSize);
+		index = new BigByteBuffer(indexChannel, indexSize, ByteOrder.BIG_ENDIAN);
 		if (index.remaining() < 4 || index.get() != INDEX_CHAR_I || index.get() != INDEX_CHAR_D ||
                 index.get() != INDEX_CHAR_X || index.get() != INDEX_CHAR_1) {
 			throw new Exception(
