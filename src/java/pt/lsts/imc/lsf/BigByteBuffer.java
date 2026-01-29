@@ -57,13 +57,18 @@ public class BigByteBuffer {
     }
 
 
-    protected boolean mapFrom(long startPos) {
-        this.startPos = startPos;
-        this.endPos = startPos + bufferSize + bufferOverlap;
-        this.endPos = Math.min(endPos, fileLength);
+    protected boolean mapFrom(long pos) {
+        this.startPos = pos - bufferSize;
+        this.startPos = Math.max(this.startPos, 0);
+        this.endPos = pos + bufferSize + bufferOverlap;
+        this.endPos = Math.min(this.endPos, fileLength);
+        // Avoid mapping higher than max allowed
+        long truncate = Math.max((this.endPos - this.startPos) - Integer.MAX_VALUE, 0);
+        this.endPos = this.endPos - truncate;
         try {            
-            buffer = channel.map(MapMode.READ_ONLY, startPos, endPos - startPos);
+            buffer = channel.map(MapMode.READ_ONLY, this.startPos, this.endPos - this.startPos);
             buffer.order(order);
+            buffer.position((int) (pos - startPos));
         }
         catch (Exception e) {
             e.printStackTrace();
