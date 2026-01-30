@@ -92,10 +92,11 @@ public class LsfIndex {
 	protected File lsfFile;
 	// protected MappedByteBuffer lsfBuffer;
 	protected BigByteBuffer buffer;
-	protected LinkedHashMap<Long, MappedByteBuffer> buffers = new LinkedHashMap<Long, MappedByteBuffer>();
+	protected LinkedHashMap<Long, MappedByteBuffer> buffers = new LinkedHashMap<>();
 
 	protected double startTime, curTime, endTime;
-	protected MappedByteBuffer index;
+	// protected MappedByteBuffer index;
+    protected BigByteBuffer index;
 	protected long indexSize;
 	protected int numMessages;
 	protected int generatorSrcId;
@@ -273,7 +274,8 @@ public class LsfIndex {
 				FILENAME));
 		indexSize = new File(lsfFile.getParent(), FILENAME).length();
 		indexChannel = indexInputStream.getChannel();
-		index = indexChannel.map(MapMode.READ_ONLY, 0, indexSize);
+		//index = indexChannel.map(MapMode.READ_ONLY, 0, indexSize);
+        index = new BigByteBuffer(indexChannel, indexSize);
 		if (index.remaining() < 4 || index.get() != INDEX_CHAR_I || index.get() != INDEX_CHAR_D ||
                 index.get() != INDEX_CHAR_X || index.get() != INDEX_CHAR_1) {
 			throw new Exception(
@@ -330,7 +332,7 @@ public class LsfIndex {
 		buffer.position(positionOf(ind));
 		if (!buffer.isOpen())
 			return new byte[0];
-		buffer.getBuffer().get(arr);
+		buffer.get(arr);
 		return arr;
 	}
 
@@ -373,7 +375,7 @@ public class LsfIndex {
 		buffer.position(positionOf(messageNumber) + 0);
 		if (!buffer.isOpen())
 			return false;
-		return !((buffer.getBuffer().get() & 0xFF) == 0xFE);
+		return !((buffer.get() & 0xFF) == 0xFE);
 	}
 
 	public String sourceNameOf(int messageNumber) {
@@ -408,7 +410,7 @@ public class LsfIndex {
 		buffer.position(positionOf(messageNumber) + 0);
 		if (!buffer.isOpen())
 			return -1;
-		boolean bigEndian = !((buffer.getBuffer().get() & 0xFF) == 0xFE);
+		boolean bigEndian = !((buffer.get() & 0xFF) == 0xFE);
 
 		// offset for the source in the header is 14
 		buffer.position(positionOf(messageNumber) + 14);
@@ -416,9 +418,9 @@ public class LsfIndex {
 			return -1;
 
 		if (bigEndian)
-			return buffer.getBuffer().getShort() & 0xFFFF;
+			return buffer.getShort() & 0xFFFF;
 		else
-			return Short.reverseBytes(buffer.getBuffer().getShort()) & 0xFFFF;
+			return Short.reverseBytes(buffer.getShort()) & 0xFFFF;
 	}
 
 	public synchronized int entityOf(int messageNumber) {
@@ -432,7 +434,7 @@ public class LsfIndex {
 		if (!buffer.isOpen())
 			return -1;
 
-		return buffer.getBuffer().get() & 0xFF;
+		return buffer.get() & 0xFF;
 	}
 
 	public synchronized int fieldIdOf(int messageNumber) {
@@ -448,7 +450,7 @@ public class LsfIndex {
 			buffer.position(positionOf(messageNumber) + defs.headerLength());
 			if (!buffer.isOpen())
 				return -1;
-			return buffer.getBuffer().get() & 0xFF;
+			return buffer.get() & 0xFF;
 		}
 		return -1;
 	}
@@ -535,7 +537,7 @@ public class LsfIndex {
 			return null;
 
 		try {
-			return defs.nextMessage(buffer.getBuffer());
+			return defs.nextMessage(buffer);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -554,7 +556,7 @@ public class LsfIndex {
 			return -1;
 
 		try {
-			int src = buffer.getBuffer().getShort() & 0xFFFF;
+			int src = buffer.getShort() & 0xFFFF;
 			return src;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -574,7 +576,7 @@ public class LsfIndex {
 			return -1;
 
 		try {
-			int srcEnt = buffer.getBuffer().get() & 0xFF;
+			int srcEnt = buffer.get() & 0xFF;
 			return srcEnt;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -607,10 +609,10 @@ public class LsfIndex {
 
             long len = lsfFile.length();
 
-            while (buffer.getBuffer().remaining() > defs.headerLength()) {
+            while (buffer.remaining() > defs.headerLength()) {
                 boolean validSync = false;
                 pos = buffer.position();
-                sync = buffer.getBuffer().getShort() & 0xFFFF;
+                sync = buffer.getShort() & 0xFFFF;
                 if (sync == defs.getSwappedWord()) {
                     buffer.order(ByteOrder.LITTLE_ENDIAN);
                     validSync = true;
@@ -618,9 +620,9 @@ public class LsfIndex {
                     validSync = true;
                 }
 
-                mgid = buffer.getBuffer().getShort() & 0xFFFF;
-                size = buffer.getBuffer().getShort() & 0xFFFF;
-                time = buffer.getBuffer().getDouble();
+                mgid = buffer.getShort() & 0xFFFF;
+                size = buffer.getShort() & 0xFFFF;
+                time = buffer.getDouble();
 
                 if (!validSync) {
                     // Let us skip this unknown message (considering the same header format
@@ -729,7 +731,7 @@ public class LsfIndex {
 //	}
 
 	/**
-	 * Same as {@link #startReplay(long) startReplay(1)}
+     * Same as {@link #startReplay(long, String, int)} startReplay(1, "127.0.0.1", 6002)}
 	 */
 	public void startReplay() {
 		startReplay(1, "127.0.0.1", 6002);
@@ -1019,7 +1021,7 @@ public class LsfIndex {
 	 * This method uses the EntityInfo messages present in the log to calculate
 	 * the name the of the given entity id.<br/>
 	 * This method should be used only for single vehicle logs. Otherwise
-	 * {@link #getEntityName(Integer, Integer)} should be used instead.
+	 * {@link #getEntityName(int, int)} should be used instead.
 	 * 
 	 * @param entityId
 	 *            The (numeric) id of the entity to resolve
@@ -1406,8 +1408,8 @@ public class LsfIndex {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String flsfFolder = "";
-		LsfIndex index = new LsfIndex(new File(flsfFolder + "Data.lsf.gz"));
+        String flsfFolder = "/home/pdias/Disco2/LSTSLogs/FRESNEL/xp5/concat-20241023-24-all/24/";
+        LsfIndex index = new LsfIndex(new File(flsfFolder + "Data.lsf.gz"));
 		double endTime = index.getEndTime();
 		double startTime = index.getStartTime();
 		double pivot = (endTime + startTime) / 2.0;

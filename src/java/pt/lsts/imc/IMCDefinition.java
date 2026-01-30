@@ -58,6 +58,7 @@ import pt.lsts.imc.def.DefaultProtocolParser;
 import pt.lsts.imc.def.ProtocolDefinition;
 import pt.lsts.imc.def.ValueDescriptor;
 import pt.lsts.imc.gz.MultiMemberGZIPInputStream;
+import pt.lsts.imc.lsf.BigByteBuffer;
 import pt.lsts.neptus.messages.IMessageProtocol;
 
 /**
@@ -440,6 +441,46 @@ public class IMCDefinition implements IMessageProtocol<IMCMessage> {
             byte[] tmp = new byte[header.getInteger("size") + 2];
             buff.get(tmp);
             return null;
+        }
+    }
+
+    public IMCMessage nextMessage(BigByteBuffer buff) throws Exception {
+        Header header = createHeader();
+        long sync = buff.getShort() & 0xFFFF;
+        if (sync == swappedWord)
+            buff.order(ByteOrder.LITTLE_ENDIAN);
+        else if (sync == syncWord)
+            header.setValue("sync", syncWord);
+        else {
+            System.err.printf(
+                    "Found a message with invalid sync (%X) was skipped\n",
+                    sync);
+            byte[] tmp = new byte[header.getInteger("size") + 2];
+            buff.get(tmp);
+            return nextMessage(buff);
+        }
+
+        byte[] tmp = new byte[header.getInteger("size") + 2];
+        buff.get(tmp);
+        ByteBuffer byteBuffer = ByteBuffer.wrap(tmp);
+
+        deserializeAllFieldsBut(header, byteBuffer, "sync");
+        IMCMessageType type = getType(getMessageName(header.get_mgid()));
+        if (type != null) {
+            IMCMessage message = MessageFactory
+                    .getInstance()
+                    .createTypedMessage(getMessageName(header.get_mgid()), this);
+            message.setHeader(header);
+            message.setType(type);
+            deserializeFields(message, byteBuffer);
+            deserialize(IMCFieldType.TYPE_UINT16, byteBuffer); // footer
+            return message;
+        } else {
+            System.err.println("Unknown message type was skipped: "
+                    + header.getInteger("mgid"));
+            // byte[] tmp = new byte[header.getInteger("size") + 2];
+            // buff.get(tmp);
+            return nextMessage(buff);
         }
     }
 
