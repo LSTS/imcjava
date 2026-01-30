@@ -1420,8 +1420,8 @@ public class LsfIndex {
 		System.out.println(1729735189.7738094 + " --> " + index.getMessageAt("EstimatedState", 1729735189.7738094));
 
 
-		System.out.println(index.getMessageBeforeOrAt("EstimatedState", index.getNumberOfMessages(), pivot));
-		System.out.println(index.getMessageAtOrAfter("EstimatedState", 0, pivot));
-		
+		System.out.println("getMessageAtOrAfter  --> " + index.getMessageAtOrAfter("EstimatedState", 0, pivot));
+		System.out.println("getMessageBeforeOrAt  --> " + index.getMessageBeforeOrAt("EstimatedState", index.getNumberOfMessages(), pivot));
+
 	}
 }
