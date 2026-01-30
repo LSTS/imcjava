@@ -91,12 +91,12 @@ public class BigByteBuffer {
      * @return
      */
     public boolean position(long position, int size) {
-        if (size < 1)
+        if (size < 0)
             size = 1;
-        if (position >= fileLength || position + size >= fileLength)
+        if (position >= fileLength || position + size -1 >= fileLength)
             return false;
         if (position < startPos || position > endPos - bufferOverlap
-                || position + size > endPos - bufferOverlap) {
+                || position + size - 1 > endPos - bufferOverlap) {
             //new Exception("remapping "+position+" !in ["+startPos+", "+(endPos - bufferOverlap)+"]").printStackTrace();
             return mapFrom(position);
         }
