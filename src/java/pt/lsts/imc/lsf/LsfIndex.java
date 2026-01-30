@@ -1414,7 +1414,7 @@ public class LsfIndex {
 		System.out.printf("%f --> %f --> %f\n", endTime, pivot, startTime);
 
 		System.out.println(index.getMessage(0));
-		long m = index.getFirstMessageOfType(350);
+		int m = index.getFirstMessageOfType(350);
 		System.out.println(m + " --> " + index.getMessage(m));
 
 		System.out.println(1729735189.7738094 + " --> " + index.getMessageAt("EstimatedState", 1729735189.7738094));
