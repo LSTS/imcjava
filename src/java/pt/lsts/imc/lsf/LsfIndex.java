@@ -107,9 +107,9 @@ public class LsfIndex {
 	protected FileChannel indexChannel;
 	protected LsfIndexListener listener = null;
 
-	protected int HEADER_SIZE = 12;
-	protected int ENTRY_SIZE = 14;
-	protected int OFFSET_OF_TIME = 0, OFFSET_OF_MGID = 4, OFFSET_OF_POS = 6;
+	protected long HEADER_SIZE = 12;
+	protected long ENTRY_SIZE = 14;
+	protected long OFFSET_OF_TIME = 0, OFFSET_OF_MGID = 4, OFFSET_OF_POS = 6;
 	
 	// cache indexes for first and last occurrence of messages
 	private LinkedHashMap<Integer, Integer> firstMessagesOfType = new LinkedHashMap<Integer, Integer>();
@@ -282,7 +282,7 @@ public class LsfIndex {
 					"The index file is not valid. Please regenerate the index.");
 		}
 		curTime = startTime = index.getDouble();
-		numMessages = (int) indexSize / ENTRY_SIZE;
+		numMessages = (int) ((indexSize - HEADER_SIZE) / ENTRY_SIZE);
 		endTime = getEndTime();
 		generatorSrcId = getMessage(0).getHeader().getInteger("src");
 	}
