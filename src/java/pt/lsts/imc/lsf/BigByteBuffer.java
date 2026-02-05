@@ -74,6 +74,7 @@ public class BigByteBuffer {
         }
         catch (Exception e) {
             e.printStackTrace();
+            System.err.println(String.format("Pos %d | Start %d | End %d | Truncate %d | FileLength %d | bufferSize %d | bufferOverlap %d", pos, startPos, endPos, truncate, fileLength, bufferSize, bufferOverlap));
             buffer = null;
             return false;
         }
