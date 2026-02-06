@@ -171,33 +171,28 @@ public class LsfIndex {
 		this.defs = defs;
 
 		if (lsfFile.getName().endsWith(".lsf.gz")) {
-
-			MultiMemberGZIPInputStream mmgis = new MultiMemberGZIPInputStream(
-					new FileInputStream(this.lsfFile));
-			File outFile = new File(this.lsfFile.getAbsolutePath().replaceAll(
-					"\\.gz$", ""));
-			outFile.createNewFile();
-			FileOutputStream outStream = new FileOutputStream(outFile);
-			try {
-				byte[] extra = new byte[50000];
-				int ret = 0;
-				for (;;) {
-					ret = mmgis.read(extra);
-					if (ret != -1) {
-						byte[] extra1 = new byte[ret];
-						System.arraycopy(extra, 0, extra1, 0, ret);
-						outStream.write(extra1);
-						outStream.flush();
-					} else {
-						break;
+			try (MultiMemberGZIPInputStream mmgis = new MultiMemberGZIPInputStream(
+                    Files.newInputStream(this.lsfFile.toPath()))) {
+				File outFile = new File(this.lsfFile.getAbsolutePath().replaceAll(
+						"\\.gz$", ""));
+				outFile.createNewFile();
+				try (FileOutputStream outStream = new FileOutputStream(outFile)) {
+					byte[] extra = new byte[50000];
+					int ret = 0;
+					for (; ; ) {
+						ret = mmgis.read(extra);
+						if (ret != -1) {
+							outStream.write(extra, 0, ret);
+							outStream.flush();
+						} else {
+							break;
+						}
 					}
+					this.lsfFile = outFile;
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				this.lsfFile = outFile;
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
-			outStream.close();
-			mmgis.close();
 		}
 
 		lsfInputStream = new RandomAccessFile(this.lsfFile, "r");
