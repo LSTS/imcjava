@@ -59,26 +59,33 @@ public class BigByteBuffer {
     }
 
 
-    protected boolean mapFrom(long pos) {
-        this.startPos = pos - bufferSize;
-        this.startPos = Math.max(this.startPos, 0);
-        this.endPos = pos + bufferSize + bufferOverlap;
-        this.endPos = Math.min(this.endPos, fileLength);
+    protected synchronized boolean mapFrom(long pos) {
+        long start = pos - bufferSize;
+        start = Math.max(start, 0);
+        long end = pos + bufferSize + bufferOverlap;
+        end = Math.min(end, fileLength);
         // Avoid mapping higher than max allowed
-        long truncate = Math.max((this.endPos - this.startPos) - Integer.MAX_VALUE, 0);
-        this.endPos = this.endPos - truncate;
+        long truncate = Math.max((end - start) - Integer.MAX_VALUE, 0);
+        end = end - truncate;
+
+        this.startPos = start;
+        this.endPos = end;
         try {            
             buffer = channel.map(MapMode.READ_ONLY, this.startPos, this.endPos - this.startPos);
             buffer.order(order);
-            buffer.position((int) (pos - startPos));
+            buffer.position((int) (pos - this.startPos));
         }
         catch (Exception e) {
+            System.err.printf("Pos %d | Start %d %d %d | End %d | Truncate %d | FileLength %d | bufferSize %d | bufferOverlap %d%n", pos, startPos, pos - bufferSize, Math.max(pos - bufferSize, 0), endPos, truncate, fileLength, bufferSize, bufferOverlap);
             e.printStackTrace();
-            System.err.println(String.format("Pos %d | Start %d | End %d | Truncate %d | FileLength %d | bufferSize %d | bufferOverlap %d", pos, startPos, endPos, truncate, fileLength, bufferSize, bufferOverlap));
             buffer = null;
             return false;
         }
         return true;
+    }
+
+    public void printMapping() {
+        System.err.printf("MAPPED Start %d | End %d | FileLength %d | bufferSize %d | bufferOverlap %d%n", this.startPos, this.endPos, this.fileLength, this.bufferSize, this.bufferOverlap);
     }
 
     public boolean position(long position) {
@@ -190,8 +197,13 @@ public class BigByteBuffer {
     }
 
     public short getShort(long index) {
-        if (position(index, 2))
-            return buffer.getShort();
+        try {
+            if (position(index, 2))
+                return buffer.getShort();
+        } catch (Exception e) {
+            printMapping();
+            throw e;
+        }
         throw new BufferUnderflowException();
     }
 

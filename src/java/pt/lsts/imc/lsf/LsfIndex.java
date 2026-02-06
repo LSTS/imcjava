@@ -320,7 +320,7 @@ public class LsfIndex {
 	 *            The index of the message
 	 * @return The bytes, in the log file respective to the message
 	 */
-	public byte[] getMessageBytes(int ind) {
+	public synchronized byte[] getMessageBytes(int ind) {
 		int len;
 		if (ind < getNumberOfMessages() - 1)
 			len = (int) (positionOf(ind + 1) - positionOf(ind));
@@ -343,7 +343,7 @@ public class LsfIndex {
 	 *            The index of the message
 	 * @return The IMC type (id) for the message at given index
 	 */
-	public int typeOf(int messageNumber) {
+	public synchronized int typeOf(int messageNumber) {
 		if (messageNumber > numMessages)
 			return -1;
 		return index.getShort(HEADER_SIZE + messageNumber * ENTRY_SIZE
@@ -358,7 +358,7 @@ public class LsfIndex {
 	 *            The index of the message in the log
 	 * @return Time, in seconds since January 1st 1970 UTC of the given message
 	 */
-	public double timeOf(int messageNumber) {
+	public synchronized double timeOf(int messageNumber) {
 		if (messageNumber > numMessages)
 			return Double.NaN;
 		return startTime
@@ -462,7 +462,7 @@ public class LsfIndex {
 	 *            The index of the message
 	 * @return The offset in the lsf File for message at given index
 	 */
-	public long positionOf(int messageNumber) {
+	public synchronized long positionOf(int messageNumber) {
 		if (messageNumber > numMessages)
 			return -1;
 		return index.getLong(HEADER_SIZE + messageNumber * ENTRY_SIZE
