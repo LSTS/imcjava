@@ -43,7 +43,7 @@ public class BigByteBuffer {
     protected MappedByteBuffer buffer;
     protected FileChannel channel;
     protected long startPos, endPos, fileLength;
-    protected long bufferSize = (long)Math.pow(2, 20) * 64l;
+    protected long bufferSize = (long)Math.pow(2, 20) * 64L;
     protected long bufferOverlap = (long)Math.pow(2, 16);
     protected ByteOrder order = ByteOrder.LITTLE_ENDIAN;
 
