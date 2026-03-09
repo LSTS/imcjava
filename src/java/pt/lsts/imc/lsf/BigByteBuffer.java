@@ -30,6 +30,7 @@
  */
 package pt.lsts.imc.lsf;
 
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
@@ -42,25 +43,51 @@ public class BigByteBuffer {
     protected MappedByteBuffer buffer;
     protected FileChannel channel;
     protected long startPos, endPos, fileLength;
-    protected long bufferSize = (long)Math.pow(2, 20) * 64l;
+    protected long bufferSize = (long)Math.pow(2, 20) * 64L;
     protected long bufferOverlap = (long)Math.pow(2, 16);
     protected ByteOrder order = ByteOrder.LITTLE_ENDIAN;
-    
-    public BigByteBuffer(FileChannel channel, long fileLength) {
+
+    public BigByteBuffer(FileChannel channel, long fileLength, ByteOrder order, long bufferSizeDesired) {
+        if (bufferSizeDesired > this.bufferSize)
+            this.bufferSize = bufferSizeDesired;
+        this.bufferSize = Math.min(this.bufferSize, Integer.MAX_VALUE);
+        this.order = order;
         this.channel = channel;
         this.fileLength = fileLength;
         mapFrom(0);
     }
 
-    protected boolean mapFrom(long startPos) {
-        this.startPos = startPos;
-        this.endPos = startPos + bufferSize + bufferOverlap;
-        this.endPos = Math.min(endPos, fileLength);
+    public BigByteBuffer(FileChannel channel, long fileLength, ByteOrder order) {
+        this(channel, fileLength, order, -1);
+    }
+
+    public BigByteBuffer(FileChannel channel, long fileLength, long bufferSizeDesired) {
+        this(channel, fileLength, ByteOrder.LITTLE_ENDIAN, bufferSizeDesired);
+    }
+
+    public BigByteBuffer(FileChannel channel, long fileLength) {
+        this(channel, fileLength, ByteOrder.LITTLE_ENDIAN, -1);
+    }
+
+
+    protected synchronized boolean mapFrom(long pos) {
+        long start = pos - bufferSize;
+        start = Math.max(start, 0);
+        long end = pos + bufferSize + bufferOverlap;
+        end = Math.min(end, fileLength);
+        // Avoid mapping higher than max allowed
+        long truncate = Math.max((end - start) - Integer.MAX_VALUE, 0);
+        end = end - truncate;
+
+        this.startPos = start;
+        this.endPos = end;
         try {            
-            buffer = channel.map(MapMode.READ_ONLY, startPos, endPos - startPos);
+            buffer = channel.map(MapMode.READ_ONLY, this.startPos, this.endPos - this.startPos);
             buffer.order(order);
+            buffer.position((int) (pos - this.startPos));
         }
         catch (Exception e) {
+            System.err.printf("Pos %d | Start %d %d %d | End %d | Truncate %d | FileLength %d | bufferSize %d | bufferOverlap %d%n", pos, startPos, pos - bufferSize, Math.max(pos - bufferSize, 0), endPos, truncate, fileLength, bufferSize, bufferOverlap);
             e.printStackTrace();
             buffer = null;
             return false;
@@ -68,34 +95,283 @@ public class BigByteBuffer {
         return true;
     }
 
+    public void printMapping() {
+        System.err.printf("MAPPED Start %d | End %d | FileLength %d | bufferSize %d | bufferOverlap %d%n", this.startPos, this.endPos, this.fileLength, this.bufferSize, this.bufferOverlap);
+    }
+
     public boolean position(long position) {
-        if (position >= fileLength)
+        return position(position, 1);
+    }
+
+    /**
+     * Check if position is o to read position and size.
+     * @param position file position
+     * @param size Should be greater than 1. Otherwise will be truncated to 1
+     * @return
+     */
+    public boolean position(long position, int size) {
+        if (size < 0)
+            size = 1;
+        if (position >= fileLength || position + size -1 >= fileLength)
             return false;
-        if (position < startPos || position > endPos - bufferOverlap) {
+        if (position < startPos || position > endPos - bufferOverlap
+                || position + size - 1 > endPos - bufferOverlap) {
             //new Exception("remapping "+position+" !in ["+startPos+", "+(endPos - bufferOverlap)+"]").printStackTrace();
             return mapFrom(position);
         }
         else {
-            buffer.position((int)(position-startPos));
+            buffer.position((int) (position - startPos));
             return true;
-        }        
+        }
     }
-    
+
     public long position() {
         return startPos + buffer.position();
     }
-    
-    public final ByteBuffer getBuffer() {
-        return buffer;
-    }
-    
+
+    // public final ByteBuffer getBuffer() {
+    //    return buffer;
+    //}
+
     public void order(ByteOrder order) {
         this.order = order;
         //System.out.println("ORDER CHANGED TO "+order);
         mapFrom(startPos);
     }
 
+    public byte get() {
+        return buffer.get();
+    }
+
+    public void put(byte b) {
+        buffer.put(b);
+    }
+
+    public byte get(long index) {
+        if (position(index))
+            return buffer.get();
+        throw new BufferUnderflowException();
+    }
+
+    public void put(long index, byte b) {
+        if (position(index)) {
+            buffer.put(b);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public final ByteOrder order() {
+        return buffer.order();
+    }
+
+    public char getChar() {
+        if (position(position(), 2))
+            return buffer.getChar();
+        throw new BufferUnderflowException();
+    }
+
+    public void putChar(char value) {
+        if (position(position(), 2)) {
+            buffer.putChar(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public char getChar(long index) {
+        if (position(index, 2))
+            return buffer.getChar();
+        throw new BufferUnderflowException();
+    }
+
+    public void putChar(long index, char value) {
+        if (position(index, 2)) {
+            buffer.putChar(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public short getShort() {
+        if (position(position(), 2))
+            return buffer.getShort();
+        throw new BufferUnderflowException();
+    }
+
+    public void putShort(short value) {
+        if (position(position(), 2)) {
+            buffer.putShort(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public short getShort(long index) {
+        try {
+            if (position(index, 2))
+                return buffer.getShort();
+        } catch (Exception e) {
+            printMapping();
+            throw e;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public void putShort(long index, short value) {
+        if (position(index, 2)) {
+            buffer.putShort(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public int getInt() {
+        if (position(position(), 4))
+            return buffer.getInt();
+        throw new BufferUnderflowException();
+    }
+
+    public void putInt(int value) {
+        if (position(position(), 4)) {
+            buffer.putInt(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public int getInt(long index) {
+        if (position(index, 4))
+            return buffer.getInt();
+        throw new BufferUnderflowException();
+    }
+
+    public void putInt(long index, int value) {
+        if (position(index, 4)) {
+            buffer.putInt(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public long getLong() {
+        if (position(position(), 8))
+            return buffer.getLong();
+        throw new BufferUnderflowException();
+    }
+
+    public void putLong(long value) {
+        if (position(position(), 8)) {
+            buffer.putLong(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public long getLong(long index) {
+        if (position(index, 8))
+            return buffer.getLong();
+        throw new BufferUnderflowException();
+    }
+
+    public void putLong(long index, long value) {
+        if (position(index, 8)) {
+            buffer.putLong(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public float getFloat() {
+        if (position(position(), 4))
+            return buffer.getFloat();
+        throw new BufferUnderflowException();
+    }
+
+    public void putFloat(float value) {
+        if (position(position(), 4)) {
+            buffer.putFloat(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public float getFloat(long index) {
+        if (position(index, 4))
+            return buffer.getFloat();
+        throw new BufferUnderflowException();
+    }
+
+    public void putFloat(long index, float value) {
+        if (position(index, 4)) {
+            buffer.putFloat(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public double getDouble() {
+        if (position(position(), 8))
+            return buffer.getDouble();
+        throw new BufferUnderflowException();
+    }
+
+    public void putDouble(double value) {
+        if (position(position(), 8)) {
+            buffer.putDouble(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    public double getDouble(long index) {
+        if (position(index, 8))
+            return buffer.getDouble();
+        throw new BufferUnderflowException();
+    }
+
+    public void putDouble(long index, double value) {
+        if (position(index, 8)) {
+            buffer.putDouble(value);
+            return;
+        }
+        throw new BufferUnderflowException();
+    }
+
+    static void checkBounds(int off, int len, int size) { // package-private
+        if ((off | len | (off + len) | (size - (off + len))) < 0)
+            throw new IndexOutOfBoundsException();
+    }
+
+    public final long remaining() {
+        return  fileLength - (startPos + buffer.position());
+    }
+
+    /**
+     * Tells whether there are any elements between the current position and
+     * the limit.
+     *
+     * @return  <tt>true</tt> if, and only if, there is at least one element
+     *          remaining in this buffer
+     */
+    public final boolean hasRemaining() {
+        return (startPos + buffer.position()) < fileLength;
+    }
+
     public boolean isOpen() {
         return buffer != null && channel.isOpen();
+    }
+    public void get(byte[] arr) {
+        get(arr, 0, arr.length);
+    }
+
+    public void get(byte[] dst, int offset, int length) {
+        checkBounds(offset, length, dst.length);
+        position(position(), length);
+        if (length > remaining())
+            throw new BufferUnderflowException();
+        int end = offset + length;
+        for (int i = offset; i < end; i++)
+            dst[i] = get();
     }
 }
