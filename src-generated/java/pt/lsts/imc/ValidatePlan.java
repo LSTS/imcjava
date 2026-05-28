@@ -31,19 +31,35 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Validate Plan DB (2007)<br/>
+ *  Use to validate plans<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class ValidatePlan extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public enum TYPE {
+		REQ(0),
+		VALID(1),
+		INVALID(2);
 
-	public ManeuverDone() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		TYPE(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 2007;
+
+	public ValidatePlan() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public ValidatePlan(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +69,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public ValidatePlan(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static ValidatePlan create(Object... values) {
+		ValidatePlan m = new ValidatePlan();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static ValidatePlan clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		ValidatePlan m = new ValidatePlan();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +95,83 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public ValidatePlan(TYPE type, PlanDB plan) {
+		super(ID_STATIC);
+		setType(type);
+		if (plan != null)
+			setPlan(plan);
+	}
+
+	/**
+	 *  @return Request Type (enumerated) - uint8_t
+	 */
+	public TYPE getType() {
+		try {
+			TYPE o = TYPE.valueOf(getMessageType().getFieldPossibleValues("type").get(getLong("type")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getTypeStr() {
+		return getString("type");
+	}
+
+	public short getTypeVal() {
+		return (short) getInteger("type");
+	}
+
+	/**
+	 *  @param type Request Type (enumerated)
+	 */
+	public ValidatePlan setType(TYPE type) {
+		values.put("type", type.value());
+		return this;
+	}
+
+	/**
+	 *  @param type Request Type (as a String)
+	 */
+	public ValidatePlan setTypeStr(String type) {
+		setValue("type", type);
+		return this;
+	}
+
+	/**
+	 *  @param type Request Type (integer value)
+	 */
+	public ValidatePlan setTypeVal(short type) {
+		setValue("type", type);
+		return this;
+	}
+
+	/**
+	 *  @return Plan DB - message
+	 */
+	public PlanDB getPlan() {
+		try {
+			IMCMessage obj = getMessage("plan");
+			if (obj instanceof PlanDB)
+				return (PlanDB) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param plan Plan DB
+	 */
+	public ValidatePlan setPlan(PlanDB plan) {
+		values.put("plan", plan);
+		return this;
 	}
 
 }

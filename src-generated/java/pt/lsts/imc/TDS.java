@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Total Dissolved Solids (2032)<br/>
+ *  Total Dissolved Solids measurement.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class TDS extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 2032;
 
-	public ManeuverDone() {
+	public TDS() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public TDS(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public TDS(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static TDS create(Object... values) {
+		TDS m = new TDS();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static TDS clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		TDS m = new TDS();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,26 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public TDS(float value) {
+		super(ID_STATIC);
+		setValue(value);
+	}
+
+	/**
+	 *  @return Value (mg/L) - fp32_t
+	 */
+	public double getValue() {
+		return getDouble("value");
+	}
+
+	/**
+	 *  @param value Value (mg/L)
+	 */
+	public TDS setValue(double value) {
+		values.put("value", value);
+		return this;
 	}
 
 }

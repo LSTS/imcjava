@@ -31,19 +31,20 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Pulse Width (2025)<br/>
+ *  Logs the commanded pulse width for motors or servos.<br/>
+ *  Use the entity label to identify the channel.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class PulseWidth extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 2025;
 
-	public ManeuverDone() {
+	public PulseWidth() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public PulseWidth(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +54,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public PulseWidth(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static PulseWidth create(Object... values) {
+		PulseWidth m = new PulseWidth();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static PulseWidth clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		PulseWidth m = new PulseWidth();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +80,26 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public PulseWidth(int value) {
+		super(ID_STATIC);
+		setValue(value);
+	}
+
+	/**
+	 *  @return Value (µs) - uint16_t
+	 */
+	public int getValue() {
+		return getInteger("value");
+	}
+
+	/**
+	 *  @param value Value (µs)
+	 */
+	public PulseWidth setValue(int value) {
+		values.put("value", value);
+		return this;
 	}
 
 }

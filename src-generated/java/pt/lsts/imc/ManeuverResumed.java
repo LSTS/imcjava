@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Maneuver Resumed (2020)<br/>
+ *  This message is sent when a maneuver is stoped, describing how it could be resumed to completion later.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class ManeuverResumed extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 2020;
 
-	public ManeuverDone() {
+	public ManeuverResumed() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public ManeuverResumed(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public ManeuverResumed(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static ManeuverResumed create(Object... values) {
+		ManeuverResumed m = new ManeuverResumed();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static ManeuverResumed clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		ManeuverResumed m = new ManeuverResumed();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,50 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public ManeuverResumed(String man_id, java.util.Collection<Maneuver> man_list) {
+		super(ID_STATIC);
+		if (man_id != null)
+			setManId(man_id);
+		if (man_list != null)
+			setManList(man_list);
+	}
+
+	/**
+	 *  @return Maneuver Identifier - plaintext
+	 */
+	public String getManId() {
+		return getString("man_id");
+	}
+
+	/**
+	 *  @param man_id Maneuver Identifier
+	 */
+	public ManeuverResumed setManId(String man_id) {
+		values.put("man_id", man_id);
+		return this;
+	}
+
+	/**
+	 *  @return Maneuver List - message-list
+	 */
+	public java.util.Vector<Maneuver> getManList() {
+		try {
+			return getMessageList("man_list", Maneuver.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param man_list Maneuver List
+	 */
+	public ManeuverResumed setManList(java.util.Collection<Maneuver> man_list) {
+		values.put("man_list", man_list);
+		return this;
 	}
 
 }

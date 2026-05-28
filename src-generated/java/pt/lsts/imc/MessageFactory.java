@@ -170,6 +170,10 @@ public class MessageFactory {
 				return new LblBeacon(defs);
 			case LblConfig.ID_STATIC:
 				return new LblConfig(defs);
+			case LblBeaconExtended.ID_STATIC:
+				return new LblBeaconExtended(defs);
+			case LblConfigExtended.ID_STATIC:
+				return new LblConfigExtended(defs);
 			case AcousticMessage.ID_STATIC:
 				return new AcousticMessage(defs);
 			case SimAcousticMessage.ID_STATIC:
@@ -472,10 +476,12 @@ public class MessageFactory {
 				return new FollowPoint(defs);
 			case Alignment.ID_STATIC:
 				return new Alignment(defs);
-			case StationKeepingExtended.ID_STATIC:
-				return new StationKeepingExtended(defs);
-			case ManeuverDone.ID_STATIC:
-				return new ManeuverDone(defs);
+			case FollowCommand.ID_STATIC:
+				return new FollowCommand(defs);
+			case Command.ID_STATIC:
+				return new Command(defs);
+			case FollowCommandState.ID_STATIC:
+				return new FollowCommandState(defs);
 			case Magnetometer.ID_STATIC:
 				return new Magnetometer(defs);
 			case VehicleState.ID_STATIC:
@@ -588,6 +594,12 @@ public class MessageFactory {
 				return new CompressedImage(defs);
 			case ImageTxSettings.ID_STATIC:
 				return new ImageTxSettings(defs);
+			case ImageSnippet.ID_STATIC:
+				return new ImageSnippet(defs);
+			case ManeuverDone.ID_STATIC:
+				return new ManeuverDone(defs);
+			case StationKeepingExtended.ID_STATIC:
+				return new StationKeepingExtended(defs);
 			case RemoteState.ID_STATIC:
 				return new RemoteState(defs);
 			case Target.ID_STATIC:
@@ -628,6 +640,8 @@ public class MessageFactory {
 				return new UamRxRange(defs);
 			case UamTxRange.ID_STATIC:
 				return new UamTxRange(defs);
+			case UamJanusPacket.ID_STATIC:
+				return new UamJanusPacket(defs);
 			case FormCtrlParam.ID_STATIC:
 				return new FormCtrlParam(defs);
 			case FormationEval.ID_STATIC:
@@ -692,6 +706,8 @@ public class MessageFactory {
 				return new DmsDetection(defs);
 			case HomePosition.ID_STATIC:
 				return new HomePosition(defs);
+			case ChargingState.ID_STATIC:
+				return new ChargingState(defs);
 			case AbsoluteWind.ID_STATIC:
 				return new AbsoluteWind(defs);
 			case AisInfo.ID_STATIC:
@@ -710,6 +726,12 @@ public class MessageFactory {
 				return new Frequency(defs);
 			case WaveSpectrumParameters.ID_STATIC:
 				return new WaveSpectrumParameters(defs);
+			case FileSampleEvent.ID_STATIC:
+				return new FileSampleEvent(defs);
+			case QueryGsmCredit.ID_STATIC:
+				return new QueryGsmCredit(defs);
+			case FileClassification.ID_STATIC:
+				return new FileClassification(defs);
 			case GpioState.ID_STATIC:
 				return new GpioState(defs);
 			case GpioStateGet.ID_STATIC:
@@ -720,20 +742,60 @@ public class MessageFactory {
 				return new ColoredDissolvedOrganicMatter(defs);
 			case FluorescentDissolvedOrganicMatter.ID_STATIC:
 				return new FluorescentDissolvedOrganicMatter(defs);
+			case IridiumMsgTxExtended.ID_STATIC:
+				return new IridiumMsgTxExtended(defs);
 			case TotalMagIntensity.ID_STATIC:
 				return new TotalMagIntensity(defs);
+			case ValidatePlan.ID_STATIC:
+				return new ValidatePlan(defs);
 			case CommRestriction.ID_STATIC:
 				return new CommRestriction(defs);
+			case WifiStats.ID_STATIC:
+				return new WifiStats(defs);
+			case WifiNetwork.ID_STATIC:
+				return new WifiNetwork(defs);
+			case SonarPulse.ID_STATIC:
+				return new SonarPulse(defs);
+			case HealthCheck.ID_STATIC:
+				return new HealthCheck(defs);
 			case QueryTypedEntityParameters.ID_STATIC:
 				return new QueryTypedEntityParameters(defs);
 			case TypedEntityParameter.ID_STATIC:
 				return new TypedEntityParameter(defs);
 			case ValuesIf.ID_STATIC:
 				return new ValuesIf(defs);
+			case DirSonarData.ID_STATIC:
+				return new DirSonarData(defs);
+			case ManeuverResumed.ID_STATIC:
+				return new ManeuverResumed(defs);
 			case VersionInfo.ID_STATIC:
 				return new VersionInfo(defs);
 			case TotalHeading.ID_STATIC:
 				return new TotalHeading(defs);
+			case SatellitesInView.ID_STATIC:
+				return new SatellitesInView(defs);
+			case GnssHwMon.ID_STATIC:
+				return new GnssHwMon(defs);
+			case PulseWidth.ID_STATIC:
+				return new PulseWidth(defs);
+			case SpecificConductance.ID_STATIC:
+				return new SpecificConductance(defs);
+			case Ammonia.ID_STATIC:
+				return new Ammonia(defs);
+			case Ammonium.ID_STATIC:
+				return new Ammonium(defs);
+			case Nitrate.ID_STATIC:
+				return new Nitrate(defs);
+			case NitrateN.ID_STATIC:
+				return new NitrateN(defs);
+			case Chloride.ID_STATIC:
+				return new Chloride(defs);
+			case TDS.ID_STATIC:
+				return new TDS(defs);
+			case TSS.ID_STATIC:
+				return new TSS(defs);
+			case NLF.ID_STATIC:
+				return new NLF(defs);
 			case TypedEntityParameterEditor.ID_STATIC:
 				return new TypedEntityParameterEditor(defs);
 			default:

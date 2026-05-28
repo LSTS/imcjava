@@ -31,19 +31,29 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Command To Follow (497)<br/>
+ *  This message must be sent by an external entity to provide command references to a system<br/>
+ *  running a "Follow Command Maneuver". If no Command messages are transmitted, the system<br/>
+ *  will terminate maneuver.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class Command extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final short FLAG_SPEED_METERS_PS = 0x01;
+	public static final short FLAG_SPEED_RPM = 0x02;
+	public static final short FLAG_DEPTH = 0x04;
+	public static final short FLAG_ALTITUDE = 0x08;
+	public static final short FLAG_HEADING = 0x10;
+	public static final short FLAG_HEADING_RATE = 0x20;
+	public static final short FLAG_MANDONE = 0x80;
 
-	public ManeuverDone() {
+	public static final int ID_STATIC = 497;
+
+	public Command() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public Command(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +63,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public Command(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static Command create(Object... values) {
+		Command m = new Command();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static Command clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		Command m = new Command();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +89,74 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public Command(short flags, float speed, float z, float heading) {
+		super(ID_STATIC);
+		setFlags(flags);
+		setSpeed(speed);
+		setZ(z);
+		setHeading(heading);
+	}
+
+	/**
+	 *  @return Flags (bitfield) - uint8_t
+	 */
+	public short getFlags() {
+		return (short) getInteger("flags");
+	}
+
+	/**
+	 *  @param flags Flags (bitfield)
+	 */
+	public Command setFlags(short flags) {
+		values.put("flags", flags);
+		return this;
+	}
+
+	/**
+	 *  @return Speed Reference - fp32_t
+	 */
+	public double getSpeed() {
+		return getDouble("speed");
+	}
+
+	/**
+	 *  @param speed Speed Reference
+	 */
+	public Command setSpeed(double speed) {
+		values.put("speed", speed);
+		return this;
+	}
+
+	/**
+	 *  @return Z Reference (m) - fp32_t
+	 */
+	public double getZ() {
+		return getDouble("z");
+	}
+
+	/**
+	 *  @param z Z Reference (m)
+	 */
+	public Command setZ(double z) {
+		values.put("z", z);
+		return this;
+	}
+
+	/**
+	 *  @return Heading Reference (rad) - fp32_t
+	 */
+	public double getHeading() {
+		return getDouble("heading");
+	}
+
+	/**
+	 *  @param heading Heading Reference (rad)
+	 */
+	public Command setHeading(double heading) {
+		values.put("heading", heading);
+		return this;
 	}
 
 }

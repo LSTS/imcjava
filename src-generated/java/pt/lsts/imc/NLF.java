@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Non-linear Function Conductivity (2034)<br/>
+ *  Non-linear Function Conductivity (nLF).<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class NLF extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 2034;
 
-	public ManeuverDone() {
+	public NLF() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public NLF(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public NLF(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static NLF create(Object... values) {
+		NLF m = new NLF();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static NLF clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		NLF m = new NLF();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,26 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public NLF(float value) {
+		super(ID_STATIC);
+		setValue(value);
+	}
+
+	/**
+	 *  @return nLF (S/m) - fp32_t
+	 */
+	public double getValue() {
+		return getDouble("value");
+	}
+
+	/**
+	 *  @param value nLF (S/m)
+	 */
+	public NLF setValue(double value) {
+		values.put("value", value);
+		return this;
 	}
 
 }

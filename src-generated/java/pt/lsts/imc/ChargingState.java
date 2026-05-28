@@ -31,19 +31,34 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Charging State (910)<br/>
+ *  Reports if the vehicle is charging or not<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class ChargingState extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public enum IS_CHARGING {
+		NOT_CHARGING(0),
+		IS_CHARGING(1);
 
-	public ManeuverDone() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		IS_CHARGING(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 910;
+
+	public ChargingState() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public ChargingState(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +68,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public ChargingState(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static ChargingState create(Object... values) {
+		ChargingState m = new ChargingState();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static ChargingState clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		ChargingState m = new ChargingState();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +94,56 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public ChargingState(IS_CHARGING is_charging) {
+		super(ID_STATIC);
+		setIsCharging(is_charging);
+	}
+
+	/**
+	 *  @return Is Charging (enumerated) - uint8_t
+	 */
+	public IS_CHARGING getIsCharging() {
+		try {
+			IS_CHARGING o = IS_CHARGING.valueOf(getMessageType().getFieldPossibleValues("is_charging").get(getLong("is_charging")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getIsChargingStr() {
+		return getString("is_charging");
+	}
+
+	public short getIsChargingVal() {
+		return (short) getInteger("is_charging");
+	}
+
+	/**
+	 *  @param is_charging Is Charging (enumerated)
+	 */
+	public ChargingState setIsCharging(IS_CHARGING is_charging) {
+		values.put("is_charging", is_charging.value());
+		return this;
+	}
+
+	/**
+	 *  @param is_charging Is Charging (as a String)
+	 */
+	public ChargingState setIsChargingStr(String is_charging) {
+		setValue("is_charging", is_charging);
+		return this;
+	}
+
+	/**
+	 *  @param is_charging Is Charging (integer value)
+	 */
+	public ChargingState setIsChargingVal(short is_charging) {
+		setValue("is_charging", is_charging);
+		return this;
 	}
 
 }

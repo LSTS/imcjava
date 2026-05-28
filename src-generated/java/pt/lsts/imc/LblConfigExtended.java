@@ -31,19 +31,36 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message LBL Configuration Extended (205)<br/>
+ *  Long Base Line configuration.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class LblConfigExtended extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public enum OP {
+		SET_CFG(0),
+		GET_CFG(1),
+		CUR_CFG(2),
+		POS_CFG(3);
 
-	public ManeuverDone() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		OP(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 205;
+
+	public LblConfigExtended() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public LblConfigExtended(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +70,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public LblConfigExtended(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static LblConfigExtended create(Object... values) {
+		LblConfigExtended m = new LblConfigExtended();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static LblConfigExtended clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		LblConfigExtended m = new LblConfigExtended();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +96,79 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public LblConfigExtended(OP op, java.util.Collection<LblBeaconExtended> beacons) {
+		super(ID_STATIC);
+		setOp(op);
+		if (beacons != null)
+			setBeacons(beacons);
+	}
+
+	/**
+	 *  @return Operation (enumerated) - uint8_t
+	 */
+	public OP getOp() {
+		try {
+			OP o = OP.valueOf(getMessageType().getFieldPossibleValues("op").get(getLong("op")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getOpStr() {
+		return getString("op");
+	}
+
+	public short getOpVal() {
+		return (short) getInteger("op");
+	}
+
+	/**
+	 *  @param op Operation (enumerated)
+	 */
+	public LblConfigExtended setOp(OP op) {
+		values.put("op", op.value());
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (as a String)
+	 */
+	public LblConfigExtended setOpStr(String op) {
+		setValue("op", op);
+		return this;
+	}
+
+	/**
+	 *  @param op Operation (integer value)
+	 */
+	public LblConfigExtended setOpVal(short op) {
+		setValue("op", op);
+		return this;
+	}
+
+	/**
+	 *  @return Beacons - message-list
+	 */
+	public java.util.Vector<LblBeaconExtended> getBeacons() {
+		try {
+			return getMessageList("beacons", LblBeaconExtended.class);
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param beacons Beacons
+	 */
+	public LblConfigExtended setBeacons(java.util.Collection<LblBeaconExtended> beacons) {
+		values.put("beacons", beacons);
+		return this;
 	}
 
 }

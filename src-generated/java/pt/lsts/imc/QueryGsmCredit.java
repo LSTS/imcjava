@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Query GSM Credit (1103)<br/>
+ *  Request to check gsm credit<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class QueryGsmCredit extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 1103;
 
-	public ManeuverDone() {
+	public QueryGsmCredit() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public QueryGsmCredit(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public QueryGsmCredit(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static QueryGsmCredit create(Object... values) {
+		QueryGsmCredit m = new QueryGsmCredit();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static QueryGsmCredit clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		QueryGsmCredit m = new QueryGsmCredit();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,26 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public QueryGsmCredit(int req_id) {
+		super(ID_STATIC);
+		setReqId(req_id);
+	}
+
+	/**
+	 *  @return Request ID - uint16_t
+	 */
+	public int getReqId() {
+		return getInteger("req_id");
+	}
+
+	/**
+	 *  @param req_id Request ID
+	 */
+	public QueryGsmCredit setReqId(int req_id) {
+		values.put("req_id", req_id);
+		return this;
 	}
 
 }

@@ -31,19 +31,18 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Transmit Iridium Message (Extended) (2005)<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class IridiumMsgTxExtended extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 2005;
 
-	public ManeuverDone() {
+	public IridiumMsgTxExtended() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public IridiumMsgTxExtended(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +52,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public IridiumMsgTxExtended(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static IridiumMsgTxExtended create(Object... values) {
+		IridiumMsgTxExtended m = new IridiumMsgTxExtended();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static IridiumMsgTxExtended clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		IridiumMsgTxExtended m = new IridiumMsgTxExtended();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +78,92 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public IridiumMsgTxExtended(int req_id, int ttl, long expiration, String destination, byte[] data) {
+		super(ID_STATIC);
+		setReqId(req_id);
+		setTtl(ttl);
+		setExpiration(expiration);
+		if (destination != null)
+			setDestination(destination);
+		if (data != null)
+			setData(data);
+	}
+
+	/**
+	 *  @return Request Identifier - uint16_t
+	 */
+	public int getReqId() {
+		return getInteger("req_id");
+	}
+
+	/**
+	 *  @param req_id Request Identifier
+	 */
+	public IridiumMsgTxExtended setReqId(int req_id) {
+		values.put("req_id", req_id);
+		return this;
+	}
+
+	/**
+	 *  @return Time to live (s) - uint16_t
+	 */
+	public int getTtl() {
+		return getInteger("ttl");
+	}
+
+	/**
+	 *  @param ttl Time to live (s)
+	 */
+	public IridiumMsgTxExtended setTtl(int ttl) {
+		values.put("ttl", ttl);
+		return this;
+	}
+
+	/**
+	 *  @return Expiration Time (s) - uint32_t
+	 */
+	public long getExpiration() {
+		return getLong("expiration");
+	}
+
+	/**
+	 *  @param expiration Expiration Time (s)
+	 */
+	public IridiumMsgTxExtended setExpiration(long expiration) {
+		values.put("expiration", expiration);
+		return this;
+	}
+
+	/**
+	 *  @return Destination Identifier - plaintext
+	 */
+	public String getDestination() {
+		return getString("destination");
+	}
+
+	/**
+	 *  @param destination Destination Identifier
+	 */
+	public IridiumMsgTxExtended setDestination(String destination) {
+		values.put("destination", destination);
+		return this;
+	}
+
+	/**
+	 *  @return Data - rawdata
+	 */
+	public byte[] getData() {
+		return getRawData("data");
+	}
+
+	/**
+	 *  @param data Data
+	 */
+	public IridiumMsgTxExtended setData(byte[] data) {
+		values.put("data", data);
+		return this;
 	}
 
 }

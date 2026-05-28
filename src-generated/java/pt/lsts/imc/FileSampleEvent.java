@@ -31,19 +31,36 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message File Sample Event (1102)<br/>
+ *  Report a sample stored to disk.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class FileSampleEvent extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public enum FSTYPE {
+		IMAGE(0),
+		AUDIO(1),
+		SONAR(2),
+		OTHER(255);
 
-	public ManeuverDone() {
+		protected long value;
+
+		public long value() {
+			return value;
+		}
+
+		FSTYPE(long value) {
+			this.value = value;
+		}
+	}
+
+	public static final int ID_STATIC = 1102;
+
+	public FileSampleEvent() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public FileSampleEvent(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +70,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public FileSampleEvent(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static FileSampleEvent create(Object... values) {
+		FileSampleEvent m = new FileSampleEvent();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static FileSampleEvent clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		FileSampleEvent m = new FileSampleEvent();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +96,73 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public FileSampleEvent(FSTYPE fstype, String filename) {
+		super(ID_STATIC);
+		setFstype(fstype);
+		if (filename != null)
+			setFilename(filename);
+	}
+
+	/**
+	 *  @return File Type (enumerated) - uint8_t
+	 */
+	public FSTYPE getFstype() {
+		try {
+			FSTYPE o = FSTYPE.valueOf(getMessageType().getFieldPossibleValues("fstype").get(getLong("fstype")));
+			return o;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String getFstypeStr() {
+		return getString("fstype");
+	}
+
+	public short getFstypeVal() {
+		return (short) getInteger("fstype");
+	}
+
+	/**
+	 *  @param fstype File Type (enumerated)
+	 */
+	public FileSampleEvent setFstype(FSTYPE fstype) {
+		values.put("fstype", fstype.value());
+		return this;
+	}
+
+	/**
+	 *  @param fstype File Type (as a String)
+	 */
+	public FileSampleEvent setFstypeStr(String fstype) {
+		setValue("fstype", fstype);
+		return this;
+	}
+
+	/**
+	 *  @param fstype File Type (integer value)
+	 */
+	public FileSampleEvent setFstypeVal(short fstype) {
+		setValue("fstype", fstype);
+		return this;
+	}
+
+	/**
+	 *  @return File name - plaintext
+	 */
+	public String getFilename() {
+		return getString("filename");
+	}
+
+	/**
+	 *  @param filename File name
+	 */
+	public FileSampleEvent setFilename(String filename) {
+		values.put("filename", filename);
+		return this;
 	}
 
 }

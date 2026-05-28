@@ -81,4 +81,24 @@ public class Pulse extends IMCMessage {
 		return m;
 	}
 
+	public Pulse(double origin_timestamp) {
+		super(ID_STATIC);
+		setOriginTimestamp(origin_timestamp);
+	}
+
+	/**
+	 *  @return Original Timestamp (s) - fp64_t
+	 */
+	public double getOriginTimestamp() {
+		return getDouble("origin_timestamp");
+	}
+
+	/**
+	 *  @param origin_timestamp Original Timestamp (s)
+	 */
+	public Pulse setOriginTimestamp(double origin_timestamp) {
+		values.put("origin_timestamp", origin_timestamp);
+		return this;
+	}
+
 }

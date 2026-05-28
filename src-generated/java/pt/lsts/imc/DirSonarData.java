@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Directional Sonar Data (2019)<br/>
+ *  This message contains the data acquired by a single sonar measurement whose angle can be controlled.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class DirSonarData extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 2019;
 
-	public ManeuverDone() {
+	public DirSonarData() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public DirSonarData(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public DirSonarData(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static DirSonarData create(Object... values) {
+		DirSonarData m = new DirSonarData();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static DirSonarData clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		DirSonarData m = new DirSonarData();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,64 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public DirSonarData(DeviceState pose, SonarData measurement) {
+		super(ID_STATIC);
+		if (pose != null)
+			setPose(pose);
+		if (measurement != null)
+			setMeasurement(measurement);
+	}
+
+	/**
+	 *  @return Relative Pose - message
+	 */
+	public DeviceState getPose() {
+		try {
+			IMCMessage obj = getMessage("pose");
+			if (obj instanceof DeviceState)
+				return (DeviceState) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param pose Relative Pose
+	 */
+	public DirSonarData setPose(DeviceState pose) {
+		values.put("pose", pose);
+		return this;
+	}
+
+	/**
+	 *  @return Measurement - message
+	 */
+	public SonarData getMeasurement() {
+		try {
+			IMCMessage obj = getMessage("measurement");
+			if (obj instanceof SonarData)
+				return (SonarData) obj;
+			else
+				return null;
+		}
+		catch (Exception e) {
+			return null;
+		}
+
+	}
+
+	/**
+	 *  @param measurement Measurement
+	 */
+	public DirSonarData setMeasurement(SonarData measurement) {
+		values.put("measurement", measurement);
+		return this;
 	}
 
 }

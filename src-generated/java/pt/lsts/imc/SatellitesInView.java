@@ -31,19 +31,19 @@ package pt.lsts.imc;
 
 
 /**
- *  IMC Message Maneuver Done (719)<br/>
- *  Notification of completion of a maneuver (optional use).<br/>
+ *  IMC Message Satellites in View (2023)<br/>
+ *  This message is used to report the number of satellites in view per constellation. The constellation should be provided by the Entity label.<br/>
  */
 
-public class ManeuverDone extends IMCMessage {
+public class SatellitesInView extends IMCMessage {
 
-	public static final int ID_STATIC = 719;
+	public static final int ID_STATIC = 2023;
 
-	public ManeuverDone() {
+	public SatellitesInView() {
 		super(ID_STATIC);
 	}
 
-	public ManeuverDone(IMCMessage msg) {
+	public SatellitesInView(IMCMessage msg) {
 		super(ID_STATIC);
 		try{
 			copyFrom(msg);
@@ -53,20 +53,20 @@ public class ManeuverDone extends IMCMessage {
 		}
 	}
 
-	public ManeuverDone(IMCDefinition defs) {
+	public SatellitesInView(IMCDefinition defs) {
 		super(defs, ID_STATIC);
 	}
 
-	public static ManeuverDone create(Object... values) {
-		ManeuverDone m = new ManeuverDone();
+	public static SatellitesInView create(Object... values) {
+		SatellitesInView m = new SatellitesInView();
 		for (int i = 0; i < values.length-1; i+= 2)
 			m.setValue(values[i].toString(), values[i+1]);
 		return m;
 	}
 
-	public static ManeuverDone clone(IMCMessage msg) throws Exception {
+	public static SatellitesInView clone(IMCMessage msg) throws Exception {
 
-		ManeuverDone m = new ManeuverDone();
+		SatellitesInView m = new SatellitesInView();
 		if (msg == null)
 			return m;
 		if(msg.definitions != m.definitions){
@@ -79,6 +79,26 @@ public class ManeuverDone extends IMCMessage {
 		m.getHeader().values.putAll(msg.getHeader().values);
 		m.values.putAll(msg.values);
 		return m;
+	}
+
+	public SatellitesInView(short nsat) {
+		super(ID_STATIC);
+		setNsat(nsat);
+	}
+
+	/**
+	 *  @return Number of satellites - uint8_t
+	 */
+	public short getNsat() {
+		return (short) getInteger("nsat");
+	}
+
+	/**
+	 *  @param nsat Number of satellites
+	 */
+	public SatellitesInView setNsat(short nsat) {
+		values.put("nsat", nsat);
+		return this;
 	}
 
 }
