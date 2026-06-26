@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "addc04442f8c6d849570b19d6bd8266daf9810bc";
+	public static final String IMC_SHA = "39ddea16fd39537cdd77993d7c8f10cc7a6b1129";
 	public static final String IMC_BRANCH = "master";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2026-04-22T12:51:26Z, https://github.com/LSTS/imc/commit/addc04442f8c6d849570b19d6bd8266daf9810bc, Adding MQTT to AssetReport medium.";
+	public static final String IMC_COMMIT = "Bernardo Gabriel (bernardo.gabriel@lsts.pt), 2026-05-25T09:39:08Z, https://github.com/LSTS/imc/commit/39ddea16fd39537cdd77993d7c8f10cc7a6b1129, Added Power and BMS data messages.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 

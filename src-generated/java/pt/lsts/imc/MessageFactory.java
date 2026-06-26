@@ -348,6 +348,8 @@ public class MessageFactory {
 				return new GroupStreamVelocity(defs);
 			case Airflow.ID_STATIC:
 				return new Airflow(defs);
+			case Power.ID_STATIC:
+				return new Power(defs);
 			case DesiredHeading.ID_STATIC:
 				return new DesiredHeading(defs);
 			case DesiredZ.ID_STATIC:
@@ -734,8 +736,18 @@ public class MessageFactory {
 				return new VersionInfo(defs);
 			case TotalHeading.ID_STATIC:
 				return new TotalHeading(defs);
+			case BDI.ID_STATIC:
+				return new BDI(defs);
 			case TypedEntityParameterEditor.ID_STATIC:
 				return new TypedEntityParameterEditor(defs);
+			case QueryBmsData.ID_STATIC:
+				return new QueryBmsData(defs);
+			case BmsData.ID_STATIC:
+				return new BmsData(defs);
+			case BmsCellVoltage.ID_STATIC:
+				return new BmsCellVoltage(defs);
+			case BmsRegister.ID_STATIC:
+				return new BmsRegister(defs);
 			default:
 				return new IMCMessage(defs);
 		}
