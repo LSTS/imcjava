@@ -243,14 +243,14 @@ public class AisInfo extends IMCMessage {
 	}
 
 	/**
-	 *  @return Course (°) - fp32_t
+	 *  @return Course (rad) - fp32_t
 	 */
 	public double getCourse() {
 		return getDouble("course");
 	}
 
 	/**
-	 *  @param course Course (°)
+	 *  @param course Course (rad)
 	 */
 	public AisInfo setCourse(double course) {
 		values.put("course", course);

@@ -43,7 +43,8 @@ public class TransmissionRequest extends IMCMessage {
 		SATELLITE(2),
 		GSM(3),
 		ANY(4),
-		ALL(5);
+		ALL(5),
+		UHF(6);
 
 		protected long value;
 
