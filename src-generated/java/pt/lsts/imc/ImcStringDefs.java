@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "2422fe715d14d823700a9c85420a8b479ff64fd2";
+	public static final String IMC_SHA = "bccefabeedb629897efd973f1b4e33ed5a0d2c63";
 	public static final String IMC_BRANCH = "master";
-	public static final String IMC_COMMIT = "Jose Pinto (zepinto@gmail.com), 2026-07-08T16:39:08Z, https://github.com/LSTS/imc/commit/2422fe715d14d823700a9c85420a8b479ff64fd2, Add CMEAN_UHF to TransmissionRequest.comm_mean.\n\nAdds a new enumerated value: CMEAN_UHF";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2026-10-06T13:03:17Z, https://github.com/LSTS/imc/commit/bccefabeedb629897efd973f1b4e33ed5a0d2c63, Merge remote-tracking branch 'feature/sampling_maneuver'";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 

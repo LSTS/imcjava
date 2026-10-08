@@ -590,6 +590,10 @@ public class MessageFactory {
 				return new CompressedImage(defs);
 			case ImageTxSettings.ID_STATIC:
 				return new ImageTxSettings(defs);
+			case Sampling.ID_STATIC:
+				return new Sampling(defs);
+			case SamplingAction.ID_STATIC:
+				return new SamplingAction(defs);
 			case RemoteState.ID_STATIC:
 				return new RemoteState(defs);
 			case Target.ID_STATIC:
@@ -712,6 +716,8 @@ public class MessageFactory {
 				return new Frequency(defs);
 			case WaveSpectrumParameters.ID_STATIC:
 				return new WaveSpectrumParameters(defs);
+			case WaterFlow.ID_STATIC:
+				return new WaterFlow(defs);
 			case GpioState.ID_STATIC:
 				return new GpioState(defs);
 			case GpioStateGet.ID_STATIC:
@@ -740,6 +746,8 @@ public class MessageFactory {
 				return new BDI(defs);
 			case TypedEntityParameterEditor.ID_STATIC:
 				return new TypedEntityParameterEditor(defs);
+			case AckMsg.ID_STATIC:
+				return new AckMsg(defs);
 			case QueryBmsData.ID_STATIC:
 				return new QueryBmsData(defs);
 			case BmsData.ID_STATIC:
