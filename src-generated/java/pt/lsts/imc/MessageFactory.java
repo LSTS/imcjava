@@ -706,6 +706,12 @@ public class MessageFactory {
 				return new ENCAwareness(defs);
 			case Displacement.ID_STATIC:
 				return new Displacement(defs);
+			case FollowCommand.ID_STATIC:
+				return new FollowCommand(defs);
+			case Command.ID_STATIC:
+				return new Command(defs);
+			case FollowCommandState.ID_STATIC:
+				return new FollowCommandState(defs);
 			case CurrentProfile.ID_STATIC:
 				return new CurrentProfile(defs);
 			case CurrentProfileCell.ID_STATIC:
