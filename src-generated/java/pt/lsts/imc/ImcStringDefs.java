@@ -31,9 +31,9 @@ package pt.lsts.imc;
 
 public class ImcStringDefs {
 
-	public static final String IMC_SHA = "9a17f247bb4a6acb004df66ea12ce97e92e9ba3e";
+	public static final String IMC_SHA = "7d67c4ad158ec0409035a9733114f5f8f846b0f3";
 	public static final String IMC_BRANCH = "master";
-	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2026-10-12T14:43:06Z, https://github.com/LSTS/imc/commit/9a17f247bb4a6acb004df66ea12ce97e92e9ba3e, Adding from unify the follow command maneuver (for the master it will be with different ids for the moment).";
+	public static final String IMC_COMMIT = "Paulo Dias (paulo.sousa.dias@gmail.com), 2026-10-15T08:44:35Z, https://github.com/LSTS/imc/commit/7d67c4ad158ec0409035a9733114f5f8f846b0f3, Fix missing adding FollowCommand to the Maneuver group.";
 
 	public static java.util.Map<String, Integer> IMC_ADDRESSES = new java.util.LinkedHashMap<String, Integer>();
 

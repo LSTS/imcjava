@@ -35,7 +35,7 @@ package pt.lsts.imc;
  *  This maneuver follows a direct command given by an external entity.<br/>
  */
 
-public class FollowCommand extends IMCMessage {
+public class FollowCommand extends Maneuver {
 
 	public static final int ID_STATIC = 996;
 
