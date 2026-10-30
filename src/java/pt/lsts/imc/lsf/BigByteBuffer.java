@@ -50,7 +50,7 @@ public class BigByteBuffer {
     public BigByteBuffer(FileChannel channel, long fileLength, ByteOrder order, long bufferSizeDesired) {
         if (bufferSizeDesired > this.bufferSize)
             this.bufferSize = bufferSizeDesired;
-        this.bufferSize = Math.min(this.bufferSize, Integer.MAX_VALUE);
+        this.bufferSize = Math.min(this.bufferSize, (Integer.MAX_VALUE - bufferOverlap) / 2);
         this.order = order;
         this.channel = channel;
         this.fileLength = fileLength;
@@ -71,13 +71,14 @@ public class BigByteBuffer {
 
 
     protected synchronized boolean mapFrom(long pos) {
-        long start = pos - bufferSize;
-        start = Math.max(start, 0);
-        long end = pos + bufferSize + bufferOverlap;
-        end = Math.min(end, fileLength);
-        // Avoid mapping higher than max allowed
-        long truncate = Math.max((end - start) - Integer.MAX_VALUE, 0);
-        end = end - truncate;
+        // full size window around pos, shifted to stay inside the file instead of being cut at the start or end
+        long size = Math.min(bufferSize * 2 + bufferOverlap, fileLength);
+        long start = Math.max(pos - bufferSize, 0);
+        long end = start + size;
+        if (end > fileLength) {
+            end = fileLength;
+            start = end - size;
+        }
 
         this.startPos = start;
         this.endPos = end;
@@ -87,7 +88,7 @@ public class BigByteBuffer {
             buffer.position((int) (pos - this.startPos));
         }
         catch (Exception e) {
-            System.err.printf("Pos %d | Start %d %d %d | End %d | Truncate %d | FileLength %d | bufferSize %d | bufferOverlap %d%n", pos, startPos, pos - bufferSize, Math.max(pos - bufferSize, 0), endPos, truncate, fileLength, bufferSize, bufferOverlap);
+            System.err.printf("Pos %d | Start %d | End %d | FileLength %d | bufferSize %d | bufferOverlap %d%n", pos, startPos, endPos, fileLength, bufferSize, bufferOverlap);
             e.printStackTrace();
             buffer = null;
             return false;
@@ -114,8 +115,8 @@ public class BigByteBuffer {
             size = 1;
         if (position >= fileLength || position + size -1 >= fileLength)
             return false;
-        if (position < startPos || position > endPos - bufferOverlap
-                || position + size - 1 > endPos - bufferOverlap) {
+        long limit = endPos < fileLength ? endPos - bufferOverlap : endPos;
+        if (position < startPos || position > limit || position + size - 1 > limit) {
             //new Exception("remapping "+position+" !in ["+startPos+", "+(endPos - bufferOverlap)+"]").printStackTrace();
             return mapFrom(position);
         }
